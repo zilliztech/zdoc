@@ -13,6 +13,9 @@
       "name": "Cluster Operations"
     },
     {
+      "name": "Import Operations"
+    },
+    {
       "name": "Pipeline Operations"
     },
     {
@@ -35,9 +38,6 @@
     },
     {
       "name": "Alias Operations"
-    },
-    {
-      "name": "Import Operations"
     }
   ],
   "paths": {
@@ -51,7 +51,18 @@
         "tags": [
           "Cloud Meta"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Returns a list of all available cloud providers on Zilliz Cloud.",
@@ -148,6 +159,16 @@
             "description": "The ID of a valid cloud provider.",
             "required": false,
             "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -256,6 +277,16 @@
             "example": "",
             "schema": {
               "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -406,7 +437,18 @@
         "tags": [
           "Cluster Operations"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -532,7 +574,7 @@
         "security": []
       }
     },
-    "/v1/clusters/{clusterId}": {
+    "/v1/clusters/{CLUSTER_ID}": {
       "get": {
         "summary": "Describe Cluster",
         "x-apifox-folder": "Cluster Operations",
@@ -544,11 +586,21 @@
         ],
         "parameters": [
           {
-            "name": "clusterId",
+            "name": "CLUSTER_ID",
             "in": "path",
-            "description": "The ID of a cluster to which this operation applies.",
+            "description": "",
             "required": true,
-            "example": "",
+            "example": "{{CLUSTER_ID}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -730,7 +782,7 @@
         "security": []
       }
     },
-    "/v1/clusters/{clusterId}/drop": {
+    "/v1/clusters/{CLUSETR_ID}/drop": {
       "delete": {
         "summary": "Drop Cluster",
         "x-apifox-folder": "Cluster Operations",
@@ -742,11 +794,21 @@
         ],
         "parameters": [
           {
-            "name": "clusterId",
+            "name": "CLUSETR_ID",
             "in": "path",
-            "description": "The ID of a cluster to which this operation applies.",
+            "description": "",
             "required": true,
-            "example": "",
+            "example": "{{CLUSTER_ID}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -798,7 +860,7 @@
         "security": []
       }
     },
-    "/v1/clusters/{clusterId}/modify": {
+    "/v1/clusters/{CLUSTER_ID}/modify": {
       "post": {
         "summary": "Modify Cluster",
         "x-apifox-folder": "Cluster Operations",
@@ -810,11 +872,21 @@
         ],
         "parameters": [
           {
-            "name": "clusterId",
+            "name": "CLUSTER_ID",
             "in": "path",
-            "description": "The ID of a cluster to which this operation applies.",
+            "description": "",
             "required": true,
-            "example": "",
+            "example": "{{CLUSTER_ID}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -888,7 +960,7 @@
         "security": []
       }
     },
-    "/v1/clusters/{clusterId}/resume": {
+    "/v1/clusters/{CLUSTER_ID}/resume": {
       "post": {
         "summary": "Resume Cluster",
         "x-apifox-folder": "Cluster Operations",
@@ -900,11 +972,21 @@
         ],
         "parameters": [
           {
-            "name": "clusterId",
+            "name": "CLUSTER_ID",
             "in": "path",
-            "description": "The ID of a cluster to which this operation applies.",
+            "description": "",
             "required": true,
-            "example": "",
+            "example": "{{CLUSTER_ID}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -956,7 +1038,7 @@
         "security": []
       }
     },
-    "/v1/clusters/{clusterId}/suspend": {
+    "/v1/clusters/{CLUSTER_ID}/suspend": {
       "post": {
         "summary": "Suspend Cluster",
         "x-apifox-folder": "Cluster Operations",
@@ -968,11 +1050,21 @@
         ],
         "parameters": [
           {
-            "name": "clusterId",
+            "name": "CLUSTER_ID",
             "in": "path",
-            "description": "The ID of a cluster to which this operation applies.",
+            "description": "",
             "required": true,
-            "example": "",
+            "example": "{{CLUSTER_ID}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -1034,7 +1126,18 @@
         "tags": [
           "Cluster Operations"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1243,7 +1346,18 @@
         "tags": [
           "Cluster Operations"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Returns a list of projects.",
@@ -1384,6 +1498,530 @@
           }
         },
         "x-run-in-apifox": "https://apifox.com/web/project/3737803/apis/api-132374879-run",
+        "security": []
+      }
+    },
+    "/v1/vector/collections/import": {
+      "post": {
+        "summary": "Import",
+        "x-apifox-folder": "Import Operations",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "Imports data from files stored in a specified object storage bucket. Note that the bucket should be in the same cloud as the target cluster of the import.",
+        "tags": [
+          "Import Operations"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "clusterId": {
+                    "type": "string",
+                    "description": "The ID of a cluster to which this operation applies."
+                  },
+                  "collectionName": {
+                    "type": "string",
+                    "description": "The name of the collection to which this operation applies."
+                  },
+                  "partitionName": {
+                    "type": "string",
+                    "description": "The name of the partition to which this operation applies."
+                  },
+                  "objectUrl": {
+                    "type": "string",
+                    "description": "The URL of the object that stores the data to be imported."
+                  },
+                  "accessKey": {
+                    "type": "string",
+                    "description": "The access key used to access the specified object."
+                  },
+                  "secretKey": {
+                    "type": "string",
+                    "description": "The access secret key used to access the specified object."
+                  }
+                },
+                "x-apifox-orders": [
+                  "clusterId",
+                  "collectionName",
+                  "partitionName",
+                  "objectUrl",
+                  "accessKey",
+                  "secretKey"
+                ],
+                "required": [
+                  "collectionName",
+                  "objectUrl",
+                  "clusterId"
+                ],
+                "x-apifox-ignore-properties": [],
+                "x-apifox-folder": "Schemas"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a import task job ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "jobId": {
+                          "type": "string",
+                          "description": "The ID of the import task that has been submitted"
+                        }
+                      },
+                      "x-apifox-orders": [
+                        "jobId"
+                      ],
+                      "required": [
+                        "jobId"
+                      ],
+                      "x-apifox-ignore-properties": []
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "code",
+                    "data"
+                  ],
+                  "required": [
+                    "code",
+                    "data"
+                  ],
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-folder": "Schemas"
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3737803/apis/api-132374880-run",
+        "security": []
+      }
+    },
+    "/v1/vector/collections/import/get": {
+      "get": {
+        "summary": "Get Import Progress",
+        "x-apifox-folder": "Import Operations",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "Retrieves the progress of a specified import task.",
+        "tags": [
+          "Import Operations"
+        ],
+        "parameters": [
+          {
+            "name": "jobId",
+            "in": "query",
+            "description": "The ID of the import task in concern",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "clusterId",
+            "in": "query",
+            "description": "The ID of a cluster to which this operation applies.",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the progress of the specified job ID in percentage.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "fileName": {
+                          "type": "string",
+                          "description": "The path of the data file object in the object storage."
+                        },
+                        "fileSize": {
+                          "type": "integer",
+                          "description": "The size of the data file object.",
+                          "format": "int64"
+                        },
+                        "readyPercentage": {
+                          "type": "number",
+                          "description": "The indicator of the import progress",
+                          "format": "float"
+                        },
+                        "completeTime": {
+                          "type": "string",
+                          "description": "The time at which the import task completes. `null` indicates that the file import is going on.",
+                          "nullable": true
+                        },
+                        "errorMessage": {
+                          "type": "string",
+                          "description": "The message that explains the reason for an import failure. `null` indicates that no error occurs.",
+                          "nullable": true
+                        },
+                        "collectionName": {
+                          "type": "string",
+                          "description": "The target collection name of the import task."
+                        },
+                        "jobId": {
+                          "type": "string",
+                          "description": "The ID of an import task."
+                        },
+                        "details": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "fileName": {
+                                "type": "string",
+                                "description": "The path to a file being imported."
+                              },
+                              "fileSize": {
+                                "type": "integer",
+                                "description": "The size of a file being imported.",
+                                "format": "int64"
+                              },
+                              "readyPercentage": {
+                                "type": "number",
+                                "description": "The import progress of a specific file.",
+                                "format": "float"
+                              },
+                              "completeTime": {
+                                "type": "string",
+                                "description": "The time at which the import progress ends for a specific file. `null` indicates that the file import is going on.",
+                                "nullable": true
+                              },
+                              "errorMessage": {
+                                "type": "string",
+                                "description": "The message that explains the reason for an import failure. `null` indicates that no error occurs.",
+                                "nullable": true
+                              }
+                            },
+                            "x-apifox-orders": [
+                              "fileName",
+                              "fileSize",
+                              "readyPercentage",
+                              "completeTime",
+                              "errorMessage"
+                            ],
+                            "required": [
+                              "fileName",
+                              "fileSize",
+                              "readyPercentage",
+                              "completeTime",
+                              "errorMessage"
+                            ],
+                            "x-apifox-ignore-properties": []
+                          },
+                          "description": "The import task details"
+                        }
+                      },
+                      "x-apifox-orders": [
+                        "fileName",
+                        "fileSize",
+                        "readyPercentage",
+                        "completeTime",
+                        "errorMessage",
+                        "collectionName",
+                        "jobId",
+                        "details"
+                      ],
+                      "required": [
+                        "fileName",
+                        "fileSize",
+                        "readyPercentage",
+                        "completeTime",
+                        "errorMessage",
+                        "collectionName",
+                        "jobId",
+                        "details"
+                      ],
+                      "x-apifox-ignore-properties": []
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "code",
+                    "data"
+                  ],
+                  "required": [
+                    "code",
+                    "data"
+                  ],
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-folder": "Schemas"
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3737803/apis/api-132374881-run",
+        "security": []
+      }
+    },
+    "/v1/vector/collections/import/list": {
+      "get": {
+        "summary": "List Import Jobs",
+        "x-apifox-folder": "Import Operations",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "List all import jobs specific to a cluster.",
+        "tags": [
+          "Import Operations"
+        ],
+        "parameters": [
+          {
+            "name": "clusterId",
+            "in": "query",
+            "description": "The ID of a specific cluster on Zilliz Cloud.",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "The number of records to return at each request.",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "description": "The current page number.",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of import jobs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "string",
+                          "description": "Total number of records listed in this response."
+                        },
+                        "currentPage": {
+                          "type": "string",
+                          "description": "The current page number for your reference."
+                        },
+                        "pageSize": {
+                          "type": "string",
+                          "description": "The maximum number of records to be included in each return."
+                        },
+                        "records": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "collectionName": {
+                                "type": "string",
+                                "description": "The target collection name of a import task."
+                              },
+                              "jobId": {
+                                "type": "string",
+                                "description": "The ID of an import task."
+                              },
+                              "state": {
+                                "type": "string",
+                                "description": "The corresponding status of the import task. Possible values are <b>ImportRunning</b>, <b>ImportCompleted</b> and <b>ImportFailed</b>."
+                              }
+                            },
+                            "x-apifox-orders": [
+                              "collectionName",
+                              "jobId",
+                              "state"
+                            ],
+                            "required": [
+                              "collectionName",
+                              "jobId",
+                              "state"
+                            ],
+                            "x-apifox-ignore-properties": []
+                          }
+                        }
+                      },
+                      "x-apifox-orders": [
+                        "count",
+                        "currentPage",
+                        "pageSize",
+                        "records"
+                      ],
+                      "required": [
+                        "count",
+                        "currentPage",
+                        "pageSize",
+                        "records"
+                      ],
+                      "x-apifox-ignore-properties": []
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "01H9HR3SJXBHH9WRXFQTXAHFZ9"
+                  ],
+                  "x-apifox-refs": {
+                    "01H9HR3SJXBHH9WRXFQTXAHFZ9": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "count": {
+                              "type": "string",
+                              "description": "Total number of records listed in this response."
+                            },
+                            "currentPage": {
+                              "type": "string",
+                              "description": "The current page number for your reference."
+                            },
+                            "pageSize": {
+                              "type": "string",
+                              "description": "The maximum number of records to be included in each return."
+                            },
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "collectionName": {
+                                    "type": "string",
+                                    "description": "The target collection name of a import task."
+                                  },
+                                  "jobId": {
+                                    "type": "string",
+                                    "description": "The ID of an import task."
+                                  },
+                                  "state": {
+                                    "type": "string",
+                                    "description": "The corresponding status of the import task. Possible values are <b>ImportRunning</b>, <b>ImportCompleted</b> and <b>ImportFailed</b>."
+                                  }
+                                },
+                                "x-apifox-orders": [
+                                  "collectionName",
+                                  "jobId",
+                                  "state"
+                                ],
+                                "required": [
+                                  "collectionName",
+                                  "jobId",
+                                  "state"
+                                ],
+                                "x-apifox-ignore-properties": []
+                              }
+                            }
+                          },
+                          "x-apifox-orders": [
+                            "count",
+                            "currentPage",
+                            "pageSize",
+                            "records"
+                          ],
+                          "required": [
+                            "count",
+                            "currentPage",
+                            "pageSize",
+                            "records"
+                          ],
+                          "x-apifox-ignore-properties": []
+                        }
+                      },
+                      "x-apifox-orders": [
+                        "code",
+                        "data"
+                      ],
+                      "required": [
+                        "code",
+                        "data"
+                      ],
+                      "x-apifox-ignore-properties": [],
+                      "x-apifox-folder": "Schemas"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "data"
+                  ],
+                  "x-apifox-ignore-properties": [
+                    "code",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3737803/apis/api-132374882-run",
         "security": []
       }
     },
@@ -3434,7 +4072,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -3573,7 +4211,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -3743,7 +4381,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -3880,7 +4518,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -4062,7 +4700,7 @@
             "in": "header",
             "description": "The authentication token",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -4226,7 +4864,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -4401,7 +5039,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -4548,7 +5186,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -4701,7 +5339,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -4752,7 +5390,7 @@
                   },
                   "offset": {
                     "type": "integer",
-                    "description": "The number of records to skip in the search result.      You can use this parameter in combination with limit to enable pagination.     The sum of this value and limit should be less than 16,384. "
+                    "description": "    The number of records to skip in the search result.      You can use this parameter in combination with limit to enable pagination.     The sum of this value and limit should be less than 16,384. "
                   },
                   "groupingField": {
                     "type": "string",
@@ -4906,7 +5544,7 @@
             "in": "header",
             "description": "",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -5017,7 +5655,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -5171,6 +5809,16 @@
             "schema": {
               "type": "integer"
             }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The authentication token.",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
@@ -5318,7 +5966,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -5449,7 +6097,7 @@
             "in": "header",
             "description": "The authorization token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -5613,7 +6261,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -5717,7 +6365,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -5822,7 +6470,7 @@
             "in": "header",
             "description": "The authentication token",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -5898,6 +6546,16 @@
             "example": "",
             "schema": {
               "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The authentication token.",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -6026,7 +6684,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": true,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -6121,7 +6779,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -6284,7 +6942,7 @@
             "in": "header",
             "description": "Then authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -6388,7 +7046,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -6492,7 +7150,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -6634,7 +7292,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -6856,7 +7514,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -7016,7 +7674,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -7203,7 +7861,7 @@
             "in": "header",
             "description": "The authentication token",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -7331,7 +7989,7 @@
             "in": "header",
             "description": "The authentication token",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -7416,7 +8074,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -7579,7 +8237,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -7742,7 +8400,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -7770,11 +8428,22 @@
                     "type": "string",
                     "description": "The metric type applied to this operation. \nPossible values are **L2**, **IP**, and **COSINE**."
                   },
+                  "idType": {
+                    "type": "string",
+                    "description": "The data type of the primary field. This parameter is designed for the quick-setup of a collection and will be ignored if __schema__ is defined."
+                  },
+                  "autoID": {
+                    "type": "string",
+                    "default": "false",
+                    "description": "Whether the primary field automatically increments. This parameter is designed for the quick-setup of a collection and will be ignored if __schema__ is defined."
+                  },
                   "primaryFieldName": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The name of the primary field. This parameter is designed for the quick-setup of a collection and will be ignored if __schema__ is defined."
                   },
                   "vectorFieldName": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The name of the vector field. This parameter is designed for the quick-setup of a collection and will be ignored if __schema__ is defined."
                   },
                   "schema": {
                     "description": "The schema is responsible for organizing data in the target collection. A valid schema should have multiple fields, which must include a primary key, a vector field, and several scalar fields.",
@@ -7939,6 +8608,46 @@
                       "x-apifox-folder": ""
                     },
                     "description": "The parameters that apply to the index-building process."
+                  },
+                  "params": {
+                    "description": "Extra parameters for the collection.",
+                    "type": "object",
+                    "properties": {
+                      "max_length": {
+                        "type": "string",
+                        "description": "The maximum number of characters in a VarChar field. This parameter is mandatory when the current field type is VarChar."
+                      },
+                      "enableDynamicField": {
+                        "type": "string",
+                        "description": "Whether to enable the reserved dynamic field. If set to true, non-schema-defined fields are saved in the reserved dynamic field as key-value pairs."
+                      },
+                      "shardsNum": {
+                        "type": "string",
+                        "description": "The number of shards to create along with the current collection."
+                      },
+                      "consistencyLevel": {
+                        "type": "string",
+                        "description": "The consistency level of the collection. Possible values are __STRONG__, __BOUNDED__, __SESSION__, and __EVENTUALLY__."
+                      },
+                      "partitionsNum": {
+                        "type": "string",
+                        "description": "The number of partitions to create along with the current collection. This parameter is mandatory if one field of the collection has been designated as the partition key."
+                      },
+                      "ttlSeconds": {
+                        "type": "string",
+                        "description": "The time-to-live (TTL) period of the collection. If set, the collection is to be dropped once the period ends."
+                      }
+                    },
+                    "x-apifox-orders": [
+                      "max_length",
+                      "enableDynamicField",
+                      "shardsNum",
+                      "consistencyLevel",
+                      "partitionsNum",
+                      "ttlSeconds"
+                    ],
+                    "x-apifox-ignore-properties": [],
+                    "x-apifox-folder": ""
                   }
                 },
                 "x-apifox-refs": {},
@@ -7947,10 +8656,16 @@
                   "collectionName",
                   "dimension",
                   "metricType",
+                  "idType",
+                  "autoID",
                   "primaryFieldName",
                   "vectorFieldName",
                   "schema",
-                  "indexParams"
+                  "indexParams",
+                  "params"
+                ],
+                "required": [
+                  "autoID"
                 ],
                 "x-apifox-ignore-properties": []
               },
@@ -8027,7 +8742,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -8177,7 +8892,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -8327,7 +9042,7 @@
             "in": "header",
             "description": "Then authentication token",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -8458,7 +9173,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -8600,7 +9315,7 @@
             "in": "header",
             "description": "",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -8730,7 +9445,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -8839,7 +9554,7 @@
             "in": "header",
             "description": "The authentication token",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -8974,7 +9689,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -9238,7 +9953,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -9366,7 +10081,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -9468,7 +10183,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -9601,7 +10316,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -9715,7 +10430,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -9829,7 +10544,7 @@
             "in": "header",
             "description": "The authentication token.",
             "required": false,
-            "example": "Bearer root:Milvus",
+            "example": "Bearer {{TOKEN}}",
             "schema": {
               "type": "string"
             }
@@ -9916,649 +10631,10 @@
         "x-run-in-apifox": "https://apifox.com/web/project/3737803/apis/api-140031427-run",
         "security": []
       }
-    },
-    "/v2/vectordb/jobs/import/list": {
-      "post": {
-        "summary": "List Import Jobs",
-        "x-apifox-folder": "Import Operations",
-        "x-apifox-status": "testing",
-        "deprecated": false,
-        "description": "This operation lists all bulk-import jobs of a specific cluster.",
-        "tags": [
-          "Import Operations"
-        ],
-        "parameters": [
-          {
-            "name": "request-timeout",
-            "in": "header",
-            "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
-            "required": false,
-            "example": "",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "The authentication token.",
-            "required": false,
-            "example": "Bearer root:Milvus",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "x-apifox-refs": {
-                  "01HNA8K39N6A7W3P6DFXNXB43J": {
-                    "x-apifox-overrides": {},
-                    "type": "object",
-                    "properties": {
-                      "dbName": {
-                        "type": "string",
-                        "description": "The name of the database to which the collection belongs.\nSetting this to a non-existing database results in a **MilvusException**."
-                      },
-                      "collectionName": {
-                        "type": "string",
-                        "description": "The name of the target collection.\nSetting this to a non-existing collection results in a **MilvusException**."
-                      }
-                    },
-                    "x-apifox-orders": [
-                      "01HHHAGCVE37R139X5S96YXH0Z",
-                      "collectionName"
-                    ],
-                    "required": [
-                      "collectionName"
-                    ],
-                    "x-apifox-refs": {
-                      "01HHHAGCVE37R139X5S96YXH0Z": {
-                        "x-apifox-overrides": {},
-                        "type": "object",
-                        "properties": {
-                          "dbName": {
-                            "type": "string",
-                            "description": "The name of the database to which the collection belongs.\nSetting this to a non-existing database results in a **MilvusException**."
-                          }
-                        },
-                        "x-apifox-orders": [
-                          "dbName"
-                        ],
-                        "x-apifox-ignore-properties": [],
-                        "x-apifox-folder": "httpRequest"
-                      }
-                    },
-                    "x-apifox-ignore-properties": [
-                      "dbName"
-                    ],
-                    "x-apifox-folder": "httpRequest"
-                  }
-                },
-                "properties": {
-                  "collectionName": {
-                    "type": "string",
-                    "description": "The name of the target collection.\nSetting this to a non-existing collection results in a **MilvusException**."
-                  },
-                  "dbName": {
-                    "type": "string",
-                    "description": "The name of the database to which the collection belongs.\nSetting this to a non-existing database results in a **MilvusException**."
-                  },
-                  "limit": {
-                    "type": "integer",
-                    "description": "The number of import jobs in the return."
-                  }
-                },
-                "required": [
-                  "limit",
-                  "collectionName"
-                ],
-                "x-apifox-orders": [
-                  "01HNA8K39N6A7W3P6DFXNXB43J",
-                  "limit"
-                ],
-                "x-apifox-ignore-properties": [
-                  "collectionName",
-                  "dbName"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "A dictionary of all existing import jobs.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "x-apifox-folder": ""
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "taskID": {
-                            "type": "integer",
-                            "description": "The ID of this bulk-import job."
-                          },
-                          "state": {
-                            "type": "string",
-                            "description": "The state of this bulk-import job."
-                          },
-                          "dbName": {
-                            "type": "string",
-                            "description": "The name of the target database of this bulk-import job."
-                          },
-                          "collectionName": {
-                            "type": "string",
-                            "description": "The name of the target collection of this bulk-import job."
-                          },
-                          "partitionName": {
-                            "type": "string",
-                            "description": "The name of the target partition of this bulk-import job."
-                          },
-                          "persistCost": {
-                            "type": "number"
-                          },
-                          "failedReason": {
-                            "type": "string",
-                            "description": "The reason for the failure to bulk import data."
-                          },
-                          "createTimestamp": {
-                            "type": "string",
-                            "description": "The timestamp indicating when the bulk-import job is created."
-                          },
-                          "progressPercent": {
-                            "type": "integer",
-                            "description": "The progress in percentage of the current bulk-import job."
-                          }
-                        },
-                        "x-apifox-orders": [
-                          "taskID",
-                          "state",
-                          "dbName",
-                          "collectionName",
-                          "partitionName",
-                          "persistCost",
-                          "failedReason",
-                          "createTimestamp",
-                          "progressPercent"
-                        ],
-                        "required": [
-                          "state",
-                          "collectionName",
-                          "dbName",
-                          "partitionName",
-                          "failedReason",
-                          "taskID",
-                          "createTimestamp",
-                          "persistCost",
-                          "progressPercent"
-                        ],
-                        "x-apifox-ignore-properties": [],
-                        "x-apifox-folder": "httpReturn"
-                      }
-                    }
-                  },
-                  "x-apifox-orders": [
-                    "code",
-                    "data"
-                  ],
-                  "required": [
-                    "code",
-                    "data"
-                  ],
-                  "x-apifox-ignore-properties": []
-                },
-                "examples": {
-                  "1": {
-                    "summary": "Success",
-                    "value": {
-                      "code": 200,
-                      "data": [
-                        {
-                          "jobID": "448300048036249282",
-                          "progress": 100,
-                          "reason": "",
-                          "state": "Success"
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "x-run-in-apifox": "https://apifox.com/web/project/3737803/apis/api-145711362-run",
-        "security": []
-      }
-    },
-    "/v2/vectordb/jobs/import/create": {
-      "post": {
-        "summary": "Create import Jobs",
-        "x-apifox-folder": "Import Operations",
-        "x-apifox-status": "testing",
-        "deprecated": false,
-        "description": "This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read [Prepare Data Import](https://docs.zilliz.com/docs/prepare-source-data).",
-        "tags": [
-          "Import Operations"
-        ],
-        "parameters": [
-          {
-            "name": "Request-Timeout",
-            "in": "header",
-            "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
-            "required": false,
-            "example": "",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "The authentication token.",
-            "required": false,
-            "example": "Bearer root:Milvus",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "x-apifox-refs": {
-                  "01HNA9A56N5Q03S39X8VVG7HJD": {
-                    "x-apifox-overrides": {},
-                    "type": "object",
-                    "properties": {
-                      "dbName": {
-                        "type": "string",
-                        "description": "The name of the database to which the collection belongs.\nSetting this to a non-existing database results in a **MilvusException**."
-                      },
-                      "collectionName": {
-                        "type": "string",
-                        "description": "The name of the target collection.\nSetting this to a non-existing collection results in a **MilvusException**."
-                      }
-                    },
-                    "x-apifox-orders": [
-                      "01HHHAGCVE37R139X5S96YXH0Z",
-                      "collectionName"
-                    ],
-                    "required": [
-                      "collectionName"
-                    ],
-                    "x-apifox-refs": {
-                      "01HHHAGCVE37R139X5S96YXH0Z": {
-                        "x-apifox-overrides": {},
-                        "type": "object",
-                        "properties": {
-                          "dbName": {
-                            "type": "string",
-                            "description": "The name of the database to which the collection belongs.\nSetting this to a non-existing database results in a **MilvusException**."
-                          }
-                        },
-                        "x-apifox-orders": [
-                          "dbName"
-                        ],
-                        "x-apifox-ignore-properties": [],
-                        "x-apifox-folder": "httpRequest"
-                      }
-                    },
-                    "x-apifox-ignore-properties": [
-                      "dbName"
-                    ],
-                    "x-apifox-folder": "httpRequest"
-                  }
-                },
-                "properties": {
-                  "collectionName": {
-                    "type": "string",
-                    "description": "The name of the target collection.\nSetting this to a non-existing collection results in a **MilvusException**."
-                  },
-                  "dbName": {
-                    "type": "string",
-                    "description": "The name of the database to which the collection belongs.\nSetting this to a non-existing database results in a **MilvusException**."
-                  },
-                  "files": {
-                    "type": "array",
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "description": "A list of file paths."
-                      },
-                      "description": "A list of sub-lists, with each sub-list contains a single JSON or Parquet file, or a set of NumPy files."
-                    },
-                    "description": "The files that contain the data to import. \n- For a Milvus instance, you need to upload your data into a bucket within the MinIO instance started when Milvus has been deployed. \n- For a Zilliz Cloud cluster, you need to upload you data into a bucket that resides in the cloud region same as that of the target cluster. For details, refer to [Data Import from Zero to Hero](https://docs.zilliz.com/docs/data-import-zero-to-hero)\n\nThe files should be within the root bucket of the cluster. Zilliz Cloud users are advised to use the Console or PyMilvus' BulkWriter tool."
-                  },
-                  "options": {
-                    "type": "object",
-                    "properties": {
-                      "timeout": {
-                        "type": "string",
-                        "description": "The timeout duration of the created import jobs. The value should be a positive number suffixed by __s__ (seconds), __m__ (minutes), and __h__(hours). For example, _300s_, _1.5h_, and _1h45_ are all valid values."
-                      }
-                    },
-                    "x-apifox-orders": [
-                      "timeout"
-                    ],
-                    "required": [
-                      "timeout"
-                    ],
-                    "description": "Bulk-import options.",
-                    "x-apifox-ignore-properties": []
-                  }
-                },
-                "required": [
-                  "files",
-                  "options",
-                  "collectionName"
-                ],
-                "x-apifox-orders": [
-                  "01HNA9A56N5Q03S39X8VVG7HJD",
-                  "files",
-                  "options"
-                ],
-                "x-apifox-ignore-properties": [
-                  "collectionName",
-                  "dbName"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "The ID of the bulk-import job.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "x-apifox-folder": ""
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "description": "The ID of the current bulk-import job."
-                      }
-                    }
-                  },
-                  "x-apifox-orders": [
-                    "code",
-                    "data"
-                  ],
-                  "required": [
-                    "code",
-                    "data"
-                  ],
-                  "x-apifox-ignore-properties": []
-                },
-                "examples": {
-                  "1": {
-                    "summary": "Success",
-                    "value": {
-                      "code": 200,
-                      "data": {
-                        "jobID": "448300048036249282"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "x-run-in-apifox": "https://apifox.com/web/project/3737803/apis/api-145712010-run",
-        "security": []
-      }
-    },
-    "/v2/vectordb/jobs/import/get_progress": {
-      "post": {
-        "summary": "Get Import Job Progress",
-        "x-apifox-folder": "Import Operations",
-        "x-apifox-status": "testing",
-        "deprecated": false,
-        "description": "This operation gets the progress of the specified bulk-import job.",
-        "tags": [
-          "Import Operations"
-        ],
-        "parameters": [
-          {
-            "name": "Request-Timeout",
-            "in": "header",
-            "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
-            "required": false,
-            "example": "",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "The authentication token.",
-            "required": false,
-            "example": "Bearer root:Milvus",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "jobID": {
-                    "type": "integer",
-                    "description": "The ID of the bulk-import job of your interest. \nThe **Create import Jobs** operation usually returns a job ID. You can also call **List Import Jobs** to get the IDs of all bulk-import jobs related to the specific cluster."
-                  }
-                },
-                "x-apifox-orders": [
-                  "jobID"
-                ],
-                "required": [
-                  "jobID"
-                ],
-                "x-apifox-ignore-properties": []
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "成功",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "x-apifox-folder": ""
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "taskID": {
-                          "type": "integer",
-                          "description": "The ID of this bulk-import job."
-                        },
-                        "state": {
-                          "type": "string",
-                          "description": "The state of this bulk-import job."
-                        },
-                        "dbName": {
-                          "type": "string",
-                          "description": "The name of the target database of this bulk-import job."
-                        },
-                        "collectionName": {
-                          "type": "string",
-                          "description": "The name of the target collection of this bulk-import job."
-                        },
-                        "partitionName": {
-                          "type": "string",
-                          "description": "The name of the target partition of this bulk-import job."
-                        },
-                        "persistCost": {
-                          "type": "number"
-                        },
-                        "failedReason": {
-                          "type": "string",
-                          "description": "The reason for the failure to bulk import data."
-                        },
-                        "createTimestamp": {
-                          "type": "string",
-                          "description": "The timestamp indicating when the bulk-import job is created."
-                        },
-                        "progressPercent": {
-                          "type": "integer",
-                          "description": "The progress in percentage of the current bulk-import job."
-                        }
-                      },
-                      "x-apifox-orders": [
-                        "taskID",
-                        "state",
-                        "dbName",
-                        "collectionName",
-                        "partitionName",
-                        "persistCost",
-                        "failedReason",
-                        "createTimestamp",
-                        "progressPercent"
-                      ],
-                      "required": [
-                        "state",
-                        "collectionName",
-                        "dbName",
-                        "partitionName",
-                        "failedReason",
-                        "taskID",
-                        "createTimestamp",
-                        "persistCost",
-                        "progressPercent"
-                      ],
-                      "x-apifox-ignore-properties": [],
-                      "x-apifox-folder": "httpReturn"
-                    }
-                  },
-                  "x-apifox-orders": [
-                    "code",
-                    "data"
-                  ],
-                  "required": [
-                    "code",
-                    "data"
-                  ],
-                  "x-apifox-ignore-properties": []
-                },
-                "examples": {
-                  "1": {
-                    "summary": "Success",
-                    "value": {
-                      "code": 200,
-                      "data": {
-                        "jobID": "448300048036249282",
-                        "progress": 0,
-                        "reason": "no file for field: vector, files: [dataimport/dd2bba42-b9c2-4cac-8dff-8285b95f5b1f/*.npy]: importing data failed",
-                        "state": "Failed"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "x-run-in-apifox": "https://apifox.com/web/project/3737803/apis/api-145712428-run",
-        "security": []
-      }
     }
   },
   "components": {
     "schemas": {
-      "job details": {
-        "type": "object",
-        "properties": {
-          "taskID": {
-            "type": "integer",
-            "description": "The ID of this bulk-import job."
-          },
-          "state": {
-            "type": "string",
-            "description": "The state of this bulk-import job."
-          },
-          "dbName": {
-            "type": "string",
-            "description": "The name of the target database of this bulk-import job."
-          },
-          "collectionName": {
-            "type": "string",
-            "description": "The name of the target collection of this bulk-import job."
-          },
-          "partitionName": {
-            "type": "string",
-            "description": "The name of the target partition of this bulk-import job."
-          },
-          "persistCost": {
-            "type": "number"
-          },
-          "failedReason": {
-            "type": "string",
-            "description": "The reason for the failure to bulk import data."
-          },
-          "createTimestamp": {
-            "type": "string",
-            "description": "The timestamp indicating when the bulk-import job is created."
-          },
-          "progressPercent": {
-            "type": "integer",
-            "description": "The progress in percentage of the current bulk-import job."
-          }
-        },
-        "x-apifox-orders": [
-          "taskID",
-          "state",
-          "dbName",
-          "collectionName",
-          "partitionName",
-          "persistCost",
-          "failedReason",
-          "createTimestamp",
-          "progressPercent"
-        ],
-        "required": [
-          "state",
-          "collectionName",
-          "dbName",
-          "partitionName",
-          "failedReason",
-          "taskID",
-          "createTimestamp",
-          "persistCost",
-          "progressPercent"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "httpReturn"
-      },
       "AliasName": {
         "type": "object",
         "properties": {
@@ -10744,6 +10820,45 @@
         "properties": {},
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
+      },
+      "collection-params": {
+        "type": "object",
+        "properties": {
+          "max_length": {
+            "type": "string",
+            "description": "The maximum number of characters in a VarChar field. This parameter is mandatory when the current field type is VarChar."
+          },
+          "enableDynamicField": {
+            "type": "string",
+            "description": "Whether to enable the reserved dynamic field. If set to true, non-schema-defined fields are saved in the reserved dynamic field as key-value pairs."
+          },
+          "shardsNum": {
+            "type": "string",
+            "description": "The number of shards to create along with the current collection."
+          },
+          "consistencyLevel": {
+            "type": "string",
+            "description": "The consistency level of the collection. Possible values are __STRONG__, __BOUNDED__, __SESSION__, and __EVENTUALLY__."
+          },
+          "partitionsNum": {
+            "type": "string",
+            "description": "The number of partitions to create along with the current collection. This parameter is mandatory if one field of the collection has been designated as the partition key."
+          },
+          "ttlSeconds": {
+            "type": "string",
+            "description": "The time-to-live (TTL) period of the collection. If set, the collection is to be dropped once the period ends."
+          }
+        },
+        "x-apifox-orders": [
+          "max_length",
+          "enableDynamicField",
+          "shardsNum",
+          "consistencyLevel",
+          "partitionsNum",
+          "ttlSeconds"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
       },
       "Collection-Schema": {
         "type": "object",
@@ -13724,6 +13839,287 @@
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
       },
+      "customer.ImportListRes": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "string",
+                "description": "Total number of records listed in this response."
+              },
+              "currentPage": {
+                "type": "string",
+                "description": "The current page number for your reference."
+              },
+              "pageSize": {
+                "type": "string",
+                "description": "The maximum number of records to be included in each return."
+              },
+              "records": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "collectionName": {
+                      "type": "string",
+                      "description": "The target collection name of a import task."
+                    },
+                    "jobId": {
+                      "type": "string",
+                      "description": "The ID of an import task."
+                    },
+                    "state": {
+                      "type": "string",
+                      "description": "The corresponding status of the import task. Possible values are <b>ImportRunning</b>, <b>ImportCompleted</b> and <b>ImportFailed</b>."
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "collectionName",
+                    "jobId",
+                    "state"
+                  ],
+                  "required": [
+                    "collectionName",
+                    "jobId",
+                    "state"
+                  ],
+                  "x-apifox-ignore-properties": []
+                }
+              }
+            },
+            "x-apifox-orders": [
+              "count",
+              "currentPage",
+              "pageSize",
+              "records"
+            ],
+            "required": [
+              "count",
+              "currentPage",
+              "pageSize",
+              "records"
+            ],
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "required": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "customer.GetImportTaskResp": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "fileName": {
+                "type": "string",
+                "description": "The path of the data file object in the object storage."
+              },
+              "fileSize": {
+                "type": "integer",
+                "description": "The size of the data file object.",
+                "format": "int64"
+              },
+              "readyPercentage": {
+                "type": "number",
+                "description": "The indicator of the import progress",
+                "format": "float"
+              },
+              "completeTime": {
+                "type": "string",
+                "description": "The time at which the import task completes. `null` indicates that the file import is going on.",
+                "nullable": true
+              },
+              "errorMessage": {
+                "type": "string",
+                "description": "The message that explains the reason for an import failure. `null` indicates that no error occurs.",
+                "nullable": true
+              },
+              "collectionName": {
+                "type": "string",
+                "description": "The target collection name of the import task."
+              },
+              "jobId": {
+                "type": "string",
+                "description": "The ID of an import task."
+              },
+              "details": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "fileName": {
+                      "type": "string",
+                      "description": "The path to a file being imported."
+                    },
+                    "fileSize": {
+                      "type": "integer",
+                      "description": "The size of a file being imported.",
+                      "format": "int64"
+                    },
+                    "readyPercentage": {
+                      "type": "number",
+                      "description": "The import progress of a specific file.",
+                      "format": "float"
+                    },
+                    "completeTime": {
+                      "type": "string",
+                      "description": "The time at which the import progress ends for a specific file. `null` indicates that the file import is going on.",
+                      "nullable": true
+                    },
+                    "errorMessage": {
+                      "type": "string",
+                      "description": "The message that explains the reason for an import failure. `null` indicates that no error occurs.",
+                      "nullable": true
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "fileName",
+                    "fileSize",
+                    "readyPercentage",
+                    "completeTime",
+                    "errorMessage"
+                  ],
+                  "required": [
+                    "fileName",
+                    "fileSize",
+                    "readyPercentage",
+                    "completeTime",
+                    "errorMessage"
+                  ],
+                  "x-apifox-ignore-properties": []
+                },
+                "description": "The import task details"
+              }
+            },
+            "x-apifox-orders": [
+              "fileName",
+              "fileSize",
+              "readyPercentage",
+              "completeTime",
+              "errorMessage",
+              "collectionName",
+              "jobId",
+              "details"
+            ],
+            "required": [
+              "fileName",
+              "fileSize",
+              "readyPercentage",
+              "completeTime",
+              "errorMessage",
+              "collectionName",
+              "jobId",
+              "details"
+            ],
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "required": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "customer.ImportResp": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "jobId": {
+                "type": "string",
+                "description": "The ID of the import task that has been submitted"
+              }
+            },
+            "x-apifox-orders": [
+              "jobId"
+            ],
+            "required": [
+              "jobId"
+            ],
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "required": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "customer.ImportReq": {
+        "type": "object",
+        "properties": {
+          "clusterId": {
+            "type": "string",
+            "description": "The ID of a cluster to which this operation applies."
+          },
+          "collectionName": {
+            "type": "string",
+            "description": "The name of the collection to which this operation applies."
+          },
+          "partitionName": {
+            "type": "string",
+            "description": "The name of the partition to which this operation applies."
+          },
+          "objectUrl": {
+            "type": "string",
+            "description": "The URL of the object that stores the data to be imported."
+          },
+          "accessKey": {
+            "type": "string",
+            "description": "The access key used to access the specified object."
+          },
+          "secretKey": {
+            "type": "string",
+            "description": "The access secret key used to access the specified object."
+          }
+        },
+        "x-apifox-orders": [
+          "clusterId",
+          "collectionName",
+          "partitionName",
+          "objectUrl",
+          "accessKey",
+          "secretKey"
+        ],
+        "required": [
+          "collectionName",
+          "objectUrl",
+          "clusterId"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
       "resp.listProjects": {
         "type": "object",
         "properties": {
@@ -13868,8 +14264,8 @@
   },
   "servers": [
     {
-      "url": "http://10.102.9.158:19530",
-      "description": "开发环境"
+      "url": "",
+      "description": "Zilliz Cloud"
     }
   ]
 }
