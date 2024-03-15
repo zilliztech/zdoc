@@ -1,6 +1,6 @@
 ---
 slug: /create-search-piplines
-beta: TRUE
+beta: FALSE
 notebook: FALSE
 token: TQnswMmIpiTmUSkf1iscU05Lnfb
 sidebar_position: 2
@@ -56,13 +56,13 @@ Unlike Ingestion and Deletion pipelines, when creating a Search pipeline, the cl
 
     1. Choose **Target Cluster** and **Target collection**. The Target Cluster must be serverless cluster and the Target Collection must be created by an Ingestion pipeline, otherwise the Search pipeline won't be compatible.
 
-    1. (Optional) Enable reranker if you want to reorder or rank a set of candidate outputs to improve the quality of the search results. By default, this feature is disabled. Once enabled, you can choose the model service used for reranking. Currently, only **zilliz/bge-reranker-base** is available.
+    1. (Optional) Enable [reranker](./reranker) if you want to rank the search results based on their relevance to the query to improve search quality. However, note that enabling reranker will lead to higher cost and search latency. By default, this feature is disabled. Once enabled, you can choose the model service used for reranking. Currently, only **zilliz/bge-reranker-base** is available.
 
-        |  **Reranker Model Service** |  **Description**                                                                                                                                                                                                    |
-        | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-        |  zilliz/bge-reranker-base   |  Open-source reranker model published by BAAI. This model is hosted on Zilliz Cloud and co-located with other Zilliz services, thus has the best latency. One of the best performers according to MTEB leaderboard. |
+        |  **Reranker Model Service** |  **Description**                                                                                                |
+        | --------------------------- | --------------------------------------------------------------------------------------------------------------- |
+        |  zilliz/bge-reranker-base   |  Open-source cross-encoder architecture reranker model published by BAAI. This model is hosted on Zilliz Cloud. |
 
-        ![add-function-to-search-pipeline](/img/add-function-to-search-pipeline.png)
+        https://www.figma.com/file/Rb9z8tsmYYdqdultiKx7kT/Zilliz-Diagrams?type=design&node-id=39309-1180&mode=design&t=JwNw3ufDtfY5CmiK-4
 
     1. Click **Add** to save your function.
 
@@ -127,7 +127,7 @@ The parameters in the above code are described as follows:
 
     - `collectionName`: The name of the collection in which you want to create a pipeline.
 
-    - `reranker`(Optional): This is an optional parameter for those who want to reorder or rank a set of candidate outputs to improve the quality of the search results. If you do not need the reranker, you can omit this parameter. Currently, only `zilliz/bge-reranker-base` is available as the parameter value.
+    - `reranker`(Optional): This is an optional parameter for those who want to reorder or rank a set of candidate outputs to improve the quality of the search results. If you do not need the [reranker](./reranker), you can omit this parameter. Currently, only `zilliz/bge-reranker-base` is available as the parameter value.
 
 Below is an example output.
 
