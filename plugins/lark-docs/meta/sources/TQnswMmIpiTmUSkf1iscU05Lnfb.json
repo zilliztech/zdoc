@@ -5,7 +5,7 @@
   "node_token": "TQnswMmIpiTmUSkf1iscU05Lnfb",
   "node_type": "origin",
   "obj_create_time": "1706249857",
-  "obj_edit_time": "1710492763",
+  "obj_edit_time": "1710748536",
   "obj_token": "YukudPBOKoO40RxXcmecNSynnV9",
   "obj_type": "docx",
   "origin_node_token": "TQnswMmIpiTmUSkf1iscU05Lnfb",
@@ -1140,7 +1140,7 @@
         "block_type": 13,
         "children": [
           "WmcodiqQcoVS5uxpKPSc72OZnug",
-          "JZajdO7qkozloYxPskjcU9eGn2d"
+          "VG4AdHcOhopppjx3HsFcv4KWnfe"
         ],
         "comment_ids": [
           "7337946656044695555",
@@ -1421,37 +1421,15 @@
         }
       },
       {
-        "block_id": "JZajdO7qkozloYxPskjcU9eGn2d",
-        "block_type": 2,
-        "comment_ids": [
-          "7337946656044695555",
-          "7337939862162571267"
-        ],
-        "parent_id": "HYSDdqmDdosXxrx8LV6cMRmsndg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "https://www.figma.com/file/Rb9z8tsmYYdqdultiKx7kT/Zilliz-Diagrams?type=design&node-id=39309-1180&mode=design&t=JwNw3ufDtfY5CmiK-4",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7337939862162571267",
-                    "7337946656044695555"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
+        "block_id": "VG4AdHcOhopppjx3HsFcv4KWnfe",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D39309-1180%26mode%3Ddesign%26t%3DJwNw3ufDtfY5CmiK-4"
           }
-        }
+        },
+        "parent_id": "HYSDdqmDdosXxrx8LV6cMRmsndg"
       },
       {
         "block_id": "EZUqdVy3pofRlFxAZLyc7vrWnbb",

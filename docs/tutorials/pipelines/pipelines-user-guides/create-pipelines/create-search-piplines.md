@@ -62,7 +62,7 @@ Unlike Ingestion and Deletion pipelines, when creating a Search pipeline, the cl
         | --------------------------- | --------------------------------------------------------------------------------------------------------------- |
         |  zilliz/bge-reranker-base   |  Open-source cross-encoder architecture reranker model published by BAAI. This model is hosted on Zilliz Cloud. |
 
-        https://www.figma.com/file/Rb9z8tsmYYdqdultiKx7kT/Zilliz-Diagrams?type=design&node-id=39309-1180&mode=design&t=JwNw3ufDtfY5CmiK-4
+        ![add-function-to-search-pipeline](/img/add-function-to-search-pipeline.png)
 
     1. Click **Add** to save your function.
 

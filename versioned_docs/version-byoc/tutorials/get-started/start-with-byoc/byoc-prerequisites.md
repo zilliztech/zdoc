@@ -44,14 +44,15 @@ Upon subscribing to a BYOC license, you will receive a welcome email with your s
         brew install hashicorp/tap/terraform
         ```
 
-    - Linux
+    - CentOS/RHEL
 
         ```shell
-        brew tap hashicorp/tap
-        brew install hashicorp/tap/terraform
+        sudo yum install -y yum-utils
+        sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+        sudo yum -y install terraform
         ```
 
-    If you use Windows or Linux distributions, refer to [Terraform official documentation](https://developer.hashicorp.com/terraform/install?product_intent=terraform) for installation.
+    If you use Windows or other Linux distributions, refer to [Terraform official documentation](https://developer.hashicorp.com/terraform/install?product_intent=terraform) for installation.
 
 ## Prepare your accounts{#prepare-your-accounts}
 
