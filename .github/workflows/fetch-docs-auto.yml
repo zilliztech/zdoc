@@ -16,11 +16,11 @@ jobs:
       uses: actions/checkout@v4
     - name: fetch docs
       run: |
-        yarn
-        npx docusaurus fetch-lark-docs -tar saas
-        npx docusaurus fetch-lark-docs -tar saas -post
-        npx docusaurus fetch-lark-docs -tar paas -skipS
-        npx docusaurus fetch-lark-docs -tar paas -post
+        npm install
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -skipS
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -post
       env:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
