@@ -5,7 +5,7 @@
   "node_token": "HriHwEU3qiQrgskz3a0cdkcpnyf",
   "node_type": "origin",
   "obj_create_time": "1689044599",
-  "obj_edit_time": "1705459056",
+  "obj_edit_time": "1711362521",
   "obj_token": "FxijdMQtboTeKexlHbucfhyunCg",
   "obj_type": "docx",
   "origin_node_token": "HriHwEU3qiQrgskz3a0cdkcpnyf",
@@ -23,7 +23,7 @@
         "children": [
           "Kglydb1vCo7nBfxX3OGcQ9iXnBe",
           "V3OddSOU4oz68Dxsg56cbWB6nVb",
-          "Yczudnk5PoVlFwxQ4LpcBFmQnLf",
+          "JcWmd0HszowJ6exj2noccRMWnyd",
           "WKNwdGP8WoETOIxSjnUcrKCbnQb",
           "BJhDdc7fjoN6vNxlaemcovCZnzd",
           "UodXdndRSo5eiWxeduDc2a57naf",
@@ -143,14 +143,14 @@
         "parent_id": "FxijdMQtboTeKexlHbucfhyunCg"
       },
       {
-        "block_id": "Yczudnk5PoVlFwxQ4LpcBFmQnLf",
+        "block_id": "JcWmd0HszowJ6exj2noccRMWnyd",
         "block_type": 2,
         "parent_id": "FxijdMQtboTeKexlHbucfhyunCg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Navigate to the signup page by clicking on ",
+                "content": "You are welcome to visit Zilliz Cloud to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -162,7 +162,7 @@
             },
             {
               "text_run": {
-                "content": "this link",
+                "content": "sign up",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
