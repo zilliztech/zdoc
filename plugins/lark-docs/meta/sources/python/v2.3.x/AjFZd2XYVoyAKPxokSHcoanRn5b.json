@@ -1,0 +1,681 @@
+{
+  "created_time": "1710499340",
+  "modified_time": "1710767988",
+  "name": "encode_documents()",
+  "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_token": "LzlXfa9Tflwxi0dGbOWc7HvTnNf",
+  "token": "AjFZd2XYVoyAKPxokSHcoanRn5b",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/AjFZd2XYVoyAKPxokSHcoanRn5b",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "AjFZd2XYVoyAKPxokSHcoanRn5b",
+        "block_type": 1,
+        "children": [
+          "D8eRdejQLo9ZSwxDbPxcSTx0n5g",
+          "Te3Xdb7uyoBOiWxyoGdchOXIn8f",
+          "FjxQdYHS7oqLrBx5TfWcjhmxn6g",
+          "OOMeds6Iwo3glAxyg7FcRi2BnWf",
+          "QRe9dPKHzoMZl4x2dEecDc9yntc",
+          "ZKZTdZrCvoxvzVxnpGQcEP8BnJd",
+          "NvMYdEXGZoaCifx5oomc5sHLnNh",
+          "DBWIdtPFgo33iRxBGYCcIwBXnCg",
+          "LhakdOHhQovv9kxZ8P0c41uAnvl",
+          "V8Yed7JAwoNP2PxLsW3cb0ydnvf",
+          "TqmndR1XkojYOoxGCj4cmsKEnuc",
+          "Z2s9dW2J6oSxDOxfmwqcSxYJnQh",
+          "KpsJdIOrPodba9x8WBfcdW3lnUg",
+          "BlLmd4XyFo8f3PxEk3UcuHmunSb"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "encode_documents()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "D8eRdejQLo9ZSwxDbPxcSTx0n5g",
+        "block_type": 2,
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation takes in documents and encodes them into vector embeddings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Te3Xdb7uyoBOiWxyoGdchOXIn8f",
+        "block_type": 2,
+        "comment_ids": [
+          "7347692714261430276"
+        ],
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When using ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347692714261430276"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BM25EmbeddingFunction",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7347692714261430276"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", note that ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347692714261430276"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "encoding_queries()",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7347692714261430276"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347692714261430276"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "encoding_documents()",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7347692714261430276"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " operations cannot be interchanged mathematically. Therefore, there is no implemented ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347692714261430276"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "__call__()",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7347692714261430276"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " available.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347692714261430276"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FjxQdYHS7oqLrBx5TfWcjhmxn6g",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b"
+      },
+      {
+        "block_id": "OOMeds6Iwo3glAxyg7FcRi2BnWf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "encode_documents(\n    documents: List[str], \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -> csr_array",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b"
+      },
+      {
+        "block_id": "QRe9dPKHzoMZl4x2dEecDc9yntc",
+        "block_type": 2,
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZKZTdZrCvoxvzVxnpGQcEP8BnJd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "documents",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List[str]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "BU5HdrfCmoAZ4mxL57IcIregnBg"
+        ],
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b"
+      },
+      {
+        "block_id": "BU5HdrfCmoAZ4mxL57IcIregnBg",
+        "block_type": 2,
+        "parent_id": "ZKZTdZrCvoxvzVxnpGQcEP8BnJd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of string values, where each string represents a document that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NvMYdEXGZoaCifx5oomc5sHLnNh",
+        "block_type": 2,
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DBWIdtPFgo33iRxBGYCcIwBXnCg",
+        "block_type": 2,
+        "comment_ids": [
+          "7347554276425908227"
+        ],
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "csr_array",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347554276425908227"
+                  ],
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LhakdOHhQovv9kxZ8P0c41uAnvl",
+        "block_type": 2,
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "V8Yed7JAwoNP2PxLsW3cb0ydnvf",
+        "block_type": 2,
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "scipy.sparse.csr_array",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.scipy.org%2Fdoc%2Fscipy%2Freference%2Fgenerated%2Fscipy.sparse.csr_array.html"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " data structure, which is a sparse matrix format commonly used for document embedding representations.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TqmndR1XkojYOoxGCj4cmsKEnuc",
+        "block_type": 2,
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z2s9dW2J6oSxDOxfmwqcSxYJnQh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ValueError",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Fx22dww8NoE1BqxknYDc4u6XntM"
+        ],
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b"
+      },
+      {
+        "block_id": "Fx22dww8NoE1BqxknYDc4u6XntM",
+        "block_type": 2,
+        "parent_id": "Z2s9dW2J6oSxDOxfmwqcSxYJnQh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when an unsupported operation is attempted on the embedding object.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KpsJdIOrPodba9x8WBfcdW3lnUg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b"
+      },
+      {
+        "block_id": "BlLmd4XyFo8f3PxEk3UcuHmunSb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus.model.sparse.bm25.tokenizers import build_default_analyzer\nfrom pymilvus.model.sparse import BM25EmbeddingFunction\n\n# there are some built-in analyzers for several languages, now we use 'en' for English.\nanalyzer = build_default_analyzer(language=\"en\")\n\ndocs = [\n    \"Artificial intelligence was founded as an academic discipline in 1956.\",\n    \"Alan Turing was the first person to conduct substantial research in AI.\",\n    \"Born in Maida Vale, London, Turing was raised in southern England.\",\n]\n\nbm25_ef = BM25EmbeddingFunction(analyzer)\n\n# Fit the model on the corpus to get the statstics of the docs.\nbm25_ef.fit(docs)\n\n# Create embeddings for the documents\ndocs_embeddings = bm25_ef.encode_documents(docs)\n\n# Print embeddings\nprint(\"Embeddings:\", docs_embeddings)\n# Since the output embeddings are in a 2D csr_array format, we convert them to a list for easier manipulation.\nprint(\"Sparse dim:\", bm25_ef.dim, list(docs_embeddings)[0].shape)\n\n# Embeddings:   (0, 0)  1.0208816705336425\n#   (0, 1)  1.0208816705336425\n#   (0, 3)  1.0208816705336425\n#   (0, 5)  1.0208816705336425\n#   (1, 0)  0.9606986899563318\n#   (1, 1)  0.9606986899563318\n#   (1, 6)  0.9606986899563318\n#   (1, 7)  0.9606986899563318\n#   (1, 10) 0.9606986899563318\n#   (1, 12) 0.9606986899563318\n#   (2, 7)  0.9072164948453608\n#   (2, 15) 0.9072164948453608\n#   (2, 16) 0.9072164948453608\n#   (2, 17) 0.9072164948453608\n#   (2, 19) 0.9072164948453608\n#   (2, 20) 0.9072164948453608\n#   (3, 0)  1.0891089108910892\n#   (3, 1)  1.0891089108910892\n#   (3, 5)  1.0891089108910892\n#   (4, 7)  0.9606986899563318\n#   (4, 15) 0.9606986899563318\n#   (4, 16) 0.9606986899563318\n#   (4, 17) 0.9606986899563318\n#   (4, 20) 0.9606986899563318\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Sparse dim: 21 (1, 21)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "AjFZd2XYVoyAKPxokSHcoanRn5b"
+      }
+    ],
+    "counts": 17
+  },
+  "slug": "BM25EmbeddingFunction-encode_documents"
+}

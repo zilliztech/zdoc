@@ -5,7 +5,7 @@
   "node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
   "node_type": "origin",
   "obj_create_time": "1706249835",
-  "obj_edit_time": "1708499043",
+  "obj_edit_time": "1710745076",
   "obj_token": "Fyg6dFS6foYW2ixcQyKcnltOnIe",
   "obj_type": "docx",
   "origin_node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
@@ -47,6 +47,10 @@
           "SMlrdDe0ZoT7mgxYY0ycuEFrnae",
           "AGpndo3Tlo1PUgxhfMdc7bafn5d",
           "NuiSdJ2y8oCvHUxTQw9ckIJhnzd",
+          "GubpdYrlJoxrXnx6m0gcuoKtn0e",
+          "EvDfdieSgoFYtVxANgUcC8L1nsc",
+          "G7kWdSCzGoI4Z8xGu4rch25bnzd",
+          "XQlOdnTuqor82JxE6mbcW8a5n2b",
           "JDcGdgLM0oKOX5xq1gQcNU8unme",
           "YEvvdfgzooxtxzx5KG6cLqqlnuc",
           "EerXddaHNoVRW2xasYxcSX8KnFf",
@@ -1707,6 +1711,8 @@
           "QpkBdM5XsocTk9xnWFAcS4Aqn0b",
           "VDjmdqXz6o6ht6xy3yScM2qpnBe",
           "EnOzdAJ8Doq9gbx3pSmcGg4AnKb",
+          "H4OSdRWavoR6rkxaaWicAMaPn7b",
+          "UnD6ddg6soBQbvxFnBPcy5q8n3g",
           "M7Wdd7ATloXVqsxjMtAcOoD3njc",
           "OGJydAI2Io8SEwxXNWfcd1JOnIh",
           "UYhjdgoxuoIrLaxrDLjcMijrnRf",
@@ -1725,6 +1731,8 @@
             "QpkBdM5XsocTk9xnWFAcS4Aqn0b",
             "VDjmdqXz6o6ht6xy3yScM2qpnBe",
             "EnOzdAJ8Doq9gbx3pSmcGg4AnKb",
+            "H4OSdRWavoR6rkxaaWicAMaPn7b",
+            "UnD6ddg6soBQbvxFnBPcy5q8n3g",
             "M7Wdd7ATloXVqsxjMtAcOoD3njc",
             "OGJydAI2Io8SEwxXNWfcd1JOnIh",
             "UYhjdgoxuoIrLaxrDLjcMijrnRf",
@@ -1794,9 +1802,17 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 7
+            "row_size": 8
           }
         }
       },
@@ -2187,7 +2203,123 @@
           "elements": [
             {
               "text_run": {
-                "content": "Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks. This model is only available when ",
+                "content": "Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code. This model is only available when ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "language",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ENGLISH",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "H4OSdRWavoR6rkxaaWicAMaPn7b",
+        "block_type": 32,
+        "children": [
+          "F4zFdZuw9oz02OxhHeWc9dxVntf"
+        ],
+        "parent_id": "FJ1pd7ZCZouEmCxiJLHcB1JGnvc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "F4zFdZuw9oz02OxhHeWc9dxVntf",
+        "block_type": 2,
+        "parent_id": "H4OSdRWavoR6rkxaaWicAMaPn7b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "voyageai/voyage-large-2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UnD6ddg6soBQbvxFnBPcy5q8n3g",
+        "block_type": 32,
+        "children": [
+          "WwzfdqJ2RombqmxVfphcFVmgnyh"
+        ],
+        "parent_id": "FJ1pd7ZCZouEmCxiJLHcB1JGnvc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "WwzfdqJ2RombqmxVfphcFVmgnyh",
+        "block_type": 2,
+        "parent_id": "UnD6ddg6soBQbvxFnBPcy5q8n3g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents. This model is only available when ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2634,17 +2766,25 @@
         "block_id": "UQLFdaqCDogP0Jx37T7cK6xwnnf",
         "block_type": 13,
         "children": [
-          "NgvhdUExXoa3qbxxj2AcM7K6n3b",
-          "CblLdfZCMo6BXuxPXdnc2GtonY2",
+          "C5iYdR1c0oAzYbxosO3c0TxYnFB",
+          "DH9NdT5siooHVvxmrlJcDz1RnVd",
+          "UbrZdsu59oAoJ5xnjQPcHCFonhh",
+          "B7iYd3O4jovM3QxrvJscCTDWn1c",
           "C7wsdLBM0oQ58YxEQHRcqdQcnwg"
+        ],
+        "comment_ids": [
+          "7345042428053094403"
         ],
         "ordered": {
           "elements": [
             {
               "text_run": {
-                "content": "(Optional) Customize the chunk size. The function segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size for custom chunking strategies. Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size.",
+                "content": "(Optional) Customize the chunking strategy used to segment each document into smaller chunks. Use this feature if you want to improve retrieval quality.",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2661,16 +2801,609 @@
         "parent_id": "IcU6dhIzVoCIbRx7XYqcrE2Insg"
       },
       {
-        "block_id": "NgvhdUExXoa3qbxxj2AcM7K6n3b",
-        "block_type": 2,
+        "block_id": "C5iYdR1c0oAzYbxosO3c0TxYnFB",
+        "block_type": 34,
+        "children": [
+          "ADEwd8k9NoIdW8xO19McoNgDn0b",
+          "I3Nudu5IRoQTeEx0PAucvNp0nzb"
+        ],
+        "comment_ids": [
+          "7345042428053094403"
+        ],
         "parent_id": "UQLFdaqCDogP0Jx37T7cK6xwnnf",
+        "quote_container": {}
+      },
+      {
+        "block_id": "ADEwd8k9NoIdW8xO19McoNgDn0b",
+        "block_type": 2,
+        "comment_ids": [
+          "7345042428053094403"
+        ],
+        "parent_id": "C5iYdR1c0oAzYbxosO3c0TxYnFB",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The following table lists the mapping relationship between applicable models and their corresponding chunk sizes.",
+                "content": "📘 Notes",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I3Nudu5IRoQTeEx0PAucvNp0nzb",
+        "block_type": 2,
+        "comment_ids": [
+          "7345042428053094403"
+        ],
+        "parent_id": "C5iYdR1c0oAzYbxosO3c0TxYnFB",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DH9NdT5siooHVvxmrlJcDz1RnVd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Choose optimizer. ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "TGxxdddF1oN5k2xCs43cEml8nhb",
+          "OY4zdrVo3onpZ1xLXPjcRkZCnRd",
+          "WGXIdOnzwoDdv0xOtxRcRIeKnnb"
+        ],
+        "comment_ids": [
+          "7345042428053094403"
+        ],
+        "parent_id": "UQLFdaqCDogP0Jx37T7cK6xwnnf"
+      },
+      {
+        "block_id": "TGxxdddF1oN5k2xCs43cEml8nhb",
+        "block_type": 2,
+        "comment_ids": [
+          "7345042428053094403"
+        ],
+        "parent_id": "DH9NdT5siooHVvxmrlJcDz1RnVd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Optimizers are used to enhance the parsing of text from files for better retrieval quality. However, please be aware that using optimizers can increase latency or token usage.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OY4zdrVo3onpZ1xLXPjcRkZCnRd",
+        "block_type": 2,
+        "comment_ids": [
+          "7345042428053094403"
+        ],
+        "parent_id": "DH9NdT5siooHVvxmrlJcDz1RnVd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, only 1 type of optimizer is available.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WGXIdOnzwoDdv0xOtxRcRIeKnnb",
+        "block_type": 31,
+        "children": [
+          "QxwcdSJmTomqK5xeX9Gck2jwnwd",
+          "FlUHdv5UQo6HktxF3elcH1E7nid",
+          "AVCedPNRdoWdjJxHCrJcdS5FnHb",
+          "QA56dY094oKvDixryTgcyUWtnEd"
+        ],
+        "parent_id": "DH9NdT5siooHVvxmrlJcDz1RnVd",
+        "table": {
+          "cells": [
+            "QxwcdSJmTomqK5xeX9Gck2jwnwd",
+            "FlUHdv5UQo6HktxF3elcH1E7nid",
+            "AVCedPNRdoWdjJxHCrJcdS5FnHb",
+            "QA56dY094oKvDixryTgcyUWtnEd"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              213,
+              396
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 2
+          }
+        }
+      },
+      {
+        "block_id": "QxwcdSJmTomqK5xeX9Gck2jwnwd",
+        "block_type": 32,
+        "children": [
+          "TKmrdITVSogcvjxHKQNcKPitnGd"
+        ],
+        "parent_id": "WGXIdOnzwoDdv0xOtxRcRIeKnnb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "TKmrdITVSogcvjxHKQNcKPitnGd",
+        "block_type": 2,
+        "parent_id": "QxwcdSJmTomqK5xeX9Gck2jwnwd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Optimizer",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FlUHdv5UQo6HktxF3elcH1E7nid",
+        "block_type": 32,
+        "children": [
+          "W9YldlBiqos7aXxIUh2cuQWIn0c"
+        ],
+        "parent_id": "WGXIdOnzwoDdv0xOtxRcRIeKnnb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "W9YldlBiqos7aXxIUh2cuQWIn0c",
+        "block_type": 2,
+        "parent_id": "FlUHdv5UQo6HktxF3elcH1E7nid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AVCedPNRdoWdjJxHCrJcdS5FnHb",
+        "block_type": 32,
+        "children": [
+          "Bbs8dQbcbooDuAxYoXncnguLnDg",
+          "QQOodTMQ3oLPM4xVaC2cYEAbnRd"
+        ],
+        "parent_id": "WGXIdOnzwoDdv0xOtxRcRIeKnnb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Bbs8dQbcbooDuAxYoXncnguLnDg",
+        "block_type": 2,
+        "parent_id": "AVCedPNRdoWdjJxHCrJcdS5FnHb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pdf_ocr",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QQOodTMQ3oLPM4xVaC2cYEAbnRd",
+        "block_type": 2,
+        "parent_id": "AVCedPNRdoWdjJxHCrJcdS5FnHb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QA56dY094oKvDixryTgcyUWtnEd",
+        "block_type": 32,
+        "children": [
+          "MVXbd1WGBo0pZ0xvKIecvXrxnrh"
+        ],
+        "parent_id": "WGXIdOnzwoDdv0xOtxRcRIeKnnb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "MVXbd1WGBo0pZ0xvKIecvXrxnrh",
+        "block_type": 2,
+        "parent_id": "QA56dY094oKvDixryTgcyUWtnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "OCR (Optical Character Recognition) can extract text from the scanned pages or tables. Using this optimizer can improve text recognition in image-based PDF but it will significantly increase processing latency and incur higher cost.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UbrZdsu59oAoJ5xnjQPcHCFonhh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Choose or customize the splitter.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ODxHdH8J4oW0JExMA3QcC8cenXe",
+          "NJ7idGHjRoTjbmxQxamcJEVTnxg"
+        ],
+        "comment_ids": [
+          "7345042428053094403"
+        ],
+        "parent_id": "UQLFdaqCDogP0Jx37T7cK6xwnnf"
+      },
+      {
+        "block_id": "ODxHdH8J4oW0JExMA3QcC8cenXe",
+        "block_type": 2,
+        "comment_ids": [
+          "7345042428053094403"
+        ],
+        "parent_id": "UbrZdsu59oAoJ5xnjQPcHCFonhh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Splitters are used for dividing the document into chunks. The text is split by the specified characters in order.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NJ7idGHjRoTjbmxQxamcJEVTnxg",
+        "block_type": 2,
+        "comment_ids": [
+          "7345042428053094403"
+        ],
+        "parent_id": "UbrZdsu59oAoJ5xnjQPcHCFonhh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "By default, Zilliz Cloud Pipelines uses ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"\\n\\n\", \"\\n\", \" \", \"\"",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as separators. You can also choose to split the document by sentences (use \".\", \"\" as separators ), paragraphs (use \"\\n\\n\", \"\" as separators), lines (use \"\\n\", \"\" as separators), or a list of customized strings. The customized separators should be combined with commas.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "B7iYd3O4jovM3QxrvJscCTDWn1c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Define the chunk size.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "RDKodgtGXo5AwoxzsascipUqndc",
+          "CblLdfZCMo6BXuxPXdnc2GtonY2"
+        ],
+        "comment_ids": [
+          "7345042428053094403"
+        ],
+        "parent_id": "UQLFdaqCDogP0Jx37T7cK6xwnnf"
+      },
+      {
+        "block_id": "RDKodgtGXo5AwoxzsascipUqndc",
+        "block_type": 2,
+        "comment_ids": [
+          "7345042428053094403"
+        ],
+        "parent_id": "B7iYd3O4jovM3QxrvJscCTDWn1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "By default, each chunk contains no more than 500 tokens. ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "The following table lists the mapping relationship between applicable models and their corresponding chunk size",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ranges",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042428053094403"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2699,12 +3432,14 @@
           "KarHds8x3odUvYxiCAAc6k6nnTd",
           "WpJ0diRksoJ3AYxbFbCc1Ubsnjf",
           "XZPKdpjCUoKXYqxaQVkcTZQlncd",
+          "M5mEdhR8RoEAlVx6gwVccSVTnX1",
+          "T5V3dDtSioudmSxdYl5cgM4nnnb",
           "ZNwddwygxoYLOlxrByUcT5KAnVh",
           "F6Eqdg9plo20JXxikiJc1w7Gncc",
           "OyXFdhn8WoCRnjxoDG1cQ6sTnYc",
           "WHfjdpLypoeelex1sqjcfKJonQb"
         ],
-        "parent_id": "UQLFdaqCDogP0Jx37T7cK6xwnnf",
+        "parent_id": "B7iYd3O4jovM3QxrvJscCTDWn1c",
         "table": {
           "cells": [
             "WNFsdxlr4oaIkex9ytYcjMn1nyc",
@@ -2717,6 +3452,8 @@
             "KarHds8x3odUvYxiCAAc6k6nnTd",
             "WpJ0diRksoJ3AYxbFbCc1Ubsnjf",
             "XZPKdpjCUoKXYqxaQVkcTZQlncd",
+            "M5mEdhR8RoEAlVx6gwVccSVTnX1",
+            "T5V3dDtSioudmSxdYl5cgM4nnnb",
             "ZNwddwygxoYLOlxrByUcT5KAnVh",
             "F6Eqdg9plo20JXxikiJc1w7Gncc",
             "OyXFdhn8WoCRnjxoDG1cQ6sTnYc",
@@ -2785,9 +3522,17 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 7
+            "row_size": 8
           }
         }
       },
@@ -2845,7 +3590,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Chunk Size Range (tokens)",
+                "content": "Chunk Size Range",
                 "text_element_style": {
                   "bold": true,
                   "comment_ids": [
@@ -3052,7 +3797,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "20-3,000   tokens",
+                "content": "20-3,000 ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "t",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "okens",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3116,6 +3885,74 @@
         "block_id": "OTHXds7rxoM6Jrx5UJocHo70nwg",
         "block_type": 2,
         "parent_id": "XZPKdpjCUoKXYqxaQVkcTZQlncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "20-12,000 tokens",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "M5mEdhR8RoEAlVx6gwVccSVTnX1",
+        "block_type": 32,
+        "children": [
+          "NfnpdnAAqoaCxuxmc51cJc0SnEh"
+        ],
+        "parent_id": "CblLdfZCMo6BXuxPXdnc2GtonY2",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NfnpdnAAqoaCxuxmc51cJc0SnEh",
+        "block_type": 2,
+        "parent_id": "M5mEdhR8RoEAlVx6gwVccSVTnX1",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "voyageai/voyage-large-2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T5V3dDtSioudmSxdYl5cgM4nnnb",
+        "block_type": 32,
+        "children": [
+          "SsLJdIFh5o9JISxMuU6cgoMJnnj"
+        ],
+        "parent_id": "CblLdfZCMo6BXuxPXdnc2GtonY2",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SsLJdIFh5o9JISxMuU6cgoMJnnj",
+        "block_type": 2,
+        "parent_id": "T5V3dDtSioudmSxdYl5cgM4nnnb",
         "text": {
           "elements": [
             {
@@ -3325,6 +4162,7 @@
         "block_id": "C7wsdLBM0oQ58YxEQHRcqdQcnwg",
         "block_type": 26,
         "comment_ids": [
+          "7345042428053094403",
           "7328325262318272515"
         ],
         "iframe": {
@@ -3985,8 +4823,7 @@
           ],
           "style": {
             "align": 1,
-            "folded": false,
-            "indentation_level": "NoIndent"
+            "folded": false
           }
         },
         "parent_id": "BVaidWzeSoVP18xF9pnc6S0an3g"
@@ -4491,7 +5328,73 @@
             },
             {
               "text_run": {
-                "content": "\n                \"chunkSize\": 500,\n                \"embedding\": \"zilliz/bge-base-en-v1.5\"\n            },\n            {\n                \"name\": \"keep_doc_info\",\n                \"action\": \"PRESERVE\", \n                \"inputField\": \"publish_year\", \n                \"outputField\": \"publish_year\",\n                \"fieldType\": \"Int16\" \n            }\n        ],\n        \"clusterId\": \"${CLUSTER_ID}\",\n",
+                "content": "\n                \"chunkSize\": 500,\n                \"embedding\": \"zilliz/bge-base-en-v1.5\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "                ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"splitBy\": [\"\\n\\n\", \"\\n\", \" \", \"\"], ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042478611644420"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "                \"optimizers\": [\"pdf_ocr\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042478611644420"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n            },\n            {\n                \"name\": \"keep_doc_info\",\n                \"action\": \"PRESERVE\", \n                \"inputField\": \"publish_year\", \n                \"outputField\": \"publish_year\",\n                \"fieldType\": \"Int16\" \n            }\n        ],\n        \"clusterId\": \"${CLUSTER_ID}\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4559,6 +5462,7 @@
           }
         },
         "comment_ids": [
+          "7345042478611644420",
           "7330187749519736835",
           "7328329368169037828",
           "7328328200340668420"
@@ -4762,8 +5666,7 @@
           ],
           "style": {
             "align": 1,
-            "folded": false,
-            "indentation_level": "NoIndent"
+            "folded": false
           }
         },
         "parent_id": "Fyg6dFS6foYW2ixcQyKcnltOnIe"
@@ -5005,10 +5908,8 @@
           "C85SdR3tBoV5oKxjJGocrxfrnrb",
           "DxFgd85DHovYOSxnQnmc3durnOg",
           "VDKydkdKxow8jgxL4pTcS0JXnqc",
-          "GubpdYrlJoxrXnx6m0gcuoKtn0e",
-          "EvDfdieSgoFYtVxANgUcC8L1nsc",
-          "G7kWdSCzGoI4Z8xGu4rch25bnzd",
-          "XQlOdnTuqor82JxE6mbcW8a5n2b"
+          "N3QldXhO3oXadjxQcXkcxS4Snaf",
+          "E6UldI7TWoVre5xk0s2cM0sdnnb"
         ],
         "parent_id": "Fyg6dFS6foYW2ixcQyKcnltOnIe"
       },
@@ -7294,6 +8195,428 @@
         }
       },
       {
+        "block_id": "N3QldXhO3oXadjxQcXkcxS4Snaf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "splitBy",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042602798809092"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (optional): Splitters are used to split the document based on a list of separators in order until the chunks are small enough - smaller or equal to the defined chunk size. By default, Zilliz Cloud Pipelines uses ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042602798809092"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "[\"\\n\\n\", \"\\n\", \" \", \"\"] ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042602798809092"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "as separators. ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042602798809092"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(This parameter is only used in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042602798809092"
+                  ],
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "INDEX_DOC",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042602798809092"
+                  ],
+                  "inline_code": true,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function.)",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042602798809092"
+                  ],
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7345042602798809092"
+        ],
+        "parent_id": "NuiSdJ2y8oCvHUxTQw9ckIJhnzd"
+      },
+      {
+        "block_id": "E6UldI7TWoVre5xk0s2cM0sdnnb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "optimizers",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042602798809092"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (optional): Optimizers are used to enhance the parsing of text from files for better retrieval quality. However, please be aware that using optimizers can increase latency or token usage. Currently, only 1 type of optimizer is available. ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042602798809092"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(This parameter is only used in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042602798809092"
+                  ],
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "INDEX_DOC",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042602798809092"
+                  ],
+                  "inline_code": true,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function.)",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042602798809092"
+                  ],
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ILSfdn1GMo7japx6DZ3coxmznZc"
+        ],
+        "comment_ids": [
+          "7345042602798809092"
+        ],
+        "parent_id": "NuiSdJ2y8oCvHUxTQw9ckIJhnzd"
+      },
+      {
+        "block_id": "ILSfdn1GMo7japx6DZ3coxmznZc",
+        "block_type": 31,
+        "children": [
+          "ZBq9d7HFMoB1Ewxwv7wc4wwxn0e",
+          "O4uJdKNUBovWyXx3WLMcl5Rrn5f",
+          "M1WwduhKHoQfN2xPwbQcro3Knwf",
+          "D2XsdL4msoDQ0hx7xiXcA4y4nub"
+        ],
+        "parent_id": "E6UldI7TWoVre5xk0s2cM0sdnnb",
+        "table": {
+          "cells": [
+            "ZBq9d7HFMoB1Ewxwv7wc4wwxn0e",
+            "O4uJdKNUBovWyXx3WLMcl5Rrn5f",
+            "M1WwduhKHoQfN2xPwbQcro3Knwf",
+            "D2XsdL4msoDQ0hx7xiXcA4y4nub"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              213,
+              396
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 2
+          }
+        }
+      },
+      {
+        "block_id": "ZBq9d7HFMoB1Ewxwv7wc4wwxn0e",
+        "block_type": 32,
+        "children": [
+          "Ss31d09yZoq7oIxUHAYc2pJknif"
+        ],
+        "parent_id": "ILSfdn1GMo7japx6DZ3coxmznZc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Ss31d09yZoq7oIxUHAYc2pJknif",
+        "block_type": 2,
+        "parent_id": "ZBq9d7HFMoB1Ewxwv7wc4wwxn0e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Optimizer",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O4uJdKNUBovWyXx3WLMcl5Rrn5f",
+        "block_type": 32,
+        "children": [
+          "H5E0dlqBRooQzDxH24PcyKIen9e"
+        ],
+        "parent_id": "ILSfdn1GMo7japx6DZ3coxmznZc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "H5E0dlqBRooQzDxH24PcyKIen9e",
+        "block_type": 2,
+        "parent_id": "O4uJdKNUBovWyXx3WLMcl5Rrn5f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "M1WwduhKHoQfN2xPwbQcro3Knwf",
+        "block_type": 32,
+        "children": [
+          "CWHcdUKXVoYMGGxiffkcx7xNnub",
+          "ZsMRdBiaMo024txyqtVcJIzKn3e"
+        ],
+        "parent_id": "ILSfdn1GMo7japx6DZ3coxmznZc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CWHcdUKXVoYMGGxiffkcx7xNnub",
+        "block_type": 2,
+        "parent_id": "M1WwduhKHoQfN2xPwbQcro3Knwf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pdf_ocr",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZsMRdBiaMo024txyqtVcJIzKn3e",
+        "block_type": 2,
+        "parent_id": "M1WwduhKHoQfN2xPwbQcro3Knwf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D2XsdL4msoDQ0hx7xiXcA4y4nub",
+        "block_type": 32,
+        "children": [
+          "S9TIdvYkjoqh2rxIThFcqRDGnDh"
+        ],
+        "parent_id": "ILSfdn1GMo7japx6DZ3coxmznZc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "S9TIdvYkjoqh2rxIThFcqRDGnDh",
+        "block_type": 2,
+        "parent_id": "D2XsdL4msoDQ0hx7xiXcA4y4nub",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This optimizer converts a scanned or image-based PDF file into editable and searchable text, allowing for better document retrieval. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "GubpdYrlJoxrXnx6m0gcuoKtn0e",
         "block_type": 12,
         "bullet": {
@@ -7364,7 +8687,7 @@
             "folded": false
           }
         },
-        "parent_id": "NuiSdJ2y8oCvHUxTQw9ckIJhnzd"
+        "parent_id": "Fyg6dFS6foYW2ixcQyKcnltOnIe"
       },
       {
         "block_id": "EvDfdieSgoFYtVxANgUcC8L1nsc",
@@ -7632,7 +8955,7 @@
         "children": [
           "PDoRdPkvHoRRwLxSXftcKlSCn1e"
         ],
-        "parent_id": "NuiSdJ2y8oCvHUxTQw9ckIJhnzd"
+        "parent_id": "Fyg6dFS6foYW2ixcQyKcnltOnIe"
       },
       {
         "block_id": "PDoRdPkvHoRRwLxSXftcKlSCn1e",
@@ -7908,7 +9231,7 @@
             "folded": false
           }
         },
-        "parent_id": "NuiSdJ2y8oCvHUxTQw9ckIJhnzd"
+        "parent_id": "Fyg6dFS6foYW2ixcQyKcnltOnIe"
       },
       {
         "block_id": "XQlOdnTuqor82JxE6mbcW8a5n2b",
@@ -7951,7 +9274,7 @@
         "comment_ids": [
           "7328329419545296900"
         ],
-        "parent_id": "NuiSdJ2y8oCvHUxTQw9ckIJhnzd"
+        "parent_id": "Fyg6dFS6foYW2ixcQyKcnltOnIe"
       },
       {
         "block_id": "JDcGdgLM0oKOX5xq1gQcNU8unme",
@@ -8060,7 +9383,61 @@
             },
             {
               "text_run": {
-                "content": "\n        \"chunkSize\": 500,\n        \"embedding\": \"zilliz/bge-base-en-v1.5\"\n      },\n      {\n        \"action\": \"PRESERVE\",\n        \"name\": \"keep_doc_info\",\n        \"inputField\": \"publish_year\",\n        \"outputField\": \"publish_year\",\n        \"fieldType\": \"Int16\"\n      }\n    ],\n    \"clusterId\": \"in03-***************\",\n    \"newCollectionName\": \"my_new_collection\"\n  }\n",
+                "content": "\n        \"chunkSize\": 500,\n        \"embedding\": \"zilliz/bge-base-en-v1.5\"，\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        \"splitBy\": [\"\\n\\n\", \"\\n\", \" \", \"\"], ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042650816348164"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        \"optimizers\": [\"pdf_ocr\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345042650816348164"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n      },\n      {\n        \"action\": \"PRESERVE\",\n        \"name\": \"keep_doc_info\",\n        \"inputField\": \"publish_year\",\n        \"outputField\": \"publish_year\",\n        \"fieldType\": \"Int16\"\n      }\n    ],\n    \"clusterId\": \"in03-***************\",\n    \"newCollectionName\": \"my_new_collection\"\n  }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -8089,6 +9466,7 @@
           }
         },
         "comment_ids": [
+          "7345042650816348164",
           "7328331481138315267"
         ],
         "parent_id": "Fyg6dFS6foYW2ixcQyKcnltOnIe"
@@ -8851,6 +10229,6 @@
         }
       }
     ],
-    "counts": 240
+    "counts": 280
   }
 }

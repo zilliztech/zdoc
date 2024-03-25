@@ -1,6 +1,6 @@
 {
   "created_time": "1704422702",
-  "modified_time": "1709085398",
+  "modified_time": "1710747788",
   "name": "DataType",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -29,6 +29,11 @@
           "doxcnOBJadQus91uksdo1K9KQ6f",
           "doxcnJ0E0WPOsq6rErEmsfLPwrb",
           "doxcnnPN8LgIJbuVXYaezZvxpNf",
+          "Uy7HdyNgEo9oqGxGDaicxDLCnOT",
+          "NJsJdYjlXo2e0dxy6YRcQMzZnBh",
+          "Ial8dyTPGoThbGxoqg5cRaI8ntb",
+          "CdRRdKnUdoIbDDxFqfdc9cfsnmb",
+          "PJoKdaRMZocg5hxPzG4cZgIGnld",
           "doxcn6FckjAWkHQFCWpgAinaYSb"
         ],
         "page": {
@@ -1035,6 +1040,353 @@
         "parent_id": "JiN3dU8zwoPdgBxxpw6c0JkUnze"
       },
       {
+        "block_id": "Uy7HdyNgEo9oqGxGDaicxDLCnOT",
+        "block_type": 2,
+        "comment_ids": [
+          "7347606125057900548"
+        ],
+        "parent_id": "JiN3dU8zwoPdgBxxpw6c0JkUnze",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NJsJdYjlXo2e0dxy6YRcQMzZnBh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "FLOAT16_VECTOR = 102",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "R4zZdOO9FoE843x6Ye5cAgsAn0e"
+        ],
+        "comment_ids": [
+          "7347606125057900548"
+        ],
+        "parent_id": "JiN3dU8zwoPdgBxxpw6c0JkUnze"
+      },
+      {
+        "block_id": "R4zZdOO9FoE843x6Ye5cAgsAn0e",
+        "block_type": 2,
+        "comment_ids": [
+          "7347606125057900548"
+        ],
+        "parent_id": "NJsJdYjlXo2e0dxy6YRcQMzZnBh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Sets the data type to ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Float16",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ial8dyTPGoThbGxoqg5cRaI8ntb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BFLOAT16_VECTOR = 103",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Ti1KdvPmiooOohx9oxLcV2B2nob"
+        ],
+        "comment_ids": [
+          "7347606125057900548"
+        ],
+        "parent_id": "JiN3dU8zwoPdgBxxpw6c0JkUnze"
+      },
+      {
+        "block_id": "Ti1KdvPmiooOohx9oxLcV2B2nob",
+        "block_type": 2,
+        "comment_ids": [
+          "7347606125057900548"
+        ],
+        "parent_id": "Ial8dyTPGoThbGxoqg5cRaI8ntb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Sets the data type to ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BFloat16",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CdRRdKnUdoIbDDxFqfdc9cfsnmb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "SPARSE_FLOAT_VECTOR = 104",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "GsO6dqgJJoPmTsxIQ9RcdzKBnxb"
+        ],
+        "comment_ids": [
+          "7347606125057900548"
+        ],
+        "parent_id": "JiN3dU8zwoPdgBxxpw6c0JkUnze"
+      },
+      {
+        "block_id": "GsO6dqgJJoPmTsxIQ9RcdzKBnxb",
+        "block_type": 2,
+        "comment_ids": [
+          "7347606125057900548"
+        ],
+        "parent_id": "CdRRdKnUdoIbDDxFqfdc9cfsnmb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Sets the data type to ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Sparse Vector",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PJoKdaRMZocg5hxPzG4cZgIGnld",
+        "block_type": 2,
+        "comment_ids": [
+          "7347606125057900548"
+        ],
+        "parent_id": "JiN3dU8zwoPdgBxxpw6c0JkUnze",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347606125057900548"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "doxcn6FckjAWkHQFCWpgAinaYSb",
         "block_type": 12,
         "bullet": {
@@ -1096,7 +1448,7 @@
         "parent_id": "JiN3dU8zwoPdgBxxpw6c0JkUnze"
       }
     ],
-    "counts": 18
+    "counts": 26
   },
   "slug": "Collections-DataType"
 }

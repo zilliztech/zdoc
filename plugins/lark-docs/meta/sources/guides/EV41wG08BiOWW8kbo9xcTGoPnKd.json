@@ -5,7 +5,7 @@
   "node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
   "node_type": "origin",
   "obj_create_time": "1689062914",
-  "obj_edit_time": "1708781300",
+  "obj_edit_time": "1710469507",
   "obj_token": "Ly6BdqdNooKWDhxejD8ckxaZnah",
   "obj_type": "docx",
   "origin_node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
@@ -1167,31 +1167,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "What is the pricing of Zilliz Cloud on ",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "AWS",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " marketplace?",
+                "content": "What is the pricing of Zilliz Cloud on Marketplaces?",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -1236,38 +1212,14 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Subscribe on AWS Marketplace",
-                "token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
-                "url": "https://zilliverse.feishu.cn/wiki/LDlOweEzmiLkdQkvPFec5lrcnbf#NKJPdhwbloskhRxh50OcnuiJnne"
+                "title": "Payment & Billing",
+                "token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
+                "url": "https://zilliverse.feishu.cn/wiki/FmkCwm1QHitB7uk9U9ncLnHrnse#Q9drdsew3ork6UxQbsUcsdcEnAd"
               }
             },
             {
               "text_run": {
-                "content": "for more about the pricing of Zilliz Cloud on ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "AWS",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " Marketplace.",
+                "content": " for more about Marketplace Pricing Terms.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4087,7 +4039,6 @@
             }
           ],
           "style": {
-            "indentation_level": "NoIndent",
             "language": 30,
             "wrap": false
           }
@@ -6569,6 +6520,7 @@
           "FkRPd2NcioySONx0BSFceJaInTG",
           "PrqYdLdWto7y4XxEGb2cVvKknye",
           "Y6QrdzkQqo7OQtxo3udctUIDnhh",
+          "NZpTd1juhoCQSAxKdhocLGLinbc",
           "VUHzd3bklot502xwIVjcfdhxnUf",
           "IevEdGcdZor2P9xSpv7cgtRHnbb"
         ],
@@ -6704,19 +6656,72 @@
           }
         },
         "children": [
-          "DEe5dVPPYoW7qjxHpvVcXBWqnie"
+          "K5Chd3rFooEtArxDPh9cAUt0nrg"
         ],
         "parent_id": "M6TCdyhC4oROUYxp79LcpzwvnUb"
       },
       {
-        "block_id": "DEe5dVPPYoW7qjxHpvVcXBWqnie",
+        "block_id": "K5Chd3rFooEtArxDPh9cAUt0nrg",
         "block_type": 2,
         "parent_id": "Y6QrdzkQqo7OQtxo3udctUIDnhh",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks.",
+                "content": "Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NZpTd1juhoCQSAxKdhocLGLinbc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "voyageai/voyage-large-2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Wm8QdHNHAoS5xExTXGNcUWmInsh"
+        ],
+        "parent_id": "M6TCdyhC4oROUYxp79LcpzwvnUb"
+      },
+      {
+        "block_id": "Wm8QdHNHAoS5xExTXGNcUWmInsh",
+        "block_type": 2,
+        "parent_id": "NZpTd1juhoCQSAxKdhocLGLinbc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -12673,6 +12678,6 @@
         }
       }
     ],
-    "counts": 369
+    "counts": 371
   }
 }

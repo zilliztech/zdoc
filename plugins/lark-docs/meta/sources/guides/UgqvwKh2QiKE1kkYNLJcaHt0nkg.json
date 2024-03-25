@@ -5,7 +5,7 @@
   "node_token": "UgqvwKh2QiKE1kkYNLJcaHt0nkg",
   "node_type": "origin",
   "obj_create_time": "1689055813",
-  "obj_edit_time": "1702887102",
+  "obj_edit_time": "1709111973",
   "obj_token": "JZAsdh6Cpok9GIxpOo0caUnondg",
   "obj_type": "docx",
   "origin_node_token": "UgqvwKh2QiKE1kkYNLJcaHt0nkg",
@@ -1900,7 +1900,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "5 million",
+                "content": "8 million",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2060,19 +2060,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "3",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " million",
+                "content": "6 million",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2268,31 +2256,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "1.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "5",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " million",
+                "content": "3 million",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2475,7 +2439,8 @@
         "block_id": "HMyodNkgWoi7uVxl6OvcanQ8nxe",
         "block_type": 32,
         "children": [
-          "BOLsdiURaoHicZxPWUtc6rkenRh"
+          "BOLsdiURaoHicZxPWUtc6rkenRh",
+          "E4wHdFGW5oW9ovxliEvcX2GUnCh"
         ],
         "parent_id": "DYgSdgZCuo7VNPx6ARIc56vCnnd",
         "table_cell": {}
@@ -2488,7 +2453,32 @@
           "elements": [
             {
               "text_run": {
-                "content": "1 million",
+                "content": "2 million",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "E4wHdFGW5oW9ovxliEvcX2GUnCh",
+        "block_type": 2,
+        "parent_id": "HMyodNkgWoi7uVxl6OvcanQ8nxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2684,31 +2674,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "0.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "75",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " million",
+                "content": "1.5 million",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5112,6 +5078,9 @@
       {
         "block_id": "UFoSdbpVgomNhYxH71Bcr2banSa",
         "block_type": 4,
+        "comment_ids": [
+          "7340472936522006531"
+        ],
         "heading2": {
           "elements": [
             {
@@ -5119,6 +5088,9 @@
                 "content": "Scenario breakdown",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340472936522006531"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -5142,7 +5114,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Suppose you are building an image recommendation application with a library of 10 million images. Each image in your library is represented by a 768-dimensional embedding vector. Your goal is to swiftly handle a ",
+                "content": "Suppose you are building an image recommendation application with a library of 8 million images. Each image in your library is represented by a 768-dimensional embedding vector. Your goal is to swiftly handle a ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5248,6 +5220,9 @@
       {
         "block_id": "WT2edrAAUoSYfdx1Nz1cj8RwnBc",
         "block_type": 13,
+        "comment_ids": [
+          "7340473649423810564"
+        ],
         "ordered": {
           "elements": [
             {
@@ -5264,7 +5239,34 @@
             },
             {
               "text_run": {
-                "content": ": A single Performance-optimized CU accommodates 1.2 million 768-dimensional vectors. To store all 10 million vectors, you would need at least nine CUs.",
+                "content": ": A single Performance-optimized CU accommodates 2 million 768-dimensional vectors. To store all 8 million vectors, you would need at least 4",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " CUs",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340473649423810564"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5285,6 +5287,9 @@
       {
         "block_id": "W0fLdgOR7ov22OxqW9wcSQ4znJh",
         "block_type": 13,
+        "comment_ids": [
+          "7340473892341399556"
+        ],
         "ordered": {
           "elements": [
             {
@@ -5325,7 +5330,34 @@
             },
             {
               "text_run": {
-                "content": " setting of 100, the Performance-optimized CU can achieve a QPS of 440. To sustain a consistent 1,000 QPS, you would need to triple the number of replicas.",
+                "content": " setting of 100, the Performance-optimized CU can achieve a QPS of 440. To sustain a consistent 1,000 QPS, you would need to triple the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "number of replicas",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340473892341399556"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5351,7 +5383,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "In conclusion, for this scenario, the Performance-optimized CU is your best bet. A configuration of three replicas, with each replica consisting of nine CUs, should serve you perfectly.",
+                "content": "In conclusion, for this scenario, the Performance-optimized CU is your best bet. A configuration of 3 replicas, with each replica consisting of 4 CUs, should serve you perfectly.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5780,6 +5812,6 @@
         }
       }
     ],
-    "counts": 217
+    "counts": 218
   }
 }

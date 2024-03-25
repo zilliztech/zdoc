@@ -1,0 +1,1801 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1708325161",
+  "node_token": "I44HwALceivcZyke19xc1SnOn0c",
+  "node_type": "origin",
+  "obj_create_time": "1708325161",
+  "obj_edit_time": "1710732231",
+  "obj_token": "GO2adoGgXoxoD0xRUGAc6dbVnMh",
+  "obj_type": "docx",
+  "origin_node_token": "I44HwALceivcZyke19xc1SnOn0c",
+  "origin_space_id": "7314484612833640452",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "Hb5VwPWS0iTxFvkjCmdcQnwan9d",
+  "space_id": "7314484612833640452",
+  "title": "[Modified] MMap-enabled Data Storage",
+  "slug": "mmap-data-store",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh",
+        "block_type": 1,
+        "children": [
+          "YeeNdCZdhoEe4AxIIxycFmPOnKh",
+          "XdCIdQU9aozKUyxMoo1czIycnuf",
+          "SI3EdNR1soLLzNxhTmBc2s9pnzf",
+          "GxKRdJvSjo97FLxo5fwcf6VOnDb",
+          "BKFEd2RkLof4UpxU9VYcAJ5Qnsb",
+          "MdV9dWk8ZoICQnxufxjc3LIdnhe",
+          "TWtxd7hXooUTZsxkuGIcuTb2nLe",
+          "U9gXdhOxYokReBx4FgjcZ5qKnge",
+          "MNvadYej4oprpXxQobTc4J16nbZ",
+          "Ggv6d8hW0om9BRx1ylocHWM0nGd",
+          "IGk0d9s1ooxm76xyOyAcOZL0n0c",
+          "JfB6dSrGRoJhwtxvQ1TcKeFknV9",
+          "ZDnCd2ov5oY4y6xXMkFc6rQgndb",
+          "GRhYdFLS6orujrxzEWVck3XMnXf",
+          "Eb1TdxFRcoLnQ9x0aqDcrBtgnOf",
+          "GLj3dDxNkoFrOcxikhfcjW53nah",
+          "UgD2d2BJvoGvh7xwJ9OcRc4vn8c",
+          "Wea7dUHfioNpiLx6gHHcmMg4n0f",
+          "YqsBdTGzioCg1Dx9rXSc4zDbn8g",
+          "Tu2mdjVBPo5Gt5xssALcQLganXf",
+          "FcmKdV14Voy0MgxglHlcgMWMnIf",
+          "ZnyfdyQOeonOZxxmJZIcAjBInMd",
+          "TYUFdfX31oaaeMxVpNzcblGvnFf",
+          "E5D0dAhPioOmBkxj3DhccsjGncc",
+          "QJIWdd91nowSlixtcjZcq5D7nng",
+          "BPFwd2EJZoitEOxhg71cSuKen9b",
+          "Q6iEd0PzwoDwZix0oWlcKdtennc",
+          "N8VXdqXpsoLdgpxsgD6c7a69nub",
+          "AA3CdGsXcopjYyxcpspcm2isnyb",
+          "PXsRdEDLyo8RrQxZv9ucG5wHniI",
+          "I6cAdwTeXoJOeexLkRkch58NnVD",
+          "OgOpds7fZo4Uq6xlU0gciwf4nKg",
+          "SdhgdK5dYo2tJHxzpJvcLELhnyb",
+          "RUOvdPptJoCuNPxR5pNc6nFZnpX"
+        ],
+        "comment_ids": [
+          "7347528250925301762",
+          "7340120610393571331"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[Modified] ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347528250925301762"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "MMap-enabled Data Storage",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340120610393571331",
+                    "7347528250925301762"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "YeeNdCZdhoEe4AxIIxycFmPOnKh",
+        "block_type": 2,
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In Milvus, memory-mapped files allow for direct mapping of file contents into memory. This feature enhances memory efficiency, particularly in situations where available memory is scarce but complete data loading is infeasible. This optimization mechanism can increase data capacity while ensuring performance up to a certain limit; however, when the amount of data exceeds memory by too much, search and query performance may suffer serious degradation, so please choose to turn this feature on or off as appropriate.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XdCIdQU9aozKUyxMoo1czIycnuf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Configure memory mapping",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "SI3EdNR1soLLzNxhTmBc2s9pnzf",
+        "block_type": 2,
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Starting with Milvus 2.4, you have the flexibility to adjust the static configuration file to configure default memory mapping settings for the entire cluster before deployment. Additionally, there's the option for you to dynamically alter parameters to fine-tune memory mapping settings at both the cluster and index levels. Looking ahead, future updates will extend memory mapping capabilities to include field-level configurations.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GxKRdJvSjo97FLxo5fwcf6VOnDb",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before cluster deployment: global configuration",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "BKFEd2RkLof4UpxU9VYcAJ5Qnsb",
+        "block_type": 2,
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you deploy a cluster, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "cluster-level",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " settings apply memory mapping across your entire cluster. This ensures all new objects will automatically adhere to these configurations. It's important to note that modifying these settings requires a restart of the cluster to become effective.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MdV9dWk8ZoICQnxufxjc3LIdnhe",
+        "block_type": 2,
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To adjust your cluster's memory mapping settings, edit the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "configs/milvus.yaml",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " file. Within this file, you can specify whether to enable memory mapping by default and determine the directory path for storing memory-mapped files. If the path (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "mmapDirPath",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") is left unspecified, the system defaults to storing memory-mapped files in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{localStorage.path}/mmap",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Local Storage-related Configurations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fconfigure_localstorage.md%23localStoragepath"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TWtxd7hXooUTZsxkuGIcuTb2nLe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# This parameter was set in configs/milvus.yaml\n...\nqueryNode:\n  mmap:\n    # Set memory mapping property for whole cluster\n    mmapEnabled: false | true\n    # Set memory-mapped directory path, if you leave mmapDirPath unspecified, the memory-mapped files will be stored in {localStorage.path}/ mmap by default. \n    mmapDirPath: any/valid/path \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "....",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 67,
+            "wrap": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "U9gXdhOxYokReBx4FgjcZ5qKnge",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "During cluster operation: dynamic configuration",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "MNvadYej4oprpXxQobTc4J16nbZ",
+        "block_type": 2,
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "During cluster runtime, you can dynamically adjust memory mapping settings at either the collection or index level.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ggv6d8hW0om9BRx1ylocHWM0nGd",
+        "block_type": 2,
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "At the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection level",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", memory mapping is applied to all unindexed raw data within a collection, excluding primary keys, timestamps, and row IDs. This approach is particularly suited for comprehensive management of large datasets.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IGk0d9s1ooxm76xyOyAcOZL0n0c",
+        "block_type": 2,
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For dynamic adjustments to memory mapping settings within a collection, utilize the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "set_properties()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " method. Here, you can toggle ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "mmap.enabled",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " between ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "True",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "False",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as needed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JfB6dSrGRoJhwtxvQ1TcKeFknV9",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Get existing collection\ncollection = Collection(\"test_collection\") # Replace with your collection name\n\n# Set memory mapping property to True or Flase\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection.set_properties({'mmap.enabled': True})",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "ZDnCd2ov5oY4y6xXMkFc6rQgndb",
+        "block_type": 2,
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "index-level",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " settings, memory mapping can be specifically applied to vector indexes without affecting other data types. This feature is invaluable for collections that require optimized performance for vector searches.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GRhYdFLS6orujrxzEWVck3XMnXf",
+        "block_type": 2,
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To enable or disable memory mapping for an index within a collection, call the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "alter_index()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " method, specifying the target index name in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "index_name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and setting ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "mmap.enabled",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "True",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "False",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Eb1TdxFRcoLnQ9x0aqDcrBtgnOf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection.alter_index(\n    index_name=\"vector_index\", # Replace with your vector index name\n    extra_params={\"mmap.enabled\": True} # Enable memory mapping for index\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "GLj3dDxNkoFrOcxikhfcjW53nah",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Customize storage path in different deployments",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "UgD2d2BJvoGvh7xwJ9OcRc4vn8c",
+        "block_type": 2,
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Memory-mapped files default to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/mmap",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " directory within ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "localStorage.path",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fconfigure_localstorage.md%23localStoragepath"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Here's how to customize this setting across various deployment methods:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Wea7dUHfioNpiLx6gHHcmMg4n0f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Milvus installed using Helm Chart:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "YqsBdTGzioCg1Dx9rXSc4zDbn8g",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# new-values.yaml\nextraConfigFiles:\n   user.yaml: |+\n      queryNode:\n         mmap:\n           mmapEnabled: true\n           mmapDirPath: any/valid/path\n        \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "helm upgrade <milvus-release> --reuse-values -f new-values.yaml milvus/milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": true
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "Tu2mdjVBPo5Gt5xssALcQLganXf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Milvus installed using Milvus Operator:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "FcmKdV14Voy0MgxglHlcgMWMnIf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# patch.yaml\nspec:\n  config:\n    queryNode:\n      mmap:\n        mmapEnabled: true\n        mmapDirPath: any/valid/path\n      \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " kubectl patch milvus <milvus-name> --patch-file patch.yaml",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": true
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "ZnyfdyQOeonOZxxmJZIcAjBInMd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Milvus installed using Docker:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "TYUFdfX31oaaeMxVpNzcblGvnFf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# A new installation script is provided to enable mmap-related settings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": true
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "E5D0dAhPioOmBkxj3DhccsjGncc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Limits",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "QJIWdd91nowSlixtcjZcq5D7nng",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Memory mapping cannot be enabled for a loaded collection, ensure the collection has been released before enabling memory mapping.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "BPFwd2EJZoitEOxhg71cSuKen9b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Memory mapping is not supported for DiskANN or GPU-class indexes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "Q6iEd0PzwoDwZix0oWlcKdtennc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "FAQ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "N8VXdqXpsoLdgpxsgD6c7a69nub",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In which scenarios is it recommended to enable memory mapping? What are the trade-offs after enabling this feature?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "IX0edWv5co65yuxSv9fckd0GnMf",
+          "EcAcdYgjmooQeAxgZxUcQHodnyc",
+          "T3Wxd45Aoo1Q2mxEHxvcrVXsn1b"
+        ],
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "IX0edWv5co65yuxSv9fckd0GnMf",
+        "block_type": 2,
+        "parent_id": "N8VXdqXpsoLdgpxsgD6c7a69nub",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Memory mapping is recommended when memory is limited or when performance requirements are moderate. Enabling this feature increases the capacity for data loading. For example, with a configuration of 2 CPUs and 8 GB of memory, enabling memory mapping can allow for up to 4 times more data to be loaded compared to not enabling it. The impact on performance varies:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EcAcdYgjmooQeAxgZxUcQHodnyc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "With sufficient memory, the expected performance is similar to that of using only memory.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "N8VXdqXpsoLdgpxsgD6c7a69nub"
+      },
+      {
+        "block_id": "T3Wxd45Aoo1Q2mxEHxvcrVXsn1b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "With insufficient memory, the expected performance may degrade.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "N8VXdqXpsoLdgpxsgD6c7a69nub"
+      },
+      {
+        "block_id": "AA3CdGsXcopjYyxcpspcm2isnyb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What is the relationship between collection-level and index-level configurations?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NIRwdRBCqoZU3qxLxhCcoiROnJh"
+        ],
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "NIRwdRBCqoZU3qxLxhCcoiROnJh",
+        "block_type": 2,
+        "parent_id": "AA3CdGsXcopjYyxcpspcm2isnyb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Collection-level and index-level are not inclusive relationships, collection-level controls whether the original data is mmap-enabled or not, whereas index-level is for vector indexes only.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PXsRdEDLyo8RrQxZv9ucG5wHniI",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Is there any recommended index type for memory mapping?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "IWsmdvQ99oSg5UxNR5xc6aYvnvk"
+        ],
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "IWsmdvQ99oSg5UxNR5xc6aYvnvk",
+        "block_type": 2,
+        "parent_id": "PXsRdEDLyo8RrQxZv9ucG5wHniI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes, HNSW is recommended for enable mmap. We have tested HNSW, IVF_FLAT, IVF_PQ/SQ series indexes before, the performance of IVF series indexes dropped seriously, while the performance drop of turning on mmap for HNSW indexes is still within expectation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I6cAdwTeXoJOeexLkRkch58NnVD",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What kind of local storage is required for memory mapping?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "OlgYdjaX5oKnsBx97OrcauXcnQe"
+        ],
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "OlgYdjaX5oKnsBx97OrcauXcnQe",
+        "block_type": 2,
+        "parent_id": "I6cAdwTeXoJOeexLkRkch58NnVD",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A high-quality disk enhances performance, with NVMe drives being the preferred option.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OgOpds7fZo4Uq6xlU0gciwf4nKg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Can scalar data be memory-mapped?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NlIGdnLLSoBEPHxC1QJcXGdYn0b"
+        ],
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "NlIGdnLLSoBEPHxC1QJcXGdYn0b",
+        "block_type": 2,
+        "parent_id": "OgOpds7fZo4Uq6xlU0gciwf4nKg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Memory mapping can be applied to scalar data, but it is not applicable to indexes built on scalar fields.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SdhgdK5dYo2tJHxzpJvcLELhnyb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "How is the priority determined for memory mapping configurations across different levels?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ENdUdQ02coj1AyxENJDc9VqEnqc"
+        ],
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "ENdUdQ02coj1AyxENJDc9VqEnqc",
+        "block_type": 2,
+        "parent_id": "SdhgdK5dYo2tJHxzpJvcLELhnyb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In Milvus, when memory mapping configurations are explicitly defined across multiple levels, index-level and collection-level configurations share the highest priority, which is then followed by cluster-level configurations.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RUOvdPptJoCuNPxR5pNc6nFZnpX",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If I upgrade from Milvus 2.3 and have configured the memory mapping directory path, what will happen?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "E790dWUY0ob5oRxbNpPcdyBonrc"
+        ],
+        "parent_id": "GO2adoGgXoxoD0xRUGAc6dbVnMh"
+      },
+      {
+        "block_id": "E790dWUY0ob5oRxbNpPcdyBonrc",
+        "block_type": 2,
+        "parent_id": "RUOvdPptJoCuNPxR5pNc6nFZnpX",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you upgrade from Milvus 2.3 and have configured the memory mapping directory path (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "mmapDirPath",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "), your configuration will be retained, and the default setting for memory mapping enabled (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "mmapEnabled",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") will be ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "true",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". It's important to migrate the metadata to synchronize the configuration of your existing memory-mapped files. For more details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Migrate the metadata",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fupgrade_milvus_standalone-docker.md%23Migrate-the-metadata"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 44
+  }
+}

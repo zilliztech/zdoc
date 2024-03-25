@@ -5,7 +5,7 @@
   "node_token": "BRsZwqOUTiBbrPk9b5WcvFgTnze",
   "node_type": "origin",
   "obj_create_time": "1701914230",
-  "obj_edit_time": "1705403933",
+  "obj_edit_time": "1709697770",
   "obj_token": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
   "obj_type": "docx",
   "origin_node_token": "BRsZwqOUTiBbrPk9b5WcvFgTnze",
@@ -365,7 +365,34 @@
             },
             {
               "text_run": {
-                "content": " status can create and oversee this type of key. Customized keys are suitable for development purposes, offering stable, long-term API integration and automation capabilities.",
+                "content": " status can create and oversee this type of key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">, with up to 10 custom API keys per organization</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343098521379635204"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Customized keys are suitable for development purposes, offering stable, long-term API integration and automation capabilities.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -381,6 +408,9 @@
             "folded": false
           }
         },
+        "comment_ids": [
+          "7343098521379635204"
+        ],
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
       },
       {

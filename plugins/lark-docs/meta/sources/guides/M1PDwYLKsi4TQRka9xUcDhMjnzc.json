@@ -170,7 +170,7 @@
       "node_token": "MejAw3lkkiA6uhkxcAqcMxOSnEb",
       "node_type": "origin",
       "obj_create_time": "1689059084",
-      "obj_edit_time": "1701853380",
+      "obj_edit_time": "1709048492",
       "obj_token": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
       "obj_type": "docx",
       "origin_node_token": "MejAw3lkkiA6uhkxcAqcMxOSnEb",
@@ -178,8 +178,8 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "M1PDwYLKsi4TQRka9xUcDhMjnzc",
       "space_id": "7167193056431783939",
-      "title": "Documentation QA using Zilliz Cloud and LlamaIndex",
-      "slug": "documentation-qa-using-zilliz-cloud-and-llamaindex"
+      "title": "Retrieval-Augmented Generation (RAG) with Zilliz Cloud and LlamaIndex",
+      "slug": "rag-with-zilliz-cloud-and-llamaindex"
     },
     {
       "creator": "ou_8554528ee6e965bad56710acde1c7847",

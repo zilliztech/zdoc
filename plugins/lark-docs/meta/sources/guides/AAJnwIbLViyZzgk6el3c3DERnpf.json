@@ -5,7 +5,7 @@
   "node_token": "AAJnwIbLViyZzgk6el3c3DERnpf",
   "node_type": "origin",
   "obj_create_time": "1708764316",
-  "obj_edit_time": "1708764316",
+  "obj_edit_time": "1709875691",
   "obj_token": "TzvFdw986oH4XKxYSoycRRl1nYb",
   "obj_type": "docx",
   "origin_node_token": "AAJnwIbLViyZzgk6el3c3DERnpf",
@@ -52,7 +52,95 @@
           "elements": [
             {
               "text_run": {
-                "content": "This series of guides demonstrate similarity searches and scalar queries in a Zilliz Cloud collection.",
+                "content": "This series of guides demonstrate similarity searches and scalar queries in a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " collection.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -80,7 +168,7 @@
       "node_token": "Ri1IwbgN6ilzMrkoIjycmpkZn9d",
       "node_type": "origin",
       "obj_create_time": "1708764329",
-      "obj_edit_time": "1708916740",
+      "obj_edit_time": "1710383685",
       "obj_token": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
       "obj_type": "docx",
       "origin_node_token": "Ri1IwbgN6ilzMrkoIjycmpkZn9d",
@@ -98,7 +186,7 @@
       "node_token": "XCyUwoOmQiQyZIkSGvqcrYexneg",
       "node_type": "origin",
       "obj_create_time": "1708764329",
-      "obj_edit_time": "1708771227",
+      "obj_edit_time": "1710732936",
       "obj_token": "S8NKde85locY5nxOXW8cDwjwn8d",
       "obj_type": "docx",
       "origin_node_token": "XCyUwoOmQiQyZIkSGvqcrYexneg",

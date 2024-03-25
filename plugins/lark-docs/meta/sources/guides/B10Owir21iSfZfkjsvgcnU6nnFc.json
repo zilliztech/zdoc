@@ -5,7 +5,7 @@
   "node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
   "node_type": "origin",
   "obj_create_time": "1701225831",
-  "obj_edit_time": "1707101022",
+  "obj_edit_time": "1710286862",
   "obj_token": "MsL9dVpxyowWNyxu9JdcFy9XnIg",
   "obj_type": "docx",
   "origin_node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
@@ -90,7 +90,7 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": true
           }
         },
         "parent_id": "MsL9dVpxyowWNyxu9JdcFy9XnIg"

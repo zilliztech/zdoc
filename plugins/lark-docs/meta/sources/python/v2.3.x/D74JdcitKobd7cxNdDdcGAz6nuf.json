@@ -1,6 +1,6 @@
 {
   "created_time": "1704956954",
-  "modified_time": "1709805239",
+  "modified_time": "1710934260",
   "name": "search()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
@@ -1390,7 +1390,8 @@
         "children": [
           "Dk9AdpCjnoLiNCxiOpxcUZX8neK",
           "XWwRdumLqonYmpxvZHPcDIAMnCb",
-          "VmyJd3NVyoGuNkxh2BscRohPnvh"
+          "VmyJd3NVyoGuNkxh2BscRohPnvh",
+          "Lc5ZdwnHloZLsixyYxlcvzC1nDh"
         ],
         "parent_id": "doxcnFl4fi2Cx5UIwCYIHe8dWgg"
       },
@@ -1749,6 +1750,95 @@
             {
               "text_run": {
                 "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Lc5ZdwnHloZLsixyYxlcvzC1nDh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "group_by_field",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "DA40d0Nq6o2l2fxp2QAcx0HVn8e"
+        ],
+        "parent_id": "PQiGdXJLPommH5xDcmJcliqYn6f"
+      },
+      {
+        "block_id": "DA40d0Nq6o2l2fxp2QAcx0HVn8e",
+        "block_type": 2,
+        "parent_id": "Lc5ZdwnHloZLsixyYxlcvzC1nDh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3189,7 +3279,7 @@
         "parent_id": "D74JdcitKobd7cxNdDdcGAz6nuf"
       }
     ],
-    "counts": 74
+    "counts": 76
   },
   "slug": "Vector-search"
 }

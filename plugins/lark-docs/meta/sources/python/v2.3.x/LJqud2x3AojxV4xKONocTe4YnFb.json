@@ -1,0 +1,783 @@
+{
+  "created_time": "1710760842",
+  "modified_time": "1710767035",
+  "name": "__call__()",
+  "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_token": "KhHLfDpyyl4rEKdPnQjcjd8cnOf",
+  "token": "LJqud2x3AojxV4xKONocTe4YnFb",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/LJqud2x3AojxV4xKONocTe4YnFb",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "LJqud2x3AojxV4xKONocTe4YnFb",
+        "block_type": 1,
+        "children": [
+          "U8JqdevbfocOY0x0RoUcG23Enkc",
+          "FrgcdO5mwoJQXVxkYroc0PHfnrW",
+          "XSQdd0v82oYhlhx2PTMc7M0knHd",
+          "WbnSdmFnEouNdXxGFCpc1pwbnhb",
+          "OyurdsrkBodtbDx09Qvc2Oklnrd",
+          "AgleddxFnooPiqxDXzmcd2Ycn5e",
+          "PFFjdS5vGoEUVixni1AcsXPnnHo",
+          "PkRnd7iXGoCTfMxR0scckS0mndd",
+          "HvSEdlwYoo0slvxXtIpcDd3AnXT",
+          "Ect2d7WhIoCSvhxI43lcBVOQnbf",
+          "LIxTd59T8oKoa0xFd3bcumlnnpd",
+          "P1JednfZVoeRqWxIxwBc2Bkinhd",
+          "YI6XdGzaUohMZ1xsu4xceEkrnEd",
+          "QNwndu3GloDXmrxc6xmcIwlRnId"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "__call__()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "U8JqdevbfocOY0x0RoUcG23Enkc",
+        "block_type": 2,
+        "comment_ids": [
+          "7347687337797238788"
+        ],
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation in ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347687337797238788"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347687337797238788"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "SpladeEmbeddingFunction",
+                "token": "UdeRd0YVhoDBeVxrQaBcoikVnAI",
+                "url": "https://zilliverse.feishu.cn/docx/UdeRd0YVhoDBeVxrQaBcoikVnAI"
+              }
+            },
+            {
+              "text_run": {
+                "content": " takes a list of text strings and directly encodes them into vector embeddings.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347687337797238788"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FrgcdO5mwoJQXVxkYroc0PHfnrW",
+        "block_type": 2,
+        "comment_ids": [
+          "7347685108542636036"
+        ],
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unlike ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "encode_documents()",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FPwL1dndmVoxP98xp0pXcOci4nSe%3Ffrom%3Dfrom_copylink"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "encode_queries()",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FS9zPdiLkpokjfkxfZ68cWIFynnd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", which enable you to prepend ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_instruction",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query_instruction",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and utilize ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "k_tokens_document",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "k_tokens_query",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for result pruning, the ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "call",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "() method directly returns embeddings without offering the option to prepend instructions or prune results.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347685108542636036"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XSQdd0v82oYhlhx2PTMc7M0knHd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb"
+      },
+      {
+        "block_id": "WbnSdmFnEouNdXxGFCpc1pwbnhb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Instance created\nsplade_ef = SpladeEmbeddingFunction()\n\n# __call__ method will be called\nsplade_ef(\n    texts: List[str]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -> csr_array",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb"
+      },
+      {
+        "block_id": "OyurdsrkBodtbDx09Qvc2Oklnrd",
+        "block_type": 2,
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AgleddxFnooPiqxDXzmcd2Ycn5e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "texts",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List[str]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Y8uEd3m2VoQnXwxuAVPcilY6nPf"
+        ],
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb"
+      },
+      {
+        "block_id": "Y8uEd3m2VoQnXwxuAVPcilY6nPf",
+        "block_type": 2,
+        "parent_id": "AgleddxFnooPiqxDXzmcd2Ycn5e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of string values, where each string represents text that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PFFjdS5vGoEUVixni1AcsXPnnHo",
+        "block_type": 2,
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PkRnd7iXGoCTfMxR0scckS0mndd",
+        "block_type": 2,
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "csr_array",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HvSEdlwYoo0slvxXtIpcDd3AnXT",
+        "block_type": 2,
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ect2d7WhIoCSvhxI43lcBVOQnbf",
+        "block_type": 2,
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Compressed sparse row matrices representing the document embeddings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LIxTd59T8oKoa0xFd3bcumlnnpd",
+        "block_type": 2,
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Exceptions:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "P1JednfZVoeRqWxIxwBc2Bkinhd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportError",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Xj93dGtqIoZaCdxzlBuc5EaQnre"
+        ],
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb"
+      },
+      {
+        "block_id": "Xj93dGtqIoZaCdxzlBuc5EaQnre",
+        "block_type": 2,
+        "parent_id": "P1JednfZVoeRqWxIxwBc2Bkinhd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when the transformers library is not installed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YI6XdGzaUohMZ1xsu4xceEkrnEd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb"
+      },
+      {
+        "block_id": "QNwndu3GloDXmrxc6xmcIwlRnId",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import model\n\nsplade_ef = model.sparse.SpladeEmbeddingFunction(\n    model_name=\"naver/splade-cocondenser-selfdistil\", \n    device=\"cpu\"\n)\n\ndocs = [\n    \"Artificial intelligence was founded as an academic discipline in 1956.\",\n    \"Alan Turing was the first person to conduct substantial research in AI.\",\n    \"Born in Maida Vale, London, Turing was raised in southern England.\",\n]\n\nsplade_ef(docs)\n\n# <3x30522 sparse array of type '<class 'numpy.float32'>'\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#   with 298 stored elements in Compressed Sparse Row format>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "LJqud2x3AojxV4xKONocTe4YnFb"
+      }
+    ],
+    "counts": 17
+  },
+  "slug": "SpladeEmbeddingFunction-__call__"
+}

@@ -395,7 +395,7 @@ const config = {
       tagName: 'link',
       attributes: {
         rel:'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap'
+        href: 'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap'
       }
     },
     {

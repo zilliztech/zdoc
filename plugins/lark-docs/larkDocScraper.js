@@ -160,6 +160,25 @@ class larkDocScraper {
     async __fetch_wiki_children(node, recursive=false) {
         node.slug = await this.__slugify(node.node_token, node.title)
         await this.__fetch_blocks(node)
+
+        if (node.node_type == 'shortcut') {
+            let url = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/get_node?token=${node.origin_node_token}`
+            let res = await fetch(url, {
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'Authorization': `Bearer ${this.token}`
+                }
+            })
+
+            let jres = await res.json()
+
+            if (jres.code == 0) {
+                this.docs = jres.data.node
+                await this.__fetch_wiki_children(this.docs, recursive)
+                await this.__fetch_blocks(this.docs)
+            }            
+        }
+
         if (node.has_child) {
             let url = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/${SPACE_ID}/nodes?page_size=50&parent_node_token=${node.origin_node_token}`
             let res = await fetch(url, {
@@ -173,6 +192,22 @@ class larkDocScraper {
 
             if (jres.code == 0) {
                 node.children = await Promise.all(jres.data.items.map(async item => {
+                    if (item.node_type == 'shortcut') {
+                        let url = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/get_node?token=${item.origin_node_token}`
+                        let res = await fetch(url, {
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Authorization': `Bearer ${this.token}`
+                            }
+                        })
+            
+                        let jres = await res.json()
+                        
+                        if (jres.code == 0) {
+                            item = jres.data.node
+                        }
+                    }
+
                     item.slug = await this.__slugify(item.node_token, item.title)
                     return item
                 }))

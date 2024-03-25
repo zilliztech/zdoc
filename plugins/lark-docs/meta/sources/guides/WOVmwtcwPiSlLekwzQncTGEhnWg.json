@@ -1,0 +1,1212 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": false,
+  "node_create_time": "1710492639",
+  "node_token": "WOVmwtcwPiSlLekwzQncTGEhnWg",
+  "node_type": "origin",
+  "obj_create_time": "1710492639",
+  "obj_edit_time": "1710492670",
+  "obj_token": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+  "obj_type": "docx",
+  "origin_node_token": "WOVmwtcwPiSlLekwzQncTGEhnWg",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
+  "space_id": "7167193056431783939",
+  "title": "Understanding Pipelines",
+  "slug": "understanding-pipelines",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "block_type": 1,
+        "children": [
+          "SyySdTbuYoNhbQxtVb6caXYZnpd",
+          "SjcEdPPJtoiH5MxvudscA2K9nNt",
+          "Ym8ddlYB9ocHHHx2TJ9cf5Xhnsc",
+          "UyQ8dlExBoY0SRxyLigcCK7Ynhh",
+          "TUuudBmfwozYelx35p8cgINBnsg",
+          "PKEKddLo4oPFxNxc6YRcbXPtnAf",
+          "CW3qdsVI7osyA4x624ocXOs8n3c",
+          "Dl3QdJwo9oqg8oxAgEHcQRX7nIc",
+          "OPwkdzkWSo280hx7UkBcrPpenFg",
+          "Ng9jd28mDob5P0xjT8scjBVdnE5",
+          "QnfmdcSI3oNknkxu4OzcOWfanRb",
+          "BhAcdqP2YofYppxmqaec8ypRnEd",
+          "AeCDdpHw6o2VGBxEVOYccKhgnNh",
+          "KENLdN4X3oLo3xxAwMhcxi0rnoe",
+          "VsbzdadXeobXWCx1zOlcrOtkntt",
+          "PA0Ad7gS8oo8wyxNYeMcHf4Qngb",
+          "UBWXdEIRxoXj5tx38TVcZQQkntb",
+          "Aq1CdOKxsoqSezx3lHqcIAksn6g",
+          "WgumdSZ5GodmrHxDEnRc7hRrnyd",
+          "B8IidaRUdoLKYSxczksc22t8nte",
+          "TPa9duSKPomiZdxkjlmc1tOfnWg",
+          "XtjNdw5jLoeObVxoAJIcjSL0n2E",
+          "PB4Td8vlFopLnCxXddccsiianif",
+          "HcHpdTtnyo3p5TxYTBHcpTVXnXd",
+          "NFXKd4g02oAIclxJtHhcKheEnrg",
+          "GqGedQYn0oNZhpxcv2TcojsAnQd",
+          "AYYVdrGhzoxaafxzFV7c6PnDnPd",
+          "G7zudH0O2oqZZqxjUoLcSSKtnPd",
+          "ZVu8dpjvUoxLV2xhNTDc9ppenNe",
+          "DpQid5hCWowOhTxhAyScUf0qnng",
+          "ObH9dP5Pro8v3PxatPLcLEf8nkD",
+          "Yy95d41o7ouhgpxmewvcB5fdnCQ",
+          "EjqIdW3hCo97BVxKDZmcp86lnWh",
+          "T4BwdkBgqofwJkx2xZPcmIVnnWh",
+          "JXgVdZphiozw9hxAa95cG9SInmf",
+          "VzscdXjFbo7BhhxnEAWcCidMngg",
+          "NxLldaFc5o3BjHxWboOchlM7nWc"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Understanding Pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "SyySdTbuYoNhbQxtVb6caXYZnpd",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud Pipelines is a robust solution for transforming unstructured data such as documents, text pieces and images into a searchable vector ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FKfI3wa2ZCiEJyzkkvKSc5FennId%23Ht5adrJhToY5sJxb9KtcZKuYn7f"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". This guide provides a detailed description of the three main Pipelines types and their functions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SjcEdPPJtoiH5MxvudscA2K9nNt",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-684%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "Ym8ddlYB9ocHHHx2TJ9cf5Xhnsc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "UyQ8dlExBoY0SRxyLigcCK7Ynhh",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In many modern services and applications, there is a need to search by semantics. From searching for a chunk of text that matches the meaning of a query, to finding images that look similar to each other. A typical retrieval system that finishes such task are built with data preparation and embedding, a process of representing text or images as numerical vectors in a multi-dimensional space. It requires deep know-how and engineering speciality to build such systems. Zilliz Cloud Pipelines empowers such use cases with a simple yet flexible interface.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TUuudBmfwozYelx35p8cgINBnsg",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, we offer Pipelines for semantic search in text documents, providing a critical building block of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Retrieval Augmented Generation (RAG) applications",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fmilvus-io%2Fbootcamp%2Fblob%2Fmaster%2Fbootcamp%2FRAG%2Fzilliz_pipeline_rag.ipynb"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". More Pipelines will be added in the future for more semantic search use cases, such as image search, video frame search and multi-modal search.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PKEKddLo4oPFxNxc6YRcbXPtnAf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ingestion pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "CW3qdsVI7osyA4x624ocXOs8n3c",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ingestion pipelines can process unstructured data into searchable vector embeddings and store them in Zilliz Cloud Vector Databases. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Dl3QdJwo9oqg8oxAgEHcQRX7nIc",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "An Ingestion pipeline contains several functions, each describing a transformation of some input field, such as generating vector embeddings for auto-splitted chunks of the input document, or preserving some input value as additional information that can be retrieved during vector search.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OPwkdzkWSo280hx7UkBcrPpenFg",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "One Ingestion pipeline maps to exactly one Vector Database collection on Zilliz Cloud. As part of creating the Ingestion pipeline, the collection will be automatically created with the schema inferred from the functions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ng9jd28mDob5P0xjT8scjBVdnE5",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ingestion pipeline allows two types of functions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QnfmdcSI3oNknkxu4OzcOWfanRb",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "INDEX_DOC function",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "BhAcdqP2YofYppxmqaec8ypRnEd",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The INDEX_DOC function splits the input text document into chunks and generates a vector embedding for each chunk. This function maps an input field (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_url",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") to four output fields (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "chunk_id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "chunk_text",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "embedding",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") as the scalar and vector fields of the auto-generated collection. The field names cannot be changed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AeCDdpHw6o2VGBxEVOYccKhgnNh",
+        "block_type": 34,
+        "children": [
+          "UsuhdY75kodL8DxCB4AcupIJnpb",
+          "CQy4dF8H8o0L2axTm3BclpxBnVg"
+        ],
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "quote_container": {}
+      },
+      {
+        "block_id": "UsuhdY75kodL8DxCB4AcupIJnpb",
+        "block_type": 2,
+        "parent_id": "AeCDdpHw6o2VGBxEVOYccKhgnNh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CQy4dF8H8o0L2axTm3BclpxBnVg",
+        "block_type": 2,
+        "parent_id": "AeCDdpHw6o2VGBxEVOYccKhgnNh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "n Ingestion pipeline requires one and only one INDEX_DOC function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KENLdN4X3oLo3xxAwMhcxi0rnoe",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PRESERVE function",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "VsbzdadXeobXWCx1zOlcrOtkntt",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The PRESERVE function stores user-defined input fields as additional scalar fields in the auto-generated collection for storing metadata. You can use PRESERVE functions to preserve the metadata of your documents. A single PRESERVE function preserves one field, and up to five PRESERVE functions can be added to one Ingestion pipeline.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PA0Ad7gS8oo8wyxNYeMcHf4Qngb",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example: creating a knowledge base",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "UBWXdEIRxoXj5tx38TVcZQQkntb",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you have documents and metadata such as author, publish date. You can use the Ingestion pipeline to easily build a knowledge base that supports vector similarity search. The text chunks from the documents, together with its vector embedding and associated metadata will be kept in vector database.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Aq1CdOKxsoqSezx3lHqcIAksn6g",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-1141%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "WgumdSZ5GodmrHxDEnRc7hRrnyd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "B8IidaRUdoLKYSxczksc22t8nte",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A Search pipeline enables semantic search by converting a query string into a vector embedding and then retrieving top-K similar vectors with its corresponding text and other metadata. A Search pipeline allows one type of function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TPa9duSKPomiZdxkjlmc1tOfnWg",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "SEARCH_DOC_CHUNK function",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "XtjNdw5jLoeObVxoAJIcjSL0n2E",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This function converts query text into vector embeddings and retrieves the top-K most relevant document chunks.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PB4Td8vlFopLnCxXddccsiianif",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example: retrieving the most relevant entities",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "HcHpdTtnyo3p5TxYTBHcpTVXnXd",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you have a collection managed by an Ingestion pipeline, you can use Search pipeline to retrieve the top-K most relevant chunks and their associated information.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NFXKd4g02oAIclxJtHhcKheEnrg",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-1596%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "GqGedQYn0oNZhpxcv2TcojsAnQd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Deletion pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "AYYVdrGhzoxaafxzFV7c6PnDnPd",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A Deletion pipeline removes all chunks in a specified document from a collection. A Deletion pipeline allows one type of function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G7zudH0O2oqZZqxjUoLcSSKtnPd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PURGE_DOC_INDEX function",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "ZVu8dpjvUoxLV2xhNTDc9ppenNe",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This function deletes all document chunks with the specified ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", effectively removing the entire document.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DpQid5hCWowOhTxhAyScUf0qnng",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example: Easily purge all data of a document",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "ObH9dP5Pro8v3PxatPLcLEf8nkD",
+        "block_type": 2,
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For a collection managed by Ingestion pipeline, deleting all entities (each with a single doc chunk) of a document is made easy with a Deletion pipeline. Simply create a Deletion pipeline and run it with a doc_name specified. All chunks of that doc will be purged.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Yy95d41o7ouhgpxmewvcB5fdnCQ",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-2056%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "EjqIdW3hCo97BVxKDZmcp86lnWh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "T4BwdkBgqofwJkx2xZPcmIVnnWh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Ingestion Pipeline",
+                "token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
+                "url": "https://zilliverse.feishu.cn/wiki/QFsIwkbwVi7CWdkMVGQcFnPonLc"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "JXgVdZphiozw9hxAa95cG9SInmf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Search Pipeline",
+                "token": "TQnswMmIpiTmUSkf1iscU05Lnfb",
+                "url": "https://zilliverse.feishu.cn/wiki/TQnswMmIpiTmUSkf1iscU05Lnfb"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "VzscdXjFbo7BhhxnEAWcCidMngg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Deletion Pipeline",
+                "token": "PPAbwMvgdiGvS2kRyrLc7bJvn9e",
+                "url": "https://zilliverse.feishu.cn/wiki/PPAbwMvgdiGvS2kRyrLc7bJvn9e"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      },
+      {
+        "block_id": "NxLldaFc5o3BjHxWboOchlM7nWc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "FAQs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Ffaq-pipelines"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XZSbd5bksofEB0xTIHjc1oMRnYg"
+      }
+    ],
+    "counts": 40
+  }
+}

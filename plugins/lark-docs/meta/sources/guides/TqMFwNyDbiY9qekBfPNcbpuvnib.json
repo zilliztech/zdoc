@@ -5,7 +5,7 @@
   "node_token": "TqMFwNyDbiY9qekBfPNcbpuvnib",
   "node_type": "origin",
   "obj_create_time": "1689055599",
-  "obj_edit_time": "1708781406",
+  "obj_edit_time": "1709778298",
   "obj_token": "F3jWdRGdmoHc41xczChcVS1Vnob",
   "obj_type": "docx",
   "origin_node_token": "TqMFwNyDbiY9qekBfPNcbpuvnib",
@@ -34,8 +34,6 @@
           "DqyfdXHMBoWzFvxB6XycczuRnJb",
           "E5SXdRnpDobB4qxLioQcROjgnyg",
           "PVqPd0s3poh4j0x5ptgcN4RfnVh",
-          "DjcrdnJVQooeSfx1mFlcqaeSnnL",
-          "TB25dLt5ioTUTkxa1QacQUx3nmB",
           "JOh9dHYuSoWDUTxSXfRcaXWrnq4",
           "XocLdKJjuoDPtPxX7f8cvRK1ncy",
           "NFCMdQSKtoMA1wxm9sucKe8Wnjc",
@@ -803,7 +801,19 @@
             },
             {
               "text_run": {
-                "content": "fields",
+                "content": "field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "s",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -829,7 +839,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "A collection can have one primary key field and one vector field. You can create a collection using dynamic ",
+                "content": "A collection can have one primary key field and one vector field. If you enable the dynamic field, you do not have to define the collection schema beforehand. All you have to do is provide a name for the collection and the number of dimensions for the vector field. Zilliz Cloud will then determine which fields and their values should be saved as key-value pairs in a reserved field called ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -841,9 +851,9 @@
             },
             {
               "text_run": {
-                "content": "fields",
+                "content": "$meta",
                 "text_element_style": {
-                  "bold": false,
+                  "bold": true,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -853,7 +863,7 @@
             },
             {
               "text_run": {
-                "content": " without manually defining the properties of the entities in your dataset. Simply give it a name and the number of dimensions for the vector field. Zilliz Cloud will infer the data types and constraints from the data inserted later on.",
+                "content": " upon data insertions.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -902,7 +912,7 @@
             },
             {
               "text_run": {
-                "content": " without providing it a fixed schema.",
+                "content": " without providing the collection with a fixed schema.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -950,7 +960,7 @@
             },
             {
               "text_run": {
-                "content": "\n\n# Create a collection\nclient.create_collection(\n        collection_name=\"medium_articles\",\n        dimension=768\n",
+                "content": "\n\n# Create a collection\nclient.create_collection(\n    collection_name=\"medium_articles\",\n    dimension=768\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -988,7 +998,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "When you insert an entity into the collection, Zilliz Cloud will parse the data and dynamically infer your collection’s schema accordingly.",
+                "content": "When you insert an entity into the collection, Zilliz Cloud will parse the data and save the non-schema-defined fields as key-value pairs in the reserved field named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "$meta",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1012,7 +1046,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "client.insert(\n        collection_name=\"medium_articles\",\n        data: {\n                \"id\": 0,\n                \"title\": \"The Reported Mortality Rate of Coronavirus Is Not Important\",\n                \"vector\": [0.041732933, 0.013779674, ...., -0.013061441],\n",
+                "content": "client.insert(\n    collection_name=\"medium_articles\",\n    data: {\n        \"id\": 0,\n        \"title\": \"The Reported Mortality Rate of Coronavirus Is Not Important\",\n        \"vector\": [0.041732933, 0.013779674, ...., -0.013061441],\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1024,7 +1058,7 @@
             },
             {
               "text_run": {
-                "content": "                \"link\": \"<",
+                "content": "        \"link\": \"<",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1048,7 +1082,7 @@
             },
             {
               "text_run": {
-                "content": "\",\n                \"reading_time\": 13,\n                \"publication\": \"The Startup\",\n                \"claps\": 1100,\n                \"responses\": 18\n  }\n",
+                "content": "\",\n        \"reading_time\": 13,\n        \"publication\": \"The Startup\",\n        \"claps\": 1100,\n        \"responses\": 18\n    }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1079,777 +1113,14 @@
         "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
       },
       {
-        "block_id": "DjcrdnJVQooeSfx1mFlcqaeSnnL",
-        "block_type": 2,
-        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The inferred schema according to the above piece of data should be similar to the following:",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "block_type": 31,
-        "children": [
-          "FLQTdz3rZoBMMaxoVsrcZmKDnhp",
-          "UCP4dH1DuoPOXexTVAgcr4KSnOd",
-          "OZvGd3M29owTjxxVAIEc4ONqn4f",
-          "DAuqdNt70omVr5xXgtNcqFoznoc",
-          "RHgCdino2oHIRgxsl4Yc8BUZnCg",
-          "Y1yKdW000on1ujxHiDac8xjfnGg",
-          "ZQxadn1KSosxYkxE5fxcCb4znLb",
-          "GIxldocsDoUpxTx3C0hcyN07nLe",
-          "EmWidE9ExoAkXnxoEoScHILLnch",
-          "NsWRdx0NkoWPNfxNvMrcaBgUnuh",
-          "AVgBdG8C5ozeDCxsBwbcEwvlntd",
-          "FltWdubeHo4EC5x1zRncsEUsnTR",
-          "BO8sdesryoAevbx5LB1cuyGHnte",
-          "TkjodA5wdoqdqqxvDR1cdrywnuM",
-          "QRAcd956Qobzy5x0yDhcTbzOntg",
-          "WkAYdNjUqoAhPrxuwLjcwaRqnCd",
-          "BDsRdl1NEoRSuTxwakhcEhulnJo",
-          "BOOAdDwdAoJNO3xRTxocJkq3nrd"
-        ],
-        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
-        "table": {
-          "cells": [
-            "FLQTdz3rZoBMMaxoVsrcZmKDnhp",
-            "UCP4dH1DuoPOXexTVAgcr4KSnOd",
-            "OZvGd3M29owTjxxVAIEc4ONqn4f",
-            "DAuqdNt70omVr5xXgtNcqFoznoc",
-            "RHgCdino2oHIRgxsl4Yc8BUZnCg",
-            "Y1yKdW000on1ujxHiDac8xjfnGg",
-            "ZQxadn1KSosxYkxE5fxcCb4znLb",
-            "GIxldocsDoUpxTx3C0hcyN07nLe",
-            "EmWidE9ExoAkXnxoEoScHILLnch",
-            "NsWRdx0NkoWPNfxNvMrcaBgUnuh",
-            "AVgBdG8C5ozeDCxsBwbcEwvlntd",
-            "FltWdubeHo4EC5x1zRncsEUsnTR",
-            "BO8sdesryoAevbx5LB1cuyGHnte",
-            "TkjodA5wdoqdqqxvDR1cdrywnuM",
-            "QRAcd956Qobzy5x0yDhcTbzOntg",
-            "WkAYdNjUqoAhPrxuwLjcwaRqnCd",
-            "BDsRdl1NEoRSuTxwakhcEhulnJo",
-            "BOOAdDwdAoJNO3xRTxocJkq3nrd"
-          ],
-          "property": {
-            "column_size": 2,
-            "column_width": [
-              366,
-              366
-            ],
-            "merge_info": [
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              }
-            ],
-            "row_size": 9
-          }
-        }
-      },
-      {
-        "block_id": "FLQTdz3rZoBMMaxoVsrcZmKDnhp",
-        "block_type": 32,
-        "children": [
-          "TEkMdJPMwoddBEx8ywqct29mnrf"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "TEkMdJPMwoddBEx8ywqct29mnrf",
-        "block_type": 2,
-        "parent_id": "FLQTdz3rZoBMMaxoVsrcZmKDnhp",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Field name",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 2,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "UCP4dH1DuoPOXexTVAgcr4KSnOd",
-        "block_type": 32,
-        "children": [
-          "QmRKdQXydoITruxvcehc3olznkc"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "QmRKdQXydoITruxvcehc3olznkc",
-        "block_type": 2,
-        "parent_id": "UCP4dH1DuoPOXexTVAgcr4KSnOd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Inferred data type",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 2,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "OZvGd3M29owTjxxVAIEc4ONqn4f",
-        "block_type": 32,
-        "children": [
-          "O1Vcdn74Yog8krxzMvhc3xpKnkf"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "O1Vcdn74Yog8krxzMvhc3xpKnkf",
-        "block_type": 2,
-        "parent_id": "OZvGd3M29owTjxxVAIEc4ONqn4f",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "id",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "DAuqdNt70omVr5xXgtNcqFoznoc",
-        "block_type": 32,
-        "children": [
-          "H2i0dODwloe6atxxJGfch5kvnub"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "H2i0dODwloe6atxxJGfch5kvnub",
-        "block_type": 2,
-        "parent_id": "DAuqdNt70omVr5xXgtNcqFoznoc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Int64",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "RHgCdino2oHIRgxsl4Yc8BUZnCg",
-        "block_type": 32,
-        "children": [
-          "ONJddn4Wbo7tJMxOMnScMoq6nTg"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "ONJddn4Wbo7tJMxOMnScMoq6nTg",
-        "block_type": 2,
-        "parent_id": "RHgCdino2oHIRgxsl4Yc8BUZnCg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "title",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Y1yKdW000on1ujxHiDac8xjfnGg",
-        "block_type": 32,
-        "children": [
-          "WyXqdP7vlouYEcx2aRxccEphnLb"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "WyXqdP7vlouYEcx2aRxccEphnLb",
-        "block_type": 2,
-        "parent_id": "Y1yKdW000on1ujxHiDac8xjfnGg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "VarChar(512)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "ZQxadn1KSosxYkxE5fxcCb4znLb",
-        "block_type": 32,
-        "children": [
-          "PHlpdUORuoh0t8xssMocEq3MnOg"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "PHlpdUORuoh0t8xssMocEq3MnOg",
-        "block_type": 2,
-        "parent_id": "ZQxadn1KSosxYkxE5fxcCb4znLb",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "vector",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "GIxldocsDoUpxTx3C0hcyN07nLe",
-        "block_type": 32,
-        "children": [
-          "O32sdFImIosyuzxGCDWcTzG8nCe"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "O32sdFImIosyuzxGCDWcTzG8nCe",
-        "block_type": 2,
-        "parent_id": "GIxldocsDoUpxTx3C0hcyN07nLe",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "FloatVector(768)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "EmWidE9ExoAkXnxoEoScHILLnch",
-        "block_type": 32,
-        "children": [
-          "VJeRdb4TgojsEWxp2BFcuxU6nnb"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "VJeRdb4TgojsEWxp2BFcuxU6nnb",
-        "block_type": 2,
-        "parent_id": "EmWidE9ExoAkXnxoEoScHILLnch",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "link",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "NsWRdx0NkoWPNfxNvMrcaBgUnuh",
-        "block_type": 32,
-        "children": [
-          "YRRcdtSD9oQa49xzSWBcMFJMnce"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "YRRcdtSD9oQa49xzSWBcMFJMnce",
-        "block_type": 2,
-        "parent_id": "NsWRdx0NkoWPNfxNvMrcaBgUnuh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "VarChar(512)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "AVgBdG8C5ozeDCxsBwbcEwvlntd",
-        "block_type": 32,
-        "children": [
-          "PSAgdLPmQowDTSxTH2ScIU0RngR"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "PSAgdLPmQowDTSxTH2ScIU0RngR",
-        "block_type": 2,
-        "parent_id": "AVgBdG8C5ozeDCxsBwbcEwvlntd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "reading_time",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "FltWdubeHo4EC5x1zRncsEUsnTR",
-        "block_type": 32,
-        "children": [
-          "WuThdr3kNoc5ckxkhESchhdNneg"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "WuThdr3kNoc5ckxkhESchhdNneg",
-        "block_type": 2,
-        "parent_id": "FltWdubeHo4EC5x1zRncsEUsnTR",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Int64",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "BO8sdesryoAevbx5LB1cuyGHnte",
-        "block_type": 32,
-        "children": [
-          "EvsHdIsPIoS3fbx0U3fc0OpInth"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "EvsHdIsPIoS3fbx0U3fc0OpInth",
-        "block_type": 2,
-        "parent_id": "BO8sdesryoAevbx5LB1cuyGHnte",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "publication",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "TkjodA5wdoqdqqxvDR1cdrywnuM",
-        "block_type": 32,
-        "children": [
-          "L9aAd0Kd2orRDFxmZYHcsEHNnid"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "L9aAd0Kd2orRDFxmZYHcsEHNnid",
-        "block_type": 2,
-        "parent_id": "TkjodA5wdoqdqqxvDR1cdrywnuM",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "VarChar(512)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "QRAcd956Qobzy5x0yDhcTbzOntg",
-        "block_type": 32,
-        "children": [
-          "OQMxdnigbokcmkxPAouc40TNnid"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "OQMxdnigbokcmkxPAouc40TNnid",
-        "block_type": 2,
-        "parent_id": "QRAcd956Qobzy5x0yDhcTbzOntg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "claps",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "WkAYdNjUqoAhPrxuwLjcwaRqnCd",
-        "block_type": 32,
-        "children": [
-          "LD2hdKwO2o0e1Gx8thVcbCSrn7b"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "LD2hdKwO2o0e1Gx8thVcbCSrn7b",
-        "block_type": 2,
-        "parent_id": "WkAYdNjUqoAhPrxuwLjcwaRqnCd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Int64",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "BDsRdl1NEoRSuTxwakhcEhulnJo",
-        "block_type": 32,
-        "children": [
-          "XhsidsnmDoDQdsxMWTqcmhLtn8e"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "XhsidsnmDoDQdsxMWTqcmhLtn8e",
-        "block_type": 2,
-        "parent_id": "BDsRdl1NEoRSuTxwakhcEhulnJo",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "responses",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "BOOAdDwdAoJNO3xRTxocJkq3nrd",
-        "block_type": 32,
-        "children": [
-          "Ltd0dA8dSoFqscxVjJjcT6aJnX1"
-        ],
-        "parent_id": "TB25dLt5ioTUTkxa1QacQUx3nmB",
-        "table_cell": {}
-      },
-      {
-        "block_id": "Ltd0dA8dSoFqscxVjJjcT6aJnX1",
-        "block_type": 2,
-        "parent_id": "BOOAdDwdAoJNO3xRTxocJkq3nrd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Int64",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
         "block_id": "JOh9dHYuSoWDUTxSXfRcaXWrnq4",
         "block_type": 34,
         "children": [
           "MdsudOPiqoPdo3xDRDxc9Q0knzd",
-          "PSUfdfg87oWOw1xdMdScVBJjnqb"
+          "PSUfdfg87oWOw1xdMdScVBJjnqb",
+          "P12jdBCl1ofgkIx3H57cxPhpnIg",
+          "CAFPdtb0iohBGAxJxYdc4pFBnzc",
+          "O72ydawWwo72zqxypaBc44drnLb"
         ],
         "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
         "quote_container": {}
@@ -1887,103 +1158,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Dynamic data ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "fields",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " may not always be the preferred method, especially when the inserted data is complex and difficult to parse. In such cases, consider using fixed data ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "fields",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " instead, especially when dynamic data ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "fields",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "fail",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " to produce the expected results.",
+                "content": "Enabling the dynamic field can be helpful when you need to handle schema change requests. It's recommended that you enable it while creating a collection as it proves to be useful in most cases. ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1999,6 +1174,105 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "P12jdBCl1ofgkIx3H57cxPhpnIg",
+        "block_type": 2,
+        "parent_id": "JOh9dHYuSoWDUTxSXfRcaXWrnq4",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "However, there are two scenarios where you might want to avoid using the dynamic field.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CAFPdtb0iohBGAxJxYdc4pFBnzc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the field keys in your dataset contain special characters like ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "$",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or escape characters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JOh9dHYuSoWDUTxSXfRcaXWrnq4"
+      },
+      {
+        "block_id": "O72ydawWwo72zqxypaBc44drnLb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you are focused on achieving extreme filtering performance.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JOh9dHYuSoWDUTxSXfRcaXWrnq4"
       },
       {
         "block_id": "XocLdKJjuoDPtPxX7f8cvRK1ncy",
@@ -2652,6 +1926,6 @@
         "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
       }
     ],
-    "counts": 78
+    "counts": 43
   }
 }

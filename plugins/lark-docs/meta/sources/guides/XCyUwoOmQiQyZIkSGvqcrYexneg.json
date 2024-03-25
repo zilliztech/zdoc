@@ -5,7 +5,7 @@
   "node_token": "XCyUwoOmQiQyZIkSGvqcrYexneg",
   "node_type": "origin",
   "obj_create_time": "1708764329",
-  "obj_edit_time": "1708771227",
+  "obj_edit_time": "1710732936",
   "obj_token": "S8NKde85locY5nxOXW8cDwjwn8d",
   "obj_type": "docx",
   "origin_node_token": "XCyUwoOmQiQyZIkSGvqcrYexneg",
@@ -23,6 +23,7 @@
         "children": [
           "doxcnmwwTtfdb3AXYXnaZEKm1fe",
           "doxcns4wzrHNp9rPW9Pdlipikvb",
+          "UAMDdKkKOoZiZQxwT1XcMt3zn6Z",
           "doxcn9BuUSHhqzurfuNLhFRTLLc",
           "doxcniPJGydk0oYLHT0V0lZY9rd",
           "doxcnKDYqxJKQASMusENfM8d2Hg",
@@ -56,7 +57,12 @@
           "doxcnjPV8CYpAGNwhVqYGJFqNie",
           "doxcnsSzhp1gDLPfOXGmctgoWch",
           "doxcnDFEvzfttuiAWCQMjQdocEb",
-          "doxcn555oJAaLxZFBQLG9nD71Ed"
+          "doxcn555oJAaLxZFBQLG9nD71Ed",
+          "JeTMdaNVioOYncxQ9E3cAkEgnpf",
+          "Al1yd42f5ovTodxL66NcAtzOnwg",
+          "MeR1d7e1Vo3qmxxAkLOc1sIanRK",
+          "WeRIdbsjzooKoRx0UJjcFiwOnKe",
+          "ZPHkdjUYro69RoxgvEOc7YO8nJP"
         ],
         "page": {
           "elements": [
@@ -87,7 +93,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "After Milvus 2.4, we introduced multi-vector support and a",
+                "content": "Since",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -99,7 +105,7 @@
             },
             {
               "text_run": {
-                "content": "n",
+                "content": " Milvus 2.4, we introduced multi-vector support and ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -111,7 +117,7 @@
             },
             {
               "text_run": {
-                "content": " ",
+                "content": "a hybrid",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -123,43 +129,7 @@
             },
             {
               "text_run": {
-                "content": "advanced",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " search framework, which means users can bring in several vector fields",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "(max to 10) into one collection. Different vector fields can represent different aspects, different embedding models or even different modalities of data characterizing the same entity, which greatly expands the richness of information.",
+                "content": " search framework, which means users can bring in several vector fields (max to 10) into one collection. Different vector fields can represent different aspects, different embedding models or even different modalities of data characterizing the same entity, which greatly expands the richness of information.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -184,7 +154,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Multi-vector",
+                "content": "Multi-vector search allows conducting a search that includes multiple vector fields within a single collection. This feature enables executing search requests over various vector fields and integrating the results using reranking strategies, including Reciprocal Rank Fusion (RRF) and Weighted Scoring. ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -193,82 +163,23 @@
                   "underline": false
                 }
               }
-            },
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UAMDdKkKOoZiZQxwT1XcMt3zn6Z",
+        "block_type": 2,
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
+        "text": {
+          "elements": [
             {
               "text_run": {
-                "content": " search allows ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "conducting a search that includes ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "multiple vector fields within a single collection. This feature enables executing search requests over various vector fields and integrating the results using reranking strategies, ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "including",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " Reciprocal Rank Fusion (RRF) and ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Weighted Scoring. ",
+                "content": "It is mainly used in comprehensive search scenarios, such as finding the most similar person in the vector library based on multiple elements such as someone's picture, voice, fingerprint, etc.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -379,7 +290,7 @@
             },
             {
               "text_run": {
-                "content": "advanced_search",
+                "content": "hybrid",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -391,10 +302,10 @@
             },
             {
               "text_run": {
-                "content": " ",
+                "content": "_search",
                 "text_element_style": {
                   "bold": false,
-                  "inline_code": false,
+                  "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -403,79 +314,7 @@
             },
             {
               "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " is central to performing a ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "multi-vector",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " search. ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "The following 2 key params represent two essential phases",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ":",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " multi-way recalls and a hybrid rerank.",
+                "content": " API is central to performing a multi-vector search. The following 2 key params represent two essential phases: multi-way recalls and a hybrid rerank.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -572,9 +411,24 @@
             },
             {
               "text_run": {
-                "content": ": Specifies the reranking strategy. Options include ",
+                "content": ": Specifies the reranking strategy. ",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Options include ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343492948417527812"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -587,6 +441,9 @@
                 "content": "WeightedRanker",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7343492948417527812"
+                  ],
                   "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
@@ -599,6 +456,9 @@
                 "content": " and ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7343492948417527812"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -611,6 +471,9 @@
                 "content": "RRFRanker",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7343492948417527812"
+                  ],
                   "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
@@ -623,6 +486,9 @@
                 "content": ".",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7343492948417527812"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -638,7 +504,11 @@
         },
         "children": [
           "doxcnCrMkWbMAzL4QQX4o7pvXT3",
-          "doxcnwJNMyxkP94Gl9x5TmtEKgf"
+          "doxcnwJNMyxkP94Gl9x5TmtEKgf",
+          "X8rRdiHeLoVRh5xOMZTcVDy6nkh"
+        ],
+        "comment_ids": [
+          "7343492948417527812"
         ],
         "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
@@ -717,6 +587,55 @@
         "parent_id": "doxcn07mrRfOir6BLx53IvWIUGb"
       },
       {
+        "block_id": "X8rRdiHeLoVRh5xOMZTcVDy6nkh",
+        "block_type": 2,
+        "parent_id": "doxcn07mrRfOir6BLx53IvWIUGb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "More rerank models are coming soon to enhance our reranking capabilities",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", such as Cohere ranking, BGE ranking, etc. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Stay tuned!",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "doxcnK3vydpBqDcoh3bpiv5EY4b",
         "block_type": 2,
         "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
@@ -724,7 +643,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Example of an ",
+                "content": "Example of ",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -736,7 +655,31 @@
             },
             {
               "text_run": {
-                "content": "advanced_search",
+                "content": "a ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "hybrid",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "_search",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": true,
@@ -784,9 +727,57 @@
           "elements": [
             {
               "text_run": {
-                "content": "# Create a Collection instance\ncollection = Collection(name='{your_collection_name}') # Replace with the actual name of your collection\n\n# Perform advanced search with placeholder configs\n",
+                "content": "# Create a Collection instance\ncollection = Collection(name='{your_collection_name}') # Replace with the actual name of your collection\n\n",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7347610496738426883"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Perform ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347610496738426883"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "hybrid",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347610496738426883"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " search with placeholder configs\n",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347610496738426883"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -799,6 +790,9 @@
                 "content": "res = collection.",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7347610496738426883"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -808,9 +802,12 @@
             },
             {
               "text_run": {
-                "content": "advanced_search",
+                "content": "hybrid",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7347610496738426883"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -820,9 +817,12 @@
             },
             {
               "text_run": {
-                "content": "(\n    reqs=[\n        AnnSearchRequest(\n            data=[['{your_text_query_vector}']],  # Replace with your text vector data\n            anns_field='{text_vector_field_name}',  # Textual data vector field\n            param={\"metric_type\": \"IP\", \"params\": {\"nprobe\": 10}}, # Search parameters\n            limit=2\n        ),\n        AnnSearchRequest(\n            data=[['{your_image_query_vector}']],  # Replace with your image vector data\n            anns_field='{image_vector_field_name}',  # Image data vector field\n            param={\"metric_type\": \"IP\", \"params\": {\"nprobe\": 10}}, # Search parameters\n            limit=2\n        )\n    ],\n    # Use WeightedRanker to combine results with specified weights\n    rerank=WeightedRanker(0.8, 0.2), # Assign weights of 0.8 to text search and 0.2 to image search\n    # Alternatively, use RRFRanker for reciprocal rank fusion reranking\n    # rerank=RRFRanker(),\n    limit=2\n",
+                "content": "_search(\n    reqs=[\n        AnnSearchRequest(\n            data=[['{your_text_query_vector}']],  # Replace with your text vector data\n            anns_field='{text_vector_field_name}',  # Textual data vector field\n            param={\"metric_type\": \"IP\", \"params\": {\"nprobe\": 10}}, # Search parameters\n            limit=2\n        ),\n        AnnSearchRequest(\n            data=[['{your_image_query_vector}']],  # Replace with your image vector data\n            anns_field='{image_vector_field_name}',  # Image data vector field\n            param={\"metric_type\": \"IP\", \"params\": {\"nprobe\": 10}}, # Search parameters\n            limit=2\n        )\n    ],\n    # Use WeightedRanker to combine results with specified weights\n    rerank=WeightedRanker(0.8, 0.2), # Assign weights of 0.8 to text search and 0.2 to image search\n    # Alternatively, use RRFRanker for reciprocal rank fusion reranking\n    # rerank=RRFRanker(),\n    limit=2\n",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7347610496738426883"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -835,6 +835,9 @@
                 "content": ")",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7347610496738426883"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -848,6 +851,9 @@
             "wrap": false
           }
         },
+        "comment_ids": [
+          "7347610496738426883"
+        ],
         "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
       {
@@ -894,7 +900,49 @@
           "elements": [
             {
               "text_run": {
-                "content": "[\n  \"['id: 2, distance: 0.4452269673347473, entity: {}', 'id: 1, distance: 0.0, entity: {}']\"\n",
+                "content": "[",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343493154716041220"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "  \"['id: 2, distance: 0.4452269673347473, entity: {}', 'id: 1, distance: 0.0, entity: {}']\"",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343493154716041220"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -909,6 +957,9 @@
                 "content": "]",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7343493154716041220"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -922,6 +973,9 @@
             "wrap": false
           }
         },
+        "comment_ids": [
+          "7343493154716041220"
+        ],
         "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
       {
@@ -1622,7 +1676,7 @@
             },
             {
               "text_run": {
-                "content": " are created, implement advanced search with reranking strategies: ",
+                "content": " are created, implement ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1634,7 +1688,7 @@
             },
             {
               "text_run": {
-                "content": " ",
+                "content": "hybrid",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1646,7 +1700,7 @@
             },
             {
               "text_run": {
-                "content": " Weighted Scoring",
+                "content": " search with reranking strategies: Weighted Scoring",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1730,7 +1784,7 @@
             },
             {
               "text_run": {
-                "content": "W",
+                "content": "w",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1754,7 +1808,7 @@
             },
             {
               "text_run": {
-                "content": "S",
+                "content": "s",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1888,7 +1942,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "# Advanced search with WeightedRanker\n\n",
+                "content": "# ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "hybrid",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " search with WeightedRanker\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1912,7 +1990,7 @@
             },
             {
               "text_run": {
-                "content": "advanced_search",
+                "content": "hybrid",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1924,7 +2002,7 @@
             },
             {
               "text_run": {
-                "content": "(\n    reqs=[request_1, request_2],\n    # Combine the results with weight 0.8 for request_1 and 0.2 for request_2\n    rerank=WeightedRanker(0.8, 0.2),\n    limit=2\n)\n\n# Print the results\nprint(weighted_result)\n\n",
+                "content": "_search(\n    reqs=[request_1, request_2],\n    # Combine the results with weight 0.8 for request_1 and 0.2 for request_2\n    rerank=WeightedRanker(0.8, 0.2),\n    limit=2\n)\n\n# Print the results\nprint(weighted_result)\n\n# Output:\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1936,43 +2014,7 @@
             },
             {
               "text_run": {
-                "content": "# Output:",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "# [\"['id: 2, distance: 0.4452269673347473, entity: {}', 'id: 1, ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "distance: 0.0, entity: {}']\"]",
+                "content": "# [\"['id: 2, distance: 0.4452269673347473, entity: {}', 'id: 1, distance: 0.0, entity: {}']\"]",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1998,18 +2040,6 @@
             {
               "text_run": {
                 "content": "Use RRF",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "(Reciprocal Rank Fusion)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2107,7 +2137,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "# Advanced search with RRFRanker\n\n",
+                "content": "# ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "hybrid",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " search with RRFRanker\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2131,7 +2185,7 @@
             },
             {
               "text_run": {
-                "content": "advanced_search",
+                "content": "hybrid",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2143,7 +2197,7 @@
             },
             {
               "text_run": {
-                "content": "(\n    reqs=[request_1, request_2],\n    rerank=RRFRanker(),\n    limit=2\n)\n\n# Print the results\nprint(rrf_result)\n\n# Output:\n",
+                "content": "_search(\n    reqs=[request_1, request_2],\n    rerank=RRFRanker(),\n    limit=2\n)\n\n# Print the results\nprint(rrf_result)\n\n# Output:\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2180,7 +2234,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "Advanced search parameters",
+                "content": "Hybrid",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " search parameters",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2206,7 +2272,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "The following table outlines the parameters used in an advanced search.",
+                "content": "The following table outlines the parameters used in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a hybrid",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " search.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2605,6 +2695,9 @@
       {
         "block_id": "doxcn1gB45ABeyz92w0WKjYnETc",
         "block_type": 2,
+        "comment_ids": [
+          "7347610848359776259"
+        ],
         "parent_id": "doxcnwvglbQucBHVTGxaGxNFKwf",
         "text": {
           "elements": [
@@ -2613,6 +2706,9 @@
                 "content": "reqs.ANNSearchRequest.data",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7347610848359776259"
+                  ],
                   "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
@@ -3011,7 +3107,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "The reranking strategy to use for advanced search. Valid values: ",
+                "content": "The reranking strategy to use for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "hybrid",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " search. Valid values: ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3127,7 +3247,268 @@
           "elements": [
             {
               "text_run": {
-                "content": "The maximum number of results to return in the advanced search.",
+                "content": "The maximum number of results to return in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "hybrid",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " search.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JeTMdaNVioOYncxQ9E3cAkEgnpf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "FAQ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "Al1yd42f5ovTodxL66NcAtzOnwg",
+        "block_type": 13,
+        "children": [
+          "XT16dPF4IoV3oax6Dg5cCKkAn5e"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In which scenarios is multi-vector search recommended?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "XT16dPF4IoV3oax6Dg5cCKkAn5e",
+        "block_type": 2,
+        "parent_id": "Al1yd42f5ovTodxL66NcAtzOnwg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Multi-vector search is ideal for complex situations demanding high accuracy, especially when an entity can be represented by multiple, diverse vectors. This applies to cases where the same data, such as a sentence, is processed through different embedding models or when multimodal information (like images, fingerprints, and voiceprints of an individual) is converted into various vector formats. By assigning weights to these vectors, their combined influence can significantly enrich recall and improve the effectiveness of search results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MeR1d7e1Vo3qmxxAkLOc1sIanRK",
+        "block_type": 13,
+        "children": [
+          "M03UdRBDGo6flKxka3EcV3fynoe"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "How does a weighted ranker normalize distances between different vector fields?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "M03UdRBDGo6flKxka3EcV3fynoe",
+        "block_type": 2,
+        "parent_id": "MeR1d7e1Vo3qmxxAkLOc1sIanRK",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A weighted ranker normalizes the distances between vector fields using assigned weights to each field. It calculates the importance of each vector field according to its weight, prioritizing those with higher weights. It's advised to use the same metric type across ANN search requests to ensure consistency. This method ensures that vectors deemed more significant have a greater influence on the overall ranking.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WeRIdbsjzooKoRx0UJjcFiwOnKe",
+        "block_type": 13,
+        "children": [
+          "RgY7d74mBorZoNxe5pDcoC9UnQb"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Is it possible to use alternative rankers like Cohere Ranker or BGE Ranker?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "RgY7d74mBorZoNxe5pDcoC9UnQb",
+        "block_type": 2,
+        "parent_id": "WeRIdbsjzooKoRx0UJjcFiwOnKe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, only the provided rankers are supported. Plans to include additional rankers are underway for future updates.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZPHkdjUYro69RoxgvEOc7YO8nJP",
+        "block_type": 13,
+        "children": [
+          "B0hFdByrOoJB4jxxBIQcrSTMnLg"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Is it possible to conduct multiple hybrid search operations at the same time?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "B0hFdByrOoJB4jxxBIQcrSTMnLg",
+        "block_type": 2,
+        "parent_id": "ZPHkdjUYro69RoxgvEOc7YO8nJP",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes, simultaneous execution of multiple hybrid search operations is supported.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3145,6 +3526,6 @@
         }
       }
     ],
-    "counts": 79
+    "counts": 90
   }
 }

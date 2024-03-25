@@ -1,6 +1,6 @@
 {
   "created_time": "1704790733",
-  "modified_time": "1710386650",
+  "modified_time": "1710488777",
   "name": "create_collection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -3796,7 +3796,7 @@
             },
             {
               "text_run": {
-                "content": "1",
+                "content": "2",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3868,7 +3868,7 @@
             },
             {
               "text_run": {
-                "content": "Bounded ",
+                "content": "Session ",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3916,7 +3916,7 @@
             },
             {
               "text_run": {
-                "content": "Session ",
+                "content": "Bounded ",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,

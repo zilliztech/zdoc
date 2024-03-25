@@ -5,7 +5,7 @@
   "node_token": "USQ2w6yj0i3WN1k3eEYciscinkc",
   "node_type": "origin",
   "obj_create_time": "1708764320",
-  "obj_edit_time": "1708916014",
+  "obj_edit_time": "1709804104",
   "obj_token": "SvJfdY9UPo4dCGxngZGckkJwnwg",
   "obj_type": "docx",
   "origin_node_token": "USQ2w6yj0i3WN1k3eEYciscinkc",
@@ -21,10 +21,17 @@
         "block_id": "SvJfdY9UPo4dCGxngZGckkJwnwg",
         "block_type": 1,
         "children": [
+          "Kxgtdcz4ZoASxDxHmNTcyEKOnqb",
           "doxcnESyr96oTBeiIcZVMlrchth",
           "doxcnOwiMFAOPJ79qkUWSPLN90c",
+          "LRzPdfve9o8ZEYxAk2pcKjKQnrf",
           "doxcnSlFXaKxpAjGurruOm2WEqg",
           "doxcnw1FczlcvDkYnRWpsFtlxEc",
+          "CEHVdjbjDoZCh8xpCLLcZXxVn1f",
+          "Z0N5dbTXfoTw4BxKqFxcysS8nsg",
+          "V9mjdahRnocwztxuC6ScPX9EnLg",
+          "FGLrdvh4doGabJxc0cdc74VEnPL",
+          "YVpJdd4lKoxzA6xcp5ocDhiRnNf",
           "doxcnZluXDJRJGFt66kv9ixAVFf",
           "doxcn8fcebMrJIdvPdr64jBN7bc",
           "doxcn3kJFJPkTlwdErAlhBLGXcb",
@@ -40,6 +47,8 @@
           "doxcnxrAFH17o7bJq3lNL1O4l9f",
           "doxcnA76XXOYLZ0LMxmokX1eynh",
           "doxcnADTsbSqkcoxowpi1foznHb",
+          "ZGKxdxjT1ofuP4xDt61cy6ZLnol",
+          "Ctk1dlmC6ofgbnxLa4kcox0hnGe",
           "doxcnlpNmdlyo2AVA1PukEg4tVf",
           "doxcnZlMJDKjZHMAuVYffT6V3cA",
           "doxcn1DgoOgY4wUuWcZjMfUd5nf",
@@ -49,39 +58,66 @@
           "doxcncaMNV3cyN8BndF4FN0UZgc",
           "doxcnT68aUGvxdgrRv7ippVbfHg",
           "doxcntCHMUAniD1QOtXArMVQW5c",
+          "AxNddg35Ao0gWBx6ftscDpR8n7j",
+          "V5sNdpBAIohuZyxtGzVcGxDunff",
           "doxcnZVKFCiEaS6CNsuMF0y0Igc",
           "doxcn57RWnDxxWOXc7ZvMFAFC5f",
           "doxcngfXna5qyMpSxxdgnmsO3Md",
           "doxcnO54daBayzjLWwcziUPEv6f",
+          "LHMDdQ3nXoWkqFxGbIYc0M61nnd",
+          "ASVydPfheohnDJxbuOxc20FUnee",
           "doxcn62xJ45O1Mzt7vucZm5Jkzb",
           "doxcnAjXHYFYXZZGCwiCzNbx4xY",
           "doxcn4vXHZAKQrXPNdz2dQuWSOg",
+          "V5qpdwAyBoiwFXxXCLtcaQHcnPf",
           "doxcnHCq4c0hiXYXAxOMSqdW6We",
-          "doxcnrEyRCAF494Z7JmFl8W2ITf",
           "doxcn6Rj7xirNJJ1RHTJUeoZ2Qg",
           "doxcnuyclsH4RUudtqUveapmfzg",
           "doxcn4B7JSKc0I69aZEXKEbdP6c",
+          "Ch16dMCl4oFVGXxYejicP9ibnah",
+          "Yie9d7SPWok4GQxdUxFceOgFn0g",
           "doxcn5sIEMp8kbrN2RGdIH6C1De",
           "doxcnm9JrIdhvZCsf0uc977n6fN",
+          "WLlndWv7BoquXoxHjKNcIwMCnbh",
+          "I2gtdkHcKoCZIoxrPcocdBLrn6c",
           "doxcnr5zDDnlc7Lf4c4JtrIi17d",
           "doxcnvAH7gmH15IdsRDcSghaA8b",
           "doxcnNyr32vYeHxEtJ8PhawPArf",
           "doxcnECac4K5bAomQMjbE8Dtimf",
+          "YnYIdLOzyoBUurxNhm8cIBYLnxc",
+          "RdSjdBUaUoOxmNxS07McoyI1njV",
           "doxcnftWlAS7A1Mfa0BJqRM16UK",
           "doxcnZYffoOuSYdnUgtCCyYgSkb",
+          "ZWJcdka1ao4JNaxODxecokWtnng",
+          "E9WYd9JRDo6iBlx5oV7cb3Zincc",
           "doxcnQQxqBESVVQiRvwv1DqgbSf",
           "doxcnkNQ9uzNOdoHYMKZkyvjiUe",
           "doxcnZYJlNUHXiBdpICha3Ilbbb",
           "doxcnYPAVkYcdhkaB4rpeQOFYae",
+          "Tk5zdi7B3om4eWxOhSKcV2Fjnpb",
+          "HNsYdg3JlocB5ZxPYhcc0tC9nXc",
           "doxcnWworusCUTzeqiOjO49TBNc",
           "doxcnxSECK8VJNBweRfVHU3nERf",
+          "ZTPwdCoEno50NmxpQSRc90y9nld",
+          "SE7kdIew2oa8kWxWtchcp5Pknrc",
+          "M5cOdQFlQokXEdxAkVDcwpRwnUd",
+          "GuZydX5tSo6tX7xUZYYcFbVjnL4",
+          "R7vEd7yUso4MSEx04ojcgbBBnZf",
+          "Vnm0dtCu9oFG6SxaDrhcX2Z9ny2",
           "doxcnt3zEkWtJDEp7xRaJSUaOCf",
           "doxcnkokkMuadH3Yti7ZNH1pcpl",
+          "Hinjd3fNno3Lazx5W0jcQxKMnQe",
+          "HPDTdmWWgoNza7xNfxbcskz2nPc",
           "doxcnsKeGYCryNbhWK5CofwrIEg",
           "doxcnlhsu31vz0LabEVeWInV2Fd",
+          "GqOZdXIUzoBZxkxZeJOcvYdan2c",
+          "WsPBdpiPdoymNpx83wFcZtbpnJd",
           "doxcnk2zHpu3OfLc7adR2NIxdVd",
           "doxcnwxvKVp3RaA79HY2iG1P9wb",
           "doxcnO9z7Xw4Yj782fnomfdrzEd",
+          "XnG2djzeCoXAcZxmn3icYIWSnKb",
+          "LVrldR8uSoSyCEx4iPycMB24nBb",
+          "KbQvdEGKCo3n4lxPZzgcO3KhnFb",
           "doxcnWtTf6zPezv6p22fVtvFwVe",
           "doxcn3msD2OY92aMDR76S22Y6cg",
           "doxcnEQuBYUF0h8kCU2PkXENs5b",
@@ -91,6 +127,7 @@
           "doxcnw3beFTbM8BCszdRPvHYopb",
           "doxcnMiauV5DGW1xmmAFJnn0lqd",
           "doxcn6Z1obyDDxmmkSmLmbNx32e",
+          "ShFfdma68oiZoBxdRljczdNLnpd",
           "LU6RdzVGyo70BbxLDEkclrodnsc"
         ],
         "page": {
@@ -113,6 +150,31 @@
           }
         },
         "parent_id": ""
+      },
+      {
+        "block_id": "Kxgtdcz4ZoASxDxHmNTcyEKOnqb",
+        "block_type": 2,
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "doxcnESyr96oTBeiIcZVMlrchth",
@@ -170,7 +232,95 @@
             },
             {
               "text_run": {
-                "content": " of the Zilliz Cloud console.",
+                "content": " of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the Zilliz Cloud console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Attu, the Milvus dashboard",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -211,6 +361,32 @@
           }
         },
         "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "LRzPdfve9o8ZEYxAk2pcKjKQnrf",
+        "block_type": 2,
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "doxcnSlFXaKxpAjGurruOm2WEqg",
@@ -341,6 +517,296 @@
         "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
       },
       {
+        "block_id": "CEHVdjbjDoZCh8xpCLLcZXxVn1f",
+        "block_type": 2,
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z0N5dbTXfoTw4BxKqFxcysS8nsg",
+        "block_type": 2,
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "V9mjdahRnocwztxuC6ScPX9EnLg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have installed ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus standalone",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Finstall_standalone-docker.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Finstall_cluster-milvusoperator.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "FGLrdvh4doGabJxc0cdc74VEnPL",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have installed preferred SDKs. You can choose among various languages, including ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Python",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Finstall-pymilvus.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Java",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Finstall-java.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Go",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Finstall-go.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Node.js",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Finstall-node.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "YVpJdd4lKoxzA6xcp5ocDhiRnNf",
+        "block_type": 2,
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "doxcnZluXDJRJGFt66kv9ixAVFf",
         "block_type": 4,
         "heading2": {
@@ -373,7 +839,83 @@
           "elements": [
             {
               "text_run": {
-                "content": "On Zilliz Cloud, you store your vector embeddings in collections. All vector embeddings within a collection share the same dimensionality and distance metric for measuring similarity. ",
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "On Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "In Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you store your vector embeddings in collections. All vector embeddings within a collection share the same dimensionality and distance metric for measuring similarity. ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -398,7 +940,83 @@
           "elements": [
             {
               "text_run": {
-                "content": "Zilliz Cloud collections support dynamic fields (i.e., fields not pre-defined in the schema) and automatic incrementation of primary keys.",
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " collections support dynamic fields (i.e., fields not pre-defined in the schema) and automatic incrementation of primary keys.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -423,7 +1041,95 @@
           "elements": [
             {
               "text_run": {
-                "content": "To accommodate different preferences, Zilliz Cloud offers two methods for creating a collection. One provides a quick setup, while the other allows for detailed customization of the collection schema and index parameters.",
+                "content": "To accommodate different preferences, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " offers two methods for creating a collection. One provides a quick setup, while the other allows for detailed customization of the collection schema and index parameters.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -631,7 +1337,95 @@
           "elements": [
             {
               "text_run": {
-                "content": "Instead of letting Zilliz Cloud decide almost everything for your collection, you can determine the ",
+                "content": "Instead of letting ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "In Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " decide almost everything for your collection, you can determine the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -781,7 +1575,95 @@
             },
             {
               "text_run": {
-                "content": " industry, most developers just need a simple yet dynamic collection to start with. Zilliz Cloud allows a quick setup of such a collection with just three arguments: ",
+                "content": " industry, most developers just need a simple yet dynamic collection to start with. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " allows a quick setup of such a collection with just three arguments: ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -905,6 +1787,80 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "ZGKxdxjT1ofuP4xDt61cy6ZLnol",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.client.ConnectConfig;\nimport io.milvus.v2.client.MilvusClientV2;\nimport io.milvus.v2.service.collection.request.GetLoadStateReq;\nimport io.milvus.v2.service.collection.request.CreateCollectionReq;\n\nString CLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\";\nString TOKEN = \"YOUR_CLUSTER_TOKEN\";\n\n// 1. Connect to Milvus server\nConnectConfig connectConfig = ConnectConfig.builder()\n    .uri(CLUSTER_ENDPOINT)\n    .token(TOKEN)\n    .build();\n\nMilvusClientV2 client = new MilvusClientV2(connectConfig);\n\n// 2. Create a collection in quick setup mode\nCreateCollectionReq quickSetupReq = CreateCollectionReq.builder()\n    .collectionName(\"quick_setup\")\n    .dimension(5)\n    .build();\n\nclient.createCollection(quickSetupReq);\n\nGetLoadStateReq quickSetupLoadStateReq = GetLoadStateReq.builder()\n    .collectionName(\"quick_setup\")\n    .build();\n\nBoolean res = client.getLoadState(quickSetupLoadStateReq);\n\nSystem.out.println(res);\n\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// true",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "Ctk1dlmC6ofgbnxLa4kcox0hnGe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 1. Set up a Milvus Client\nclient = new MilvusClient({address, token});\n\n// 2. Create a collection in quick setup mode\nawait client.createCollection({\n    collection_name: \"quick_setup\",\n    dimension: 5,\n});  \n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateLoaded'\n// }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
             "wrap": false
           }
         },
@@ -1279,7 +2235,95 @@
           "elements": [
             {
               "text_run": {
-                "content": "Instead of letting Zilliz Cloud decide almost everything for your collection, you can determine the ",
+                "content": "Instead of letting ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " decide almost everything for your collection, you can determine the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1483,6 +2527,80 @@
         "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
       },
       {
+        "block_id": "AxNddg35Ao0gWBx6ftscDpR8n7j",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.common.DataType;\nimport io.milvus.v2.service.collection.request.CreateCollectionReq;\n\n// 3. Create a collection in customized setup mode\n\n// 3.1 Create schema\nCreateCollectionReq.CollectionSchema schema = client.createSchema(false, \"\");\n\n// 3.2 Add fields to schema\nschema.addPrimaryField(\"my_id\", DataType.Int64, true, false);\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema.addVectorField(\"my_vector\", DataType.FloatVector, 5);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "V5sNdpBAIohuZyxtGzVcGxDunff",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 3. Create a collection in customized setup mode\n// 3.1 Define fields\nconst fields = [\n    {\n        name: \"my_id\",\n        data_type: DataType.Int64,\n        is_primary_key: true,\n        auto_id: false\n    },\n    {\n        name: \"my_vector\",\n        data_type: DataType.FloatVector,\n        dim: 5\n    },\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
         "block_id": "doxcnZVKFCiEaS6CNsuMF0y0Igc",
         "block_type": 2,
         "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg",
@@ -1490,7 +2608,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "In the provided code snippet, the ",
+                "content": "In the provided code snippet for Python, the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1637,7 +2755,95 @@
           "elements": [
             {
               "text_run": {
-                "content": "Index parameters dictate how Zilliz Cloud organizes your data within a collection. You can tailor the indexing process for specific fields by adjusting their ",
+                "content": "Index parameters dictate how ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " organizes your data within a collection. You can tailor the indexing process for specific fields by adjusting their ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1685,7 +2891,95 @@
             },
             {
               "text_run": {
-                "content": ". On Zilliz Cloud, the recommended index type is always ",
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "On Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "In Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", the recommended index type is always ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1856,7 +3150,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# 3.3. Prepare index parameters\nindex_params = MilvusClient.prepare_index_params()\n\n# 3.4. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"TRIE\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n    metric_type=\"IP\"\n",
+                "content": "# 3.3. Prepare index parameters\nindex_params = client.create_index_params()\n\n# 3.4. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"IVF_FLAT\",\n    metric_type=\"IP\",\n    params={ \"nlist\": 128 }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1881,6 +3175,80 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "LHMDdQ3nXoWkqFxGbIYc0M61nnd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.common.IndexParam;\n\n// 3.3 Prepare index parameters\nIndexParam indexParamForIdField = IndexParam.builder()\n    .fieldName(\"my_id\")\n    .indexType(IndexParam.IndexType.STL_SORT)\n    .build();\n\nIndexParam indexParamForVectorField = IndexParam.builder()\n    .fieldName(\"my_vector\")\n    .indexType(IndexParam.IndexType.IVF_FLAT)\n    .metricType(IndexParam.MetricType.L2)\n    .build();\n\nList<IndexParam> indexParams = new ArrayList<>();\nindexParams.add(indexParamForIdField);\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "indexParams.add(indexParamForVectorField);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "ASVydPfheohnDJxbuOxc20FUnee",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 3.2 Prepare index parameters\nconst index_params = [{\n    field_name: \"my_id\",\n    index_type: \"STL_SORT\"\n},{\n    field_name: \"my_vector\",\n    index_type: \"IVF_FLAT\",\n    metric_type: \"IP\",\n    params: { nlist: 1024}\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
             "wrap": false
           }
         },
@@ -1974,126 +3342,7 @@
         }
       },
       {
-        "block_id": "doxcnHCq4c0hiXYXAxOMSqdW6We",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Create a collection and an index file separately.",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "children": [
-          "doxcn8XC27iekE0ONtl7mOC5jYb",
-          "doxcnpulRv3YAUYuZSOfscgSmwc"
-        ],
-        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
-      },
-      {
-        "block_id": "doxcn8XC27iekE0ONtl7mOC5jYb",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "# 3.6. Create a collection and index it separately\nclient.create_collection(\n    collection_name=\"customized_setup_2\",\n    schema=schema,\n)\n\nres = client.get_load_state(\n    collection_name=\"customized_setup_2\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: NotLoad>\"\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "# }",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "doxcnHCq4c0hiXYXAxOMSqdW6We"
-      },
-      {
-        "block_id": "doxcnpulRv3YAUYuZSOfscgSmwc",
-        "block_type": 2,
-        "parent_id": "doxcnHCq4c0hiXYXAxOMSqdW6We",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The collection created above is not loaded automatically. For details, refer to ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Load & Release Collection",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FUSQ2w6yj0i3WN1k3eEYciscinkc%23doxcnr5zDDnlc7Lf4c4JtrIi17d"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false,
-            "indentation_level": "NoIndent"
-          }
-        }
-      },
-      {
-        "block_id": "doxcnrEyRCAF494Z7JmFl8W2ITf",
+        "block_id": "V5qpdwAyBoiwFXxXCLtcaQHcnPf",
         "block_type": 12,
         "bullet": {
           "elements": [
@@ -2116,55 +3365,21 @@
           }
         },
         "children": [
-          "doxcnfqOkMPw10PClHJneJnedzg",
-          "doxcn03TqTTUj6YZptdM6SwzhLX"
+          "HbrKdwVtUoNK4MxwafIcrEuun7g",
+          "ZCH3d43yToKQ7Nx3AHqcTufZnpd",
+          "XW2rdSSGroQSAUxDt4RccEP9nDh",
+          "JKrUdtfTcofdEHx8wTwcjRmxnMc"
         ],
         "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
       },
       {
-        "block_id": "doxcnfqOkMPw10PClHJneJnedzg",
+        "block_id": "HbrKdwVtUoNK4MxwafIcrEuun7g",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "# 3.5. Create a collection with the index loaded simultaneously\nclient.create_collection(\n    collection_name=\"customized_setup_1\",\n    schema=schema,\n    indexes=index_params\n)\n\nres = client.get_load_state(\n    collection_name=\"customized_setup_1\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "#     \"state\": \"",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<LoadState: NotLoad>\"",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
+                "content": "# 3.5. Create a collection with the index loaded simultaneously\nclient.create_collection(\n    collection_name=\"customized_setup_1\",\n    schema=schema,\n    index_params=index_params\n)\n\ntime.sleep(5)\n\nres = client.get_load_state(\n    collection_name=\"customized_setup_1\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: Loaded>\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2192,12 +3407,86 @@
             "wrap": false
           }
         },
-        "parent_id": "doxcnrEyRCAF494Z7JmFl8W2ITf"
+        "parent_id": "V5qpdwAyBoiwFXxXCLtcaQHcnPf"
       },
       {
-        "block_id": "doxcn03TqTTUj6YZptdM6SwzhLX",
+        "block_id": "ZCH3d43yToKQ7Nx3AHqcTufZnpd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.service.collection.request.CreateCollectionReq;\nimport io.milvus.v2.service.collection.request.GetLoadStateReq;\n\n// 3.4 Create a collection with schema and index parameters\nCreateCollectionReq customizedSetupReq1 = CreateCollectionReq.builder()\n    .collectionName(\"customized_setup_1\")\n    .collectionSchema(schema)\n    .indexParams(indexParams)\n    .build();\n\nclient.createCollection(customizedSetupReq1);\n\n// 3.5 Get load state of the collection\nGetLoadStateReq customSetupLoadStateReq1 = GetLoadStateReq.builder()\n    .collectionName(\"customized_setup_1\")\n    .build();\n\nres = client.getLoadState(customSetupLoadStateReq1);\n\nSystem.out.println(res);\n\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// true",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "V5qpdwAyBoiwFXxXCLtcaQHcnPf"
+      },
+      {
+        "block_id": "XW2rdSSGroQSAUxDt4RccEP9nDh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 3.3 Create a collection with fields and index parameters\nawait client.createCollection({\n    collection_name: \"customized_setup_1\",\n    fields: fields,\n    index_params: index_params,\n})\n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_1\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateLoaded'\n// }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "V5qpdwAyBoiwFXxXCLtcaQHcnPf"
+      },
+      {
+        "block_id": "JKrUdtfTcofdEHx8wTwcjRmxnMc",
         "block_type": 2,
-        "parent_id": "doxcnrEyRCAF494Z7JmFl8W2ITf",
+        "parent_id": "V5qpdwAyBoiwFXxXCLtcaQHcnPf",
         "text": {
           "elements": [
             {
@@ -2245,6 +3534,315 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "doxcnHCq4c0hiXYXAxOMSqdW6We",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a collection and an index file separately.",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcn8XC27iekE0ONtl7mOC5jYb",
+          "FLLMdw98Ro8r4GxxsAgcDDbPnVb",
+          "QplbdUNEMo3g2sxC4XIcDNVEncb",
+          "doxcnpulRv3YAUYuZSOfscgSmwc",
+          "AYMXdVwgYowSSNxBC0ocY8YKnjg",
+          "CP3gdUfFpooo5BxhC3hcc9Osnth",
+          "QnBUdv7rUoBlxSxHBNOcXjGynsh"
+        ],
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "doxcn8XC27iekE0ONtl7mOC5jYb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 3.6. Create a collection and index it separately\nclient.create_collection(\n    collection_name=\"customized_setup_2\",\n    schema=schema,\n)\n\nres = client.get_load_state(\n    collection_name=\"customized_setup_2\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: NotLoad>\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcnHCq4c0hiXYXAxOMSqdW6We"
+      },
+      {
+        "block_id": "FLLMdw98Ro8r4GxxsAgcDDbPnVb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 3.6 Create a collection and index it separately\nCreateCollectionReq customizedSetupReq2 = CreateCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .collectionSchema(schema)\n    .build();\n\nclient.createCollection(customizedSetupReq2);\n\n// 3.7 Get load state of the collection\nGetLoadStateReq customSetupLoadStateReq2 = GetLoadStateReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nres = client.getLoadState(customSetupLoadStateReq2);\n\nSystem.out.println(res);\n\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// false",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcnHCq4c0hiXYXAxOMSqdW6We"
+      },
+      {
+        "block_id": "QplbdUNEMo3g2sxC4XIcDNVEncb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 3.4 Create a collection and index it seperately\nawait client.createCollection({\n    collection_name: \"customized_setup_2\",\n    fields: fields,\n})\n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateNotLoad'\n// }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcnHCq4c0hiXYXAxOMSqdW6We"
+      },
+      {
+        "block_id": "doxcnpulRv3YAUYuZSOfscgSmwc",
+        "block_type": 2,
+        "parent_id": "doxcnHCq4c0hiXYXAxOMSqdW6We",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The collection created above is not loaded automatically. You can create an index for the collection as follows. Creating an index for the collection in a separate manner does not automatically load the collection. For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Load & Release Collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FUSQ2w6yj0i3WN1k3eEYciscinkc%23doxcnr5zDDnlc7Lf4c4JtrIi17d"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "indentation_level": "NoIndent"
+          }
+        }
+      },
+      {
+        "block_id": "AYMXdVwgYowSSNxBC0ocY8YKnjg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 3.6 Create index\nclient.create_index(\n    collection_name=\"customized_setup_2\",\n    index_params=index_params\n)\n\nres = client.get_load_state(\n    collection_name=\"customized_setup_2\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: NotLoad>\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcnHCq4c0hiXYXAxOMSqdW6We"
+      },
+      {
+        "block_id": "CP3gdUfFpooo5BxhC3hcc9Osnth",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CreateIndexReq  createIndexReq = CreateIndexReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .indexParams(indexParams)\n    .build();\n\nclient.createIndex(createIndexReq);\n\n// Get load state of the collection\nGetLoadStateReq customSetupLoadStateReq2 = GetLoadStateReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nres = client.getLoadState(customSetupLoadStateReq2);\n\nSystem.out.println(res);\n\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// false",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcnHCq4c0hiXYXAxOMSqdW6We"
+      },
+      {
+        "block_id": "QnBUdv7rUoBlxSxHBNOcXjGynsh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 3.5 Create index\nres = await client.createIndex({\n    collection_name: \"customized_setup_2\",\n    field_name: \"my_vector\",\n    index_type: \"IVF_FLAT\",\n    metric_type: \"IP\",\n    params: { nlist: 1024}\n})\n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateNotLoad'\n// }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcnHCq4c0hiXYXAxOMSqdW6We"
       },
       {
         "block_id": "doxcn6Rj7xirNJJ1RHTJUeoZ2Qg",
@@ -2303,7 +3901,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# 5. View Collections\nres = client.describe_collection(\n    collection_name=\"customized_setup_2\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"collection_name\": \"customized_setup_2\",\n#     \"auto_id\": false,\n#     \"num_shards\": 1,\n#     \"description\": \"\",\n#     \"fields\": [\n#         {\n#             \"field_id\": 100,\n#             \"name\": \"my_id\",\n#             \"description\": \"\",\n#             \"type\": 5,\n#             \"params\": {},\n#             \"element_type\": 0,\n#             \"is_primary\": true\n#         },\n#         {\n#             \"field_id\": 101,\n#             \"name\": \"my_vector\",\n#             \"description\": \"\",\n#             \"type\": 101,\n#             \"params\": {\n#                 \"dim\": 5\n#             },\n#             \"element_type\": 0\n#         }\n#     ],\n#     \"aliases\": [],\n#     \"collection_id\": 447458810412285931,\n#     \"consistency_level\": 2,\n#     \"properties\": {},\n#     \"num_partitions\": 1,\n#     \"enable_dynamic_field\": true\n# }\n",
+                "content": "# 5. View Collections\nres = client.describe_collection(\n    collection_name=\"customized_setup_2\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"collection_name\": \"customized_setup_2\",\n#     \"auto_id\": false,\n#     \"num_shards\": 1,\n#     \"description\": \"\",\n#     \"fields\": [\n#         {\n#             \"field_id\": 100,\n#             \"name\": \"my_id\",\n#             \"description\": \"\",\n#             \"type\": 5,\n#             \"params\": {},\n#             \"element_type\": 0,\n#             \"is_primary\": true\n#         },\n#         {\n#             \"field_id\": 101,\n#             \"name\": \"my_vector\",\n#             \"description\": \"\",\n#             \"type\": 101,\n#             \"params\": {\n#                 \"dim\": 5\n#             },\n#             \"element_type\": 0\n#         }\n#     ],\n#     \"aliases\": [],\n#     \"collection_id\": 448143479230158446,\n#     \"consistency_level\": 2,\n#     \"properties\": {},\n#     \"num_partitions\": 1,\n#     \"enable_dynamic_field\": true\n# }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2316,6 +3914,80 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "Ch16dMCl4oFVGXxYejicP9ibnah",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.service.collection.request.DescribeCollectionReq;\nimport io.milvus.v2.service.collection.response.DescribeCollectionResp;\n\n// 4. View collections\nDescribeCollectionReq describeCollectionReq = DescribeCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nDescribeCollectionResp describeCollectionRes = client.describeCollection(describeCollectionReq);\n\nSystem.out.println(JSONObject.toJSON(describeCollectionRes));\n\n// Output:\n// {\n//     \"createTime\": 448186568622211075,\n//     \"collectionSchema\": {\n//         \"fieldSchemaList\": [\n//             {\n//                 \"autoID\": false,\n//                 \"dataType\": \"Int64\",\n//                 \"name\": \"my_id\",\n//                 \"isPrimaryKey\": true,\n//                 \"maxLength\": 65535\n//             },\n//             {\n//                 \"autoID\": false,\n//                 \"dataType\": \"FloatVector\",\n//                 \"name\": \"my_vector\",\n//                 \"isPrimaryKey\": false,\n//                 \"dimension\": 5,\n//                 \"maxLength\": 65535\n//             }\n//         ],\n//         \"description\": \"\",\n//         \"enableDynamicField\": false\n//     },\n//     \"vectorFieldName\": [\"my_vector\"],\n//     \"autoID\": false,\n//     \"fieldNames\": [\n//         \"my_id\",\n//         \"my_vector\"\n//     ],\n//     \"description\": \"\",\n//     \"numOfPartitions\": 1,\n//     \"primaryFieldName\": \"my_id\",\n//     \"enableDynamicField\": false,\n//     \"collectionName\": \"customized_setup_2\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "Yie9d7SPWok4GQxdUxFceOgFn0g",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 5. View Collections\nres = await client.describeCollection({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   virtual_channel_names: [ 'in01-0ed1e58b63f3f62-rootcoord-dml_0_448162378879067613v0' ],\n//   physical_channel_names: [ 'in01-0ed1e58b63f3f62-rootcoord-dml_0' ],\n//   aliases: [],\n//   start_positions: [],\n//   properties: [],\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   schema: {\n//     fields: [ [Object], [Object] ],\n//     properties: [],\n//     name: 'customized_setup_2',\n//     description: '',\n//     autoID: false,\n//     enable_dynamic_field: false\n//   },\n//   collectionID: '448162378879067613',\n//   created_timestamp: '448168465560502276',\n//   created_utc_timestamp: '1709627020113',\n//   shards_num: 1,\n//   consistency_level: 'Bounded',\n//   collection_name: 'customized_setup_2',\n//   db_name: 'default',\n//   num_partitions: '1'\n// }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
             "wrap": false
           }
         },
@@ -2353,7 +4025,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# 6. List all collection names\nres = client.list_collections()\n\nprint(res)\n\n# Output\n#\n# [\n#     \"quick_setup\",\n#     \"customized_setup_1\",\n#     \"customized_setup_2\"\n",
+                "content": "# 6. List all collection names\nres = client.list_collections()\n\nprint(res)\n\n# Output\n#\n# [\n#     \"customized_setup_2\",\n#     \"quick_setup\",\n#     \"customized_setup_1\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2378,6 +4050,68 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "WLlndWv7BoquXoxHjKNcIwMCnbh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.service.collection.response.ListCollectionsResp;\n\n// 5. List all collection names\nListCollectionsResp listCollectionsRes = client.listCollections();\n\nSystem.out.println(listCollectionsRes.getCollectionNames());\n\n// Output:\n// [\n//     \"customized_setup_2\",\n//     \"quick_setup\",\n//     \"customized_setup_1\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "I2gtdkHcKoCZIoxrPcocdBLrn6c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 6. List all collection names\nres = await client.listCollections()\n\nconsole.log(res.collection_names)\n\n// Output:\n// [\n//     \"quick_setup\",\n//     \"customized_setup_2\",\n//     \"customized_setup_1\"\n// ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
             "wrap": false
           }
         },
@@ -2416,7 +4150,183 @@
           "elements": [
             {
               "text_run": {
-                "content": "During the loading process of a collection, Zilliz Cloud loads the collection's index file into memory. Conversely, when releasing a collection, Zilliz Cloud unloads the index file from memory. Before conducting searches in a collection, ensure that the collection is loaded.",
+                "content": "During the loading process of a collection, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " loads the collection's index file into memory. Conversely, when releasing a collection, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " unloads the index file from memory. Before conducting searches in a collection, ensure that the collection is loaded.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2453,8 +4363,7 @@
           ],
           "style": {
             "align": 1,
-            "folded": false,
-            "indentation_level": "NoIndent"
+            "folded": false
           }
         },
         "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
@@ -2491,6 +4400,80 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "YnYIdLOzyoBUurxNhm8cIBYLnxc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.service.collection.request.LoadCollectionReq;\n\n// 6. Load the collection\nLoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nclient.loadCollection(loadCollectionReq);\n\n// 7. Get load state of the collection\nGetLoadStateReq loadStateReq = GetLoadStateReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nres = client.getLoadState(loadStateReq);\n\nSystem.out.println(res);\n\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// true",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "RdSjdBUaUoOxmNxS07McoyI1njV",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 7. Load the collection\nawait client.loadCollection({\n    collection_name: \"customized_setup_2\"\n})\n\nawait sleep(3000)\n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateLoaded'\n// }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
             "wrap": false
           }
         },
@@ -2553,6 +4536,80 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "ZWJcdka1ao4JNaxODxecokWtnng",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.service.collection.request.ReleaseCollectionReq;\n\n// 8. Release the collection\nReleaseCollectionReq releaseCollectionReq = ReleaseCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nclient.releaseCollection(releaseCollectionReq);\n\nres = client.getLoadState(loadStateReq);\n\nSystem.out.println(res);\n\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// false",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "E9WYd9JRDo6iBlx5oV7cb3Zincc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 8. Release the collection\nawait client.releaseCollection({\n    collection_name: \"customized_setup_2\"\n})\n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateNotLoad'\n// }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "//",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
             "wrap": false
           }
         },
@@ -2671,6 +4728,80 @@
         "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
       },
       {
+        "block_id": "Tk5zdi7B3om4eWxOhSKcV2Fjnpb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.service.utility.request.CreateAliasReq;\n\n// 9.1 Create alias\nCreateAliasReq createAliasReq = CreateAliasReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .alias(\"bob\")\n    .build();\n\nclient.createAlias(createAliasReq);\n\ncreateAliasReq = CreateAliasReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .alias(\"alice\")\n    .build();\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.createAlias(createAliasReq);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "HNsYdg3JlocB5ZxPYhcc0tC9nXc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 9.1 Create aliases\nawait client.createAlias({\n    collection_name: \"customized_setup_2\",\n    alias: \"bob\"\n})\n\nres = await client.createAlias({\n    collection_name: \"customized_setup_2\",\n    alias: \"alice\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "})",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
         "block_id": "doxcnWworusCUTzeqiOjO49TBNc",
         "block_type": 5,
         "heading3": {
@@ -2702,7 +4833,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# 9.2. List aliases\nres = client.list_aliases(\n    collection_name=\"customized_setup_2\"\n)\n\nprint(res)\n\n# Output\n#\n",
+                "content": "# 9.2. List aliases\nres = client.list_aliases(\n    collection_name=\"customized_setup_2\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"aliases\": [\n#         \"bob\",\n#         \"alice\"\n#     ],\n#     \"collection_name\": \"customized_setup_2\",\n#     \"db_name\": \"default\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2714,31 +4845,7 @@
             },
             {
               "text_run": {
-                "content": "# None",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n\n# 9.3. Describe aliases\nres = client.describe_alias(\n    alias=\"bob\"\n)\n\nprint(res)\n\n# Output\n#\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "# None",
+                "content": "# }",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2751,6 +4858,216 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "ZTPwdCoEno50NmxpQSRc90y9nld",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.service.utility.request.ListAliasesReq;\nimport io.milvus.v2.service.utility.response.ListAliasResp;\n\n// 9.2 List alises\nListAliasesReq listAliasesReq = ListAliasesReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nListAliasResp listAliasRes = client.listAliases(listAliasesReq);\n\nSystem.out.println(listAliasRes.getAlias());\n\n// Output:\n// [\n//     \"bob\",\n//     \"alice\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "SE7kdIew2oa8kWxWtchcp5Pknrc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 9.2 List aliases\nres = await client.listAliases({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   aliases: [ 'bob', 'alice' ],\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   db_name: 'default',\n//   collection_name: 'customized_setup_2'\n// }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "M5cOdQFlQokXEdxAkVDcwpRwnUd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Describe aliases",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "GuZydX5tSo6tX7xUZYYcFbVjnL4",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 9.3. Describe aliases\nres = client.describe_alias(\n    alias=\"bob\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"alias\": \"bob\",\n#     \"collection_name\": \"customized_setup_2\",\n#     \"db_name\": \"default\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "R7vEd7yUso4MSEx04ojcgbBBnZf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.service.utility.request.DescribeAliasReq;\nimport io.milvus.v2.service.utility.response.DescribeAliasResp;\n\n// 9.3 Describe alias\nDescribeAliasReq describeAliasReq = DescribeAliasReq.builder()\n    .alias(\"bob\")\n    .build();\n\nDescribeAliasResp describeAliasRes = client.describeAlias(describeAliasReq);\n\nSystem.out.println(JSONObject.toJSON(describeAliasRes));\n\n// Output:\n// {\n//     \"alias\": \"bob\",\n//     \"collectionName\": \"customized_setup_2\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "Vnm0dtCu9oFG6SxaDrhcX2Z9ny2",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 9.3 Describe aliases\nres = await client.describeAlias({\n    collection_name: \"customized_setup_2\",\n    alias: \"bob\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   db_name: 'default',\n//   alias: 'bob',\n//   collection: 'customized_setup_2'\n// }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
             "wrap": false
           }
         },
@@ -2788,7 +5105,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# 9.4 Reassign aliases to other collections\nclient.alter_alias(\n    collection_name=\"customized_setup_1\",\n    alias=\"alice\"\n)\n\nres = client.list_aliases(\n    collection_name=\"customized_setup_1\"\n)\n\nprint(res)\n\n# Output\n#\n# None\n\nres = client.list_aliases(\n    collection_name=\"customized_setup_2\"\n)\n\nprint(res)\n\n# Output\n#\n",
+                "content": "# 9.4 Reassign aliases to other collections\nclient.alter_alias(\n    collection_name=\"customized_setup_1\",\n    alias=\"alice\"\n)\n\nres = client.list_aliases(\n    collection_name=\"customized_setup_1\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"aliases\": [\n#         \"alice\"\n#     ],\n#     \"collection_name\": \"customized_setup_1\",\n#     \"db_name\": \"default\"\n# }\n\nres = client.list_aliases(\n    collection_name=\"customized_setup_2\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"aliases\": [\n#         \"bob\"\n#     ],\n#     \"collection_name\": \"customized_setup_2\",\n#     \"db_name\": \"default\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2800,7 +5117,7 @@
             },
             {
               "text_run": {
-                "content": "# None",
+                "content": "# }",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2813,6 +5130,80 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "Hinjd3fNno3Lazx5W0jcQxKMnQe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.service.utility.request.AlterAliasReq;\n\n// 9.4 Reassign alias to other collections\nAlterAliasReq alterAliasReq = AlterAliasReq.builder()\n    .collectionName(\"customized_setup_1\")\n    .alias(\"alice\")\n    .build();\n\nclient.alterAlias(alterAliasReq);\n\nlistAliasesReq = ListAliasesReq.builder()\n    .collectionName(\"customized_setup_1\")\n    .build();\n\nlistAliasRes = client.listAliases(listAliasesReq);\n\nSystem.out.println(listAliasRes.getAlias());\n\n// Output:\n// [\"alice\"]\n\nlistAliasesReq = ListAliasesReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nlistAliasRes = client.listAliases(listAliasesReq);\n\nSystem.out.println(listAliasRes.getAlias());\n\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// [\"bob\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "HPDTdmWWgoNza7xNfxbcskz2nPc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 9.4 Reassign aliases to other collections\nawait client.alterAlias({\n    collection_name: \"customized_setup_1\",\n    alias: \"alice\"\n})\n\nres = await client.listAliases({\n    collection_name: \"customized_setup_1\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   aliases: [ 'alice' ],\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   db_name: 'default',\n//   collection_name: 'customized_setup_1'\n// }\n// \n\nres = await client.listAliases({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   aliases: [ 'bob' ],\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   db_name: 'default',\n//   collection_name: 'customized_setup_2'\n// }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
             "wrap": false
           }
         },
@@ -2881,6 +5272,80 @@
         "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
       },
       {
+        "block_id": "GqOZdXIUzoBZxkxZeJOcvYdan2c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.service.utility.request.DropAliasReq;\n\n// 9.5 Drop alias\nDropAliasReq dropAliasReq = DropAliasReq.builder()\n    .alias(\"bob\")\n    .build();\n\nclient.dropAlias(dropAliasReq);\n\ndropAliasReq = DropAliasReq.builder()\n    .alias(\"alice\")\n    .build();\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.dropAlias(dropAliasReq);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "WsPBdpiPdoymNpx83wFcZtbpnJd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 9.5 Drop aliases\nawait client.dropAlias({\n    alias: \"bob\"\n})\n\nawait client.dropAlias({\n    alias: \"alice\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "})",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
         "block_id": "doxcnk2zHpu3OfLc7adR2NIxdVd",
         "block_type": 4,
         "heading2": {
@@ -2937,7 +5402,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "res = client.drop_collection(\n    collection_name='medium_articles_2020'\n)\n\n# Output\n#\n",
+                "content": "# 10. Drop the collections\nclient.drop_collection(\n    collection_name=\"quick_setup\"\n)\n\nclient.drop_collection(\n    collection_name=\"customized_setup_1\"\n)\n\nclient.drop_collection(\n    collection_name=\"customized_setup_2\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2949,7 +5414,7 @@
             },
             {
               "text_run": {
-                "content": "# None",
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2966,6 +5431,106 @@
           }
         },
         "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "XnG2djzeCoXAcZxmn3icYIWSnKb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.service.collection.request.DropCollectionReq;\n\n// 10. Drop collections\n\nDropCollectionReq dropQuickSetupParam = DropCollectionReq.builder()\n    .collectionName(\"quick_setup\")\n    .build();\n\nclient.dropCollection(dropQuickSetupParam);\n\nDropCollectionReq dropCustomizedSetupParam = DropCollectionReq.builder()\n    .collectionName(\"customized_setup_1\")\n    .build();\n\nclient.dropCollection(dropCustomizedSetupParam); \n\ndropCustomizedSetupParam = DropCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.dropCollection(dropCustomizedSetupParam);  ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "LVrldR8uSoSyCEx4iPycMB24nBb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 10. Drop the collection\nawait client.dropCollection({\n    collection_name: \"customized_setup_2\"\n})\n\nawait client.dropCollection({\n    collection_name: \"customized_setup_1\"\n})\n\nawait client.dropCollection({\n    collection_name: \"quick_setup\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "})",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg"
+      },
+      {
+        "block_id": "KbQvdEGKCo3n4lxPZzgcO3KhnFb",
+        "block_type": 2,
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "doxcnWtTf6zPezv6p22fVtvFwVe",
@@ -3793,6 +6358,32 @@
         }
       },
       {
+        "block_id": "ShFfdma68oiZoBxdRljczdNLnpd",
+        "block_type": 2,
+        "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "LU6RdzVGyo70BbxLDEkclrodnsc",
         "block_type": 2,
         "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg",
@@ -3818,6 +6409,6 @@
         }
       }
     ],
-    "counts": 108
+    "counts": 152
   }
 }

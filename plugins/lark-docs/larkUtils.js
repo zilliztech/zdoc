@@ -83,10 +83,22 @@ class larkUtils {
         for (const file of files) {
             var content = fs.readFileSync(`${outputDir}/${file}`, {encoding: 'utf-8', flag: 'r'})
 
-            // TODO: change frontmatters
+            // Change frontmatters
+            if (outputDir.includes('reference')) {
+                for (const path of paths) {
+                    if (path.endsWith('.md')) {
+                        var page = fs.readFileSync(`${outputDir}/${path}`, {encoding: 'utf-8', flag: 'r'})
+                        page = page.replace(/^---(.*\n)*---$/gm, '').replace(/^\n{2,}/g, '')
+                        fs.writeFileSync(`${outputDir}/${path}`, page, {encoding: 'utf-8', flag: 'w'})
+                    }
+                }
+            }
             
             // remove docusaurus imports
             content = content.replace(/import .* from .*/g, '')
+
+            // remove title slugs
+            content = content.replace(/\{#.*\}$/g, '')
 
             // add multi-code block
             var matches = [... (content.matchAll(/([^\n\r]*)<Tabs .*values=(\{(\[.*\])\}).*>/g))]
@@ -129,6 +141,23 @@ class larkUtils {
             content = content.replace(/\n{3,}/g, '\n\n')
 
             fs.writeFileSync(`${outputDir}/${file}`, content, {encoding: 'utf-8', flag: 'w'})
+        }
+
+        // rename folders
+        if (outputDir.includes('reference')) {
+            this.__rename_file_path(outputDir)
+        }
+    }
+
+    __rename_file_path(outputDir) {
+        const paths = fs.readdirSync(outputDir, {recursive: true})
+        const mods = paths.filter(path => path.includes('-'))
+
+        if (mods.length > 0) {
+            const o = mods[0]
+            const n = o.split('/').map(part => part.includes('-') ? part.split('-')[1] : part).join('/');
+            fs.renameSync(`${outputDir}/${o}`, `${outputDir}/${n}`, {recursive: true})
+            this.__rename_file_path(outputDir)
         }
     }
 

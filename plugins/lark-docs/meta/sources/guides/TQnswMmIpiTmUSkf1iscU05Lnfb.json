@@ -5,7 +5,7 @@
   "node_token": "TQnswMmIpiTmUSkf1iscU05Lnfb",
   "node_type": "origin",
   "obj_create_time": "1706249857",
-  "obj_edit_time": "1708498828",
+  "obj_edit_time": "1710748536",
   "obj_token": "YukudPBOKoO40RxXcmecNSynnV9",
   "obj_type": "docx",
   "origin_node_token": "TQnswMmIpiTmUSkf1iscU05Lnfb",
@@ -1140,7 +1140,7 @@
         "block_type": 13,
         "children": [
           "WmcodiqQcoVS5uxpKPSc72OZnug",
-          "FrEVddNwJoNI5TxAqESc2XbonRb"
+          "VG4AdHcOhopppjx3HsFcv4KWnfe"
         ],
         "comment_ids": [
           "7337946656044695555",
@@ -1150,7 +1150,42 @@
           "elements": [
             {
               "text_run": {
-                "content": "(Optional) Enable reranker if you want to reorder or rank a set of candidate outputs to improve the quality of the search results. By default, this feature is disabled. Once enabled, you can choose the model service used for reranking. Currently, only ",
+                "content": "(Optional) Enable ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337939862162571267",
+                    "7337946656044695555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "reranker",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337939862162571267",
+                    "7337946656044695555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FDOcRwUYLPi1C5bkiTq8c5dEQnP9"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " if you want to rank the search results based on their relevance to the query to improve search quality. However, note that enabling reranker will lead to higher cost and search latency. By default, this feature is disabled. Once enabled, you can choose the model service used for reranking. Currently, only ",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -1266,7 +1301,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Reranker Mode Service",
+                "content": "Reranker Model Service",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -1368,7 +1403,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Open-source reranker model published by BAAI. This model is hosted on Zilliz Cloud and co-located with other Zilliz services, thus has the best latency. One of the best performers according to MTEB leaderboard.",
+                "content": "Open-source cross-encoder architecture reranker model published by BAAI. This model is hosted on Zilliz Cloud.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1386,12 +1421,8 @@
         }
       },
       {
-        "block_id": "FrEVddNwJoNI5TxAqESc2XbonRb",
+        "block_id": "VG4AdHcOhopppjx3HsFcv4KWnfe",
         "block_type": 26,
-        "comment_ids": [
-          "7337946656044695555",
-          "7337939862162571267"
-        ],
         "iframe": {
           "component": {
             "iframe_type": 8,
@@ -1890,8 +1921,7 @@
           ],
           "style": {
             "align": 1,
-            "folded": false,
-            "indentation_level": "NoIndent"
+            "folded": false
           }
         },
         "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
@@ -1952,7 +1982,7 @@
             },
             {
               "text_run": {
-                "content": " (optional): The description of the pipeline to create",
+                "content": " (optional): The description of the pipeline to create.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2457,7 +2487,40 @@
             },
             {
               "text_run": {
-                "content": "(Optional): This is an optional parameter for those who want to reorder or rank a set of candidate outputs to improve the quality of the search results. If you do not need the reranker, you can omit this parameter. Currently, only ",
+                "content": "(Optional): This is an optional parameter for those who want to reorder or rank a set of candidate outputs to improve the quality of the search results. If you do not need the ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337945979953840132"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "reranker",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337945979953840132"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FDOcRwUYLPi1C5bkiTq8c5dEQnP9"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you can omit this parameter. Currently, only ",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [

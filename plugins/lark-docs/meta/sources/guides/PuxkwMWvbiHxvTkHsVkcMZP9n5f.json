@@ -5,7 +5,7 @@
   "node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
   "node_type": "origin",
   "obj_create_time": "1705979316",
-  "obj_edit_time": "1707199160",
+  "obj_edit_time": "1709698062",
   "obj_token": "NIIldYshaoVw2bxiWjrcTt14nac",
   "obj_type": "docx",
   "origin_node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
@@ -26,6 +26,10 @@
           "ZR48dbQAEoILVhxpkbzcosvHnwc",
           "AlnIdYWOxoAViAxmLGecHzmHnCd",
           "O5osdWBeeo1wwUxxHmlcxg3xnSf",
+          "RHzjdqNwLoNmiNxkQMucUelRnSh",
+          "IakGdxv35omZQVxPNcEcI1m4nxb",
+          "QR2ldD3XzoYGM5xfhBZcqxe3nZB",
+          "ZfCNdUzvxoc6vpxZ3mbcSlyNnRh",
           "B9ZJdVr6ToBP4Rx1igWclvqhnrg",
           "N5tHdBrE7opgdUxbTTjcimxFnoC",
           "Em8BdOkVQorboKxgTnGcyYg9nEg",
@@ -1031,6 +1035,130 @@
                 "content": "<exclude target=\"paas\">",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RHzjdqNwLoNmiNxkQMucUelRnSh",
+        "block_type": 2,
+        "comment_ids": [
+          "7343098413254328323"
+        ],
+        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343098413254328323"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IakGdxv35omZQVxPNcEcI1m4nxb",
+        "block_type": 4,
+        "comment_ids": [
+          "7343098413254328323"
+        ],
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "API Keys",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343098413254328323"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac"
+      },
+      {
+        "block_id": "QR2ldD3XzoYGM5xfhBZcqxe3nZB",
+        "block_type": 2,
+        "comment_ids": [
+          "7343098413254328323"
+        ],
+        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Each organization can contain a maximum of 10 custom API keys for optimal resource utilization and security. ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343098413254328323"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZfCNdUzvxoc6vpxZ3mbcSlyNnRh",
+        "block_type": 2,
+        "comment_ids": [
+          "7343098413254328323"
+        ],
+        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343098413254328323"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2581,6 +2709,8 @@
           "MlSad6nzWoDvifxzwQWcioVmn4f",
           "EpGWdiLlqoRAplxtGtIcaeLenTf",
           "SEnFdHRoRoHDaCxHKJDcTtSun5b",
+          "WMGudsx79o9HJ1xHQjqctAwDnye",
+          "ZGS9dPkCeoseZgxeSuicdRCjnPg",
           "Z6C5dPhLjowNS9xOWqscSDUKn0c",
           "ItW8dEUAWogZi1xYT4ycIS5Jnwh",
           "LVQgdSZIOogFcNxC1vychhYtnpd",
@@ -2599,6 +2729,8 @@
             "MlSad6nzWoDvifxzwQWcioVmn4f",
             "EpGWdiLlqoRAplxtGtIcaeLenTf",
             "SEnFdHRoRoHDaCxHKJDcTtSun5b",
+            "WMGudsx79o9HJ1xHQjqctAwDnye",
+            "ZGS9dPkCeoseZgxeSuicdRCjnPg",
             "Z6C5dPhLjowNS9xOWqscSDUKn0c",
             "ItW8dEUAWogZi1xYT4ycIS5Jnwh",
             "LVQgdSZIOogFcNxC1vychhYtnpd",
@@ -2666,9 +2798,17 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 7
+            "row_size": 8
           }
         }
       },
@@ -2991,6 +3131,74 @@
         "block_id": "LzQOdF13hoRijjxVDNscx6cVnss",
         "block_type": 2,
         "parent_id": "SEnFdHRoRoHDaCxHKJDcTtSun5b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "20-12,000",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WMGudsx79o9HJ1xHQjqctAwDnye",
+        "block_type": 32,
+        "children": [
+          "T8Y7d7zW1oYSiRxSAllc8AEHnGh"
+        ],
+        "parent_id": "C94PdRY5aozcNhxRE25cZfaHnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "T8Y7d7zW1oYSiRxSAllc8AEHnGh",
+        "block_type": 2,
+        "parent_id": "WMGudsx79o9HJ1xHQjqctAwDnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "voyageai/voyage-large-2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZGS9dPkCeoseZgxeSuicdRCjnPg",
+        "block_type": 32,
+        "children": [
+          "OSZKdARnoo7QryxBBLTcfUlOnYd"
+        ],
+        "parent_id": "C94PdRY5aozcNhxRE25cZfaHnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OSZKdARnoo7QryxBBLTcfUlOnYd",
+        "block_type": 2,
+        "parent_id": "ZGS9dPkCeoseZgxeSuicdRCjnPg",
         "text": {
           "elements": [
             {
@@ -12227,6 +12435,6 @@
         }
       }
     ],
-    "counts": 499
+    "counts": 507
   }
 }

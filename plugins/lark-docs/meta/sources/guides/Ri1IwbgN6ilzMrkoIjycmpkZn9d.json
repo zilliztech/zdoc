@@ -5,7 +5,7 @@
   "node_token": "Ri1IwbgN6ilzMrkoIjycmpkZn9d",
   "node_type": "origin",
   "obj_create_time": "1708764329",
-  "obj_edit_time": "1708916740",
+  "obj_edit_time": "1710383685",
   "obj_token": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
   "obj_type": "docx",
   "origin_node_token": "Ri1IwbgN6ilzMrkoIjycmpkZn9d",
@@ -74,11 +74,23 @@
           "doxcnoAmae4vPIU7uyUn0syiG4g",
           "doxcnVVpZCK90OPrFeXiLg1MiEh",
           "doxcnF6wO9DBDhYfbZL0a9PC7vd",
-          "doxcncbpWFzaf96khnJJmN1XPVb",
+          "XPBFd9lWGoGvUQxgDvOcRs6Fnnh",
+          "I7iJdhO7JorQbRx4lDHczuabni0",
+          "EG8hdFC7BotLbfxL4rccxy6qngU",
+          "G9Ued42WyojcaQxUjKMcKQK9nid",
+          "Ji9tdWlmqoxBghxafgucL7qBnYo",
+          "VGMAdb1jXogB3hx0H5Zcghkbnqe",
+          "Ki6ndF0e9oYAqVxPLrDcTyPPn4c",
+          "F9MWd4NDvoojZWxNqJacFvF3n1b",
           "doxcn0OyWUG5yLL7k2HY2r37U0f",
           "doxcnW9fdhrsLlwxoBVgfDEfcmf",
           "doxcn6Gj7O2XfZz8toPpzBJ8a6d",
-          "doxcnNs2fldseDTaxQC9eRyArLh",
+          "Ejbfd0JqloLxrNx6eUTc5tb7nCd",
+          "WmIFdzaq8oCuATxtNkgcDdXgnmc",
+          "DgP0dOfgJoNBvkxI1K0c5gpbnOc",
+          "AepwdwZCxoPIfgxxCBPcQvQpnkb",
+          "OyU3dADCboIfXZx3fSZcIVIznTd",
+          "HzaEdylwvo6c5UxyBVTc12non0e",
           "doxcnCKy2z35uoqxWPaiIdIUyxj",
           "doxcni72buoqgFXtJhxAtmlXUlb",
           "doxcn9IbSbw5dHKPjHUEQ6Sc50e",
@@ -98,9 +110,17 @@
           "doxcnlnR1zguvv4Hlwt04MEN1wc",
           "doxcnsj9OtrwABtyDQs40rb2YGd",
           "doxcnUGEtIrk2tPxC2BzVak21Ob",
+          "CmGDduNIYoEpmlxAQVjcdi76nQb",
+          "RBcRdH6ImoGxv1x96pMc6Y0Unnh",
+          "FzgwdsL2Co8M1AxT525crarTnQB",
+          "KJ9Dd0w3do3lQoxT1T8cTomrnEt",
+          "HO1ddVSsioCNB8xuuLicUjKendg",
+          "DTiWdMyFxouR84x1H2McH06jnqe",
           "doxcnkExPdGFv1gHQeWhLoZD41g",
           "doxcnox3GyrdmpRpnwFDXkKlkAc",
+          "Qj0jdNo2To2pFfxLw8dcPPrSnYd",
           "doxcn6gStiC8UAI951xipIWVq2L",
+          "NoAVdAueqoOL0UxjTnWcvBRpnvf",
           "doxcnS5zzlrJtY7ETyP5k4zLv1c",
           "doxcnbfxJVc6gPeDvHetmg5W6Bf",
           "doxcn82RIT1oOx8tlGRWVfMP7ic",
@@ -253,7 +273,7 @@
             },
             {
               "text_run": {
-                "content": ": Includes single-vector search, batch-vector search, partition search, and search with specified output fields.",
+                "content": ": Includes single-vector search, bulk-vector search, partition search, and search with specified output fields.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -361,6 +381,7 @@
               "text_run": {
                 "content": "<include target=\"milvus\">",
                 "text_element_style": {
+                  "background_color": 5,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -426,6 +447,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 5,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1002,7 +1024,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Batch-vector search",
+                "content": "Bulk-vector search",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1028,7 +1050,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "A batch-vector search extends the ",
+                "content": "A bulk-vector search extends the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1080,7 +1102,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "In a batch-vector search, you can include several query vectors in the ",
+                "content": "In a bulk-vector search, you can include several query vectors in the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1153,7 +1175,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# Batch-vector search\nres = client.search(\n    collection_name=\"test_collection\", # Replace with the actual name of your collection\n    data=[\n        [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104],\n        [0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345]\n    ], # Replace with your query vectors\n    limit=2, # Max. number of search results to return\n    search_params={\"metric_type\": \"IP\", \"params\": {}} # Search parameters\n)\n\nresult = json.dumps(res, indent=4)\n",
+                "content": "# Bulk-vector search\nres = client.search(\n    collection_name=\"test_collection\", # Replace with the actual name of your collection\n    data=[\n        [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104],\n        [0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345]\n    ], # Replace with your query vectors\n    limit=2, # Max. number of search results to return\n    search_params={\"metric_type\": \"IP\", \"params\": {}} # Search parameters\n)\n\nresult = json.dumps(res, indent=4)\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1253,7 +1275,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The results include two sets of nearest neighbors, one for each query vector, showcasing the efficiency of batch-vector searches in handling multiple query vectors at once.",
+                "content": "The results include two sets of nearest neighbors, one for each query vector, showcasing the efficiency of bulk-vector searches in handling multiple query vectors at once.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2104,7 +2126,145 @@
           "elements": [
             {
               "text_run": {
-                "content": "Filtered search introduces the ability to apply scalar filters to your search query, allowing you to refine the search results based on specific criteria.",
+                "content": "Filtered search ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "applies",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " scalar filters to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "es",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", allowing you to refine the search results based on specific criteria.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " You can find more about filter expressions in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Boolean Expression Rules",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fboolean.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and examples in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Get & Scalar Query",
+                "token": "RCBVwuDlyiHDFwkg4UWcO8gOnqb",
+                "url": "https://zilliverse.feishu.cn/wiki/RCBVwuDlyiHDFwkg4UWcO8gOnqb"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2122,14 +2282,357 @@
         }
       },
       {
-        "block_id": "doxcncbpWFzaf96khnJJmN1XPVb",
+        "block_id": "XPBFd9lWGoGvUQxgDvOcRs6Fnnh",
         "block_type": 2,
         "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Here is an example of returning results whose ",
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I7iJdhO7JorQbRx4lDHczuabni0",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For instance, to refine search results based on a string pattern, you can use the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "like",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " operator. This operator enables string matching by considering prefixes, infixes, and suffixes:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EG8hdFC7BotLbfxL4rccxy6qngU",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To match values starting with a specific prefix, use the syntax ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'like \"prefix%\"'",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "G9Ued42WyojcaQxUjKMcKQK9nid",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To match values containing a specific sequence of characters anywhere within the string, use the syntax ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'like \"%infix%\"'",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "Ji9tdWlmqoxBghxafgucL7qBnYo",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To match values ending with a specific suffix, use the syntax ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'like \"%suffix\"'",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "VGMAdb1jXogB3hx0H5Zcghkbnqe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "like",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " operator can also be used for single-character matching by using the underscore (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "_",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") to represent any single character. For example, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'like \"y_llow\"'",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "Ki6ndF0e9oYAqVxPLrDcTyPPn4c",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F9MWd4NDvoojZWxNqJacFvF3n1b",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter results whose ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2143,8 +2646,8 @@
               "text_run": {
                 "content": "color",
                 "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
+                  "bold": true,
+                  "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -2153,7 +2656,7 @@
             },
             {
               "text_run": {
-                "content": " values are prefixed with ",
+                "content": " is prefixed with ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2167,8 +2670,8 @@
               "text_run": {
                 "content": "red",
                 "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
+                  "bold": true,
+                  "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -2294,14 +2797,39 @@
         "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
       },
       {
-        "block_id": "doxcnNs2fldseDTaxQC9eRyArLh",
+        "block_id": "Ejbfd0JqloLxrNx6eUTc5tb7nCd",
         "block_type": 2,
         "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "You can find more about filter expressions in ",
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WmIFdzaq8oCuATxtNkgcDdXgnmc",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter results whose ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2313,24 +2841,9 @@
             },
             {
               "text_run": {
-                "content": "Boolean Expression Rules",
+                "content": "color",
                 "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fboolean.md"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " and examples in ",
-                "text_element_style": {
-                  "bold": false,
+                  "bold": true,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2339,23 +2852,156 @@
               }
             },
             {
-              "mention_doc": {
-                "obj_type": 16,
+              "text_run": {
+                "content": " contains the letters ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
-                },
-                "title": "Get & Scalar Query",
-                "token": "RCBVwuDlyiHDFwkg4UWcO8gOnqb",
-                "url": "https://zilliverse.feishu.cn/wiki/RCBVwuDlyiHDFwkg4UWcO8gOnqb"
+                }
               }
             },
             {
               "text_run": {
-                "content": ".",
+                "content": "ll",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " anywhere within the string:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DgP0dOfgJoNBvkxI1K0c5gpbnOc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Infix match on color field\nres = client.search(\n    collection_name=\"test_collection\", # Replace with the actual name of your collection\n    data=[[0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]],\n    limit=5, # Max. number of search results to return\n    search_params={\"metric_type\": \"IP\", \"params\": {}}, # Search parameters\n    output_fields=[\"color\"], # Output fields to return\n    filter='color like \"%ll%\"' # Filter on color field, infix match on \"ll\"\n)\n\nresult = json.dumps(res, indent=4)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(result)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "AepwdwZCxoPIfgxxCBPcQvQpnkb",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output is similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OyU3dADCboIfXZx3fSZcIVIznTd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[\n    [\n        {\n            \"id\": 5,\n            \"distance\": 0.7972343564033508,\n            \"entity\": {\n                \"color\": \"yellow_4222\"\n            }\n        }\n    ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "HzaEdylwvo6c5UxyBVTc12non0e",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3324,37 +3970,19 @@
       {
         "block_id": "doxcnzAPwTLvSkYuJJTrZGqF4fc",
         "block_type": 4,
+        "comment_ids": [
+          "7347688099269001219"
+        ],
         "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "Group",
+                "content": "Grouping search",
                 "text_element_style": {
                   "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ing",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " search",
-                "text_element_style": {
-                  "bold": false,
+                  "comment_ids": [
+                    "7347688099269001219"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3668,7 +4296,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "Here is the example code to achieve this:",
+                "content": "Here is the example code to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "group search results by field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3692,7 +4344,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# Get existing collection\ncollection = Collection(name='group_search') # Replace with the actual name of your collection\n\n# Group search results\nresults = collection.search(\n    # Replace with your query vector\n    data=[[0.596255488017676, 0.803331289393417, 0.7889329600288849, 0.37180880411949024, 0.508569977301849]],\n    anns_field=\"passage_vector_field\", # Query vector field name\n    param={\"metric_type\": \"L2\", \"params\": {\"nprobe\": 10}}, # Search parameters\n    limit=10, # Max. number of search results to return\n    group_by_field=\"doc_id\", # Group results by document ID\n    output_fields=[\"doc_id\", \"passage_id\"]\n)\n\n",
+                "content": "# Connect to Milvus\nclient = MilvusClient(uri='http://localhost:19530') # Milvus server address\n\n# Load data into collection\nclient.load_collection(\"group_search\") # Collection name\n\n# Group search results\nres = client.search(\n    collection_name=\"group_search\", # Collection name\n    data=[[0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088]], # Query vector\n    search_params={\n    \"metric_type\": \"L2\",\n    \"params\": {\"nprobe\": 10},\n    }, # Search parameters\n    limit=10, # Max. number of search results to return\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3704,7 +4356,46 @@
             },
             {
               "text_run": {
-                "content": "print(results)",
+                "content": "    group_by_field=",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"doc_id\"",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343548857735200771"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", # Group results by document ID\n    output_fields=[\"doc_id\", \"passage_id\"]\n)\n\n# Retrieve the values in the `doc_id` column\ndoc_ids = [result['entity']['doc_id'] for result in res[0]]\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(doc_ids)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3720,6 +4411,9 @@
             "wrap": false
           }
         },
+        "comment_ids": [
+          "7343548857735200771"
+        ],
         "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
       },
       {
@@ -3754,19 +4448,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "[\n    {\"id\": 1, \"distance\": 0.0, \"entity\": {\"doc_id\": 1, \"passage_id\": 1}},\n    {\"id\": 3109, \"distance\": 0.012906046584248543, \"entity\": {\"doc_id\": 9, \"passage_id\": 3109}},\n    {\"id\": 2226, \"distance\": 0.01377844251692295, \"entity\": {\"doc_id\": 6, \"passage_id\": 2226}},\n    {\"id\": 2105, \"distance\": 0.028072306886315346, \"entity\": {\"doc_id\": 5, \"passage_id\": 2105}},\n    {\"id\": 187, \"distance\": 0.03216659277677536, \"entity\": {\"doc_id\": 7, \"passage_id\": 187}},\n    {\"id\": 4890, \"distance\": 0.03625018149614334, \"entity\": {\"doc_id\": 10, \"passage_id\": 4890}},\n    {\"id\": 1448, \"distance\": 0.0372919924557209, \"entity\": {\"doc_id\": 8, \"passage_id\": 1448}},\n    {\"id\": 2103, \"distance\": 0.0395108163356781, \"entity\": {\"doc_id\": 3, \"passage_id\": 2103}},\n    {\"id\": 4504, \"distance\": 0.04037190228700638, \"entity\": {\"doc_id\": 4, \"passage_id\": 4504}},\n    {\"id\": 592, \"distance\": 0.05172017961740494, \"entity\": {\"doc_id\": 2, \"passage_id\": 592}}\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "]",
+                "content": "[5, 10, 1, 7, 9, 6, 3, 4, 8, 2]",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3783,6 +4465,252 @@
           }
         },
         "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "CmGDduNIYoEpmlxAQVjcdi76nQb",
+        "block_type": 2,
+        "comment_ids": [
+          "7343548385074954243"
+        ],
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the given output, it can be observed that the returned entities do not contain any duplicate ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343548385074954243"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_id",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343548385074954243"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " values.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343548385074954243"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RBcRdH6ImoGxv1x96pMc6Y0Unnh",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For comparison, let's comment out the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "group_by_field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and conduct a regular search:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FzgwdsL2Co8M1AxT525crarTnQB",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Connect to Milvus\nclient = MilvusClient(uri='http://localhost:19530') # Milvus server address\n\n# Load data into collection\nclient.load_collection(\"group_search\") # Collection name\n\n# Search without `group_by_field`\nres = client.search(\n    collection_name=\"group_search\", # Collection name\n    data=query_passage_vector, # Replace with your query vector\n    search_params={\n    \"metric_type\": \"L2\",\n    \"params\": {\"nprobe\": 10},\n    }, # Search parameters\n    limit=10, # Max. number of search results to return\n    # group_by_field=\"doc_id\", # Group results by document ID\n    output_fields=[\"doc_id\", \"passage_id\"]\n)\n\n# Retrieve the values in the `doc_id` column\ndoc_ids = [result['entity']['doc_id'] for result in res[0]]\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(doc_ids)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "KJ9Dd0w3do3lQoxT1T8cTomrnEt",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output is similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HO1ddVSsioCNB8xuuLicUjKendg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[1, 10, 3, 10, 1, 9, 4, 4, 8, 6]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "DTiWdMyFxouR84x1H2McH06jnqe",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the given output, it can be observed that the returned entities contain duplicate ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " values.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "doxcnkExPdGFv1gHQeWhLoZD41g",
@@ -3816,7 +4744,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Indexing Requirement",
+                "content": "Indexing",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3843,6 +4771,9 @@
                 "content": "HNSW",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7345781492603797508"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3852,9 +4783,12 @@
             },
             {
               "text_run": {
-                "content": " or ",
+                "content": ",",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7345781492603797508"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3864,9 +4798,57 @@
             },
             {
               "text_run": {
-                "content": "IVF-FLAT",
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345781492603797508"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IVF_FLAT",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7345781492603797508"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", or ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345781492603797508"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "FLAT",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7345781492603797508"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3919,6 +4901,104 @@
             "folded": false
           }
         },
+        "comment_ids": [
+          "7345781492603797508"
+        ],
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "Qj0jdNo2To2pFfxLw8dcPPrSnYd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Field",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7345781254086393859"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Currently, grouping search allows only for a single column. You cannot specify multiple field names in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "group_by_field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " config.  Additionally, grouping search is incompatible with data types of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON, FLOAT, DOUBLE, ARRAY, or vector fields",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346035581933928452"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7346035581933928452",
+          "7345781254086393859"
+        ],
         "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
       },
       {
@@ -3940,7 +5020,166 @@
             },
             {
               "text_run": {
-                "content": ": Be mindful that grouping based on a field with a limited range of unique values within a segment can slow down the process. This is because it involves scanning the entire segment for duplicate values.",
+                "content": ": ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Be mindful that",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343550123308646404",
+                    "7346035963577073667"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " performance degrades with increasing query vector counts",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343550123308646404",
+                    "7346035963577073667"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343550123308646404",
+                    "7346035963577073667"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Using a cluster with 2 CPU cores and 8 GB of memory as an example, the execution time for grouping search increases proportionally with the number of input query vectors.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343550123308646404",
+                    "7346035963577073667"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7346035963577073667",
+          "7343550123308646404"
+        ],
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "NoAVdAueqoOL0UxjTnWcvBRpnvf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Functionality",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Grouping search is not supported by ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "range search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FRi1IwbgN6ilzMrkoIjycmpkZn9d%23doxcnCKy2z35uoqxWPaiIdIUyxj"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "search iterators",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FD7f6wXR2iiSBS2kuPilcZjD5n8d%23doxcnqPBM0hi72sZLvfgkuc3EJh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4035,12 +5274,42 @@
       {
         "block_id": "doxcn82RIT1oOx8tlGRWVfMP7ic",
         "block_type": 2,
+        "comment_ids": [
+          "7345781904005677059"
+        ],
         "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "In the above searches except the range search, the default search parameters apply. In normal cases, you do not need to manually set search parameters. ",
+                "content": "In the above searches except the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "range search,",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7345781904005677059"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " the default search parameters apply. In normal cases, you do not need to manually set search parameters. ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5103,6 +6372,6 @@
         }
       }
     ],
-    "counts": 142
+    "counts": 162
   }
 }

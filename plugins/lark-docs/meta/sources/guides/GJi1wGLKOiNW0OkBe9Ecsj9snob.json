@@ -1,0 +1,2925 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1709283484",
+  "node_token": "GJi1wGLKOiNW0OkBe9Ecsj9snob",
+  "node_type": "origin",
+  "obj_create_time": "1709283484",
+  "obj_edit_time": "1710759623",
+  "obj_token": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+  "obj_type": "docx",
+  "origin_node_token": "GJi1wGLKOiNW0OkBe9Ecsj9snob",
+  "origin_space_id": "7314484612833640452",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "Hb5VwPWS0iTxFvkjCmdcQnwan9d",
+  "space_id": "7314484612833640452",
+  "title": "[Draft] Sparse Vector",
+  "slug": "sparse-vector",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "block_type": 1,
+        "children": [
+          "C33mdoRJVozTgSxcnGzcfgqNnue",
+          "HADUdosAIomQOdx0yZFccVgNnmf",
+          "PkiZduwY4oBhg3xotQ0cMHzYnMe",
+          "NBE6du6ySo4REPxdmGfcbVwinse",
+          "ZbmodHKbmolWhhxrvZ3cno1Cnbf",
+          "EzWvdLYiZoE77MxO9sJccEnqnsb",
+          "HLLZdcgTSogS9RxPDGCchb3PnHh",
+          "K7h0dKjOSoWqmvxDzmRcN6iYn0b",
+          "IPuSdMZIuoVhxaxlJR0c6X0Lntp",
+          "BXoYdbP9Wo3uMTx79UOchEqQnP3",
+          "R7TddHX5ioffNSxAutEc6JMonRd",
+          "FZDVdnDWEobtrIx0Q6Fc7W4dnyd",
+          "HcmLdvKvYolz2ix390xc8LJLnbd",
+          "Tr3mdOwBcoerC2xJEiTcT2xunsf",
+          "BN5GdFl4ToyD6oxAyU8cIddbnPY",
+          "A3jrdBEuMo958dxkY78cUZX2nKA",
+          "NNh6dnYvjoINwMxEPOIcBbrQnyd",
+          "Fr5ndPcMfoOp5bxLgWPc1vgLnPd",
+          "JLb1dMw1MoPqg7x58slcbNcFns7",
+          "M7xMdKICmoCoGLxFkHZcaI3gnug",
+          "Jvged94w5oSlBuxcyOrcaV56n2e",
+          "GrUmd4Smwo9vspxCrZYcI61Znpi",
+          "DvVYdNJOroHhKJxQIQpcJspQnAb",
+          "AmAkdL4b8oiBuwxKZ54cdgiAnXe",
+          "PemNdxqXGoigjrxPOY0cETWrnQh",
+          "KvZldQNHlolcuqxfsLCcUHyJnvh",
+          "R66Gdf5IfoCNMhxRJtgchU6bnBf",
+          "Gvyud1F6GoGhgrxXKfjcPoCznih",
+          "H0BsdFxVPoqzNIxEsCgcEvWanle",
+          "WohNdEG7woPPJXxROctcSEizndF",
+          "GIaRdp69KoeUdyx5FlPc7TIInud",
+          "HUlydiHXioGa1IxnOJhc5ejMnGb",
+          "RQuDdtzieofNd7xJgdKc1yf6nDf",
+          "LZYOdMaQioKwEIxR06zcemR1nHh",
+          "Ediedpuc9omnGnxLNopcoOUEnEg",
+          "RQT8d7Bj2oV5OSxwncoc753inFc",
+          "ZFjidcGEEo3H6txgnwscdBVmn3b",
+          "A8kPdmetBota8GxqJqEcUY0Tn1e",
+          "ZBWQdQumxohEsLxkssrc4oeTnAf",
+          "HHFMdY6LhowFY0xrRzfcwZxrnig",
+          "EZWFdznKGoL2RAxwKNectZb8nUh",
+          "RuGKd7OqzoyC7axhecgcvCP6nXc",
+          "HvpNdLFu7o7zX1xTUPccS9Lynnb",
+          "F7KbdkJexoHvFCxhvLtcWhv4nKh",
+          "TYFFdCUXuoVNiUxBa92cK4Nvn3w",
+          "R9l3dI0AroovTaxVriccspjnnLb",
+          "AmmFdHL93onCNcxHvbWcGydmnsc",
+          "HihHddvHnoeE0vxa6WRcMwignwO",
+          "RHQTdGoe9oXCz4xnASfc86wSnVe",
+          "Zc8Bdn1NvodJJrxZ5tHcOdv8nQh"
+        ],
+        "comment_ids": [
+          "7341577377555922945"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[Draft] Sparse Vector",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7341577377555922945"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "C33mdoRJVozTgSxcnGzcfgqNnue",
+        "block_type": 2,
+        "comment_ids": [
+          "7347606949822971907"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Sparse vectors represent words or phrases using vector embeddings where most elements are zero, with only one non-zero element indicating the presence of a specific word.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347606949822971907"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Sparse vector models, such as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SPLADEv2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Farxiv.org%2Fabs%2F2109.10086"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", outperform dense models in out-of-domain knowledge search, keyword-awareness, and interpretability. They are particularly useful in information retrieval, natural language processing, and recommendation systems, where combining sparse vectors for recall with a large model for ranking can significantly improve retrieval results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HADUdosAIomQOdx0yZFccVgNnmf",
+        "block_type": 2,
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In Milvus, the use of sparse vectors follows a similar workflow to that of dense vectors. It involves creating a collection with a sparse vector column, inserting data, creating an index, and conducting similarity searches and scalar queries.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PkiZduwY4oBhg3xotQ0cMHzYnMe",
+        "block_type": 2,
+        "comment_ids": [
+          "7342339313609211908"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This topic provides a step-by-step guide to using sparse vectors in Milvus. To see sparse vectors in action, refer  to ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7342339313609211908"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "hello_sparse",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7342339313609211908"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fmilvus-io%2Fpymilvus%2Fblob%2Fmaster%2Fexamples%2Fmilvus_client%2Fsparse.py"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7342339313609211908"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NBE6du6ySo4REPxdmGfcbVwinse",
+        "block_type": 34,
+        "children": [
+          "Uk8QdZ7dcoiWmGx6JYqcs90Unxc",
+          "JVA9dmfqKotDUpx1jExc0U0nnCc"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "quote_container": {}
+      },
+      {
+        "block_id": "Uk8QdZ7dcoiWmGx6JYqcs90Unxc",
+        "block_type": 2,
+        "parent_id": "NBE6du6ySo4REPxdmGfcbVwinse",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JVA9dmfqKotDUpx1jExc0U0nnCc",
+        "block_type": 2,
+        "parent_id": "NBE6du6ySo4REPxdmGfcbVwinse",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, the support for sparse vectors is a beta feature in 2.4.0, with plans to make it generally available in 3.0.0.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZbmodHKbmolWhhxrvZ3cno1Cnbf",
+        "block_type": 4,
+        "comment_ids": [
+          "7347615012581916676"
+        ],
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Prepare sparse vector embeddings",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347615012581916676"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "EzWvdLYiZoE77MxO9sJccEnqnsb",
+        "block_type": 2,
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To use sparse vectors in Milvus, prepare vector embeddings in one of the supported formats:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HLLZdcgTSogS9RxPDGCchb3PnHh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Sparse Matrices",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Utilize the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "scipy.sparse",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.scipy.org%2Fdoc%2Fscipy%2Freference%2Fsparse.html%23module-scipy.sparse"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " class family to represent your sparse embeddings. This method is efficient for handling large-scale, high-dimensional data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "K7h0dKjOSoWqmvxDzmRcN6iYn0b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "List of Dictionaries",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Represent each sparse embedding as a dictionary, structured as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{dimension_index: value, ...}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", where each key-value pair represents the dimension index and its corresponding value.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Ff0ZdZRmNoNaiAx0tDIc0mg1ndg",
+          "HoFydOQd4oza5exjR35cvpvCnbe"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "Ff0ZdZRmNoNaiAx0tDIc0mg1ndg",
+        "block_type": 2,
+        "parent_id": "K7h0dKjOSoWqmvxDzmRcN6iYn0b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HoFydOQd4oza5exjR35cvpvCnbe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{2: 0.33, 98: 0.72, ...}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "K7h0dKjOSoWqmvxDzmRcN6iYn0b"
+      },
+      {
+        "block_id": "IPuSdMZIuoVhxaxlJR0c6X0Lntp",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "List of Iterables of Tuples",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Similar to the list of dictionaries, but use an iterable of tuples, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(dimension_index, value)]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", to specify only the non-zero dimensions and their values.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "FsOodgCWuoZbSHxdfv9cZw28n9b",
+          "OoUJdh3NioDoLTxTmTuc0GRwn4c"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "FsOodgCWuoZbSHxdfv9cZw28n9b",
+        "block_type": 2,
+        "parent_id": "IPuSdMZIuoVhxaxlJR0c6X0Lntp",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OoUJdh3NioDoLTxTmTuc0GRwn4c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[(2, 0.33), (98, 0.72), ...]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "IPuSdMZIuoVhxaxlJR0c6X0Lntp"
+      },
+      {
+        "block_id": "BXoYdbP9Wo3uMTx79UOchEqQnP3",
+        "block_type": 34,
+        "children": [
+          "FUCGdKlH8oEofjx8jIuckb3Rnne",
+          "T4EWd3LIEo1ElQxZMKxcXnYbnBh"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "quote_container": {}
+      },
+      {
+        "block_id": "FUCGdKlH8oEofjx8jIuckb3Rnne",
+        "block_type": 2,
+        "parent_id": "BXoYdbP9Wo3uMTx79UOchEqQnP3",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T4EWd3LIEo1ElQxZMKxcXnYbnBh",
+        "block_type": 2,
+        "parent_id": "BXoYdbP9Wo3uMTx79UOchEqQnP3",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The vector dimensions must be of Python ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "int",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "numpy.integer",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " type, and the values must be of Python ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "float",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "numpy.floating",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " type.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "R7TddHX5ioffNSxAutEc6JMonRd",
+        "block_type": 2,
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To generate embeddings, the pymilvus library provides a built-in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "model",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " package, which offers a range of functionalities for embedding generation. For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "[Draft] Embeddings",
+                "token": "Q7rswYdeeiXpRPkMDuncCudgnHh",
+                "url": "https://zilliverse.feishu.cn/wiki/Q7rswYdeeiXpRPkMDuncCudgnHh"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FZDVdnDWEobtrIx0Q6Fc7W4dnyd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a collection with a sparse vector field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "HcmLdvKvYolz2ix390xc8LJLnbd",
+        "block_type": 2,
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To create a collection with a sparse vector field in Milvus, set the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "datatype",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " of the sparse vector field to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DataType.SPARSE_FLOAT_VECTOR",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Unlike dense vectors, there is no need to specify a dimension for sparse vectors.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Tr3mdOwBcoerC2xJEiTcT2xunsf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import numpy as np\nimport random\nfrom pymilvus import MilvusClient, DataType\n\n# Create a MilvusClient instance\nclient = MilvusClient(uri=\"http://localhost:19530\")\n\n# Create a collection with a sparse vector field\nschema = client.create_schema(\n    auto_id=True,\n    enable_dynamic_fields=True,\n)\n\nschema.add_field(field_name=\"pk\", datatype=DataType.VARCHAR, is_primary=True, max_length=100)\nschema.add_field(field_name=\"scalar_field\", datatype=DataType.DOUBLE)\n# For sparse vector, no need to specify dimension\nschema.add_field(field_name=\"sparse_vector\", datatype=DataType.SPARSE_FLOAT_VECTOR)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.create_collection(collection_name=\"test_sparse_vector\", schema=schema)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "BN5GdFl4ToyD6oxAyU8cIddbnPY",
+        "block_type": 2,
+        "comment_ids": [
+          "7341599673130336257"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For details on common collection parameters, refer to",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " .",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7341599673130336257"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A3jrdBEuMo958dxkY78cUZX2nKA",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Insert entities with sparse vector embeddings",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "NNh6dnYvjoINwMxEPOIcBbrQnyd",
+        "block_type": 2,
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following example inserts sparse embeddings into a collection by generating a random sparse matrix for 10,000 entities, each with 10,000 dimensions and a sparsity density of 0.005.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Fr5ndPcMfoOp5bxLgWPc1vgLnPd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Prepare entities with sparse vector representation\n",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347607985344020483"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "rng = np.random.default_rng()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\nnum_entities, dim = 10000, 10000\n\n# Generate random sparse rows with an average of 25 non-zero elements per row\nentities = [\n    {\n        \"scalar_field\": rng.random(),\n        # To represent a single sparse vector row, you can use:\n        # - Any of the scipy.sparse sparse matrices class family with shape[0] == 1\n        # - Dict[int, float]\n        # - Iterable[Tuple[int, float]]\n        \"sparse_vector\": {\n            d: rng.random() for d in random.sample(range(dim), random.randint(20, 30))\n        },\n    }\n    for _ in range(num_entities)\n]\n\n# Insert entities\n",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347607985344020483"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.insert(collection_name=\"test_sparse_vector\", data=entities)",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347607985344020483"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "comment_ids": [
+          "7347607985344020483"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "JLb1dMw1MoPqg7x58slcbNcFns7",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Index the collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "M7xMdKICmoCoGLxFkHZcaI3gnug",
+        "block_type": 2,
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before performing similarity searches, create an index for the collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Jvged94w5oSlBuxcyOrcaV56n2e",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Index the collection\n\n# Prepare index params\nindex_params = client.prepare_index_params()\n\nindex_params.add_index(\n    field_name=\"sparse_vector\",\n    index_name=\"sparse_inverted_index\",\n    index_type=\"SPARSE_INVERTED_INDEX\",\n    metric_type=\"IP\",\n    params={\"drop_ratio_build\": 0.2},\n)\n\n# Create index\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.create_index(collection_name=\"test_sparse_vector\", index_params=index_params)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "GrUmd4Smwo9vspxCrZYcI61Znpi",
+        "block_type": 2,
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Index Parameters for Sparse Vectors:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DvVYdNJOroHhKJxQIQpcJspQnAb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "index_type",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Two specific types of indexes are supported for sparse vector fields:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Cf4ydKYYvoWeNXxol1Ecib5gnWe",
+          "PmTSdwFFEoLGPGxlzL5cfiamnEd"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "Cf4ydKYYvoWeNXxol1Ecib5gnWe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "SPARSE_INVERTED_INDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": An inverted index that maps each dimension to its non-zero vectors, facilitating direct access to relevant data during searches. Ideal for datasets with sparse but high-dimensional data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DvVYdNJOroHhKJxQIQpcJspQnAb"
+      },
+      {
+        "block_id": "PmTSdwFFEoLGPGxlzL5cfiamnEd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "SPARSE_WAND",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Utilizes the Weak-AND (WAND) algorithm to quickly bypass unlikely candidates, focusing evaluation on those with higher ranking potential. Treats dimensions as terms and vectors as documents, speeding up searches in large, sparse datasets.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DvVYdNJOroHhKJxQIQpcJspQnAb"
+      },
+      {
+        "block_id": "AmAkdL4b8oiBuwxKZ54cdgiAnXe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "metric_type",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Only the inner product (IP) distance metric is supported for sparse vectors.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "PemNdxqXGoigjrxPOY0cETWrnQh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "params",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Includes the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "drop_ratio_build",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " option to fine-tune the balance between efficiency and accuracy by ignoring small values during the index-building process.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "KvZldQNHlolcuqxfsLCcUHyJnvh",
+        "block_type": 2,
+        "comment_ids": [
+          "7341609840973955100"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For information about common index parameters, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7341609840973955100"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "create_index()",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7341609840973955100"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fapi-reference%2Fpymilvus%2Fv2.3.x%2FCollection%2Fcreate_index().md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7341609840973955100"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "R66Gdf5IfoCNMhxRJtgchU6bnBf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Perform ANN search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "Gvyud1F6GoGhgrxXKfjcPoCznih",
+        "block_type": 2,
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To perform ANN searches on collections containing sparse vectors, configure parameters specific to sparse data:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "H0BsdFxVPoqzNIxEsCgcEvWanle",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "drop_ratio_search",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": fine-tunes the search process by specifying the percentage of smallest values to ignore in the query vector, balancing between search precision and performance.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "WohNdEG7woPPJXxROctcSEizndF",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Load the collection into memory\nclient.load_collection(collection_name=\"test_sparse_vector\")\n\n# Perform ANN search on sparse vectors\n\n# for demo purpose we search for the last inserted vector\nquery_vector = entities[-1][\"sparse_vector\"]\n\nsearch_params = {\n    \"metric_type\": \"IP\",\n    \"params\": {\"drop_ratio_search\": 0.2},\n}\n\nsearch_res = client.search(\n    collection_name=\"test_sparse_vector\",\n    data=[query_vector],\n    limit=3,\n    output_fields=[\"pk\", \"scalar_field\"],\n    search_params=search_params,\n)\n\nfor hits in search_res:\n    for hit in hits:\n        print(f\"hit: {hit}\")\n        \n# Output:\n# hit: {'id': '448458373272710786', 'distance': 7.220192909240723, 'entity': {'pk': '448458373272710786', 'scalar_field': 0.46767865218233806}}\n# hit: {'id': '448458373272708317', 'distance': 1.2287548780441284, 'entity': {'pk': '448458373272708317', 'scalar_field': 0.7315987515699472}}\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# hit: {'id': '448458373272702005', 'distance': 0.9848432540893555, 'entity': {'pk': '448458373272702005', 'scalar_field': 0.9871869181562156}}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "GIaRdp69KoeUdyx5FlPc7TIInud",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Perform scalar queries",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "HUlydiHXioGa1IxnOJhc5ejMnGb",
+        "block_type": 2,
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter entities with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "scalar_field",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " greater than 3:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RQuDdtzieofNd7xJgdKc1yf6nDf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Perform a query by specifying filter expr\nfilter_query_res = client.query(\n    collection_name=\"test_sparse_vector\",\n    filter=\"scalar_field > 0.999\",\n)\n\nprint(filter_query_res[:2])\n\n# Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# [{'pk': '448458373272701862', 'scalar_field': 0.9994093623822689, 'sparse_vector': {173: 0.35266244411468506, 400: 0.49995484948158264, 480: 0.8757831454277039, 661: 0.9931875467300415, 1040: 0.0965644046664238, 1728: 0.7478245496749878, 2365: 0.4351981580257416, 2923: 0.5505295395851135, 3181: 0.7396837472915649, 3848: 0.4428485333919525, 4701: 0.39119353890419006, 5199: 0.790219783782959, 5798: 0.9623121619224548, 6213: 0.453134149312973, 6341: 0.745091438293457, 6775: 0.27766478061676025, 6875: 0.017947908490896225, 8093: 0.11834774166345596, 8617: 0.2289179265499115, 8991: 0.36600416898727417, 9346: 0.5502803921699524}}, {'pk': '448458373272702421', 'scalar_field': 0.9990218525410719, 'sparse_vector': {448: 0.587817907333374, 1866: 0.0994109958410263, 2438: 0.8672442436218262, 2533: 0.8063794374465942, 2595: 0.02122959867119789, 2828: 0.33827054500579834, 2871: 0.1984412521123886, 2938: 0.09674275666475296, 3154: 0.21552987396717072, 3662: 0.5236313343048096, 3711: 0.6463911533355713, 4029: 0.4041993021965027, 7143: 0.7370485663414001, 7589: 0.37588241696357727, 7776: 0.436136394739151, 7962: 0.06377989053726196, 8385: 0.5808192491531372, 8592: 0.8865005970001221, 8648: 0.05727503448724747, 9071: 0.9450633525848389, 9161: 0.146037295460701, 9358: 0.1903032660484314, 9679: 0.3146636486053467, 9974: 0.8561339378356934, 9991: 0.15841573476791382}}]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "LZYOdMaQioKwEIxR06zcemR1nHh",
+        "block_type": 2,
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter entities by primary key:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ediedpuc9omnGnxLNopcoOUEnEg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# primary keys of entities that satisfy the filter\npks = [ret[\"pk\"] for ret in filter_query_res]\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Perform a query by primary key\npk_query_res = client.query(\n    collection_name=\"test_sparse_vector\", filter=f\"pk == '{pks[0]}'\"\n)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347601638510788611"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(pk_query_res)",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347601638510788611"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\n# Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# [{'scalar_field': 0.9994093623822689, 'sparse_vector': {173: 0.35266244411468506, 400: 0.49995484948158264, 480: 0.8757831454277039, 661: 0.9931875467300415, 1040: 0.0965644046664238, 1728: 0.7478245496749878, 2365: 0.4351981580257416, 2923: 0.5505295395851135, 3181: 0.7396837472915649, 3848: 0.4428485333919525, 4701: 0.39119353890419006, 5199: 0.790219783782959, 5798: 0.9623121619224548, 6213: 0.453134149312973, 6341: 0.745091438293457, 6775: 0.27766478061676025, 6875: 0.017947908490896225, 8093: 0.11834774166345596, 8617: 0.2289179265499115, 8991: 0.36600416898727417, 9346: 0.5502803921699524}, 'pk': '448458373272701862'}]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "comment_ids": [
+          "7347601638510788611"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "RQT8d7Bj2oV5OSxwncoc753inFc",
+        "block_type": 4,
+        "comment_ids": [
+          "7347620050251825155",
+          "7343484828853207044"
+        ],
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Limits",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7343484828853207044",
+                    "7347620050251825155"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "ZFjidcGEEo3H6txgnwscdBVmn3b",
+        "block_type": 2,
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When using sparse vectors in Milvus, consider the following limits:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A8kPdmetBota8GxqJqEcUY0Tn1e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, only the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IP",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " distance metric is supported for sparse vectors.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "ZBWQdQumxohEsLxkssrc4oeTnAf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For sparse vector fields, only the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SPARSE_INVERTED_INDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SPARSE_WAND",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " index types are supported.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "HHFMdY6LhowFY0xrRzfcwZxrnig",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "range search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FRi1IwbgN6ilzMrkoIjycmpkZn9d%23doxcnCKy2z35uoqxWPaiIdIUyxj"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "grouping search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FRi1IwbgN6ilzMrkoIjycmpkZn9d%23doxcnzAPwTLvSkYuJJTrZGqF4fc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "search iterator",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FD7f6wXR2iiSBS2kuPilcZjD5n8d"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " are not supported for sparse vectors.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "EZWFdznKGoL2RAxwKNectZb8nUh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "FAQ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "RuGKd7OqzoyC7axhecgcvCP6nXc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What distance metric is supported for sparse vectors?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "KPCPdafDeoIcwwxejEscN910nMk"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "KPCPdafDeoIcwwxejEscN910nMk",
+        "block_type": 2,
+        "parent_id": "RuGKd7OqzoyC7axhecgcvCP6nXc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Sparse vectors only support the Inner Product (IP) distance metric due to the high dimensionality of sparse vectors, which makes L2 distance and cosine distance impractical.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HvpNdLFu7o7zX1xTUPccS9Lynnb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Can you explain the difference between SPARSE_INVERTED_INDEX and SPARSE_WAND, and how do I choose between them?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Q2a5dplGVoLlALxkmtCc61uAnEo"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "Q2a5dplGVoLlALxkmtCc61uAnEo",
+        "block_type": 2,
+        "comment_ids": [
+          "7346058223926919171"
+        ],
+        "parent_id": "HvpNdLFu7o7zX1xTUPccS9Lynnb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "SPARSE_INVERTED_INDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is a traditional inverted index, while ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SPARSE_WAND",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " uses the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Weak-AND",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdl.acm.org%2Fdoi%2F10.1145%2F956863.956944"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " algorithm to reduce the number of full IP distance evaluations during search.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346058223926919171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SPARSE_WAND",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7346058223926919171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is typically faster, but its performance can decline with increasing vector densit",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346058223926919171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "y. To choose between them, conduct experiments and benchmarks based on your specific dataset and use case.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F7KbdkJexoHvFCxhvLtcWhv4nKh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "How should I choose the drop_ratio_build and drop_ratio_search parameters?",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7346057751963828227",
+                    "7347676107367399427"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "WJM0dfUrVoxtNWx9fZ1cOyiQnSh"
+        ],
+        "comment_ids": [
+          "7347676107367399427",
+          "7346057751963828227"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "WJM0dfUrVoxtNWx9fZ1cOyiQnSh",
+        "block_type": 2,
+        "comment_ids": [
+          "7347600909566738436",
+          "7346057751963828227"
+        ],
+        "parent_id": "F7KbdkJexoHvFCxhvLtcWhv4nKh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The choice of ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346057751963828227",
+                    "7347600909566738436"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "drop_ratio_build",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7346057751963828227",
+                    "7347600909566738436"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346057751963828227",
+                    "7347600909566738436"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "drop_ratio_search",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7346057751963828227",
+                    "7347600909566738436"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " depends on the characteristics of your data and your requirements for search latency/throughput and accuracy.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346057751963828227",
+                    "7347600909566738436"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TYFFdCUXuoVNiUxBa92cK4Nvn3w",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What data types are supported for sparse embeddings?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Eef3dF3tDobO4GxWH18chXnanvf"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "Eef3dF3tDobO4GxWH18chXnanvf",
+        "block_type": 2,
+        "parent_id": "TYFFdCUXuoVNiUxBa92cK4Nvn3w",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The dimension part must be an unsigned 32-bit integer, and the value part can be any 32-bit float.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "R9l3dI0AroovTaxVriccspjnnLb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Can the dimension of a sparse embedding be any discrete value within the uint32 space?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "HE6Dd9NjToveLcxnY68ch9qGnFq"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "HE6Dd9NjToveLcxnY68ch9qGnFq",
+        "block_type": 2,
+        "parent_id": "R9l3dI0AroovTaxVriccspjnnLb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes, the dimension of a sparse embedding can be any value from 0 to 4.2 billion (maximum of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "uint32",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " - 1).",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AmmFdHL93onCNcxHvbWcGydmnsc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Are searches on growing segments conducted through an index or by brute force?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "SKOcd9BfPoYCq7xj5uQc1Xuanzf"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "SKOcd9BfPoYCq7xj5uQc1Xuanzf",
+        "block_type": 2,
+        "parent_id": "AmmFdHL93onCNcxHvbWcGydmnsc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Searches on growing segments are conducted through an index of the same type as the sealed segment index. For new growing segments before the index is built, a brute force search is used.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HihHddvHnoeE0vxa6WRcMwignwO",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Is it possible to have both sparse and dense vectors in a single collection?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Uq1DdF1tfoEMacxCapVcUKoJnZd"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "Uq1DdF1tfoEMacxCapVcUKoJnZd",
+        "block_type": 2,
+        "parent_id": "HihHddvHnoeE0vxa6WRcMwignwO",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes, with multiple vector type support, you can create collections with both sparse and dense vector columns and perform hybrid searches on them.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RHQTdGoe9oXCz4xnASfc86wSnVe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What are the requirements for sparse embeddings to be inserted or searched?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "HaKodj6NPomD6fxuKMBce6sGnA6"
+        ],
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc"
+      },
+      {
+        "block_id": "HaKodj6NPomD6fxuKMBce6sGnA6",
+        "block_type": 2,
+        "parent_id": "RHQTdGoe9oXCz4xnASfc86wSnVe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Sparse embeddings must have at least one non-zero value, and vector indices must be non-negative.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Zc8Bdn1NvodJJrxZ5tHcOdv8nQh",
+        "block_type": 2,
+        "parent_id": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 69
+  }
+}

@@ -126,40 +126,6 @@
       "space_id": "7167193056431783939",
       "title": "Manage Cluster",
       "slug": "manage-cluster"
-    },
-    {
-      "creator": "ou_8554528ee6e965bad56710acde1c7847",
-      "has_child": false,
-      "node_create_time": "1689046255",
-      "node_token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
-      "node_type": "origin",
-      "obj_create_time": "1689046255",
-      "obj_edit_time": "1705027181",
-      "obj_token": "CDOJd3wbeoPsxyxfguxcfe89n5g",
-      "obj_type": "docx",
-      "origin_node_token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
-      "origin_space_id": "7167193056431783939",
-      "owner": "ou_8554528ee6e965bad56710acde1c7847",
-      "parent_node_token": "BIy4we6qXiq8NpkHfXgcxuONngb",
-      "space_id": "7167193056431783939",
-      "title": "[Deprecate] Create Cluster"
-    },
-    {
-      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
-      "has_child": false,
-      "node_create_time": "1693552027",
-      "node_token": "VuYzwTq49iSiUikhIoDcsY8xnMd",
-      "node_type": "origin",
-      "obj_create_time": "1693552027",
-      "obj_edit_time": "1705027195",
-      "obj_token": "PA3gdTb8do5mXzxbrTzctkGIn9b",
-      "obj_type": "docx",
-      "origin_node_token": "VuYzwTq49iSiUikhIoDcsY8xnMd",
-      "origin_space_id": "7167193056431783939",
-      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
-      "parent_node_token": "BIy4we6qXiq8NpkHfXgcxuONngb",
-      "space_id": "7167193056431783939",
-      "title": "[Deprecate] Manage Cluster"
     }
   ]
 }

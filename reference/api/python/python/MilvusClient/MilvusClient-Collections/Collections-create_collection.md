@@ -154,7 +154,7 @@ __PARAMETERS:__
 
         The consistency level of the target collection.
 
-        The value defaults to __Bounded __(__1__) with options of __Strong __(__0__), __Bounded __(__1__), __Session __(__2__), and __Eventually __(__3__).
+        The value defaults to __Bounded __(__2__) with options of __Strong __(__0__), __Session __(__1__), __Bounded __(__2__), and __Eventually __(__3__).
 
         <Admonition type="info" icon="📘" title="What is the consistency level?">
 

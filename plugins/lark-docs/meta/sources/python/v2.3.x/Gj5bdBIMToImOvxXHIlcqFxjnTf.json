@@ -1,0 +1,416 @@
+{
+  "created_time": "1710499253",
+  "modified_time": "1710736875",
+  "name": "fit()",
+  "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_token": "LzlXfa9Tflwxi0dGbOWc7HvTnNf",
+  "token": "Gj5bdBIMToImOvxXHIlcqFxjnTf",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/Gj5bdBIMToImOvxXHIlcqFxjnTf",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Gj5bdBIMToImOvxXHIlcqFxjnTf",
+        "block_type": 1,
+        "children": [
+          "Vkvwdc617ooqYuxaLUCcucW8n0d",
+          "IWMIdZf60owqiNxq8kVcuaJCn2e",
+          "XRo6dL2sAofpSPx1FCNcZvRInzd",
+          "JvVNdc1HVofcpjxOQfEcUEMyn0c",
+          "SgdmdZqFuoLRKQx9HdMcoLZXnAr",
+          "CUrQd4vmloHpuRxyaUJcSA6dnvg",
+          "D1r1dOCl3oENQFxMQWecvwP8noh",
+          "MJ0WdBr7co5p8OxHFZ6cnSWknNh",
+          "QdlVdLDzfoQsQgxXyRDcAB62nbb",
+          "OzfPd01TJoOYpOxTxNic1srWnxf",
+          "We8dd3FrLo9bqkxDDawca1zjnCh"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "fit()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "Vkvwdc617ooqYuxaLUCcucW8n0d",
+        "block_type": 2,
+        "parent_id": "Gj5bdBIMToImOvxXHIlcqFxjnTf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation fits various statistics that are required to calculate BM25 ranking score using the corpus given.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IWMIdZf60owqiNxq8kVcuaJCn2e",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Gj5bdBIMToImOvxXHIlcqFxjnTf"
+      },
+      {
+        "block_id": "XRo6dL2sAofpSPx1FCNcZvRInzd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "fit(\n    corpus: List[str], \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Gj5bdBIMToImOvxXHIlcqFxjnTf"
+      },
+      {
+        "block_id": "JvVNdc1HVofcpjxOQfEcUEMyn0c",
+        "block_type": 2,
+        "parent_id": "Gj5bdBIMToImOvxXHIlcqFxjnTf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SgdmdZqFuoLRKQx9HdMcoLZXnAr",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "corpus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Tsp8dGwzzoRd78xHIDyckHcGnRb"
+        ],
+        "parent_id": "Gj5bdBIMToImOvxXHIlcqFxjnTf"
+      },
+      {
+        "block_id": "Tsp8dGwzzoRd78xHIDyckHcGnRb",
+        "block_type": 2,
+        "parent_id": "SgdmdZqFuoLRKQx9HdMcoLZXnAr",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of strings that represent the documents used to fit the model",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CUrQd4vmloHpuRxyaUJcSA6dnvg",
+        "block_type": 2,
+        "parent_id": "Gj5bdBIMToImOvxXHIlcqFxjnTf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D1r1dOCl3oENQFxMQWecvwP8noh",
+        "block_type": 2,
+        "parent_id": "Gj5bdBIMToImOvxXHIlcqFxjnTf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "NoneType",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MJ0WdBr7co5p8OxHFZ6cnSWknNh",
+        "block_type": 2,
+        "parent_id": "Gj5bdBIMToImOvxXHIlcqFxjnTf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QdlVdLDzfoQsQgxXyRDcAB62nbb",
+        "block_type": 2,
+        "parent_id": "Gj5bdBIMToImOvxXHIlcqFxjnTf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OzfPd01TJoOYpOxTxNic1srWnxf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Gj5bdBIMToImOvxXHIlcqFxjnTf"
+      },
+      {
+        "block_id": "We8dd3FrLo9bqkxDDawca1zjnCh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus.pymilvus.model.sparse.bm25.tokenizers import build_default_analyzer\nfrom pymilvus.pymilvus.model.sparse import BM25EmbeddingFunction\n\n# there are some built-in analyzers for several languages, now we use 'en' for English.\nanalyzer = build_default_analyzer(language=\"en\")\n\ncorpus = [\n    \"Artificial intelligence was founded as an academic discipline in 1956.\",\n    \"Alan Turing was the first person to conduct substantial research in AI.\",\n    \"Born in Maida Vale, London, Turing was raised in southern England.\",\n]\n\nbm25_ef = BM25EmbeddingFunction(analyzer)\n\n# Fit the model on the corpus to get the statstics of the corpus.\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "bm25_ef.fit(corpus)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Gj5bdBIMToImOvxXHIlcqFxjnTf"
+      }
+    ],
+    "counts": 13
+  },
+  "slug": "BM25EmbeddingFunction-fit"
+}

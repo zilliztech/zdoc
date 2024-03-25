@@ -5,7 +5,7 @@
   "node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
   "node_type": "origin",
   "obj_create_time": "1704710624",
-  "obj_edit_time": "1708655787",
+  "obj_edit_time": "1709017275",
   "obj_token": "DK0cd2Ix8oQD0rxWUBYcW57snLd",
   "obj_type": "docx",
   "origin_node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
@@ -6783,7 +6783,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "https://storage.googleapis.com/bucket_name/object_name",
+                "content": "https://myaccount.blob.core.windows.net/bucket-name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/object_name",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -7073,7 +7085,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
-                  "italic": true,
+                  "italic": false,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -7085,7 +7097,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
-                  "italic": true,
+                  "italic": false,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -7116,7 +7128,7 @@
                     "7322736017713332252"
                   ],
                   "inline_code": true,
-                  "italic": true,
+                  "italic": false,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -7131,7 +7143,7 @@
                     "7322736017713332252"
                   ],
                   "inline_code": true,
-                  "italic": true,
+                  "italic": false,
                   "strikethrough": false,
                   "underline": false
                 }

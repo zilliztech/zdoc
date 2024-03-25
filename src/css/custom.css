@@ -7,7 +7,16 @@
 /* You can override the default Infima variables here. */
 body {
   font-family: "Inter" sans-serif;
+  font-optical-sizing: auto;
   font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "slnt" 0;
+}
+
+.theme-doc-sidebar-container {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 500;
 }
 
 :root {
@@ -57,15 +66,31 @@ div.theme-doc-toc-desktop {
 }
 
 h1 {
-  font-size: 2rem !important;
+  font-size: 48px !important;
+  font-weight: 700 !important;
+  line-height: 50px !important;
+  margin-bottom: 25px !important;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-style: normal;
 }
 
 h2 {
-  font-size: 1.5rem !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  line-height: 40px !important;
+  margin-top: 40px !important;
+  margin-bottom: 20px !important;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-style: normal;
 }
 
 h3 {
-  font-size: 1.1rem !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  margin-top: 30px !important;
+  margin-bottom: 20px !important;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-style: normal;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -95,18 +120,6 @@ pre {
 
 .footer__link-item svg {
   display: none;
-}
-
-h1 {
-  font-size: 2.4rem;
-}
-
-h2 {
-  font-size: 1.8rem;
-}
-
-h3 {
-  font-size: 1.3rem;
 }
 
 section.row {
@@ -150,6 +163,10 @@ section.row > article > a > p.text--truncate a {
 
 section.row > article > a > p.text--truncate a:hover {
   color: var(--ifm-color-primary-light);
+}
+
+article p {
+  line-height: 2rem;
 }
 
 p a {
@@ -200,14 +217,6 @@ div[role="tabpanel"] .tabs > li.tabs__item {
 div[role="tabpanel"] .tabs > li.tabs__item--active {
   border: 2px solid rgb(246, 248, 250);
   color: var(--ifm-color-primary-light);
-}
-
-nav.pagination-nav > a {
-  border: none;
-}
-
-nav.pagination-nav .pagination-nav__sublabel {
-  display: none;
 }
 
 #edit-this-page {

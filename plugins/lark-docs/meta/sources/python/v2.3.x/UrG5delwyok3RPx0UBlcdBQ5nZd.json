@@ -1,0 +1,628 @@
+{
+  "created_time": "1710498959",
+  "modified_time": "1710730614",
+  "name": "encode_documents()",
+  "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_token": "E4slfDkKPlWEmXdq36GcPtAKnMg",
+  "token": "UrG5delwyok3RPx0UBlcdBQ5nZd",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/UrG5delwyok3RPx0UBlcdBQ5nZd",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "UrG5delwyok3RPx0UBlcdBQ5nZd",
+        "block_type": 1,
+        "children": [
+          "GxItdN15coqao7xEE9scaBginYb",
+          "C3RQdmgfwoq5ZnxP5WKcaOiNnXg",
+          "O0Svd9KRYofn3bxuHF6cjLw3nNh",
+          "UnLJd8l4iosIHvx6z8RcH3BAnZc",
+          "RHCPdDKoHoPFzlxTXigcvuoqnb5",
+          "HQfTdugALo6aN7xnogtcRFumnVc",
+          "OiXAd7GXPoOLTkx5pm9cADmEnOe",
+          "OJHxdMfxMogy80xW672clxs9nxf",
+          "SlrRd8thHojqOnxwdOFcIFKsnNg",
+          "AUC7dNXWqo6WKhxnRAOcF54mnQd",
+          "O1lRdQeyMoFW6RxAZANcrSN5nYe",
+          "Psf1dTUGcoCAdsxDN4hcGumInFc",
+          "QTOBd6japo3ljhxmkx1cqA1Enrd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "encode_documents()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "GxItdN15coqao7xEE9scaBginYb",
+        "block_type": 2,
+        "parent_id": "UrG5delwyok3RPx0UBlcdBQ5nZd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation takes in documents and encodes them into vector embeddings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C3RQdmgfwoq5ZnxP5WKcaOiNnXg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UrG5delwyok3RPx0UBlcdBQ5nZd"
+      },
+      {
+        "block_id": "O0Svd9KRYofn3bxuHF6cjLw3nNh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "encode_documents(\n    documents: List[str], \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -> List[np.array]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "UrG5delwyok3RPx0UBlcdBQ5nZd"
+      },
+      {
+        "block_id": "UnLJd8l4iosIHvx6z8RcH3BAnZc",
+        "block_type": 2,
+        "parent_id": "UrG5delwyok3RPx0UBlcdBQ5nZd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RHCPdDKoHoPFzlxTXigcvuoqnb5",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "documents",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List[str]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "SqnYd2FBloBp1dxtqZqcKxSTnVe"
+        ],
+        "parent_id": "UrG5delwyok3RPx0UBlcdBQ5nZd"
+      },
+      {
+        "block_id": "SqnYd2FBloBp1dxtqZqcKxSTnVe",
+        "block_type": 2,
+        "parent_id": "RHCPdDKoHoPFzlxTXigcvuoqnb5",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of string values, where each string represents a document that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HQfTdugALo6aN7xnogtcRFumnVc",
+        "block_type": 2,
+        "parent_id": "UrG5delwyok3RPx0UBlcdBQ5nZd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OiXAd7GXPoOLTkx5pm9cADmEnOe",
+        "block_type": 2,
+        "parent_id": "UrG5delwyok3RPx0UBlcdBQ5nZd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "List[np.array]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OJHxdMfxMogy80xW672clxs9nxf",
+        "block_type": 2,
+        "parent_id": "UrG5delwyok3RPx0UBlcdBQ5nZd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SlrRd8thHojqOnxwdOFcIFKsnNg",
+        "block_type": 2,
+        "parent_id": "UrG5delwyok3RPx0UBlcdBQ5nZd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list where each element is a NumPy array.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AUC7dNXWqo6WKhxnRAOcF54mnQd",
+        "block_type": 2,
+        "parent_id": "UrG5delwyok3RPx0UBlcdBQ5nZd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Exceptions:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O1lRdQeyMoFW6RxAZANcrSN5nYe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportError",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "O3BEdgEK3o6G4YxxgvWcXtLhntf"
+        ],
+        "parent_id": "UrG5delwyok3RPx0UBlcdBQ5nZd"
+      },
+      {
+        "block_id": "O3BEdgEK3o6G4YxxgvWcXtLhntf",
+        "block_type": 2,
+        "parent_id": "O1lRdQeyMoFW6RxAZANcrSN5nYe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when the OpenAI module is not installed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Psf1dTUGcoCAdsxDN4hcGumInFc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UrG5delwyok3RPx0UBlcdBQ5nZd"
+      },
+      {
+        "block_id": "QTOBd6japo3ljhxmkx1cqA1Enrd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import model\n\nopenai_ef = model.dense.OpenAIEmbeddingFunction(\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    model_name='text-embedding-3-large', ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Specify the model name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    dimensions=512 ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Set the embedding dimensionality according to MRL feature.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n)\n\ndocs = [\n    \"Artificial intelligence was founded as an academic discipline in 1956.\",\n    \"Alan Turing was the first person to conduct substantial research in AI.\",\n    \"Born in Maida Vale, London, Turing was raised in southern England.\",\n]\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "docs_embeddings ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "=",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " openai_ef",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "encode_documents(docs)\n\n# Print embeddings\nprint(\"Embeddings:\", docs_embeddings)\n# Print dimension and shape of embeddings\nprint(\"Dim:\", openai_ef.dim, docs_embeddings[0].shape)\n\n# Embeddings: [array([ 0.01775479, -0.02049707, -0.01100917, -0.05264385,  0.04231524,\n#        -0.00669057,  0.00421101,  0.10464716,  0.05100248,  0.05320431,\n#        -0.03256712, -0.03667054,  0.05512591,  0.03194661, -0.14211836,\n# ...\n#        -8.93921182e-02,  6.78001530e-03,  3.54858451e-02, -5.09016626e-02,\n#         3.80731490e-03,  4.72489968e-02,  2.11893879e-02,  9.96136945e-03,\n#        -5.77749610e-02,  9.73062310e-03,  4.63456511e-02, -4.32428494e-02])]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Dim: 512 (512,)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "UrG5delwyok3RPx0UBlcdBQ5nZd"
+      }
+    ],
+    "counts": 16
+  },
+  "slug": "OpenAIEmbeddingFunction-encode_documents"
+}
