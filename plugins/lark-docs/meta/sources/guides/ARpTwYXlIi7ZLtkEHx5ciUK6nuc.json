@@ -5,7 +5,7 @@
   "node_token": "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
   "node_type": "origin",
   "obj_create_time": "1709689998",
-  "obj_edit_time": "1711423546",
+  "obj_edit_time": "1711439716",
   "obj_token": "EZFWdEgJdouilgxgpXhctZdEneg",
   "obj_type": "docx",
   "origin_node_token": "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
@@ -22,7 +22,6 @@
         "block_type": 1,
         "children": [
           "OyS6d5cBJoNZQpxqmBScM1mgnWg",
-          "CBXbdeRFzomy6Wx0TM5c7513n6d",
           "NwuXd2rdJoovAIxop4jcw1qnnvn",
           "VeWVdX5pIouAUFxo2f7cdQTDnGd",
           "NF43d6WTDodSMVxwZ1acf2LwnMf",
@@ -55,7 +54,6 @@
           "BmgKdhmaLohXVFxvKPWccjzJnVc",
           "LuVddmNK1oMqgqx8892cFj7wnBd",
           "FyrWdoozno3h5cx1B7zchBZ9nBc",
-          "HV1HdXzQ2o4AjJxUUPmcfz33nVg",
           "Nciudh0tAo6KCvxTe79cKoKKnV2"
         ],
         "page": {
@@ -81,32 +79,6 @@
       },
       {
         "block_id": "OyS6d5cBJoNZQpxqmBScM1mgnWg",
-        "block_type": 2,
-        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "<include target=\"indev\">",
-                "text_element_style": {
-                  "background_color": 14,
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "CBXbdeRFzomy6Wx0TM5c7513n6d",
         "block_type": 2,
         "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
         "text": {
@@ -2789,32 +2761,6 @@
         }
       },
       {
-        "block_id": "HV1HdXzQ2o4AjJxUUPmcfz33nVg",
-        "block_type": 2,
-        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "</include>",
-                "text_element_style": {
-                  "background_color": 14,
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
         "block_id": "Nciudh0tAo6KCvxTe79cKoKKnV2",
         "block_type": 2,
         "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
@@ -2840,6 +2786,6 @@
         }
       }
     ],
-    "counts": 61
+    "counts": 59
   }
 }
