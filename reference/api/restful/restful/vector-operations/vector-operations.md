@@ -1,5 +1,4 @@
 ---
-displayed_sidbar: restfulSidebar
 slug: /vector-operations
 beta: FALSE
 notebook: FALSE

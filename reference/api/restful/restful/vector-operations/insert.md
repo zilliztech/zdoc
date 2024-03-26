@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: restfulSidebar
+displayed_sidebar: referenceSidebar
 sidebar_position: 14
 slug: /insert
 title: Insert
@@ -31,8 +31,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 
 ```shell
 curl --request POST \
-    --url "${cluster-endpoint}/v1/vector/insert" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --url "${CLUSTER_ENDPOINT}/v1/vector/insert" \
+    --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
@@ -49,8 +49,8 @@ curl --request POST \
 
 ```shell
 curl --request POST \
-    --url "${cluster-endpoint}/v1/vector/insert" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --url "${CLUSTER_ENDPOINT}/v1/vector/insert" \
+    --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{

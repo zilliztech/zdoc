@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: restfulSidebar
+displayed_sidebar: referenceSidebar
 sidebar_position: 1
 slug: /list-cloud-regions
 title: List Cloud Regions
@@ -24,8 +24,8 @@ Lists all available cloud regions of a specific cloud provider.
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/regions?cloudId=gcp" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/regions?cloudId=gcp" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```

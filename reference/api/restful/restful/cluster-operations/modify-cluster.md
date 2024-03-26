@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: restfulSidebar
+displayed_sidebar: referenceSidebar
 sidebar_position: 6
 slug: /modify-cluster
 title: Modify Cluster
@@ -24,8 +24,8 @@ Modify the configuration of a specified cluster. Currently, you can use this API
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/modify" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/${clusterId}/modify" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{

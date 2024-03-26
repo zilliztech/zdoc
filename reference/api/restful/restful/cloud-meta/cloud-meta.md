@@ -1,5 +1,4 @@
 ---
-displayed_sidbar: restfulSidebar
 slug: /cloud-meta
 beta: FALSE
 notebook: FALSE

@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: restfulSidebar
+displayed_sidebar: referenceSidebar
 sidebar_position: 26
 slug: /run-pipeline
 title: Run Pipeline
@@ -28,8 +28,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487/run" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --url "https://controller.api.{CLOUD_REGION}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487/run" \
         -d '{
             "data": {
                 "doc_url": "https://storage.googleapis.com/example-bucket/zilliz_concept_doc.md?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=example%40example-project.iam.gserviceaccount.com%2F20181026%2Fus-central1%2Fstorage%2Fgoog4_request&X-Goog-Date=20181026T181309Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=247a2aa45f169edf4d187d54e7cc46e4731b1e6273242c4f4c39a1d2507a0e58706e25e3a85a7dbb891d62afa8496def8e260c1db863d9ace85ff0a184b894b117fe46d1225c82f2aa19efd52cf21d3e2022b3b868dcc1aca2741951ed5bf3bb25a34f5e9316a2841e8ff4c530b22ceaa1c5ce09c7cbb5732631510c20580e61723f5594de3aea497f195456a2ff2bdd0d13bad47289d8611b6f9cfeef0c46c91a455b94e90a66924f722292d21e24d31dcfb38ce0c0f353ffa5a9756fc2a9f2b40bc2113206a81e324fc4fd6823a29163fa845c8ae7eca1fcf6e5bb48b3200983c56c5ca81fffb151cca7402beddfc4a76b133447032ea7abedc098d2eb14a7", 
@@ -56,8 +56,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-26a18a66ffc8c0edfdb874/run" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --url "https://controller.api.{CLOUD_REGION}.zillizcloud.com/v1/pipelines/pipe-26a18a66ffc8c0edfdb874/run" \
         -d '{
             "data": {
                 "query_text": "How many collections can a cluster with more than 8 CUs hold?"
@@ -96,8 +96,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-7227d0729d73e63002ed46/run" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --url "https://controller.api.{CLOUD_REGION}.zillizcloud.com/v1/pipelines/pipe-7227d0729d73e63002ed46/run" \
         -d '{
             "data": {
                 "doc_name": "zilliz_concept_doc.md",

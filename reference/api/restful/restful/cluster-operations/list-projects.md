@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: restfulSidebar
+displayed_sidebar: referenceSidebar
 sidebar_position: 28
 slug: /list-projects
 title: List Projects
@@ -24,8 +24,8 @@ Lists all projects in the specified cloud region.
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/projects" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/projects" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```

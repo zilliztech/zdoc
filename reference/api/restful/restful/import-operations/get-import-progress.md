@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: restfulSidebar
+displayed_sidebar: referenceSidebar
 sidebar_position: 19
 slug: /get-import-progress
 title: Get Import Progress
@@ -20,15 +20,14 @@ Retrieves the progress of a specified import task.
 
 - This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
 
-Currently, data of the JSON and Array types are not supported in RESTful API requests..
 :::
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
-    --header "content-type: application/json" \
+    --header "content-type: application/json"
 ```
 
 

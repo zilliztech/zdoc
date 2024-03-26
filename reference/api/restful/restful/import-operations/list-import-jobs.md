@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: restfulSidebar
+displayed_sidebar: referenceSidebar
 sidebar_position: 20
 slug: /list-import-jobs
 title: List Import Jobs
@@ -20,15 +20,14 @@ List all import jobs specific to a cluster.
 
 - This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
 
-Currently, data of the JSON and Array types are not supported in RESTful API requests..
 :::
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/vector/collections/import/list?clusterId=${CLUSTERID}" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import/list?clusterId=${CLUSTERID}" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
-    --header "content-type: application/json" \
+    --header "content-type: application/json"
 ```
 
 
@@ -41,9 +40,8 @@ curl --request GET \
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
     | `clusterId`  | **string**(required)<br/>The ID of a specific cluster on Zilliz Cloud.|
-    | `pageSize`  | **integer**<br/>The number of records to return at each request.|
-    | `currentPage`  | **integer**<br/>The current page number.|
-    | `count`  | **integer**<br/>The number of import jobs.|
+    | `pageSize`  | **string**<br/>The number of records to return at each request.|
+    | `currentPage`  | **string**<br/>The current page number.|
 
 - No path parameters required
 
@@ -63,9 +61,9 @@ Returns a list of import jobs.
 {
     "code": "string",
     "data": {
-        "count": "integer",
-        "currentPage": "integer",
-        "pageSize": "integer",
+        "count": "string",
+        "currentPage": "string",
+        "pageSize": "string",
         "records": [
             {
                 "collectionName": "string",
@@ -94,9 +92,9 @@ The properties in the returned response are listed in the following table.
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | `data`    | **object**<br/>A data object. |
-| `data.count`   | **integer**<br/>Total number of records listed in this response. |
-| `data.currentPage`   | **integer**<br/>The current page number for your reference. |
-| `data.pageSize`   | **integer**<br/>The maximum number of records to be included in each return. |
+| `data.count`   | **string**<br/>Total number of records listed in this response. |
+| `data.currentPage`   | **string**<br/>The current page number for your reference. |
+| `data.pageSize`   | **string**<br/>The maximum number of records to be included in each return. |
 | `data.records`   | **array**<br/> |
 | `data.records[].collectionName`   | **string**<br/>The target collection name of a import task. |
 | `data.records[].jobId`   | **string**<br/>The ID of an import task. |

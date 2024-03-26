@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: restfulSidebar
+displayed_sidebar: referenceSidebar
 sidebar_position: 12
 slug: /drop-collection
 title: Drop Collection
@@ -28,8 +28,8 @@ You can use either of the following ways to authorize:
 
 ```shell
 curl --request POST \
-    --url "${cluster-endpoint}/v1/vector/collections/drop" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --url "${CLUSTER_ENDPOINT}/v1/vector/collections/drop" \
+    --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{

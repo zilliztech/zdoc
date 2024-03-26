@@ -1,5 +1,4 @@
 ---
-displayed_sidbar: restfulSidebar
 slug: /pipeline-operations
 beta: FALSE
 notebook: FALSE

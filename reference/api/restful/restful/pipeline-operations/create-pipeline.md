@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: restfulSidebar
+displayed_sidebar: referenceSidebar
 sidebar_position: 24
 slug: /create-pipeline
 title: Create Pipeline
@@ -28,8 +28,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --url "https://controller.api.{CLOUD_REGION}.zillizcloud.com/v1/pipelines" \
         -d '{
             "projectId": "proj-**********************",
             "name": "my_doc_ingestion_pipeline",
@@ -95,8 +95,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --url "https://controller.api.{CLOUD_REGION}.zillizcloud.com/v1/pipelines" \
         -d '{
             "name": "my_text_search_pipeline",
             "description": "A pipeline that receives text and search for semantically similar doc chunks",
@@ -142,8 +142,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --url "https://controller.api.{CLOUD_REGION}.zillizcloud.com/v1/pipelines" \
         -d '{
             "name": "my_doc_deletion_pipeline",
             "description": "A pipeline that deletes all info associated with a doc",

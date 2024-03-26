@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: restfulSidebar
+displayed_sidebar: referenceSidebar
 sidebar_position: 22
 slug: /describe-pipeline
 title: Describe Pipeline
@@ -26,8 +26,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
-    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-**********************"
+    --header "Authorization: Bearer ${API_KEY}" \
+    --url "https://controller.api.{CLOUD_REGION}.zillizcloud.com/v1/pipelines/pipe-**********************"
 ```
 
 Possible response

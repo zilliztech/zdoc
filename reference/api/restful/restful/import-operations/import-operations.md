@@ -1,5 +1,4 @@
 ---
-displayed_sidbar: restfulSidebar
 slug: /import-operations
 beta: FALSE
 notebook: FALSE

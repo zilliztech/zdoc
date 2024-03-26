@@ -1,5 +1,4 @@
 ---
-displayed_sidbar: restfulSidebar
 slug: /cluster-operations
 beta: FALSE
 notebook: FALSE

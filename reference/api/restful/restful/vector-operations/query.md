@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: restfulSidebar
+displayed_sidebar: referenceSidebar
 sidebar_position: 16
 slug: /query
 title: Query
@@ -31,8 +31,8 @@ Query entities that meet specific conditions. For details on how to build filter
 
 ```shell
 curl --request POST \
-    --url "${cluster-endpoint}/v1/vector/query" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --url "${CLUSTER_ENDPOINT}/v1/vector/query" \
+    --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
@@ -46,7 +46,7 @@ curl --request POST \
 
 :::info Notes
 
-When setting `outputFields` to `count(*)`, you need to set `limit` to `0` to get the total count of entities that meet the specified conditions.
+When setting `outputFields` to `count(\*)`, you need to set `limit` to `0` to get the total count of entities that meet the specified conditions.
 
 :::
 
