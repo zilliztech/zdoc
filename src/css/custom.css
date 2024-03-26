@@ -6,7 +6,6 @@
 
 /* You can override the default Infima variables here. */
 body {
-  font-family: "Inter" sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -68,9 +67,8 @@ div.theme-doc-toc-desktop {
 h1 {
   font-size: 48px !important;
   font-weight: 700 !important;
-  line-height: 50px !important;
+  line-height: 60px !important;
   margin-bottom: 25px !important;
-  font-family: "Plus Jakarta Sans", sans-serif;
   font-style: normal;
 }
 
@@ -80,7 +78,6 @@ h2 {
   line-height: 40px !important;
   margin-top: 40px !important;
   margin-bottom: 20px !important;
-  font-family: "Plus Jakarta Sans", sans-serif;
   font-style: normal;
 }
 
@@ -89,7 +86,6 @@ h3 {
   font-weight: 700 !important;
   margin-top: 30px !important;
   margin-bottom: 20px !important;
-  font-family: "Plus Jakarta Sans", sans-serif;
   font-style: normal;
 }
 
