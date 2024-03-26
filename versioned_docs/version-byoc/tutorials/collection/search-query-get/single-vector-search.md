@@ -18,7 +18,7 @@ After your data is inserted, the next step is to send a `search` request to sear
 
 There are a variety of search types to meet different requirements:
 
-- [Basic search](./single-vector-search#basic-search): Includes single-vector search, batch-vector search, partition search, and search with specified output fields.
+- [Basic search](./single-vector-search#basic-search): Includes single-vector search, bulk-vector search, partition search, and search with specified output fields.
 
 - [Filtered search](./single-vector-search#filtered-search): Applies filtering criteria based on scalar fields to refine search results.
 
@@ -123,16 +123,16 @@ The output is similar to the following:
 
 The output showcases the top 5 neighbors nearest to your query vector, including their unique IDs and the calculated distances.
 
-### Batch-vector search{#batch-vector-search}
+### Bulk-vector search{#bulk-vector-search}
 
-A batch-vector search extends the [single-vector search](./single-vector-search#single-vector-search) concept by allowing multiple query vectors to be searched in a single request. This type of search is ideal for scenarios where you need to find similar vectors for a set of query vectors, significantly reducing the time and computational resources required.
+A bulk-vector search extends the [single-vector search](./single-vector-search#single-vector-search) concept by allowing multiple query vectors to be searched in a single request. This type of search is ideal for scenarios where you need to find similar vectors for a set of query vectors, significantly reducing the time and computational resources required.
 
-In a batch-vector search, you can include several query vectors in the `data` field. The system processes these vectors in parallel, returning a separate result set for each query vector, each set containing the closest matches found within the collection.
+In a bulk-vector search, you can include several query vectors in the `data` field. The system processes these vectors in parallel, returning a separate result set for each query vector, each set containing the closest matches found within the collection.
 
 Here is an example of searching for two distinct sets of the most similar entities from two query vectors:
 
 ```python
-# Batch-vector search
+# Bulk-vector search
 res = client.search(
     collection_name="test_collection", # Replace with the actual name of your collection
     data=[
@@ -178,7 +178,7 @@ The output is similar to the following:
 ]
 ```
 
-The results include two sets of nearest neighbors, one for each query vector, showcasing the efficiency of batch-vector searches in handling multiple query vectors at once.
+The results include two sets of nearest neighbors, one for each query vector, showcasing the efficiency of bulk-vector searches in handling multiple query vectors at once.
 
 ### Partition search{#partition-search}
 
@@ -363,9 +363,9 @@ Alongside the nearest neighbors, the search results will include the specified f
 
 ## Filtered search{#filtered-search}
 
-Filtered search introduces the ability to apply scalar filters to your search query, allowing you to refine the search results based on specific criteria.
+Filtered search applies scalar filters to vector searches, allowing you to refine the search results based on specific criteria. You can find more about filter expressions in [Boolean Expression Rules](https://milvus.io/docs/boolean.md) and examples in [Get & Scalar Query](./get-and-scalar-query).
 
-Here is an example of returning results whose `color` values are prefixed with `red`:
+Filter results whose __color__ is prefixed with __red__:
 
 ```python
 # Search with filter
@@ -411,8 +411,6 @@ The output is similar to the following:
     ]
 ]
 ```
-
-You can find more about filter expressions in [Boolean Expression Rules](https://milvus.io/docs/boolean.md) and examples in [Get & Scalar Query](./get-and-scalar-query).
 
 ## Range search{#range-search}
 

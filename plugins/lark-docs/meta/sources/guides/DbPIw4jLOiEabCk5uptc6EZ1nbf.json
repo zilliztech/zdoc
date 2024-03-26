@@ -5,7 +5,7 @@
   "node_token": "DbPIw4jLOiEabCk5uptc6EZ1nbf",
   "node_type": "origin",
   "obj_create_time": "1702438447",
-  "obj_edit_time": "1707039839",
+  "obj_edit_time": "1711427309",
   "obj_token": "O4OwdGeQbol46kxxjCEchNljnxh",
   "obj_type": "docx",
   "origin_node_token": "DbPIw4jLOiEabCk5uptc6EZ1nbf",
@@ -24,11 +24,17 @@
           "doxcnnUTSBmDl1o6JGG883OLnCf",
           "TP9VdlGHOogXhfxJS3sc6a34nRf",
           "GC90dddy6o8oIRxpCLxcExibn0b",
+          "S8fNdSyXGofd0yxb9kGcrGifnXe",
+          "UCzWdy5VnohKuPxont6c7RAnnDg",
+          "CVoJdEEKZoxDHExWpKOc7wy1nlh",
           "VPN9dds2yo92xsx2zcscm4LBnMh",
           "EVLldufVgozUZPxvIG5c0sKRnFf",
           "Gn5YdOsRcoB6MAxIaPacRoLTnrg",
-          "NK8hdPgt2oCSYFx18mlcGY7dnUP",
           "FbEJd6x5moRX3yxrAMPcc1Fsnkb",
+          "JE09dvkmzoGEdFxYbWpcL5TPnog",
+          "D2o1dpA62o6KI1xoHm8c7EnCnnb",
+          "PzkHdSn8ZoE60vxpJe1cDLKJnfe",
+          "NK8hdPgt2oCSYFx18mlcGY7dnUP",
           "QaKpd0ngSoixNyxFaRgc4zC8nwf",
           "GSRTdrnFWoI3BIxKepdc3fcZn6c",
           "KWnwdBE88oAFimx8YYRcVOf2nNc",
@@ -37,6 +43,17 @@
           "ZxfAd0INRomgDexfnhVcTpMSngc",
           "T2zWdu1fXoqJv7xtPWGcIHMQnkd",
           "Ry0zd5f3YowjwkxbR2Zch67tnsh",
+          "QuZHdymPooMSMHxGID2cXihMnUh",
+          "K6p9d938Zo4T5jxOEYNcOcRKnkg",
+          "MzUWdJww2oyTlRxm3oscc2i3nKc",
+          "WQVKdOJ9IotmCpx5tm6c8wS3nZf",
+          "RGs1d73Qpo29Ayxw52WcqGsGnpg",
+          "DFBKda0mWoMrbBxePTVcFawwnfb",
+          "VbPjdzwWFopEVRxDX41c0KR1nxg",
+          "PePadRCM7oTrUYxAHmWcAVrAnch",
+          "Pa3ZdGJmtonBXTxEmSwc2OcAnPh",
+          "AChDdbXtvo3rBwxZ7XzcQCcyngg",
+          "RvUBdeM59oi2cbxUyUSc1rldn9f",
           "JeQFdLGzXo7C3txT6ozckfovn1g",
           "PorodO1DrocLG9xwWPFcYVd1nLh",
           "L7QKddFX4o9QBvxYMySc8AiPngg",
@@ -67,6 +84,10 @@
           "M768d3e8vocTLsxhNOuc6RiNnlh",
           "PmUpdV73Ro7DLWxFy46cHYAEnQd",
           "PAOhdKCg4oX9wdxSIo2c4vYsnUb",
+          "GwrFdMeENouy3dx8phjcMHlinWb",
+          "T6NmdH7aNom89JxYyfkci65Bn8g",
+          "JQ4zdcl5soMSFgx92uacniK7nfd",
+          "ORRTd3k3UoPQIfxKrxtcEs5unGb",
           "YOZSdbOGioAtavxnoZVcsEg5nse",
           "B7WNd7wkFoHp52xFpxxcqkrHn8c",
           "CGXPdvdofoKGDbx1hBtcrZiLn0d",
@@ -285,6 +306,119 @@
         }
       },
       {
+        "block_id": "S8fNdSyXGofd0yxb9kGcrGifnXe",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UCzWdy5VnohKuPxont6c7RAnnDg",
+        "block_type": 34,
+        "children": [
+          "NOvHdJrbQowXzFx32CQcmLrCnMT"
+        ],
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "quote_container": {}
+      },
+      {
+        "block_id": "NOvHdJrbQowXzFx32CQcmLrCnMT",
+        "block_type": 2,
+        "parent_id": "UCzWdy5VnohKuPxont6c7RAnnDg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For serverless clusters, only the metric chart for CU capacity is available. To unlock a range of advanced metrics, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "migrate to dedicated clusters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FMTqjwwUKhiyns4kGV7Lc7PRlnwb%3Ffrom%3Dfrom_copylink"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CVoJdEEKZoxDHExWpKOc7wy1nlh",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "VPN9dds2yo92xsx2zcscm4LBnMh",
         "block_type": 2,
         "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
@@ -411,17 +545,6 @@
         }
       },
       {
-        "block_id": "NK8hdPgt2oCSYFx18mlcGY7dnUP",
-        "block_type": 26,
-        "iframe": {
-          "component": {
-            "iframe_type": 8,
-            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D28272-1137%26mode%3Ddesign%26t%3DNfgsCH1TmWr8BJZb-4"
-          }
-        },
-        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
-      },
-      {
         "block_id": "FbEJd6x5moRX3yxrAMPcc1Fsnkb",
         "block_type": 2,
         "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
@@ -469,6 +592,177 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "JE09dvkmzoGEdFxYbWpcL5TPnog",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D2o1dpA62o6KI1xoHm8c7EnCnnb",
+        "block_type": 34,
+        "children": [
+          "ARLfdpJl5ou7q2xci7ScxXL1nWh",
+          "JUEldwRbooAp3fxaNbxcrwJ9nRb"
+        ],
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "quote_container": {}
+      },
+      {
+        "block_id": "ARLfdpJl5ou7q2xci7ScxXL1nWh",
+        "block_type": 2,
+        "parent_id": "D2o1dpA62o6KI1xoHm8c7EnCnnb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JUEldwRbooAp3fxaNbxcrwJ9nRb",
+        "block_type": 2,
+        "parent_id": "D2o1dpA62o6KI1xoHm8c7EnCnnb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Clicking ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "View Alerts Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " on the right will redirect you to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Alert Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " page, offering a shortcut to manage your alerts.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PzkHdSn8ZoE60vxpJe1cDLKJnfe",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NK8hdPgt2oCSYFx18mlcGY7dnUP",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D28272-1137%26mode%3Ddesign%26t%3DNfgsCH1TmWr8BJZb-4"
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
       },
       {
         "block_id": "QaKpd0ngSoixNyxFaRgc4zC8nwf",
@@ -874,7 +1168,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Zilliz Cloud offers metric charts for monitoring cluster performance from various aspects. For a quick overview of available metrics, refer to ",
+                "content": "Zilliz Cloud offers metric charts for monitoring cluster performance from various aspects.  For a quick overview of available metrics, refer to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -903,6 +1197,368 @@
               "text_run": {
                 "content": ".",
                 "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QuZHdymPooMSMHxGID2cXihMnUh",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "K6p9d938Zo4T5jxOEYNcOcRKnkg",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"paas\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MzUWdJww2oyTlRxm3oscc2i3nKc",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Pod resources",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "WQVKdOJ9IotmCpx5tm6c8wS3nZf",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To effectively track pod resource consumption, select the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Metrics",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab and refer to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Pod Resources",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " area. Here, you'll find succinct graphs that display CPU, storage, and network usage for each pod.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RGs1d73Qpo29Ayxw52WcqGsGnpg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CPU",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Review a pod's CPU activity, noting the usage, node capacity, and defined resource requests and limits.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "DFBKda0mWoMrbBxePTVcFawwnfb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Storage",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Check the storage consumption for each pod.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "VbPjdzwWFopEVRxDX41c0KR1nxg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Network",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Examine a pod's data transfer rates, both incoming and outgoing.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "PePadRCM7oTrUYxAHmWcAVrAnch",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use the dropdown on the right to filter the display for particular components like Proxy, QueryNode, Coordinator, or DataNode.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Pa3ZdGJmtonBXTxEmSwc2OcAnPh",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "figma",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AChDdbXtvo3rBwxZ7XzcQCcyngg",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RvUBdeM59oi2cbxUyUSc1rldn9f",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -951,31 +1607,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "To view metric charts for resource usage, locate the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Resources",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " section on the ",
+                "content": "To view metric charts for resource usage, select the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -999,7 +1631,31 @@
             },
             {
               "text_run": {
-                "content": " tab. These charts provide a snapshot of the cluster's resource usage, including computation, capacity, and storage.",
+                "content": " tab and refer to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Resources",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " area. These charts provide a snapshot of the cluster's resource usage, including computation, capacity, and storage.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1563,31 +2219,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "To view metric charts for performance, locate the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Performance",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " section on the ",
+                "content": "To view metric charts for performance, select the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1611,7 +2243,31 @@
             },
             {
               "text_run": {
-                "content": " tab. These charts provide a snapshot of cluster performance, including ",
+                "content": " tab and refer to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Performance",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " area. These charts provide a snapshot of cluster performance, including ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1668,10 +2324,39 @@
                   "underline": false
                 }
               }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "IjBEdLaVCo7IVWxtuKGc3dsBnY0",
+          "H4HYdE1T2occ46xtCmacLzgpnim"
+        ],
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "IjBEdLaVCo7IVWxtuKGc3dsBnY0",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "QPS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
             },
             {
               "text_run": {
-                "content": ": The count of search and query requests per second. Vector search operations per second (VPS) is not available for query requests because query operations does not involve vectors.",
+                "content": ": The number of read requests (search and query) per second.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1687,7 +2372,44 @@
             "folded": false
           }
         },
-        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+        "parent_id": "JeLHdbfjno7ZN1xSfkbcEIBqnTg"
+      },
+      {
+        "block_id": "H4HYdE1T2occ46xtCmacLzgpnim",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "VPS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The number of read requests (search) on vectors per second. VPS is not available for query requests as query operations do not involve vectors.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JeLHdbfjno7ZN1xSfkbcEIBqnTg"
       },
       {
         "block_id": "A9X0dchjwoTMtGxVXI7cI8aCnRb",
@@ -1705,10 +2427,39 @@
                   "underline": false
                 }
               }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "PnzedgRsLoPIkwxGc32cwnnwnIc",
+          "WhOZd5wnpoMIHtxdIB7cvAa2noJ"
+        ],
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "PnzedgRsLoPIkwxGc32cwnnwnIc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "QPS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
             },
             {
               "text_run": {
-                "content": ": The count of insert and upsert requests per second.",
+                "content": ": The number of write requests (insert, bulk insert, upset, and delete) per second.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1724,7 +2475,44 @@
             "folded": false
           }
         },
-        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+        "parent_id": "A9X0dchjwoTMtGxVXI7cI8aCnRb"
+      },
+      {
+        "block_id": "WhOZd5wnpoMIHtxdIB7cvAa2noJ",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "VPS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The number of write requests (insert, bulk insert,upset, and delete) on vectors per second.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "A9X0dchjwoTMtGxVXI7cI8aCnRb"
       },
       {
         "block_id": "KguTdSoNEoVQqUx992ScalR7nMb",
@@ -2029,31 +2817,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "To view metric charts for business data, locate the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Data",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " section on the ",
+                "content": "To view metric charts for business data, select the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2077,7 +2841,31 @@
             },
             {
               "text_run": {
-                "content": " tab. These charts provide a snapshot of the cluster's entity data by indicating the number of collections, entities, and loaded entities in the cluster.",
+                "content": " tab and refer to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Data",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " area. These charts provide a snapshot of the cluster's entity data by indicating the number of collections, entities, and loaded entities in the cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2204,6 +2992,240 @@
           }
         },
         "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "GwrFdMeENouy3dx8phjcMHlinWb",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T6NmdH7aNom89JxYyfkci65Bn8g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cluster Connection",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The number of connections to the current cluster. This metric type is available only for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BYOC",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FGhq9wEiOOivgeIkmj2HcHC9onXe%23OTk9dGqxPoqRIkxSm9ucOsjcnJd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " clusters or clusters of the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Enterprise",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fselect-zilliz-cloud-service-plans%3F_highlight%3Denterprise%23enterprise-plan"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " edition.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "JQ4zdcl5soMSFgx92uacniK7nfd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Slow Query Count",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries. This metric type is available only for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BYOC",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FGhq9wEiOOivgeIkmj2HcHC9onXe%23OTk9dGqxPoqRIkxSm9ucOsjcnJd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " clusters or clusters of the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Enterprise",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fselect-zilliz-cloud-service-plans%3F_highlight%3Denterprise%23enterprise-plan"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " edition.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "ORRTd3k3UoPQIfxKrxtcEs5unGb",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "YOZSdbOGioAtavxnoZVcsEg5nse",
@@ -2437,6 +3459,6 @@
         "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
       }
     ],
-    "counts": 70
+    "counts": 98
   }
 }

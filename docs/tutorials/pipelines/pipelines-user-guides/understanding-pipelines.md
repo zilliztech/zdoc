@@ -1,9 +1,9 @@
 ---
 slug: /understanding-pipelines
-beta: TRUE
+beta: FALSE
 notebook: FALSE
 type: origin
-token: Z2MUw8RaRiwlm4kGXAGcI6ybnFA
+token: WOVmwtcwPiSlLekwzQncTGEhnWg
 sidebar_position: 1
 ---
 

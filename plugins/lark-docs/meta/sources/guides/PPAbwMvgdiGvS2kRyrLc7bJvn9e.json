@@ -5,7 +5,7 @@
   "node_token": "PPAbwMvgdiGvS2kRyrLc7bJvn9e",
   "node_type": "origin",
   "obj_create_time": "1706249872",
-  "obj_edit_time": "1707132234",
+  "obj_edit_time": "1711422793",
   "obj_token": "MZKKdcR1moNfaExtipQc18bInxc",
   "obj_type": "docx",
   "origin_node_token": "PPAbwMvgdiGvS2kRyrLc7bJvn9e",
@@ -25,7 +25,7 @@
           "BeTJdCFWXo0UU2xXVmXcchqTnJg",
           "QS0xdu3B9ozRpQxi5FjcJ2oundc",
           "LmXYdv7snoBkyXxCaPCcfLQsnkg",
-          "X1godcEJtoF7Y2xyJ4PcQplgnHg",
+          "IjvkdTDYDo9uYsxwpT1ctaxlnle",
           "L1iudbpZ6oE48lx19uZcCO3dndc",
           "WWOUdqZOzoyB1Tx1KaOcecK2nCe",
           "YdnndqXNDoPazcx7TkicGs8Jnbf",
@@ -329,7 +329,7 @@
         "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
       },
       {
-        "block_id": "X1godcEJtoF7Y2xyJ4PcQplgnHg",
+        "block_id": "IjvkdTDYDo9uYsxwpT1ctaxlnle",
         "block_type": 13,
         "ordered": {
           "elements": [
@@ -359,7 +359,55 @@
             },
             {
               "text_run": {
-                "content": " from the navigation panel. Then click",
+                "content": " from the navigation panel. Then switch to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab and click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Pipelines",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". To create a pipeline, click",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

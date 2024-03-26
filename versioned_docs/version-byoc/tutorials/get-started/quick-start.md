@@ -35,7 +35,7 @@ Zilliz Cloud supports the Milvus SDKs and all [RESTful API endpoints](/reference
 
 ## Create a Cluster{#create-a-cluster}
 
-You can create a cluster with the subscription plan of your choice using either the RESTful API endpoints or on the Zilliz Cloud console. 
+You can create a cluster with the subscription plan of your choice using either the RESTful API endpoints or on the Zilliz Cloud console.
 
 The following demonstrates how to create a dedicated cluster using the RESTful API.
 
@@ -60,23 +60,23 @@ Once your cluster is running, you will be prompted with the [cluster credentials
 
 Alternatively, you can [create an API key](./manage-api-keys) instead of using the cluster credentials for the connection.
 
-## Connect to Cluster{#connect-to-cluster}
+## Connect to Zilliz Cloud cluster{#connect-to-zilliz-cloud-cluster}
 
 Once you have obtained the cluster credentials or an API key, you can use it to connect to your cluster now.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
+from pymilvus import MilvusClient, DataType
 
-CLUSTER_ENDPOINT = ""
-TOKEN = ""
+CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+TOKEN = "YOUR_CLUSTER_TOKEN"
 
-# Replace CLUSTER_ENDPOINT and TOKEN with your own
+# 1. Set up a Milvus client
 client = MilvusClient(
-    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
-    token=TOKEN # A colon-separated cluster username and password
+    uri=CLUSTER_ENDPOINT,
+    token=TOKEN 
 )
 ```
 
@@ -85,23 +85,19 @@ client = MilvusClient(
 <TabItem value='java'>
 
 ```java
-import io.milvus.client.MilvusServiceClient;
-import io.milvus.param.ConnectParam;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.client.ConnectConfig;
 
-public static void main() {
-    String CLUSTER_ENDPOINT = "";
-    String TOKEN = "";
-    
-    ConnectParam connectParam = ConnectParam.newBuilder()
-        .withUri(CLUSTER_ENDPOINT)
-        .withToken(TOKEN)
-        .build();
-        
-    MilvusServiceClient client = new MilvusServiceClient(connectParam);
-    
-    // You should add the code snippets that follow here.
-    // ...
-}
+String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+String TOKEN = "YOUR_CLUSTER_TOKEN";
+
+// 1. Connect to Milvus server
+ConnectConfig connectConfig = ConnectConfig.builder()
+    .uri(CLUSTER_ENDPOINT)
+    .token(TOKEN)
+    .build();
+
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```
 
 </TabItem>
@@ -114,80 +110,8 @@ const { MilvusClient, DataType, sleep } = require("@zilliz/milvus2-sdk-node")
 const address = "YOUR_CLUSTER_ENDPOINT"
 const token = "YOUR_CLUSTER_TOKEN"
 
-async function main() {
-    // 1. Connect to the cluster
-    const client = new MilvusClient({address, token})
-        
-    // 2. Create a collection
-    let res = await client.createCollection({
-        collection_name: "quick_setup",
-        dimension: 5,
-    });  
-
-    console.log(res)
-
-    // Output
-    // 
-    // {
-    //   error_code: 'Success',
-    //   reason: '',
-    //   code: 0,
-    //   retriable: false,
-    //   detail: ''
-    // }
-    // 
-    
-    // You should add the code snippets that follow blow.
-    // ...
- }
- 
- main()
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import (
-    "context"
-    "encoding/json"
-    "fmt"
-    "log"
-    "math/rand"
-    "time"
-
-    "github.com/milvus-io/milvus-sdk-go/v2/client"
-    "github.com/milvus-io/milvus-sdk-go/v2/entity"
-)
-
-func main() {
-    CLUSTER_ENDPOINT := "YOUR_CLUSTER_ENDPOINT"
-    TOKEN := "YOUR_CLUSTER_TOKEN"
-
-    // 1. Connect to cluster
-
-    connParams := client.Config{
-        Address: CLUSTER_ENDPOINT,
-        APIKey:  TOKEN,
-    }
-
-    conn, err := client.NewClient(context.Background(), connParams)
-
-    if err != nil {
-        log.Fatal("Failed to connect to Zilliz Cloud:", err.Error())
-    }
-
-    fmt.Println("Connected to Milvus")
-
-    // Output: 
-    //
-    // Connected to Milvus
-    
-    // ...
-    // You should add the code snippets that follow here.
-    // ...
-}
+// 1. Connect to the cluster
+const client = new MilvusClient({address, token})
 ```
 
 </TabItem>
@@ -195,17 +119,17 @@ func main() {
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Due to language differences, you should <strong>include your code in a main function</strong> if you prefer to code in <strong>Java</strong>, <strong>Golang</strong>, or <strong>Node.js</strong>.</p>
+<p>Due to language differences, you should <strong>include your code in the main function</strong> if you prefer to code in <strong>Java</strong> or <strong>Node.js</strong>.</p>
 
 </Admonition>
 
 ## Create a Collection{#create-a-collection}
 
-On Zilliz Cloud, you need to store your vector embeddings in collections. All vector embeddings stored in a collection share the same dimensionality and distance metric for measuring similarity.
+On Zilliz Cloud, you need to store your vector embeddings in collections. All vector embeddings stored in a collection share the same dimensionality and distance metric for measuring similarity. You can create a collection in either of the following manners.
 
-<Tabs groupId="setupCol" defaultValue='quick' values={[{"label":"Quick Setup","value":"quick"},{"label":"Customized Setup","value":"custom"}]}>
+### Quick setup{#quick-setup}
 
-<TabItem value="quick">
+To set up a collection in quick setup mode, you only need to set the collection name and the dimension of the vector field of the collection.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
@@ -223,22 +147,15 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.param.R;
-import io.milvus.param.RpcStatus;
-import io.milvus.param.highlevel.collection.CreateSimpleCollectionParam;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 // 2. Create a collection in quick setup mode
-CreateSimpleCollectionParam createSimpleCollectionParam = CreateSimpleCollectionParam.newBuilder()
-    .withCollectionName("quick_setup")
-    .withDimension(5)
+CreateCollectionReq quickSetupReq = CreateCollectionReq.builder()
+    .collectionName("quick_setup")
+    .dimension(5)
     .build();
-    
-R<RpcStatus> quickSetup = client.createCollection(createSimpleCollectionParam);
 
-System.out.println("Quick Setup Status: " + quickSetup.getStatus());
-
-// Output:
-// Quick Setup Status: 0
+client.createCollection(quickSetupReq);
 ```
 
 </TabItem>
@@ -247,23 +164,10 @@ System.out.println("Quick Setup Status: " + quickSetup.getStatus());
 
 ```javascript
 // 2. Create a collection
-let res = await client.createCollection({
+await client.createCollection({
     collection_name: "quick_setup",
     dimension: 5,
 });  
-
-console.log(res)
-
-// Output
-// 
-// {
-//   error_code: 'Success',
-//   reason: '',
-//   code: 0,
-//   retriable: false,
-//   detail: ''
-// }
-// 
 ```
 
 </TabItem>
@@ -282,9 +186,6 @@ curl --request POST \
         \"collectionName\": \"${COLLECTION_NAME}\",
         \"dimension\": 32
     }"
-
-# [Note]    
-# When creating a collection using RESTful API, the minimum dimension allowed is 32.
 ```
 
 </TabItem>
@@ -294,17 +195,23 @@ In the above setup,
 
 - The primary and vector fields use their default names (__id__ and __vector__).
 
-- The metric type is also set to its default value (__IP__).
+- The metric type is also set to its default value (__COSINE__).
 
 - The primary field accepts integers and does not automatically increments.
 
 - A reserved JSON field named __$meta__ is used to store non-schema-defined fields and their values.
 
-</TabItem>
+<Admonition type="info" icon="📘" title="Notes">
 
-<TabItem value="custom">
+<p>Collections created using the RESTful API supports a minimum of 32-dimensional vector field.</p>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+</Admonition>
+
+### Customized setup{#customized-setup}
+
+To define the collection schema by yourself, use the customized setup. In this manner, you can define the attributes of each field in the collection, including its name, data type, and extra attributes of a specific field.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -325,8 +232,7 @@ index_params = client.prepare_index_params()
 
 # 3.4. Add indexes
 index_params.add_index(
-    field_name="my_id",
-    index_type="TRIE"
+    field_name="my_id"
 )
 
 index_params.add_index(
@@ -341,11 +247,6 @@ client.create_collection(
     schema=schema,
     index_params=index_params
 )
-
-# [NOTE]
-# Collection created in this way are automatically indexed and loaded.
-# Skip the "index_params" parameter leaves you to manually index and load the collection.
-
 ```
 
 </TabItem>
@@ -353,71 +254,43 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.grpc.DataType;
-import io.milvus.param.IndexType;
-import io.milvus.param.MetricType;
-import io.milvus.param.collection.CreateCollectionParam;
-import io.milvus.param.collection.FieldType;
-import io.milvus.param.collection.LoadCollectionParam;
-import io.milvus.param.index.CreateIndexParam;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 // 3. Create a collection in customized setup mode
 
-// 3.1 Define fields
-FieldType id = FieldType.newBuilder()
-    .withName("my_id")
-    .withDataType(DataType.Int64)
-    .withPrimaryKey(true)
-    .withAutoID(false)
+// 3.1 Craete schema
+CreateCollectionReq.CollectionSchema schema = client.createSchema(false, "");
+
+// 3.2 Add fields to schema
+schema.addPrimaryField("my_id", DataType.Int64, true, false);
+schema.addVectorField("my_vector", DataType.FloatVector, 5);
+
+// 3.3 Prepare index parameters
+IndexParam indexParamForIdField = IndexParam.builder()
+    .fieldName("my_id")
+    .indexType(IndexParam.IndexType.STL_SORT)
     .build();
 
-FieldType vector = FieldType.newBuilder()
-    .withName("my_vector")
-    .withDataType(DataType.FloatVector)
-    .withDimension(5)
-    .build();    
-    
-// 3.2 Create collection
-CreateCollectionParam createCollectionParam = CreateCollectionParam.newBuilder()
-    .withCollectionName("customized_setup")
-    .addFieldType(id)
-    .addFieldType(vector)
-    .withEnableDynamicField(true)
+IndexParam indexParamForVectorField = IndexParam.builder()
+    .fieldName("my_vector")
+    .indexType(IndexParam.IndexType.AUTOINDEX)
+    .metricType(IndexParam.MetricType.IP)
     .build();
 
-R<RpcStatus> customizedSetup = client.createCollection(createCollectionParam);   
+List<IndexParam> indexParams = new ArrayList<>();
+indexParams.add(indexParamForIdField);
+indexParams.add(indexParamForVectorField);
 
-System.out.println("Customized Setup Status: " + customizedSetup.getStatus());
-
-// Output:
-// Customized Setup Status: 0
-
-// 3.3 Create index
-CreateIndexParam createIndexParam = CreateIndexParam.newBuilder()
-    .withCollectionName("customized_setup")
-    .withFieldName("my_vector")
-    .withIndexType(IndexType.AUTOINDEX)
-    .withMetricType(MetricType.IP)
+// 3.4 Create a collection with schema and index parameters
+CreateCollectionReq customizedSetupReq = CreateCollectionReq.builder()
+    .collectionName("customized_setup")
+    .collectionSchema(schema)
+    .indexParams(indexParams)
     .build();
 
-R<RpcStatus> index = client.createIndex(createIndexParam);        
-
-System.out.println("Create Index Status: " + index.getStatus());
-
-// Output:
-// Create Index Status: 0
-
-// 3.4 Load collection
-LoadCollectionParam loadCollectionParam = LoadCollectionParam.newBuilder()
-    .withCollectionName("customized_setup")
-    .build();
-
-R<RpcStatus> load = client.loadCollection(loadCollectionParam);    
-
-System.out.println("Load Collection Status: " +load.getStatus());
-
-// Output:
-// Load Collection Status: 0
+client.createCollection(customizedSetupReq);
 ```
 
 </TabItem>
@@ -425,7 +298,8 @@ System.out.println("Load Collection Status: " +load.getStatus());
 <TabItem value='javascript'>
 
 ```javascript
-// 3. Create a collection with a schema
+// 3. Create a collection in customized setup mode
+// 3.1 Define fields
 const fields = [
     {
         name: "my_id",
@@ -440,149 +314,20 @@ const fields = [
     },
 ]
 
-res = await client.createCollection({
+// 3.2 Prepare index parameters
+const index_params = [{
+    field_name: "my_vector",
+    index_type: "IVF_FLAT",
+    metric_type: "IP",
+    params: { nlist: 1024}
+}]
+
+// 3.3 Create a collection with fields and index parameters
+await client.createCollection({
     collection_name: "customized_setup",
     fields: fields,
-    enable_dynamic_field: true
+    index_params: index_params,
 })
-
-console.log(res)
-
-// Output
-// 
-// {
-//   error_code: 'Success',
-//   reason: '',
-//   code: 0,
-//   retriable: false,
-//   detail: ''
-// }
-// 
-
-res = await client.createIndex({
-    collection_name: "customized_setup",
-    field_name: "my_vector",
-    index_ttype: "AUTOINDEX",
-    metric_type: "L2",
-    params: {}
-})
-
-console.log(res)
-
-// Output
-// 
-// {
-//   error_code: 'Success',
-//   reason: '',
-//   code: 0,
-//   retriable: false,
-//   detail: ''
-// }
-// 
-
-res = await client.loadCollection({
-    collection_name: "customized_setup"
-})
-
-console.log(res)
-
-// Output
-// 
-// {
-//   error_code: 'Success',
-//   reason: '',
-//   code: 0,
-//   retriable: false,
-//   detail: ''
-// }
-// 
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// 2. Create a collection
-collectionName := "quick_setup"
-
-id := entity.NewField().
-    WithName("id").
-    WithDataType(entity.FieldTypeInt64).
-    WithIsPrimaryKey(true)
-
-vector := entity.NewField().
-    WithName("vector").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(5)
-
-schema := &entity.Schema{
-    CollectionName: collectionName,
-    AutoID:         false,
-    Fields: []*entity.Field{
-        id,
-        vector,
-    },
-    EnableDynamicField: true,
-}
-
-err = conn.CreateCollection(
-    context.Background(), // ctx
-    schema,               // schema
-    1,                    // shards
-)
-
-if err != nil {
-    log.Fatal("Failed to create collection:", err.Error())
-}
-
-fmt.Println("Collection created")
-
-// Output: 
-//
-// Collection created
-
-// 3. Create the index
-index, err := entity.NewIndexAUTOINDEX(entity.MetricType("IP"))
-
-if err != nil {
-    log.Fatal("Failed to prepare the index:", err.Error())
-}
-
-err = conn.CreateIndex(
-    context.Background(), // ctx
-    collectionName,       // collection name
-    "vector",             // target field name
-    index,                // index type
-    false,                // async
-)
-
-if err != nil {
-    log.Fatal("Failed to create the index:", err.Error())
-}
-
-fmt.Println("Index created")
-
-// Output: 
-//
-// Index created
-
-// 4. Load the collection
-err = conn.LoadCollection(
-    context.Background(), // ctx
-    collectionName,       // collection name
-    false,                // async
-)
-
-if err != nil {
-    log.Fatal("Failed to load the collection:", err.Error())
-}
-
-fmt.Println("Collection loaded")
-
-// Output: 
-//
-// Collection loaded
 ```
 
 </TabItem>
@@ -604,9 +349,6 @@ curl --request POST \
         \"primaryField\": \"my_id\",
         \"vectorField\": \"my_vector\"
     }"
-    
- # [Note]
- # When creating a collection using RESTful API, you can customize the metric type and the names of the primary and vector fields.
 ```
 
 </TabItem>
@@ -616,7 +358,7 @@ In the above setup, you have the flexibility to define various aspects of the co
 
 - __Schema__
 
-    The schema defines the structure of a collection. Except for adding pre-defined fields and setting their attributes, you have the option of enabling and disabling
+    The schema defines the structure of a collection. Except for adding pre-defined fields and setting their attributes as demonstrated above, you have the option of enabling and disabling
 
     - __AutoID__
 
@@ -632,21 +374,24 @@ In the above setup, you have the flexibility to define various aspects of the co
 
     Index parameters dictate how Zilliz Cloud organizes your data within a collection. You can assign specific indexes to fields by configuring their __metric types__ and __index types__. 
 
-    - For the vector field, you can use `AUTOINDEX` as the index type and use `COSINE`, `L2`, or `IP` as the `metric_type`.
+    - For the vector field, you can use __AUTOINDEX__ as the index type and use __COSINE__, __L2__, or __IP__ as the `metric_type`.
 
-    - For scalar fields, including the primary field, Zilliz Cloud uses `TRIE` for integers and `STL_SORT` for strings.
+    - For scalar fields, including the primary field, Zilliz Cloud uses __TRIE__ for integers and __STL_SORT__ for strings.
 
     For additional insights into index types, refer to[AUTOINDEX Explained](./autoindex-explained).
 
-</TabItem>
+<Admonition type="info" icon="📘" title="Notes">
 
-</Tabs>
+<p>The collection created in the preceding code snippets are automatically loaded. If you prefer not to create an automatically loaded collection, refer to <a href="./manage-collections-sdks#step-3-create-the-collection">Manage Collections (SDKs)</a>.</p>
+<p>Collections created using the RESTful API are always automatically loaded.</p>
+
+</Admonition>
 
 ## Insert Data{#insert-data}
 
 Collections created in either of the preceding ways have been indexed and loaded. Once you are ready, insert some example data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -676,7 +421,8 @@ print(res)
 # Output
 #
 # {
-#     "insert_count": 10
+#     "insert_count": 10,
+#     "ids": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 # }
 ```
 
@@ -685,63 +431,46 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.param.highlevel.dml.InsertRowsParam;
-import io.milvus.param.highlevel.dml.response.InsertResponse;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
+import java.util.Map;
+import java.util.Random;
+import java.util.Arrays;
 import com.alibaba.fastjson.JSONObject;
+
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.response.InsertResp;
 
 // 4. Insert data into the collection
 
-// 4.1 Prepare data
-List<JSONObject> data = new ArrayList<>();
+// 4.1. Prepare data
 
-JSONObject row1 = new JSONObject();
-row1.put("id", 0L);
-row1.put("vector", Arrays.asList(0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f));
-row1.put("color", "pink_8682");
-data.add(row1);
+List<JSONObject> insertData = Arrays.asList(
+    new JSONObject(Map.of("id", 0L, "vector", Arrays.asList(0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f), "color", "pink_8682")),
+    new JSONObject(Map.of("id", 1L, "vector", Arrays.asList(0.19886812562848388f, 0.06023560599112088f, 0.6976963061752597f, 0.2614474506242501f, 0.838729485096104f), "color", "red_7025")),
+    new JSONObject(Map.of("id", 2L, "vector", Arrays.asList(0.43742130801983836f, -0.5597502546264526f, 0.6457887650909682f, 0.7894058910881185f, 0.20785793220625592f), "color", "orange_6781")),
+    new JSONObject(Map.of("id", 3L, "vector", Arrays.asList(0.3172005263489739f, 0.9719044792798428f, -0.36981146090600725f, -0.4860894583077995f, 0.95791889146345f), "color", "pink_9298")),
+    new JSONObject(Map.of("id", 4L, "vector", Arrays.asList(0.4452349528804562f, -0.8757026943054742f, 0.8220779437047674f, 0.46406290649483184f, 0.30337481143159106f), "color", "red_4794")),
+    new JSONObject(Map.of("id", 5L, "vector", Arrays.asList(0.985825131989184f, -0.8144651566660419f, 0.6299267002202009f, 0.1206906911183383f, -0.1446277761879955f), "color", "yellow_4222")),
+    new JSONObject(Map.of("id", 6L, "vector", Arrays.asList(0.8371977790571115f, -0.015764369584852833f, -0.31062937026679327f, -0.562666951622192f, -0.8984947637863987f), "color", "red_9392")),
+    new JSONObject(Map.of("id", 7L, "vector", Arrays.asList(-0.33445148015177995f, -0.2567135004164067f, 0.8987539745369246f, 0.9402995886420709f, 0.5378064918413052f), "color", "grey_8510")),
+    new JSONObject(Map.of("id", 8L, "vector", Arrays.asList(0.39524717779832685f, 0.4000257286739164f, -0.5890507376891594f, -0.8650502298996872f, -0.6140360785406336f), "color", "white_9381")),
+    new JSONObject(Map.of("id", 9L, "vector", Arrays.asList(0.5718280481994695f, 0.24070317428066512f, -0.3737913482606834f, -0.06726932177492717f, -0.6980531615588608f), "color", "purple_4976"))
+);
 
-JSONObject row2 = new JSONObject();
-row2.put("id", 1L);
-row2.put("vector", Arrays.asList(0.19886812562848388f, 0.06023560599112088f, 0.6976963061752597f, 0.2614474506242501f, 0.838729485096104f));
-row2.put("color", "red_7025");
-data.add(row2);
+// 4.2. Insert data
 
-JSONObject row3 = new JSONObject();
-row3.put("id", 2L);
-row3.put("vector", Arrays.asList(0.43742130801983836f, -0.5597502546264526f, 0.6457887650909682f, 0.7894058910881185f, 0.20785793220625592f));
-row3.put("color", "orange_6781");
-data.add(row3);
-
-JSONObject row4 = new JSONObject();
-row4.put("id", 3L);
-row4.put("vector", Arrays.asList(0.16228770231628418f, -0.1996217642211914f, 0.5229960446357727f, 0.7976727294921875f, 0.3812752212524414f));
-row4.put("color", "blue_5219");
-data.add(row4);
-
-JSONObject row5 = new JSONObject();
-row5.put("id", 4L);
-row5.put("vector", Arrays.asList(0.26286205330961354f, 0.9029438446296592f, 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f));
-row5.put("color", "green_3898");
-data.add(row5);
-
-// 4.2 Insert data
-
-InsertRowsParam insertRowsParam = InsertRowsParam.newBuilder()
-    .withCollectionName("quick_setup")
-    .withRows(data)
+InsertReq insertReq = InsertReq.builder()
+    .collectionName("quick_setup")
+    .data(insertData)
     .build();
 
-R<InsertResponse> insert = client.insert(insertRowsParam);
+InsertResp res = client.insert(insertReq);
 
-System.out.println("Insert Counts: " + insert.getData().getInsertCount());
+System.out.println(JSONObject.toJSON(res));
 
 // Output:
-// Insert Counts: 5
+// {"insertCnt": 10}
 ```
 
 </TabItem>
@@ -790,85 +519,11 @@ console.log(res)
 //   insert_cnt: '10',
 //   delete_cnt: '0',
 //   upsert_cnt: '0',
-//   timestamp: '447460747229265922'
+//   timestamp: '448166012849487874'
 // }
 // 
 ```
 
-</TabItem>
-
-<TabItem value='go'>
-
-<Tabs groupId="go" defaultValue='go' values={[{"label":"Demo Code","value":"go"},{"label":"Row Struct Definition","value":"go_1"}]}>
-<TabItem value='go'>
-
-```go
-// 5. Prepare the data
-rows := make([]interface{}, 0, 1)
-
-rows = append(rows, Row{
-    ID:     0,
-    Vector: []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592},
-    Color:  "pink_8682",
-})
-
-rows = append(rows, Row{
-    ID:     1,
-    Vector: []float32{0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104},
-    Color:  "red_7025",
-})
-
-rows = append(rows, Row{
-    ID:     2,
-    Vector: []float32{0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592},
-    Color:  "orange_6781",
-})
-
-rows = append(rows, Row{
-    ID:     3,
-    Vector: []float32{0.2923324203491211, -0.14941246032714844, 0.5195220947265625, -0.8015365600585938, 0.12919048309326172},
-    Color:  "blue_5452",
-})
-
-rows = append(rows, Row{
-    ID:     4,
-    Vector: []float32{0.6222862243652344, -0.7742881774902344, 0.13988418579101562, -0.1562347412109375, 0.1722564697265625},
-    Color:  "green_4620",
-})
-
-// 6. Insert the data
-col, err := conn.InsertRows(
-    context.Background(), // ctx
-    collectionName,       // collection name
-    "",                   // partition name
-    rows,                 // rows
-)
-
-if err != nil {
-    log.Fatal("Failed to insert the data:", err.Error())
-}
-
-fmt.Println("Insert Counts:", col.Len())
-
-// Output: 
-//
-// Insert Counts: 5
-
-```
-
-</TabItem>
-<TabItem value='go_1'>
-
-```go
-type Row struct {
-    ID     int64     `json:"id" milvus:"name:id"`
-    Vector []float32 `json:"vector" milvus:"name:vector"`
-    Color  string    `json:"color" milvus:"name:color"`
-}
-```
-
-</TabItem>
-</Tabs>
 </TabItem>
 
 <TabItem value='bash'>
@@ -894,9 +549,6 @@ curl -s --request POST \
           {"vector": [-0.8182282159972083, -0.7882247281939101, -0.1870871133115657, 0.07914806834708976, 0.9825978431531959, 0.6376417285837821, 0.03471891555076656, -0.528573240192042, -0.3120101879340418, 0.7310244200318836, 0.3667663237097627, 0.9999351024798635, 0.07293451060816847, 0.6677216710145908, -0.22314582717085552, 0.40498852077068226, 0.2795560683848244, 0.9332235971261622, -0.9714034189529892, 0.913281723620643, -0.7104703586519907, 0.5913739340519524, 0.04391242994176703, 0.07074627854378579, 0.9076826088747483, 0.9438187849605835, 0.5835538442072998, 0.960003211421663, 0.35362751894674815, -0.7583360985487917, -0.8714012832349345, 0.48642391194514345], "color": "blue_6372"}
         ]
     }'
-    
-# [NOTE]
-# For collections created using RESTful API, exclude the primary field from the data to insert.
 ```
 
 </TabItem>
@@ -910,15 +562,17 @@ The provided code assumes that you have created a collection in the __Quick Setu
 
 - Each dictionary contains the keys corresponding to both pre-defined and dynamic fields.
 
-For the sake of the search later, you can use the following code snippet to add more entities into the collection.
-
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The following code snippets demonstrate how to generate random data and insert the generated data into the collection. You can safely skip this section if you do not need more data.</p>
+<p>Collections created using RESTful API enabled AutoID, and therefore you need to skip the primary field in the data to insert.</p>
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+### Insert more data{#insert-more-data}
+
+You can safely skip this section if you prefer to search with the inserted 10 entities later. To learn more about the search performance of Zilliz Cloud clusters, you are advised use the following code snippet to add more randomly generated entities into the collection.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1037,41 +691,6 @@ console.log(res)
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-// 7. Insert more data
-rows = make([]interface{}, 0, 1)
-colors := []string{"green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"}
-
-for i := 5; i < 1000; i++ {
-    rows = append(rows, Row{
-        ID:     int64(i),
-        Vector: []float32{rand.Float32(), rand.Float32(), rand.Float32(), rand.Float32(), rand.Float32()},
-        Color:  "color_" + colors[rand.Intn(len(colors))],
-    })
-}
-
-col, err = conn.InsertRows(
-    context.Background(), // ctx
-    collectionName,       // collection name
-    "",                   // partition name
-    rows,                 // rows
-)
-
-if err != nil {
-    log.Fatal("Failed to insert the data:", err.Error())
-}
-
-fmt.Println("Insert Counts:", col.Len())
-
-// Output: 
-//
-// Insert Counts: 995
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 <Tabs groupId="bash" defaultValue='bash' values={[{"label":"Bash Code","value":"bash"},{"label":"Code for Generating Random Floats ","value":"bash_1"}]}>
@@ -1094,9 +713,6 @@ for i in {1..10}; do
 
   sleep 1
 done  
-
-# [NOTE]
-# You can insert a maximum of 100 records per insert request.
 
 ```
 
@@ -1126,595 +742,411 @@ if __name__ == '__main__':
 </TabItem>
 </Tabs>
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>You can insert a maximum of 100 entities in a batch upon each call to the Insert RESTful API.</p>
+
+</Admonition>
+
 ## Similarity Search{#similarity-search}
 
 You can conduct similarity searches based on one or more vector embeddings.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Conducting searches immediately after inserting data may result in an empty set, because the inserted data may be still streaming into the collection. </p>
-<p>You are advised to wait for a few seconds before conducting the following operations.</p>
+<p>The insert operations are asynchronous, and conducting a search immediately after data insertions may result in empty result set. To avoid this, you are advised to wait for a few seconds.</p>
 
 </Admonition>
 
-- __Search with a single vector embedding.__
+### Single-vector search{#single-vector-search}
 
-    The value of the __query_vectors__ variable is a list containing a sub-list of floats. The sub-list represents a vector embedding of 5 dimensions. 
+The value of the __query_vectors__ variable is a list containing a sub-list of floats. The sub-list represents a vector embedding of 5 dimensions. 
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
-    <TabItem value='python'>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Bash","value":"bash"}]}>
+<TabItem value='python'>
 
-    ```python
-    # 6. Search with a single vector
-    # 6.1. Prepare query vectors
-    query_vectors = [
-        [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648]
-    ]
-    
-    # 6.2. Start search
-    res = client.search(
-        collection_name="quick_setup",     # target collection
-        data=query_vectors,                # query vectors
-        limit=3,                           # number of returned entities
-    )
-    
-    print(res)
-    
-    # Output
-    #
-    # [
-    #     [
-    #         {
-    #             "id": 548,
-    #             "distance": 0.08589144051074982,
-    #             "entity": {}
-    #         },
-    #         {
-    #             "id": 736,
-    #             "distance": 0.07866684347391129,
-    #             "entity": {}
-    #         },
-    #         {
-    #             "id": 928,
-    #             "distance": 0.07650312781333923,
-    #             "entity": {}
-    #         }
-    #     ]
-    # ]
-    
-    ```
+```python
+# 6. Search with a single vector
+# 6.1. Prepare query vectors
+query_vectors = [
+    [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648]
+]
 
-    </TabItem>
+# 6.2. Start search
+res = client.search(
+    collection_name="quick_setup",     # target collection
+    data=query_vectors,                # query vectors
+    limit=3,                           # number of returned entities
+)
 
-    <TabItem value='java'>
+print(res)
 
-    ```java
-    import io.milvus.param.highlevel.dml.SearchSimpleParam;
-    import io.milvus.param.highlevel.dml.response.SearchResponse;
-    import io.milvus.response.QueryResultsWrapper;
-    
-    // 6. Search data
-    
-    // 6.1 Prepare query vectors for single-vector search
-    List<List<Float>> queryVectors = new ArrayList<>();
-    queryVectors.add(Arrays.asList(0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f));
-    
-    // 6.2 Search data
-    SearchSimpleParam searchSimpleParam = SearchSimpleParam.newBuilder()
-        .withCollectionName("quick_setup")
-        .withVectors(queryVectors)
-        .withLimit(3L)
-        .build();
-    
-    R<SearchResponse> search = client.search(searchSimpleParam);
-    
-    List<List<JSONObject>> searchResults = new ArrayList<>();
-    
-    for (int i = 0; i < queryVectors.size(); i++) {
-        List<JSONObject> rowSet = new ArrayList<>();
-        for (QueryResultsWrapper.RowRecord rowRecord: search.getData().getRowRecords(i)) {
-            JSONObject object = new JSONObject();
-            object.put("id", rowRecord.getFieldValues().get("id"));
-            object.put("distance", rowRecord.getFieldValues().get("distance"));
-            rowSet.add(object);
-        }
-        searchResults.add(rowSet);
-    };
-    
-    System.out.println(searchResults);
-    
-    // Output:
-    // [[
-    //     {
-    //         "distance": 0,
-    //         "id": 0
-    //     },
-    //     {
-    //         "distance": 0.68204224,
-    //         "id": 42
-    //     },
-    //     {
-    //         "distance": 0.68476903,
-    //         "id": 352
-    //     }
-    // ]]
-    ```
+# Output
+#
+# [
+#     [
+#         {
+#             "id": 548,
+#             "distance": 0.08589144051074982,
+#             "entity": {}
+#         },
+#         {
+#             "id": 736,
+#             "distance": 0.07866684347391129,
+#             "entity": {}
+#         },
+#         {
+#             "id": 928,
+#             "distance": 0.07650312781333923,
+#             "entity": {}
+#         }
+#     ]
+# ]
 
-    </TabItem>
+```
 
-    <TabItem value='javascript'>
+</TabItem>
 
-    ```javascript
-    // 6. Search with a single vector
-    const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
-    
-    res = await client.search({
-        collection_name: "quick_setup",
-        vectors: query_vector,
-        limit: 5,
-    })
-    
-    console.log(res.results)
-    
-    // Output
-    // 
-    // [
-    //   { score: 1.4093276262283325, id: '0' },
-    //   { score: 1.1681138277053833, id: '949' },
-    //   { score: 1.1286306381225586, id: '257' },
-    //   { score: 1.1050969362258911, id: '55' },
-    //   { score: 1.0776047706604004, id: '273' }
-    // ]
-    // 
-    ```
+<TabItem value='java'>
 
-    </TabItem>
+```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.response.SearchResp;
 
-    <TabItem value='go'>
+// 6. Search with a single vector
 
-    <Tabs groupId="go" defaultValue='go' values={[{"label":"Demo code ","value":"go"},{"label":"Result Format Functions","value":"go_1"}]}>
-    <TabItem value='go'>
+List<List<Float>> singleVectorSearchData = new ArrayList<>();
+singleVectorSearchData.add(Arrays.asList(0.041732933f, 0.013779674f, -0.027564144f, -0.013061441f, 0.009748648f));
 
-    ```go
-    // 8. Search with a single vector
-    queryVector := make(entity.FloatVector, 0, 5)
-    queryVector = append(queryVector, 0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592)
-    queryVectors := []entity.Vector{}
-    queryVectors = append(queryVectors, queryVector)
-    expr := ""
-    outputFields := []string{"id", "color"}
-    topK := 3
-    
-    sp, _ := entity.NewIndexAUTOINDEXSearchParam(1)
-    
-    search, err := conn.Search(
-        context.Background(),    // ctx
-        collectionName,          // collection name
-        []string{},              // partition names
-        expr,                    // expression
-        outputFields,            // output fields
-        queryVectors,            // query vectors
-        "vector",                // target field name
-        entity.MetricType("IP"), // metric type
-        topK,                    // topK
-        sp,                      // search param
-    )
-    
-    if err != nil {
-        log.Fatal("Failed to search the data:", err.Error())
-    }
-    
-    fmt.Println(resultsToJSON(search))
-    
-    // Output: 
-    // [
-    //  {
-    //      "counts": 3,
-    //      "distances": [
-    //          1.4093276,
-    //          1.2094578,
-    //          1.1929908
-    //      ],
-    //      "rows": [
-    //          {
-    //              "color": "pink_8682",
-    //              "id": 0
-    //          },
-    //          {
-    //              "color": "color_red",
-    //              "id": 960
-    //          },
-    //          {
-    //              "color": "color_yellow",
-    //              "id": 253
-    //          }
-    //      ]
-    //  }
-    // ]
+SearchReq searchReq = SearchReq.builder()
+    .collectionName("quick_setup")
+    .data(singleVectorSearchData)
+    .topK(3)
+    .build();
 
-    ```
+SearchResp singleVectorSearchRes = client.search(searchReq);
 
-    </TabItem>
-    <TabItem value='go_1'>
+System.out.println(JSONObject.toJSON(singleVectorSearchRes));
 
-    ```go
-    func resultsToJSON(results []client.SearchResult) string {
-        var result []map[string]interface{}
-        for _, r := range results {
-            result = append(result, map[string]interface{}{
-                "counts": r.ResultCount,
-                // "fields": fieldsToJSON(results, true),
-                "rows":      fieldsToJSON(results, false),
-                "distances": r.Scores,
-            })
-        }
-    
-        jsonData, _ := json.Marshal(result)
-        return string(jsonData)
-    }
-    
-    func fieldsToJSON(results []client.SearchResult, inFields bool) []map[string]interface{} {
-        var fields []map[string]interface{}
-        var rows []map[string]interface{}
-        var ret []map[string]interface{}
-        for _, r := range results {
-            for _, f := range r.Fields {
-                field := make(map[string]interface{})
-                name := f.Name()
-                data := typeSwitch(f)
-    
-                for i, v := range data {
-                    if len(rows) < i+1 {
-                        row := make(map[string]interface{})
-                        row[name] = v
-                        rows = append(rows, row)
-                    } else {
-                        rows[i][name] = v
-                    }
-                }
-    
-                field[name] = data
-                fields = append(fields, field)
-            }
-        }
-    
-        if inFields {
-            ret = fields
-        } else {
-            ret = rows
-        }
-    
-        return ret
-    }
-    
-    func typeSwitch(c entity.Column) []interface{} {
-        ctype := c.FieldData().GetType().String()
-    
-        var data []interface{}
-        switch ctype {
-        case "Int64":
-            longData := c.FieldData().GetScalars().GetLongData().Data
-            for _, d := range longData {
-                data = append(data, d)
-            }
-        case "VarChar":
-            stringData := c.FieldData().GetScalars().GetStringData().Data
-            for _, d := range stringData {
-                data = append(data, d)
-            }
-        case "JSON":
-            jsonData := c.FieldData().GetScalars().GetJsonData().Data
-            for _, d := range jsonData {
-                var jsonValue interface{}
-                err := json.Unmarshal(d, &jsonValue)
-                if err != nil {
-                    log.Fatal("Failed to unmarshal")
-                    continue
-                }
-                value, _ := jsonValue.(map[string]interface{})
-                data = append(data, value[c.Name()])
-            }
-        }
-        // You should add more types here
-        return data
-    }
-    
-    ```
+// Output:
+// {"searchResults": [[
+//     {
+//         "score": 0.05251121,
+//         "fields": {
+//             "vector": [
+//                 0.3172005,
+//                 0.97190446,
+//                 -0.36981148,
+//                 -0.48608947,
+//                 0.9579189
+//             ],
+//             "id": 3
+//         }
+//     },
+//     {
+//         "score": 0.052370064,
+//         "fields": {
+//             "vector": [
+//                 0.98410434,
+//                 0.7426865,
+//                 0.036831677,
+//                 0.53017783,
+//                 0.92388684
+//             ],
+//             "id": 256
+//         }
+//     },
+//     {
+//         "score": 0.05131025,
+//         "fields": {
+//             "vector": [
+//                 0.9631593,
+//                 0.9327511,
+//                 0.0035189986,
+//                 0.3523348,
+//                 0.30371177
+//             ],
+//             "id": 365
+//         }
+//     }
+// ]]}
+```
 
-    </TabItem>
-    </Tabs>
-    </TabItem>
+</TabItem>
 
-    <TabItem value='bash'>
+<TabItem value='javascript'>
 
-    ```bash
-    # 8. Conduct a single vector search
-    curl --request POST \
-        --url "${CLUSTER_ENDPOINT}/v1/vector/search" \
-        --header "Authorization: Bearer ${API_KEY}" \
-        --header "accept: application/json" \
-        --header "content-type: application/json" \
-        -d '{
-           "collectionName": "quick_setup",
-           "vector": [0.3847391566891949, -0.5163308707041789, -0.5295937262122905, -0.3592193314357348, 0.9108593166893231, 0.5785260847050646, -0.054715415380102606, -0.5397764260208828, 0.43017743102321027, 0.9806353568812998, -0.24673180651795223, 0.34881128643815407, -0.32534925835429895, 0.7241025896770166, -0.9310390347090534, -0.00517733162532541, 0.35907388281139796, 0.18688386131011714, -0.8001861303343061, -0.5566607389660039, 0.04377295852369856, 0.8581396389536908, -0.978968045358507, -0.4880334792710488, 0.5358685336203941, -0.7193875502048268, -0.4532291009652729, -0.11581052480270215, 0.10653024983528492, -0.8627130991811947, -0.25257559931666673, -0.5504183627361223]
-        }'
-    ```
+```javascript
+// 6. Search with a single vector
+const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 
-    </TabItem>
-    </Tabs>
+res = await client.search({
+    collection_name: "quick_setup",
+    vectors: query_vector,
+    limit: 5,
+})
 
-    The output is a list containing a sub-list of three dictionaries, representing the returned entities with their IDs and distances.
+console.log(res.results)
 
-- __Search with multiple vector embeddings.__
+// Output
+// 
+// [
+//   { score: 0, id: '0' },
+//   { score: 0.6279634237289429, id: '956' },
+//   { score: 0.6972740292549133, id: '770' },
+//   { score: 0.731235682964325, id: '127' },
+//   { score: 0.7537508010864258, id: '734' }
+// ]
+// 
+```
 
-    You can also include multiple vector-embeddings in the __query_vectors__ variable to conduct a bulk similarity search.
+</TabItem>
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
-    <TabItem value='python'>
+<TabItem value='bash'>
 
-    ```python
-    # 7. Search with multiple vectors
-    # 7.1. Prepare query vectors
-    query_vectors = [
-        [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648],
-        [0.0039737443, 0.003020432, -0.0006188639, 0.03913546, -0.00089768134]
-    ]
-    
-    # 7.2. Start search
-    res = client.search(
-        collection_name="quick_setup",
-        data=query_vectors,
-        limit=3,
-    )
-    
-    print(res)
-    
-    # Output
-    #
-    # [
-    #     [
-    #         {
-    #             "id": 548,
-    #             "distance": 0.08589144051074982,
-    #             "entity": {}
-    #         },
-    #         {
-    #             "id": 736,
-    #             "distance": 0.07866684347391129,
-    #             "entity": {}
-    #         },
-    #         {
-    #             "id": 928,
-    #             "distance": 0.07650312781333923,
-    #             "entity": {}
-    #         }
-    #     ],
-    #     [
-    #         {
-    #             "id": 532,
-    #             "distance": 0.044551681727170944,
-    #             "entity": {}
-    #         },
-    #         {
-    #             "id": 149,
-    #             "distance": 0.044386886060237885,
-    #             "entity": {}
-    #         },
-    #         {
-    #             "id": 271,
-    #             "distance": 0.0442606583237648,
-    #             "entity": {}
-    #         }
-    #     ]
-    # ]
-    
-    ```
+```bash
+# 8. Conduct a single vector search
+curl --request POST \
+    --url "${CLUSTER_ENDPOINT}/v1/vector/search" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+       "collectionName": "quick_setup",
+       "vector": [0.3847391566891949, -0.5163308707041789, -0.5295937262122905, -0.3592193314357348, 0.9108593166893231, 0.5785260847050646, -0.054715415380102606, -0.5397764260208828, 0.43017743102321027, 0.9806353568812998, -0.24673180651795223, 0.34881128643815407, -0.32534925835429895, 0.7241025896770166, -0.9310390347090534, -0.00517733162532541, 0.35907388281139796, 0.18688386131011714, -0.8001861303343061, -0.5566607389660039, 0.04377295852369856, 0.8581396389536908, -0.978968045358507, -0.4880334792710488, 0.5358685336203941, -0.7193875502048268, -0.4532291009652729, -0.11581052480270215, 0.10653024983528492, -0.8627130991811947, -0.25257559931666673, -0.5504183627361223]
+    }'
+```
 
-    </TabItem>
+</TabItem>
+</Tabs>
 
-    <TabItem value='java'>
+The output is a list containing a sub-list of three dictionaries, representing the returned entities with their IDs and distances.
 
-    ```java
-    // 6.3 Prepare query vectors for multi-vector search
-    queryVectors.clear();
-    queryVectors.add(Arrays.asList(0.19886812562848388f, 0.06023560599112088f, 0.6976963061752597f, 0.2614474506242501f, 0.838729485096104f));
-    queryVectors.add(Arrays.asList(0.43742130801983836f, -0.5597502546264526f, 0.6457887650909682f, 0.7894058910881185f, 0.20785793220625592f));
-    
-    // 6.4 Search data
-    searchSimpleParam = SearchSimpleParam.newBuilder()
-        .withCollectionName("quick_setup")
-        .withVectors(queryVectors)
-        .withLimit(3L)
-        .build();
-    
-    search = client.search(searchSimpleParam);
-    
-    searchResults = new ArrayList<>();
-    
-    for (int i = 0; i < queryVectors.size(); i++) {
-        List<JSONObject> rowSet = new ArrayList<>();
-        for (QueryResultsWrapper.RowRecord rowRecord: search.getData().getRowRecords(i)) {
-            JSONObject object = new JSONObject();
-            object.put("id", rowRecord.getFieldValues().get("id"));
-            object.put("distance", rowRecord.getFieldValues().get("distance"));
-            rowSet.add(object);
-        }
-        searchResults.add(rowSet);
-    };
-    
-    System.out.println(searchResults);
-    
-    // Output:
-    // [
-    //     [
-    //         {
-    //             "distance": 0,
-    //             "id": 1
-    //         },
-    //         {
-    //             "distance": 0.023562228,
-    //             "id": 495
-    //         },
-    //         {
-    //             "distance": 0.034179505,
-    //             "id": 953
-    //         }
-    //     ],
-    //     [
-    //         {
-    //             "distance": 0,
-    //             "id": 2
-    //         },
-    //         {
-    //             "distance": 0.25061098,
-    //             "id": 3
-    //         },
-    //         {
-    //             "distance": 0.36550486,
-    //             "id": 841
-    //         }
-    //     ]
-    // ]
-    
-    ```
+### Bulk-vector search{#bulk-vector-search}
 
-    </TabItem>
+You can also include multiple vector embeddings in the __query_vectors__ variable to conduct a batch similarity search.
 
-    <TabItem value='javascript'>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
 
-    ```javascript
-    // 7. Search with multiple vectors
-    const query_vectors = [
-        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], 
-        [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104]
-    ]
-    
-    res = await client.search({
-        collection_name: "quick_setup",
-        vectors: query_vectors,
-        limit: 5,
-    })
-    
-    console.log(res.results)
-    
-    // Output
-    // 
-    // [
-    //   [
-    //     { score: 1.4093276262283325, id: '0' },
-    //     { score: 1.1681138277053833, id: '949' },
-    //     { score: 1.1286306381225586, id: '257' },
-    //     { score: 1.1050969362258911, id: '55' },
-    //     { score: 1.0776047706604004, id: '273' }
-    //   ],
-    //   [
-    //     { score: 1.7927448749542236, id: '631' },
-    //     { score: 1.7744147777557373, id: '549' },
-    //     { score: 1.765260934829712, id: '357' },
-    //     { score: 1.7636831998825073, id: '522' },
-    //     { score: 1.7498563528060913, id: '740' }
-    //   ]
-    // ]
-    // 
-    ```
+```python
+# 7. Search with multiple vectors
+# 7.1. Prepare query vectors
+query_vectors = [
+    [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648],
+    [0.0039737443, 0.003020432, -0.0006188639, 0.03913546, -0.00089768134]
+]
 
-    </TabItem>
+# 7.2. Start search
+res = client.search(
+    collection_name="quick_setup",
+    data=query_vectors,
+    limit=3,
+)
 
-    <TabItem value='go'>
+print(res)
 
-    ```go
-    // 9. Search with multiple vectors
-    queryVector1 := make(entity.FloatVector, 0, 5)
-    queryVector2 := make(entity.FloatVector, 0, 5)
-    queryVector1 = append(queryVector1, 0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592)
-    queryVector2 = append(queryVector2, 0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104)
-    queryVectors = []entity.Vector{}
-    queryVectors = append(queryVectors, queryVector1)
-    queryVectors = append(queryVectors, queryVector2)
-    expr = ""
-    outputFields = []string{"id", "color"}
-    topK = 3
-    
-    sp, _ = entity.NewIndexAUTOINDEXSearchParam(1)
-    
-    search, err = conn.Search(
-        context.Background(),    // ctx
-        collectionName,          // collection name
-        []string{},              // partition names
-        expr,                    // expression
-        outputFields,            // output fields
-        queryVectors,            // query vectors
-        "vector",                // target field name
-        entity.MetricType("IP"), // metric type
-        topK,                    // topK
-        sp,                      // search param
-    )
-    
-    if err != nil {
-        log.Fatal("Failed to search the data:", err.Error())
-    }
-    
-    fmt.Println(resultsToJSON(search))
-    
-    // Output: 
-    // [
-    //  {
-    //      "counts": 3,
-    //      "distances": [
-    //          1.4093276,
-    //          1.2094578,
-    //          1.1929908
-    //      ],
-    //      "rows": [
-    //          {
-    //              "color": "color_black",
-    //              "id": 488
-    //          },
-    //          {
-    //              "color": "color_black",
-    //              "id": 338
-    //          },
-    //          {
-    //              "color": "color_green",
-    //              "id": 160
-    //          }
-    //      ]
-    //  },
-    //  {
-    //      "counts": 3,
-    //      "distances": [
-    //          1.8348937,
-    //          1.807337,
-    //          1.7894672
-    //      ],
-    //      "rows": [
-    //          {
-    //              "color": "color_black",
-    //              "id": 488
-    //          },
-    //          {
-    //              "color": "color_black",
-    //              "id": 338
-    //          },
-    //          {
-    //              "color": "color_green",
-    //              "id": 160
-    //          }
-    //      ]
-    //  }
-    // ]
-    ```
+# Output
+#
+# [
+#     [
+#         {
+#             "id": 548,
+#             "distance": 0.08589144051074982,
+#             "entity": {}
+#         },
+#         {
+#             "id": 736,
+#             "distance": 0.07866684347391129,
+#             "entity": {}
+#         },
+#         {
+#             "id": 928,
+#             "distance": 0.07650312781333923,
+#             "entity": {}
+#         }
+#     ],
+#     [
+#         {
+#             "id": 532,
+#             "distance": 0.044551681727170944,
+#             "entity": {}
+#         },
+#         {
+#             "id": 149,
+#             "distance": 0.044386886060237885,
+#             "entity": {}
+#         },
+#         {
+#             "id": 271,
+#             "distance": 0.0442606583237648,
+#             "entity": {}
+#         }
+#     ]
+# ]
 
-    </TabItem>
-    </Tabs>
+```
 
-    The output should be a list of two sub-lists, each of which contains three dictionaries, representing the returned entities with their IDs and distances. 
+</TabItem>
 
-- __Search with filter expressions using fields defined in the schema.__
+<TabItem value='java'>
+
+```java
+// 7. Search with multiple vectors
+List<List<Float>> multiVectorSearchData = new ArrayList<>();
+multiVectorSearchData.add(Arrays.asList(0.041732933f, 0.013779674f, -0.027564144f, -0.013061441f, 0.009748648f));
+multiVectorSearchData.add(Arrays.asList(0.0039737443f, 0.003020432f, -0.0006188639f, 0.03913546f, -0.00089768134f));
+
+searchReq = SearchReq.builder()
+    .collectionName("quick_setup")
+    .data(multiVectorSearchData)
+    .topK(3)
+    .build();
+
+SearchResp multiVectorSearchRes = client.search(searchReq);
+
+System.out.println(JSONObject.toJSON(multiVectorSearchRes));
+
+// Output:
+// {"searchResults": [
+//     [
+//         {
+//             "score": 0.05251121,
+//             "fields": {
+//                 "vector": [
+//                     0.3172005,
+//                     0.97190446,
+//                     -0.36981148,
+//                     -0.48608947,
+//                     0.9579189
+//                 ],
+//                 "id": 3
+//             }
+//         },
+//         {
+//             "score": 0.052370064,
+//             "fields": {
+//                 "vector": [
+//                     0.98410434,
+//                     0.7426865,
+//                     0.036831677,
+//                     0.53017783,
+//                     0.92388684
+//                 ],
+//                 "id": 256
+//             }
+//         },
+//         {
+//             "score": 0.05131025,
+//             "fields": {
+//                 "vector": [
+//                     0.9631593,
+//                     0.9327511,
+//                     0.0035189986,
+//                     0.3523348,
+//                     0.30371177
+//                 ],
+//                 "id": 365
+//             }
+//         }
+//     ],
+//     [
+//         {
+//             "score": 0.044228386,
+//             "fields": {
+//                 "vector": [
+//                     0.8481157,
+//                     0.87862474,
+//                     0.89253455,
+//                     0.99449104,
+//                     0.18173677
+//                 ],
+//                 "id": 889
+//             }
+//         },
+//         {
+//             "score": 0.044011116,
+//             "fields": {
+//                 "vector": [
+//                     0.8525959,
+//                     0.8243295,
+//                     0.17058581,
+//                     0.9792657,
+//                     0.094860196
+//                 ],
+//                 "id": 303
+//             }
+//         },
+//         {
+//             "score": 0.04321113,
+//             "fields": {
+//                 "vector": [
+//                     0.7514371,
+//                     0.86968124,
+//                     0.3645497,
+//                     0.9844346,
+//                     0.7824564
+//                 ],
+//                 "id": 379
+//             }
+//         }
+//     ]
+// ]}
+
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 7. Search with multiple vectors
+const query_vectors = [
+    [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], 
+    [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104]
+]
+
+res = await client.search({
+    collection_name: "quick_setup",
+    vectors: query_vectors,
+    limit: 5,
+})
+
+console.log(res.results)
+
+// Output
+// 
+// [
+//   [
+//     { score: 0, id: '0' },
+//     { score: 0.6279634237289429, id: '956' },
+//     { score: 0.6972740292549133, id: '770' },
+//     { score: 0.731235682964325, id: '127' },
+//     { score: 0.7537508010864258, id: '734' }
+//   ],
+//   [
+//     { score: 0, id: '1' },
+//     { score: 0.026617102324962616, id: '217' },
+//     { score: 0.026979688555002213, id: '111' },
+//     { score: 0.04925869405269623, id: '287' },
+//     { score: 0.05548785999417305, id: '893' }
+//   ]
+// ]
+// 
+```
+
+</TabItem>
+</Tabs>
+
+The output should be a list of two sub-lists, each of which contains three dictionaries, representing the returned entities with their IDs and distances. 
+
+### Filtered searches{#filtered-searches}
+
+- __With schema-defined fields__
 
     You can also enhance the search result by including a filter and specifying certain output fields in the search request.
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
     <TabItem value='python'>
 
     ```python
@@ -1762,51 +1194,63 @@ You can conduct similarity searches based on one or more vector embeddings.
     <TabItem value='java'>
 
     ```java
-    // 6.5 Prepare query vectors 
-    queryVectors.clear();
-    queryVectors.add(Arrays.asList(0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f));
-    String filter = "500 < id < 800";
+    // 8. Search with a filter expression using schema-defined fields
+    List<List<Float>> filteredVectorSearchData = new ArrayList<>();
+    filteredVectorSearchData.add(Arrays.asList(0.041732933f, 0.013779674f, -0.027564144f, -0.013061441f, 0.009748648f));
     
-    // 6.6 Search data
-    searchSimpleParam = SearchSimpleParam.newBuilder()
-        .withCollectionName("quick_setup")
-        .withVectors(queryVectors)
-        .withLimit(3L)
-        .withFilter(filter)
+    searchReq = SearchReq.builder()
+        .collectionName("quick_setup")
+        .data(filteredVectorSearchData)
+        .filter("500 < id < 800")
+        .topK(3)
         .build();
     
-    search = client.search(searchSimpleParam);
+    SearchResp filteredVectorSearchRes = client.search(searchReq);
     
-    searchResults = new ArrayList<>();
-    
-    for (int i = 0; i < queryVectors.size(); i++) {
-        List<JSONObject> rowSet = new ArrayList<>();
-        for (QueryResultsWrapper.RowRecord rowRecord: search.getData().getRowRecords(i)) {
-            JSONObject object = new JSONObject();
-            object.put("id", rowRecord.getFieldValues().get("id"));
-            object.put("distance", rowRecord.getFieldValues().get("distance"));
-            rowSet.add(object);
-        }
-        searchResults.add(rowSet);
-    };
-    
-    System.out.println(searchResults);
+    System.out.println(JSONObject.toJSON(filteredVectorSearchRes));
     
     // Output:
-    // [[
+    // {"searchResults": [[
     //     {
-    //         "distance": 0.83093774,
-    //         "id": 550
+    //         "score": 0.048790313,
+    //         "fields": {
+    //             "vector": [
+    //                 0.9454012,
+    //                 0.8308198,
+    //                 0.27438205,
+    //                 0.061423004,
+    //                 0.64141226
+    //             ],
+    //             "id": 507
+    //         }
     //     },
     //     {
-    //         "distance": 0.85608006,
-    //         "id": 630
+    //         "score": 0.048747763,
+    //         "fields": {
+    //             "vector": [
+    //                 0.9759776,
+    //                 0.8752648,
+    //                 0.16059041,
+    //                 0.30487162,
+    //                 0.4477638
+    //             ],
+    //             "id": 523
+    //         }
     //     },
     //     {
-    //         "distance": 0.96230835,
-    //         "id": 762
+    //         "score": 0.043513775,
+    //         "fields": {
+    //             "vector": [
+    //                 0.97607815,
+    //                 0.5138794,
+    //                 0.12614381,
+    //                 0.2045728,
+    //                 0.18947655
+    //             ],
+    //             "id": 619
+    //         }
     //     }
-    // ]]
+    // ]]}
     ```
 
     </TabItem>
@@ -1828,75 +1272,13 @@ You can conduct similarity searches based on one or more vector embeddings.
     // Output
     // 
     // [
-    //   { score: 1.0726149082183838, id: '596' },
-    //   { score: 0.9994362592697144, id: '709' },
-    //   { score: 0.9901663064956665, id: '613' },
-    //   { score: 0.9756573438644409, id: '722' },
-    //   { score: 0.9303033351898193, id: '595' }
+    //   { score: 0.6972740292549133, id: '770' },
+    //   { score: 0.7537508010864258, id: '734' },
+    //   { score: 0.7619715332984924, id: '586' },
+    //   { score: 0.7646334171295166, id: '698' },
+    //   { score: 0.8964425921440125, id: '585' }
     // ]
-    // 
-    ```
-
-    </TabItem>
-
-    <TabItem value='go'>
-
-    ```go
-    // 10. Search with filter expressions using schema-defined fields
-    queryVector = make(entity.FloatVector, 0, 5)
-    queryVector = append(queryVector, 0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592)
-    queryVectors = []entity.Vector{}
-    queryVectors = append(queryVectors, queryVector)
-    expr = "500 < id < 800"
-    outputFields = []string{"id", "color"}
-    topK = 3
-    
-    sp, _ = entity.NewIndexAUTOINDEXSearchParam(1)
-    
-    search, err = conn.Search(
-        context.Background(),    // ctx
-        collectionName,          // collection name
-        []string{},              // partition names
-        expr,                    // expression
-        outputFields,            // output fields
-        queryVectors,            // query vectors
-        "vector",                // target field name
-        entity.MetricType("IP"), // metric type
-        topK,                    // topK
-        sp,                      // search param
-    )
-    
-    if err != nil {
-        log.Fatal("Failed to search the data:", err.Error())
-    }
-    
-    fmt.Println(resultsToJSON(search))
-    
-    // Output: 
-    // [
-    //  {
-    //      "counts": 3,
-    //      "distances": [
-    //          1.1309906,
-    //          1.0854248,
-    //          1.0046971
-    //      ],
-    //      "rows": [
-    //          {
-    //              "color": "color_brown",
-    //              "id": 750
-    //          },
-    //          {
-    //              "color": "color_black",
-    //              "id": 771
-    //          },
-    //          {
-    //              "color": "color_black",
-    //              "id": 683
-    //          }
-    //      ]
-    //  }
-    // ]
+    //  
     ```
 
     </TabItem>
@@ -1904,11 +1286,11 @@ You can conduct similarity searches based on one or more vector embeddings.
 
     The output should be a list containing a sub-list of three dictionaries, each representing a searched entity with its ID, distance, and the specified output fields.
 
-- __Search with filter expressions using a non-schema-defined field.__
+- __With non-schema-defined fields__
 
     You can also include dynamic fields in a filter expression. In the following code snippet, `color` is a non-schema-defined field. You can include them either as keys in the magic `$meta` field, such as `$meta["color"]`, or directly use it like a schema-defined field, such as `color`.
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Bash","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -1964,55 +1346,37 @@ You can conduct similarity searches based on one or more vector embeddings.
     <TabItem value='java'>
 
     ```java
-    // 6.7 Search with non-schema-defined fields
+    // 9. Search with a filter expression using custom fields
+    List<List<Float>> customFilteredVectorSearchData = new ArrayList<>();
+    customFilteredVectorSearchData.add(Arrays.asList(0.041732933f, 0.013779674f, -0.027564144f, -0.013061441f, 0.009748648f));
     
-    filter = "$meta[\"color\"] like \"red%\"";
-    List<String> outputFields = Arrays.asList("id", "color");
-    
-    searchSimpleParam = SearchSimpleParam.newBuilder()
-        .withCollectionName("quick_setup")
-        .withVectors(queryVectors)
-        .withLimit(3L)
-        .withFilter(filter)
-        .withOutputFields(outputFields)
+    searchReq = SearchReq.builder()
+        .collectionName("quick_setup")
+        .data(customFilteredVectorSearchData)
+        .filter("$meta[\"color\"] like \"red%\"")
+        .topK(3)
+        .outputFields(Arrays.asList("color"))
         .build();
     
-    search = client.search(searchSimpleParam);
+    SearchResp customFilteredVectorSearchRes = client.search(searchReq);
     
-    searchResults = new ArrayList<>();
-    
-    for (int i = 0; i < queryVectors.size(); i++) {
-        List<JSONObject> rowSet = new ArrayList<>();
-        for (QueryResultsWrapper.RowRecord rowRecord: search.getData().getRowRecords(i)) {
-            JSONObject object = new JSONObject();
-            object.put("id", rowRecord.getFieldValues().get("id"));
-            object.put("distance", rowRecord.getFieldValues().get("distance"));
-            object.put("color", rowRecord.getFieldValues().get("color"));
-            rowSet.add(object);
-        }
-        searchResults.add(rowSet);
-    };
-    
-    System.out.println(searchResults);
+    System.out.println(JSONObject.toJSON(customFilteredVectorSearchRes));
     
     // Output:
-    // [[
+    // {"searchResults": [[
     //     {
-    //         "distance": 0.7879871,
-    //         "color": "red_2427",
-    //         "id": 382
+    //         "score": 0.048747763,
+    //         "fields": {"color": "red_6571"}
     //     },
     //     {
-    //         "distance": 0.99741167,
-    //         "color": "red_6226",
-    //         "id": 567
+    //         "score": 0.04689868,
+    //         "fields": {"color": "red_3471"}
     //     },
     //     {
-    //         "distance": 1.007118,
-    //         "color": "red_7025",
-    //         "id": 1
+    //         "score": 0.046139073,
+    //         "fields": {"color": "red_8272"}
     //     }
-    // ]]
+    // ]]}
     ```
 
     </TabItem>
@@ -2042,66 +1406,14 @@ You can conduct similarity searches based on one or more vector embeddings.
     //     detail: ''
     //   },
     //   results: [
-    //     { score: 1.1681138277053833, id: '949', color: 'red_7798' },
-    //     { score: 0.9946126937866211, id: '898', color: 'red_7664' },
-    //     { score: 0.9902134537696838, id: '4', color: 'red_4794' },
-    //     { score: 0.9756573438644409, id: '722', color: 'red_1496' },
-    //     { score: 0.931635856628418, id: '916', color: 'red_1816' }
+    //     { score: 1.0071179866790771, id: '1', color: 'red_7025' },
+    //     { score: 1.2565785646438599, id: '737', color: 'red_6152' },
+    //     { score: 1.2968990802764893, id: '678', color: 'red_8746' },
+    //     { score: 1.3497979640960693, id: '144', color: 'red_2888' },
+    //     { score: 1.3581382036209106, id: '574', color: 'red_2877' }
     //   ]
     // }
     // 
-    ```
-
-    </TabItem>
-
-    <TabItem value='go'>
-
-    ```go
-    // 10. Search with filter expressions using non-schema-defined fields
-    queryVector = make(entity.FloatVector, 0, 5)
-    queryVector = append(queryVector, 0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592)
-    queryVectors = []entity.Vector{}
-    queryVectors = append(queryVectors, queryVector)
-    expr = "$meta[\"color\"] like \"red%\""
-    outputFields = []string{"id", "color"}
-    topK = 3
-    
-    sp, _ = entity.NewIndexAUTOINDEXSearchParam(1)
-    
-    search, err = conn.Search(
-        context.Background(),    // ctx
-        collectionName,          // collection name
-        []string{},              // partition names
-        expr,                    // expression
-        outputFields,            // output fields
-        queryVectors,            // query vectors
-        "vector",                // target field name
-        entity.MetricType("IP"), // metric type
-        topK,                    // topK
-        sp,                      // search param
-    )
-    
-    if err != nil {
-        log.Fatal("Failed to search the data:", err.Error())
-    }
-    
-    fmt.Println(resultsToJSON(search))
-    
-    // Output: 
-    // [
-    //  {
-    //      "counts": 1,
-    //      "distances": [
-    //          0.8519943
-    //      ],
-    //      "rows": [
-    //          {
-    //              "color": "red_7025",
-    //              "id": 1
-    //          }
-    //      ]
-    //  }
-    // ]
     ```
 
     </TabItem>
@@ -2130,9 +1442,9 @@ You can conduct similarity searches based on one or more vector embeddings.
 
 Unlike a vector similarity search, a query retrieves vectors via scalar filtering based on [filter expressions](https://milvus.io/docs/boolean.md).
 
-- __Query with filter using schema-defined fields__
+- __With filter using schema-defined fields__
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
     <TabItem value='python'>
 
     ```python
@@ -2173,47 +1485,63 @@ Unlike a vector similarity search, a query retrieves vectors via scalar filterin
     <TabItem value='java'>
 
     ```java
-    import io.milvus.param.highlevel.dml.QuerySimpleParam;
-    import io.milvus.response.QueryResultsWrapper;
+    import io.milvus.v2.service.vector.request.QueryReq;
+    import io.milvus.v2.service.vector.response.QueryResp;
     
-    QuerySimpleParam querySimpleParam = QuerySimpleParam.newBuilder()
-        .withCollectionName("quick_setup")
-        .withFilter("10 < id < 15")
-        .withOutputFields(Arrays.asList("id", "color"))
+    // 10. Query with filter using schema-defined fields
+    QueryReq queryReq = QueryReq.builder()
+        .collectionName("quick_setup")
+        .filter("10 < id < 15")
+        .limit(5)
         .build();
     
-    R<QueryResponse> query = client.query(querySimpleParam);
+    QueryResp queryRes = client.query(queryReq);
     
-    List<JSONObject> queryResults = new ArrayList<>();
-    
-    for (QueryResultsWrapper.RowRecord rowRecord: query.getData().getRowRecords()) {
-        JSONObject object = new JSONObject();
-        object.put("id", rowRecord.getFieldValues().get("id"));
-        object.put("color", rowRecord.getFieldValues().get("color"));
-        queryResults.add(object);
-    }
-    
-    System.out.println(queryResults);
+    System.out.println(JSONObject.toJSON(queryRes));
     
     // Output:
-    // [
-    //     {
-    //         "color": "grey_1631",
+    // {"queryResults": [
+    //     {"fields": {
+    //         "vector": [
+    //             0.5905076,
+    //             0.91603523,
+    //             0.5313443,
+    //             0.40084702,
+    //             0.9552809
+    //         ],
     //         "id": 11
-    //     },
-    //     {
-    //         "color": "green_7524",
+    //     }},
+    //     {"fields": {
+    //         "vector": [
+    //             0.9673571,
+    //             0.27244568,
+    //             0.9686751,
+    //             0.70798296,
+    //             0.8697661
+    //         ],
     //         "id": 12
-    //     },
-    //     {
-    //         "color": "black_3071",
+    //     }},
+    //     {"fields": {
+    //         "vector": [
+    //             0.1426422,
+    //             0.029041886,
+    //             0.5726654,
+    //             0.6437685,
+    //             0.3182432
+    //         ],
     //         "id": 13
-    //     },
-    //     {
-    //         "color": "green_0242",
+    //     }},
+    //     {"fields": {
+    //         "vector": [
+    //             0.4762795,
+    //             0.39644545,
+    //             0.7544444,
+    //             0.6410805,
+    //             0.40819722
+    //         ],
     //         "id": 14
-    //     }
-    // ]
+    //     }}
+    // ]}
     ```
 
     </TabItem>
@@ -2243,58 +1571,11 @@ Unlike a vector similarity search, a query retrieves vectors via scalar filterin
     ```
 
     </TabItem>
-
-    <TabItem value='go'>
-
-    ```go
-    // 10. Query using schema-defined fields
-    expr = "10 < id < 15"
-    outputFields = []string{"id", "color"}
-    topK = 3
-    
-    sp, _ = entity.NewIndexAUTOINDEXSearchParam(1)
-    
-    query, err := conn.Query(
-        context.Background(), // ctx
-        collectionName,       // collection name
-        []string{},           // partition names
-        expr,                 // expression
-        outputFields,         // output fields
-    )
-    
-    if err != nil {
-        log.Fatal("Failed to query the data:", err.Error())
-    }
-    
-    fmt.Println(resultSetToJSON(query, true))
-    
-    // Output: 
-    // [
-    //  {
-    //      "id": [
-    //          11,
-    //          12,
-    //          13,
-    //          14
-    //      ]
-    //  },
-    //  {
-    //      "$meta": [
-    //          "color_purple",
-    //          "color_green",
-    //          "color_white",
-    //          "color_blue"
-    //      ]
-    //  }
-    // ]
-    ```
-
-    </TabItem>
     </Tabs>
 
-- __Query with filter using dynamic fields.__
+- __With filter using non-schema-defined fields.__
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Bash","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -2339,49 +1620,41 @@ Unlike a vector similarity search, a query retrieves vectors via scalar filterin
     <TabItem value='java'>
 
     ```java
-    querySimpleParam = QuerySimpleParam.newBuilder()
-        .withCollectionName("quick_setup")
-        .withFilter("$meta[\"color\"] like \"brown_8%\"")
-        .withOutputFields(Arrays.asList("id", "color"))
-        .withLimit(5L)
+    // 11. Query with filter using custom fields
+    QueryReq customQueryReq = QueryReq.builder()
+        .collectionName("quick_setup")
+        .filter("$meta[\"color\"] like \"brown_8%\"")
+        .outputFields(Arrays.asList("color"))
+        .limit(5)
         .build();
     
-    query = client.query(querySimpleParam);
+    QueryResp customQueryRes = client.query(customQueryReq);
     
-    queryResults = new ArrayList<>();
-    
-    for (QueryResultsWrapper.RowRecord rowRecord: query.getData().getRowRecords()) {
-        JSONObject object = new JSONObject();
-        object.put("id", rowRecord.getFieldValues().get("id"));
-        object.put("color", rowRecord.getFieldValues().get("color"));
-        queryResults.add(object);
-    }
-    
-    System.out.println(queryResults);
+    System.out.println(JSONObject.toJSON(customQueryRes));
     
     // Output:
-    // [
-    //     {
-    //         "color": "brown_8828",
-    //         "id": 171
-    //     },
-    //     {
-    //         "color": "brown_8384",
-    //         "id": 226
-    //     },
-    //     {
-    //         "color": "brown_8695",
-    //         "id": 227
-    //     },
-    //     {
-    //         "color": "brown_8198",
-    //         "id": 390
-    //     },
-    //     {
-    //         "color": "brown_8484",
-    //         "id": 392
-    //     }
-    // ]
+    // {"queryResults": [
+    //     {"fields": {
+    //         "color": "brown_8221",
+    //         "id": 22
+    //     }},
+    //     {"fields": {
+    //         "color": "brown_8615",
+    //         "id": 78
+    //     }},
+    //     {"fields": {
+    //         "color": "brown_8494",
+    //         "id": 123
+    //     }},
+    //     {"fields": {
+    //         "color": "brown_8327",
+    //         "id": 176
+    //     }},
+    //     {"fields": {
+    //         "color": "brown_8943",
+    //         "id": 178
+    //     }}
+    // ]}
     ```
 
     </TabItem>
@@ -2401,46 +1674,15 @@ Unlike a vector similarity search, a query retrieves vectors via scalar filterin
     // Output
     // 
     // [
-    //   { '$meta': { color: 'brown_8980' }, id: '36' },
-    //   { '$meta': { color: 'brown_8005' }, id: '43' },
-    //   { '$meta': { color: 'brown_8719' }, id: '181' },
-    //   { '$meta': { color: 'brown_8589' }, id: '184' },
-    //   { '$meta': { color: 'brown_8335' }, id: '209' },
-    //   { '$meta': { color: 'brown_8678' }, id: '280' },
-    //   { '$meta': { color: 'brown_8640' }, id: '430' },
-    //   { '$meta': { color: 'brown_8032' }, id: '676' },
-    //   { '$meta': { color: 'brown_8345' }, id: '692' },
-    //   { '$meta': { color: 'brown_8056' }, id: '756' },
-    //   { '$meta': { color: 'brown_8906' }, id: '953' }
+    //   { '$meta': { color: 'brown_8018' }, id: '14' },
+    //   { '$meta': { color: 'brown_8172' }, id: '178' },
+    //   { '$meta': { color: 'brown_8400' }, id: '357' },
+    //   { '$meta': { color: 'brown_8363' }, id: '541' },
+    //   { '$meta': { color: 'brown_8655' }, id: '626' },
+    //   { '$meta': { color: 'brown_8135' }, id: '629' },
+    //   { '$meta': { color: 'brown_8661' }, id: '941' }
     // ]
-    // 
-    ```
-
-    </TabItem>
-
-    <TabItem value='go'>
-
-    ```go
-    // 11. Query using schema-defined fields
-    expr = "$meta[\"color\"] like \"brown_8%\""
-    outputFields = []string{"id", "color"}
-    topK = 3
-    
-    sp, _ = entity.NewIndexAUTOINDEXSearchParam(1)
-    
-    query, err = conn.Query(
-        context.Background(), // ctx
-        collectionName,       // collection name
-        []string{},           // partition names
-        expr,                 // expression
-        outputFields,         // output fields
-    )
-    
-    if err != nil {
-        log.Fatal("Failed to query the data:", err.Error())
-    }
-    
-    fmt.Println(resultSetToJSON(query, true))
+    //
     ```
 
     </TabItem>
@@ -2469,7 +1711,7 @@ Unlike a vector similarity search, a query retrieves vectors via scalar filterin
 
 If you know the IDs of the entities to retrieve, you can get entities by their IDs as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2523,34 +1765,22 @@ print(res)
 <TabItem value='java'>
 
 ```java
-// 8. Get entities by IDs
+import io.milvus.v2.service.vector.request.GetReq;
+import io.milvus.v2.service.vector.response.GetResp;
 
-List<Long> ids = Arrays.asList(0L, 1L, 2L, 3L, 4L);
-
-GetIdsParam getIdsParam = GetIdsParam.newBuilder()
-    .withCollectionName("quick_setup")
-    .withPrimaryIds(ids)
-    .withOutputFields(Arrays.asList("id", "vector", "color"))
+// 12. Get entities by IDs
+GetReq getReq = GetReq.builder()
+    .collectionName("quick_setup")
+    .ids(Arrays.asList(0L, 1L, 2L))
     .build();
 
-R<GetResponse> get = client.get(getIdsParam);
+GetResp getRes = client.get(getReq);
 
-List<JSONObject> getResults = new ArrayList<>();
-
-for (QueryResultsWrapper.RowRecord entity: get.getData().getRowRecords()) {
-    JSONObject object = new JSONObject();
-    object.put("id", entity.getFieldValues().get("id"));
-    object.put("vector", entity.getFieldValues().get("vector"));
-    object.put("color", entity.getFieldValues().get("color"));
-    getResults.add(object);
-}
-
-System.out.println(getResults);
+System.out.println(JSONObject.toJSON(getRes));
 
 // Output:
-// [
-//     {
-//         "color": "pink_8682",
+// {"getResults": [
+//     {"fields": {
 //         "vector": [
 //             0.35803765,
 //             -0.6023496,
@@ -2559,9 +1789,8 @@ System.out.println(getResults);
 //             0.90294385
 //         ],
 //         "id": 0
-//     },
-//     {
-//         "color": "red_7025",
+//     }},
+//     {"fields": {
 //         "vector": [
 //             0.19886813,
 //             0.060235605,
@@ -2570,9 +1799,8 @@ System.out.println(getResults);
 //             0.8387295
 //         ],
 //         "id": 1
-//     },
-//     {
-//         "color": "orange_6781",
+//     }},
+//     {"fields": {
 //         "vector": [
 //             0.43742132,
 //             -0.55975026,
@@ -2581,30 +1809,8 @@ System.out.println(getResults);
 //             0.20785794
 //         ],
 //         "id": 2
-//     },
-//     {
-//         "color": "blue_5219",
-//         "vector": [
-//             0.1622877,
-//             -0.19962177,
-//             0.52299607,
-//             0.79767275,
-//             0.3812752
-//         ],
-//         "id": 3
-//     },
-//     {
-//         "color": "green_3898",
-//         "vector": [
-//             0.26286206,
-//             0.90294385,
-//             0.35803765,
-//             -0.6023496,
-//             0.18414013
-//         ],
-//         "id": 4
-//     }
-// ]
+//     }}
+// ]}
 ```
 
 </TabItem>
@@ -2615,37 +1821,85 @@ System.out.println(getResults);
 // 12. Get entities by IDs
 res = await client.get({
     collection_name: "quick_setup",
-    ids: [0, 1, 2, 3, 4]
+    ids: [0, 1, 2, 3, 4],
+    output_fields: ["vector"]
 })
 
 console.log(res.data)
 
 // Output
 // 
-// [ { id: '0' }, { id: '1' }, { id: '2' }, { id: '3' }, { id: '4' } ]
+// [
+//   {
+//     vector: [
+//       0.35803765058517456,
+//       -0.602349579334259,
+//       0.1841401308774948,
+//       -0.26286205649375916,
+//       0.9029438495635986
+//     ],
+//     id: '0'
+//   },
+//   {
+//     vector: [
+//       0.19886812567710876,
+//       0.060235604643821716,
+//       0.697696328163147,
+//       0.2614474594593048,
+//       0.8387295007705688
+//     ],
+//     id: '1'
+//   },
+//   {
+//     vector: [
+//       0.4374213218688965,
+//       -0.5597502589225769,
+//       0.6457887887954712,
+//       0.789405882358551,
+//       0.20785793662071228
+//     ],
+//     id: '2'
+//   },
+//   {
+//     vector: [
+//       0.31720051169395447,
+//       0.971904456615448,
+//       -0.369811475276947,
+//       -0.48608946800231934,
+//       0.9579188823699951
+//     ],
+//     id: '3'
+//   },
+//   {
+//     vector: [
+//       0.4452349543571472,
+//       -0.8757026791572571,
+//       0.8220779299736023,
+//       0.46406289935112,
+//       0.3033747971057892
+//     ],
+//     id: '4'
+//   }
+// ]
 // 
 ```
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='bash'>
 
-```go
-// 12. Get entity by ID
-ids := entity.NewColumnInt64("id", []int64{0, 1, 2, 3, 4})
-
-get, err := conn.Get(
-    context.Background(), // ctx
-    collectionName,       // collection name
-    ids,                  // ids
-)
-
-if err != nil {
-    log.Fatal("Failed to get the data:", err.Error())
-}
-
-fmt.Println(resultSetToJSON(get, true))
-
+```bash
+curl --request POST \
+    --url "${CLUSTER_ENDPOINT}/v1/vector/get" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+       "collectionName": "quick_setup",
+       "query": "color like \"red%\"",
+       "outputFields": ["color"],
+       "id": [0,1,2]
+    }'
 ```
 
 </TabItem>
@@ -2663,7 +1917,7 @@ Zilliz Cloud allows deleting entities by IDs and by filters.
 
 - __Delete entities by IDs.__
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Bash","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -2687,19 +1941,21 @@ Zilliz Cloud allows deleting entities by IDs and by filters.
     <TabItem value='java'>
 
     ```java
-    // 9. Delete entities by IDs
+    import io.milvus.v2.service.vector.request.DeleteReq;
+    import io.milvus.v2.service.vector.response.DeleteResp;
     
-    DeleteIdsParam deleteIdsParam = DeleteIdsParam.newBuilder()
-        .withCollectionName("quick_setup")
-        .withPrimaryIds(ids)
+    // 13. Delete entities by IDs
+    DeleteReq deleteReq = DeleteReq.builder()
+        .collectionName("quick_setup")
+        .ids(Arrays.asList(0L, 1L, 2L, 3L, 4L))
         .build();
     
-    R<DeleteResponse> deleteByIds = client.delete(deleteIdsParam);
+    DeleteResp deleteRes = client.delete(deleteReq);
     
-    System.out.println("Delete Operation Status: " + deleteByIds.getStatus());
+    System.out.println(JSONObject.toJSON(deleteRes));
     
     // Output:
-    // Delete Operation Status: 0
+    // {"deleteCnt": 5}
     ```
 
     </TabItem>
@@ -2708,122 +1964,6 @@ Zilliz Cloud allows deleting entities by IDs and by filters.
 
     ```javascript
     // 13. Delete entities by IDs
-    res = await client.deleteEntities({
-        collection_name: "quick_setup",
-        expr: "id in [5, 6, 7, 8, 9]"
-    })
-    
-    console.log(res)
-    
-    // Output
-    // 
-    // {
-    //   succ_index: [],
-    //   err_index: [],
-    //   status: {
-    //     error_code: 'Success',
-    //     reason: '',
-    //     code: 0,
-    //     retriable: false,
-    //     detail: ''
-    //   },
-    //   IDs: {},
-    //   acknowledged: false,
-    //   insert_cnt: '0',
-    //   delete_cnt: '5',
-    //   upsert_cnt: '0',
-    //   timestamp: '0'
-    // }
-    // 
-    ```
-
-    </TabItem>
-
-    <TabItem value='go'>
-
-    ```go
-    // 13. Delete entities by ID
-    ids = entity.NewColumnInt64("id", []int64{0, 1, 2, 3, 4})
-    
-    err = conn.DeleteByPks(
-        context.Background(), // ctx
-        collectionName,       // collection name
-        "",                   // partition names
-        ids,                  // ids
-    )
-    
-    if err != nil {
-        log.Fatal("Failed to delete the data:", err.Error())
-    }
-    ```
-
-    </TabItem>
-
-    <TabItem value='bash'>
-
-    ```bash
-    # 12. Delete entities by IDs
-    curl --request POST \
-        --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
-        --header "Authorization: Bearer ${API_KEY}" \
-        --header "accept: application/json" \
-        --header "content-type: application/json" \
-        -d "{
-           \"collectionName\": \"quick_setup\",
-           \"id\": ${IDs},
-        }"
-    ```
-
-    </TabItem>
-    </Tabs>
-
-- __Delete entities by filter__
-
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
-    <TabItem value='python'>
-
-    ```python
-    # 14. Delete entities by a filter expression
-    res = client.delete(
-        collection_name="quick_setup",
-        filter="id in [5,6,7,8,9]"
-    )
-    
-    print(res)
-    
-    # Output
-    #
-    # {
-    #     "delete_count": 5
-    # }
-    ```
-
-    </TabItem>
-
-    <TabItem value='java'>
-
-    ```java
-    // 9. Delete entities by Filter
-    
-    DeleteParam deleteParam = DeleteParam.newBuilder()
-        .withCollectionName("quick_setup")
-        .withExpr("id in [5, 6, 7, 8, 9]")
-        .build();
-    
-    R<MutationResult> deleteByFilter = client.delete(deleteParam);
-    
-    System.out.println("Delete Counts: " + new MutationResultWrapper(deleteByFilter.getData()).getDeleteCount());
-    
-    // Output:
-    // Delete Counts: 5
-    ```
-
-    </TabItem>
-
-    <TabItem value='javascript'>
-
-    ```javascript
-    // 14. Delete entities by filter
     res = await client.delete({
         collection_name: "quick_setup",
         ids: [0, 1, 2, 3, 4]
@@ -2855,18 +1995,98 @@ Zilliz Cloud allows deleting entities by IDs and by filters.
 
     </TabItem>
 
-    <TabItem value='go'>
+    <TabItem value='bash'>
 
-    ```go
-    // 13. Delete entities by filter expressions
-    expr = "id in [5,6,7,8,9]"
-    
-    err = conn.Delete(
-        context.Background(), // ctx
-        collectionName,       // collection name
-        "",                   // partition names
-        expr,                 // expression
+    ```bash
+    # 12. Delete entities by IDs
+    curl --request POST \
+        --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --header "accept: application/json" \
+        --header "content-type: application/json" \
+        -d "{
+           \"collectionName\": \"quick_setup\",
+           \"id\": [0,1,2,3,4],
+        }"
+    ```
+
+    </TabItem>
+    </Tabs>
+
+- __Delete entities by filter__
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+    <TabItem value='python'>
+
+    ```python
+    # 14. Delete entities by a filter expression
+    res = client.delete(
+        collection_name="quick_setup",
+        filter="id in [5,6,7,8,9]"
     )
+    
+    print(res)
+    
+    # Output
+    #
+    # {
+    #     "delete_count": 5
+    # }
+    ```
+
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // 14. Delete entities by filter
+    DeleteReq filterDeleteReq = DeleteReq.builder()
+        .collectionName("quick_setup")
+        .filter("id in [5, 6, 7, 8, 9]")
+        .build();
+    
+    DeleteResp filterDeleteRes = client.delete(filterDeleteReq);
+    
+    System.out.println(JSONObject.toJSON(filterDeleteRes));
+    
+    // Output:
+    // {"deleteCnt": 5}
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // 14. Delete entities by filter
+    res = await client.deleteEntities({
+        collection_name: "quick_setup",
+        expr: "id in [5, 6, 7, 8, 9]",
+        output_fields: ["vector"]
+    })
+    
+    console.log(res)
+    
+    // Output
+    // 
+    // {
+    //   succ_index: [],
+    //   err_index: [],
+    //   status: {
+    //     error_code: 'Success',
+    //     reason: '',
+    //     code: 0,
+    //     retriable: false,
+    //     detail: ''
+    //   },
+    //   IDs: {},
+    //   acknowledged: false,
+    //   insert_cnt: '0',
+    //   delete_cnt: '5',
+    //   upsert_cnt: '0',
+    //   timestamp: '0'
+    // }
+    // 
     ```
 
     </TabItem>
@@ -2886,8 +2106,13 @@ The Starter plan allows up to two collections in the serverless cluster. Once yo
 <TabItem value='python'>
 
 ```python
+# 15. Drop collection
 client.drop_collection(
     collection_name="quick_setup"
+)
+
+client.drop_collection(
+    collection_name="customized_setup"
 )
 ```
 
@@ -2896,18 +2121,20 @@ client.drop_collection(
 <TabItem value='java'>
 
 ```java
-// 8. Drop collection
+import io.milvus.v2.service.collection.request.DropCollectionReq;
 
-DropCollectionParam dropCollectionParam = DropCollectionParam.newBuilder()
-    .withCollectionName("quick_setup")
+// 15. Drop collections
+DropCollectionReq dropQuickSetupParam = DropCollectionReq.builder()
+    .collectionName("quick_setup")
     .build();
 
-R<RpcStatus> drop = client.dropCollection(dropCollectionParam);
+client.dropCollection(dropQuickSetupParam);
 
-System.out.println("Drop Collection Status: " + drop.getStatus());
+DropCollectionReq dropCustomizedSetupParam = DropCollectionReq.builder()
+    .collectionName("customized_setup")
+    .build();
 
-// Output:
-// Drop Collection Status: 0
+client.dropCollection(dropCustomizedSetupParam);
 ```
 
 </TabItem>
@@ -2918,6 +2145,23 @@ System.out.println("Drop Collection Status: " + drop.getStatus());
 // 15. Drop the collection
 res = await client.dropCollection({
     collection_name: "quick_setup"
+})
+
+console.log(res)
+
+// Output
+// 
+// {
+//   error_code: 'Success',
+//   reason: '',
+//   code: 0,
+//   retriable: false,
+//   detail: ''
+// }
+// 
+
+res = await client.dropCollection({
+    collection_name: "customized_setup"
 })
 
 console.log(res)

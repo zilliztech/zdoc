@@ -1,6 +1,6 @@
 ---
 slug: /run-deletion-pipelines
-beta: TRUE
+beta: FALSE
 notebook: FALSE
 type: origin
 token: Up5KwgdCfiqEwskKlGtcPYxDnZg
@@ -16,7 +16,7 @@ After creating a Deletion pipeline, you can run it to remove all chunks in a spe
 
 ## On web UI{#on-web-ui}
 
-1. Click the "▶︎" button next to your Deletion pipeline. Alternatively, you can also click on the __Run Pipelines__ tab.
+1. Click the "▶︎" button next to your Deletion pipeline. Alternatively, you can also click on the __Playground__ tab.
 
 ![run-pipeline](/img/run-pipeline.png)
 

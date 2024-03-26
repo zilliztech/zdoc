@@ -1,6 +1,6 @@
 ---
 slug: /create-pipelines
-beta: TRUE
+beta: FALSE
 notebook: FALSE
 type: origin
 token: GamzwNAVPiwblikNFHwcJ5ipnKc

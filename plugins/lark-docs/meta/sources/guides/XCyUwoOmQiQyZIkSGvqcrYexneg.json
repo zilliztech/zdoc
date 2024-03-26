@@ -5,7 +5,7 @@
   "node_token": "XCyUwoOmQiQyZIkSGvqcrYexneg",
   "node_type": "origin",
   "obj_create_time": "1708764329",
-  "obj_edit_time": "1710732936",
+  "obj_edit_time": "1710987686",
   "obj_token": "S8NKde85locY5nxOXW8cDwjwn8d",
   "obj_type": "docx",
   "origin_node_token": "XCyUwoOmQiQyZIkSGvqcrYexneg",
@@ -36,6 +36,7 @@
           "doxcntZpoGgfnXWB4smSajYE40c",
           "doxcnCT6QZ45all7v2CAuycc5ib",
           "doxcnC2mn3sZYBCTZoMGvPBDcxc",
+          "NoRldnWsdoXXM5xci0Yc2jIAnch",
           "doxcnZQGo8o3s5syxz2sheyTpte",
           "doxcnoYfYqNHaxecG0BlwHtsvPf",
           "doxcniPmT3f7AN3Ibs2MyfXvrte",
@@ -1048,6 +1049,31 @@
             {
               "text_run": {
                 "content": "Partially indexed or loaded vector fields in a collection will result in an error.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "NoRldnWsdoXXM5xci0Yc2jIAnch",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, each AnnSearchRequest in a hybrid search can carry one query vector.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2749,6 +2775,18 @@
                   "underline": false
                 }
               }
+            },
+            {
+              "text_run": {
+                "content": " This parameter accepts a list containing one element (or query vector).",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
             }
           ],
           "style": {
@@ -2958,7 +2996,8 @@
         "block_id": "doxcnKG2UwIufTDK1l4WhtZeybe",
         "block_type": 32,
         "children": [
-          "doxcnXrmvlm6wJNzTrFJ0vkbpOe"
+          "doxcnXrmvlm6wJNzTrFJ0vkbpOe",
+          "B2PUd9M9HoqKHsx45JzcT2RenRd"
         ],
         "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
         "table_cell": {}
@@ -2966,12 +3005,88 @@
       {
         "block_id": "doxcnXrmvlm6wJNzTrFJ0vkbpOe",
         "block_type": 2,
+        "comment_ids": [
+          "7348430701680967684"
+        ],
         "parent_id": "doxcnKG2UwIufTDK1l4WhtZeybe",
         "text": {
           "elements": [
             {
               "text_run": {
                 "content": "The maximum number of results to return in the request.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7348430701680967684"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " When performing a hybrid search with multiple ANN search requests, the top results defined by ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7348430701680967684"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7348430701680967684"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from each request will be combined and re-ranked before returning the final search results.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7348430701680967684"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "B2PUd9M9HoqKHsx45JzcT2RenRd",
+        "block_type": 2,
+        "parent_id": "doxcnKG2UwIufTDK1l4WhtZeybe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3242,6 +3357,9 @@
       {
         "block_id": "doxcnT3fOGqKq4qdV36XSS4PCLd",
         "block_type": 2,
+        "comment_ids": [
+          "7348430785474822147"
+        ],
         "parent_id": "doxcnm18xdP5rmk56V2coVtKQdb",
         "text": {
           "elements": [
@@ -3250,6 +3368,9 @@
                 "content": "The maximum number of results to return in the ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7348430785474822147"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3262,6 +3383,9 @@
                 "content": "hybrid",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7348430785474822147"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3274,6 +3398,9 @@
                 "content": " search.",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7348430785474822147"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3526,6 +3653,6 @@
         }
       }
     ],
-    "counts": 90
+    "counts": 92
   }
 }

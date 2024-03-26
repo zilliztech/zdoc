@@ -5,9 +5,6 @@ notebook: FALSE
 type: origin
 token: BDOHwqlMDiei78kdUefcjSQUnEg
 sidebar_position: 1
-keywords: 
-  - zilliz cloud
-  - get started
 ---
 
 import Admonition from '@theme/Admonition';

@@ -5,7 +5,7 @@
   "node_token": "KnnBwce9JifxvXkd070cvgUPnag",
   "node_type": "origin",
   "obj_create_time": "1702439304",
-  "obj_edit_time": "1709535580",
+  "obj_edit_time": "1711337625",
   "obj_token": "F3rPdjH5soDvywx6Ec9cgDKgnNf",
   "obj_type": "docx",
   "origin_node_token": "KnnBwce9JifxvXkd070cvgUPnag",
@@ -212,6 +212,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -324,6 +325,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -443,6 +445,10 @@
           "LbT4dcgACowyejxt1gecRJcwnwb",
           "J0gdd7kOaoJ2hExfyLPc1o14nrc",
           "O0mddtnPRoQCVJxKSbtcQM0Knxh",
+          "V5IRdXtWZo2Xqwxjw3xctQjknzh",
+          "CRxFdmJvZoFzkxxZ0qMcTBWtncf",
+          "VGXbdMu6LowlmLxtqQwcUEyfnMg",
+          "No2cdPhqwoaOPWxWaGhcL1xHnig",
           "PKkNdvwQKoJ6RExyhqtcWSrenue",
           "AoIwdPioYo2YSexCo1IcZADZnJf",
           "IGbCdfP54oPCzmxXus2cl6SGnSf",
@@ -555,6 +561,10 @@
             "LbT4dcgACowyejxt1gecRJcwnwb",
             "J0gdd7kOaoJ2hExfyLPc1o14nrc",
             "O0mddtnPRoQCVJxKSbtcQM0Knxh",
+            "V5IRdXtWZo2Xqwxjw3xctQjknzh",
+            "CRxFdmJvZoFzkxxZ0qMcTBWtncf",
+            "VGXbdMu6LowlmLxtqQwcUEyfnMg",
+            "No2cdPhqwoaOPWxWaGhcL1xHnig",
             "PKkNdvwQKoJ6RExyhqtcWSrenue",
             "AoIwdPioYo2YSexCo1IcZADZnJf",
             "IGbCdfP54oPCzmxXus2cl6SGnSf",
@@ -1005,9 +1015,25 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 27
+            "row_size": 28
           }
         }
       },
@@ -1168,6 +1194,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1224,6 +1251,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1243,14 +1271,14 @@
         "block_id": "OpFRd2xPiovVEAxHKzbcKB5HnIe",
         "block_type": 32,
         "children": [
-          "N0aDdCpvjobIalxxOMMc4rJHnUc",
-          "EnUJdPbDro2dcnxM8W7cMqPDncb"
+          "RDc0dsHJno3tUUxJZSqcz9DonHf",
+          "CsG1du05koY80zx4VQqcENkTndE"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
       },
       {
-        "block_id": "N0aDdCpvjobIalxxOMMc4rJHnUc",
+        "block_id": "RDc0dsHJno3tUUxJZSqcz9DonHf",
         "block_type": 2,
         "parent_id": "OpFRd2xPiovVEAxHKzbcKB5HnIe",
         "text": {
@@ -1259,6 +1287,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1275,7 +1304,7 @@
         }
       },
       {
-        "block_id": "EnUJdPbDro2dcnxM8W7cMqPDncb",
+        "block_id": "CsG1du05koY80zx4VQqcENkTndE",
         "block_type": 2,
         "parent_id": "OpFRd2xPiovVEAxHKzbcKB5HnIe",
         "text": {
@@ -1284,6 +1313,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1303,15 +1333,14 @@
         "block_id": "G19BdNOn9oRXKuxh3vac41X4nDc",
         "block_type": 32,
         "children": [
-          "JdMsdRED1oeW57x07r8c37FnnBh",
-          "Jau5dkWkSovFYixiAT9ciOjuncg",
-          "HhBGdDPOloa5KCx7gQAcZNWJnue"
+          "LCT9djDfjo1DLyxbm9ic9GrfnZb",
+          "YuWEdul2loYYkkxScyGc6SJrnqd"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
       },
       {
-        "block_id": "JdMsdRED1oeW57x07r8c37FnnBh",
+        "block_id": "LCT9djDfjo1DLyxbm9ic9GrfnZb",
         "block_type": 2,
         "parent_id": "G19BdNOn9oRXKuxh3vac41X4nDc",
         "text": {
@@ -1320,6 +1349,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1336,7 +1366,7 @@
         }
       },
       {
-        "block_id": "Jau5dkWkSovFYixiAT9ciOjuncg",
+        "block_id": "YuWEdul2loYYkkxScyGc6SJrnqd",
         "block_type": 2,
         "parent_id": "G19BdNOn9oRXKuxh3vac41X4nDc",
         "text": {
@@ -1345,31 +1375,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "HhBGdDPOloa5KCx7gQAcZNWJnue",
-        "block_type": 2,
-        "parent_id": "G19BdNOn9oRXKuxh3vac41X4nDc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "",
-                "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1390,7 +1396,7 @@
         "block_type": 32,
         "children": [
           "S1z6deaMqojw32xllELclZ2Hneg",
-          "BUlAdZGs4oCU05xuod9cXAmRnIf"
+          "ZEeqdGKWloDchxxlktVcANuon4f"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -1405,6 +1411,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1421,7 +1428,7 @@
         }
       },
       {
-        "block_id": "BUlAdZGs4oCU05xuod9cXAmRnIf",
+        "block_id": "ZEeqdGKWloDchxxlktVcANuon4f",
         "block_type": 2,
         "parent_id": "G376d3nyXo35XGx67tVcLoAdnhb",
         "text": {
@@ -1430,6 +1437,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1449,7 +1457,8 @@
         "block_id": "FxSqdDVVvoXdCcxVuA5czibmnJf",
         "block_type": 32,
         "children": [
-          "PvxQd8TK7oVqaHx3vxLcafv0n6d"
+          "PvxQd8TK7oVqaHx3vxLcafv0n6d",
+          "XJYfdaq9pobmX3xc1FLcSelYnzh"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -1462,7 +1471,58 @@
           "elements": [
             {
               "text_run": {
-                "content": "<include target=\"indev\">CPU Usage</include>",
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CPU Usage",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XJYfdaq9pobmX3xc1FLcSelYnzh",
+        "block_type": 2,
+        "parent_id": "FxSqdDVVvoXdCcxVuA5czibmnJf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1496,8 +1556,34 @@
           "elements": [
             {
               "text_run": {
-                "content": "<include target=\"indev\">Core</include>",
+                "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Core",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1535,6 +1621,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1585,6 +1672,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1645,6 +1733,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1670,6 +1759,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1706,6 +1796,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1756,6 +1847,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1792,6 +1884,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1842,6 +1935,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1863,7 +1957,8 @@
         "children": [
           "SeKudfTBBokbS9xqlqhcHEo4nPd",
           "IDaLddSp7otixYxoOYqcRNi5nVg",
-          "ZN8hdmvEroWFQcxG2OOcG9zmnvb"
+          "ZN8hdmvEroWFQcxG2OOcG9zmnvb",
+          "CtSCdvptLogWxCxBmbbcfAOLnwe"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -1878,6 +1973,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1928,6 +2024,32 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CtSCdvptLogWxCxBmbbcfAOLnwe",
+        "block_type": 2,
+        "parent_id": "FMlBdK5TGoBRHpxZDlKceFNHnKb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1948,7 +2070,8 @@
         "block_type": 32,
         "children": [
           "Xtm1dx82boVD9gx7XWaci0e2nDf",
-          "N15BdUZ82ovWoMxhRqvcOab7nhe"
+          "N15BdUZ82ovWoMxhRqvcOab7nhe",
+          "Ub7PdTvMloImxUxGMOschiFjnpf"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -1963,6 +2086,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -1987,6 +2111,32 @@
             {
               "text_run": {
                 "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ub7PdTvMloImxUxGMOschiFjnpf",
+        "block_type": 2,
+        "parent_id": "VqiIdSfjlobrcPxaUdhcncV9nJf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2024,6 +2174,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2074,6 +2225,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2110,6 +2262,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2160,6 +2313,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2181,7 +2335,8 @@
         "children": [
           "ROq0dIIhGokydyxV9Kic1lKPnlh",
           "ZV9OdHV0qoRd6WxTPuYcesWJnvd",
-          "Gp12dzL4TosN4OxoJyGcEHVYnLr"
+          "Gp12dzL4TosN4OxoJyGcEHVYnLr",
+          "AVeRdD0FqojN0sxmBQ0cPc5In4f"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -2196,6 +2351,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2246,6 +2402,32 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AVeRdD0FqojN0sxmBQ0cPc5In4f",
+        "block_type": 2,
+        "parent_id": "YmyEdyaG5oMxVxx0f6IcPte6nTf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2266,7 +2448,8 @@
         "block_type": 32,
         "children": [
           "PNbidJyn3oEXUPxPUGJcQetnnRd",
-          "WA6vdTGAuoF0pBxK2AKcAxDsnGl"
+          "WA6vdTGAuoF0pBxK2AKcAxDsnGl",
+          "DQFNdX6gpoW0nvximN8ceD1Dnfb"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -2281,6 +2464,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2305,6 +2489,32 @@
             {
               "text_run": {
                 "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DQFNdX6gpoW0nvximN8ceD1Dnfb",
+        "block_type": 2,
+        "parent_id": "KYUZdK8cHo3n2mx1ebAcYxoznpe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2342,6 +2552,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2392,6 +2603,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2428,6 +2640,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2478,6 +2691,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2514,6 +2728,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2564,6 +2779,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2584,7 +2800,8 @@
         "block_type": 32,
         "children": [
           "JrPVdSyFno9Ud7xOueTcSvKLnub",
-          "YCJwdekVXodm9cxxjcycMFAtnNg"
+          "YCJwdekVXodm9cxxjcycMFAtnNg",
+          "FWTLdRvlzoIZ2sxeFMZcGQxunHe"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -2599,6 +2816,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2623,6 +2841,32 @@
             {
               "text_run": {
                 "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FWTLdRvlzoIZ2sxeFMZcGQxunHe",
+        "block_type": 2,
+        "parent_id": "WaZqdR5ytoKoUxx99bvcMvJynQd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2656,8 +2900,34 @@
           "elements": [
             {
               "text_run": {
-                "content": "<include target=\"indev\">Memory Usage Rate for Node</include>",
+                "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Memory Usage Rate for Node",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2694,6 +2964,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2744,6 +3015,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2780,6 +3052,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2830,6 +3103,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2865,6 +3139,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2890,6 +3165,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2911,7 +3187,8 @@
         "children": [
           "WDyVdUWtOoIl5FxSam6cYFAvnHe",
           "QnoWdCJsrowhnXxRQHacUf6SnMf",
-          "C80SdS1Qoo3ikRxW7cJcD3PnnOc"
+          "C80SdS1Qoo3ikRxW7cJcD3PnnOc",
+          "HEwsdMkSEoGhWZxYw01cUyHmnLf"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -2926,6 +3203,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2976,6 +3254,32 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HEwsdMkSEoGhWZxYw01cUyHmnLf",
+        "block_type": 2,
+        "parent_id": "IZxjd872konsAjxzAn4c9WJPnPc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3012,6 +3316,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3062,6 +3367,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3083,7 +3389,8 @@
         "children": [
           "HH4cdT9asoT8R2x4y5DckX3Qnv2",
           "K68bdG1Tgo6zoJxltdpcwIgLnNc",
-          "BN2vdlViao2AQSx18M9cXWBWn4e"
+          "BN2vdlViao2AQSx18M9cXWBWn4e",
+          "OA3ydCXKboDhpVxHF1hcVvHsnkd"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -3098,6 +3405,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3148,6 +3456,32 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OA3ydCXKboDhpVxHF1hcVvHsnkd",
+        "block_type": 2,
+        "parent_id": "DL4VdZgQqoVPRkxiYn6cp6wBnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3168,7 +3502,8 @@
         "block_type": 32,
         "children": [
           "DTfJdgFnCo0ZHrxHF1JciRhZnyh",
-          "PYHudmXP0oRUDNxKHWtczIb8nbf"
+          "PYHudmXP0oRUDNxKHWtczIb8nbf",
+          "ZqeTdZG18on9SNxRv6rclsZYnGh"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -3183,6 +3518,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3208,6 +3544,32 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZqeTdZG18on9SNxRv6rclsZYnGh",
+        "block_type": 2,
+        "parent_id": "IJu8donabo51Q5xZABsc52U8nob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3227,7 +3589,8 @@
         "block_id": "WOUpdXkKcoG08HxQCILcOyUJnec",
         "block_type": 32,
         "children": [
-          "RuyldQhQ9oUsZNx2KHIcbbkVnuf"
+          "RuyldQhQ9oUsZNx2KHIcbbkVnuf",
+          "G4iQdPqkSoYBd1x0j8ZcQ5Qonuf"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -3240,7 +3603,58 @@
           "elements": [
             {
               "text_run": {
-                "content": "<include target=\"indev\">Network Inbound Flow</include>",
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Network Inbound Flow",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G4iQdPqkSoYBd1x0j8ZcQ5Qonuf",
+        "block_type": 2,
+        "parent_id": "WOUpdXkKcoG08HxQCILcOyUJnec",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3278,6 +3692,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3328,6 +3743,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3349,7 +3765,8 @@
         "children": [
           "L3MadBARBocNmCxidF2ch7BVnWg",
           "OQKPdKjxzoBdE0xEXrscPtORnVk",
-          "C88wdjt6hoDYBIxoagTczWjSnDb"
+          "C88wdjt6hoDYBIxoagTczWjSnDb",
+          "LZ4kdLtdHo6XMrxImrwcnuQ9n6e"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -3364,6 +3781,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3414,6 +3832,32 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LZ4kdLtdHo6XMrxImrwcnuQ9n6e",
+        "block_type": 2,
+        "parent_id": "Os9hdYCIboIzaIxPmNzcZkUfnod",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3434,6 +3878,7 @@
         "block_type": 32,
         "children": [
           "BnXydMoaPopRtlxYs9LcshHknUe",
+          "UCxzdtKiao7muQxh3Enc4VzInxg",
           "ZDtYd5CAiotoymxMFQNcAQgGnJe"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
@@ -3448,6 +3893,32 @@
             {
               "text_run": {
                 "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UCxzdtKiao7muQxh3Enc4VzInxg",
+        "block_type": 2,
+        "parent_id": "XkjPdUmiJou6bMx1u1lcQ65CnRg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Track and analyze the amount of data being received from external sources, helping you monitor network performance and identify potential network congestion or bandwidth issues.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3474,6 +3945,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3506,8 +3978,34 @@
           "elements": [
             {
               "text_run": {
-                "content": "<include target=\"indev\">Network Outbound Flow</include>",
+                "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Network Outbound Flow",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3544,6 +4042,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3594,6 +4093,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3615,7 +4115,8 @@
         "children": [
           "QQNGd2fO0ox4kpx0oXPcmr2Gn5B",
           "COqudo5MbohjrWx35uxczBU9nFb",
-          "WcBnd3l3lodNwOx0aiHcmxMbnfE"
+          "WcBnd3l3lodNwOx0aiHcmxMbnfE",
+          "U9ZAdXSa2oJK2Ix22ZFcSNCQnje"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -3630,6 +4131,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3680,6 +4182,32 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "U9ZAdXSa2oJK2Ix22ZFcSNCQnje",
+        "block_type": 2,
+        "parent_id": "GcrOdsM6TocBHMxtJPucmNiCnAe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -3700,7 +4228,9 @@
         "block_type": 32,
         "children": [
           "T8dXdF1mOozvptxstgLcxdsYnbr",
-          "JdD4d4m51oeLnMxuHlucdROingg"
+          "MGVcdGpD6oAtHtxcke4cRTmsnkf",
+          "JdD4d4m51oeLnMxuHlucdROingg",
+          "XU7wdiW4zoWlmbxrQnUcPMVCnmc"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -3714,6 +4244,32 @@
             {
               "text_run": {
                 "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MGVcdGpD6oAtHtxcke4cRTmsnkf",
+        "block_type": 2,
+        "parent_id": "Tt3gdDPRQo4xUSxkmdHcKRy9nSd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Track and analyze the amount of data being sent to external sources, helping you monitor network performance and identify potential network congestion or bandwidth issues.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3739,6 +4295,32 @@
             {
               "text_run": {
                 "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XU7wdiW4zoWlmbxrQnUcPMVCnmc",
+        "block_type": 2,
+        "parent_id": "Tt3gdDPRQo4xUSxkmdHcKRy9nSd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4847,7 +5429,8 @@
         "block_id": "CqbEdg3gMoyD0kxQXeDcRwBsn8d",
         "block_type": 32,
         "children": [
-          "XVKOdDBDZo5h1fxxG0LcjihunOg"
+          "XVKOdDBDZo5h1fxxG0LcjihunOg",
+          "Y8yHdDaAtoVbxsx6iqscVJIOn5f"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -4860,7 +5443,56 @@
           "elements": [
             {
               "text_run": {
-                "content": "The count of search and query requests per second. VPS is not available for query requests because query operations does not involve vectors.",
+                "content": "QPS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The number of read requests (search and query) per second.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Y8yHdDaAtoVbxsx6iqscVJIOn5f",
+        "block_type": 2,
+        "parent_id": "CqbEdg3gMoyD0kxQXeDcRwBsn8d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "VPS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The number of read requests (search) on vectors per second. VPS is not available for query requests as query operations do not involve vectors.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4881,7 +5513,8 @@
         "block_id": "GYqld87QZoR1bJxoLebcl4Cbnpb",
         "block_type": 32,
         "children": [
-          "DjdPdOsDPotegbxyNmRcJ68lnIh"
+          "DjdPdOsDPotegbxyNmRcJ68lnIh",
+          "C5XgdsrCPolEp4x5ob7cq71Qnsg"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -4922,6 +5555,31 @@
             {
               "text_run": {
                 "content": " for system performance monitoring.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C5XgdsrCPolEp4x5ob7cq71Qnsg",
+        "block_type": 2,
+        "parent_id": "GYqld87QZoR1bJxoLebcl4Cbnpb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5036,7 +5694,8 @@
         "block_id": "IKcTd8nYyo4FjPx0rQucpWbCnNb",
         "block_type": 32,
         "children": [
-          "AV3LdgzMyoQw9sxlYp1cCkHfnme"
+          "AV3LdgzMyoQw9sxlYp1cCkHfnme",
+          "YTBjd4A5Dow0kbxZtyvcRPiwncZ"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -5049,7 +5708,56 @@
           "elements": [
             {
               "text_run": {
-                "content": "The count of insert and upsert requests per second.",
+                "content": "QPS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The number of write requests (insert, bulk insert, upsert, and delete) per second.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YTBjd4A5Dow0kbxZtyvcRPiwncZ",
+        "block_type": 2,
+        "parent_id": "IKcTd8nYyo4FjPx0rQucpWbCnNb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "VPS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The number of write requests (insert, bulk insert,upsert, and delete) on vectors per second.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5070,7 +5778,8 @@
         "block_id": "GNm2dID09oDOccxnaOzcd0aDnrc",
         "block_type": 32,
         "children": [
-          "WSIldVzIooF3HyxbsObcuwLonGb"
+          "WSIldVzIooF3HyxbsObcuwLonGb",
+          "VQaadjRUNocuCQxBIDOcXT9VnEg"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -5128,10 +5837,36 @@
         }
       },
       {
+        "block_id": "VQaadjRUNocuCQxBIDOcXT9VnEg",
+        "block_type": 2,
+        "parent_id": "GNm2dID09oDOccxnaOzcd0aDnrc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "NQh7dyOVJo9PAmxAFrOcxQfCnfh",
         "block_type": 32,
         "children": [
-          "EHHEd5IofoqHTDxhff3c6EvWnZX"
+          "EHHEd5IofoqHTDxhff3c6EvWnZX",
+          "Ca0WdOimRo4axsxnsLNcjGtxn2c"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -5145,6 +5880,31 @@
             {
               "text_run": {
                 "content": "Latency (Read)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ca0WdOimRo4axsxnsLNcjGtxn2c",
+        "block_type": 2,
+        "parent_id": "NQh7dyOVJo9PAmxAFrOcxQfCnfh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5199,7 +5959,8 @@
         "block_id": "ArdcdSm8IosKzxxuGaecV9hxnQf",
         "block_type": 32,
         "children": [
-          "ZkFad5qRioTaPCxxEZUcVNBZnYg"
+          "ZkFad5qRioTaPCxxEZUcVNBZnYg",
+          "SowQd4x6jo9IZhxoLxucBpLonth"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -5212,7 +5973,80 @@
           "elements": [
             {
               "text_run": {
-                "content": "The time elapsed between a client sending a read request (search and query request) to a server and the client receiving a response. It includes an average latency and a P99 latency.",
+                "content": "The time elapsed between a client sending a read request (search and query) to a server and the client receiving a response. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SowQd4x6jo9IZhxoLxucBpLonth",
+        "block_type": 2,
+        "parent_id": "ArdcdSm8IosKzxxuGaecV9hxnQf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Selecting ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Average",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "P99",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the expanded dropdown menu on the right displays an average or P99 latency.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5335,7 +6169,8 @@
         "block_id": "AEIEdbGr0osYflx2VlJcRgWpntT",
         "block_type": 32,
         "children": [
-          "A9Rldr3MioCoWIxF08ScnI6Indg"
+          "A9Rldr3MioCoWIxF08ScnI6Indg",
+          "AVDwdvOAIon1sVxd3cdc74BknWg"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -5348,7 +6183,80 @@
           "elements": [
             {
               "text_run": {
-                "content": "The time elapsed between a client sending a write request (insert and upsert request) to a server and the client receiving a response. It includes an average latency and a P99 latency.",
+                "content": "The time elapsed between a client sending a write request (insert, upsert, and delete) to a server and the client receiving a response. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AVDwdvOAIon1sVxd3cdc74BknWg",
+        "block_type": 2,
+        "parent_id": "AEIEdbGr0osYflx2VlJcRgWpntT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Selecting ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Average",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "P99",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the expanded dropdown menu on the right displays an average or P99 latency.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5484,7 +6392,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The percentage of timeout read requests in all requests per second.",
+                "content": "The percentage of timeout read requests (search and query) in all read requests per second.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5635,7 +6543,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The percentage of timeout write requests in all requests per second.",
+                "content": "The percentage of timeout write requests (insert, bulk insert, upsert, and delete) in all write requests per second.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5922,7 +6830,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The count of collections created in a cluster.",
+                "content": "The number of collections created in a cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6045,7 +6953,8 @@
         "block_id": "FlZddCjfcooLl9xYRCoc2xv7nPg",
         "block_type": 32,
         "children": [
-          "RlfBdZaPdoIivYx4YJrcYZZnnJg"
+          "RlfBdZaPdoIivYx4YJrcYZZnnJg",
+          "Zmsbd6Obvo2rjtxW7HXcAmEqnpd"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -6058,7 +6967,32 @@
           "elements": [
             {
               "text_run": {
-                "content": "The count of entities created in a cluster.",
+                "content": "The number of entities created in a cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Zmsbd6Obvo2rjtxW7HXcAmEqnpd",
+        "block_type": 2,
+        "parent_id": "FlZddCjfcooLl9xYRCoc2xv7nPg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6181,7 +7115,8 @@
         "block_id": "J0gdd7kOaoJ2hExfyLPc1o14nrc",
         "block_type": 32,
         "children": [
-          "CySHdxjppoGn8sxId5CcnsJ8nld"
+          "CySHdxjppoGn8sxId5CcnsJ8nld",
+          "XBCYdaerHoKVGbxHNTrcplNpnWb"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -6194,7 +7129,32 @@
           "elements": [
             {
               "text_run": {
-                "content": "The count of entities loaded (actively served) by a cluster.",
+                "content": "The number of entities loaded (actively served) by a cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XBCYdaerHoKVGbxHNTrcplNpnWb",
+        "block_type": 2,
+        "parent_id": "J0gdd7kOaoJ2hExfyLPc1o14nrc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6246,6 +7206,384 @@
         }
       },
       {
+        "block_id": "V5IRdXtWZo2Xqwxjw3xctQjknzh",
+        "block_type": 32,
+        "children": [
+          "FBLOdwJnwo4Rq3xQOBlcMI1dnjg",
+          "DRbWdy0Z1oP97TxXctEcie2Gntg",
+          "QkdcdYZHAom8kVx0K7bc8hX0nrJ"
+        ],
+        "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FBLOdwJnwo4Rq3xQOBlcMI1dnjg",
+        "block_type": 2,
+        "parent_id": "V5IRdXtWZo2Xqwxjw3xctQjknzh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DRbWdy0Z1oP97TxXctEcie2Gntg",
+        "block_type": 2,
+        "parent_id": "V5IRdXtWZo2Xqwxjw3xctQjknzh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Indexed Entities",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QkdcdYZHAom8kVx0K7bc8hX0nrJ",
+        "block_type": 2,
+        "parent_id": "V5IRdXtWZo2Xqwxjw3xctQjknzh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CRxFdmJvZoFzkxxZ0qMcTBWtncf",
+        "block_type": 32,
+        "children": [
+          "KHe0dqD9OomPR9xnGrqcRTCAn33",
+          "P9rgdSQ4UoaeDJxyt1SckDTnnge",
+          "WhQvd1mUboPzGcxTDg6c9niknFb",
+          "DL31dSSTkoZCwsxEZI2cvEHrnpd"
+        ],
+        "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "KHe0dqD9OomPR9xnGrqcRTCAn33",
+        "block_type": 2,
+        "parent_id": "CRxFdmJvZoFzkxxZ0qMcTBWtncf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "P9rgdSQ4UoaeDJxyt1SckDTnnge",
+        "block_type": 2,
+        "parent_id": "CRxFdmJvZoFzkxxZ0qMcTBWtncf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "count",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WhQvd1mUboPzGcxTDg6c9niknFb",
+        "block_type": 2,
+        "parent_id": "CRxFdmJvZoFzkxxZ0qMcTBWtncf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DL31dSSTkoZCwsxEZI2cvEHrnpd",
+        "block_type": 2,
+        "parent_id": "CRxFdmJvZoFzkxxZ0qMcTBWtncf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VGXbdMu6LowlmLxtqQwcUEyfnMg",
+        "block_type": 32,
+        "children": [
+          "UwiPdg3uto9aXfxAWMjciyAPnAf",
+          "O32Edvjw5oL4D0xVvBjc27T5nKg",
+          "Aodud3IHFoX6abxqw4TcLi4rnce",
+          "UKQDdOjZvoda5Vx8SNqcLZNln0c"
+        ],
+        "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "UwiPdg3uto9aXfxAWMjciyAPnAf",
+        "block_type": 2,
+        "parent_id": "VGXbdMu6LowlmLxtqQwcUEyfnMg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O32Edvjw5oL4D0xVvBjc27T5nKg",
+        "block_type": 2,
+        "parent_id": "VGXbdMu6LowlmLxtqQwcUEyfnMg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The number of entities that have been indexed in a cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Aodud3IHFoX6abxqw4TcLi4rnce",
+        "block_type": 2,
+        "parent_id": "VGXbdMu6LowlmLxtqQwcUEyfnMg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Selecting a specific collection from the expanded dropdown menu on the right displays the number of indexed entities at the collection level.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UKQDdOjZvoda5Vx8SNqcLZNln0c",
+        "block_type": 2,
+        "parent_id": "VGXbdMu6LowlmLxtqQwcUEyfnMg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "No2cdPhqwoaOPWxWaGhcL1xHnig",
+        "block_type": 32,
+        "children": [
+          "UoKCd8gQso5jrjx3xZOc79TunTd",
+          "Cn3xdR2lgoFoNMxXbvHcnInsnM9"
+        ],
+        "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "UoKCd8gQso5jrjx3xZOc79TunTd",
+        "block_type": 2,
+        "parent_id": "No2cdPhqwoaOPWxWaGhcL1xHnig",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Cn3xdR2lgoFoNMxXbvHcnInsnM9",
+        "block_type": 2,
+        "parent_id": "No2cdPhqwoaOPWxWaGhcL1xHnig",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "PKkNdvwQKoJ6RExyhqtcWSrenue",
         "block_type": 32,
         "children": [
@@ -6266,6 +7604,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6316,6 +7655,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6352,6 +7692,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6402,6 +7743,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6439,6 +7781,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6462,7 +7805,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The number of connections of the current cluster.",
+                "content": "The number of connections to the current cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6568,6 +7911,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6588,6 +7932,7 @@
         "block_type": 32,
         "children": [
           "NuBOdyfuYoDtyhxfjP1cdMjynPf",
+          "D6kWdfk5JociK7xksd8cBNGenoh",
           "Mb1jd34xCoG2Vrx7ialcGMI0nHd"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
@@ -6602,6 +7947,32 @@
             {
               "text_run": {
                 "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D6kWdfk5JociK7xksd8cBNGenoh",
+        "block_type": 2,
+        "parent_id": "O21bdkXIcoMIBzxdIE8cXGPznuh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Track and analyze the number of active connections, helping you optimize resource allocation, identify potential bottlenecks, and ensure efficient handling of concurrent user requests.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6628,6 +7999,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6649,7 +8021,8 @@
         "children": [
           "Ii0LdMysPoq0KNx5yS1cN6cNnQb",
           "UFRYd07upo1X9gx9dGpcyLEXnPh",
-          "EzRBdxchIoUfi5xIrRIcyadmnFd"
+          "EzRBdxchIoUfi5xIrRIcyadmnFd",
+          "QfrVdt8IqoywdoxWs38cG3cXnUh"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -6664,6 +8037,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6714,6 +8088,32 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QfrVdt8IqoywdoxWs38cG3cXnUh",
+        "block_type": 2,
+        "parent_id": "FNQmdC369oAzvWxzThecf0NXnTg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6750,6 +8150,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6800,6 +8201,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6837,6 +8239,7 @@
               "text_run": {
                 "content": "<include target=\"indev\">",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6860,7 +8263,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The count of slow queries which include all search and query requests. By default, all queries whose latency is 5 seconds are considered slow queries.",
+                "content": "The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6966,6 +8369,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 14,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6986,7 +8390,9 @@
         "block_type": 32,
         "children": [
           "XXnjdg21qopRCmxOCF2ctMHenJb",
-          "ZTLpdRfy6oxvJDxCm09chPhSnHf"
+          "UuZBdIM0AovZ8UxF6Pcc1Wp5nGb",
+          "ZTLpdRfy6oxvJDxCm09chPhSnHf",
+          "GWUidrji7oYkYtxvKnLcIsvdn9b"
         ],
         "parent_id": "Sac7d1yFto7wtTx15mkcVRtYnTh",
         "table_cell": {}
@@ -7000,6 +8406,32 @@
             {
               "text_run": {
                 "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UuZBdIM0AovZ8UxF6Pcc1Wp5nGb",
+        "block_type": 2,
+        "parent_id": "Byrzd48FzoddqmxnBkJcDud3naf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Identify problematic queries and tune performance by adjusting cluster configuration as necessary.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -7025,6 +8457,32 @@
             {
               "text_run": {
                 "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GWUidrji7oYkYtxvKnLcIsvdn9b",
+        "block_type": 2,
+        "parent_id": "Byrzd48FzoddqmxnBkJcDud3naf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -9308,7 +10766,7 @@
             },
             {
               "text_run": {
-                "content": ": Trigger alerts when the count of used CPU cores reaches or exceeds 70% of the total.",
+                "content": ": Trigger alerts when the number of used CPU cores reaches or exceeds 70% of the total.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -9345,7 +10803,7 @@
             },
             {
               "text_run": {
-                "content": ": Trigger alerts when the count of used CPU cores reaches or exceeds 100% of the total.",
+                "content": ": Trigger alerts when the number of used CPU cores reaches or exceeds 100% of the total.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -13353,7 +14811,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Monitor the count of loaded entities and send notifications if the count exceeds a threshold for a certain duration.",
+                "content": "Monitor the number of loaded entities and send notifications if the count exceeds a threshold for a certain duration.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -13421,7 +14879,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Monitor the count of total entities and send notifications if the count exceeds a threshold for a certain duration.",
+                "content": "Monitor the number of total entities and send notifications if the count exceeds a threshold for a certain duration.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -13489,7 +14947,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Monitor the count of total collections and send notifications if the count exceeds a threshold for a certain duration.",
+                "content": "Monitor the number of total collections and send notifications if the count exceeds a threshold for a certain duration.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -13616,6 +15074,6 @@
         "parent_id": "F3rPdjH5soDvywx6Ec9cgDKgnNf"
       }
     ],
-    "counts": 593
+    "counts": 637
   }
 }

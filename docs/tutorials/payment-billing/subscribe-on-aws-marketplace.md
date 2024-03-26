@@ -99,43 +99,13 @@ To cancel your AWS Marketplace subscription, you need to open the AWS Marketplac
 
 ## AWS Marketplace pricing terms{#aws-marketplace-pricing-terms}
 
-- Zilliz Cloud Standard Plan
-
-    |  __Units__                                           |  __Cost__      |
-    | ---------------------------------------------------- | -------------- |
-    |  1 AWS performance-optimized CU per hour as one unit |  $0.159 / unit |
-    |  1 AWS capacity-optimized CU per hour as one unit    |  $0.159 / unit |
-    |  1 AWS cost-optimized CU per hour as one unit        |  $0.107 / unit |
-    |  1 GB for storage on AWS per month as one unit       |  $0.025 / unit |
-    |  1 GB for backup service on AWS as one unit          |  $0.025 / unit |
-    |  1 GCP performance-optimized CU per hour as one unit |  $0.137 / unit |
-    |  1 GCP capacity-optimized CU per hour as one unit    |  $0.137 / unit |
-    |  1 GCP cost-optimized CU per hour as one unit        |  $0.091 / unit |
-    |  1 GB for storage on GCP per month as one unit       |  $0.02 / unit  |
-    |  1 GB for backup service on GCP as one unit          |  $0.02 / unit  |
-
-- Zilliz Cloud Enterprise Plan
-
-    |  __Units__                                           |  __Cost__      |
-    | ---------------------------------------------------- | -------------- |
-    |  1 AWS performance-optimized CU per hour as one unit |  $0.248 / unit |
-    |  1 AWS capacity-optimized CU per hour as one unit    |  $0.248 / unit |
-    |  1 AWS cost-optimized CU per hour as one unit        |  $0.159 / unit |
-    |  1 GB for storage on AWS per month as one unit       |  $0.025 / unit |
-    |  1 GB for backup service on AWS as one unit          |  $0.025 / unit |
-    |  1 GCP performance-optimized CU per hour as one unit |  $0.215 / unit |
-    |  1 GCP capacity-optimized CU per hour as one unit    |  $0.215 / unit |
-    |  1 GCP cost-optimized CU per hour as one unit        |  $0.137 / unit |
-    |  1 GB for storage on GCP per month as one unit       |  $0.02 / unit  |
-    |  1 GB for backup service on GCP as one unit          |  $0.02 / unit  |
-
-Using the above table, if you have deployed a vector database in the __Standard Plan__ on Zilliz Cloud with one performance-optimized CU on AWS, you will be charged 159 units per hour, that is $0.159/hour.
-
-To subscribe to Zilliz Cloud, please visit us on [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?sr=0-1&ref_=beagle&applicationId=AWSMPContessa).
+Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more information.
 
 ## Related topics{#related-topics}
 
 - [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)
+
+- [Subscribe on Azure Marketplace](./subscribe-on-azure-marketplace)
 
 - [Subscribe on GCP Marketplace](./subscribe-on-gcp-marketplace)
 

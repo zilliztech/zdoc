@@ -1,6 +1,6 @@
 ---
 slug: /create-search-piplines
-beta: TRUE
+beta: FALSE
 notebook: FALSE
 type: origin
 token: TQnswMmIpiTmUSkf1iscU05Lnfb
@@ -30,7 +30,7 @@ Unlike Ingestion and Deletion pipelines, when creating a Search pipeline, the cl
 
 1. Navigate to your project.
 
-1. Click on __Pipelines__ from the navigation panel. Then click__ + Pipeline__.
+1. Click on __Pipelines__ from the navigation panel. Then switch to the __Overview__ tab and click __Pipelines__. To create a pipeline, click__ + Pipeline__.
 
 1. Choose the type of pipeline to create. Click on __+ Pipeline __button in the __Search Pipeline __column.
 
@@ -57,11 +57,11 @@ Unlike Ingestion and Deletion pipelines, when creating a Search pipeline, the cl
 
     1. Choose __Target Cluster__ and __Target collection__. The Target Cluster must be serverless cluster and the Target Collection must be created by an Ingestion pipeline, otherwise the Search pipeline won't be compatible.
 
-    1. (Optional) Enable reranker if you want to reorder or rank a set of candidate outputs to improve the quality of the search results. By default, this feature is disabled. Once enabled, you can choose the model service used for reranking. Currently, only __zilliz/bge-reranker-base__ is available.
+    1. (Optional) Enable [reranker](./reranker) if you want to rank the search results based on their relevance to the query to improve search quality. However, note that enabling reranker will lead to higher cost and search latency. By default, this feature is disabled. Once enabled, you can choose the model service used for reranking. Currently, only __zilliz/bge-reranker-base__ is available.
 
-        |  __Reranker Mode Service__ |  __Description__                                                                                                                                                                                                    |
-        | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-        |  zilliz/bge-reranker-base  |  Open-source reranker model published by BAAI. This model is hosted on Zilliz Cloud and co-located with other Zilliz services, thus has the best latency. One of the best performers according to MTEB leaderboard. |
+        |  __Reranker Model Service__ |  __Description__                                                                                                |
+        | --------------------------- | --------------------------------------------------------------------------------------------------------------- |
+        |  zilliz/bge-reranker-base   |  Open-source cross-encoder architecture reranker model published by BAAI. This model is hosted on Zilliz Cloud. |
 
         ![add-function-to-search-pipeline](/img/add-function-to-search-pipeline.png)
 
@@ -112,7 +112,7 @@ The parameters in the above code are described as follows:
 
 - `name`: The name of the pipeline to create. The pipeline name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
 
-- `description` (optional): The description of the pipeline to create
+- `description` (optional): The description of the pipeline to create.
 
 - `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
 
@@ -128,7 +128,7 @@ The parameters in the above code are described as follows:
 
     - `collectionName`: The name of the collection in which you want to create a pipeline.
 
-    - `reranker`(Optional): This is an optional parameter for those who want to reorder or rank a set of candidate outputs to improve the quality of the search results. If you do not need the reranker, you can omit this parameter. Currently, only `zilliz/bge-reranker-base` is available as the parameter value.
+    - `reranker`(Optional): This is an optional parameter for those who want to reorder or rank a set of candidate outputs to improve the quality of the search results. If you do not need the [reranker](./reranker), you can omit this parameter. Currently, only `zilliz/bge-reranker-base` is available as the parameter value.
 
 Below is an example output.
 

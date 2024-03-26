@@ -1,0 +1,441 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": false,
+  "node_create_time": "1710916962",
+  "node_token": "MVbkwpGmwieFyykbLTFcRSqFnJe",
+  "node_type": "origin",
+  "obj_create_time": "1710916962",
+  "obj_edit_time": "1711418408",
+  "obj_token": "JiOIdARjCoNjItxamDBcD3gTnid",
+  "obj_type": "docx",
+  "origin_node_token": "MVbkwpGmwieFyykbLTFcRSqFnJe",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "PlQgwKLgQis7mnkLoBzc40aVn6c",
+  "space_id": "7167193056431783939",
+  "title": "Understanding Connectors",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "block_type": 1,
+        "children": [
+          "OeFodTQlpolRGIx2u6ZcypS3nmh",
+          "QtKmd6siRo0TI9xsMkscKYKpnnc",
+          "VXppdWrFFoYocSx38UjcsiRNnGe",
+          "Qwhsd2CAoogOfKx4m4hcdILxnic",
+          "OEkNdBMKroN4OXxqmPXcmwGFnZf",
+          "JW0dd8dbBobmFPxbCq8cPX5qnfg",
+          "GB1pdmY1foxpKLxd8UCcvUXcnEh",
+          "JlFQd9w0NobE78xcrvSco463ndb",
+          "H2RUdQUhvoDDNjxKM8wcowUVnEe",
+          "R7wGd5KxboPhhBxPXXAcxKFqnne",
+          "Ajl3dxNQQocPIsxMKFoctBPenqg",
+          "OyyCdWilJor85Ox5kArcOSREn9b",
+          "CFBjdFGivokE80x2C5Hc1qUXnZc"
+        ],
+        "comment_ids": [
+          "7350485000565587971"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Understanding Connectors",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7350485000565587971"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "OeFodTQlpolRGIx2u6ZcypS3nmh",
+        "block_type": 2,
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The connector is an in-built tool that makes it easy to connect various data sources to a vector database. This guide will explain what a connector is, how it works with Zilliz Cloud vector database, and the benefits of using a connector. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QtKmd6siRo0TI9xsMkscKYKpnnc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What is a connector?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "VXppdWrFFoYocSx38UjcsiRNnGe",
+        "block_type": 2,
+        "comment_ids": [
+          "7350484395752898564"
+        ],
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A connector is a tool designed to support data streaming from one place to another. As indicated in the diagram below, a connector first scans the data in various file formats hosted on different object storage services (eg. AWS S3, Google Cloud Storage, etc.) and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "transfer them into vector database via ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7350484395752898564"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud Pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7350484395752898564"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FWOVmwtcwPiSlLekwzQncTGEhnWg"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7350484395752898564"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " These source data will be further processed by the ingestion or deletion pipeline and finally stored as entities in a Zillliz Cloud collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Qwhsd2CAoogOfKx4m4hcdILxnic",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 520,
+          "token": "XF2zbQ3YOocLiXx2Tp9cvOhNnSh",
+          "width": 2021
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "OEkNdBMKroN4OXxqmPXcmwGFnZf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Why use a connector?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "JW0dd8dbBobmFPxbCq8cPX5qnfg",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Seamless Data Ingestion",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "GB1pdmY1foxpKLxd8UCcvUXcnEh",
+        "block_type": 2,
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In RAG applications, the connector's role starts with data ingestion, where it sources information from various data streams and prepares it for processing.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JlFQd9w0NobE78xcrvSco463ndb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Real-time Data Availability",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "H2RUdQUhvoDDNjxKM8wcowUVnEe",
+        "block_type": 2,
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For RAG applications, which often rely on the most current data to generate responses, connectors are crucial for real-time data availability.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "R7wGd5KxboPhhBxPXXAcxKFqnne",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Data Integrity and Consistency",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "Ajl3dxNQQocPIsxMKFoctBPenqg",
+        "block_type": 2,
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Connectors are responsible for maintaining the integrity and consistency of data as it moves from the original sources to the retrieval system, ensuring that the generated outputs are based on accurate and up-to-date information.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OyyCdWilJor85Ox5kArcOSREn9b",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Scalability and Adaptability",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "CFBjdFGivokE80x2C5Hc1qUXnZc",
+        "block_type": 2,
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Connectors help RAG systems to scale up and adapt as new data sources emerge or as existing ones evolve, without the need for substantial changes to the core system.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 14
+  }
+}

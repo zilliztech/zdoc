@@ -522,8 +522,8 @@ The parameter settings for `radius` and `range_filter` vary with the metric type
 
 |  __Metric Type__ |  __Charactericstics__                             |  __Range Search Settings__                                                                               |
 | ---------------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-|  `L2`            |  Smaller L2 distances indicate higher similarity. |  To exclude the closest vectors from results, ensure that:<br/> `range_filter` <= distance < `radius` |
-|  `IP`            |  Larger IP distances indicate higher similarity.  |  To exclude the closest vectors from results, ensure that:<br/> `radius` < distance <= `range_filter` |
+|  `L2`            |  Smaller L2 distances indicate higher similarity. |  To exclude the closest vectors from results, ensure that:<br/> `range_filter` \<= distance \< `radius` |
+|  `IP`            |  Larger IP distances indicate higher similarity.  |  To exclude the closest vectors from results, ensure that:<br/> `radius` \< distance \<= `range_filter` |
 
 ## Grouping search
 

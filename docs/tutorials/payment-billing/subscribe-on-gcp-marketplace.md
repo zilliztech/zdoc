@@ -93,6 +93,12 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
 1. Follow steps 1 to 4 in the [Subscribe on GCP Marketplace](./subscribe-on-gcp-marketplace#subscribe-on-gcp-marketplace) section to complete your subscription to Zilliz Cloud with the new account.
 
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>When updating GCP Marketplace subscription, you must click the Manage on Provider button to link your new subscription with Zilliz Cloud organization.</p>
+
+    </Admonition>
+
 ### Switch to payment credit card{#switch-to-payment-credit-card}
 
 1. Sign in to GCP Marketplace with the original GCP account you used for the subscription.
@@ -115,45 +121,15 @@ To cancel your GCP Marketplace subscription, you need to open the GCP Marketplac
 
 ## GCP Marketplace pricing terms{#gcp-marketplace-pricing-terms}
 
-- Zilliz Cloud Standard Plan
-
-    |  __Count__                                            |  __Cost__       |
-    | ----------------------------------------------------- | --------------- |
-    |  1 GCP performance-optimized CU per hour as one count |  $0.137 / count |
-    |  1 GCP capacity-optimized CU per hour as one count    |  $0.137 / count |
-    |  1 GCP cost-optimized CU per hour as one count        |  $0.091 / count |
-    |  1 GB for storage on GCP per month as one count       |  $0.02 / count  |
-    |  1 GB for backup service on GCP as one count          |  $0.02 / count  |
-    |  1 AWS performance-optimized CU per hour as one count |  $0.159 / count |
-    |  1 AWS capacity-optimized CU per hour as one count    |  $0.159 / count |
-    |  1 AWS cost-optimized CU per hour as one count        |  $0.107 / count |
-    |  1 GB for storage on AWS per month as one count       |  $0.025 / count |
-    |  1 GB for backup service on AWS as one count          |  $0.025 / count |
-
-- Zilliz Cloud Enterprise Plan
-
-    |  __Count__                                            |  __Cost__       |
-    | ----------------------------------------------------- | --------------- |
-    |  1 GCP performance-optimized CU per hour as one count |  $0.215 / count |
-    |  1 GCP capacity-optimized CU per hour as one count    |  $0.215 / count |
-    |  1 GCP cost-optimized CU per hour as one count        |  $0.137 / count |
-    |  1 GB for storage on GCP per month as one count       |  $0.02 / count  |
-    |  1 GB for backup service on GCP as one count          |  $0.02 / count  |
-    |  1 AWS performance-optimized CU per hour as one count |  $0.248 / count |
-    |  1 AWS capacity-optimized CU per hour as one count    |  $0.248 / count |
-    |  1 AWS cost-optimized CU per hour as one count        |  $0.159 / count |
-    |  1 GB for storage on AWS per month as one count       |  $0.025 / count |
-    |  1 GB for backup service on AWS as one count          |  $0.025 / count |
-
-Using the above table, if you have deployed a vector database in the __Standard Plan__ on Zilliz Cloud with one performance-optimized CU on GCP, you will be charged 215 count per hour, that is $0.215/hour.
-
-To subscribe to Zilliz Cloud, please visit us on [GCP Marketplace](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1&flow=gcp).
+Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more information.
 
 ## Related topics{#related-topics}
 
 - [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)
 
 - [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace)
+
+- [Subscribe on Azure Marketplace](./subscribe-on-azure-marketplace)
 
 - [View Invoice](./view-invoice) 
 

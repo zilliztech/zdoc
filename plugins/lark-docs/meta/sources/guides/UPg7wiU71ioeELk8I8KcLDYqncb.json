@@ -5,7 +5,7 @@
   "node_token": "UPg7wiU71ioeELk8I8KcLDYqncb",
   "node_type": "origin",
   "obj_create_time": "1704856645",
-  "obj_edit_time": "1708485229",
+  "obj_edit_time": "1711001349",
   "obj_token": "J1nddT7ZzoxYq5xvSO2crscMnxe",
   "obj_type": "docx",
   "origin_node_token": "UPg7wiU71ioeELk8I8KcLDYqncb",
@@ -43,9 +43,9 @@
           "C0AQd8UJuoSHikxDcdIcchoxnCB",
           "C3WJdIPkQofwloxKSNQcJgQonIl",
           "SF8Zd8eyHoU2Hhxck0hcZeqqnPb",
-          "AdD5d07IEobgPIx3vJUcCWlmnOf",
-          "Ufa2d9KkvoGx4fxEMJHc7Mbqnbf",
           "UCcHdU2u7oAPY8xEhpicvDIanAd",
+          "Ufa2d9KkvoGx4fxEMJHc7Mbqnbf",
+          "AdD5d07IEobgPIx3vJUcCWlmnOf",
           "Lh8NdLAELoQLelxlGMEcfJamnHb",
           "Ans1d563xoaWeqxXzooctvE6nkh",
           "Z1Fudr6DaoefYgxydN1c997bnmc",
@@ -3508,6 +3508,128 @@
         "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
       },
       {
+        "block_id": "UCcHdU2u7oAPY8xEhpicvDIanAd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Status",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Indicates if the alert is active (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") or not. When an alert in an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " status, the specified recipients will receive notifications once the conditions are met.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "Ufa2d9KkvoGx4fxEMJHc7Mbqnbf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Condition",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Trigger conditions for the alert.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
         "block_id": "AdD5d07IEobgPIx3vJUcCWlmnOf",
         "block_type": 12,
         "bullet": {
@@ -3593,104 +3715,6 @@
         "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
       },
       {
-        "block_id": "Ufa2d9KkvoGx4fxEMJHc7Mbqnbf",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Condition",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": Trigger conditions for the alert.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
-      },
-      {
-        "block_id": "UCcHdU2u7oAPY8xEhpicvDIanAd",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Status",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": Indicates if the alert is active (",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ON",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ") or not.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
-      },
-      {
         "block_id": "Lh8NdLAELoQLelxlGMEcfJamnHb",
         "block_type": 12,
         "bullet": {
@@ -3709,7 +3733,34 @@
             },
             {
               "text_run": {
-                "content": ": Designated roles or email addresses for receiving notifications.",
+                "content": ": Designated roles or email addresses for receiving notifications. You can also set up custom notification channels using webhooks. For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Notification Channels",
+                "token": "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
+                "url": "https://zilliverse.feishu.cn/wiki/ARpTwYXlIi7ZLtkEHx5ciUK6nuc"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -1,6 +1,6 @@
 ---
 slug: /run-pipelines
-beta: TRUE
+beta: FALSE
 notebook: FALSE
 type: origin
 token: XFEcwie5GiRlH5kLtvzcA8lWnNb

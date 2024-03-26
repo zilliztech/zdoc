@@ -1,6 +1,6 @@
 ---
 slug: /create-ingestion-piplines
-beta: TRUE
+beta: FALSE
 notebook: FALSE
 type: origin
 token: QFsIwkbwVi7CWdkMVGQcFnPonLc
@@ -14,7 +14,7 @@ import Admonition from '@theme/Admonition';
 
 The Zilliz Cloud web UI provides a simplified and intuitive way of creating Pipelines while creating pipelines via RESTful API offers more flexibility and customization compared to the Web UI.
 
-In Zilliz Cloud, you must create an [Ingestion pipeline](./understanding-pipelines#ingestion-pipelines) first. Upon successful creation of an Ingestion pipeline, you can create a [Search pipeline](./create-search-piplines) and a [Deletion pipeline](./create-deletion-pipelines) to work with your newly created Ingestion pipeline.
+In Zilliz Cloud, you must create an [Ingestion pipeline](./pipelines-user-guides) first. Upon successful creation of an Ingestion pipeline, you can create a [Search pipeline](./create-search-piplines) and a [Deletion pipeline](./create-deletion-pipelines) to work with your newly created Ingestion pipeline.
 
 A collection will be created automatically as part of Ingestion pipeline creation.
 
@@ -31,7 +31,7 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
 1. Navigate to your project.
 
-1. Click on __Pipelines__ from the navigation panel. Then click__ + Pipeline__.
+1. Click on __Pipelines__ from the navigation panel. Then switch to the __Overview__ tab and click __Pipelines__. To create a pipeline, click__ + Pipeline__.
 
     ![create-pipeline](/img/create-pipeline.png)
 
@@ -66,27 +66,53 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
         1. Choose the embedding model used to generate vector embeddings. Different document languages have distinct embedding models. Currently, there are 5 available models for the English language: __zilliz/bge-base-en-v1.5__, __voyageai/voyage-2__,__ voyageai/voyage-code-2__,__ openai/text-embedding-3-small__, and __openai/text-embedding-3-large__. For the Chinese language, only __zilliz/bge-base-zh-v1.5__ is available. The following chart briefly introduces each embedding model.
 
-            |  __Embedding Model __           |  __Description__                                                                                                                                                                                                                                                          |
-            | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-            |  zilliz/bge-base-en-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `ENGLISH`.                             |
-            |  voyageai/voyage-2              |  Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when `language` is `ENGLISH`. |
-            |  voyageai/voyage-code-2         |  Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks. This model is only available when `language` is `ENGLISH`.                                                                                   |
-            |  openai/text-embedding-3-small  |  Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when `language` is `ENGLISH`.                                         |
-            |  openai/text-embedding-3-large  |  Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when `language` is `ENGLISH`.                                                               |
-            |  zilliz/bge-base-zh-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `CHINESE`.                             |
+            |  __Embedding Model __           |  __Description__                                                                                                                                                                                                                                                                               |
+            | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+            |  zilliz/bge-base-en-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `ENGLISH`.                                                  |
+            |  voyageai/voyage-2              |  Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when `language` is `ENGLISH`.                      |
+            |  voyageai/voyage-code-2         |  Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code. This model is only available when `language` is `ENGLISH`.                                                                                   |
+            |  voyageai/voyage-large-2        |  Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents. This model is only available when `language` is `ENGLISH`. |
+            |  openai/text-embedding-3-small  |  Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when `language` is `ENGLISH`.                                                              |
+            |  openai/text-embedding-3-large  |  Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when `language` is `ENGLISH`.                                                                                    |
+            |  zilliz/bge-base-zh-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `CHINESE`.                                                  |
 
-        1. (Optional) Customize the chunk size. The function segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size for custom chunking strategies. Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size.
+        1. (Optional) Customize the chunking strategy used to segment each document into smaller chunks. Use this feature if you want to improve retrieval quality.
 
-            The following table lists the mapping relationship between applicable models and their corresponding chunk sizes.
+            <Admonition type="info" icon="📘" title="Notes">
 
-            |  __Model__                     |  __Chunk Size Range (tokens)__ |
-            | ------------------------------ | ------------------------------ |
-            |  zilliz/bge-base-en-v1.5       |  20-500 tokens                 |
-            |  zilliz/bge-base-zh-v1.5       |  20-500 tokens                 |
-            |  voyageai/voyage-2             |  20-3,000   tokens             |
-            |  voyageai/voyage-code-2        |  20-12,000 tokens              |
-            |  openai/text-embedding-3-small |  250-8,191 tokens              |
-            |  openai/text-embedding-3-large |  250-8,191 tokens              |
+            <p>For markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size.</p>
+
+            </Admonition>
+
+            - Choose optimizer. 
+
+                Optimizers are used to enhance the parsing of text from files for better retrieval quality. However, please be aware that using optimizers can increase latency or token usage.
+
+                Currently, only 1 type of optimizer is available.
+
+                |  __Optimizer__    |  __Description__                                                                                                                                                                                                                          |
+                | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+                |  pdf_ocr<br/>  |  OCR (Optical Character Recognition) can extract text from the scanned pages or tables. Using this optimizer can improve text recognition in image-based PDF but it will significantly increase processing latency and incur higher cost. |
+
+            - Choose or customize the splitter.
+
+                Splitters are used for dividing the document into chunks. The text is split by the specified characters in order.
+
+                By default, Zilliz Cloud Pipelines uses __"\n\n", "\n", " ", ""__ as separators. You can also choose to split the document by sentences (use ".", "" as separators ), paragraphs (use "\n\n", "" as separators), lines (use "\n", "" as separators), or a list of customized strings. The customized separators should be combined with commas.
+
+            - Define the chunk size.
+
+                By default, each chunk contains no more than 500 tokens. The following table lists the mapping relationship between applicable models and their corresponding chunk size ranges.
+
+                |  __Model__                     |  __Chunk Size Range__ |
+                | ------------------------------ | --------------------- |
+                |  zilliz/bge-base-en-v1.5       |  20-500 tokens        |
+                |  zilliz/bge-base-zh-v1.5       |  20-500 tokens        |
+                |  voyageai/voyage-2             |  20-3,000 tokens      |
+                |  voyageai/voyage-code-2        |  20-12,000 tokens     |
+                |  voyageai/voyage-large-2       |  20-12,000 tokens     |
+                |  openai/text-embedding-3-small |  250-8,191 tokens     |
+                |  openai/text-embedding-3-large |  250-8,191 tokens     |
 
             ![customize-chunk-size](/img/customize-chunk-size.png)
 
@@ -114,7 +140,7 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
 1. Click__ Create Ingestion Pipeline__.
 
-1. Continue creating a [Search pipeline ](./understanding-pipelines#search-pipelines)and a [Deletion pipeline](./understanding-pipelines#deletion-pipelines) that is auto-configured to be compatible with the just-created Ingestion pipeline. 
+1. Continue creating a [Search pipeline ](./pipelines-user-guides)and a [Deletion pipeline](./pipelines-user-guides) that is auto-configured to be compatible with the just-created Ingestion pipeline. 
 
     ![ingestion-pipeline-created-successfully](/img/ingestion-pipeline-created-successfully.png)
 
@@ -145,7 +171,9 @@ curl --request POST \
                 "inputField": "doc_url", 
                 "language": "ENGLISH",
                 "chunkSize": 500,
-                "embedding": "zilliz/bge-base-en-v1.5"
+                "embedding": "zilliz/bge-base-en-v1.5",
+                "splitBy": ["\n\n", "\n", " ", ""], 
+                "optimizers": ["pdf_ocr"]
             },
             {
                 "name": "keep_doc_info",
@@ -208,20 +236,28 @@ The parameters in the above code are described as follows:
         |  openai/text-embedding-3-small |  250-8,191 tokens              |
         |  openai/text-embedding-3-large |  250-8,191 tokens              |
 
-    - `outputField`: The name of the output field which will be used in the collection schema. Currently, the output field name must be identical to the input field name. _(This parameter is only used in the `PRESERVE` function.)_
+    - `splitBy` (optional): Splitters are used to split the document based on a list of separators in order until the chunks are small enough - smaller or equal to the defined chunk size. By default, Zilliz Cloud Pipelines uses `["\n\n", "\n", " ", ""] `as separators. _(This parameter is only used in the `INDEX_DOC` function.)_
 
-    - `fieldType`: The data type of the input and output fields. Possible values include `Bool`, `Int8`, `Int16`, `Int32`, `Int64`, `Float`, `Double`, and `VarChar`. _(This parameter is only used in the `PRESERVE` function.)_
+    - `optimizers` (optional): Optimizers are used to enhance the parsing of text from files for better retrieval quality. However, please be aware that using optimizers can increase latency or token usage. Currently, only 1 type of optimizer is available. _(This parameter is only used in the `INDEX_DOC` function.)_
 
-        <Admonition type="info" icon="📘" title="Notes">
+        |  __Optimizer__    |  __Description__                                                                                                                       |
+        | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+        |  pdf_ocr<br/>  |  This optimizer converts a scanned or image-based PDF file into editable and searchable text, allowing for better document retrieval.  |
 
-        <p>When storing date-time in scalar fields, it is recommended to use the <strong>Int16</strong> data type for year data, and <strong>Int32</strong> for timestamps.</p>
-        <p>For <code>VarChar</code> field type, the <code>max_length</code> of the data in this field cannot exceed 4,000.</p>
+- `outputField`: The name of the output field which will be used in the collection schema. Currently, the output field name must be identical to the input field name. _(This parameter is only used in the `PRESERVE` function.)_
 
-        </Admonition>
+- `fieldType`: The data type of the input and output fields. Possible values include `Bool`, `Int8`, `Int16`, `Int32`, `Int64`, `Float`, `Double`, and `VarChar`. _(This parameter is only used in the `PRESERVE` function.)_
 
-    - `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a serverless cluster or a dedicated cluster deployed on GCP us-west1. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+    <Admonition type="info" icon="📘" title="Notes">
 
-    - `newCollectionName`: The name of the collection in which you want to create a pipeline.
+    <p>When storing date-time in scalar fields, it is recommended to use the <strong>Int16</strong> data type for year data, and <strong>Int32</strong> for timestamps.</p>
+    <p>For <code>VarChar</code> field type, the <code>max_length</code> of the data in this field cannot exceed 4,000.</p>
+
+    </Admonition>
+
+- `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a serverless cluster or a dedicated cluster deployed on GCP us-west1. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+
+- `newCollectionName`: The name of the collection in which you want to create a pipeline.
 
 Below is an example output.
 
@@ -242,7 +278,9 @@ Below is an example output.
         "inputField": "doc_url",
         "language": "ENGLISH",
         "chunkSize": 500,
-        "embedding": "zilliz/bge-base-en-v1.5"
+        "embedding": "zilliz/bge-base-en-v1.5"，
+        "splitBy": ["\n\n", "\n", " ", ""], 
+        "optimizers": ["pdf_ocr"]
       },
       {
         "action": "PRESERVE",

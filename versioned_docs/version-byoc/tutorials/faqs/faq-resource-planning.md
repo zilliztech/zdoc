@@ -32,9 +32,9 @@ We recommend suspending unused clusters to save computing costs. You can resume 
 
 __How many CUs do I need for a given collection?__
 
-A Performance-optimized CU can serve 5 million 128-dimensional vectors.
+A Performance-optimized CU can serve 8 million 128-dimensional vectors or 2 million 768-dimensional vectors.
 
-A Capacity-optimized CU can fit 25 million 128-dimensional vectors.
+A Capacity-optimized CU can serve 25 million 128-dimensional vectors or 5 million 768-dimensional vectors.
 
 A Cost-optimized CU can serve 25 million 128-dimensional vectors or 5 million 768-dimensional vectors.
 

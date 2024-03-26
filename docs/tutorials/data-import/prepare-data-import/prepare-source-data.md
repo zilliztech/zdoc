@@ -207,9 +207,9 @@ Zilliz Cloud also supports data import from a bucket on __AWS S3__, __Google GCS
 
 - __Object access URIs__
 
-    |  __URI Style__              |  __URI Format__                                           |
-    | --------------------------- | --------------------------------------------------------- |
-    |  __Azure storage blob URI__ |  `https://storage.googleapis.com/bucket_name/object_name` |
+    |  __URI Style__              |  __URI Format__                                                    |
+    | --------------------------- | ------------------------------------------------------------------ |
+    |  __Azure storage blob URI__ |  `https://myaccount.blob.core.windows.net/bucket-name/object_name` |
 
     For more details, see [Resource URI Syntax](https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata#resource-uri-syntax).
 

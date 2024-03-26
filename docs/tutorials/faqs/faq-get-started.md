@@ -46,9 +46,9 @@ __What happens after the free trial?__
 
 Once the free trial ends, you can still access your serverless clusters. However, all the data in your dedicated clusters will be moved to the Recycle Bin and will be retained there for 30 days. To safely recover your dedicated cluster data, you can subscribe to the standard or enterprise plan by providing a payment method.  If you have not completed the PoC during the trial period, you can also [contact us](https://support.zilliz.com/hc/en-us) to extend the trial period.
 
-__What is the pricing of Zilliz Cloud on AWS marketplace?__
+__What is the pricing of Zilliz Cloud on Marketplaces?__
 
-Please refer to [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace#aws-marketplace-pricing-terms)for more about the pricing of Zilliz Cloud on AWS Marketplace.
+Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more about Marketplace Pricing Terms.
 
 __How can I get further technical support?__
 

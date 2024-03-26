@@ -1,6 +1,6 @@
 ---
 slug: /pipeline-integrations
-beta: TRUE
+beta: FALSE
 notebook: FALSE
 type: origin
 token: IjRMw4Zp6iiqDUkbGk9crGoan9e

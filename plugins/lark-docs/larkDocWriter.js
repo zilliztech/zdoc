@@ -483,6 +483,12 @@ class larkDocWriter {
 
     __filter_content (markdown, targets) {
         const matches = this.__match_filter_tags(markdown)
+        // if (matches.length > 0) {
+        //     fs.writeFileSync('test.md', markdown)
+        //     console.log(matches)
+        //     throw new Error("Filter tags are not supported in Lark docs")
+        // }
+
 
         if (matches.length > 0) {
             var preText = markdown.slice(0, matches[0].startIndex)
@@ -500,7 +506,7 @@ class larkDocWriter {
                 matchText = ""
             }
  
-            markdown = this.__filter_content(preText + matchText + postText , targets)
+            markdown = this.__filter_content(preText + matchText + postText, targets)
         }
 
         return markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');

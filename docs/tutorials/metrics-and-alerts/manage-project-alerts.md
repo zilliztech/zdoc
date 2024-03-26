@@ -57,13 +57,13 @@ __Components of an alert__:
 
 - __Alert Target__: Preconfigured by Zilliz Cloud with trigger conditions and severity.
 
-- __Severity Level__: Categorized as __WARNING__ or __CRITICAL__.
+- __Status__: Indicates if the alert is active (__ON__) or not. When an alert in an __ON__ status, the specified recipients will receive notifications once the conditions are met.
 
 - __Condition__: Trigger conditions for the alert.
 
-- __Send to__: Designated roles or email addresses for receiving notifications.
+- __Severity Level__: Categorized as __WARNING__ or __CRITICAL__.
 
-- __Status__: Indicates if the alert is active (__ON__) or not.
+- __Receiver__: Designated roles or email addresses for receiving notifications. You can also set up custom notification channels using webhooks. For more information, refer to [Manage Notification Channels](./manage-notification-channels).
 
 ![view-project-alert](/img/view-project-alert.png)
 

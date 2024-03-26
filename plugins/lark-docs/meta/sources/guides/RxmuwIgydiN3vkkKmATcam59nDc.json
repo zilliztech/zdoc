@@ -5,7 +5,7 @@
   "node_token": "RxmuwIgydiN3vkkKmATcam59nDc",
   "node_type": "origin",
   "obj_create_time": "1706250752",
-  "obj_edit_time": "1707286008",
+  "obj_edit_time": "1711421820",
   "obj_token": "R5dVdL4BNox7yXxg4u0cExydnmg",
   "obj_type": "docx",
   "origin_node_token": "RxmuwIgydiN3vkkKmATcam59nDc",
@@ -26,6 +26,8 @@
           "NZZodkkf4oEe5cxrzqac8f1JnIf",
           "NU5LdYRGzoEQzTx3TUYcYmpvnoe",
           "Be7id1HtioawwJxGrfwcndLanZf",
+          "NPyQdF4C9otOURxr3U1czNJJnLb",
+          "UtmYdI0K9oI7KuxZDb3cv5WbnFh",
           "NfKKdTJQeojNvVxxEsfcaQ4Nnje",
           "HBuudSUhkokTI2xs4QqcOy1sn6c",
           "LiQldJLIZo7mX3xU1CncPJjhn6b",
@@ -249,6 +251,42 @@
           "component": {
             "iframe_type": 8,
             "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D35839-1165%26mode%3Ddesign%26t%3Dp6udni6fCTXgNGWr-4"
+          }
+        },
+        "parent_id": "R5dVdL4BNox7yXxg4u0cExydnmg"
+      },
+      {
+        "block_id": "NPyQdF4C9otOURxr3U1czNJJnLb",
+        "block_type": 2,
+        "parent_id": "R5dVdL4BNox7yXxg4u0cExydnmg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can also check the pipeline activities on the web UI.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UtmYdI0K9oI7KuxZDb3cv5WbnFh",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D42645-3527%26mode%3Ddesign%26t%3DWLxAkO0Etu3hnDgJ-4"
           }
         },
         "parent_id": "R5dVdL4BNox7yXxg4u0cExydnmg"
@@ -1630,6 +1668,6 @@
         "parent_id": "R5dVdL4BNox7yXxg4u0cExydnmg"
       }
     ],
-    "counts": 39
+    "counts": 41
   }
 }

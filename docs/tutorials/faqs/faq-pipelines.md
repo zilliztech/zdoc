@@ -42,7 +42,11 @@ The text doc ingestion and search pipelines support various embedding models.
 
     - voyageai/voyage-code-2
 
-        Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks.
+        Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code.
+
+    - voyageai/voyage-large-2
+
+        Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents.
 
     - openai/text-embedding-3-small 
 

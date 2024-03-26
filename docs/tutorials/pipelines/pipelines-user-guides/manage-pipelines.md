@@ -1,6 +1,6 @@
 ---
 slug: /manage-pipelines
-beta: TRUE
+beta: FALSE
 notebook: FALSE
 type: origin
 token: RxmuwIgydiN3vkkKmATcam59nDc
@@ -21,6 +21,10 @@ This guide walks you through how to manage your created pipelines.
 Click __Pipelines__ on the left navigation. Choose the __Pipelines__ tab. You will see all the available pipelines, their detailed information, and the token usage of each pipeline. 
 
 ![view-pipelines-on-web-ui](/img/view-pipelines-on-web-ui.png)
+
+You can also check the pipeline activities on the web UI.
+
+![view-pipelines-activities-on-web-ui](/img/view-pipelines-activities-on-web-ui.png)
 
 ### Via RESTful API{#via-restful-api}
 

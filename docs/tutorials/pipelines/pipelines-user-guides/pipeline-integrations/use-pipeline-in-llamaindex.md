@@ -1,6 +1,6 @@
 ---
 slug: /use-pipeline-in-llamaindex
-beta: TRUE
+beta: FALSE
 notebook: FALSE
 type: origin
 token: Wg3kwOqKXiJQK9k7wh2ccanlnhg

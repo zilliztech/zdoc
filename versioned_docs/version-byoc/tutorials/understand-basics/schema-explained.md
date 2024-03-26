@@ -38,9 +38,9 @@ The data schema for a collection is sometimes time-consuming, especially when th
 
 ### Dynamic data fields{#dynamic-data-fields}
 
-A collection can have one primary key field and one vector field. You can create a collection using dynamic fields without manually defining the properties of the entities in your dataset. Simply give it a name and the number of dimensions for the vector field. Zilliz Cloud will infer the data types and constraints from the data inserted later on.
+A collection can have one primary key field and one vector field. If you enable the dynamic field, you do not have to define the collection schema beforehand. All you have to do is provide a name for the collection and the number of dimensions for the vector field. Zilliz Cloud will then determine which fields and their values should be saved as key-value pairs in a reserved field called __$meta__ upon data insertions.
 
-For example, the following code snippet creates a collection named __medium_articles__ without providing it a fixed schema.
+For example, the following code snippet creates a collection named __medium_articles__ without providing the collection with a fixed schema.
 
 ```python
 # Connect using a MilvusClient object
@@ -58,45 +58,37 @@ client = MilvusClient(
 
 # Create a collection
 client.create_collection(
-        collection_name="medium_articles",
-        dimension=768
+    collection_name="medium_articles",
+    dimension=768
 )
 ```
 
-When you insert an entity into the collection, Zilliz Cloud will parse the data and dynamically infer your collection’s schema accordingly.
+When you insert an entity into the collection, Zilliz Cloud will parse the data and save the non-schema-defined fields as key-value pairs in the reserved field named __$meta__.
 
 ```python
 client.insert(
-        collection_name="medium_articles",
-        data: {
-                "id": 0,
-                "title": "The Reported Mortality Rate of Coronavirus Is Not Important",
-                "vector": [0.041732933, 0.013779674, ...., -0.013061441],
-                "link": "<https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912>",
-                "reading_time": 13,
-                "publication": "The Startup",
-                "claps": 1100,
-                "responses": 18
-  }
+    collection_name="medium_articles",
+    data: {
+        "id": 0,
+        "title": "The Reported Mortality Rate of Coronavirus Is Not Important",
+        "vector": [0.041732933, 0.013779674, ...., -0.013061441],
+        "link": "<https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912>",
+        "reading_time": 13,
+        "publication": "The Startup",
+        "claps": 1100,
+        "responses": 18
+    }
 )
 ```
 
-The inferred schema according to the above piece of data should be similar to the following:
-
-|  __Field name__ |  __Inferred data type__ |
-| --------------- | ----------------------- |
-|  id             |  Int64                  |
-|  title          |  VarChar(512)           |
-|  vector         |  FloatVector(768)       |
-|  link           |  VarChar(512)           |
-|  reading_time   |  Int64                  |
-|  publication    |  VarChar(512)           |
-|  claps          |  Int64                  |
-|  responses      |  Int64                  |
-
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Dynamic data fields may not always be the preferred method, especially when the inserted data is complex and difficult to parse. In such cases, consider using fixed data fields instead, especially when dynamic data fields fail to produce the expected results.</p>
+<p>Enabling the dynamic field can be helpful when you need to handle schema change requests. It's recommended that you enable it while creating a collection as it proves to be useful in most cases. </p>
+<p>However, there are two scenarios where you might want to avoid using the dynamic field.</p>
+<ul>
+<li><p>If the field keys in your dataset contain special characters like <strong>$</strong> or escape characters.</p></li>
+<li><p>If you are focused on achieving extreme filtering performance.</p></li>
+</ul>
 
 </Admonition>
 

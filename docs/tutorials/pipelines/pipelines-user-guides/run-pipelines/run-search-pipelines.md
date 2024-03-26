@@ -1,6 +1,6 @@
 ---
 slug: /run-search-pipelines
-beta: TRUE
+beta: FALSE
 notebook: FALSE
 type: origin
 token: JQDDwqHi3i47jAkybnCcgNt6nSe
@@ -16,7 +16,7 @@ After creating a Search pipeline, you can run it to perform a semantic search.
 
 ## On web UI{#on-web-ui}
 
-1. Click the "▶︎" button next to your Search pipeline. Alternatively, you can also click on the __Run Pipelines__ tab.
+1. Click the "▶︎" button next to your Search pipeline. Alternatively, you can also click on the Playground tab.
 
 ![run-pipeline](/img/run-pipeline.png)
 
@@ -42,8 +42,8 @@ curl --request POST \
       "params":{
           "limit": 1,
           "offset": 0,
-          "outputFields": [ "chunk_text", "chunk_id", "doc_name" ],
-          "filter": "chunk_id >= 0", 
+          "outputFields": [ "chunk_id", "doc_name" ],
+          "filter": "id >= 0", 
       }
     }'
 
@@ -62,9 +62,10 @@ The parameters in the above code are described as follows:
     - `limit`: The maximum number of entities to return. The value should be an integer ranging from __1__ to __100__. The sum of this value of that of `offset` should be less than __1024__.
 
     - `offset`: The number of entities to skip in the search results.
-The sum of this value and that of `limit` should not be greater than __1024__.The maximum value is __1024__.
 
-    - `outputFields`: An array of fields to return along with the search results.
+        The sum of this value and that of `limit` should not be greater than __1024__.The maximum value is __1024__.
+
+    - `outputFields`: An array of fields to return along with the search results. Note that `id`（entity ID）, `distance`, and `chunk_text` will be returned in the search result by default. If you need other output fields in the returned result, you can configure this parameter.
 
     - `filter`: The [filter](/docs/search-query-and-get#search-with-filters) in boolean expression used to find matches for the search
 

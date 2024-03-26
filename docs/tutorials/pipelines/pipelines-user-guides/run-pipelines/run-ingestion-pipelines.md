@@ -1,6 +1,6 @@
 ---
 slug: /run-ingestion-pipelines
-beta: TRUE
+beta: FALSE
 notebook: FALSE
 type: origin
 token: IEoHwfIsBioVCRkHU7AcJdANn9c
@@ -16,7 +16,7 @@ After creating an Ingestion pipeline, you can run it to convert unstructured dat
 
 ## On web UI{#on-web-ui}
 
-1. Click the "▶︎" button next to your Ingestion pipeline. Alternatively, you can also click on the __Run Pipelines__ tab.
+1. Click the "▶︎" button next to your Ingestion pipeline. Alternatively, you can also click on the __Playground__ tab.
 
 ![run-pipeline](/img/run-pipeline.png)
 

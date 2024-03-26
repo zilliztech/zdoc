@@ -16,7 +16,7 @@ This guide provides comprehensive instructions on how to create an account for a
 
 ## Before you start{#before-you-start}
 
-Navigate to the signup page by clicking on [this link](https://cloud.zilliz.com/signup).
+You are welcome to visit Zilliz Cloud to [sign up](https://cloud.zilliz.com/signup).
 
 ![sign_up](/byoc/sign_up.png)
 

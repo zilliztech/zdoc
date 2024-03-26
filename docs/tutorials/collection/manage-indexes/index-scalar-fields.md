@@ -8,46 +8,86 @@ sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Index Scalar Fields
 
-On Zilliz Cloud, scalar fields, which refer to single numbers or strings, can be efficiently indexed for improved query performance.
+On Zilliz Cloud, a scalar index is used to speed up metafiltering by a specific non-vector field value, similar to a traditional database index. This guide will walk you through creating and configuring scalar indexes for fields such as integers, strings, etc.
 
-This guide provides an overview of how to index scalar fields in a collection.
+## Types of scalar indexing{#types-of-scalar-indexing}
 
-## Overview{#overview}
+- __[Auto indexing](./index-scalar-fields#auto-indexing)__: Milvus automatically decides the index type based on the data type of the scalar field. This is suitable when you do not need to control the specific index type.
 
-Milvus allows indexing both vector and scalar fields. Here, we focus on scalar fields, which are single-value fields. Various data types are supported for scalar fields. Refer to [Supported data types](https://milvus.io/docs/schema.md#Supported-data-type) for more information.
+- __[Custom indexing](./index-scalar-fields#custom-indexing)__: You specify the exact index type, such as an inverted index. This provides more control over the index type selection.
 
-### Types of scalar indexing{#types-of-scalar-indexing}
+## Auto indexing{#auto-indexing}
 
-There are two main approaches to indexing scalar fields:
+To use auto indexing, omit the __index_type__ parameter so that Milvus can infer the index type based on the scalar field type. For mappings between scalar data types and default indexing algorithms, refer to [Scalar field indexing algorithms](https://milvus.io/docs/scalar_index.md#Scalar-field-indexing-algorithms).
 
-- __Default Index__: Automatically created based on the scalar field's data type, without the need to specify any index parameters.
+Example:
 
-- __Inverted Index__: Created with specific index parameters for enhanced query efficiency.
-
-## Create a default index{#create-a-default-index}
-
-To create a default index on scalar fields, simply omit setting any index parameters. The system automatically assigns a default index name `_default_idx_<fieldId>`, followed by the name of the indexed field. If necessary, you can also customize it.
-
-Here is an example of creating a default index:
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
 
 ```python
-# Create default index
-
-# Get existing collection
-collection = Collection(name='{your_collection_name}') # Replace with the actual name of your collection
-
-collection.create_index(
-  field_name="scalar_int", # Specify the field name to index
-  index_name="default_index", # Specify the index name
+# Auto indexing
+client = MilvusClient(
+    uri="http://localhost:19530"
 )
 
-# Output:
-# Status(code=0, message=)
+index_params = client.create_index_params() # Prepare an empty IndexParams object, without having to specify any index parameters
+
+index_params.add_index(
+    field_name="scalar_1", # Name of the scalar field to be indexed
+    index_type="", # Type of index to be created. For auto indexing, leave it empty or omit this parameter.
+    index_name="default_index" # Name of the index to be created
+)
+
+client.create_index(
+  collection_name="test_scalar_index", # Specify the collection name
+  index_params=index_params
+)
 ```
 
-Refer to [Scalar Index](https://milvus.io/docs/scalar_index.md#Scalar-field-indexing-algorithms) for detailed information on default indexing algorithms.
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+
+IndexParam indexParamForScalarField = IndexParam.builder()
+    .fieldName("scalar_1") // Name of the scalar field to be indexed
+    .indexName("default_index") // Name of the index to be created
+    .indexType("") // Type of index to be created. For auto indexing, leave it empty or omit this parameter.
+    .build();
+
+List<IndexParam> indexParams = new ArrayList<>();
+indexParams.add(indexParamForVectorField);
+
+CreateIndexReq createIndexReq = CreateIndexReq.builder()
+    .collectionName("test_scalar_index") // Specify the collection name
+    .indexParams(indexParams)
+    .build();
+
+client.createIndex(createIndexReq);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createIndex({
+    collection_name: "test_scalar_index", // Specify the collection name
+    field_name: "scalar_1", // Name of the scalar field to be indexed
+    index_name: "default_index", // Name of the index to be created
+    index_type: "" // Type of index to be created. For auto indexing, leave it empty or omit this parameter.
+})
+```
+
+</TabItem>
+</Tabs>
 

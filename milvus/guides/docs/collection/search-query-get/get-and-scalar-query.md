@@ -426,9 +426,9 @@ A __boolean expression__ is always __a string comprising field names joined by o
 |  __+, -, *, /__ |  Addition, subtraction, multiplication, and division                                                                                        |
 |  __**__         |  Exponent                                                                                                                                   |
 |  __%__          |  Modulus                                                                                                                                    |
-|  __<, >__       |  Less than, greater than                                                                                                                    |
+|  __\<, >__       |  Less than, greater than                                                                                                                    |
 |  __==, !=__     |  Equal to, not equal to                                                                                                                     |
-|  __<=, >=__     |  Less than or equal to, greater than or equal to                                                                                            |
+|  __\<=, >=__     |  Less than or equal to, greater than or equal to                                                                                            |
 |  __not__        |  Reverses the result of a given condition.                                                                                                  |
 |  __like__       |  Compares a value to similar values using wildcard operators.<br/> For example, like "prefix%" matches strings that begin with "prefix". |
 |  __in__         |  Tests if an expression matches any value in a list of values.                                                                              |

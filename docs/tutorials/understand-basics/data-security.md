@@ -64,7 +64,7 @@ For details, see [Set up a Private Link](./setup-a-private-link).
 
 Once a cluster is up and security settings are applied, Zilliz Cloud implements various measures to secure data storage and transmission.
 
-In Zilliz Cloud, vector data is stored in object storage (AWS S3 or GCS) with server-side encryption enabled. Data belonging to different tenants is isolated through namespaces. Additionally, Zilliz Cloud uses [JumpServer](https://en.wikipedia.org/wiki/Jump_server) to keep records and perform audits on all cluster access operations, such as logins, queries, and modifications. These audit logs can be used to track and investigate potential security incidents or data leakage risks.
+In Zilliz Cloud, vector data is stored in object storage (AWS S3 or GCS) with server-side encryption enabled. Data belonging to different users is isolated through buckets. Additionally, Zilliz Cloud uses [JumpServer](https://en.wikipedia.org/wiki/Jump_server) to keep records and perform audits on all cluster access operations, such as logins, queries, and modifications. These audit logs can be used to track and investigate potential security incidents or data leakage risks.
 
 ## Backup and restoration{#backup-and-restoration}
 

@@ -24,9 +24,9 @@ Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To acces
 
 In the [Zilliz Cloud console](https://cloud.zilliz.com/login), locate the target cluster and select the __Metrics__ tab.
 
-![view_metric_charts_resources](/img/view_metric_charts_resources.png)
-
 Zilliz Cloud's metric charts provide performance data on resource usage, queries per second (QPS), request results, and data operations, offering granular analysis within a specific time range.
+
+![view_metric_charts_resources](/img/view_metric_charts_resources.png)
 
 For details on each metric chart, refer to [View metric charts](./view-cluster-metric-charts#view-metric-charts).
 
@@ -54,11 +54,11 @@ The __Metrics__ tab allows for two types of window sizes.
 
 ## View metric charts{#view-metric-charts}
 
-Zilliz Cloud offers metric charts for monitoring cluster performance from various aspects. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
+Zilliz Cloud offers metric charts for monitoring cluster performance from various aspects.  For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
 
 ### Resources{#resources}
 
-To view metric charts for resource usage, locate the __Resources__ section on the __Metrics__ tab. These charts provide a snapshot of the cluster's resource usage, including computation, capacity, and storage.
+To view metric charts for resource usage, select the __Metrics__ tab and refer to the __Resources__ area. These charts provide a snapshot of the cluster's resource usage, including computation, capacity, and storage.
 
 - __CU Computation__: Measures computational power usage relative to the total.
 
@@ -80,11 +80,19 @@ To view metric charts for resource usage, locate the __Resources__ section on th
 
 ### Performance{#performance}
 
-To view metric charts for performance, locate the __Performance__ section on the __Metrics__ tab. These charts provide a snapshot of cluster performance, including QPS, VPS, latency, and request .
+To view metric charts for performance, select the __Metrics__ tab and refer to the __Performance__ area. These charts provide a snapshot of cluster performance, including QPS, VPS, latency, and request .
 
-- __QPS/VPS (Read)__: The count of search and query requests per second. Vector search operations per second (VPS) is not available for query requests because query operations does not involve vectors.
+- __QPS/VPS (Read)__
 
-- __QPS/VPS (Write)__: The count of insert and upsert requests per second.
+    - __QPS__: The number of read requests (search and query) per second.
+
+    - __VPS__: The number of read requests (search) on vectors per second. VPS is not available for query requests as query operations do not involve vectors.
+
+- __QPS/VPS (Write)__
+
+    - __QPS__: The number of write requests (insert, bulk insert, upset, and delete) per second.
+
+    - __VPS__: The number of write requests (insert, bulk insert,upset, and delete) on vectors per second.
 
 - __Latency (Read)__: The time elapsed between a client sending a read request (search and query request) to a server and the client receiving a response. It includes an average latency and a P99 latency.
 
@@ -98,7 +106,7 @@ To view metric charts for performance, locate the __Performance__ section on the
 
 ### Data{#data}
 
-To view metric charts for business data, locate the __Data__ section on the __Metrics__ tab. These charts provide a snapshot of the cluster's entity data by indicating the number of collections, entities, and loaded entities in the cluster.
+To view metric charts for business data, select the __Metrics__ tab and refer to the __Data__ area. These charts provide a snapshot of the cluster's entity data by indicating the number of collections, entities, and loaded entities in the cluster.
 
 - __Collection Count__: The count of collections created in the cluster.
 

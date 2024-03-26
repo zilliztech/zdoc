@@ -4,15 +4,16 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: USQ2w6yj0i3WN1k3eEYciscinkc
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Manage Collections (SDKs)
 
-This guide walks you through creating and managing collections using the SDK of your choice, which is more flexible and customizable when compared with the operations on the intuitive Web UI of the Zilliz Cloud console.
+This guide walks you through creating and managing collections using the SDK of your choice, which is more flexible and customizable when compared with the operations on the intuitive Web UI of the Zilliz Cloud consoleAttu, the Milvus dashboard.
 
 ## Before you start{#before-you-start}
 
@@ -52,6 +53,9 @@ Against the backdrop of the great leap in the AI industry, most developers just 
 
 - Metric type used to measure similarities between vector embeddings.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import MilvusClient, DataType
 
@@ -83,6 +87,85 @@ print(res)
 # }
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.collection.request.GetLoadStateReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+String TOKEN = "YOUR_CLUSTER_TOKEN";
+
+// 1. Connect to Milvus server
+ConnectConfig connectConfig = ConnectConfig.builder()
+    .uri(CLUSTER_ENDPOINT)
+    .token(TOKEN)
+    .build();
+
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Create a collection in quick setup mode
+CreateCollectionReq quickSetupReq = CreateCollectionReq.builder()
+    .collectionName("quick_setup")
+    .dimension(5)
+    .build();
+
+client.createCollection(quickSetupReq);
+
+GetLoadStateReq quickSetupLoadStateReq = GetLoadStateReq.builder()
+    .collectionName("quick_setup")
+    .build();
+
+Boolean res = client.getLoadState(quickSetupLoadStateReq);
+
+System.out.println(res);
+
+// Output:
+// true
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 1. Set up a Milvus Client
+client = new MilvusClient({address, token});
+
+// 2. Create a collection in quick setup mode
+await client.createCollection({
+    collection_name: "quick_setup",
+    dimension: 5,
+});  
+
+res = await client.getLoadState({
+    collection_name: "quick_setup"
+})
+
+console.log(res)
+
+// Output
+// 
+// {
+//   status: {
+//     error_code: 'Success',
+//     reason: '',
+//     code: 0,
+//     retriable: false,
+//     detail: ''
+//   },
+//   state: 'LoadStateLoaded'
+// }
+// 
+```
+
+</TabItem>
+</Tabs>
+
 The collection generated in the above code contains only two fields: `id` (as the primary key) and `vector` (as the vector field), with `auto_id` and `enable_dynamic_field` settings enabled by default.
 
 - `auto_id` 
@@ -103,6 +186,9 @@ Instead of letting Zilliz Cloud decide almost everything for your collection, yo
 
 A schema defines the structure of a collection. Within the schema, you have the option to enable or disable `enable_dynamic_field`, add pre-defined fields, and set attributes for each field. For a detailed explanation of the concept and available data types, refer to [Schema Explained](./schema-explained).
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
+
 ```python
 # 3. Create a collection in customized setup mode
 
@@ -117,28 +203,119 @@ schema.add_field(field_name="my_id", datatype=DataType.INT64, is_primary=True)
 schema.add_field(field_name="my_vector", datatype=DataType.FLOAT_VECTOR, dim=5)
 ```
 
-In the provided code snippet, the `enable_dynamic_field` is set to `True`, and `auto_id` is enabled for the primary key. Additionally, a `vector` field is introduced, configured with a dimensionality of 768, along with the inclusion of four scalar fields, each with its respective attributes.
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+// 3. Create a collection in customized setup mode
+
+// 3.1 Create schema
+CreateCollectionReq.CollectionSchema schema = client.createSchema(false, "");
+
+// 3.2 Add fields to schema
+schema.addPrimaryField("my_id", DataType.Int64, true, false);
+schema.addVectorField("my_vector", DataType.FloatVector, 5);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 3. Create a collection in customized setup mode
+// 3.1 Define fields
+const fields = [
+    {
+        name: "my_id",
+        data_type: DataType.Int64,
+        is_primary_key: true,
+        auto_id: false
+    },
+    {
+        name: "my_vector",
+        data_type: DataType.FloatVector,
+        dim: 5
+    },
+]
+```
+
+</TabItem>
+</Tabs>
+
+In the provided code snippet for Python, the `enable_dynamic_field` is set to `True`, and `auto_id` is enabled for the primary key. Additionally, a `vector` field is introduced, configured with a dimensionality of 768, along with the inclusion of four scalar fields, each with its respective attributes.
 
 #### Step 2: Set up index parameters{#step-2-set-up-index-parameters}
 
 Index parameters dictate how Zilliz Cloud organizes your data within a collection. You can tailor the indexing process for specific fields by adjusting their `metric_type` and `index_type`. On Zilliz Cloud, the recommended index type is always `AUTOINDEX`. For the vector field, you have the flexibility to select `COSINE`, `L2`, or `IP` as the `metric_type`. For additional insights into index types, refer to [AUTOINDEX Explained](./autoindex-explained).
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
+
 ```python
 # 3.3. Prepare index parameters
-index_params = MilvusClient.prepare_index_params()
+index_params = client.create_index_params()
 
 # 3.4. Add indexes
 index_params.add_index(
     field_name="my_id",
-    index_type="TRIE"
+    index_type="STL_SORT"
 )
 
 index_params.add_index(
     field_name="my_vector", 
-    index_type="AUTOINDEX",
-    metric_type="IP"
+    index_type="IVF_FLAT",
+    metric_type="IP",
+    params={ "nlist": 128 }
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+
+// 3.3 Prepare index parameters
+IndexParam indexParamForIdField = IndexParam.builder()
+    .fieldName("my_id")
+    .indexType(IndexParam.IndexType.STL_SORT)
+    .build();
+
+IndexParam indexParamForVectorField = IndexParam.builder()
+    .fieldName("my_vector")
+    .indexType(IndexParam.IndexType.IVF_FLAT)
+    .metricType(IndexParam.MetricType.L2)
+    .build();
+
+List<IndexParam> indexParams = new ArrayList<>();
+indexParams.add(indexParamForIdField);
+indexParams.add(indexParamForVectorField);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 3.2 Prepare index parameters
+const index_params = [{
+    field_name: "my_id",
+    index_type: "STL_SORT"
+},{
+    field_name: "my_vector",
+    index_type: "IVF_FLAT",
+    metric_type: "IP",
+    params: { nlist: 1024}
+}]
+```
+
+</TabItem>
+</Tabs>
 
 The code snippet above demonstrates how to set up index parameters for the vector field and a scalar field, respectively. For the vector field, set both the metric type and the index type. For a scalar field, set only the index type. It is recommended to create an index for the vector field and any scalar fields that are frequently used for filtering.
 
@@ -146,7 +323,106 @@ The code snippet above demonstrates how to set up index parameters for the vecto
 
 You have the option to create a collection and an index file separately or to create a collection with the index loaded simultaneously upon creation.
 
+- __Create a collection with the index loaded simultaneously upon creation.__
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+    <TabItem value='python'>
+
+    ```python
+    # 3.5. Create a collection with the index loaded simultaneously
+    client.create_collection(
+        collection_name="customized_setup_1",
+        schema=schema,
+        index_params=index_params
+    )
+    
+    time.sleep(5)
+    
+    res = client.get_load_state(
+        collection_name="customized_setup_1"
+    )
+    
+    print(res)
+    
+    # Output
+    #
+    # {
+    #     "state": "<LoadState: Loaded>"
+    # }
+    ```
+
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    import io.milvus.v2.service.collection.request.CreateCollectionReq;
+    import io.milvus.v2.service.collection.request.GetLoadStateReq;
+    
+    // 3.4 Create a collection with schema and index parameters
+    CreateCollectionReq customizedSetupReq1 = CreateCollectionReq.builder()
+        .collectionName("customized_setup_1")
+        .collectionSchema(schema)
+        .indexParams(indexParams)
+        .build();
+    
+    client.createCollection(customizedSetupReq1);
+    
+    // 3.5 Get load state of the collection
+    GetLoadStateReq customSetupLoadStateReq1 = GetLoadStateReq.builder()
+        .collectionName("customized_setup_1")
+        .build();
+    
+    res = client.getLoadState(customSetupLoadStateReq1);
+    
+    System.out.println(res);
+    
+    // Output:
+    // true
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // 3.3 Create a collection with fields and index parameters
+    await client.createCollection({
+        collection_name: "customized_setup_1",
+        fields: fields,
+        index_params: index_params,
+    })
+    
+    res = await client.getLoadState({
+        collection_name: "customized_setup_1"
+    })
+    
+    console.log(res)
+    
+    // Output
+    // 
+    // {
+    //   status: {
+    //     error_code: 'Success',
+    //     reason: '',
+    //     code: 0,
+    //     retriable: false,
+    //     detail: ''
+    //   },
+    //   state: 'LoadStateLoaded'
+    // }
+    // 
+    ```
+
+    </TabItem>
+    </Tabs>
+
+    The collection created above is loaded automatically. To learn more about loading and releasing a collection, refer to [Load & Release Collection](./manage-collections-sdks#load-and-release-collection). 
+
 - __Create a collection and an index file separately.__
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+    <TabItem value='python'>
 
     ```python
     # 3.6. Create a collection and index it separately
@@ -168,20 +444,81 @@ You have the option to create a collection and an index file separately or to cr
     # }
     ```
 
-    The collection created above is not loaded automatically. For details, refer to [Load & Release Collection](./manage-collections-sdks#load-and-release-collection).
+    </TabItem>
 
-- __Create a collection with the index loaded simultaneously upon creation.__
+    <TabItem value='java'>
+
+    ```java
+    // 3.6 Create a collection and index it separately
+    CreateCollectionReq customizedSetupReq2 = CreateCollectionReq.builder()
+        .collectionName("customized_setup_2")
+        .collectionSchema(schema)
+        .build();
+    
+    client.createCollection(customizedSetupReq2);
+    
+    // 3.7 Get load state of the collection
+    GetLoadStateReq customSetupLoadStateReq2 = GetLoadStateReq.builder()
+        .collectionName("customized_setup_2")
+        .build();
+    
+    res = client.getLoadState(customSetupLoadStateReq2);
+    
+    System.out.println(res);
+    
+    // Output:
+    // false
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // 3.4 Create a collection and index it seperately
+    await client.createCollection({
+        collection_name: "customized_setup_2",
+        fields: fields,
+    })
+    
+    res = await client.getLoadState({
+        collection_name: "customized_setup_2"
+    })
+    
+    console.log(res)
+    
+    // Output
+    // 
+    // {
+    //   status: {
+    //     error_code: 'Success',
+    //     reason: '',
+    //     code: 0,
+    //     retriable: false,
+    //     detail: ''
+    //   },
+    //   state: 'LoadStateNotLoad'
+    // }
+    // 
+    ```
+
+    </TabItem>
+    </Tabs>
+
+    The collection created above is not loaded automatically. You can create an index for the collection as follows. Creating an index for the collection in a separate manner does not automatically load the collection. For details, refer to [Load & Release Collection](./manage-collections-sdks#load-and-release-collection).
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+    <TabItem value='python'>
 
     ```python
-    # 3.5. Create a collection with the index loaded simultaneously
-    client.create_collection(
-        collection_name="customized_setup_1",
-        schema=schema,
-        indexes=index_params
+    # 3.6 Create index
+    client.create_index(
+        collection_name="customized_setup_2",
+        index_params=index_params
     )
     
     res = client.get_load_state(
-        collection_name="customized_setup_1"
+        collection_name="customized_setup_2"
     )
     
     print(res)
@@ -193,11 +530,75 @@ You have the option to create a collection and an index file separately or to cr
     # }
     ```
 
-    The collection created above is loaded automatically. To learn more about loading and releasing a collection, refer to [Load & Release Collection](./manage-collections-sdks#load-and-release-collection). 
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    CreateIndexReq  createIndexReq = CreateIndexReq.builder()
+        .collectionName("customized_setup_2")
+        .indexParams(indexParams)
+        .build();
+    
+    client.createIndex(createIndexReq);
+    
+    // Get load state of the collection
+    GetLoadStateReq customSetupLoadStateReq2 = GetLoadStateReq.builder()
+        .collectionName("customized_setup_2")
+        .build();
+    
+    res = client.getLoadState(customSetupLoadStateReq2);
+    
+    System.out.println(res);
+    
+    // Output:
+    // false
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // 3.5 Create index
+    res = await client.createIndex({
+        collection_name: "customized_setup_2",
+        field_name: "my_vector",
+        index_type: "IVF_FLAT",
+        metric_type: "IP",
+        params: { nlist: 1024}
+    })
+    
+    res = await client.getLoadState({
+        collection_name: "customized_setup_2"
+    })
+    
+    console.log(res)
+    
+    // Output
+    // 
+    // {
+    //   status: {
+    //     error_code: 'Success',
+    //     reason: '',
+    //     code: 0,
+    //     retriable: false,
+    //     detail: ''
+    //   },
+    //   state: 'LoadStateNotLoad'
+    // }
+    // 
+    ```
+
+    </TabItem>
+    </Tabs>
 
 ## View Collections{#view-collections}
 
 You can check the details of an existing collection as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
 
 ```python
 # 5. View Collections
@@ -236,7 +637,7 @@ print(res)
 #         }
 #     ],
 #     "aliases": [],
-#     "collection_id": 447458810412285931,
+#     "collection_id": 448143479230158446,
 #     "consistency_level": 2,
 #     "properties": {},
 #     "num_partitions": 1,
@@ -245,7 +646,115 @@ print(res)
 
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.collection.request.DescribeCollectionReq;
+import io.milvus.v2.service.collection.response.DescribeCollectionResp;
+
+// 4. View collections
+DescribeCollectionReq describeCollectionReq = DescribeCollectionReq.builder()
+    .collectionName("customized_setup_2")
+    .build();
+
+DescribeCollectionResp describeCollectionRes = client.describeCollection(describeCollectionReq);
+
+System.out.println(JSONObject.toJSON(describeCollectionRes));
+
+// Output:
+// {
+//     "createTime": 448186568622211075,
+//     "collectionSchema": {
+//         "fieldSchemaList": [
+//             {
+//                 "autoID": false,
+//                 "dataType": "Int64",
+//                 "name": "my_id",
+//                 "isPrimaryKey": true,
+//                 "maxLength": 65535
+//             },
+//             {
+//                 "autoID": false,
+//                 "dataType": "FloatVector",
+//                 "name": "my_vector",
+//                 "isPrimaryKey": false,
+//                 "dimension": 5,
+//                 "maxLength": 65535
+//             }
+//         ],
+//         "description": "",
+//         "enableDynamicField": false
+//     },
+//     "vectorFieldName": ["my_vector"],
+//     "autoID": false,
+//     "fieldNames": [
+//         "my_id",
+//         "my_vector"
+//     ],
+//     "description": "",
+//     "numOfPartitions": 1,
+//     "primaryFieldName": "my_id",
+//     "enableDynamicField": false,
+//     "collectionName": "customized_setup_2"
+// }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 5. View Collections
+res = await client.describeCollection({
+    collection_name: "customized_setup_2"
+})
+
+console.log(res)
+
+// Output
+// 
+// {
+//   virtual_channel_names: [ 'in01-0ed1e58b63f3f62-rootcoord-dml_0_448162378879067613v0' ],
+//   physical_channel_names: [ 'in01-0ed1e58b63f3f62-rootcoord-dml_0' ],
+//   aliases: [],
+//   start_positions: [],
+//   properties: [],
+//   status: {
+//     error_code: 'Success',
+//     reason: '',
+//     code: 0,
+//     retriable: false,
+//     detail: ''
+//   },
+//   schema: {
+//     fields: [ [Object], [Object] ],
+//     properties: [],
+//     name: 'customized_setup_2',
+//     description: '',
+//     autoID: false,
+//     enable_dynamic_field: false
+//   },
+//   collectionID: '448162378879067613',
+//   created_timestamp: '448168465560502276',
+//   created_utc_timestamp: '1709627020113',
+//   shards_num: 1,
+//   consistency_level: 'Bounded',
+//   collection_name: 'customized_setup_2',
+//   db_name: 'default',
+//   num_partitions: '1'
+// }
+// 
+```
+
+</TabItem>
+</Tabs>
+
 To list all existing collections, you can do as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
 
 ```python
 # 6. List all collection names
@@ -256,17 +765,62 @@ print(res)
 # Output
 #
 # [
+#     "customized_setup_2",
 #     "quick_setup",
-#     "customized_setup_1",
-#     "customized_setup_2"
+#     "customized_setup_1"
 # ]
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.collection.response.ListCollectionsResp;
+
+// 5. List all collection names
+ListCollectionsResp listCollectionsRes = client.listCollections();
+
+System.out.println(listCollectionsRes.getCollectionNames());
+
+// Output:
+// [
+//     "customized_setup_2",
+//     "quick_setup",
+//     "customized_setup_1"
+// ]
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 6. List all collection names
+res = await client.listCollections()
+
+console.log(res.collection_names)
+
+// Output:
+// [
+//     "quick_setup",
+//     "customized_setup_2",
+//     "customized_setup_1"
+// ]
+
+```
+
+</TabItem>
+</Tabs>
 
 ## Load & Release Collection{#load-and-release-collection}
 
 During the loading process of a collection, Zilliz Cloud loads the collection's index file into memory. Conversely, when releasing a collection, Zilliz Cloud unloads the index file from memory. Before conducting searches in a collection, ensure that the collection is loaded.
 
 ### Load a collection{#load-a-collection}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
 
 ```python
 # 7. Load the collection
@@ -287,7 +841,73 @@ print(res)
 # }
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+
+// 6. Load the collection
+LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
+    .collectionName("customized_setup_2")
+    .build();
+
+client.loadCollection(loadCollectionReq);
+
+// 7. Get load state of the collection
+GetLoadStateReq loadStateReq = GetLoadStateReq.builder()
+    .collectionName("customized_setup_2")
+    .build();
+
+res = client.getLoadState(loadStateReq);
+
+System.out.println(res);
+
+// Output:
+// true
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 7. Load the collection
+await client.loadCollection({
+    collection_name: "customized_setup_2"
+})
+
+await sleep(3000)
+
+res = await client.getLoadState({
+    collection_name: "customized_setup_2"
+})
+
+console.log(res)
+
+// Output
+// 
+// {
+//   status: {
+//     error_code: 'Success',
+//     reason: '',
+//     code: 0,
+//     retriable: false,
+//     detail: ''
+//   },
+//   state: 'LoadStateLoaded'
+// }
+// 
+```
+
+</TabItem>
+</Tabs>
+
 ### Release a collection{#release-a-collection}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
 
 ```python
 # 8. Release the collection
@@ -308,11 +928,70 @@ print(res)
 # }
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
+
+// 8. Release the collection
+ReleaseCollectionReq releaseCollectionReq = ReleaseCollectionReq.builder()
+    .collectionName("customized_setup_2")
+    .build();
+
+client.releaseCollection(releaseCollectionReq);
+
+res = client.getLoadState(loadStateReq);
+
+System.out.println(res);
+
+// Output:
+// false
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 8. Release the collection
+await client.releaseCollection({
+    collection_name: "customized_setup_2"
+})
+
+res = await client.getLoadState({
+    collection_name: "customized_setup_2"
+})
+
+console.log(res)
+
+// Output
+// 
+// {
+//   status: {
+//     error_code: 'Success',
+//     reason: '',
+//     code: 0,
+//     retriable: false,
+//     detail: ''
+//   },
+//   state: 'LoadStateNotLoad'
+// }
+//
+```
+
+</TabItem>
+</Tabs>
+
 ## Set up aliases{#set-up-aliases}
 
 You can assign aliases for collections to make them more meaningful in a specific context. You can assign multiple aliases for a collection, but multiple collections cannot share an alias.
 
 ### Create aliases{#create-aliases}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
 
 ```python
 # 9.1. Create aliases
@@ -327,7 +1006,53 @@ client.create_alias(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.utility.request.CreateAliasReq;
+
+// 9.1 Create alias
+CreateAliasReq createAliasReq = CreateAliasReq.builder()
+    .collectionName("customized_setup_2")
+    .alias("bob")
+    .build();
+
+client.createAlias(createAliasReq);
+
+createAliasReq = CreateAliasReq.builder()
+    .collectionName("customized_setup_2")
+    .alias("alice")
+    .build();
+
+client.createAlias(createAliasReq);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 9.1 Create aliases
+await client.createAlias({
+    collection_name: "customized_setup_2",
+    alias: "bob"
+})
+
+res = await client.createAlias({
+    collection_name: "customized_setup_2",
+    alias: "alice"
+})
+```
+
+</TabItem>
+</Tabs>
+
 ### List aliases{#list-aliases}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
 
 ```python
 # 9.2. List aliases
@@ -339,8 +1064,78 @@ print(res)
 
 # Output
 #
-# None
+# {
+#     "aliases": [
+#         "bob",
+#         "alice"
+#     ],
+#     "collection_name": "customized_setup_2",
+#     "db_name": "default"
+# }
+```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.utility.request.ListAliasesReq;
+import io.milvus.v2.service.utility.response.ListAliasResp;
+
+// 9.2 List alises
+ListAliasesReq listAliasesReq = ListAliasesReq.builder()
+    .collectionName("customized_setup_2")
+    .build();
+
+ListAliasResp listAliasRes = client.listAliases(listAliasesReq);
+
+System.out.println(listAliasRes.getAlias());
+
+// Output:
+// [
+//     "bob",
+//     "alice"
+// ]
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 9.2 List aliases
+res = await client.listAliases({
+    collection_name: "customized_setup_2"
+})
+
+console.log(res)
+
+// Output
+// 
+// {
+//   aliases: [ 'bob', 'alice' ],
+//   status: {
+//     error_code: 'Success',
+//     reason: '',
+//     code: 0,
+//     retriable: false,
+//     detail: ''
+//   },
+//   db_name: 'default',
+//   collection_name: 'customized_setup_2'
+// }
+// 
+```
+
+</TabItem>
+</Tabs>
+
+### Describe aliases{#describe-aliases}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
+
+```python
 # 9.3. Describe aliases
 res = client.describe_alias(
     alias="bob"
@@ -350,10 +1145,74 @@ print(res)
 
 # Output
 #
-# None
+# {
+#     "alias": "bob",
+#     "collection_name": "customized_setup_2",
+#     "db_name": "default"
+# }
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.utility.request.DescribeAliasReq;
+import io.milvus.v2.service.utility.response.DescribeAliasResp;
+
+// 9.3 Describe alias
+DescribeAliasReq describeAliasReq = DescribeAliasReq.builder()
+    .alias("bob")
+    .build();
+
+DescribeAliasResp describeAliasRes = client.describeAlias(describeAliasReq);
+
+System.out.println(JSONObject.toJSON(describeAliasRes));
+
+// Output:
+// {
+//     "alias": "bob",
+//     "collectionName": "customized_setup_2"
+// }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 9.3 Describe aliases
+res = await client.describeAlias({
+    collection_name: "customized_setup_2",
+    alias: "bob"
+})
+
+console.log(res)
+
+// Output
+// 
+// {
+//   status: {
+//     error_code: 'Success',
+//     reason: '',
+//     code: 0,
+//     retriable: false,
+//     detail: ''
+//   },
+//   db_name: 'default',
+//   alias: 'bob',
+//   collection: 'customized_setup_2'
+// }
+// 
+```
+
+</TabItem>
+</Tabs>
+
 ### Reassign aliases{#reassign-aliases}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
 
 ```python
 # 9.4 Reassign aliases to other collections
@@ -370,7 +1229,13 @@ print(res)
 
 # Output
 #
-# None
+# {
+#     "aliases": [
+#         "alice"
+#     ],
+#     "collection_name": "customized_setup_1",
+#     "db_name": "default"
+# }
 
 res = client.list_aliases(
     collection_name="customized_setup_2"
@@ -380,10 +1245,116 @@ print(res)
 
 # Output
 #
-# None
+# {
+#     "aliases": [
+#         "bob"
+#     ],
+#     "collection_name": "customized_setup_2",
+#     "db_name": "default"
+# }
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.utility.request.AlterAliasReq;
+
+// 9.4 Reassign alias to other collections
+AlterAliasReq alterAliasReq = AlterAliasReq.builder()
+    .collectionName("customized_setup_1")
+    .alias("alice")
+    .build();
+
+client.alterAlias(alterAliasReq);
+
+listAliasesReq = ListAliasesReq.builder()
+    .collectionName("customized_setup_1")
+    .build();
+
+listAliasRes = client.listAliases(listAliasesReq);
+
+System.out.println(listAliasRes.getAlias());
+
+// Output:
+// ["alice"]
+
+listAliasesReq = ListAliasesReq.builder()
+    .collectionName("customized_setup_2")
+    .build();
+
+listAliasRes = client.listAliases(listAliasesReq);
+
+System.out.println(listAliasRes.getAlias());
+
+// Output:
+// ["bob"]
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 9.4 Reassign aliases to other collections
+await client.alterAlias({
+    collection_name: "customized_setup_1",
+    alias: "alice"
+})
+
+res = await client.listAliases({
+    collection_name: "customized_setup_1"
+})
+
+console.log(res)
+
+// Output
+// 
+// {
+//   aliases: [ 'alice' ],
+//   status: {
+//     error_code: 'Success',
+//     reason: '',
+//     code: 0,
+//     retriable: false,
+//     detail: ''
+//   },
+//   db_name: 'default',
+//   collection_name: 'customized_setup_1'
+// }
+// 
+
+res = await client.listAliases({
+    collection_name: "customized_setup_2"
+})
+
+console.log(res)
+
+// Output
+// 
+// {
+//   aliases: [ 'bob' ],
+//   status: {
+//     error_code: 'Success',
+//     reason: '',
+//     code: 0,
+//     retriable: false,
+//     detail: ''
+//   },
+//   db_name: 'default',
+//   collection_name: 'customized_setup_2'
+// }
+// 
+```
+
+</TabItem>
+</Tabs>
+
 ### Drop aliases{#drop-aliases}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
 
 ```python
 # 9.5 Drop aliases
@@ -396,19 +1367,116 @@ client.drop_alias(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.utility.request.DropAliasReq;
+
+// 9.5 Drop alias
+DropAliasReq dropAliasReq = DropAliasReq.builder()
+    .alias("bob")
+    .build();
+
+client.dropAlias(dropAliasReq);
+
+dropAliasReq = DropAliasReq.builder()
+    .alias("alice")
+    .build();
+
+client.dropAlias(dropAliasReq);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 9.5 Drop aliases
+await client.dropAlias({
+    alias: "bob"
+})
+
+await client.dropAlias({
+    alias: "alice"
+})
+```
+
+</TabItem>
+</Tabs>
+
 ## Drop a Collection{#drop-a-collection}
 
 If a collection is no longer needed, you can drop the collection.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
+
 ```python
-res = client.drop_collection(
-    collection_name='medium_articles_2020'
+# 10. Drop the collections
+client.drop_collection(
+    collection_name="quick_setup"
 )
 
-# Output
-#
-# None
+client.drop_collection(
+    collection_name="customized_setup_1"
+)
+
+client.drop_collection(
+    collection_name="customized_setup_2"
+)
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.collection.request.DropCollectionReq;
+
+// 10. Drop collections
+
+DropCollectionReq dropQuickSetupParam = DropCollectionReq.builder()
+    .collectionName("quick_setup")
+    .build();
+
+client.dropCollection(dropQuickSetupParam);
+
+DropCollectionReq dropCustomizedSetupParam = DropCollectionReq.builder()
+    .collectionName("customized_setup_1")
+    .build();
+
+client.dropCollection(dropCustomizedSetupParam); 
+
+dropCustomizedSetupParam = DropCollectionReq.builder()
+    .collectionName("customized_setup_2")
+    .build();
+
+client.dropCollection(dropCustomizedSetupParam);  
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 10. Drop the collection
+await client.dropCollection({
+    collection_name: "customized_setup_2"
+})
+
+await client.dropCollection({
+    collection_name: "customized_setup_1"
+})
+
+await client.dropCollection({
+    collection_name: "quick_setup"
+})
+```
+
+</TabItem>
+</Tabs>
 
 ## Collection Limits{#collection-limits}
 

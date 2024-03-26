@@ -16,7 +16,7 @@ Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of e
 
 ## Prerequisites{#prerequisites}
 
-To restore a cluster in the recycle bin, you need to [add a payment method](/docs/payment-billing). 
+To restore a cluster in the recycle bin, you need to [add a payment method](/docs/payment-billing).
 
 ## Restore a dropped cluster in the recycle bin{#restore-a-dropped-cluster-in-the-recycle-bin}
 

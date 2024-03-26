@@ -73,6 +73,7 @@ The following table lists the limits on customized chunk size supported in each 
 |  zilliz/bge-base-zh-v1.5       |  20-500                        |
 |  voyageai/voyage-2             |  20-3,000                      |
 |  voyageai/voyage-code-2        |  20-12,000                     |
+|  voyageai/voyage-large-2       |  20-12,000                     |
 |  openai/text-embedding-3-small |  250-8,191                     |
 |  openai/text-embedding-3-large |  250-8,191                     |
 

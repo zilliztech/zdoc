@@ -36,7 +36,7 @@ To ensure a smooth experience, make sure you have completed the following setups
 
 Run the following command in your terminal to install __pymilvus__ and __minio__ or upgrade them to the latest version.
 
-```shell
+```python
 python3 -m pip install --upgrade pymilvus minio
 ```
 

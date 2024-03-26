@@ -5,7 +5,7 @@
   "node_token": "SIhBwKFJri4u2CkyD3ucnO7an3g",
   "node_type": "origin",
   "obj_create_time": "1693477481",
-  "obj_edit_time": "1705458485",
+  "obj_edit_time": "1711331508",
   "obj_token": "HAEQdkX3No0cm0xg8VocaRmOnsh",
   "obj_type": "docx",
   "origin_node_token": "SIhBwKFJri4u2CkyD3ucnO7an3g",
@@ -1101,7 +1101,7 @@
             },
             {
               "text_run": {
-                "content": " S3 or GCS) with server-side encryption enabled. Data belonging to different tenants is isolated through namespaces. Additionally, Zilliz Cloud uses ",
+                "content": " S3 or GCS) with server-side encryption enabled. Data belonging to different users is isolated through buckets. Additionally, Zilliz Cloud uses ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -1,6 +1,6 @@
 ---
 slug: /estimate-pipelines-usage
-beta: TRUE
+beta: FALSE
 notebook: FALSE
 type: origin
 token: WbQZwNrsIiqw1bkkP7zctG6knXf
@@ -32,9 +32,9 @@ Token is a special concept in NLP. It can be thought of as a sub-word. Some word
 
 ## How is the token processed by Pipelines?{#how-is-the-token-processed-by-pipelines}
 
-[Ingestion Pipeline](./understanding-pipelines#ingestion-pipelines) processes documents by parsing files into tokens and then splitting and embedding the token series. [Search Pipeline](./understanding-pipelines#search-pipelines) processes the query by embedding the token series. By passing the tokens to a deep learning model (called embedding model), the "essence" of the text is converted into a vector representation, which can be stored in and retrieved by a vector database. With the help of this process, Pipelines is able to help the API users to understand the meaning and semantics of different words and their context within a sentence or text.
+[Ingestion Pipeline](./pipelines-user-guides) processes documents by parsing files into tokens and then splitting and embedding the token series. [Search Pipeline](./pipelines-user-guides) processes the query by embedding the token series. By passing the tokens to a deep learning model (called embedding model), the "essence" of the text is converted into a vector representation, which can be stored in and retrieved by a vector database. With the help of this process, Pipelines is able to help the API users to understand the meaning and semantics of different words and their context within a sentence or text.
 
-[Deletion](./understanding-pipelines#deletion-pipelines) Pipelines usually doesn't involve processing text as tokens.
+[Deletion](./pipelines-user-guides) Pipelines usually doesn't involve processing text as tokens.
 
 ## Estimate Pipelines Usage{#estimate-pipelines-usage}
 

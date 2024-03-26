@@ -5,7 +5,7 @@
   "node_token": "PharwAysCiBzvgkuqqecmNzunQf",
   "node_type": "origin",
   "obj_create_time": "1701225562",
-  "obj_edit_time": "1707037105",
+  "obj_edit_time": "1711005579",
   "obj_token": "B1mRdvhLaouOfaxFQq7cEUmMncg",
   "obj_type": "docx",
   "origin_node_token": "PharwAysCiBzvgkuqqecmNzunQf",
@@ -76,6 +76,9 @@
           "doxcnbV2X72oApOhqJH8ODZiMeb",
           "GLKMdEQBtoLQPqxTNC6cSaNnnab",
           "doxcnxTxiGThSTNfYx7Rg9DH1qc",
+          "Pkxhd1H26oVfHvx4bKnchlXDnwe",
+          "JENndAgvPosOSgxrBKMcaA1HnIb",
+          "N2ocdu9TeoPNILxlhfwczOOEnde",
           "doxcn3Tmq2rqcBLBDAOqYMlWOWh",
           "WSN6dYRKdohJgjxRmUrcLHd2nBf",
           "doxcn26qCIfzWjN75neu0ptDrYb",
@@ -3746,6 +3749,569 @@
         "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
       },
       {
+        "block_id": "Pkxhd1H26oVfHvx4bKnchlXDnwe",
+        "block_type": 2,
+        "comment_ids": [
+          "7350248277147320324"
+        ],
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "comment_ids": [
+                    "7350248277147320324"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JENndAgvPosOSgxrBKMcaA1HnIb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Scale cluster",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "MWqYdMpakonklixBujHcbr2Hndw",
+          "WhigdmKS5oHYONxdy33cin7gnpd",
+          "MvC0dFKC4oEIM0xrf7WciAYWnJd",
+          "Y8LRdDOE0ouD2qxS0fBc0oJDnlb",
+          "WGZGdxQv8oPXLQx2cb4cPsxTnXb"
+        ],
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
+      },
+      {
+        "block_id": "MWqYdMpakonklixBujHcbr2Hndw",
+        "block_type": 2,
+        "parent_id": "JENndAgvPosOSgxrBKMcaA1HnIb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Scaling a cluster involves adjusting the number of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CUs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FUgqvwKh2QiKE1kkYNLJcaHt0nkg%3Ffrom%3Dfrom_copylink"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to match workload fluctuations or storage requirements. You can enhance your cluster's performance by scaling up CUs in response to increased CPU or memory usage, and scale down to conserve expenses during periods of low demand.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WhigdmKS5oHYONxdy33cin7gnpd",
+        "block_type": 2,
+        "parent_id": "JENndAgvPosOSgxrBKMcaA1HnIb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Methods for scaling your cluster:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MvC0dFKC4oEIM0xrf7WciAYWnJd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manual scaling",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "I3cWdoDRVok3cVxvGrrcoCYVnlg"
+        ],
+        "parent_id": "JENndAgvPosOSgxrBKMcaA1HnIb"
+      },
+      {
+        "block_id": "I3cWdoDRVok3cVxvGrrcoCYVnlg",
+        "block_type": 2,
+        "parent_id": "MvC0dFKC4oEIM0xrf7WciAYWnJd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Navigate to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Summary",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " area of the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.zilliz.com%2Fsignup"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Scale",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " next to the CU ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Size",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to access the scaling options. Here, you can adjust the CU count within the same type and cloud region, up to a maximum of 24 CUs. If you require a larger scale, please ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "reach out",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fsupport.zilliz.com%2Fhc%2Fen-us"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to our team.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Y8LRdDOE0ouD2qxS0fBc0oJDnlb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Programmatic scaling",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "WWr2d2Sqpoal0IxmV5DcgJfrnFx"
+        ],
+        "parent_id": "JENndAgvPosOSgxrBKMcaA1HnIb"
+      },
+      {
+        "block_id": "WWr2d2Sqpoal0IxmV5DcgJfrnFx",
+        "block_type": 2,
+        "parent_id": "Y8LRdDOE0ouD2qxS0fBc0oJDnlb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Make an API request to scale your cluster. For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Modify Cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fmodify-cluster"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WGZGdxQv8oPXLQx2cb4cPsxTnXb",
+        "block_type": 34,
+        "children": [
+          "EhvFdIlfgoxwnqxskdRcbMqcnyf",
+          "ItIgduTtvoTVd3xqGBDcVI2ynbh",
+          "B6AudgKV3otkG2xajpmcQ7IinXb"
+        ],
+        "parent_id": "JENndAgvPosOSgxrBKMcaA1HnIb",
+        "quote_container": {}
+      },
+      {
+        "block_id": "EhvFdIlfgoxwnqxskdRcbMqcnyf",
+        "block_type": 2,
+        "parent_id": "WGZGdxQv8oPXLQx2cb4cPsxTnXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "🚧 Warning",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ItIgduTtvoTVd3xqGBDcVI2ynbh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Operational Continuity",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Even during scaling, your cluster's read/write operations will persist without disruption. A brief service fluctuation is possible, but rest assured of sustained high availability.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WGZGdxQv8oPXLQx2cb4cPsxTnXb"
+      },
+      {
+        "block_id": "B6AudgKV3otkG2xajpmcQ7IinXb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Sizing Caution",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": When scaling down, consider if a smaller CU size can handle your data volume. Use our ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CU calculator",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliz.com%2Fpricing%23calculator"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to estimate the minimum CU size necessary for your workload.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WGZGdxQv8oPXLQx2cb4cPsxTnXb"
+      },
+      {
+        "block_id": "N2ocdu9TeoPNILxlhfwczOOEnde",
+        "block_type": 2,
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 14,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "doxcn3Tmq2rqcBLBDAOqYMlWOWh",
         "block_type": 12,
         "bullet": {
@@ -6159,6 +6725,6 @@
         "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
       }
     ],
-    "counts": 140
+    "counts": 153
   }
 }

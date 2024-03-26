@@ -25,7 +25,7 @@ In addition to the limits on the number of collections per cluster, Zilliz Cloud
 
 |  __Number of CUs__ |  __General Capacity__            |
 | ------------------ | -------------------------------- |
-|  1-8 CUs           |  \<\= 4,096                        |
+|  1-8 CUs           |  \<= 4,096                        |
 |  12+ CUs           |  Min(512 x Number of CUs, 65536) |
 
 For details on the calculation of general and consumed capacity, refer to [Zilliz Cloud Limits](./limits#collections).
