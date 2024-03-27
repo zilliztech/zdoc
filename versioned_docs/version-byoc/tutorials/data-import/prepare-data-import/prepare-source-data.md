@@ -53,7 +53,7 @@ schema.add_field(field_name="scalar_2", datatype=DataType.INT64)
 
 ## Source data requirements{#source-data-requirements}
 
-Zilliz Cloud supports data imports from files in __JSON__, __Parquet__, and __NumPy__ formats. If your data is in these formats but fails to import to Zilliz Cloud collections, check whether your data meets the following requirements. If your data is in a different format, convert it using [the ](./use-bulkwriter)__[BulkWriter](./use-bulkwriter)__[ tool](./use-bulkwriter).
+Zilliz Cloud supports data imports from files in __JSON__, __Parquet__, and __NumPy__ formats. If your data is in these formats but fails to import to Zilliz Cloud collections, check whether your data meets the following requirements. If your data is in a different format, convert it using [the BulkWriter tool](./use-bulkwriter).
 
 ### JSON file{#json-file}
 

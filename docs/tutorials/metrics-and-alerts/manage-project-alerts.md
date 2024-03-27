@@ -34,10 +34,10 @@ For more information about recommended actions, refer to [Metrics & Alerts Refer
 | ------------------------ | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |  CU Computation<br/>  |  %    |  - __WARNING__: Trigger alerts at >70% utilized computational power for 10+ minutes.<br/> - __CRITICAL__: Trigger alerts at >90% utilized computational power for 10+ minutes.<br/> |
 |  CU Capacity             |  %    |  - __WARNING__: Trigger alerts at >70% utilized CU capacity for 10+ minutes.<br/> - __CRITICAL__: Trigger alerts at >90% utilized CU capacity for 10+ minutes.<br/>                 |
-|  Search QPS              |  QPS  |  Trigger __WARNING__ alerts at >50 search operations per second for 10+ minutes.                                                                                                          |
-|  Query QPS               |  QPS  |  Trigger __WARNING__ alerts at >50 query operations per second for 10+ minutes.                                                                                                           |
-|  P99 Search Latency      |  ms   |  Trigger __WARNING__ alerts at P99 latency >1,000ms for 10+ minutes.                                                                                                                      |
-|  P99 Query Latency       |  ms   |  Trigger __WARNING__ alerts at P99 latency >1,000ms for 10+ minutes.                                                                                                                      |
+|  Search (QPS)            |  QPS  |  Trigger __WARNING__ alerts at >50 search operations per second for 10+ minutes.                                                                                                          |
+|  Query (QPS)             |  QPS  |  Trigger __WARNING__ alerts at >50 query operations per second for 10+ minutes.                                                                                                           |
+|  Search Latency (P99)    |  ms   |  Trigger __WARNING__ alerts at P99 latency >1,000ms for 10+ minutes.                                                                                                                      |
+|  Query Latency (P99)     |  ms   |  Trigger __WARNING__ alerts at P99 latency >1,000ms for 10+ minutes.                                                                                                                      |
 
 __Permissions__:
 

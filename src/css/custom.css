@@ -228,3 +228,33 @@ div[role="tabpanel"] .tabs > li.tabs__item--active {
   color: var(--ifm-color-primary-light);
   text-decoration: none;
 }
+
+.card {
+  border-radius: 0 !important;
+}
+
+section.row > article > a.padding--lg {
+  padding: 0 !important;
+}
+
+section.row > article.margin-bottom--lg {
+  margin-bottom: 1.5rem !important;
+}
+
+a.menu__link {
+  color: #000000 !important;
+}
+
+a.menu__link--active {
+  color: #000000 !important;
+}
+
+li.theme-doc-sidebar-item-link-level-2,
+li.theme-doc-sidebar-item-link-level-3,
+li.theme-doc-sidebar-item-link-level-4 {
+  font-weight: 400 !important;
+}
+
+div.footer__bottom.text--center {
+  display: none;
+}

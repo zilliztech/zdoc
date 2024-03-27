@@ -1,5 +1,6 @@
 ---
 slug: /import-data-on-web-ui
+sidebar_label: Console
 beta: FALSE
 notebook: FALSE
 type: origin

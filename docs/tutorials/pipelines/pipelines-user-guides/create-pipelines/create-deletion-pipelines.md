@@ -28,7 +28,7 @@ The Zilliz Cloud web UI provides a simplified and intuitive way of creating pipe
 
 1. Navigate to your project.
 
-1. Click on __Pipelines__ from the navigation panel. Then switch to the __Overview__ tab and click __Pipelines__. To create a pipeline, click__ + Pipeline__.
+1. Click on __Pipelines__ from the navigation panel. Then switch to the __Overview__ tab and click __Pipelines__. To create a pipeline, click __+ Pipeline__.
 
 1. Choose the type of pipeline to create. Click on __+ Pipeline __button in the __Deletion Pipeline __column.
 

@@ -31,7 +31,7 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
 1. Navigate to your project.
 
-1. Click on __Pipelines__ from the navigation panel. Then switch to the __Overview__ tab and click __Pipelines__. To create a pipeline, click__ + Pipeline__.
+1. Click on __Pipelines__ from the navigation panel. Then switch to the __Overview__ tab and click __Pipelines__. To create a pipeline, click __+ Pipeline__.
 
     ![create-pipeline](/img/create-pipeline.png)
 

@@ -5,7 +5,7 @@
   "node_token": "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
   "node_type": "origin",
   "obj_create_time": "1709689998",
-  "obj_edit_time": "1711439716",
+  "obj_edit_time": "1711523064",
   "obj_token": "EZFWdEgJdouilgxgpXhctZdEneg",
   "obj_type": "docx",
   "origin_node_token": "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
@@ -147,22 +147,7 @@
             },
             {
               "text_run": {
-                "content": "organization or project ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FAFNZwDcXNiChK0ke5h5c65xZnje"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "owner",
+                "content": "organization or project owner",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1055,8 +1040,8 @@
               "text_run": {
                 "content": "https://events.pagerduty.com/v2/xxxx/x",
                 "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
+                  "bold": false,
+                  "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -1067,8 +1052,8 @@
               "text_run": {
                 "content": "xxx",
                 "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
+                  "bold": false,
+                  "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -1493,34 +1478,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Enter the PagerDuty integration key obtained in ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "step 2",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FARpTwYXlIi7ZLtkEHx5ciUK6nuc%23XpXXdPSB1o7wQhxV0YTcU5hpndg"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " and select the service region hosting your PagerDuty account. For more information on PagerDuty service regions, refer to ",
+                "content": "Enter the PagerDuty integration key obtained and select the service region hosting your PagerDuty account. For more information on PagerDuty service regions, refer to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1700,8 +1658,8 @@
               "text_run": {
                 "content": "https://hooks.slack.com/services/xxxxxxxxxxxx/xxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx",
                 "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
+                  "bold": false,
+                  "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -2126,34 +2084,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Enter the webhook URL obtained in ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "step 2",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FARpTwYXlIi7ZLtkEHx5ciUK6nuc%23Y6H2d0UdzolwrqxqiRxcgqDqnnb"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
+                "content": "Enter the webhook URL obtained.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2719,31 +2650,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "After setting up a notification channel, click the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Send Test Message",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " icon to verify that it is properly configured.",
+                "content": "After setting up a notification channel, click the Send Test Message icon to verify that it is properly configured.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -5,7 +5,7 @@
   "node_token": "NvDLw4kFji0xeWkc4Hpc9wUfnRh",
   "node_type": "origin",
   "obj_create_time": "1702957091",
-  "obj_edit_time": "1710993044",
+  "obj_edit_time": "1711447727",
   "obj_token": "NoO5dX5QboENU1xRgADc59x1nog",
   "obj_type": "docx",
   "origin_node_token": "NvDLw4kFji0xeWkc4Hpc9wUfnRh",
@@ -1213,7 +1213,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Search QPS",
+                "content": "Search (QPS)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1339,7 +1339,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Query QPS",
+                "content": "Query (QPS)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1465,7 +1465,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "P99 Search Latency",
+                "content": "Search Latency (P99)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1591,7 +1591,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "P99 Query Latency",
+                "content": "Query Latency (P99)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

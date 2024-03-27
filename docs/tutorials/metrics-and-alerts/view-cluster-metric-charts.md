@@ -26,6 +26,12 @@ In the [Zilliz Cloud console](https://cloud.zilliz.com/login), locate the target
 
 Zilliz Cloud's metric charts provide performance data on resource usage, queries per second (QPS), request results, and data operations, offering granular analysis within a specific time range.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Clicking <strong>View Alerts Settings</strong> on the right will redirect you to the <strong>Alert Settings</strong> page, offering a shortcut to manage your alerts.</p>
+
+</Admonition>
+
 ![view_metric_charts_resources](/img/view_metric_charts_resources.png)
 
 For details on each metric chart, refer to [View metric charts](./view-cluster-metric-charts#view-metric-charts).

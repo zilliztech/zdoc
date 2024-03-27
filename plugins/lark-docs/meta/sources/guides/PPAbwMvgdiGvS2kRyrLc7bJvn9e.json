@@ -5,7 +5,7 @@
   "node_token": "PPAbwMvgdiGvS2kRyrLc7bJvn9e",
   "node_type": "origin",
   "obj_create_time": "1706249872",
-  "obj_edit_time": "1711422793",
+  "obj_edit_time": "1711515307",
   "obj_token": "MZKKdcR1moNfaExtipQc18bInxc",
   "obj_type": "docx",
   "origin_node_token": "PPAbwMvgdiGvS2kRyrLc7bJvn9e",
@@ -407,7 +407,7 @@
             },
             {
               "text_run": {
-                "content": ". To create a pipeline, click",
+                "content": ". To create a pipeline, click ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -419,7 +419,7 @@
             },
             {
               "text_run": {
-                "content": " + Pipeline",
+                "content": "+ Pipeline",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,

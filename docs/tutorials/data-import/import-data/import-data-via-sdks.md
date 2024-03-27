@@ -1,5 +1,6 @@
 ---
 slug: /import-data-via-sdks
+sidebar_label: SDKs
 beta: FALSE
 notebook: 05_use_local-bulk-writer.ipynb,06_use_remote-bulk-writer.ipynb,07_use_bulk_import.ipynb
 type: origin

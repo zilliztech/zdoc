@@ -58,7 +58,7 @@ To integrate with a PagerDuty service,
 
 1. [Create a service](https://support.pagerduty.com/docs/services-and-integrations#create-a-service) in the PagerDuty UI.
 
-1. [Create an Events API v2 integration](https://support.pagerduty.com/docs/services-and-integrations#create-a-generic-events-api-integration) to obtain the integration key. The integration key will be in the format: __https://events.pagerduty.com/v2/xxxx/xxxx__.
+1. [Create an Events API v2 integration](https://support.pagerduty.com/docs/services-and-integrations#create-a-generic-events-api-integration) to obtain the integration key. The integration key will be in the format: `https://events.pagerduty.com/v2/xxxx/xxxx`.
 
 1. In the [Zilliz Cloud console](https://cloud.zilliz.com/signup), configure the PagerDuty notification channel.
 
@@ -74,7 +74,7 @@ To integrate with a PagerDuty service,
 
     1. In the dialog box that appears, click __+ Channel__ in the __Send To__ field and choose __PagerDuty__ from the dropdown list.
 
-    1. Enter the PagerDuty integration key obtained in [step 2](./manage-notification-channels) and select the service region hosting your PagerDuty account. For more information on PagerDuty service regions, refer to [Service Regions](https://support.pagerduty.com/docs/service-regions).
+    1. Enter the PagerDuty integration key obtained and select the service region hosting your PagerDuty account. For more information on PagerDuty service regions, refer to [Service Regions](https://support.pagerduty.com/docs/service-regions).
 
 ### Slack{#slack}
 
@@ -82,7 +82,7 @@ To set up Slack integration,
 
 1. [Create a webhook](https://api.slack.com/messaging/webhooks#getting_started) in the Slack UI.
 
-1. In the __Webhook URL__ section, obtain the webhook URL. The URL will be in the format: __https://hooks.slack.com/services/xxxxxxxxxxxx/xxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx__.
+1. In the __Webhook URL__ section, obtain the webhook URL. The URL will be in the format: `https://hooks.slack.com/services/xxxxxxxxxxxx/xxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx`.
 
 1. In the [Zilliz Cloud console](https://cloud.zilliz.com/signup), configure the Slack notification channel.
 
@@ -98,7 +98,7 @@ To set up Slack integration,
 
     1. In the dialog box that appears, click __+ Channel__ in the __Send To__ field and choose __Slack__ from the dropdown list.
 
-    1. Enter the webhook URL obtained in [step 2](./manage-notification-channels).
+    1. Enter the webhook URL obtained.
 
 ### Webhook{#webhook}
 

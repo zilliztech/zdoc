@@ -1,5 +1,6 @@
 ---
 slug: /manage-collections-sdks
+sidebar_label: SDKs
 beta: FALSE
 notebook: FALSE
 type: origin

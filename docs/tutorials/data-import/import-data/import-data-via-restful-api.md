@@ -1,5 +1,6 @@
 ---
 slug: /import-data-via-restful-api
+sidebar_label: RESTful API
 beta: FALSE
 notebook: FALSE
 type: origin

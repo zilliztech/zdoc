@@ -5,7 +5,7 @@
   "node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
   "node_type": "origin",
   "obj_create_time": "1704710624",
-  "obj_edit_time": "1709017275",
+  "obj_edit_time": "1711517807",
   "obj_token": "DK0cd2Ix8oQD0rxWUBYcW57snLd",
   "obj_type": "docx",
   "origin_node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
@@ -979,37 +979,7 @@
             },
             {
               "text_run": {
-                "content": "the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQyjpwAaKuihAeJkNBUJcdFesn9e"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "BulkWriter",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQyjpwAaKuihAeJkNBUJcdFesn9e"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " tool",
+                "content": "the BulkWriter tool",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

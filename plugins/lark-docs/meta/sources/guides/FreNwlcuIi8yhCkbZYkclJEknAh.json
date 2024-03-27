@@ -5,7 +5,7 @@
   "node_token": "FreNwlcuIi8yhCkbZYkclJEknAh",
   "node_type": "origin",
   "obj_create_time": "1710916974",
-  "obj_edit_time": "1711421200",
+  "obj_edit_time": "1711441295",
   "obj_token": "JeoDd2855o8bv4xBK8nc3XmOnof",
   "obj_type": "docx",
   "origin_node_token": "FreNwlcuIi8yhCkbZYkclJEknAh",
@@ -14,6 +14,7 @@
   "parent_node_token": "PlQgwKLgQis7mnkLoBzc40aVn6c",
   "space_id": "7167193056431783939",
   "title": "Create Connectors",
+  "slug": "create-connectors",
   "blocks": {
     "items": [
       {
@@ -1041,6 +1042,7 @@
         "block_type": 32,
         "children": [
           "DY49dx0O6oerd6xQEyjcdzt7nTg",
+          "SHrddKPhSoiI9HxTi9rcZMmznmf",
           "YXn6dWq74o0SKuxnJLycxxFinhb",
           "G0swdpwPwomZMnxAK86c6loPnCf"
         ],
@@ -1055,7 +1057,32 @@
           "elements": [
             {
               "text_run": {
-                "content": "Provide the bucket URL used for accessing your source data. To learn more about how to obtain the URL, please refer to:",
+                "content": "Provide the bucket URL used for accessing your source data. Please make sure you enter the URL of the file directory instead of a specific file.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SHrddKPhSoiI9HxTi9rcZMmznmf",
+        "block_type": 2,
+        "parent_id": "FV95d1zMGodLwGx2UsJcmpRNnQJ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To learn more about how to obtain the URL, please refer to:",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2105,6 +2132,6 @@
         }
       }
     ],
-    "counts": 80
+    "counts": 81
   }
 }

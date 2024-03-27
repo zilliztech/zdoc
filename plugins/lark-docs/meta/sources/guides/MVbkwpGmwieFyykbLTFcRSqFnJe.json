@@ -5,7 +5,7 @@
   "node_token": "MVbkwpGmwieFyykbLTFcRSqFnJe",
   "node_type": "origin",
   "obj_create_time": "1710916962",
-  "obj_edit_time": "1711418408",
+  "obj_edit_time": "1711442273",
   "obj_token": "JiOIdARjCoNjItxamDBcD3gTnid",
   "obj_type": "docx",
   "origin_node_token": "MVbkwpGmwieFyykbLTFcRSqFnJe",
@@ -14,6 +14,7 @@
   "parent_node_token": "PlQgwKLgQis7mnkLoBzc40aVn6c",
   "space_id": "7167193056431783939",
   "title": "Understanding Connectors",
+  "slug": "understanding-connectors",
   "blocks": {
     "items": [
       {
@@ -24,6 +25,16 @@
           "QtKmd6siRo0TI9xsMkscKYKpnnc",
           "VXppdWrFFoYocSx38UjcsiRNnGe",
           "Qwhsd2CAoogOfKx4m4hcdILxnic",
+          "IvLPdW68Zo7d0JxgOsKckktYnhc",
+          "B3DKdi774oZ18nxgnthcpOaqnqh",
+          "Kj5hd8fqYoqt9TxfZqccrQ9Wnbh",
+          "HHd0d9rweoXTghx47QJccimQnsb",
+          "HfYzdXixWoeooSx2JaZcPnW6nrF",
+          "WXE7dNrpLoKoWzxoGSccLs75ndb",
+          "GR05dYl6AoqCOMxhaFRcplT3nSh",
+          "NPCWdbm9noxDnmxVRFDccJINnee",
+          "WX9rdmibXotUMVxCPwOc16wTnac",
+          "OU6ZdKEt4o6fWmx6ojVc0xiYnJh",
           "OEkNdBMKroN4OXxqmPXcmwGFnZf",
           "JW0dd8dbBobmFPxbCq8cPX5qnfg",
           "GB1pdmY1foxpKLxd8UCcvUXcnEh",
@@ -209,6 +220,281 @@
           "width": 2021
         },
         "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "IvLPdW68Zo7d0JxgOsKckktYnhc",
+        "block_type": 4,
+        "comment_ids": [
+          "7350585264165158916"
+        ],
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "How does the connector work?",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7350585264165158916"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "B3DKdi774oZ18nxgnthcpOaqnqh",
+        "block_type": 2,
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When a connector is created, Zilliz Cloud periodically checks the provided object storage path for file addition or deletion. The workflow diagram below illustrates this process.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Kj5hd8fqYoqt9TxfZqccrQ9Wnbh",
+        "block_type": 43,
+        "board": {
+          "height": 501,
+          "token": "CIzfw8L8uhD2YKbsCyncyo3wnrc",
+          "width": 597
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "HHd0d9rweoXTghx47QJccimQnsb",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D42717-3567%26mode%3Ddesign%26t%3DWLxAkO0Etu3hnDgJ-4"
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "HfYzdXixWoeooSx2JaZcPnW6nrF",
+        "block_type": 2,
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The connector consists of four components.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WXE7dNrpLoKoWzxoGSccLs75ndb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "User",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Users can access the current token usage via the control platform.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "GR05dYl6AoqCOMxhaFRcplT3nSh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Control Platform: ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Offers users an API to configure connectors and pipelines. It analyzes the configurations and sends them to the scheduler to ensure timely initiation of sync tasks.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "NPCWdbm9noxDnmxVRFDccJINnee",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Resource Pool: ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "A self-developed task scheduler that receives and executes sync tasks.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "WX9rdmibXotUMVxCPwOc16wTnac",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Task: ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Executes tasks and distinguishes between different data sources, such as HTTP and Kafka.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "OU6ZdKEt4o6fWmx6ojVc0xiYnJh",
+        "block_type": 2,
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Please note that the connector determines file updates based on the file name.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "OEkNdBMKroN4OXxqmPXcmwGFnZf",
@@ -436,6 +722,6 @@
         }
       }
     ],
-    "counts": 14
+    "counts": 24
   }
 }

@@ -14,6 +14,7 @@
   "parent_node_token": "RzBdwMKAxiiejDk9rWjc1Sv1nSf",
   "space_id": "7167193056431783939",
   "title": "Connectors",
+  "slug": "connectors",
   "blocks": {
     "items": [
       {
@@ -79,7 +80,7 @@
       "node_token": "MVbkwpGmwieFyykbLTFcRSqFnJe",
       "node_type": "origin",
       "obj_create_time": "1710916962",
-      "obj_edit_time": "1711418408",
+      "obj_edit_time": "1711442273",
       "obj_token": "JiOIdARjCoNjItxamDBcD3gTnid",
       "obj_type": "docx",
       "origin_node_token": "MVbkwpGmwieFyykbLTFcRSqFnJe",
@@ -87,7 +88,8 @@
       "owner": "ou_fbc044d19930afd389d5c369466c38b1",
       "parent_node_token": "PlQgwKLgQis7mnkLoBzc40aVn6c",
       "space_id": "7167193056431783939",
-      "title": "Understanding Connectors"
+      "title": "Understanding Connectors",
+      "slug": "understanding-connectors"
     },
     {
       "creator": "ou_fbc044d19930afd389d5c369466c38b1",
@@ -96,7 +98,7 @@
       "node_token": "FreNwlcuIi8yhCkbZYkclJEknAh",
       "node_type": "origin",
       "obj_create_time": "1710916974",
-      "obj_edit_time": "1711421200",
+      "obj_edit_time": "1711441295",
       "obj_token": "JeoDd2855o8bv4xBK8nc3XmOnof",
       "obj_type": "docx",
       "origin_node_token": "FreNwlcuIi8yhCkbZYkclJEknAh",
@@ -104,7 +106,8 @@
       "owner": "ou_fbc044d19930afd389d5c369466c38b1",
       "parent_node_token": "PlQgwKLgQis7mnkLoBzc40aVn6c",
       "space_id": "7167193056431783939",
-      "title": "Create Connectors"
+      "title": "Create Connectors",
+      "slug": "create-connectors"
     },
     {
       "creator": "ou_fbc044d19930afd389d5c369466c38b1",
@@ -121,7 +124,8 @@
       "owner": "ou_fbc044d19930afd389d5c369466c38b1",
       "parent_node_token": "PlQgwKLgQis7mnkLoBzc40aVn6c",
       "space_id": "7167193056431783939",
-      "title": "Manage Connectors"
+      "title": "Manage Connectors",
+      "slug": "manage-connectors"
     }
   ]
 }

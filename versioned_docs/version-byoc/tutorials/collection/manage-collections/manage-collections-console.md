@@ -1,5 +1,6 @@
 ---
 slug: /manage-collections-console
+sidebar_label: Console
 beta: FALSE
 notebook: FALSE
 type: origin
