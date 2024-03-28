@@ -37,6 +37,9 @@ There are two more things to consider when designing the schema:
 
 The following code shows how to set up the schema for the collection in the above diagram.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import MilvusClient, DataType
 
@@ -52,9 +55,55 @@ schema.add_field(field_name="scalar_1", datatype=DataType.VARCHAR, max_length=51
 schema.add_field(field_name="scalar_2", datatype=DataType.INT64)
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.param.collection.CollectionSchemaParam;
+import io.milvus.param.collection.FieldType;
+import io.milvus.grpc.DataType;
+
+// Define schema for the target collection
+FieldType id = FieldType.newBuilder()
+        .withName("id")
+        .withDataType(DataType.Int64)
+        .withPrimaryKey(true)
+        .withAutoID(false)
+        .build();
+
+FieldType vector = FieldType.newBuilder()
+        .withName("vector")
+        .withDataType(DataType.FloatVector)
+        .withDimension(768)
+        .build();
+
+FieldType scalar1 = FieldType.newBuilder()
+        .withName("scalar_1")
+        .withDataType(DataType.VarChar)
+        .withMaxLength(512)
+        .build();
+
+FieldType scalar2 = FieldType.newBuilder()
+        .withName("scalar_2")
+        .withDataType(DataType.Int64)
+        .build();
+
+CollectionSchemaParam schema = CollectionSchemaParam.newBuilder()
+        .withEnableDynamicField(true)
+        .addFieldType(id)
+        .addFieldType(vector)
+        .addFieldType(scalar1)
+        .addFieldType(scalar2)
+        .build();
+```
+
+</TabItem>
+</Tabs>
+
 ## Source data requirements{#source-data-requirements}
 
-Zilliz Cloud supports data imports from files in __JSON__, __Parquet__, and __NumPy__ formats. If your data is in these formats but fails to import to Zilliz Cloud collections, check whether your data meets the following requirements. If your data is in a different format, convert it using [the ](./use-bulkwriter)__[BulkWriter](./use-bulkwriter)__[ tool](./use-bulkwriter).
+Zilliz Cloud supports data imports from files in __JSON__, __Parquet__, and __NumPy__ formats. If your data is in these formats but fails to import to Zilliz Cloud collections, check whether your data meets the following requirements. If your data is in a different format, convert it using [the BulkWriter tool](./use-bulkwriter).
 
 ### JSON file{#json-file}
 
@@ -78,7 +127,7 @@ A valid JSON file has a root key named __rows__, the corresponding value of whic
 
 </Admonition>
 
-You can either rebuild your data on your own by referring to [Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) or use [the ](./use-bulkwriter)__[BulkWriter](./use-bulkwriter)__[ tool](./use-bulkwriter) to generate the source data file. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_json_data.json).
+You can either rebuild your data on your own by referring to [Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) or use [the ](./use-bulkwriter)[BulkWriter](./use-bulkwriter)[ tool](./use-bulkwriter) to generate the source data file. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_json_data.json).
 
 ### Parquet file{#parquet-file}
 
@@ -88,7 +137,7 @@ You can either rebuild your data on your own by referring to [Prepare the data f
 |  __Maximum file size per import__   |  - Total file size: 100 GB<br/> - Individual file size: 10 GB<br/> |
 |  __Applicable data file locations__ |  Remote files only                                                       |
 
-You are advised to use [the ](./use-bulkwriter)__[BulkWriter](./use-bulkwriter)__[ tool](./use-bulkwriter) to prepare your raw data into parquet files. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_parquet_data.parquet).
+You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into parquet files. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_parquet_data.parquet).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -120,7 +169,7 @@ A valid set of NumPy files should be named after the fields in the schema of the
 
 </Admonition>
 
-You can either rebuild your data on your own by referring to [Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) or use [the ](./use-bulkwriter)__[BulkWriter](./use-bulkwriter)__[ tool](./use-bulkwriter) to generate the source data file. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_numpy_data.zip).
+You can either rebuild your data on your own by referring to [Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) or use [the BulkWriter tool](./use-bulkwriter) to generate the source data file. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_numpy_data.zip).
 
 ## Tips on import paths{#tips-on-import-paths}
 

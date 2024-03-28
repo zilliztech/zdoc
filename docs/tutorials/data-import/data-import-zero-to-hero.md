@@ -40,7 +40,7 @@ Currently, you can use data-import-related APIs in Python or Java.
 
 <TabItem value='python'>
 
-To use the python API, run the following command in your terminal to install __pymilvus__ and __minio__ or upgrade them to the latest version.
+To use the Python API, run the following command in your terminal to install __pymilvus__ and __minio__ or upgrade them to the latest version.
 
 ```shell
 python3 -m pip install --upgrade pymilvus minio
@@ -50,7 +50,7 @@ python3 -m pip install --upgrade pymilvus minio
 
 <TabItem value='java'>
 
-For Apache Maven, append the following to the __pom.xml__ dependencies:
+- For Apache Maven, append the following to the __pom.xml__ dependencies:
 
 ```java
 <dependency>
@@ -485,6 +485,7 @@ The above writer generates files in JSON format and uploads them to the root fol
 ```java
 import io.milvus.bulkwriter.RemoteBulkWriter;
 import io.milvus.bulkwriter.RemoteBulkWriterParam;
+import io.milvus.bulkwriter.common.clientenum.BulkFileType;
 
 RemoteBulkWriterParam remoteBulkWriterParam = RemoteBulkWriterParam.newBuilder()
         .withCollectionSchema(schema)
@@ -729,6 +730,8 @@ print(res.json())
 <TabItem value='java'>
 
 ```java
+import io.milvus.bulkwriter.response.BulkImportResponse;
+
 // Insert the data into the collection
 String prefix = batchFiles.get(0).get(0).split("/")[0];
 String OBJECT_URL = String.format("https://storage.googleapis.com/%s/%s", BUCKET_NAME, prefix);

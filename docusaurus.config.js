@@ -61,20 +61,20 @@ const config = {
           customCss: require.resolve('./src/css/custom.css'),
         },
       }),
-    ],
-    [
-      'redocusaurus',
-      {
-        specs: [
-          {
-            spec: 'plugins/apifox-docs/meta/openapi.json',
-            route: '/reference/restful'
-          }
-        ],
-        theme: {
-          primaryColor: '#0077cc',
-        }
-      }
+    // ],
+    // [
+    //   'redocusaurus',
+    //   {
+    //     specs: [
+    //       {
+    //         spec: 'plugins/apifox-docs/meta/openapi.json',
+    //         route: '/reference/restful'
+    //       }
+    //     ],
+    //     theme: {
+    //       primaryColor: '#0077cc',
+    //     }
+    //   }
     ]
   ],
   plugins: [

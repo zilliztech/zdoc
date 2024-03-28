@@ -5,7 +5,7 @@
   "node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
   "node_type": "origin",
   "obj_create_time": "1704332777",
-  "obj_edit_time": "1711529744",
+  "obj_edit_time": "1711611117",
   "obj_token": "TXlrdXzlPokEQ5xnA30c93SLnMc",
   "obj_type": "docx",
   "origin_node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
@@ -817,7 +817,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "To use the python API, run the following command in your terminal to install ",
+                "content": "To use the Python API, run the following command in your terminal to install ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -959,9 +959,8 @@
       },
       {
         "block_id": "MM4sdYSWAohkGmxbGpicCJLwnwb",
-        "block_type": 2,
-        "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc",
-        "text": {
+        "block_type": 12,
+        "bullet": {
           "elements": [
             {
               "text_run": {
@@ -1004,7 +1003,8 @@
             "align": 1,
             "folded": false
           }
-        }
+        },
+        "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc"
       },
       {
         "block_id": "LmVCdYDAHoEhXRxd8JzcSeSCnEc",
@@ -6336,7 +6336,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.bulkwriter.RemoteBulkWriter;\nimport io.milvus.bulkwriter.RemoteBulkWriterParam;\n\nRemoteBulkWriterParam remoteBulkWriterParam = RemoteBulkWriterParam.newBuilder()\n        .withCollectionSchema(schema)\n        .withRemotePath(\"/\")\n        .withChunkSize(512 * 1024 * 1024)\n        .withConnectParam(storageConnectParam)\n        .withFileType(BulkFileType.PARQUET)\n        .build();\n        \n@SuppressWarnings(\"resource\")\nRemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);\n\n// Possible file types:\n",
+                "content": "import io.milvus.bulkwriter.RemoteBulkWriter;\nimport io.milvus.bulkwriter.RemoteBulkWriterParam;\nimport io.milvus.bulkwriter.common.clientenum.BulkFileType;\n\nRemoteBulkWriterParam remoteBulkWriterParam = RemoteBulkWriterParam.newBuilder()\n        .withCollectionSchema(schema)\n        .withRemotePath(\"/\")\n        .withChunkSize(512 * 1024 * 1024)\n        .withConnectParam(storageConnectParam)\n        .withFileType(BulkFileType.PARQUET)\n        .build();\n        \n@SuppressWarnings(\"resource\")\nRemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);\n\n// Possible file types:\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -7964,7 +7964,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// Insert the data into the collection\nString prefix = batchFiles.get(0).get(0).split(\"/\")[0];\nString OBJECT_URL = String.format(\"https://storage.googleapis.com/%s/%s\", BUCKET_NAME, prefix);\n\nBulkImportResponse bulkImportResponse = CloudImport.bulkImport(\n    CLUSTER_ENDPOINT,\n    API_KEY,\n    CLUSTER_ID,\n    COLLECTION_NAME,\n    OBJECT_URL,\n    ACCESS_KEY,\n    SECRET_KEY\n);\n\n// Get import job ID\nString jobId = bulkImportResponse.getJobId();\n\nSystem.out.println(jobId);\n\n",
+                "content": "import io.milvus.bulkwriter.response.BulkImportResponse;\n\n// Insert the data into the collection\nString prefix = batchFiles.get(0).get(0).split(\"/\")[0];\nString OBJECT_URL = String.format(\"https://storage.googleapis.com/%s/%s\", BUCKET_NAME, prefix);\n\nBulkImportResponse bulkImportResponse = CloudImport.bulkImport(\n    CLUSTER_ENDPOINT,\n    API_KEY,\n    CLUSTER_ID,\n    COLLECTION_NAME,\n    OBJECT_URL,\n    ACCESS_KEY,\n    SECRET_KEY\n);\n\n// Get import job ID\nString jobId = bulkImportResponse.getJobId();\n\nSystem.out.println(jobId);\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

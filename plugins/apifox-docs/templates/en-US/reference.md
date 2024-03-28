@@ -1,7 +1,7 @@
 ---
 displayed_sidebar: restfulSidebar
 sidebar_position: {{sidebar_position}}
-slug: /{{page_slug}}
+slug: /restful/{{page_slug}}
 title: {{page_title}}
 ---
 

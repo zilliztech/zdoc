@@ -9,7 +9,8 @@ sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Import Data (SDK)
 
@@ -19,37 +20,73 @@ Alternatively, you can also refer to [our fast-track end-to-end course](./data-i
 
 ## Install dependencies{#install-dependencies}
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+
+<TabItem value='python'>
+
 Run the following command in your terminal to install __pymilvus__ and __minio__ or upgrade them to the latest version.
 
 ```shell
 python3 -m pip install --upgrade pymilvus minio
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+- For Apache Maven, append the following to the __pom.xml__ dependencies:
+
+```java
+<dependency>
+  <groupId>io.milvus</groupId>
+  <artifactId>milvus-sdk-java</artifactId>
+  <version>2.3.5</version>
+</dependency>
+
+<dependency>
+    <groupId>io.minio</groupId>
+    <artifactId>minio</artifactId>
+    <version>8.5.9</version>
+</dependency>
+```
+
+- For Gradle/Grails, run the following
+
+```shell
+compile 'io.milvus:milvus-sdk-java:2.3.5'
+compile 'io.minio:minio:8.5.9'
+```
+
+</TabItem>
+
+</Tabs>
+
 ## Check prepared data{#check-prepared-data}
 
-Once you have prepared your data using [the BulkWriter tool](./use-bulkwriter) and got the path to the prepared files. You are ready to import them to a Zilliz Cloud collection.
+Once you have prepared your data using [the BulkWriter tool](./use-bulkwriter) and got the path to the prepared files. You are ready to import them to a Zilliz Cloud collection. To check whether they are ready, do as follows:
 
-To check whether they are ready, do as follows:
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
 
 ```python
 from minio import Minio
 
 # Third-party constants
-YOUR_ACCESS_KEY = "YOUR_ACCESS_KEY"
-YOUR_SECRET_KEY = "YOUR_SECRET_KEY"
-YOUR_BUCKET_NAME = "YOUR_BUCKET_NAME"
-YOUR_REMOTE_PATH = "YOUR_REMOTE_PATH"
+ACCESS_KEY = "YOUR_ACCESS_KEY"
+SECRET_KEY = "YOUR_SECRET_KEY"
+BUCKET_NAME = "YOUR_BUCKET_NAME"
+REMOTE_PATH = "YOUR_REMOTE_PATH"
 
 client = Minio(
     endpoint="storage.googleapis.com", # use 's3.amazonaws.com' for AWS S3
-    access_key=YOUR_ACCESS_KEY,
-    secret_key=YOUR_SECRET_KEY,
+    access_key=ACCESS_KEY,
+    secret_key=SECRET_KEY,
     secure=True
 )
 
 objects = client.list_objects(
-    bucket_name=YOUR_BUCKET_NAME,
-    prefix=YOUR_REMOTE_PATH,
+    bucket_name=BUCKET_NAME,
+    prefix=REMOTE_PATH,
     recursive=True
 )
 
@@ -70,17 +107,52 @@ print([obj.object_name for obj in objects])
 
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.minio.MinioClient;
+import io.minio.Result;
+import io.minio.messages.Item;
+
+import java.util.Iterator;
+
+// Third-party constants
+String ACCESS_KEY = "YOUR_ACCESS_KEY";
+String SECRET_KEY = "YOUR_SECRET_KEY";
+String BUCKET_NAME = "YOUR_BUCKET_NAME";
+String REMOTE_PATH = "YOUR_REMOTE_PATH";
+
+MinioClient minioClient = MinioClient.builder()
+        .endpoint("storage.googleapis.com") // use 's3.amazonaws.com' for AWS S3
+        .credentials(ACCESS_KEY, SECRET_KEY)
+        .build();
+        
+Iterable<Result<Item>> results = minioClient.listObjects(
+    ListObjectsArgs.builder().bucket(BUCKET_NAME).prefix(REMOTE_PATH).build();
+);
+
+while (results.hasNext()) {
+    Result<Item> result = results.next();
+    System.out.println(result.get().objectName());
+}
+
+// Output
+// [[1.parquet]]
+```
+
+</TabItem>
+</Tabs>
+
 ## Create collection{#create-collection}
 
 Once your data files are ready, connect to a Zilliz Cloud cluster, create a collection out of the schema, and import the data from the files in the storage bucket.
 
 For details on required information, refer to [On Zilliz Cloud Console](./on-zilliz-cloud-console).
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Zilliz Cloud does not allow cross-cloud data transmission. You must create your cluster on the same public cloud that houses your prepared dataset. </p>
-
-</Admonition>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient, DataType
@@ -89,18 +161,19 @@ from pymilvus import MilvusClient, DataType
 
 ## Zilliz Cloud constants
 CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
-CLUSTER_TOKEN = "YOUR_CLUSTER_TOKEN"
-COLLECTION_NAME = "medium_articles"
+TOKEN = "YOUR_CLUSTER_TOKEN"
 API_KEY = "YOUR_CLUSTER_TOKEN"
 CLUSTER_ID = "YOUR_CLUSTER_ID"
+CLUSTER_REGION = "YOUR_CLUSTER_REGION"
+COLLECTION_NAME = "medium_articles"
 
 ## Third-party constants
-YOUR_OBJECT_URL = "YOUR_OBJECT_URL"
+OBJECT_URL = "YOUR_OBJECT_URL"
 
 # create a milvus client
 client = MilvusClient(
     uri=CLUSTER_ENDPOINT,
-    token=CLUSTER_TOKEN
+    token=TOKEN
 )
 
 # prepare schema
@@ -134,9 +207,132 @@ client.create_collection(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.param.collection.CollectionSchemaParam;
+import io.milvus.param.collection.FieldType;
+import io.milvus.grpc.DataType;
+import io.milvus.client.MilvusServiceClient;
+import io.milvus.param.ConnectParam;
+import io.milvus.param.IndexType;
+import io.milvus.param.MetricType;
+import io.milvus.param.collection.CreateCollectionParam;
+import io.milvus.param.collection.LoadCollectionParam;
+import io.milvus.param.index.CreateIndexParam;
+
+// Configs for Zilliz Cloud cluster
+String CLUSTER_ENDPOINT = "";
+String TOKEN = "";
+String API_KEY = "";
+String CLUSTER_ID = "";
+String CLOUD_REGION = "";
+String COLLECTION_NAME = "";
+
+// Third-party constants 
+String OBJECT_URL = ""
+
+// Define schema for the target collection
+FieldType id = FieldType.newBuilder()
+        .withName("id")
+        .withDataType(DataType.Int64)
+        .withPrimaryKey(true)
+        .withAutoID(false)
+        .build();
+
+FieldType titleVector = FieldType.newBuilder()
+        .withName("vector")
+        .withDataType(DataType.FloatVector)
+        .withDimension(768)
+        .build();
+
+FieldType title = FieldType.newBuilder()
+        .withName("title")
+        .withDataType(DataType.VarChar)
+        .withMaxLength(512)
+        .build();
+
+FieldType link = FieldType.newBuilder()
+        .withName("link")
+        .withDataType(DataType.VarChar)
+        .withMaxLength(512)
+        .build();
+        
+FieldType readingTime = FieldType.newBuilder()
+        .withName("reading_time")
+        .withDataType(DataType.Int64)
+        .build();
+        
+FieldType publication = FieldType.newBuilder()
+        .withName("publication")
+        .withDataType(DataType.VarChar)
+        .withMaxLength(512)
+        .build();
+
+FieldType claps = FieldType.newBuilder()
+        .withName("claps")
+        .withDataType(DataType.Int64)
+        .build();     
+        
+FieldType responses = FieldType.newBuilder()
+        .withName("responses")
+        .withDataType(DataType.Int64)
+        .build();
+
+CollectionSchemaParam schema = CollectionSchemaParam.newBuilder()
+        .withEnableDynamicField(false)
+        .addFieldType(id)
+        .addFieldType(titleVector)
+        .addFieldType(title)
+        .addFieldType(link)
+        .addFieldType(readingTime)
+        .addFieldType(publication)
+        .addFieldType(claps)
+        .addFieldType(responses)
+        .build();
+        
+// Create a collection with the given schema
+ConnectParam connectParam = ConnectParam.newBuilder()
+        .withUri(CLUSTER_ENDPOINT)
+        .withToken(TOKEN)
+        .build();
+
+MilvusServiceClient milvusClient = new MilvusServiceClient(connectParam);
+
+CreateCollectionParam collectionParam = CreateCollectionParam.newBuilder()
+        .withCollectionName(COLLECTION_NAME)
+        .withSchema(schema)
+        .build();
+
+milvusClient.createCollection(collectionParam);
+
+CreateIndexParam indexParam = CreateIndexParam.newBuilder()
+        .withCollectionName(COLLECTION_NAME)
+        .withFieldName("title_vector")
+        .withIndexType(IndexType.AUTOINDEX)
+        .withMetricType(MetricType.L2)
+        .build();
+
+milvusClient.createIndex(indexParam);
+
+LoadCollectionParam loadCollectionParam = LoadCollectionParam.newBuilder()
+        .withCollectionName(COLLECTION_NAME)
+        .build();
+
+milvusClient.loadCollection(loadCollectionParam);
+```
+
+</TabItem>
+</Tabs>
+
 ## Import data{#import-data}
 
 Once your data and collection are ready, you can start the import process as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import bulk_import
@@ -165,9 +361,40 @@ print(res.json())
 # }
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.bulkwriter.response.BulkImportResponse;
+
+BulkImportResponse bulkImportResponse = CloudImport.bulkImport(
+    CLUSTER_ENDPOINT,
+    API_KEY,
+    CLUSTER_ID,
+    COLLECTION_NAME,
+    OBJECT_URL,
+    ACCESS_KEY,
+    SECRET_KEY
+);
+
+// Get import job ID
+String jobId = bulkImportResponse.getJobId();
+
+System.out.println(jobId);
+
+// 0f7fe853-d93e-4681-99f2-4719c63585cc
+```
+
+</TabItem>
+</Tabs>
+
 ### Check import progress{#check-import-progress}
 
 You can check the progress of a specified bulk-import job.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import get_import_progress
@@ -219,9 +446,47 @@ print(res.json())
 # }
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+while (true) {
+    System.out.println("Wait 5 second to check bulkInsert job state...");
+    TimeUnit.SECONDS.sleep(5);
+
+    GetImportProgressResponse getImportProgressResponse = CloudImport.getImportProgress(
+        CLUSTER_ENDPOINT,
+        API_KEY,
+        CLUSTER_ID,
+        jobId
+    );
+
+    if (getImportProgressResponse.getReadyPercentage().intValue() == 1) {
+        System.err.printf("The job %s completed%n", jobId);
+        break;
+    } else if (StringUtils.isNotEmpty(getImportProgressResponse.getErrorMessage())) {
+        System.err.printf("The job %s failed, reason: %s%n", jobId, getImportProgressResponse.getErrorMessage());
+        break;
+    } else {
+        System.err.printf("The job %s is running, progress:%s%n", jobId, getImportProgressResponse.getReadyPercentage());
+    }
+}
+
+// The job 0f7fe853-d93e-4681-99f2-4719c63585cc is running, progress: 0.01
+// The job 0f7fe853-d93e-4681-99f2-4719c63585cc is running, progress: 0.5
+// The job 0f7fe853-d93e-4681-99f2-4719c63585cc completed.
+```
+
+</TabItem>
+</Tabs>
+
 ### List all import jobs{#list-all-import-jobs}
 
 If you also want to know about all bulk-import tasks, you can call the list-import-jobs API as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import list_import_jobs
@@ -261,6 +526,25 @@ print(res.json())
 #     }
 # }
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+ListImportJobsResponse listImportJobsResponse = CloudImport.listImportJobs(
+    CLUSTER_ENDPOINT,
+    API_KEY,
+    CLUSTER_ID,
+    10,
+    1
+);
+
+System.out.println(listImportJobsResponse);
+```
+
+</TabItem>
+</Tabs>
 
 ## Related topics{#related-topics}
 

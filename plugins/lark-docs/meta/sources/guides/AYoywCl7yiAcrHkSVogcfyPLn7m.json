@@ -5,7 +5,7 @@
   "node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
   "node_type": "origin",
   "obj_create_time": "1704710624",
-  "obj_edit_time": "1711517807",
+  "obj_edit_time": "1711598613",
   "obj_token": "DK0cd2Ix8oQD0rxWUBYcW57snLd",
   "obj_type": "docx",
   "origin_node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
@@ -32,6 +32,7 @@
           "ZHxKdnoL9oyYcZxHMcacCmB5n3b",
           "HwaTdCOokoiDQ8xKpAfchWntnxd",
           "HkcedxlU7o9GlmxzAkMcjEnpnkf",
+          "KBt9dONXRo9wcVxKbspcQoCLnue",
           "BSRXdKOP0o7Hp9xvYiScWZb7neh",
           "QtWQd4mQeowNjAx1K6OcOVvJnsb",
           "WiRCdNPsso5kcuxjImncm34JnSg",
@@ -857,6 +858,43 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "DK0cd2Ix8oQD0rxWUBYcW57snLd"
+      },
+      {
+        "block_id": "KBt9dONXRo9wcVxKbspcQoCLnue",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.param.collection.CollectionSchemaParam;\nimport io.milvus.param.collection.FieldType;\nimport io.milvus.grpc.DataType;\n\n// Define schema for the target collection\nFieldType id = FieldType.newBuilder()\n        .withName(\"id\")\n        .withDataType(DataType.Int64)\n        .withPrimaryKey(true)\n        .withAutoID(false)\n        .build();\n\nFieldType vector = FieldType.newBuilder()\n        .withName(\"vector\")\n        .withDataType(DataType.FloatVector)\n        .withDimension(768)\n        .build();\n\nFieldType scalar1 = FieldType.newBuilder()\n        .withName(\"scalar_1\")\n        .withDataType(DataType.VarChar)\n        .withMaxLength(512)\n        .build();\n\nFieldType scalar2 = FieldType.newBuilder()\n        .withName(\"scalar_2\")\n        .withDataType(DataType.Int64)\n        .build();\n\nCollectionSchemaParam schema = CollectionSchemaParam.newBuilder()\n        .withEnableDynamicField(true)\n        .addFieldType(id)\n        .addFieldType(vector)\n        .addFieldType(scalar1)\n        .addFieldType(scalar2)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .build();",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
             "wrap": false
           }
         },
@@ -1890,7 +1928,7 @@
               "text_run": {
                 "content": "BulkWriter",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
                   "comment_ids": [
                     "7322028376644993028"
                   ],
@@ -2413,37 +2451,7 @@
             },
             {
               "text_run": {
-                "content": "the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQyjpwAaKuihAeJkNBUJcdFesn9e"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "BulkWriter",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQyjpwAaKuihAeJkNBUJcdFesn9e"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " tool",
+                "content": "the BulkWriter tool",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3507,37 +3515,7 @@
             },
             {
               "text_run": {
-                "content": "the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQyjpwAaKuihAeJkNBUJcdFesn9e"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "BulkWriter",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQyjpwAaKuihAeJkNBUJcdFesn9e"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " tool",
+                "content": "the BulkWriter tool",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -7487,6 +7465,6 @@
         }
       }
     ],
-    "counts": 243
+    "counts": 244
   }
 }

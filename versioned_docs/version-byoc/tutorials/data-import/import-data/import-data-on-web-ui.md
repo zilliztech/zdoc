@@ -41,7 +41,13 @@ Once data files are ready, you can upload them to an object storage bucket for d
 
 To import remote files, you must first upload them to a remote bucket. You can easily convert your raw data into supported formats and upload the result files [using the BulkWriter tool](./use-bulkwriter). 
 
-Once you have uploaded the prepared files to a remote bucket, fill in the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket.
+Once you have uploaded the prepared files to a remote bucket, select the object storage service and fill in the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.</p>
+
+</Admonition>
 
 ![byoc-data-import-on-console-remote](/byoc/byoc-data-import-on-console-remote.png)
 

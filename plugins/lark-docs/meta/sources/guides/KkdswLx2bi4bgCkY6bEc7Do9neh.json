@@ -5,7 +5,7 @@
   "node_token": "KkdswLx2bi4bgCkY6bEc7Do9neh",
   "node_type": "origin",
   "obj_create_time": "1694400387",
-  "obj_edit_time": "1708776030",
+  "obj_edit_time": "1711611302",
   "obj_token": "Np4Sdm31soFi7DxOtqncL4lhnHb",
   "obj_type": "docx",
   "origin_node_token": "KkdswLx2bi4bgCkY6bEc7Do9neh",
@@ -38,6 +38,7 @@
           "Lu1zdfJEtoyH2txfKeNcGAzMnPh",
           "Dww5dPyxuoLOupxRrGoc4io4n6f",
           "OFI0d1VTUoDPHKxyCHUcXklPnuc",
+          "T0RQdzlqKo0zW8xXWnpckQrEnEf",
           "JnkJdM2Tpoy4Q8x4X5Ocw3MUnCd",
           "GPyidUJGKoHzfZxfPxccvmfTnoh",
           "VvdldmayOoOxIzxMfc5cDwPYnhX",
@@ -1012,7 +1013,43 @@
             },
             {
               "text_run": {
-                "content": ", fill in the ",
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "select the object storage service and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "fill in the",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1037,6 +1074,66 @@
             {
               "text_run": {
                 "content": " and bucket credentials for Zilliz Cloud to pull data from your bucket.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T0RQdzlqKo0zW8xXWnpckQrEnEf",
+        "block_type": 34,
+        "children": [
+          "ZGAUduCm6oHJJ6xYPJGcYd09nRo",
+          "XNmndlHt8orERmx1iytcX2mvnTh"
+        ],
+        "parent_id": "Np4Sdm31soFi7DxOtqncL4lhnHb",
+        "quote_container": {}
+      },
+      {
+        "block_id": "ZGAUduCm6oHJJ6xYPJGcYd09nRo",
+        "block_type": 2,
+        "parent_id": "T0RQdzlqKo0zW8xXWnpckQrEnEf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XNmndlHt8orERmx1iytcX2mvnTh",
+        "block_type": 2,
+        "parent_id": "T0RQdzlqKo0zW8xXWnpckQrEnEf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2860,7 +2957,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "GSC public URL",
+                "content": "G",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " public URL",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -2940,7 +3061,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "GSC gsutil URI",
+                "content": "G",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " gsutil URI",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3812,7 +3957,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "https://storage.googleapis.com/bucket_name/object_name",
+                "content": "https://myaccount.blob.core.windows.net/",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "bucket-name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/object-name",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -4722,6 +4891,6 @@
         "parent_id": "Np4Sdm31soFi7DxOtqncL4lhnHb"
       }
     ],
-    "counts": 164
+    "counts": 167
   }
 }

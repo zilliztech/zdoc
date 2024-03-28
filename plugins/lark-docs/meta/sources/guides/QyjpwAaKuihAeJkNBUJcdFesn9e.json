@@ -5,7 +5,7 @@
   "node_token": "QyjpwAaKuihAeJkNBUJcdFesn9e",
   "node_type": "origin",
   "obj_create_time": "1704332748",
-  "obj_edit_time": "1708655739",
+  "obj_edit_time": "1711609177",
   "obj_token": "HRtvddLG2oWHM7x9FzUcQVkcnye",
   "obj_type": "docx",
   "origin_node_token": "QyjpwAaKuihAeJkNBUJcdFesn9e",
@@ -28,28 +28,51 @@
           "UvpodQi3foh10DxwDUQcdP8Lnig",
           "UhB4dg0lVojXraxJI5hcu4pynvb",
           "KErgdFnvqoMd41xHh4pcbrqonWb",
+          "Er9JdH9bTomFpex9L9oceAnxnJe",
+          "Euv4dLqUUo9L4cxAs9Ic7LCFnec",
           "TnZ7diIocoIr0FxSmJ5cWfginef",
           "QskgduiIaoSaRFx5RGrctYoWnic",
+          "PeZadLgvkoVS8xxYj2BcKEpAnGg",
+          "T92jdR7oBoUHo8xbFRjc4Hr2nxh",
+          "IdBhd8fRFoWeetxgFhXcHxeqn7g",
+          "OncQdqCqnojPUhx3zlacM2ygnh3",
+          "AByldYPSEo62xOxzRixcogdCnOh",
+          "Eb5WdHkhgop4GSx7Ql3cpdScnhs",
+          "SzsjdhSc5oomi1xoTpWc8jzXnCe",
+          "M879dZXnfoQ7oLx1TiNcCtoBnCh",
           "Z76EdfYguoK7cDxh2Occ2dYhnq5",
           "Z5vydDNFIo31x8xJexBcPimunHf",
           "GZwLdEMdroofeHxRAVccp5Dmn0e",
           "EnmDdQ3L3oG6DJxG9p2cUK6zneh",
           "AMq0deX57okSkXxnCo4cJ3BFnFc",
+          "PYtNdl86CoekCvxVM2BchcpmnCd",
           "U9DCdDaJ6okJ6ixssAPcCaOin9e",
           "VZpYdmKwMoTLJ1xDJeicydQsn8b",
           "JnVSds2nTo2JjYxWVmhcD38Bnhg",
           "RxTUdcI7voF2dMx2HAwcHKlcnjb",
           "R4N6dZyANo2bBYxPBNAc4OLDnHb",
+          "IWjrd2wHTo2Ks5xESw6c5QK3nHh",
+          "NurJdDcGcocOKsx9OWHcthpgnDw",
           "RNJddwvUkoVrqcxIQiWcoTmfnIc",
           "K7p5dm0Vwod1uhxkK5SczxAcnFj",
           "RhKjdEbH0oiXJ5xzjX6ctJKqnfe",
+          "CsApdqNHwobXkVxbaFMcFQjEnkb",
+          "F29jdzcHcoHFcSxYciRcJr42nAh",
+          "AykkdTxWnouBkZxEpTzcsni4nCd",
+          "WZb8d4FJcodooYxH81rc7UWnnke",
+          "UPY0dKJ78okytOxVB0kcRrwsnze",
+          "VxGbdGosXo9Dh1xmy44c99BCncg",
+          "BW32d99JBo9tagxsYMvcdWExnyd",
+          "UCrOdtEGPomUzyxnym1cVVEhncd",
           "Ep3Hdv17JoOQAQxd4FEce5NunCh",
           "VI29dwLYboVMMexdd8Dc1WYynIS",
           "Ck6PdPhbfoU6Nlxvdg0cLe3snwc",
           "Totvd88qsoqmlYx7zbGcKX42njh",
+          "BXWodAdp3ofn4xxJoa6csHtMngd",
           "UQZidMwQIogA3xx5fwTcIs51nbQ",
           "Nv7qd6kpRoTUmhxdSTycqWYYn0b",
           "ZQIYdo8mEoLXWqx7krXcSKIOn0g",
+          "Isv5dHj3EoJqaGxNzUgcvqVsnCh",
           "K1VtdRv4wo6TNGxoBrWcoXlDn5g",
           "X4KOd3ceJoXVoRxRgGIc6Nrbnrh",
           "ZbpqdKCcPoDfxWxQfPXcVS3fn9d",
@@ -537,7 +560,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Set up pymilvus",
+                "content": "Set up dependencies",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -554,6 +577,56 @@
           }
         },
         "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
+      },
+      {
+        "block_id": "Er9JdH9bTomFpex9L9oceAnxnJe",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<Tabs groupId=\"code\" defaultValue='python' values={[{\"label\":\"Python\",\"value\":\"python\"},{\"label\":\"Java\",\"value\":\"java\"}]}>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Euv4dLqUUo9L4cxAs9Ic7LCFnec",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<TabItem value='python'>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "TnZ7diIocoIr0FxSmJ5cWfginef",
@@ -605,6 +678,284 @@
           }
         },
         "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
+      },
+      {
+        "block_id": "PeZadLgvkoVS8xxYj2BcKEpAnGg",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</TabItem>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T92jdR7oBoUHo8xbFRjc4Hr2nxh",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<TabItem value='java'>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IdBhd8fRFoWeetxgFhXcHxeqn7g",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Apache Maven, append the following to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pom.xml",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " dependencies:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OncQdqCqnojPUhx3zlacM2ygnh3",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<dependency>\n  <groupId>io.milvus</groupId>\n  <artifactId>milvus-sdk-java</artifactId>\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "  <version>2.3.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "5",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7351291757050626052"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</version>\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</dependency>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "comment_ids": [
+          "7351291757050626052"
+        ],
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
+      },
+      {
+        "block_id": "AByldYPSEo62xOxzRixcogdCnOh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Gradle/Grails, run the following",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
+      },
+      {
+        "block_id": "Eb5WdHkhgop4GSx7Ql3cpdScnhs",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "compile 'io.milvus:milvus-sdk-java:2.3.5'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 60,
+            "wrap": false
+          }
+        },
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
+      },
+      {
+        "block_id": "SzsjdhSc5oomi1xoTpWc8jzXnCe",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</TabItem>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "M879dZXnfoQ7oLx1TiNcCtoBnCh",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</Tabs>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "Z76EdfYguoK7cDxh2Occ2dYhnq5",
@@ -852,6 +1203,43 @@
         "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
       },
       {
+        "block_id": "PYtNdl86CoekCvxVM2BchcpmnCd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.param.collection.CollectionSchemaParam;\nimport io.milvus.param.collection.FieldType;\nimport io.milvus.grpc.DataType;\n\n// Define schema for the target collection\nFieldType id = FieldType.newBuilder()\n        .withName(\"id\")\n        .withDataType(DataType.Int64)\n        .withPrimaryKey(true)\n        .withAutoID(false)\n        .build();\n\nFieldType vector = FieldType.newBuilder()\n        .withName(\"vector\")\n        .withDataType(DataType.FloatVector)\n        .withDimension(768)\n        .build();\n\nFieldType scalar1 = FieldType.newBuilder()\n        .withName(\"scalar_1\")\n        .withDataType(DataType.VarChar)\n        .withMaxLength(512)\n        .build();\n\nFieldType scalar2 = FieldType.newBuilder()\n        .withName(\"scalar_2\")\n        .withDataType(DataType.Int64)\n        .build();\n\nCollectionSchemaParam schema = CollectionSchemaParam.newBuilder()\n        .withEnableDynamicField(true)\n        .addFieldType(id)\n        .addFieldType(vector)\n        .addFieldType(scalar1)\n        .addFieldType(scalar2)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .build();",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
+      },
+      {
         "block_id": "U9DCdDaJ6okJ6ixssAPcCaOin9e",
         "block_type": 5,
         "heading3": {
@@ -950,6 +1338,8 @@
         },
         "children": [
           "KjMCdgOhhoNTbaxpjLNc8tz7nhd",
+          "I7QIdFsFeoUWUDxo7qXcYRisnog",
+          "RAqZdpBnYouvTBx30kZc5B8xn2l",
           "J70MdwUYLolCeixZwbKcTphJn1b",
           "JLXNdUra6oxgynx22jCcqSJCnHg",
           "MhYtdCBRoo6gHlx5oI4cvPMznzd",
@@ -957,7 +1347,18 @@
           "QdKydHPEco4PfzxWKL2cp24snFe",
           "Tqeudi8fJoK4t9xtLn5cXfiNnQh",
           "SufqdhxAsoEgP9xCJCBccFmanGi",
-          "DABxd7hZ0oYNZQxkUyRcvqnEnnf"
+          "DABxd7hZ0oYNZQxkUyRcvqnEnnf",
+          "EwgvdXalAo4s1MxL435cZxnLn1f",
+          "GZ3ldC4W6oNqaCxFJf0cNWswnhe",
+          "Fkl7d96ZCo6sacxiWfocSLlqnQd",
+          "Hei6dLwzJoDg3QxrRDmc7OS6nDe",
+          "V5iLdJfvQoSaeTxFKfncdYBOnTd",
+          "GIGkdo6zhors3pxp450cw6jqnJc",
+          "Y5fXdds4gol9xbxacR0c4vtEnBc",
+          "OOaMdgkAQoQs4jxWwalcMqZCnfe",
+          "AbxQdTgjLoYt14xeh9Uc5sufnDb",
+          "ZChTdof5gosfjWxX8WUcStCBnMb",
+          "ExCVd7PMno94ROxIYFzcd63Cn2e"
         ],
         "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
       },
@@ -994,6 +1395,56 @@
             {
               "text_run": {
                 "content": " appends rows from the source dataset and commits them to a local file of the specified format.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I7QIdFsFeoUWUDxo7qXcYRisnog",
+        "block_type": 2,
+        "parent_id": "JnVSds2nTo2JjYxWVmhcD38Bnhg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<Tabs groupId=\"code\" defaultValue='python' values={[{\"label\":\"Python\",\"value\":\"python\"},{\"label\":\"Java\",\"value\":\"java\"}]}>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RAqZdpBnYouvTBx30kZc5B8xn2l",
+        "block_type": 2,
+        "parent_id": "JnVSds2nTo2JjYxWVmhcD38Bnhg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<TabItem value='python'>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1480,6 +1931,476 @@
         }
       },
       {
+        "block_id": "EwgvdXalAo4s1MxL435cZxnLn1f",
+        "block_type": 2,
+        "parent_id": "JnVSds2nTo2JjYxWVmhcD38Bnhg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</TabItem>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GZ3ldC4W6oNqaCxFJf0cNWswnhe",
+        "block_type": 2,
+        "parent_id": "JnVSds2nTo2JjYxWVmhcD38Bnhg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<TabItem value='java'>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Fkl7d96ZCo6sacxiWfocSLlqnQd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.bulkwriter.LocalBulkWriter;\nimport io.milvus.bulkwriter.LocalBulkWriterParam;\nimport io.milvus.bulkwriter.common.clientenum.BulkFileType;\n\nLocalBulkWriterParam bulkWriterParam = LocalBulkWriterParam.newBuilder()\n        .withCollectionSchema(collectionSchema)\n        .withLocalPath(\"./tmp\")\n        .withFileType(BulkFileType.PARQUET)\n        .withChunkSize(1 * 1024 * 1024)\n        .build();\n        \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "LocalBulkWriter localBulkWriter = new LocalBulkWriter(bulkWriterParam)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "JnVSds2nTo2JjYxWVmhcD38Bnhg"
+      },
+      {
+        "block_id": "Hei6dLwzJoDg3QxrRDmc7OS6nDe",
+        "block_type": 2,
+        "parent_id": "JnVSds2nTo2JjYxWVmhcD38Bnhg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When creating a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "LocalBulkWriter",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you should: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "V5iLdJfvQoSaeTxFKfncdYBOnTd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Reference the created schema in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "withCollectionSchema()",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JnVSds2nTo2JjYxWVmhcD38Bnhg"
+      },
+      {
+        "block_id": "GIGkdo6zhors3pxp450cw6jqnJc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set the output directory in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "withLocalPath()",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JnVSds2nTo2JjYxWVmhcD38Bnhg"
+      },
+      {
+        "block_id": "Y5fXdds4gol9xbxacR0c4vtEnBc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set the output file type to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BulkFileType.PARQUET",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "withFileType()",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JnVSds2nTo2JjYxWVmhcD38Bnhg"
+      },
+      {
+        "block_id": "OOaMdgkAQoQs4jxWwalcMqZCnfe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If your dataset contains a large number of records, you are advised to segment your data by setting a proper value in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "withChunkSize()",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JnVSds2nTo2JjYxWVmhcD38Bnhg"
+      },
+      {
+        "block_id": "AbxQdTgjLoYt14xeh9Uc5sufnDb",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "CzsUd3f1sokyGRxchFdc8Gf1nmh",
+          "RFQ2dYt7ToBPrGxwFmfcQea3nSb"
+        ],
+        "parent_id": "JnVSds2nTo2JjYxWVmhcD38Bnhg"
+      },
+      {
+        "block_id": "CzsUd3f1sokyGRxchFdc8Gf1nmh",
+        "block_type": 2,
+        "parent_id": "AbxQdTgjLoYt14xeh9Uc5sufnDb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RFQ2dYt7ToBPrGxwFmfcQea3nSb",
+        "block_type": 2,
+        "parent_id": "AbxQdTgjLoYt14xeh9Uc5sufnDb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BulkWriter in the Java SDK currently uses Apache Parquet as the only valid output file type.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZChTdof5gosfjWxX8WUcStCBnMb",
+        "block_type": 2,
+        "parent_id": "JnVSds2nTo2JjYxWVmhcD38Bnhg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</TabItem>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ExCVd7PMno94ROxIYFzcd63Cn2e",
+        "block_type": 2,
+        "parent_id": "JnVSds2nTo2JjYxWVmhcD38Bnhg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</Tabs>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "RxTUdcI7voF2dMx2HAwcHKlcnjb",
         "block_type": 12,
         "bullet": {
@@ -1505,8 +2426,10 @@
         "children": [
           "Os6ZdiiqzoHxhcxrR0hcgCdfnEb",
           "PZk1d0A4IoBHtkxLTm8cO3OcnAf",
+          "BXXMdVE0Vo0Ticx4VXXcWkrdnGh",
           "KwKmd8SWKo3nm5xOedQczUP7ncc",
           "Szz7dMPQLoUS56xwFPUcX5cvnu3",
+          "SI9QdTMQUoXPuHxE1a4cmBpbnNc",
           "YTirdplrao2tAIxK0i1caglfnpc"
         ],
         "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
@@ -1615,7 +2538,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# AWS S3/GCS\n\nfrom pymilvus import RemoteBulkWriter\n\n# Third-party constants\nYOUR_ACCESS_KEY=\"YOUR_ACCESS_KEY\"\nYOUR_SECRET_KEY=\"YOUR_SECRET_KEY\"\nYOUR_BUCKET_NAME=\"YOUR_BUCKET_NAME\"\n\n# Connections parameters to access the remote bucket\nconn = RemoteBulkWriter.S3ConnectParam(\n    endpoint=\"storage.googleapis.com\", # Use \"s3.amazonaws.com\" for AWS S3\n    access_key=YOUR_ACCESS_KEY,\n    secret_key=YOUR_SECRET_KEY,\n    bucket_name=YOUR_BUCKET_NAME, # Use a bucket hosted in the same cloud as the target cluster\n    secure=True\n)\n\n# ======\n# Azure Blog Storage\n\n# Third-party constants\nAZURE_CONNECT_STRING = \"\"\n\nconn = RemoteBulkWriter.AzureConnectParam(\n    conn_str=AZURE_CONNECT_STRING,\n    container_name=BUCKET_NAME\n)\n\n# or\n\n# Third-party constants\nAZURE_ACCOUNT_URL = \"\"\nAZURE_CREDENTIAL = \"\"\n\nconn = RemoteBulkWriter.AzureConnectParam(\n    account_url=AZURE_ACCOUNT_URL,\n    credential=AZURE_CREDENTIAL,\n    container_name=BUCKET_NAME\n",
+                "content": "# AWS S3/GCS\n\nfrom pymilvus import RemoteBulkWriter\n\n# Third-party constants\nACCESS_KEY=\"YOUR_ACCESS_KEY\"\nSECRET_KEY=\"YOUR_SECRET_KEY\"\nBUCKET_NAME=\"YOUR_BUCKET_NAME\"\n\n# Connections parameters to access the remote bucket\nconn = RemoteBulkWriter.S3ConnectParam(\n    endpoint=\"storage.googleapis.com\", # Use \"s3.amazonaws.com\" for AWS S3\n    access_key=ACCESS_KEY,\n    secret_key=SECRET_KEY,\n    bucket_name=BUCKET_NAME, # Use a bucket hosted in the same cloud as the target cluster\n    secure=True\n)\n\n# ======\n# Azure Blog Storage\n\n# Third-party constants\nAZURE_CONNECT_STRING = \"\"\n\nconn = RemoteBulkWriter.AzureConnectParam(\n    conn_str=AZURE_CONNECT_STRING,\n    container_name=BUCKET_NAME\n)\n\n# or\n\n# Third-party constants\nAZURE_ACCOUNT_URL = \"\"\nAZURE_CREDENTIAL = \"\"\n\nconn = RemoteBulkWriter.AzureConnectParam(\n    account_url=AZURE_ACCOUNT_URL,\n    credential=AZURE_CREDENTIAL,\n    container_name=BUCKET_NAME\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1640,6 +2563,43 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "RxTUdcI7voF2dMx2HAwcHKlcnjb"
+      },
+      {
+        "block_id": "BXXMdVE0Vo0Ticx4VXXcWkrdnGh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// AWS S3/GCS\n\nimport io.milvus.bulkwriter.connect.S3ConnectParam;\nimport io.milvus.bulkwriter.connect.StorageConnectParam;\n\n// Configs for remote bucket\nString ACCESS_KEY = \"\";\nString SECRET_KEY = \"\";\nString BUCKET_NAME = \"\";\n\n// Create a remote bucket writer.\nStorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()\n        .withEndpoint(\"storage.googleapis.com\")\n        .withBucketName(BUCKET_NAME)\n        .withAccessKey(ACCESS_KEY)\n        .withSecretKey(SECRET_KEY)\n        .build();\n\n// ======\n// Microsoft Azure\n\nimport io.milvus.bulkwriter.connect.AzureConnectParam;\nimport io.milvus.bulkwriter.connect.StorageConnectParam;\n\nString AZURE_CONNECT_STRING = \"\"\nString AZURE_CONTAINER = \"\"\n\nStorageConnectParam storageConnectParam = AzureConnectParam.newBuilder()\n        .withConnStr(AZURE_CONNECT_STRING)\n        .withContainerName(AZURE_CONTAINER)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .build()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
             "wrap": false
           }
         },
@@ -1726,6 +2686,43 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "RxTUdcI7voF2dMx2HAwcHKlcnjb"
+      },
+      {
+        "block_id": "SI9QdTMQUoXPuHxE1a4cmBpbnNc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.bulkwriter.RemoteBulkWriter;\nimport io.milvus.bulkwriter.RemoteBulkWriterParam;\nimport io.milvus.bulkwriter.common.clientenum.BulkFileType;\n\nRemoteBulkWriterParam remoteBulkWriterParam = RemoteBulkWriterParam.newBuilder()\n        .withCollectionSchema(schema)\n        .withRemotePath(\"/\")\n        .withChunkSize(512 * 1024 * 1024)\n        .withConnectParam(storageConnectParam)\n        .withFileType(BulkFileType.PARQUET)\n        .build();\n        \n@SuppressWarnings(\"resource\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "RemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
             "wrap": false
           }
         },
@@ -1902,6 +2899,56 @@
         "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
       },
       {
+        "block_id": "IWjrd2wHTo2Ks5xESw6c5QK3nHh",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<Tabs groupId=\"code\" defaultValue='python' values={[{\"label\":\"Python\",\"value\":\"python\"},{\"label\":\"Java\",\"value\":\"java\"}]}>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NurJdDcGcocOKsx9OWHcthpgnDw",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<TabItem value='python'>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "RNJddwvUkoVrqcxIQiWcoTmfnIc",
         "block_type": 2,
         "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
@@ -2059,6 +3106,449 @@
           }
         },
         "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
+      },
+      {
+        "block_id": "CsApdqNHwobXkVxbaFMcFQjEnkb",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</TabItem>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F29jdzcHcoHFcSxYciRcJr42nAh",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<TabItem value='java'>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AykkdTxWnouBkZxEpTzcsni4nCd",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BulkWriter",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " has two methods: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "appendRow()",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " adds a row from a source dataset, and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "commit()",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " commits added rows to a local file or a remote bucket.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WZb8d4FJcodooYxH81rc7UWnnke",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For demonstration purposes, the following code appends randomly generated data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UPY0dKJ78okytOxVB0kcRrwsnze",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// Main\n\nimport java.util.Random\n\nList<JSONObject> data = new ArrayList<>();\n\nfor (int i=0; i<10000; i++) {\n    Random rand = new Random();\n    JSONObject row = new JSONObject();\n    \n    row.put(\"id\", Long.valueOf(i));\n    row.put(\"vector\", generateFloatVectors(768);\n    row.put(\"scalar_1\", generateString(10);\n    row.put(\"scalar_2\", rand.nextInt(100));\n    remoteBulkWriter.appendRow(row);\n}\n\nremoteBulkWriter.commit()\n\n// =======\n// Random data generators\n\nprivate static List<float> generateFloatVectors(int dimension) {\n    List<float> vector = new ArrayList();\n    \n    for (int i=0; i< dimension; i++) {\n        Random rand = new Random();\n        vector.add(rand.nextFloat())\n    }\n    \n    return vector\n}\n\nprivate static String generateString(length) {\n    byte[] array = new byte[length];\n    new Random().nextBytes(array);\n    \n    return new String(array, Charset.forName(\"UTF-8\"));\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
+      },
+      {
+        "block_id": "VxGbdGosXo9Dh1xmy44c99BCncg",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "CW5hdrZQFo1X3QxoRzzcDUOlnxg",
+          "YwGpd2iEFoVULHx6ETYcFNienNg"
+        ],
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
+      },
+      {
+        "block_id": "CW5hdrZQFo1X3QxoRzzcDUOlnxg",
+        "block_type": 2,
+        "parent_id": "VxGbdGosXo9Dh1xmy44c99BCncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YwGpd2iEFoVULHx6ETYcFNienNg",
+        "block_type": 2,
+        "parent_id": "VxGbdGosXo9Dh1xmy44c99BCncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the above code block, the value of the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "scalar_1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " fields are generated by two private functions named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "generateFloatVectors()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "generateString()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", respectively. For details, refer to the codes in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Random data generator",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BW32d99JBo9tagxsYMvcdWExnyd",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</TabItem>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UCrOdtEGPomUzyxnym1cVVEhncd",
+        "block_type": 2,
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</Tabs>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "Ep3Hdv17JoOQAQxd4FEce5NunCh",
@@ -2311,6 +3801,43 @@
         "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
       },
       {
+        "block_id": "BXWodAdp3ofn4xxJoa6csHtMngd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// Main\n\nimport java.util.Random\n\nList<JSONObject> data = new ArrayList<>();\n\nfor (int i=0; i<10000; i++) {\n    Random rand = new Random();\n    JSONObject row = new JSONObject();\n    \n    row.put(\"id\", Long.valueOf(i));\n    row.put(\"vector\", generateFloatVectors(768);\n    row.put(\"scalar_1\", generateString(10);\n    row.put(\"scalar_2\", rand.nextInt(100));\n    row.put(\"dynamic_field_1\", rand.nextBoolean());\n    row.put(\"dynamic_field_1\", rand.nextInt(100));\n    remoteBulkWriter.appendRow(row);\n}\n\nremoteBulkWriter.commit()\n\n// =======\n// Random data generators\n\nprivate static List<float> generateFloatVectors(int dimension) {\n    List<float> vector = new ArrayList();\n    \n    for (int i=0; i< dimension; i++) {\n        Random rand = new Random();\n        vector.add(rand.nextFloat())\n    }\n    \n    return vector\n}\n\nprivate static String generateString(length) {\n    byte[] array = new byte[length];\n    new Random().nextBytes(array);\n    \n    return new String(array, Charset.forName(\"UTF-8\"));\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
+      },
+      {
         "block_id": "UQZidMwQIogA3xx5fwTcIs51nbQ",
         "block_type": 4,
         "heading2": {
@@ -2403,7 +3930,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "print(writer.data_path)\n\n# LocalBulkWriter\n# PosixPath('folder/45ae1139-1d87-4aff-85f5-0039111f9e6b')\n\n# RemoteBulkWriter\n",
+                "content": "print(writer.data_path)\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2428,6 +3955,43 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
+      },
+      {
+        "block_id": "Isv5dHj3EoJqaGxNzUgcvqVsnCh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import java.util.List;\n\nList<List<String>> batchFiles = remoteBulkWriter.getBatchFiles();\nSystem.out.println(batchFiles);\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// [[\"/5868ba87-743e-4d9e-8fa6-e07b39229425/1.parquet\"]]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
             "wrap": false
           }
         },
@@ -3694,6 +5258,6 @@
         "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye"
       }
     ],
-    "counts": 95
+    "counts": 137
   }
 }

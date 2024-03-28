@@ -48,7 +48,13 @@ To import data, you can either drag and drop a local file into the upload area, 
 
 To import remote files, you must first upload them to a remote bucket. You can easily convert your raw data into supported formats and upload the result files [using the BulkWriter tool](./use-bulkwriter). 
 
-Once you have uploaded the prepared files to a remote bucket, fill in the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket.
+Once you have uploaded the prepared files to a remote bucket, select the object storage service and fill in the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.</p>
+
+</Admonition>
 
 ![data-import-on-console-remote](/img/data-import-on-console-remote.png)
 
@@ -94,8 +100,8 @@ The following table lists applicable remote bucket URIs and some quick examples 
 
     |  __URI Style__      |  __URI Format__                                           |
     | ------------------- | --------------------------------------------------------- |
-    |  __GSC public URL__ |  `https://storage.googleapis.com/bucket_name/object_name` |
-    |  __GSC gsutil URI__ |  `gs://bucket_name/object_name`                           |
+    |  __GCS public URL__ |  `https://storage.googleapis.com/bucket_name/object_name` |
+    |  __GCS gsutil URI__ |  `gs://bucket_name/object_name`                           |
 
     For more details, see [Share the object](https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object).
 
@@ -119,9 +125,9 @@ The following table lists applicable remote bucket URIs and some quick examples 
 
 - __Object access URIs__
 
-    |  __URI Style__              |  __URI Format__                                           |
-    | --------------------------- | --------------------------------------------------------- |
-    |  __Azure storage blob URI__ |  `https://storage.googleapis.com/bucket_name/object_name` |
+    |  __URI Style__              |  __URI Format__                                                    |
+    | --------------------------- | ------------------------------------------------------------------ |
+    |  __Azure storage blob URI__ |  `https://myaccount.blob.core.windows.net/bucket-name/object-name` |
 
     For more details, see [Resource URI Syntax](https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata#resource-uri-syntax).
 

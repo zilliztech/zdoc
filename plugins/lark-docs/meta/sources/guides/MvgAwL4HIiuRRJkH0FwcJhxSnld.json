@@ -5,7 +5,7 @@
   "node_token": "MvgAwL4HIiuRRJkH0FwcJhxSnld",
   "node_type": "origin",
   "obj_create_time": "1697778473",
-  "obj_edit_time": "1708656329",
+  "obj_edit_time": "1711611220",
   "obj_token": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
   "obj_type": "docx",
   "origin_node_token": "MvgAwL4HIiuRRJkH0FwcJhxSnld",
@@ -24,26 +24,39 @@
           "AoEldHhjiozYfjxb5C5co9lxn4c",
           "UgQrdCi87o1bqjxiYemcGrrcn9f",
           "MYPBdIuFIoIHeExLqI3cLkRMnHd",
+          "PyXQdMMqpohrn4xbnd5cbqmdneb",
+          "Oqnsdvq4xotdfBxn9BWcwa6RnLg",
           "NBdHd9yzrobyUhxvpotcgBZqnQ1",
           "MdgSdPUhiovmZLxxEsmcOEyGn6r",
+          "QnondrWP8oyrgYxJDhEcCTe8nOe",
+          "YLvcdiSssoRFvQxxR78cVSjxnJd",
+          "Cie7dhni5opyIYxuQfLcfN61nwf",
+          "Ylj9dMGzhoskM6x22gqcuM0Onnc",
+          "WKLTdEERKoAq44x2ZQ1cif42nQd",
+          "FyPPdYgJfo7CHsxPdmRcQdJqnkY",
+          "V8ordzJynoznIKxwnJJcedPrnVe",
+          "DUUUdsV40o5Qy6xXDOKciZv0n4e",
           "G95zd8Xj2oXMgjxbNXUcXXrlnxO",
           "TctudsDYWocxAOxHJJPcB9EAnQg",
-          "OFyBdvEB1oglaCxoufwcONFInOb",
           "EZ1TdJOiioYoKixcoS5cgpKWnkb",
+          "LGxOdDjTgo8KdPx0uywcmaxan6O",
           "UTh8d5bWLo25rgxdNhLcFYsJnFd",
           "J1Okd8ekxoIWKwxzm2IcdMXqnYe",
           "KfxedYnJloVpPvxORgocNny5n4g",
-          "N09ddyTXMouRfPxQB0QcTWJunih",
           "OS41dsmr8oE66LxqD8LcP9OKnad",
+          "LRnjdAgYhooieDxY47Sc6Ny1nyg",
           "ZtxldCkygolSuZxA9DtcUcGsnvc",
           "EC2GdvWq9oDvhlxxsaKcTXFInhe",
           "SW2SdrfjMoFicexAPt4coGrmnDb",
+          "OvL7dHb5qoJXw3xKtoAcuTeinIb",
           "Bmh2dRsGhoryjixi8yTc8t0InUf",
           "JZKTd0UJZozHLSxLTuQcufFcnXf",
           "Op7fd9wIwo1bISxsPrScOX48n2e",
+          "SGHXdLDbfoDiLjx4GpacIEaVnqf",
           "QN7WdBVHXo0P6TxtR30cBrDcnzf",
           "WhczdGLdBoOST7xOY24c69cin9g",
           "BGxFdG7w6oYY9Ax3v39calU9nkb",
+          "WchxdvAdsoVoRExekf6cNWlDnzh",
           "JGh1dVeKDoUyj2xFXxccCsVJnnf",
           "FUY6d9268oF69jxNAgZceJD1nvc",
           "PTCXdZrHootJBbxXjjtcYxginOc",
@@ -222,6 +235,56 @@
         "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
       },
       {
+        "block_id": "PyXQdMMqpohrn4xbnd5cbqmdneb",
+        "block_type": 2,
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<Tabs groupId=\"code\" defaultValue='python' values={[{\"label\":\"Python\",\"value\":\"python\"},{\"label\":\"Java\",\"value\":\"java\"}]}>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Oqnsdvq4xotdfBxn9BWcwa6RnLg",
+        "block_type": 2,
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<TabItem value='python'>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "NBdHd9yzrobyUhxvpotcgBZqnQ1",
         "block_type": 2,
         "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
@@ -318,6 +381,296 @@
           }
         },
         "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "QnondrWP8oyrgYxJDhEcCTe8nOe",
+        "block_type": 2,
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</TabItem>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YLvcdiSssoRFvQxxR78cVSjxnJd",
+        "block_type": 2,
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<TabItem value='java'>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Cie7dhni5opyIYxuQfLcfN61nwf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Apache Maven, append the following to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pom.xml",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " dependencies:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "Ylj9dMGzhoskM6x22gqcuM0Onnc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<dependency>\n  <groupId>io.milvus</groupId>\n  <artifactId>milvus-sdk-java</artifactId>\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "  <version>2.3.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "5",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7351305822645764100"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</version>\n</dependency>\n\n<dependency>\n    <groupId>io.minio</groupId>\n    <artifactId>minio</artifactId>\n    <version>8.5.9</version>\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</dependency>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "comment_ids": [
+          "7351305822645764100"
+        ],
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "WKLTdEERKoAq44x2ZQ1cif42nQd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Gradle/Grails, run the following",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "FyPPdYgJfo7CHsxPdmRcQdJqnkY",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "compile 'io.milvus:milvus-sdk-java:2.3.5'\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "compile 'io.minio:minio:8.5.9'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 60,
+            "wrap": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "V8ordzJynoznIKxwnJJcedPrnVe",
+        "block_type": 2,
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</TabItem>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DUUUdsV40o5Qy6xXDOKciZv0n4e",
+        "block_type": 2,
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</Tabs>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "G95zd8Xj2oXMgjxbNXUcXXrlnxO",
@@ -448,20 +801,19 @@
                   "underline": false
                 }
               }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "OFyBdvEB1oglaCxoufwcONFInOb",
-        "block_type": 2,
-        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
-        "text": {
-          "elements": [
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "To check whether they are ready, do as follows:",
@@ -488,7 +840,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from minio import Minio\n\n# Third-party constants\nYOUR_ACCESS_KEY = \"YOUR_ACCESS_KEY\"\nYOUR_SECRET_KEY = \"YOUR_SECRET_KEY\"\nYOUR_BUCKET_NAME = \"YOUR_BUCKET_NAME\"\nYOUR_REMOTE_PATH = \"YOUR_REMOTE_PATH\"\n\n",
+                "content": "from minio import Minio\n\n# Third-party constants\nACCESS_KEY = \"YOUR_ACCESS_KEY\"\nSECRET_KEY = \"YOUR_SECRET_KEY\"\nBUCKET_NAME = \"YOUR_BUCKET_NAME\"\nREMOTE_PATH = \"YOUR_REMOTE_PATH\"\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -536,79 +888,7 @@
             },
             {
               "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "    access_key=",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "YOUR_",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ACCESS_KEY,\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "    secret_key=",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "YOUR_",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "SECRET_KEY,\n",
+                "content": "\n    access_key=ACCESS_KEY,\n    secret_key=SECRET_KEY,\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -644,79 +924,7 @@
             },
             {
               "text_run": {
-                "content": ")\n\nobjects = client.list_objects(\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "    bucket_name=",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "YOUR_",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "BUCKET_NAME,\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "    prefix=",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "YOUR_",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "REMOTE_PATH,\n    recursive=True\n)\n\nprint([obj.object_name for obj in objects])\n\n# Output\n#\n# [\n",
+                "content": ")\n\nobjects = client.list_objects(\n    bucket_name=BUCKET_NAME,\n    prefix=REMOTE_PATH,\n    recursive=True\n)\n\nprint([obj.object_name for obj in objects])\n\n# Output\n#\n# [\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1023,6 +1231,43 @@
         "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
       },
       {
+        "block_id": "LGxOdDjTgo8KdPx0uywcmaxan6O",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.minio.MinioClient;\nimport io.minio.Result;\nimport io.minio.messages.Item;\n\nimport java.util.Iterator;\n\n// Third-party constants\nString ACCESS_KEY = \"YOUR_ACCESS_KEY\";\nString SECRET_KEY = \"YOUR_SECRET_KEY\";\nString BUCKET_NAME = \"YOUR_BUCKET_NAME\";\nString REMOTE_PATH = \"YOUR_REMOTE_PATH\";\n\nMinioClient minioClient = MinioClient.builder()\n        .endpoint(\"storage.googleapis.com\") // use 's3.amazonaws.com' for AWS S3\n        .credentials(ACCESS_KEY, SECRET_KEY)\n        .build();\n        \nIterable<Result<Item>> results = minioClient.listObjects(\n    ListObjectsArgs.builder().bucket(BUCKET_NAME).prefix(REMOTE_PATH).build();\n);\n\nwhile (results.hasNext()) {\n    Result<Item> result = results.next();\n    System.out.println(result.get().objectName());\n}\n\n// Output\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// [[1.parquet]]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
         "block_id": "UTh8d5bWLo25rgxdNhLcFYsJnFd",
         "block_type": 4,
         "heading2": {
@@ -1125,154 +1370,6 @@
         }
       },
       {
-        "block_id": "N09ddyTXMouRfPxQB0QcTWJunih",
-        "block_type": 19,
-        "callout": {
-          "background_color": 2,
-          "border_color": 2,
-          "emoji_id": "blue_book"
-        },
-        "children": [
-          "RlVrdeCtzo8qXWxmB1rc7PAbnMb",
-          "ZsgrdRXvSo65o7xP7E7c2A6Xnab"
-        ],
-        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
-      },
-      {
-        "block_id": "RlVrdeCtzo8qXWxmB1rc7PAbnMb",
-        "block_type": 2,
-        "parent_id": "N09ddyTXMouRfPxQB0QcTWJunih",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Notes",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "ZsgrdRXvSo65o7xP7E7c2A6Xnab",
-        "block_type": 2,
-        "parent_id": "N09ddyTXMouRfPxQB0QcTWJunih",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Zilliz Cloud does not allow cross-cloud data transmission",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Y",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ou ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "must",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " create your cluster on the same public cloud that houses your prepared dataset.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
         "block_id": "OS41dsmr8oE66LxqD8LcP9OKnad",
         "block_type": 14,
         "code": {
@@ -1327,7 +1424,7 @@
             },
             {
               "text_run": {
-                "content": "\nCLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\"\nCLUSTER_TOKEN = \"YOUR_CLUSTER_TOKEN\"\nCOLLECTION_NAME = \"medium_articles\"\nAPI_KEY = \"YOUR_CLUSTER_TOKEN\"\n",
+                "content": "\nCLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1339,7 +1436,7 @@
             },
             {
               "text_run": {
-                "content": "CLUSTER_ID = ",
+                "content": "TOKEN = \"YOUR_CLUSTER_TOKEN\"",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1351,7 +1448,43 @@
             },
             {
               "text_run": {
-                "content": "\"YOUR_CLUSTER_ID\"\n\n",
+                "content": "\nAPI_KEY = \"YOUR_CLUSTER_TOKEN\"\nCLUSTER_ID = \"YOUR_CLUSTER_ID\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CLUSTER_REGION = \"YOUR_CLUSTER_REGION\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\nCOLLECTION_NAME = \"medium_articles\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1387,7 +1520,7 @@
             },
             {
               "text_run": {
-                "content": "YOUR_OBJECT_URL = \"YOUR_OBJECT_URL\"\n\n# create a milvus client\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT,\n    token=CLUSTER_TOKEN\n)\n\n# prepare schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_schema=False\n)\n\nschema.add_field(field_name=\"id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"title\", datatype=DataType.VARCHAR, max_length=512)\nschema.add_field(field_name=\"vector\", datatype=DataType.FLOAT_VECTOR, dim=768)\nschema.add_field(field_name=\"link\", datatype=DataType.VARCHAR, max_length=512)\nschema.add_field(field_name=\"reading_time\", datatype=DataType.INT64)\nschema.add_field(field_name=\"publication\", datatype=DataType.VARCHAR, max_length=512)\nschema.add_field(field_name=\"claps\", datatype=DataType.INT64)\nschema.add_field(field_name=\"responses\", datatype=DataType.INT64)\n\n# prepare index parameters\nindex_params = MilvusClient.prepare_index_params()\n\nindex_params.add_index(\n    field_name=\"vector\",\n    index_type=\"AUTOINDEX\",\n    metric_type=\"L2\"\n)\n\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema,\n    index_params=index_params\n",
+                "content": "OBJECT_URL = \"YOUR_OBJECT_URL\"\n\n# create a milvus client\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT,\n    token=TOKEN\n)\n\n# prepare schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_schema=False\n)\n\nschema.add_field(field_name=\"id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"title\", datatype=DataType.VARCHAR, max_length=512)\nschema.add_field(field_name=\"vector\", datatype=DataType.FLOAT_VECTOR, dim=768)\nschema.add_field(field_name=\"link\", datatype=DataType.VARCHAR, max_length=512)\nschema.add_field(field_name=\"reading_time\", datatype=DataType.INT64)\nschema.add_field(field_name=\"publication\", datatype=DataType.VARCHAR, max_length=512)\nschema.add_field(field_name=\"claps\", datatype=DataType.INT64)\nschema.add_field(field_name=\"responses\", datatype=DataType.INT64)\n\n# prepare index parameters\nindex_params = MilvusClient.prepare_index_params()\n\nindex_params.add_index(\n    field_name=\"vector\",\n    index_type=\"AUTOINDEX\",\n    metric_type=\"L2\"\n)\n\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema,\n    index_params=index_params\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1412,6 +1545,43 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "LRnjdAgYhooieDxY47Sc6Ny1nyg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.param.collection.CollectionSchemaParam;\nimport io.milvus.param.collection.FieldType;\nimport io.milvus.grpc.DataType;\nimport io.milvus.client.MilvusServiceClient;\nimport io.milvus.param.ConnectParam;\nimport io.milvus.param.IndexType;\nimport io.milvus.param.MetricType;\nimport io.milvus.param.collection.CreateCollectionParam;\nimport io.milvus.param.collection.LoadCollectionParam;\nimport io.milvus.param.index.CreateIndexParam;\n\n// Configs for Zilliz Cloud cluster\nString CLUSTER_ENDPOINT = \"\";\nString TOKEN = \"\";\nString API_KEY = \"\";\nString CLUSTER_ID = \"\";\nString CLOUD_REGION = \"\";\nString COLLECTION_NAME = \"\";\n\n// Third-party constants \nString OBJECT_URL = \"\"\n\n// Define schema for the target collection\nFieldType id = FieldType.newBuilder()\n        .withName(\"id\")\n        .withDataType(DataType.Int64)\n        .withPrimaryKey(true)\n        .withAutoID(false)\n        .build();\n\nFieldType titleVector = FieldType.newBuilder()\n        .withName(\"vector\")\n        .withDataType(DataType.FloatVector)\n        .withDimension(768)\n        .build();\n\nFieldType title = FieldType.newBuilder()\n        .withName(\"title\")\n        .withDataType(DataType.VarChar)\n        .withMaxLength(512)\n        .build();\n\nFieldType link = FieldType.newBuilder()\n        .withName(\"link\")\n        .withDataType(DataType.VarChar)\n        .withMaxLength(512)\n        .build();\n        \nFieldType readingTime = FieldType.newBuilder()\n        .withName(\"reading_time\")\n        .withDataType(DataType.Int64)\n        .build();\n        \nFieldType publication = FieldType.newBuilder()\n        .withName(\"publication\")\n        .withDataType(DataType.VarChar)\n        .withMaxLength(512)\n        .build();\n\nFieldType claps = FieldType.newBuilder()\n        .withName(\"claps\")\n        .withDataType(DataType.Int64)\n        .build();     \n        \nFieldType responses = FieldType.newBuilder()\n        .withName(\"responses\")\n        .withDataType(DataType.Int64)\n        .build();      \n        \n\nCollectionSchemaParam schema = CollectionSchemaParam.newBuilder()\n        .withEnableDynamicField(false)\n        .addFieldType(id)\n        .addFieldType(titleVector)\n        .addFieldType(title)\n        .addFieldType(link)\n        .addFieldType(readingTime)\n        .addFieldType(publication)\n        .addFieldType(claps)\n        .addFieldType(responses)\n        .build();\n        \n// Create a collection with the given schema\nConnectParam connectParam = ConnectParam.newBuilder()\n        .withUri(CLUSTER_ENDPOINT)\n        .withToken(TOKEN)\n        .build();\n\nMilvusServiceClient milvusClient = new MilvusServiceClient(connectParam);\n\nCreateCollectionParam collectionParam = CreateCollectionParam.newBuilder()\n        .withCollectionName(COLLECTION_NAME)\n        .withSchema(schema)\n        .build();\n\nmilvusClient.createCollection(collectionParam);\n\nCreateIndexParam indexParam = CreateIndexParam.newBuilder()\n        .withCollectionName(COLLECTION_NAME)\n        .withFieldName(\"title_vector\")\n        .withIndexType(IndexType.AUTOINDEX)\n        .withMetricType(MetricType.L2)\n        .build();\n\nmilvusClient.createIndex(indexParam);\n\nLoadCollectionParam loadCollectionParam = LoadCollectionParam.newBuilder()\n        .withCollectionName(COLLECTION_NAME)\n        .build();\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "milvusClient.loadCollection(loadCollectionParam);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
             "wrap": false
           }
         },
@@ -1499,6 +1669,43 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "OvL7dHb5qoJXw3xKtoAcuTeinIb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.bulkwriter.response.BulkImportResponse;\n\nBulkImportResponse bulkImportResponse = CloudImport.bulkImport(\n    CLUSTER_ENDPOINT,\n    API_KEY,\n    CLUSTER_ID,\n    COLLECTION_NAME,\n    OBJECT_URL,\n    ACCESS_KEY,\n    SECRET_KEY\n);\n\n// Get import job ID\nString jobId = bulkImportResponse.getJobId();\n\nSystem.out.println(jobId);\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// 0f7fe853-d93e-4681-99f2-4719c63585cc",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
             "wrap": false
           }
         },
@@ -1676,6 +1883,43 @@
         "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
       },
       {
+        "block_id": "SGHXdLDbfoDiLjx4GpacIEaVnqf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "while (true) {\n    System.out.println(\"Wait 5 second to check bulkInsert job state...\");\n    TimeUnit.SECONDS.sleep(5);\n\n    GetImportProgressResponse getImportProgressResponse = CloudImport.getImportProgress(\n        CLUSTER_ENDPOINT,\n        API_KEY,\n        CLUSTER_ID,\n        jobId\n    );\n\n    if (getImportProgressResponse.getReadyPercentage().intValue() == 1) {\n        System.err.printf(\"The job %s completed%n\", jobId);\n        break;\n    } else if (StringUtils.isNotEmpty(getImportProgressResponse.getErrorMessage())) {\n        System.err.printf(\"The job %s failed, reason: %s%n\", jobId, getImportProgressResponse.getErrorMessage());\n        break;\n    } else {\n        System.err.printf(\"The job %s is running, progress:%s%n\", jobId, getImportProgressResponse.getReadyPercentage());\n    }\n}\n\n// The job 0f7fe853-d93e-4681-99f2-4719c63585cc is running, progress: 0.01\n// The job 0f7fe853-d93e-4681-99f2-4719c63585cc is running, progress: 0.5\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// The job 0f7fe853-d93e-4681-99f2-4719c63585cc completed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
         "block_id": "QN7WdBVHXo0P6TxtR30cBrDcnzf",
         "block_type": 5,
         "heading3": {
@@ -1829,6 +2073,43 @@
           ],
           "style": {
             "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "WchxdvAdsoVoRExekf6cNWlDnzh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ListImportJobsResponse listImportJobsResponse = CloudImport.listImportJobs(\n    CLUSTER_ENDPOINT,\n    API_KEY,\n    CLUSTER_ID,\n    10,\n    1\n);\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "System.out.println(listImportJobsResponse);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
             "wrap": false
           }
         },
@@ -1996,6 +2277,6 @@
         "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
       }
     ],
-    "counts": 31
+    "counts": 42
   }
 }

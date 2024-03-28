@@ -15,12 +15,6 @@ import TabItem from '@theme/TabItem';
 
 On Zilliz Cloud, a scalar index is used to speed up metafiltering by a specific non-vector field value, similar to a traditional database index. This guide will walk you through creating and configuring scalar indexes for fields such as integers, strings, etc.
 
-## Types of scalar indexing{#types-of-scalar-indexing}
-
-- __[Auto indexing](./index-scalar-fields#auto-indexing)__: Milvus automatically decides the index type based on the data type of the scalar field. This is suitable when you do not need to control the specific index type.
-
-- __[Custom indexing](./index-scalar-fields#custom-indexing)__: You specify the exact index type, such as an inverted index. This provides more control over the index type selection.
-
 ## Auto indexing{#auto-indexing}
 
 To use auto indexing, omit the __index_type__ parameter so that Milvus can infer the index type based on the scalar field type. For mappings between scalar data types and default indexing algorithms, refer to [Scalar field indexing algorithms](https://milvus.io/docs/scalar_index.md#Scalar-field-indexing-algorithms).

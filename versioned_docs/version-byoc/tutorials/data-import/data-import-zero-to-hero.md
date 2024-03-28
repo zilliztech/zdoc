@@ -34,11 +34,41 @@ To ensure a smooth experience, make sure you have completed the following setups
 
 ### Install dependencies{#install-dependencies}
 
-Run the following command in your terminal to install __pymilvus__ and __minio__ or upgrade them to the latest version.
+Currently, you can use data-import-related APIs in Python or Java.
 
-```python
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+
+<TabItem value='python'>
+
+To use the Python API, run the following command in your terminal to install __pymilvus__ and __minio__ or upgrade them to the latest version.
+
+```shell
 python3 -m pip install --upgrade pymilvus minio
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+- For Apache Maven, append the following to the __pom.xml__ dependencies:
+
+```java
+<dependency>
+  <groupId>io.milvus</groupId>
+  <artifactId>milvus-sdk-java</artifactId>
+  <version>2.3.5</version>
+</dependency>
+```
+
+- For Gradle/Grails, run the following
+
+```shell
+compile 'io.milvus:milvus-sdk-java:2.3.5'
+```
+
+</TabItem>
+
+</Tabs>
 
 ### Configure your remote storage bucket{#configure-your-remote-storage-bucket}
 
@@ -47,6 +77,9 @@ python3 -m pip install --upgrade pymilvus minio
 - Note down the __Access Key__, __Secret Key__, and __Bucket Name__. These details are available in the console of the cloud provider where your bucket is hosted.
 
 To enhance the usage of the example code, we recommend you use variables to store the configuration details:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
 
 ```python
 # Configs for Zilliz Cloud cluster
@@ -59,10 +92,33 @@ CLOUD_API_ENDPOINT="controller.api.{0}.zillizcloud.com".format(CLOUD_REGION)
 COLLECTION_NAME=""
 
 # Configs for remote bucket
-YOUR_ACCESS_KEY=""
-YOUR_SECRET_KEY=""
-YOUR_BUCKET_NAME=""
+ACCESS_KEY=""
+SECRET_KEY=""
+BUCKET_NAME=""
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// Configs for Zilliz Cloud cluster
+String CLUSTER_ENDPOINT = "";
+String TOKEN = "";
+String API_KEY = "";
+String CLUSTER_ID = "";
+String CLOUD_REGION = "";
+String CLOUD_API_ENDPOINT = String.format("controller.api.%s.zillizcloud.com", CLOUD_REGION);
+String COLLECTION_NAME = "";
+
+// Configs for remote bucket
+String ACCESS_KEY = "";
+String SECRET_KEY = "";
+String BUCKET_NAME = "";
+```
+
+</TabItem>
+</Tabs>
 
 ## Download example dataset{#download-example-dataset}
 
@@ -102,6 +158,10 @@ Based on the output above, we can work out a schema for our target collection.
 
 In the following demo, we will include the first four fields in the pre-defined schema and use the other four as dynamic fields.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+
+<TabItem value='python'>
+
 ```python
 from pymilvus import MilvusClient, DataType
 
@@ -135,15 +195,69 @@ The parameters in the above code are described as follows:
 
     The value defaults to __False__. Setting this to __True__ allows __BulkWriter__ to include undefined fields and their values from the generated files as key-value pairs and place them in a reserved JSON field named __$meta__. 
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.param.collection.CollectionSchemaParam;
+import io.milvus.param.collection.FieldType;
+import io.milvus.grpc.DataType;
+
+// Define schema for the target collection
+FieldType id = FieldType.newBuilder()
+        .withName("id")
+        .withDataType(DataType.Int64)
+        .withPrimaryKey(true)
+        .withAutoID(false)
+        .build();
+
+FieldType titleVector = FieldType.newBuilder()
+        .withName("title_vector")
+        .withDataType(DataType.FloatVector)
+        .withDimension(768)
+        .build();
+
+FieldType title = FieldType.newBuilder()
+        .withName("title")
+        .withDataType(DataType.VarChar)
+        .withMaxLength(512)
+        .build();
+
+FieldType link = FieldType.newBuilder()
+        .withName("link")
+        .withDataType(DataType.VarChar)
+        .withMaxLength(512)
+        .build();
+
+CollectionSchemaParam schema = CollectionSchemaParam.newBuilder()
+        .withEnableDynamicField(true)
+        .addFieldType(id)
+        .addFieldType(titleVector)
+        .addFieldType(title)
+        .addFieldType(link)
+        .build();
+```
+
+In the above code block, 
+
+- The `id` field is the primary field that has `withAutoID` set to `false`, indicating that you should include the `id` field in the data to import.
+
+- The `title_vector` is the vector field that has `withDimension` set to `768`, indicating that you should set the value of this field in each entity to a 768-dimensional vector embeddings.
+
+- The schema has `withEnableDynamicField` set to `true`, indicating that you can include non-schema-defined fields in the data to import.
+
+</TabItem>
+
+</Tabs>
+
 Once the schema is set, you can create the target collection as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
-
-# Zilliz Cloud constants
-CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
-TOKEN = "YOUR_TOKEN"
-COLLECTION_NAME = "YOUR_COLLECTION_NAME"
 
 # 1. Set up a Milvus client
 client = MilvusClient(
@@ -168,6 +282,53 @@ client.create_collection(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.client.MilvusServiceClient;
+import io.milvus.param.ConnectParam;
+import io.milvus.param.IndexType;
+import io.milvus.param.MetricType;
+import io.milvus.param.collection.CreateCollectionParam;
+import io.milvus.param.collection.LoadCollectionParam;
+import io.milvus.param.index.CreateIndexParam;
+
+// Create a collection with the given schema
+ConnectParam connectParam = ConnectParam.newBuilder()
+        .withUri(CLUSTER_ENDPOINT)
+        .withToken(TOKEN)
+        .build();
+
+MilvusServiceClient milvusClient = new MilvusServiceClient(connectParam);
+
+CreateCollectionParam collectionParam = CreateCollectionParam.newBuilder()
+        .withCollectionName(COLLECTION_NAME)
+        .withSchema(schema)
+        .build();
+
+milvusClient.createCollection(collectionParam);
+
+CreateIndexParam indexParam = CreateIndexParam.newBuilder()
+        .withCollectionName(COLLECTION_NAME)
+        .withFieldName("title_vector")
+        .withIndexType(IndexType.AUTOINDEX)
+        .withMetricType(MetricType.IP)
+        .build();
+
+milvusClient.createIndex(indexParam);
+
+LoadCollectionParam loadCollectionParam = LoadCollectionParam.newBuilder()
+        .withCollectionName(COLLECTION_NAME)
+        .build();
+
+milvusClient.loadCollection(loadCollectionParam);
+```
+
+</TabItem>
+</Tabs>
+
 ## Prepare source data{#prepare-source-data}
 
 __BulkWriter__ can rewrite your dataset into JSON, Parquet, or NumPy files. We will create a __RemoteBulkWriter__ and use the writer to rewrite your data into these formats.
@@ -176,17 +337,15 @@ __BulkWriter__ can rewrite your dataset into JSON, Parquet, or NumPy files. We w
 
 Once the schema is ready, you can use the schema to create a __RemoteBulkWriter__. A __RemoteBulkWriter__ asks for permission to access a remote bucket. You should set up connection parameters to access the remote bucket in a __ConnectParam__ object and reference it in the __RemoteBulkWriter__.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
+
 <Tabs groupId="python" defaultValue='python' values={[{"label":"AWS S3/GCS","value":"python"},{"label":"Microsoft Azure","value":"python_1"}]}>
 <TabItem value='python'>
 
 ```python
 
 from pymilvus import RemoteBulkWriter, BulkFileType
-
-# Third-party constants
-YOUR_ACCESS_KEY = "YOUR_ACCESS_KEY"
-YOUR_SECRET_KEY = "YOUR_SECRET_KEY"
-YOUR_BUCKET_NAME = "YOUR_BUCKET_NAME"
 
 # Connections parameters to access the remote bucket
 conn = RemoteBulkWriter.S3ConnectParam(
@@ -226,6 +385,48 @@ conn = RemoteBulkWriter.AzureConnectParam(
 
 </TabItem>
 </Tabs>
+</TabItem>
+
+<TabItem value='java'>
+
+<Tabs groupId="java" defaultValue='java' values={[{"label":"AWS S3/GCS","value":"java"},{"label":"Microsoft Azure","value":"java_1"}]}>
+<TabItem value='java'>
+
+```java
+
+import io.milvus.bulkwriter.connect.S3ConnectParam;
+import io.milvus.bulkwriter.connect.StorageConnectParam;
+
+// Create a remote bucket writer.
+StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
+        .withEndpoint("storage.googleapis.com")
+        .withBucketName(BUCKET_NAME)
+        .withAccessKey(ACCESS_KEY)
+        .withSecretKey(SECRET_KEY)
+        .build();
+
+```
+
+</TabItem>
+<TabItem value='java_1'>
+
+```java
+import io.milvus.bulkwriter.connect.AzureConnectParam;
+import io.milvus.bulkwriter.connect.StorageConnectParam;
+
+String AZURE_CONNECT_STRING = ""
+String AZURE_CONTAINER = ""
+
+StorageConnectParam storageConnectParam = AzureConnectParam.newBuilder()
+        .withConnStr(AZURE_CONNECT_STRING)
+        .withContainerName(AZURE_CONTAINER)
+        .build()
+```
+
+</TabItem>
+</Tabs>
+</TabItem>
+</Tabs>
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -235,6 +436,10 @@ conn = RemoteBulkWriter.AzureConnectParam(
 </Admonition>
 
 Then, you can reference the connection parameters in the __RemoteBulkWriter__ as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+
+<TabItem value='python'>
 
 ```python
 writer = RemoteBulkWriter(
@@ -273,11 +478,58 @@ The above writer generates files in JSON format and uploads them to the root fol
 
     This determines whether __BulkWriter__ segments the generated files. The value defaults to 512 MB (512 * 1024 * 1024). If your dataset contains a great number of records, you are advised to segment your data by setting __segment_size__ to a proper value.
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.bulkwriter.RemoteBulkWriter;
+import io.milvus.bulkwriter.RemoteBulkWriterParam;
+import io.milvus.bulkwriter.common.clientenum.BulkFileType;
+
+RemoteBulkWriterParam remoteBulkWriterParam = RemoteBulkWriterParam.newBuilder()
+        .withCollectionSchema(schema)
+        .withRemotePath("/")
+        .withChunkSize(512 * 1024 * 1024)
+        .withConnectParam(storageConnectParam)
+        .withFileType(BulkFileType.PARQUET)
+        .build();
+        
+@SuppressWarnings("resource")
+RemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);
+
+// Possible file types:
+// - BulkFileType.PARQUET
+```
+
+The above writer generates files in Parquet format and uploads them to the root folder of the specified bucket.
+
+- `withRemotePath("/")`
+
+    This determines the output path of the generated files in the remote bucket. 
+
+    Setting it to `"/"` makes the __RemoteBulkWriter__ place the generated files in the root folder of the remote bucket. To use other paths, set it to a path relative to the remote bucket root.
+
+- `withFileType(BulkFileType.PARQUET)`
+
+    This determines the type of generated files. Currently, only __PARQUET__ is available.
+
+- `withChunkSize(512*1024*1024)`
+
+    This determines whether __BulkWriter__ segments the generated files. The value defaults to 512 MB (512 * 1024 * 1024). If your dataset contains a great number of records, you are advised to segment your data by setting __withChunkSize__ to a proper value.
+
+</TabItem>
+
+</Tabs>
+
 ### Use the writer{#use-the-writer}
 
 A writer has two methods: one is for appending rows from the source dataset, and the other is for committing data to remote files.
 
 You can append rows from the source dataset as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
 
 ```python
 import pandas as pd
@@ -290,25 +542,142 @@ for i in range(len(df)):
     writer.append_row(row)
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+<Tabs groupId="java" defaultValue='java' values={[{"label":"Main","value":"java"},{"label":"CsvDataObject","value":"java_1"}]}>
+<TabItem value='java'>
+
+```java
+
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.alibaba.fastjson.JSONObject;
+
+import java.util.Iterator;
+
+CsvMapper csvMapper = new CsvMapper();
+File csvFile = new File("medium_articles_partial.csv");
+
+CsvSchema csvSchema = CsvSchema.builder().setUseHeader(true).build();
+Iterator<CsvDataObject> iterator = csvMapper
+        .readerFor(CsvDataObject.class)
+        .with(csvSchema)
+        .readValues(csvFile);
+        
+while (iterator.hasNext()) {
+    CsvDataObject data = iterator.next();
+    JSONObject row = new JSONObject();
+
+    row.put("id", data.getId());
+    row.put("title_vector", data.toFloatArray());
+    row.put("title", data.getTitle());
+    row.put("link", data.getLink());
+
+    remoteBulkWriter.appendRow(row);
+}
+        
+```
+
+</TabItem>
+<TabItem value='java_1'>
+
+```java
+// This object should match your data structure (a.k.a schema)
+
+import com.google.gson.Gson;
+
+private static class CsvDataObject {
+    @JsonProperty
+    private long id;
+    @JsonProperty
+    private String title_vector;
+    @JsonProperty
+    private String title;
+    @JsonProperty
+    private String link;
+
+    public long getId() {
+        return id;
+    }
+
+    @SuppressWarnings("unused")
+    public String getTitleVector() {
+        return title_vector;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public List<Float> toFloatArray() {
+        return new Gson().fromJson(title_vector, new TypeToken<List<Float>>(){}.getType());
+    }
+} 
+```
+
+</TabItem>
+</Tabs>
+</TabItem>
+</Tabs>
+
 The __append_row()__ method of the writer accepts a row dictionary. 
 
 A row dictionary should contain all schema-defined fields as keys. If dynamic fields are allowed, it can also include undefined fields. For details, refer to [Use BulkWriter](./use-bulkwriter#dynamic-schema-support).
 
 __BulkWriter__ generates files only after you call its __commit()__ method.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
+
 ```python
 writer.commit()
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+remoteBulkWriter.commit(false);
+```
+
+</TabItem>
+</Tabs>
+
 Till now, __BulkWriter__ has prepared the source data for you in the specified remote bucket.
 
 To check the generated files, you can get the actual output path by printing the __data_path__ property of the writer.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
 
 ```python
 print(writer.data_path)
 
 # /5868ba87-743e-4d9e-8fa6-e07b39229425
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import java.util.List;
+
+List<List<String>> batchFiles = remoteBulkWriter.getBatchFiles();
+System.out.println(batchFiles);
+
+// [["/5868ba87-743e-4d9e-8fa6-e07b39229425/1.parquet"]]
+```
+
+</TabItem>
+</Tabs>
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -325,6 +694,9 @@ Before this step, ensure that the source data and target collection are hosted b
 ### Start importing{#start-importing}
 
 To import the prepared source data, you need to call the __bulk_import()__ function as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import bulk_import
@@ -353,6 +725,38 @@ print(res.json())
 # {'code': 200, 'data': {'jobId': '0f7fe853-d93e-4681-99f2-4719c63585cc'}}
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.bulkwriter.response.BulkImportResponse;
+
+// Insert the data into the collection
+String prefix = batchFiles.get(0).get(0).split("/")[0];
+String OBJECT_URL = String.format("https://storage.googleapis.com/%s/%s", BUCKET_NAME, prefix);
+
+BulkImportResponse bulkImportResponse = CloudImport.bulkImport(
+    CLUSTER_ENDPOINT,
+    API_KEY,
+    CLUSTER_ID,
+    COLLECTION_NAME,
+    OBJECT_URL,
+    ACCESS_KEY,
+    SECRET_KEY
+);
+
+// Get import job ID
+String jobId = bulkImportResponse.getJobId();
+
+System.out.println(jobId);
+
+// 0f7fe853-d93e-4681-99f2-4719c63585cc
+```
+
+</TabItem>
+</Tabs>
+
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>The <strong>object_url</strong> should be a valid URL to a file or folder in the remote bucket. In the code provided, the <strong>format()</strong> method is used to combine the bucket name and the data path returned by the writer to create a valid object URL.</p>
@@ -363,6 +767,9 @@ print(res.json())
 ### Check task progress{#check-task-progress}
 
 The following code checks the bulk-import progress every 5 seconds and outputs the progress in percentage. 
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
 
 ```python
 import time
@@ -400,6 +807,41 @@ while res.json()["data"]["readyPercentage"] < 1:
 # 1      -- finished
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+while (true) {
+    System.out.println("Wait 5 second to check bulkInsert job state...");
+    TimeUnit.SECONDS.sleep(5);
+
+    GetImportProgressResponse getImportProgressResponse = CloudImport.getImportProgress(
+        CLUSTER_ENDPOINT,
+        API_KEY,
+        CLUSTER_ID,
+        jobId
+    );
+
+    if (getImportProgressResponse.getReadyPercentage().intValue() == 1) {
+        System.err.printf("The job %s completed%n", jobId);
+        break;
+    } else if (StringUtils.isNotEmpty(getImportProgressResponse.getErrorMessage())) {
+        System.err.printf("The job %s failed, reason: %s%n", jobId, getImportProgressResponse.getErrorMessage());
+        break;
+    } else {
+        System.err.printf("The job %s is running, progress:%s%n", jobId, getImportProgressResponse.getReadyPercentage());
+    }
+}
+
+// The job 0f7fe853-d93e-4681-99f2-4719c63585cc is running, progress: 0.01
+// The job 0f7fe853-d93e-4681-99f2-4719c63585cc is running, progress: 0.5
+// The job 0f7fe853-d93e-4681-99f2-4719c63585cc completed.
+```
+
+</TabItem>
+</Tabs>
+
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>Replace <strong>url</strong> in the <strong>get<em>import</em>progress()</strong> with the one corresponding to the cloud region of the target collection.</p>
@@ -407,6 +849,9 @@ while res.json()["data"]["readyPercentage"] < 1:
 </Admonition>
 
 You can list all bulk-import jobs as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import list_import_jobs
@@ -438,6 +883,25 @@ print(res.json())
 #    }
 # }
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+ListImportJobsResponse listImportJobsResponse = CloudImport.listImportJobs(
+    CLUSTER_ENDPOINT,
+    API_KEY,
+    CLUSTER_ID,
+    10,
+    1
+);
+
+System.out.println(listImportJobsResponse);
+```
+
+</TabItem>
+</Tabs>
 
 ## Recaps{#recaps}
 
