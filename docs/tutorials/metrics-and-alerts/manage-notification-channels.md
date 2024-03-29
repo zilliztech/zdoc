@@ -16,7 +16,7 @@ Alert notifications in Zilliz Cloud keep you informed about events occurring wit
 
 ## Before you start{#before-you-start}
 
-To manage notification channels, make sure you are an [organization or project ](./user-roles)[owner](./user-roles).
+To manage notification channels, make sure you are an [organization or project owner](./user-roles).
 
 ## Set up notification channels{#set-up-notification-channels}
 
@@ -124,5 +124,7 @@ The __Webhook__ option offered by Zilliz Cloud allows you to set up a custom not
 
 ## Test connectivity{#test-connectivity}
 
-After setting up a notification channel, click the __Send Test Message__ icon to verify that it is properly configured.
+After setting up a notification channel, click the Send Test Message icon to verify that it is properly configured.
+
+![test-connectivity](/img/test-connectivity.png)
 

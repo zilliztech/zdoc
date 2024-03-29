@@ -65,29 +65,24 @@ div.theme-doc-toc-desktop {
 }
 
 h1 {
-  font-size: 48px !important;
-  font-weight: 700 !important;
-  line-height: 60px !important;
-  margin-bottom: 25px !important;
-  font-style: normal;
-}
-
-h2 {
   font-size: 32px !important;
   font-weight: 700 !important;
   line-height: 40px !important;
-  margin-top: 40px !important;
-  margin-bottom: 20px !important;
-  font-style: normal;
 }
 
-h3 {
+h2 {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  line-height: 34px !important;
+}
+
+/* h3 {
   font-size: 24px !important;
   font-weight: 700 !important;
   margin-top: 30px !important;
   margin-bottom: 20px !important;
   font-style: normal;
-}
+} */
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
@@ -242,17 +237,30 @@ section.row > article.margin-bottom--lg {
 }
 
 a.menu__link {
-  color: #000000 !important;
+  color: rgb(23,43,77) !important;
 }
 
-a.menu__link--active {
-  color: #000000 !important;
+a.menu__link.menu__link--active {
+  color: rgb(23,43,77) !important;
 }
 
 li.theme-doc-sidebar-item-link-level-2,
 li.theme-doc-sidebar-item-link-level-3,
 li.theme-doc-sidebar-item-link-level-4 {
   font-weight: 400 !important;
+  color: rgb(107, 114, 128) !important;
+}
+
+li.theme-doc-sidebar-item-link-level-2 a.menu__link {
+  color: rgb(107, 114, 128) !important;
+}
+
+li.theme-doc-sidebar-item-link-level-2 a.menu__link.menu__link--sublist {
+  color: rgb(107, 114, 128) !important;
+}
+
+li.theme-doc-sidebar-item-link-level-2 a.menu__link--sublist.menu__link--active {
+  color: rgb(107, 114, 128) !important;
 }
 
 div.footer__bottom.text--center {

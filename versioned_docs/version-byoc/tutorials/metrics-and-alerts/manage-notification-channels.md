@@ -126,3 +126,5 @@ The __Webhook__ option offered by Zilliz Cloud allows you to set up a custom not
 
 After setting up a notification channel, click the Send Test Message icon to verify that it is properly configured.
 
+![test-connectivity](/byoc/test-connectivity.png)
+
