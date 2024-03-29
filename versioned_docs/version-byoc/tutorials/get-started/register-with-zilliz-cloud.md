@@ -18,7 +18,7 @@ This guide provides comprehensive instructions on how to create an account for a
 
 You are welcome to visit Zilliz Cloud to [sign up](https://cloud.zilliz.com/signup).
 
-![sign_up](/img/sign_up.png)
+![sign_up](/byoc/sign_up.png)
 
 ## Registration options{#registration-options}
 
@@ -115,8 +115,4 @@ Always use the same method you chose for registration when logging in to your Zi
 ## What’s next{#whats-next}
 
 - [Quick Start](./quick-start)
-
-- [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)
-
-- [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace)
 

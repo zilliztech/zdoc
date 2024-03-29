@@ -5,7 +5,7 @@
   "node_token": "PharwAysCiBzvgkuqqecmNzunQf",
   "node_type": "origin",
   "obj_create_time": "1701225562",
-  "obj_edit_time": "1711005579",
+  "obj_edit_time": "1711698840",
   "obj_token": "B1mRdvhLaouOfaxFQq7cEUmMncg",
   "obj_type": "docx",
   "origin_node_token": "PharwAysCiBzvgkuqqecmNzunQf",
@@ -719,7 +719,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fdrop-cluster"
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Frestful%2Fdrop-cluster"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -4122,7 +4122,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fmodify-cluster"
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Frestful%2Fmodify-cluster"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -4601,7 +4601,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fmodify-cluster"
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Frestful%2Fmodify-cluster"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -6149,7 +6149,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fsuspend-cluster"
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Frestful%2Fsuspend-cluster"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -6176,7 +6176,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fresume-cluster"
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Frestful%2Fresume-cluster"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -6403,7 +6403,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fdrop-cluster"
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Frestful%2Fdrop-cluster"
                   },
                   "strikethrough": false,
                   "underline": false

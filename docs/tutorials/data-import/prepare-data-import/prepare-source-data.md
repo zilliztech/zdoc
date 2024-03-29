@@ -177,19 +177,19 @@ Zilliz Cloud supports data import through the Zilliz Cloud console as well as vi
 
 ### From local folders{#from-local-folders}
 
-Zilliz Cloud supports data import from a JSON file in a local folder on the Zilliz Cloud console. You can drag the local file and drop it into the __Import Data__ dialog box or click __upload a file __and select the prepared file. Then click __Import__ to import the file to the target collection.
+Zilliz Cloud supports data import from a JSON file in a local folder on the Zilliz Cloud console. You can drag the local file and drop it into the __Import Data__ dialog box or click __upload a file__ and select the prepared file. Then click __Import__ to import the file to the target collection.
 
 ![data-import-on-console](/img/data-import-on-console.png)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>For a serverless cluster, you can upload files of no greater than 512 MB at a time. And this figure is 1 GB for a dedicated cluster.</p>
+
+</Admonition>
 
 ### From remote buckets{#from-remote-buckets}
 
 Zilliz Cloud also supports data import from a bucket on __AWS S3__, __Google GCS__, and __Azure Blob__ through the console, RESTful API, and SDKs.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>The bucket and the target cluster of this import should reside on the same public cloud. For example, if the target cluster is hosted on AWS, you should use an AWS S3 bucket to hold the source data files.</p>
-
-</Admonition>
 
 ![data-import-on-console-remote](/img/data-import-on-console-remote.png)
 

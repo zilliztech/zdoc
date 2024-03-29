@@ -75,12 +75,12 @@ Your access key and secret key should have necessary permissions to access the o
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `clusterId`  | **string**(required)<br/>The ID of a cluster to which this operation applies.|
-| `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
-| `partitionName`  | **string**<br/>The name of the partition to which this operation applies.|
-| `objectUrl`  | **string**(required)<br/>The URL of the object that stores the data to be imported.|
-| `accessKey`  | **string**<br/>The access key used to access the specified object.|
-| `secretKey`  | **string**<br/>The access secret key used to access the specified object.|
+| __clusterId__ | string  <br/>The ID of a cluster to which this operation applies.  |
+| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
+| __partitionName__ | string  <br/>The name of the partition to which this operation applies.  |
+| __objectUrl__ | string  <br/>The URL of the object that stores the data to be imported.  |
+| __accessKey__ | string  <br/>The access key used to access the specified object.  |
+| __secretKey__ | string  <br/>The access secret key used to access the specified object.  |
 
 ## Response
 
@@ -115,8 +115,9 @@ The properties in the returned response are listed in the following table.
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
-| `data.jobId`   | **string**<br/>The ID of the import task that has been submitted |
+| __code__ | integer  <br/>  |
+| __data__ | object<br/> |
+| __data.jobId__ | string  <br/>The ID of the import task that has been submitted  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors

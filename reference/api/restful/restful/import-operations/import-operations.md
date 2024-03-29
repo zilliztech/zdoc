@@ -1,5 +1,5 @@
 ---
-slug: /import-operations
+slug: /restful/import-operations
 beta: FALSE
 notebook: FALSE
 sidebar_position: 2

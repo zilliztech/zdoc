@@ -116,21 +116,22 @@ The properties in the returned response are listed in the following table.
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
-| `data.projectId`   | **string**<br/>The ID of the project to which the current cluster belongs. |
-| `data.clusterId`   | **string**<br/>The ID of the cluster. |
-| `data.clusterName`   | **string**<br/>The Name of the cluster. |
-| `data.description`   | **string**<br/>An optional description of the cluster. |
-| `data.regionId`   | **string**<br/>The ID of the cloud region where the cluster exists. |
-| `data.clusterType`   | **string**<br/>The type of the CU associated with the cluster. |
-| `data.cuSize`   | **integer**<br/>The size of the CU used by the cluster. |
-| `data.status`   | **string**<br/>The current status of the cluster. Possible values are **CREATING**, **RUNNING**, **SUSPENDING**, and **RESUMING**. |
-| `data.connectAddress`   | **string**<br/>The public endpoint of the cluster. You can use this to connect to your cluster from public networks. |
-| `data.privateLinkAddress`   | **string**<br/>The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region. |
-| `data.createTime`   | **string**<br/>The time when this cluster has been creaated. |
-| `data.storageSize`   | **integer(sint64)**<br/>The storage size of the cluster in MB. |
-| `data.snapshotNumber`   | **integer**<br/>The number of snapshofts created from the cluster. |
-| `data.createProgress`   | **integer**<br/>The creation progress of the cluster. |
+| __code__ | integer  <br/>  |
+| __data__ | object<br/> |
+| __data.projectId__ | string  <br/>The ID of the project to which the current cluster belongs.  |
+| __data.clusterId__ | string  <br/>The ID of the cluster.  |
+| __data.clusterName__ | string  <br/>The Name of the cluster.  |
+| __data.description__ | string  <br/>An optional description of the cluster.  |
+| __data.regionId__ | string  <br/>The ID of the cloud region where the cluster exists.  |
+| __data.clusterType__ | string  <br/>The type of the CU associated with the cluster.  |
+| __data.cuSize__ | integer  <br/>The size of the CU used by the cluster.  |
+| __data.status__ | string  <br/>The current status of the cluster. Possible values are **CREATING**, **RUNNING**, **SUSPENDING**, and **RESUMING**.  |
+| __data.connectAddress__ | string  <br/>The public endpoint of the cluster. You can use this to connect to your cluster from public networks.  |
+| __data.privateLinkAddress__ | string  <br/>The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region.  |
+| __data.createTime__ | string  <br/>The time when this cluster has been creaated.  |
+| __data.storageSize__ | integer (sint64) <br/>The storage size of the cluster in MB.  |
+| __data.snapshotNumber__ | integer  <br/>The number of snapshofts created from the cluster.  |
+| __data.createProgress__ | integer  <br/>The creation progress of the cluster.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors

@@ -70,7 +70,7 @@ curl --request GET \\
      --header "content-type: application/json" \\
 ```
 
-For details, see [Import](/reference/import) and [Get Import Progress](/reference/get-import-progress).
+For details, see [Import](/reference/restful/import) and [Get Import Progress](/reference/restful/get-import-progress).
 
 ### Supported object paths{#supported-object-paths}
 
@@ -170,7 +170,7 @@ If the command output is similar as follows, the data is imported successfully:
 }
 ```
 
-You can also call RESTful APIs to [get the progress of the current import job](/reference/get-import-progress) and [list all import jobs](/reference/list-import-jobs) to get more. As an alternative, you can also go to the Zilliz Cloud console to view the result and job details:
+You can also call RESTful APIs to [get the progress of the current import job](/reference/restful/get-import-progress) and [list all import jobs](/reference/restful/list-import-jobs) to get more. As an alternative, you can also go to the Zilliz Cloud console to view the result and job details:
 
 ![data_import_complete_restful](/img/data_import_complete_restful.png)
 

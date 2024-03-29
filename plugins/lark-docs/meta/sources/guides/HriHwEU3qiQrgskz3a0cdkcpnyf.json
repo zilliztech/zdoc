@@ -5,7 +5,7 @@
   "node_token": "HriHwEU3qiQrgskz3a0cdkcpnyf",
   "node_type": "origin",
   "obj_create_time": "1689044599",
-  "obj_edit_time": "1711362521",
+  "obj_edit_time": "1711613862",
   "obj_token": "FxijdMQtboTeKexlHbucfhyunCg",
   "obj_type": "docx",
   "origin_node_token": "HriHwEU3qiQrgskz3a0cdkcpnyf",
@@ -561,9 +561,6 @@
       {
         "block_id": "RuIOdyP5boNveexd9eXcX4YdnMh",
         "block_type": 13,
-        "children": [
-          "RDBtdQhbKoWTfXxKbk6czneLnNc"
-        ],
         "ordered": {
           "elements": [
             {
@@ -651,85 +648,6 @@
           }
         },
         "parent_id": "FxijdMQtboTeKexlHbucfhyunCg"
-      },
-      {
-        "block_id": "RDBtdQhbKoWTfXxKbk6czneLnNc",
-        "block_type": 2,
-        "parent_id": "RuIOdyP5boNveexd9eXcX4YdnMh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "We encourage you to read through our ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Terms of Service",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fchat.openai.com%2Fc%2F0b1274aa-d87a-4104-9a5f-b0daeb3fee59%23"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " and ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Privacy Policy",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fchat.openai.com%2Fc%2F0b1274aa-d87a-4104-9a5f-b0daeb3fee59%23"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " before proceeding.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
       },
       {
         "block_id": "E8PkdKMyroGuYAxk7jPc6pYMnXd",
@@ -2300,6 +2218,6 @@
         }
       }
     ],
-    "counts": 59
+    "counts": 58
   }
 }

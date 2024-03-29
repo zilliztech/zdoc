@@ -5,7 +5,7 @@
   "node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
   "node_type": "origin",
   "obj_create_time": "1704710624",
-  "obj_edit_time": "1711598613",
+  "obj_edit_time": "1711699624",
   "obj_token": "DK0cd2Ix8oQD0rxWUBYcW57snLd",
   "obj_type": "docx",
   "origin_node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
@@ -56,9 +56,9 @@
           "LXmzdKynHocLo0xunsOchcarn0e",
           "I9SHdXKFJoKii1xqqFtc9ZTwnQj",
           "TtsYdnxo9oa07Zxm4SqcO8DOnBb",
+          "CURadHHjiodgdIxsLnDcekuMnEe",
           "MlwRd4mx9o03tVxxyqCc4dApn3c",
           "FtFMdC2tkopx5PxMH5DcpmqFnTe",
-          "UaqUdhTAyoiiuCxJVwsc2DSknKh",
           "ICcXdif2ZorCvexQ6CrcTi8vnn4",
           "M8C0dG5sIoWYdCxtXhncbRZQnTe",
           "Sxs7dgTkqorzUkxCj7NcnFkGnAd",
@@ -3724,7 +3724,7 @@
             },
             {
               "text_run": {
-                "content": "upload a file ",
+                "content": "upload a file",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3736,7 +3736,7 @@
             },
             {
               "text_run": {
-                "content": "and select the prepared file. Then click ",
+                "content": " and select the prepared file. Then click ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3787,6 +3787,70 @@
           }
         },
         "parent_id": "DK0cd2Ix8oQD0rxWUBYcW57snLd"
+      },
+      {
+        "block_id": "CURadHHjiodgdIxsLnDcekuMnEe",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "RtGcdKsLeo3UKYxkzsOcaJsynfd",
+          "TQJxdvStgoLFAjx9eoXcoyISnOe"
+        ],
+        "parent_id": "DK0cd2Ix8oQD0rxWUBYcW57snLd"
+      },
+      {
+        "block_id": "RtGcdKsLeo3UKYxkzsOcaJsynfd",
+        "block_type": 2,
+        "parent_id": "CURadHHjiodgdIxsLnDcekuMnEe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TQJxdvStgoLFAjx9eoXcoyISnOe",
+        "block_type": 2,
+        "parent_id": "CURadHHjiodgdIxsLnDcekuMnEe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For a serverless cluster, you can upload files of no greater than 512 MB at a time. And this figure is 1 GB for a dedicated cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "MlwRd4mx9o03tVxxyqCc4dApn3c",
@@ -3950,94 +4014,6 @@
                   "comment_ids": [
                     "7322033985390018564"
                   ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "UaqUdhTAyoiiuCxJVwsc2DSknKh",
-        "block_type": 19,
-        "callout": {
-          "background_color": 2,
-          "border_color": 2,
-          "emoji_id": "blue_book"
-        },
-        "children": [
-          "UF2adBMdAoxN0GxiGKdc2bW3n1f",
-          "UgagdaoZLohYnHxeBwacPD3JnHf"
-        ],
-        "parent_id": "DK0cd2Ix8oQD0rxWUBYcW57snLd"
-      },
-      {
-        "block_id": "UF2adBMdAoxN0GxiGKdc2bW3n1f",
-        "block_type": 2,
-        "parent_id": "UaqUdhTAyoiiuCxJVwsc2DSknKh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Notes",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "UgagdaoZLohYnHxeBwacPD3JnHf",
-        "block_type": 2,
-        "parent_id": "UaqUdhTAyoiiuCxJVwsc2DSknKh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The bucket and the target cluster of this import should reside on the same public cloud. For example, if the target cluster is hosted on ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "AWS",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ", you should use an AWS S3 bucket to hold the source data files.",
-                "text_element_style": {
-                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,

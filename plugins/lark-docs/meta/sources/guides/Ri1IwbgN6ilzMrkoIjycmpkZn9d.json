@@ -5,7 +5,7 @@
   "node_token": "Ri1IwbgN6ilzMrkoIjycmpkZn9d",
   "node_type": "origin",
   "obj_create_time": "1708764329",
-  "obj_edit_time": "1710383685",
+  "obj_edit_time": "1711611606",
   "obj_token": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
   "obj_type": "docx",
   "origin_node_token": "Ri1IwbgN6ilzMrkoIjycmpkZn9d",
@@ -118,6 +118,7 @@
           "DTiWdMyFxouR84x1H2McH06jnqe",
           "doxcnkExPdGFv1gHQeWhLoZD41g",
           "doxcnox3GyrdmpRpnwFDXkKlkAc",
+          "LpAxdUYP7oi88wx9udAchnwdnRg",
           "Qj0jdNo2To2pFfxLw8dcPPrSnYd",
           "doxcn6gStiC8UAI951xipIWVq2L",
           "NoAVdAueqoOL0UxjTnWcvBRpnvf",
@@ -4907,6 +4908,115 @@
         "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
       },
       {
+        "block_id": "LpAxdUYP7oi88wx9udAchnwdnRg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Vector",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7351312542981373956"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Grouping search currently does not support a vector field of the ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7351312542981373956"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BINARY_VECTOR",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7351312542981373956"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " type. For more information on data types, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7351312542981373956"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Supported data types",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7351312542981373956"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fschema.md%23Supported-data-types"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7351312542981373956"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7351312542981373956"
+        ],
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
         "block_id": "Qj0jdNo2To2pFfxLw8dcPPrSnYd",
         "block_type": 12,
         "bullet": {
@@ -6372,6 +6482,6 @@
         }
       }
     ],
-    "counts": 162
+    "counts": 163
   }
 }

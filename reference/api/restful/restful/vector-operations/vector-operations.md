@@ -1,5 +1,5 @@
 ---
-slug: /vector-operations
+slug: /restful/vector-operations
 beta: FALSE
 notebook: FALSE
 sidebar_position: 5

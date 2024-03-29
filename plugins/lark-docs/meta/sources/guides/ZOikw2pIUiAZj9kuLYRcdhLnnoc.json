@@ -5,7 +5,7 @@
   "node_token": "ZOikw2pIUiAZj9kuLYRcdhLnnoc",
   "node_type": "origin",
   "obj_create_time": "1694400410",
-  "obj_edit_time": "1708776064",
+  "obj_edit_time": "1711615909",
   "obj_token": "PSRUdR7rVo8acGxFNZ7c0Gu1nPg",
   "obj_type": "docx",
   "origin_node_token": "ZOikw2pIUiAZj9kuLYRcdhLnnoc",
@@ -1379,7 +1379,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fimport"
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Frestful%2Fimport"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -1406,7 +1406,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fget-import-progress"
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Frestful%2Fget-import-progress"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -4896,7 +4896,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fget-import-progress"
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Frestful%2Fget-import-progress"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -4923,7 +4923,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Flist-import-jobs"
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Frestful%2Flist-import-jobs"
                   },
                   "strikethrough": false,
                   "underline": false

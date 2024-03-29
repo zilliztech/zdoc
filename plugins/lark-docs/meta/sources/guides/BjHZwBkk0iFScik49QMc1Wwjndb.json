@@ -5,7 +5,7 @@
   "node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
   "node_type": "origin",
   "obj_create_time": "1704332777",
-  "obj_edit_time": "1711611117",
+  "obj_edit_time": "1711700077",
   "obj_token": "TXlrdXzlPokEQ5xnA30c93SLnMc",
   "obj_type": "docx",
   "origin_node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
@@ -138,7 +138,6 @@
           "YnuudWKl3ol30nxr1R2cRCBJnLh",
           "QiSVdSzc3oESGPxaTYEcLtlMnxf",
           "ZV2ydL2B4oX8qjxNEBocibopnvg",
-          "BJdQdWVqQo7coVxBV9nclOeOnTf",
           "A0JRddia7oP731xAO0JcfzoZn9d",
           "MgeNdmZI4o4o8ixFUAMcM4Bsn5d"
         ],
@@ -1361,7 +1360,7 @@
             },
             {
               "text_run": {
-                "content": " Blob</exclude>. Ensure the bucket is hosted on the same cloud as your Zilliz Cloud cluster.",
+                "content": " Blob</exclude>.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1386,7 +1385,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Note down the ",
+                "content": "Note down",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1395,7 +1394,25 @@
                   "underline": false
                 }
               }
-            },
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NpG8deegyoiScOxhkVCc9shbnme",
+          "INX5dECKaocOvcxpEsdcPA08nab",
+          "Dba6dqReio477LxejQYc0IwanBg"
+        ],
+        "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc"
+      },
+      {
+        "block_id": "NpG8deegyoiScOxhkVCc9shbnme",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
             {
               "text_run": {
                 "content": "Access Key",
@@ -1458,7 +1475,7 @@
             },
             {
               "text_run": {
-                "content": ". These details are available in the console of the cloud provider where your bucket is hosted.",
+                "content": " for S3-compatible block storage service.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1474,7 +1491,117 @@
             "folded": false
           }
         },
-        "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc"
+        "parent_id": "UFVUdDFrpoiK3gxnvgQcenHWnta"
+      },
+      {
+        "block_id": "INX5dECKaocOvcxpEsdcPA08nab",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "AccountName",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AccountKey",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ContainerName",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for Microsoft Azure blob storage service.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UFVUdDFrpoiK3gxnvgQcenHWnta"
+      },
+      {
+        "block_id": "Dba6dqReio477LxejQYc0IwanBg",
+        "block_type": 2,
+        "parent_id": "UFVUdDFrpoiK3gxnvgQcenHWnta",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "These details are available in the console of the cloud provider where your bucket is hosted.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "IviCdFxoLofdYQx5Ijmc1vwQnAf",
@@ -5573,7 +5700,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// AWS S3/GCS\n\nimport io.milvus.bulkwriter.connect.S3ConnectParam;\nimport io.milvus.bulkwriter.connect.StorageConnectParam;\n\n// Create a remote bucket writer.\nStorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()\n        .withEndpoint(\"storage.googleapis.com\")\n        .withBucketName(BUCKET_NAME)\n        .withAccessKey(ACCESS_KEY)\n        .withSecretKey(SECRET_KEY)\n        .build();\n\n// ======\n// Microsoft Azure\n\nimport io.milvus.bulkwriter.connect.AzureConnectParam;\nimport io.milvus.bulkwriter.connect.StorageConnectParam;\n\nString AZURE_CONNECT_STRING = \"\"\nString AZURE_CONTAINER = \"\"\n\nStorageConnectParam storageConnectParam = AzureConnectParam.newBuilder()\n        .withConnStr(AZURE_CONNECT_STRING)\n        .withContainerName(AZURE_CONTAINER)\n",
+                "content": "// AWS S3/GCS\n\nimport io.milvus.bulkwriter.connect.S3ConnectParam;\nimport io.milvus.bulkwriter.connect.StorageConnectParam;\n\n// Create a remote bucket writer.\nStorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()\n        .withEndpoint(\"storage.googleapis.com\") // Use \"s3.amazonaws.com\" for AWS S3\n        .withBucketName(BUCKET_NAME)\n        .withAccessKey(ACCESS_KEY)\n        .withSecretKey(SECRET_KEY)\n        .build();\n\n// ======\n// Microsoft Azure\n\nimport io.milvus.bulkwriter.connect.AzureConnectParam;\nimport io.milvus.bulkwriter.connect.StorageConnectParam;\n\nString AZURE_CONNECT_STRING = \"\"\nString AZURE_CONTAINER = \"\"\n\nStorageConnectParam storageConnectParam = AzureConnectParam.newBuilder()\n        .withConnStr(AZURE_CONNECT_STRING)\n        .withContainerName(AZURE_CONTAINER)\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5614,7 +5741,10 @@
         "children": [
           "VLWCdsBb8ozFhexyaMCcFXVongc",
           "AaCJdFbIQoiLcvx68LGcv20xnuf",
-          "AtGQdAlI2oGyc4xfytWcsZ1Mnlh"
+          "GDVJdZr8Ioz7Vqx9LxVcqVbXnoh",
+          "VfwmdV9T5oRe9CxtEQpceK1lnid",
+          "YkWgducW9ofbbRxWXdBcixBSnhd",
+          "Jky2duk6Wo2KdHxrH3acpbeInHc"
         ],
         "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc"
       },
@@ -5675,7 +5805,7 @@
             },
             {
               "text_run": {
-                "content": " parameter determines the location of the generated files. Ensure that you use the same cloud providers for the source data and target collection.",
+                "content": " parameter refers to the storage service URI of your cloud provider. ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5693,17 +5823,113 @@
         }
       },
       {
-        "block_id": "AtGQdAlI2oGyc4xfytWcsZ1Mnlh",
+        "block_id": "GDVJdZr8Ioz7Vqx9LxVcqVbXnoh",
         "block_type": 2,
-        "comment_ids": [
-          "7322368043710251011"
-        ],
         "parent_id": "OtQEdaKeaoG4Qixprl7cjdIKnbd",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "For applicable endpoints, refer to ",
+                "content": "For an S3-compatible storage service, possible URIs are as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VfwmdV9T5oRe9CxtEQpceK1lnid",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "s3.amazonaws.com",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(AWS S3)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OtQEdaKeaoG4Qixprl7cjdIKnbd"
+      },
+      {
+        "block_id": "YkWgducW9ofbbRxWXdBcixBSnhd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "storage.googleapis.com",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (GCS)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OtQEdaKeaoG4Qixprl7cjdIKnbd"
+      },
+      {
+        "block_id": "Jky2duk6Wo2KdHxrH3acpbeInHc",
+        "block_type": 2,
+        "parent_id": "OtQEdaKeaoG4Qixprl7cjdIKnbd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For an Azure blob storage container, you should use ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5714,21 +5940,18 @@
               }
             },
             {
-              "mention_doc": {
-                "obj_type": 16,
+              "text_run": {
+                "content": "a valid connection string",
                 "text_element_style": {
                   "bold": false,
-                  "comment_ids": [
-                    "7322368043710251011"
-                  ],
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Fazure%2Fstorage%2Fcommon%2Fstorage-configure-connection-string"
+                  },
                   "strikethrough": false,
                   "underline": false
-                },
-                "title": "Prepare Data Import",
-                "token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
-                "url": "https://zilliverse.feishu.cn/wiki/AYoywCl7yiAcrHkSVogcfyPLn7m"
+                }
               }
             },
             {
@@ -5736,9 +5959,6 @@
                 "content": ".",
                 "text_element_style": {
                   "bold": false,
-                  "comment_ids": [
-                    "7322368043710251011"
-                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -9027,31 +9247,6 @@
         "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc"
       },
       {
-        "block_id": "BJdQdWVqQo7coVxBV9nclOeOnTf",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Before the data import, ensure that your cluster and remote object storage bucket are hosted on the same cloud.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc"
-      },
-      {
         "block_id": "A0JRddia7oP731xAO0JcfzoZn9d",
         "block_type": 12,
         "bullet": {
@@ -9228,6 +9423,6 @@
         "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc"
       }
     ],
-    "counts": 221
+    "counts": 226
   }
 }

@@ -90,7 +90,7 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 
     For details on CU types and how to select an appropriate one, refer to [Select the Right CU](./cu-types-explained).
 
-    In addition to the web UI, you can also make an API request to scale up a cluster. For details, refer to [Modify Cluster](/reference/modify-cluster).
+    In addition to the web UI, you can also make an API request to scale up a cluster. For details, refer to [Modify Cluster](/reference/restful/modify-cluster).
 
     <Admonition type="caution" icon="🚧" title="Warning">
 
@@ -110,13 +110,13 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 
     To resume a suspended cluster, click on __Actions__ and select __Resume__ from the drop-down menu. Upon confirming this action in the __Resume Cluster__ dialog box, the cluster's status will change from __SUSPENDED__ to __RESUMING__, and then to __RUNNING__. At this point, you will be charged fully based on your CU settings and service plan.
 
-    You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](/reference/suspend-cluster) and [Resume Cluster](/reference/resume-cluster).
+    You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster) and [Resume Cluster](/reference/restful/resume-cluster).
 
 - __Drop cluster__
 
     In the __Actions__ drop-down button, select __Drop__ to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the __Drop Cluster__ dialog box.
 
-    In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/drop-cluster).
+    In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster).
 
 ## Related topics{#related-topics}
 

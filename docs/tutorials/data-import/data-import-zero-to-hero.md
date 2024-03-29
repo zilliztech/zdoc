@@ -72,9 +72,15 @@ compile 'io.milvus:milvus-sdk-java:2.3.5'
 
 ### Configure your remote storage bucket{#configure-your-remote-storage-bucket}
 
-- Set up a remote bucket using AWS S3, Google GCS, or Azure Blob. Ensure the bucket is hosted on the same cloud as your Zilliz Cloud cluster.
+- Set up a remote bucket using AWS S3, Google GCS, or Azure Blob.
 
-- Note down the __Access Key__, __Secret Key__, and __Bucket Name__. These details are available in the console of the cloud provider where your bucket is hosted.
+- Note down
+
+    - __Access Key__, __Secret Key__, and __Bucket Name__ for S3-compatible block storage service.
+
+    - __AccountName__, __AccountKey__, and __ContainerName__ for Microsoft Azure blob storage service.
+
+    These details are available in the console of the cloud provider where your bucket is hosted.
 
 To enhance the usage of the example code, we recommend you use variables to store the configuration details:
 
@@ -399,7 +405,7 @@ import io.milvus.bulkwriter.connect.StorageConnectParam;
 
 // Create a remote bucket writer.
 StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
-        .withEndpoint("storage.googleapis.com")
+        .withEndpoint("storage.googleapis.com") // Use "s3.amazonaws.com" for AWS S3
         .withBucketName(BUCKET_NAME)
         .withAccessKey(ACCESS_KEY)
         .withSecretKey(SECRET_KEY)
@@ -430,8 +436,13 @@ StorageConnectParam storageConnectParam = AzureConnectParam.newBuilder()
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <strong>endpoint</strong> parameter determines the location of the generated files. Ensure that you use the same cloud providers for the source data and target collection.</p>
-<p>For applicable endpoints, refer to <a href="./prepare-source-data">Prepare Data Import</a>.</p>
+<p>The <strong>endpoint</strong> parameter refers to the storage service URI of your cloud provider. </p>
+<p>For an S3-compatible storage service, possible URIs are as follows:</p>
+<ul>
+<li><p><code>s3.amazonaws.com</code>(AWS S3)</p></li>
+<li><p><code>storage.googleapis.com</code> (GCS)</p></li>
+</ul>
+<p>For an Azure blob storage container, you should use <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string">a valid connection string</a>.</p>
 
 </Admonition>
 
@@ -908,8 +919,6 @@ System.out.println(listImportJobsResponse);
 In this course, we have covered the entire process of importing data, and here are some ideas to recap:
 
 - Examine your data to work out the schema of the target collection.
-
-- Before the data import, ensure that your cluster and remote object storage bucket are hosted on the same cloud.
 
 - When using __BulkWriter__, note the following:
 
