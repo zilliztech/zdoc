@@ -5,7 +5,7 @@
   "node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
   "node_type": "origin",
   "obj_create_time": "1706249835",
-  "obj_edit_time": "1711515290",
+  "obj_edit_time": "1711703807",
   "obj_token": "Fyg6dFS6foYW2ixcQyKcnltOnIe",
   "obj_type": "docx",
   "origin_node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
@@ -47,6 +47,7 @@
           "SMlrdDe0ZoT7mgxYY0ycuEFrnae",
           "AGpndo3Tlo1PUgxhfMdc7bafn5d",
           "NuiSdJ2y8oCvHUxTQw9ckIJhnzd",
+          "VO2ddb2DIop6faxgkcYcWuwqnBb",
           "GubpdYrlJoxrXnx6m0gcuoKtn0e",
           "EvDfdieSgoFYtVxANgUcC8L1nsc",
           "G7kWdSCzGoI4Z8xGu4rch25bnzd",
@@ -2815,7 +2816,9 @@
         "block_type": 13,
         "children": [
           "C5iYdR1c0oAzYbxosO3c0TxYnFB",
+          "EmepdHnQ5otMaSxDc13cRQmUnab",
           "DH9NdT5siooHVvxmrlJcDz1RnVd",
+          "UVIddfRuDoXYRxxmdVecGqVEnEe",
           "UbrZdsu59oAoJ5xnjQPcHCFonhh",
           "B7iYd3O4jovM3QxrvJscCTDWn1c",
           "C7wsdLBM0oQ58YxEQHRcqdQcnwg"
@@ -2924,6 +2927,37 @@
         }
       },
       {
+        "block_id": "EmepdHnQ5otMaSxDc13cRQmUnab",
+        "block_type": 2,
+        "comment_ids": [
+          "7350941076315586564"
+        ],
+        "parent_id": "UQLFdaqCDogP0Jx37T7cK6xwnnf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7350941076315586564"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "DH9NdT5siooHVvxmrlJcDz1RnVd",
         "block_type": 12,
         "bullet": {
@@ -2934,7 +2968,8 @@
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7345042428053094403"
+                    "7345042428053094403",
+                    "7350941076315586564"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -2955,6 +2990,7 @@
           "WGXIdOnzwoDdv0xOtxRcRIeKnnb"
         ],
         "comment_ids": [
+          "7350941076315586564",
           "7345042428053094403"
         ],
         "parent_id": "UQLFdaqCDogP0Jx37T7cK6xwnnf"
@@ -2963,6 +2999,7 @@
         "block_id": "TGxxdddF1oN5k2xCs43cEml8nhb",
         "block_type": 2,
         "comment_ids": [
+          "7350941076315586564",
           "7345042428053094403"
         ],
         "parent_id": "DH9NdT5siooHVvxmrlJcDz1RnVd",
@@ -2974,7 +3011,8 @@
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7345042428053094403"
+                    "7345042428053094403",
+                    "7350941076315586564"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -2994,6 +3032,7 @@
         "block_id": "OY4zdrVo3onpZ1xLXPjcRkZCnRd",
         "block_type": 2,
         "comment_ids": [
+          "7350941076315586564",
           "7345042428053094403"
         ],
         "parent_id": "DH9NdT5siooHVvxmrlJcDz1RnVd",
@@ -3005,7 +3044,8 @@
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7345042428053094403"
+                    "7345042428053094403",
+                    "7350941076315586564"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -3214,6 +3254,37 @@
                 "content": "OCR (Optical Character Recognition) can extract text from the scanned pages or tables. Using this optimizer can improve text recognition in image-based PDF but it will significantly increase processing latency and incur higher cost.",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UVIddfRuDoXYRxxmdVecGqVEnEe",
+        "block_type": 2,
+        "comment_ids": [
+          "7350941076315586564"
+        ],
+        "parent_id": "UQLFdaqCDogP0Jx37T7cK6xwnnf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7350941076315586564"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -5400,34 +5471,7 @@
             },
             {
               "text_run": {
-                "content": "\"splitBy\": [\"\\n\\n\", \"\\n\", \" \", \"\"], ",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7345042478611644420"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "                \"optimizers\": [\"pdf_ocr\"]",
+                "content": "\"splitBy\": [\"\\n\\n\", \"\\n\", \" \", \"\"]",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -5957,6 +6001,7 @@
           "DxFgd85DHovYOSxnQnmc3durnOg",
           "VDKydkdKxow8jgxL4pTcS0JXnqc",
           "N3QldXhO3oXadjxQcXkcxS4Snaf",
+          "FqjUdyDstoSNd9xWUjEcJbBtnwc",
           "E6UldI7TWoVre5xk0s2cM0sdnnb"
         ],
         "parent_id": "Fyg6dFS6foYW2ixcQyKcnltOnIe"
@@ -8364,6 +8409,31 @@
         "parent_id": "NuiSdJ2y8oCvHUxTQw9ckIJhnzd"
       },
       {
+        "block_id": "FqjUdyDstoSNd9xWUjEcJbBtnwc",
+        "block_type": 2,
+        "parent_id": "NuiSdJ2y8oCvHUxTQw9ckIJhnzd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "E6UldI7TWoVre5xk0s2cM0sdnnb",
         "block_type": 12,
         "bullet": {
@@ -8648,6 +8718,31 @@
             {
               "text_run": {
                 "content": "This optimizer converts a scanned or image-based PDF file into editable and searchable text, allowing for better document retrieval. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VO2ddb2DIop6faxgkcYcWuwqnBb",
+        "block_type": 2,
+        "parent_id": "Fyg6dFS6foYW2ixcQyKcnltOnIe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -9443,34 +9538,7 @@
             },
             {
               "text_run": {
-                "content": "        \"splitBy\": [\"\\n\\n\", \"\\n\", \" \", \"\"], ",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7345042650816348164"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "        \"optimizers\": [\"pdf_ocr\"]",
+                "content": "        \"splitBy\": [\"\\n\\n\", \"\\n\", \" \", \"\"]",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -10277,6 +10345,6 @@
         }
       }
     ],
-    "counts": 280
+    "counts": 284
   }
 }

@@ -84,16 +84,6 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
             </Admonition>
 
-            - Choose optimizer. 
-
-                Optimizers are used to enhance the parsing of text from files for better retrieval quality. However, please be aware that using optimizers can increase latency or token usage.
-
-                Currently, only 1 type of optimizer is available.
-
-                |  __Optimizer__    |  __Description__                                                                                                                                                                                                                          |
-                | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-                |  pdf_ocr<br/>  |  OCR (Optical Character Recognition) can extract text from the scanned pages or tables. Using this optimizer can improve text recognition in image-based PDF but it will significantly increase processing latency and incur higher cost. |
-
             - Choose or customize the splitter.
 
                 Splitters are used for dividing the document into chunks. The text is split by the specified characters in order.
@@ -172,8 +162,7 @@ curl --request POST \
                 "language": "ENGLISH",
                 "chunkSize": 500,
                 "embedding": "zilliz/bge-base-en-v1.5",
-                "splitBy": ["\n\n", "\n", " ", ""], 
-                "optimizers": ["pdf_ocr"]
+                "splitBy": ["\n\n", "\n", " ", ""]
             },
             {
                 "name": "keep_doc_info",
@@ -238,12 +227,6 @@ The parameters in the above code are described as follows:
 
     - `splitBy` (optional): Splitters are used to split the document based on a list of separators in order until the chunks are small enough - smaller or equal to the defined chunk size. By default, Zilliz Cloud Pipelines uses `["\n\n", "\n", " ", ""] `as separators. _(This parameter is only used in the `INDEX_DOC` function.)_
 
-    - `optimizers` (optional): Optimizers are used to enhance the parsing of text from files for better retrieval quality. However, please be aware that using optimizers can increase latency or token usage. Currently, only 1 type of optimizer is available. _(This parameter is only used in the `INDEX_DOC` function.)_
-
-        |  __Optimizer__    |  __Description__                                                                                                                       |
-        | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-        |  pdf_ocr<br/>  |  This optimizer converts a scanned or image-based PDF file into editable and searchable text, allowing for better document retrieval.  |
-
 - `outputField`: The name of the output field which will be used in the collection schema. Currently, the output field name must be identical to the input field name. _(This parameter is only used in the `PRESERVE` function.)_
 
 - `fieldType`: The data type of the input and output fields. Possible values include `Bool`, `Int8`, `Int16`, `Int32`, `Int64`, `Float`, `Double`, and `VarChar`. _(This parameter is only used in the `PRESERVE` function.)_
@@ -279,8 +262,7 @@ Below is an example output.
         "language": "ENGLISH",
         "chunkSize": 500,
         "embedding": "zilliz/bge-base-en-v1.5"，
-        "splitBy": ["\n\n", "\n", " ", ""], 
-        "optimizers": ["pdf_ocr"]
+        "splitBy": ["\n\n", "\n", " ", ""]
       },
       {
         "action": "PRESERVE",
