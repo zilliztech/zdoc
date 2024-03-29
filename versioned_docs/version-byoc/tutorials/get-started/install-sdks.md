@@ -38,11 +38,8 @@ PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://gith
 </Admonition>
 
 ```bash
-# Install specific PyMilvus version for beta clusters
-python -m pip install pymilvus==2.3.4
-
-# Install specific PyMilvus version for common clusters
-python -m pip install pymilvus==2.2.17
+# Install specific PyMilvus
+python -m pip install pymilvus==2.3.7
 
 # Update PyMilvus to the newest version
 python -m pip install --upgrade pymilvus
@@ -62,15 +59,10 @@ For Milvus's Node.js SDK, employ __npm__ or __yarn__. Access its [source code on
 </Admonition>
 
 ```bash
-# Installing a specific version for beta clusters
+# Installing a specific version
 npm install @zilliz/milvus2-sdk-node@2.3.5
 # Alternatively,
 yarn add @zilliz/milvus2-sdk-node@2.3.5
-
-# Installing a specific version for common clusters
-npm install @zilliz/milvus2-sdk-node@2.2.24
-# Alternatively,
-yarn add @zilliz/milvus2-sdk-node@2.2.24
 
 # Upgrade to the latest version
 npm update @zilliz/milvus2-sdk-node
@@ -100,18 +92,10 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 - For Apache Maven, append this to the `pom.xml` dependencies:
 
 ```xml
-<!-- Use this for beta clusters -->
 <dependency>
      <groupId>io.milvus</groupId>
      <artifactId>milvus-sdk-java</artifactId>
-     <version>2.3.3</version>
- </dependency>
- 
- <!-- Use this for common clusters -->
- <dependency>
-     <groupId>io.milvus</groupId>
-     <artifactId>milvus-sdk-java</artifactId>
-     <version>2.2.15</version>
+     <version>2.3.5</version>
  </dependency>
 ```
 
@@ -119,10 +103,7 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 
 ```bash
 # Use this for beta clusters
-compile 'io.milvus:milvus-sdk-java:2.3.3'
-
-# Use this for common clusters
-compile 'io.milvus:milvus-sdk-java:2.2.15'
+compile 'io.milvus:milvus-sdk-java:2.3.5'
 ```
 
 ## Install Go SDK{#install-go-sdk}
@@ -130,11 +111,7 @@ compile 'io.milvus:milvus-sdk-java:2.2.15'
 The Go SDK is available via `go get`. Explore its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-go).
 
 ```bash
-# Run the following for beta clusters
-go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.3.3
-
-# Run the following for common clusters
-go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.2.8
+go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.3.6
 ```
 
 ## Related topics{#related-topics}
