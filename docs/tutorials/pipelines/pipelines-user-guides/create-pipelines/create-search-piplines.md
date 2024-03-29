@@ -32,7 +32,7 @@ Unlike Ingestion and Deletion pipelines, when creating a Search pipeline, the cl
 
 1. Click on __Pipelines__ from the navigation panel. Then switch to the __Overview__ tab and click __Pipelines__. To create a pipeline, click __+ Pipeline__.
 
-1. Choose the type of pipeline to create. Click on __+ Pipeline __button in the __Search Pipeline __column.
+1. Choose the type of pipeline to create. Click on __+ Pipeline__ button in the __Search Pipeline__ column.
 
     ![create-search-pipeline](/img/create-search-pipeline.png)
 
@@ -67,7 +67,7 @@ Unlike Ingestion and Deletion pipelines, when creating a Search pipeline, the cl
 
     1. Click __Add__ to save your function.
 
-1. Click__ Create Search Pipeline__.
+1. Click __Create Search Pipeline__.
 
 ## Via RESTful API{#via-restful-api}
 

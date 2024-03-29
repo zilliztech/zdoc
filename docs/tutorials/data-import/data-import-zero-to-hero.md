@@ -442,7 +442,8 @@ StorageConnectParam storageConnectParam = AzureConnectParam.newBuilder()
 <li><p><code>s3.amazonaws.com</code>(AWS S3)</p></li>
 <li><p><code>storage.googleapis.com</code> (GCS)</p></li>
 </ul>
-<p>For an Azure blob storage container, you should use <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string">a valid connection string</a>.</p>
+<p>For an Azure blob storage container, you should use <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage#view-account-access-keys">a valid connection string</a> similar to the following:</p>
+<p><code>DefaultEndpointsProtocol=https;AccountName=&lt;accountName&gt;;AccountKey=&lt;accountKey&gt;;EndpointSuffix=core.windows.net</code></p>
 
 </Admonition>
 

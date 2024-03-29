@@ -5,7 +5,7 @@
   "node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
   "node_type": "origin",
   "obj_create_time": "1706249835",
-  "obj_edit_time": "1711703807",
+  "obj_edit_time": "1711705504",
   "obj_token": "Fyg6dFS6foYW2ixcQyKcnltOnIe",
   "obj_type": "docx",
   "origin_node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
@@ -686,7 +686,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Choose the type of pipeline to create. Click on ",
+                "content": "Choose the type of pipeline to create. Click on",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -698,7 +698,7 @@
             },
             {
               "text_run": {
-                "content": "+ Pipeline ",
+                "content": " + Pipeline",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -710,7 +710,7 @@
             },
             {
               "text_run": {
-                "content": "button in the ",
+                "content": " button in the",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -722,7 +722,7 @@
             },
             {
               "text_run": {
-                "content": "Ingestion Pipeline ",
+                "content": " Ingestion Pipeline",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -734,7 +734,7 @@
             },
             {
               "text_run": {
-                "content": "column.",
+                "content": " column.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1616,7 +1616,7 @@
             },
             {
               "text_run": {
-                "content": ",",
+                "content": ", ",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -1631,7 +1631,7 @@
             },
             {
               "text_run": {
-                "content": " voyageai/voyage-code-2",
+                "content": "voyageai/voyage-code-2",
                 "text_element_style": {
                   "bold": true,
                   "comment_ids": [
@@ -1646,7 +1646,7 @@
             },
             {
               "text_run": {
-                "content": ",",
+                "content": ", ",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -1661,7 +1661,7 @@
             },
             {
               "text_run": {
-                "content": " openai/text-embedding-3-small",
+                "content": "openai/text-embedding-3-small",
                 "text_element_style": {
                   "bold": true,
                   "comment_ids": [
@@ -1882,7 +1882,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Embedding Model ",
+                "content": "Embedding Model",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -4954,7 +4954,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Click",
+                "content": "Click ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4966,7 +4966,7 @@
             },
             {
               "text_run": {
-                "content": " Create Ingestion Pipeline",
+                "content": "Create Ingestion Pipeline",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -6766,7 +6766,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Embedding Model ",
+                "content": "Embedding Model",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,

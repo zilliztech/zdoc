@@ -5,7 +5,7 @@
   "node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
   "node_type": "origin",
   "obj_create_time": "1704332777",
-  "obj_edit_time": "1711700077",
+  "obj_edit_time": "1711706417",
   "obj_token": "TXlrdXzlPokEQ5xnA30c93SLnMc",
   "obj_type": "docx",
   "origin_node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
@@ -5742,9 +5742,10 @@
           "VLWCdsBb8ozFhexyaMCcFXVongc",
           "AaCJdFbIQoiLcvx68LGcv20xnuf",
           "GDVJdZr8Ioz7Vqx9LxVcqVbXnoh",
-          "VfwmdV9T5oRe9CxtEQpceK1lnid",
+          "Uqn4dYmG7o1WHoxas3RcNKEtnkh",
           "YkWgducW9ofbbRxWXdBcixBSnhd",
-          "Jky2duk6Wo2KdHxrH3acpbeInHc"
+          "Jky2duk6Wo2KdHxrH3acpbeInHc",
+          "Sezad77c4o8vapxIMVlci6whn8b"
         ],
         "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc"
       },
@@ -5848,7 +5849,7 @@
         }
       },
       {
-        "block_id": "VfwmdV9T5oRe9CxtEQpceK1lnid",
+        "block_id": "Uqn4dYmG7o1WHoxas3RcNKEtnkh",
         "block_type": 12,
         "bullet": {
           "elements": [
@@ -5947,7 +5948,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Fazure%2Fstorage%2Fcommon%2Fstorage-configure-connection-string"
+                    "url": "https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Fazure%2Fstorage%2Fcommon%2Fstorage-account-keys-manage%23view-account-access-keys"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -5956,10 +5957,47 @@
             },
             {
               "text_run": {
-                "content": ".",
+                "content": " similar to the following:",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Sezad77c4o8vapxIMVlci6whn8b",
+        "block_type": 2,
+        "parent_id": "OtQEdaKeaoG4Qixprl7cjdIKnbd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "DefaultEndpointsProtocol=https;AccountName=<accountName>;AccountKey=<accountKey>;EndpointSuffix=",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "core.windows.net",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -9423,6 +9461,6 @@
         "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc"
       }
     ],
-    "counts": 226
+    "counts": 227
   }
 }

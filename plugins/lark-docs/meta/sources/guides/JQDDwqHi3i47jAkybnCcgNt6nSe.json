@@ -5,7 +5,7 @@
   "node_token": "JQDDwqHi3i47jAkybnCcgNt6nSe",
   "node_type": "origin",
   "obj_create_time": "1706261074",
-  "obj_edit_time": "1711617647",
+  "obj_edit_time": "1711705928",
   "obj_token": "Bvlndb45JoworixJokocT55Znke",
   "obj_type": "docx",
   "origin_node_token": "JQDDwqHi3i47jAkybnCcgNt6nSe",
@@ -121,7 +121,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "Click the \"▶︎\" button next to your Search pipeline. Alternatively, you can also click on the Playground tab.",
+                "content": "Click the \"▶︎\" button next to your Search pipeline. Alternatively, you can also click on the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Playground",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

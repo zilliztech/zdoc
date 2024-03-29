@@ -5,7 +5,7 @@
   "node_token": "PPAbwMvgdiGvS2kRyrLc7bJvn9e",
   "node_type": "origin",
   "obj_create_time": "1706249872",
-  "obj_edit_time": "1711515307",
+  "obj_edit_time": "1711705881",
   "obj_token": "MZKKdcR1moNfaExtipQc18bInxc",
   "obj_type": "docx",
   "origin_node_token": "PPAbwMvgdiGvS2kRyrLc7bJvn9e",
@@ -471,7 +471,7 @@
             },
             {
               "text_run": {
-                "content": "+ Pipeline ",
+                "content": "+ Pipeline",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -483,7 +483,7 @@
             },
             {
               "text_run": {
-                "content": "button in the ",
+                "content": " button in the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -495,7 +495,7 @@
             },
             {
               "text_run": {
-                "content": "Deletion Pipeline ",
+                "content": "Deletion Pipeline",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -507,7 +507,7 @@
             },
             {
               "text_run": {
-                "content": "column.",
+                "content": " column.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1000,7 +1000,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Click",
+                "content": "Click ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1012,7 +1012,7 @@
             },
             {
               "text_run": {
-                "content": " Create Deletion Pipeline",
+                "content": "Create Deletion Pipeline",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,

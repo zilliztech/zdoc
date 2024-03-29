@@ -30,7 +30,7 @@ The Zilliz Cloud web UI provides a simplified and intuitive way of creating pipe
 
 1. Click on __Pipelines__ from the navigation panel. Then switch to the __Overview__ tab and click __Pipelines__. To create a pipeline, click __+ Pipeline__.
 
-1. Choose the type of pipeline to create. Click on __+ Pipeline __button in the __Deletion Pipeline __column.
+1. Choose the type of pipeline to create. Click on __+ Pipeline__ button in the __Deletion Pipeline__ column.
 
     ![create-deletion-pipeline](/img/create-deletion-pipeline.png)
 
@@ -51,7 +51,7 @@ The Zilliz Cloud web UI provides a simplified and intuitive way of creating pipe
 
     1. Click __Add__ to save your function.
 
-1. Click__ Create Deletion Pipeline__.
+1. Click __Create Deletion Pipeline__.
 
 ## Via RESTful API{#via-restful-api}
 

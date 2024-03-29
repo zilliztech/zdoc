@@ -35,7 +35,7 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
     ![create-pipeline](/img/create-pipeline.png)
 
-1. Choose the type of pipeline to create. Click on __+ Pipeline __button in the __Ingestion Pipeline __column.
+1. Choose the type of pipeline to create. Click on__ + Pipeline__ button in the__ Ingestion Pipeline__ column.
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -64,9 +64,9 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
         1. Enter function name.
 
-        1. Choose the embedding model used to generate vector embeddings. Different document languages have distinct embedding models. Currently, there are 5 available models for the English language: __zilliz/bge-base-en-v1.5__, __voyageai/voyage-2__,__ voyageai/voyage-code-2__,__ openai/text-embedding-3-small__, and __openai/text-embedding-3-large__. For the Chinese language, only __zilliz/bge-base-zh-v1.5__ is available. The following chart briefly introduces each embedding model.
+        1. Choose the embedding model used to generate vector embeddings. Different document languages have distinct embedding models. Currently, there are 5 available models for the English language: __zilliz/bge-base-en-v1.5__, __voyageai/voyage-2__, __voyageai/voyage-code-2__, __openai/text-embedding-3-small__, and __openai/text-embedding-3-large__. For the Chinese language, only __zilliz/bge-base-zh-v1.5__ is available. The following chart briefly introduces each embedding model.
 
-            |  __Embedding Model __           |  __Description__                                                                                                                                                                                                                                                                               |
+            |  __Embedding Model__            |  __Description__                                                                                                                                                                                                                                                                               |
             | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
             |  zilliz/bge-base-en-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `ENGLISH`.                                                  |
             |  voyageai/voyage-2              |  Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when `language` is `ENGLISH`.                      |
@@ -128,7 +128,7 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
         1. Click __Add__ to save your function.
 
-1. Click__ Create Ingestion Pipeline__.
+1. Click __Create Ingestion Pipeline__.
 
 1. Continue creating a [Search pipeline ](./pipelines-user-guides)and a [Deletion pipeline](./pipelines-user-guides) that is auto-configured to be compatible with the just-created Ingestion pipeline. 
 
@@ -203,7 +203,7 @@ The parameters in the above code are described as follows:
 
     - `embedding` (optional): The embedding model used to generate vector embeddings for your document. Available options are as follows. If not specified, __zilliz/bge-base-en-v1.5__ will be used for __English__ documents and __zilliz/bge-base-zh-v1.5__ will be used for __Chinese__ documents. _(This parameter is only used in the `INDEX_DOC` function.)_
 
-        |  __Embedding Model __           |  __Description__                                                                                                                                                                                                                                                          |
+        |  __Embedding Model__            |  __Description__                                                                                                                                                                                                                                                          |
         | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
         |  zilliz/bge-base-en-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `ENGLISH`.                             |
         |  voyageai/voyage-2              |  Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when `language` is `ENGLISH`. |

@@ -16,7 +16,7 @@ After creating a Search pipeline, you can run it to perform a semantic search.
 
 ## On web UI{#on-web-ui}
 
-1. Click the "▶︎" button next to your Search pipeline. Alternatively, you can also click on the Playground tab.
+1. Click the "▶︎" button next to your Search pipeline. Alternatively, you can also click on the __Playground__ tab.
 
 ![run-pipeline](/img/run-pipeline.png)
 
