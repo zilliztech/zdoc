@@ -31,7 +31,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 A serverless cluster can have up to 2 collections.  If you have reached the upper limit and need to create more collections, please [migrate to a dedicated cluster](./migrate-between-clusters#from-serverless-to-dedicated-cluster).
 
-The number of collections allowed in a dedicated cluster varies with the cluster CU size. For clusters with 8 CUs or less, you can create a maximum of 32 collections. For clusters with more than 8 CUs,  you can create a maximum of 256 collections. For more information about the limits, please see [Create Collection](./create-collection#limits).
+The number of collections allowed in a dedicated cluster varies with the cluster CU size. For clusters with 8 CUs or less, you can create a maximum of 32 collections. For clusters with more than 8 CUs,  you can create a maximum of 256 collections. For more information about the limits, please see [Zilliz Cloud Limits](./limits).
 
 If you have reached the maximum number of collections allowed in a cluster, you can:
 
@@ -39,17 +39,17 @@ If you have reached the maximum number of collections allowed in a cluster, you 
 
 1. [Drop](./drop-collection) unused collections.
 
-1. Try creating [partitions](./use-partition-key) instead of collections.
+1. Try creating [partitions](./use-partitions) instead of collections.
 
 ### How can I know if dynamic schema is enabled for my collection?{#how-can-i-know-if-dynamic-schema-is-enabled-for-my-collection}
 
-You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the **Schema** tab. You can see if dynamic schema is enabled or not in the upper right corner. For more details, see [Enable Dynamic Schema](./enable-dynamic-schema).
+You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the **Schema** tab. You can see if dynamic schema is enabled or not in the upper right corner. For more details, see [Enable Dynamic Field](./enable-dynamic-schema).
 
 ![faq_dynamic_schema_enabled](/img/faq_dynamic_schema_enabled.png)
 
 ### If dynamic schema was disabled when the collection was created, can I enable it later?{#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later}
 
-No. Once you have enabled/disabled dynamic schema when creating a collection, you cannot modify the status of dynamic schema later. For more details, see [Enable Dynamic Schema](./enable-dynamic-schema).
+No. Once you have enabled/disabled dynamic schema when creating a collection, you cannot modify the status of dynamic schema later. For more details, see [Enable Dynamic Field](./enable-dynamic-schema).
 
 ### What are the indexing metric types supported by Zilliz Cloud?{#what-are-the-indexing-metric-types-supported-by-zilliz-cloud}
 

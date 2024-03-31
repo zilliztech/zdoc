@@ -47,7 +47,7 @@ The text doc ingestion and search pipelines support various embedding models.
 
     - voyageai/voyage-code-2
 
-        Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks.
+        Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code.
 
     - voyageai/voyage-large-2
 
@@ -77,7 +77,7 @@ No, you must be a Zilliz Cloud vector database customer to access the Pipelines 
 
 ### What data sources are supported by Ingestion Pipelines?{#what-data-sources-are-supported-by-ingestion-pipelines}
 
-Currently, Ingestion Pipelines support files stored on AWS S3 and Google Cloud Storage. We are actively working to expand support for additional data sources in the future.
+Currently, Ingestion Pipelines support local files and files stored on AWS S3 and Google Cloud Storage. We are actively working to expand support for additional data sources in the future.
 
 ### What document file formats are supported by Pipelines?{#what-document-file-formats-are-supported-by-pipelines}
 

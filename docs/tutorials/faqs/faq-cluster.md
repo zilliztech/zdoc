@@ -12,6 +12,8 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 ## Contents
 
+- [What is the capacity of a serverless cluster?](#what-is-the-capacity-of-a-serverless-cluster)
+- [What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?](#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources)
 - [Can I change the CU type after my dedicated cluster is created?](#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created)
 - [Can I change the cloud region of my cluster after it is created?](#can-i-change-the-cloud-region-of-my-cluster-after-it-is-created)
 - [How can I scale down my cluster CU size?](#how-can-i-scale-down-my-cluster-cu-size)
@@ -27,6 +29,20 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 
 
+
+### What is the capacity of a serverless cluster?{#what-is-the-capacity-of-a-serverless-cluster}
+
+Generally, a serverless cluster can handle 1 million 768-dimensional vectors. However, the actual capacity depends on your schema. 
+
+If your data exceeds the maximum capacity of a serverless cluster, please [upgrade](./select-zilliz-cloud-service-plans#select-a-cluster-plan) to Standard or Enterprise plan and [migrate your data ](./migrate-between-clusters#from-serverless-to-dedicated-cluster)to a dedicated cluster. For more information about the capacity of a dedicated cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
+
+### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
+
+When inserting or upserting data, you will receive this error because your data exceeds the cluster CU capacity. To address this issue, you can follow the instructions below.
+
+- If you are using a serverless cluster, please [migrate to a dedicated cluster](./migrate-between-clusters#from-serverless-to-dedicated-cluster) as it can handle more data.
+
+- If you are using a dedicated cluster, please [scale up your cluster](./manage-cluster#manage-and-configure-clusters) by increasing the CU size.
 
 ### Can I change the CU type after my dedicated cluster is created?{#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created}
 
@@ -56,7 +72,7 @@ No. Currently, Zilliz Cloud only supports deploying a serverless cluster on GCP.
 
 ### Do serverless clusters in the starter plan support customized schema?{#do-serverless-clusters-in-the-starter-plan-support-customized-schema}
 
-No. The free serverless clusters do not support customized schema. However, dynamic schema is enabled by default, meaning you can always insert data with fields that are not pre-defined. Refer to [Enable Dynamic Schema](./enable-dynamic-schema) for more details about dynamic schema.
+No. The free serverless clusters do not support customized schema. However, dynamic schema is enabled by default, meaning you can always insert data with fields that are not pre-defined. Refer to [Enable Dynamic Field](./enable-dynamic-schema) for more details about dynamic schema.
 
 ### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 

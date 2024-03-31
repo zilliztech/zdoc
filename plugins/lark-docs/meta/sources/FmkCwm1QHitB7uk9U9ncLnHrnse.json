@@ -5,7 +5,7 @@
   "node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
   "node_type": "origin",
   "obj_create_time": "1689059641",
-  "obj_edit_time": "1710239188",
+  "obj_edit_time": "1711682275",
   "obj_token": "T1JedzGx9oVUcpxdjX7c6SmanqX",
   "obj_type": "docx",
   "origin_node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
@@ -2069,8 +2069,6 @@
           "BPIjdsUmDozWnExBGlfcYyAGnNb",
           "TYkZdQ4M9oPzX7xMWa2cJHkOn1g",
           "KgI0dTBABorZHKxwJB8cDB2CnQg",
-          "Wg7vdrGZeozGOsxK8qpcynqGnSc",
-          "C3oSdyupOoC0CgxwVFycyO9nn8d",
           "WUFpd5yd5opRWLxIATfcvH7Wnqf",
           "Ytnld1JbqoBfWlx7rURceaUwn4c",
           "CK8Gd5SvVo9gFkx6WOzcvVdGnRf",
@@ -2079,8 +2077,6 @@
           "YlfVdB7tzoORknxWxQScbwPcn1c",
           "AnvkdLJlDoDLOtxBTFwcyGNbnte",
           "Vt0kdKzAJojNJZxU5LIccG9AnKd",
-          "PJyedgqNZoiaLJxHdjlcLrmungf",
-          "LTjrdiR9HoRJ0rx4zzScfOc0nyc",
           "CQO5ddTk8oLnhYxpo70cjmR4n8f",
           "XgZEd2BliorgurxooFJcPGAknyb",
           "KizzdF5KBonYzKxlnY4ck2l2nkb",
@@ -2103,8 +2099,6 @@
             "BPIjdsUmDozWnExBGlfcYyAGnNb",
             "TYkZdQ4M9oPzX7xMWa2cJHkOn1g",
             "KgI0dTBABorZHKxwJB8cDB2CnQg",
-            "Wg7vdrGZeozGOsxK8qpcynqGnSc",
-            "C3oSdyupOoC0CgxwVFycyO9nn8d",
             "WUFpd5yd5opRWLxIATfcvH7Wnqf",
             "Ytnld1JbqoBfWlx7rURceaUwn4c",
             "CK8Gd5SvVo9gFkx6WOzcvVdGnRf",
@@ -2113,8 +2107,6 @@
             "YlfVdB7tzoORknxWxQScbwPcn1c",
             "AnvkdLJlDoDLOtxBTFwcyGNbnte",
             "Vt0kdKzAJojNJZxU5LIccG9AnKd",
-            "PJyedgqNZoiaLJxHdjlcLrmungf",
-            "LTjrdiR9HoRJ0rx4zzScfOc0nyc",
             "CQO5ddTk8oLnhYxpo70cjmR4n8f",
             "XgZEd2BliorgurxooFJcPGAknyb",
             "KizzdF5KBonYzKxlnY4ck2l2nkb",
@@ -2238,25 +2230,9 @@
               {
                 "col_span": 1,
                 "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
               }
             ],
-            "row_size": 15
+            "row_size": 13
           }
         }
       },
@@ -2448,74 +2424,6 @@
             {
               "text_run": {
                 "content": "$0.159",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Wg7vdrGZeozGOsxK8qpcynqGnSc",
-        "block_type": 32,
-        "children": [
-          "AjZkdmllYoX2UNxfwG7cgmp9ndh"
-        ],
-        "parent_id": "V0RZds601opQKfxarercJJkunde",
-        "table_cell": {}
-      },
-      {
-        "block_id": "AjZkdmllYoX2UNxfwG7cgmp9ndh",
-        "block_type": 2,
-        "parent_id": "Wg7vdrGZeozGOsxK8qpcynqGnSc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "1 AWS cost-optimized CU per hour as one unit",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "C3oSdyupOoC0CgxwVFycyO9nn8d",
-        "block_type": 32,
-        "children": [
-          "UqVxdOXvAouQkpxpeT5cQ5SRnYb"
-        ],
-        "parent_id": "V0RZds601opQKfxarercJJkunde",
-        "table_cell": {}
-      },
-      {
-        "block_id": "UqVxdOXvAouQkpxpeT5cQ5SRnYb",
-        "block_type": 2,
-        "parent_id": "C3oSdyupOoC0CgxwVFycyO9nn8d",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "$0.107",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2788,74 +2696,6 @@
             {
               "text_run": {
                 "content": "$0.137",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "PJyedgqNZoiaLJxHdjlcLrmungf",
-        "block_type": 32,
-        "children": [
-          "KRRUdn2ysoryUqxA4ZacLikfn6Z"
-        ],
-        "parent_id": "V0RZds601opQKfxarercJJkunde",
-        "table_cell": {}
-      },
-      {
-        "block_id": "KRRUdn2ysoryUqxA4ZacLikfn6Z",
-        "block_type": 2,
-        "parent_id": "PJyedgqNZoiaLJxHdjlcLrmungf",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "1 GCP cost-optimized CU per hour as one unit",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "LTjrdiR9HoRJ0rx4zzScfOc0nyc",
-        "block_type": 32,
-        "children": [
-          "MHAndm8BkoBrVcxtSQMcCSgTnJF"
-        ],
-        "parent_id": "V0RZds601opQKfxarercJJkunde",
-        "table_cell": {}
-      },
-      {
-        "block_id": "MHAndm8BkoBrVcxtSQMcCSgTnJF",
-        "block_type": 2,
-        "parent_id": "LTjrdiR9HoRJ0rx4zzScfOc0nyc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "$0.091",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3318,8 +3158,6 @@
           "QeXUdOesMoOWX2xKh7FcJabYnDf",
           "Y1hXdDwsQoI1hyxm3QOczlTtnre",
           "Fof5dRjB4oFh1Gx2DLHcJQWPn0g",
-          "ORe2d8ZXkoUWi1x15njcnrswnzd",
-          "VZ8cdS7Dbocnr3xF80McCJJqn3f",
           "IJ81dgb6VopHdxxgJu0c6YCmnCf",
           "C6fCdKhw5oUMMUxlGuRcTB2tn4f",
           "NH1XdX85VosHHbxenGPcYxoZnFX",
@@ -3328,8 +3166,6 @@
           "Mz0HdkS5loPOabxjFIhceVemnvg",
           "EF2Ddm2SNoWNIuxmBOBcF20Vndc",
           "Ka9Ldmb8go3tEQx0WMGcqbNwnLh",
-          "H62Pd1KWFoRSF7xQEWoculOZnrd",
-          "IMeedV6okoDALhxGamoccNDbn4e",
           "Yj5bddlFDoG2G3xDyJKc278Wnbd",
           "BTh5dV09doOPJ8xcmkJcdxsrnvd",
           "O40qdRZl8ouazwxAxqPcHO9fnff",
@@ -3352,8 +3188,6 @@
             "QeXUdOesMoOWX2xKh7FcJabYnDf",
             "Y1hXdDwsQoI1hyxm3QOczlTtnre",
             "Fof5dRjB4oFh1Gx2DLHcJQWPn0g",
-            "ORe2d8ZXkoUWi1x15njcnrswnzd",
-            "VZ8cdS7Dbocnr3xF80McCJJqn3f",
             "IJ81dgb6VopHdxxgJu0c6YCmnCf",
             "C6fCdKhw5oUMMUxlGuRcTB2tn4f",
             "NH1XdX85VosHHbxenGPcYxoZnFX",
@@ -3362,8 +3196,6 @@
             "Mz0HdkS5loPOabxjFIhceVemnvg",
             "EF2Ddm2SNoWNIuxmBOBcF20Vndc",
             "Ka9Ldmb8go3tEQx0WMGcqbNwnLh",
-            "H62Pd1KWFoRSF7xQEWoculOZnrd",
-            "IMeedV6okoDALhxGamoccNDbn4e",
             "Yj5bddlFDoG2G3xDyJKc278Wnbd",
             "BTh5dV09doOPJ8xcmkJcdxsrnvd",
             "O40qdRZl8ouazwxAxqPcHO9fnff",
@@ -3487,25 +3319,9 @@
               {
                 "col_span": 1,
                 "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
               }
             ],
-            "row_size": 15
+            "row_size": 13
           }
         }
       },
@@ -3697,74 +3513,6 @@
             {
               "text_run": {
                 "content": "$0.248",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "ORe2d8ZXkoUWi1x15njcnrswnzd",
-        "block_type": 32,
-        "children": [
-          "XZZadMLsboYSGKx7DjncdU37nhh"
-        ],
-        "parent_id": "HHAgdbxNQos7jRxEVGscd4dcnRL",
-        "table_cell": {}
-      },
-      {
-        "block_id": "XZZadMLsboYSGKx7DjncdU37nhh",
-        "block_type": 2,
-        "parent_id": "ORe2d8ZXkoUWi1x15njcnrswnzd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "1 AWS cost-optimized CU per hour as one unit",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "VZ8cdS7Dbocnr3xF80McCJJqn3f",
-        "block_type": 32,
-        "children": [
-          "WzL7dXTUdoO7S3xy8clc6kbbnQf"
-        ],
-        "parent_id": "HHAgdbxNQos7jRxEVGscd4dcnRL",
-        "table_cell": {}
-      },
-      {
-        "block_id": "WzL7dXTUdoO7S3xy8clc6kbbnQf",
-        "block_type": 2,
-        "parent_id": "VZ8cdS7Dbocnr3xF80McCJJqn3f",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "$0.159",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4037,74 +3785,6 @@
             {
               "text_run": {
                 "content": "$0.215",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "H62Pd1KWFoRSF7xQEWoculOZnrd",
-        "block_type": 32,
-        "children": [
-          "MaSedbMduomU5XxXdr1cb07Kn6e"
-        ],
-        "parent_id": "HHAgdbxNQos7jRxEVGscd4dcnRL",
-        "table_cell": {}
-      },
-      {
-        "block_id": "MaSedbMduomU5XxXdr1cb07Kn6e",
-        "block_type": 2,
-        "parent_id": "H62Pd1KWFoRSF7xQEWoculOZnrd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "1 GCP cost-optimized CU per hour as one unit",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "IMeedV6okoDALhxGamoccNDbn4e",
-        "block_type": 32,
-        "children": [
-          "JjAfdn71SoR9SgxvUSqciuLinxf"
-        ],
-        "parent_id": "HHAgdbxNQos7jRxEVGscd4dcnRL",
-        "table_cell": {}
-      },
-      {
-        "block_id": "JjAfdn71SoR9SgxvUSqciuLinxf",
-        "block_type": 2,
-        "parent_id": "IMeedV6okoDALhxGamoccNDbn4e",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "$0.137",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4654,7 +4334,7 @@
         }
       }
     ],
-    "counts": 191
+    "counts": 175
   },
   "children": [
     {

@@ -5,7 +5,7 @@
   "node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
   "node_type": "origin",
   "obj_create_time": "1689055354",
-  "obj_edit_time": "1707100886",
+  "obj_edit_time": "1708757967",
   "obj_token": "VkdwdhPL4oZwBUxeX2Xc9tZFnQb",
   "obj_type": "docx",
   "origin_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
@@ -22,7 +22,6 @@
         "block_type": 1,
         "children": [
           "O732d0XOXod6Upx29EPcobGlnBf",
-          "Jip0drfZiohaKex6TgicYJ7JnLh",
           "Gcludw8UOoWXJnxVxwpcNE71noe"
         ],
         "page": {
@@ -72,31 +71,6 @@
         }
       },
       {
-        "block_id": "Jip0drfZiohaKex6TgicYJ7JnLh",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Contents",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "VkdwdhPL4oZwBUxeX2Xc9tZFnQb"
-      },
-      {
         "block_id": "Gcludw8UOoWXJnxVxwpcNE71noe",
         "block_type": 2,
         "parent_id": "VkdwdhPL4oZwBUxeX2Xc9tZFnQb",
@@ -122,7 +96,7 @@
         }
       }
     ],
-    "counts": 4
+    "counts": 3
   },
   "children": [
     {
@@ -132,7 +106,7 @@
       "node_token": "EA2twSf5oiERMDkriKScU9GInc4",
       "node_type": "origin",
       "obj_create_time": "1689055409",
-      "obj_edit_time": "1699857158",
+      "obj_edit_time": "1711681557",
       "obj_token": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
       "obj_type": "docx",
       "origin_node_token": "EA2twSf5oiERMDkriKScU9GInc4",
@@ -150,7 +124,7 @@
       "node_token": "KfI3wa2ZCiEJyzkkvKSc5FennId",
       "node_type": "origin",
       "obj_create_time": "1689055369",
-      "obj_edit_time": "1702027959",
+      "obj_edit_time": "1711681846",
       "obj_token": "J16ndYKnsoIIIEx4jLdcvvC4nSe",
       "obj_type": "docx",
       "origin_node_token": "KfI3wa2ZCiEJyzkkvKSc5FennId",
@@ -168,7 +142,7 @@
       "node_token": "TqMFwNyDbiY9qekBfPNcbpuvnib",
       "node_type": "origin",
       "obj_create_time": "1689055599",
-      "obj_edit_time": "1702871753",
+      "obj_edit_time": "1709778298",
       "obj_token": "F3jWdRGdmoHc41xczChcVS1Vnob",
       "obj_type": "docx",
       "origin_node_token": "TqMFwNyDbiY9qekBfPNcbpuvnib",
@@ -240,7 +214,7 @@
       "node_token": "SIhBwKFJri4u2CkyD3ucnO7an3g",
       "node_type": "origin",
       "obj_create_time": "1693477481",
-      "obj_edit_time": "1705458485",
+      "obj_edit_time": "1711439537",
       "obj_token": "HAEQdkX3No0cm0xg8VocaRmOnsh",
       "obj_type": "docx",
       "origin_node_token": "SIhBwKFJri4u2CkyD3ucnO7an3g",
@@ -276,7 +250,7 @@
       "node_token": "WpdFw2ICXik0n8kQ8gDcNQxrn5g",
       "node_type": "origin",
       "obj_create_time": "1705028470",
-      "obj_edit_time": "1705028488",
+      "obj_edit_time": "1708912579",
       "obj_token": "YvMjdRNkeoL54Gxo084cU6uPntd",
       "obj_type": "docx",
       "origin_node_token": "WpdFw2ICXik0n8kQ8gDcNQxrn5g",
@@ -284,7 +258,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
       "space_id": "7167193056431783939",
-      "title": "[DEV] Boolean Expressions",
+      "title": "Boolean Expressions",
       "slug": "boolean-expressions"
     }
   ]

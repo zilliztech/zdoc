@@ -5,7 +5,7 @@
   "node_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
   "node_type": "origin",
   "obj_create_time": "1689055977",
-  "obj_edit_time": "1707042647",
+  "obj_edit_time": "1711682038",
   "obj_token": "EvTZdgR6CoVhAQxSUK9cEdfsnOc",
   "obj_type": "docx",
   "origin_node_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
@@ -233,14 +233,17 @@
           "YjvUdAULDoGgqBxoO3Icx13onSB",
           "DRwhdXQXVo10iWxmgDec5aManVe",
           "E8OXdSaFHo2EFXx6rWwcx9XwnSe",
+          "IdDOd4tjtogRspx7gatcTuren6L",
           "NLtDdC5bqoiVhRxp1cncbCiznwf",
           "B3w8dLPYnofHs9xhapBc6Jgenng",
           "IfMpd6xlNorXx6xg6OQc9IRMnKd",
           "Djxldp0zwogCoMxZhpJckHzLn1d",
+          "M2d0dPGtRoiJ0Qx15LVcQqqJnPd",
           "UbJNdWXDHowGzSx3UDScjxGOnDe",
           "QK4Qdc9M0o1r6TxYiKCc82t8njh",
           "GyofdFjnPol2x0xYoj3c0oTenIb",
-          "PrGJd9RhXohgh4x0iuncUBXanpb"
+          "PrGJd9RhXohgh4x0iuncUBXanpb",
+          "IOLldkYjkorVjgxMuZXcWipjnRe"
         ],
         "parent_id": "EvTZdgR6CoVhAQxSUK9cEdfsnOc",
         "table": {
@@ -249,25 +252,41 @@
             "YjvUdAULDoGgqBxoO3Icx13onSB",
             "DRwhdXQXVo10iWxmgDec5aManVe",
             "E8OXdSaFHo2EFXx6rWwcx9XwnSe",
+            "IdDOd4tjtogRspx7gatcTuren6L",
             "NLtDdC5bqoiVhRxp1cncbCiznwf",
             "B3w8dLPYnofHs9xhapBc6Jgenng",
             "IfMpd6xlNorXx6xg6OQc9IRMnKd",
             "Djxldp0zwogCoMxZhpJckHzLn1d",
+            "M2d0dPGtRoiJ0Qx15LVcQqqJnPd",
             "UbJNdWXDHowGzSx3UDScjxGOnDe",
             "QK4Qdc9M0o1r6TxYiKCc82t8njh",
             "GyofdFjnPol2x0xYoj3c0oTenIb",
-            "PrGJd9RhXohgh4x0iuncUBXanpb"
+            "PrGJd9RhXohgh4x0iuncUBXanpb",
+            "IOLldkYjkorVjgxMuZXcWipjnRe"
           ],
           "property": {
-            "column_size": 4,
+            "column_size": 5,
             "column_width": [
               107,
               221,
               210,
-              216
+              216,
+              146
             ],
             "header_row": true,
             "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
               {
                 "col_span": 1,
                 "row_span": 1
@@ -441,6 +460,40 @@
             {
               "text_run": {
                 "content": "Best Suited For",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IdDOd4tjtogRspx7gatcTuren6L",
+        "block_type": 32,
+        "children": [
+          "BbNOdgIRMoCVXaxffP5cuQ0unyf"
+        ],
+        "parent_id": "BhKJdf3kHovFYcxzIYvcryWSnQf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "BbNOdgIRMoCVXaxffP5cuQ0unyf",
+        "block_type": 2,
+        "parent_id": "IdDOd4tjtogRspx7gatcTuren6L",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cluster Capacity",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -644,6 +697,66 @@
           }
         },
         "parent_id": "Djxldp0zwogCoMxZhpJckHzLn1d"
+      },
+      {
+        "block_id": "M2d0dPGtRoiJ0Qx15LVcQqqJnPd",
+        "block_type": 32,
+        "children": [
+          "OInqd7Alzo2vg7xtOcRcUcFZnbh",
+          "QKKEdbS3KoMypkxIjnScmRPcn9f"
+        ],
+        "parent_id": "BhKJdf3kHovFYcxzIYvcryWSnQf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OInqd7Alzo2vg7xtOcRcUcFZnbh",
+        "block_type": 2,
+        "parent_id": "M2d0dPGtRoiJ0Qx15LVcQqqJnPd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Appox. 1 million 768-dimensional vectors ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QKKEdbS3KoMypkxIjnScmRPcn9f",
+        "block_type": 2,
+        "parent_id": "M2d0dPGtRoiJ0Qx15LVcQqqJnPd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "(* Actual capacity depends on your schema.)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "UbJNdWXDHowGzSx3UDScjxGOnDe",
@@ -899,6 +1012,92 @@
           }
         },
         "parent_id": "PrGJd9RhXohgh4x0iuncUBXanpb"
+      },
+      {
+        "block_id": "IOLldkYjkorVjgxMuZXcWipjnRe",
+        "block_type": 32,
+        "children": [
+          "FQXNdzmpIoTEJPxDB23cKlf2nfc",
+          "OsXgdD1bFoG4QJx3ecDcjEsSnAh",
+          "J7fZdtEx9oAYVsxwiz8c2lRLndc"
+        ],
+        "parent_id": "BhKJdf3kHovFYcxzIYvcryWSnQf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FQXNdzmpIoTEJPxDB23cKlf2nfc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Performance-optimized CU: 1 million 768-dimensional vectors",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "IOLldkYjkorVjgxMuZXcWipjnRe"
+      },
+      {
+        "block_id": "OsXgdD1bFoG4QJx3ecDcjEsSnAh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Capacity-optimized CU: 5 million 768-dimensional vectors",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "IOLldkYjkorVjgxMuZXcWipjnRe"
+      },
+      {
+        "block_id": "J7fZdtEx9oAYVsxwiz8c2lRLndc",
+        "block_type": 2,
+        "parent_id": "IOLldkYjkorVjgxMuZXcWipjnRe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "(* Actual capacity depends on your schema.)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "Wg4edanwJoEVxzxntqQcJb1Insd",
@@ -3498,7 +3697,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "Choice of three types of ",
+                "content": "Choice of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "two",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " types of ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3525,7 +3748,7 @@
             },
             {
               "text_run": {
-                "content": ": Cost-optimized, Capacity-optimized, and Performance-optimized.",
+                "content": ": Capacity-optimized, and Performance-optimized.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4251,6 +4474,6 @@
         "parent_id": "EvTZdgR6CoVhAQxSUK9cEdfsnOc"
       }
     ],
-    "counts": 161
+    "counts": 170
   }
 }

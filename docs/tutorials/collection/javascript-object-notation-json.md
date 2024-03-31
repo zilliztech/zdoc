@@ -2,7 +2,7 @@
 slug: /javascript-object-notation-json
 beta: FALSE
 notebook: 04_use_json_field.ipynb
-token: H04VwNGoaimjcLkxoH4cs5TQnNd
+token: LTa6we6DziWCb9kmpm5cIRL0nld
 sidebar_position: 13
 ---
 

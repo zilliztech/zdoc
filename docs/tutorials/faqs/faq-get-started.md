@@ -17,7 +17,7 @@ This topic lists the possible issues that you may encounter while you get starte
 - [What is the search latency of Zilliz Cloud?](#what-is-the-search-latency-of-zilliz-cloud)
 - [Is pricing the same in every region?](#is-pricing-the-same-in-every-region)
 - [What happens after the free trial?](#what-happens-after-the-free-trial)
-- [What is the pricing of Zilliz Cloud on AWS marketplace?](#what-is-the-pricing-of-zilliz-cloud-on-aws-marketplace)
+- [What is the pricing of Zilliz Cloud on Marketplaces?](#what-is-the-pricing-of-zilliz-cloud-on-marketplaces)
 - [How can I get further technical support?](#how-can-i-get-further-technical-support)
 
 ## FAQs
@@ -51,9 +51,9 @@ In short, cloud service prices often vary across providers and regions. Several 
 
 Once the free trial ends, you can still access your serverless clusters. However, all the data in your dedicated clusters will be moved to the Recycle Bin and will be retained there for 30 days. To safely recover your dedicated cluster data, you can subscribe to the standard or enterprise plan by providing a payment method.  If you have not completed the PoC during the trial period, you can also [contact us](https://support.zilliz.com/hc/en-us) to extend the trial period.
 
-### What is the pricing of Zilliz Cloud on AWS marketplace?{#what-is-the-pricing-of-zilliz-cloud-on-aws-marketplace}
+### What is the pricing of Zilliz Cloud on Marketplaces?{#what-is-the-pricing-of-zilliz-cloud-on-marketplaces}
 
-Please refer to [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace#aws-marketplace-pricing-terms)for more about the pricing of Zilliz Cloud on AWS Marketplace.
+Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more about Marketplace Pricing Terms.
 
 ### How can I get further technical support?{#how-can-i-get-further-technical-support}
 

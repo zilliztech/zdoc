@@ -90,12 +90,10 @@ You can subscribe to Zilliz Cloud services on [AWS](./subscribe-on-aws-marketpla
     | ------------------------------------------------------ | --------------------------- |
     |  1 AWS performance-optimized CU per hour as one unit   |  $0.159                     |
     |  1 AWS capacity-optimized CU per hour as one unit      |  $0.159                     |
-    |  1 AWS cost-optimized CU per hour as one unit          |  $0.107                     |
     |  1 GB for storage on AWS per month as one unit         |  $0.025                     |
     |  1 GB for backup service on AWS as one unit            |  $0.025                     |
     |  1 GCP performance-optimized CU per hour as one unit   |  $0.137                     |
     |  1 GCP capacity-optimized CU per hour as one unit      |  $0.137                     |
-    |  1 GCP cost-optimized CU per hour as one unit          |  $0.091                     |
     |  1 GB for storage on GCP per month as one unit         |  $0.02                      |
     |  1 GB for backup service on GCP as one unit            |  $0.02                      |
     |  1 Azure performance-optimized CU per hour as one unit |  $0.159                     |
@@ -109,12 +107,10 @@ You can subscribe to Zilliz Cloud services on [AWS](./subscribe-on-aws-marketpla
     | ------------------------------------------------------ | --------------------------- |
     |  1 AWS performance-optimized CU per hour as one unit   |  $0.248                     |
     |  1 AWS capacity-optimized CU per hour as one unit      |  $0.248                     |
-    |  1 AWS cost-optimized CU per hour as one unit          |  $0.159                     |
     |  1 GB for storage on AWS per month as one unit         |  $0.025                     |
     |  1 GB for backup service on AWS as one unit            |  $0.025                     |
     |  1 GCP performance-optimized CU per hour as one unit   |  $0.215                     |
     |  1 GCP capacity-optimized CU per hour as one unit      |  $0.215                     |
-    |  1 GCP cost-optimized CU per hour as one unit          |  $0.137                     |
     |  1 GB for storage on GCP per month as one unit         |  $0.02                      |
     |  1 GB for backup service on GCP as one unit            |  $0.02                      |
     |  1 Azure performance-optimized CU per hour as one unit |  $0.248                     |

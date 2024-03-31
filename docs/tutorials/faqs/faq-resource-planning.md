@@ -18,9 +18,8 @@ This topic lists the possible issues that you may encounter while planning your 
 - [Does Zilliz Cloud support deployment on Azure?](#does-zilliz-cloud-support-deployment-on-azure)
 - [How can I know which plan I am on?](#how-can-i-know-which-plan-i-am-on)
 - [How many CUs do I need for a given collection?](#how-many-cus-do-i-need-for-a-given-collection)
-- [What's the difference between Performance-optimized CU, Capacity-optimized CU, and Cost-optimized CU?](#whats-the-difference-between-performance-optimized-cu-capacity-optimized-cu-and-cost-optimized-cu)
+- [What's the difference between Performance-optimized CU and Capacity-optimized CU?](#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu)
 - [How can I downgrade from Enterprise plan to Standard plan?](#how-can-i-downgrade-from-enterprise-plan-to-standard-plan)
-- [How can I save costs on using Zilliz Cloud if I have a limited budget?](#how-can-i-save-costs-on-using-zilliz-cloud-if-i-have-a-limited-budget)
 
 ## FAQs
 
@@ -53,21 +52,17 @@ To view your plan, choose a specific cluster under a project. Navigate to the **
 
 ### How many CUs do I need for a given collection?{#how-many-cus-do-i-need-for-a-given-collection}
 
-A Performance-optimized CU can serve 5 million 128-dimensional vectors.
+A Performance-optimized CU can serve 8 million 128-dimensional vectors or 2 million 768-dimensional vectors.
 
-A Capacity-optimized CU can fit 25 million 128-dimensional vectors.
-
-A Cost-optimized CU can serve 25 million 128-dimensional vectors or 5 million 768-dimensional vectors.
+A Capacity-optimized CU can serve 25 million 128-dimensional vectors or 5 million 768-dimensional vectors.
 
 Since your collection's schema may differ from the ones in the simple guide above, we highly recommend you test the actual requirements against different CU types.
 
-### What's the difference between Performance-optimized CU, Capacity-optimized CU, and Cost-optimized CU?{#whats-the-difference-between-performance-optimized-cu-capacity-optimized-cu-and-cost-optimized-cu}
+### What's the difference between Performance-optimized CU and Capacity-optimized CU?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
 
 The "Performance-optimized Compute Unit" suits low latency or high throughput similarity searches. This option works best for high-search performance scenarios.
 
 The "Capacity-optimized Compute Unit" suits data volumes that are five times larger than the performance-optimized CU option. This option works best for increased storage capacity scenarios.
-
-The "Cost-optimized Compute Unit" provides the same large capacity as the "Capacity-optimized" option, but at a lower cost. This option is ideal for budget-conscious projects that need ample storage without high-performance demands.
 
 For more details, see [Select the Right CU](./cu-types-explained).
 
@@ -76,7 +71,3 @@ For more details, see [Select the Right CU](./cu-types-explained).
 You can downgrade your plan by deleting your enterprise plan clusters and creating new clusters in the standard plan.
 
 If you want to ensure a smooth transition between plans with data retained, you can[ submit a request](https://support.zilliz.com/hc/en-us). We can downgrade the plan for you as well.
-
-### How can I save costs on using Zilliz Cloud if I have a limited budget?{#how-can-i-save-costs-on-using-zilliz-cloud-if-i-have-a-limited-budget}
-
-To reduce cost, we suggest trying our cost-optimized CU type. This type of CU provides the same large capacity as the "Capacity-optimized" option, but at a lower cost with slightly reduced search performance. Refer to [Select the Right CU](./cu-types-explained) for more details.
