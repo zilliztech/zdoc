@@ -351,11 +351,9 @@ const config = {
         ],
         copyright: `LF AI, LF AI & data, Milvus, and associated open-source project names are trademarks of the the Linux Foundation. <br/>© Zilliz ${new Date().getFullYear()} All rights reserved. <a class="setting-cookie-btn" >Cookie Settings</a>`,
       },
-      // prism: {
-      //   theme: lightCodeTheme,
-      //   darkTheme: darkCodeTheme,
-      //   additionalLanguages: ['java', 'go'],
-      // },
+      prism: {
+        additionalLanguages: ['java', 'go'],
+      },
       colorMode: {
         disableSwitch: true,
       },
