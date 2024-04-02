@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: javaSidebar
 sidebar_position: 2
 slug: /java/list_collection
 ---

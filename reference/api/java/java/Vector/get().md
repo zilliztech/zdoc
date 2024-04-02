@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: javaSidebar
 sidebar_position: 3
 slug: /java/get
 ---
