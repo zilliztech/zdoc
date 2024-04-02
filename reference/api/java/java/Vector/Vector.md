@@ -1,16 +1,18 @@
 ---
-slug: /java/Vector
-beta: false
-notebook: false
-type: folder
-token: HVVZfLAcOlz6bpdjY82cFmtNn2g
-sidebar_position: 6
-displayed_sidebar: javaSidebar
+slug: /java/vector
+beta: FALSE
+notebook: FALSE
+sidebar_position: 2
 ---
 
-# Vector
+import Admonition from '@theme/Admonition';
 
-Methods related to CRUD operations within a collection.
+
+# Vector API
+
+The vector API provides a simple and efficient way to interact with vector embeddings in a Zilliz Cloud collection.
+
+
 
 import DocCardList from '@theme/DocCardList';
 

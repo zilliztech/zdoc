@@ -1,16 +1,18 @@
 ---
-slug: /java/Client
-beta: false
-notebook: false
-type: folder
-token: GD2QfAetplDekjdxJDYcTIwAnIg
-sidebar_position: 2
-displayed_sidebar: javaSidebar
+slug: /java/client
+beta: FALSE
+notebook: FALSE
+sidebar_position: 0
 ---
 
-# Client
+import Admonition from '@theme/Admonition';
 
-Classes and methods for you to manage the MilvusClient instances.
+
+# Client API
+
+The client API is used to interact with the Zilliz Cloud cluster.
+
+
 
 import DocCardList from '@theme/DocCardList';
 
