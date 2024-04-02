@@ -51,7 +51,8 @@ ul.table-of-contents > li:first-child > a {
 
 div.theme-doc-toc-desktop {
   padding-top: 0;
-  top: 16.5rem !important;
+  top: 10rem !important;
+  /* top: 16.5rem !important; */
 }
 
 .menu__caret::before {

@@ -5,7 +5,7 @@
   "node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
   "node_type": "origin",
   "obj_create_time": "1706249835",
-  "obj_edit_time": "1712038120",
+  "obj_edit_time": "1712047762",
   "obj_token": "Fyg6dFS6foYW2ixcQyKcnltOnIe",
   "obj_type": "docx",
   "origin_node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
@@ -686,7 +686,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Choose the type of pipeline to create. Click on",
+                "content": "Choose the type of pipeline to create. Click on ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -698,7 +698,7 @@
             },
             {
               "text_run": {
-                "content": " + Pipeline",
+                "content": "+ Pipeline",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -710,7 +710,7 @@
             },
             {
               "text_run": {
-                "content": " button in the",
+                "content": " button in the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -722,7 +722,7 @@
             },
             {
               "text_run": {
-                "content": " Ingestion Pipeline",
+                "content": "Ingestion Pipeline",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,

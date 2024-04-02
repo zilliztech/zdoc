@@ -90,7 +90,7 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+
 | __code__ | string  <br/>  |
 | __data__ | object<br/> |
 | __data.count__ | string  <br/>Total number of records listed in this response.  |
@@ -101,7 +101,7 @@ The properties in the returned response are listed in the following table.
 | __data[].records[].collectionName__ | string  <br/>The target collection name of a import task.  |
 | __data[].records[].jobId__ | string  <br/>The ID of an import task.  |
 | __data[].records[].state__ | string  <br/>The corresponding status of the import task. Possible values are <b>ImportRunning</b>, <b>ImportCompleted</b> and <b>ImportFailed</b>.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

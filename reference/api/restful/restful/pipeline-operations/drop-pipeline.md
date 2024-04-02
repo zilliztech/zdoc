@@ -119,7 +119,7 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+
 | __code__ | integer  <br/>  |
 | __data__ | object<br/> |
 | __data.pipelineId__ | integer  <br/>A pipeline ID.  |
@@ -131,7 +131,7 @@ The properties in the returned response are listed in the following table.
 | __functions__ | object | object<br/>Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function. |
 | __data.clusterID__ | string  <br/>The target cluster to which the pipeline applies.  |
 | __data.collectionName__ | string  <br/>The target collection to which the pipeline applies.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

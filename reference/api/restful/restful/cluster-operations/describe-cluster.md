@@ -115,7 +115,7 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+
 | __code__ | integer  <br/>  |
 | __data__ | object<br/> |
 | __data.projectId__ | string  <br/>The ID of the project to which the current cluster belongs.  |
@@ -132,7 +132,7 @@ The properties in the returned response are listed in the following table.
 | __data.storageSize__ | integer (sint64) <br/>The storage size of the cluster in MB.  |
 | __data.snapshotNumber__ | integer  <br/>The number of snapshofts created from the cluster.  |
 | __data.createProgress__ | integer  <br/>The creation progress of the cluster.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

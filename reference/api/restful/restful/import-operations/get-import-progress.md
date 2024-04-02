@@ -95,7 +95,7 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+
 | __code__ | integer  <br/>  |
 | __data__ | object<br/> |
 | __data.fileName__ | string  <br/>The path of the data file object in the object storage.  |
@@ -112,7 +112,7 @@ The properties in the returned response are listed in the following table.
 | __data[].details[].readyPercentage__ | number (float) <br/>The import progress of a specific file.  |
 | __data[].details[].completeTime__ | string  <br/>The time at which the import progress ends for a specific file. `null` indicates that the file import is going on.  |
 | __data[].details[].errorMessage__ | string  <br/>The message that explains the reason for an import failure. `null` indicates that no error occurs.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

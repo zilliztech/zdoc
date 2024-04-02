@@ -216,13 +216,13 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+
 | __code__ | integer  <br/>  |
 | __data__ | object<br/>Payload of the response. |
 | __data.num_chunks__ | integer  <br/>Number of chunks generated.  |
 | __data.doc_name__ | string  <br/>Name of the chunked document with the file extension.  |
 | __data.token_usage__ | integer  <br/>Number of consumed tokens in this operation.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

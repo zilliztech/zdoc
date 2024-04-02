@@ -112,7 +112,7 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+
 | __code__ | integer  <br/>  |
 | __data__ | object<br/> |
 | __data.count__ | integer  <br/>The total number of clusters returned.  |
@@ -131,7 +131,7 @@ The properties in the returned response are listed in the following table.
 | __data[].clusters[].connectAddress__ | string  <br/>The public endpoint of the cluster. You can connect to the cluster using this endpoint from the public network.  |
 | __data[].clusters[].privateLinkAddress__ | string  <br/>The private endpoint of the cluster. You can set up a private link to allow your VPS in the same cloud region to access your cluster.  |
 | __data[].clusters[].createTime__ | string  <br/>The time at which the cluster has been created.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

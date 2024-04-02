@@ -35,7 +35,7 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
     ![create-pipeline](/img/create-pipeline.png)
 
-1. Choose the type of pipeline to create. Click on__ + Pipeline__ button in the__ Ingestion Pipeline__ column.
+1. Choose the type of pipeline to create. Click on __+ Pipeline__ button in the __Ingestion Pipeline__ column.
 
     <Admonition type="info" icon="📘" title="Notes">
 
