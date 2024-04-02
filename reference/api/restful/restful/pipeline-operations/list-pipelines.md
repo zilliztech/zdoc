@@ -147,11 +147,10 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-
-| __code__ | string  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | object<br/> |
-| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+| `code` | string  <br/>  |
+| `data` | array<br/> |
+| `data[]` | object<br/> |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

@@ -110,13 +110,13 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __partitionNames__ | array<br/>The name of the partitions to which this operation applies. |
-| __partitionNames[]__ | string  <br/>partitionName  |
-| __outputFields__ | array<br/>An array of fields to return along with the search results. |
-| __outputFields[]__ | string  <br/>  |
-| __id__ | string  <br/>The ID of the entity to be retrieved  |
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `partitionNames` | array<br/>The name of the partitions to which this operation applies. |
+| `partitionNames[]` | string  <br/>partitionName  |
+| `outputFields` | array<br/>An array of fields to return along with the search results. |
+| `outputFields[]` | string  <br/>  |
+| `id` | string  <br/>The ID of the entity to be retrieved  |
 
 ```json
 {
@@ -129,12 +129,12 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __outputFields__ | array<br/>An array of fields to return along with the search results. |
-| __outputFields[]__ | string  <br/>  |
-| __id__ | array<br/>An array of IDs of the entities to be retrieved |
-| __id[]__ | string  <br/>An ID represents an entity.  |
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `outputFields` | array<br/>An array of fields to return along with the search results. |
+| `outputFields[]` | string  <br/>  |
+| `id` | array<br/>An array of IDs of the entities to be retrieved |
+| `id[]` | string  <br/>An ID represents an entity.  |
 
 ```json
 {
@@ -147,11 +147,11 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __outputFields__ | array<br/>An array of fields to return along with the search results. |
-| __outputFields[]__ | string  <br/>  |
-| __id__ | integer  <br/>The ID of entity to be retrieved  |
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `outputFields` | array<br/>An array of fields to return along with the search results. |
+| `outputFields[]` | string  <br/>  |
+| `id` | integer  <br/>The ID of entity to be retrieved  |
 
 ```json
 {
@@ -164,12 +164,12 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __outputFields__ | array<br/>An array of fields to return along with the search results. |
-| __outputFields[]__ | string  <br/>  |
-| __id__ | array<br/>An array of IDs of the entities to be retrieved |
-| __id[]__ | integer  <br/>  |
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `outputFields` | array<br/>An array of fields to return along with the search results. |
+| `outputFields[]` | string  <br/>  |
+| `id` | array<br/>An array of IDs of the entities to be retrieved |
+| `id[]` | integer  <br/>  |
 
 ## Response
 
@@ -203,11 +203,10 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-
-| __code__ | integer  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | object<br/> |
-| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+| `code` | integer  <br/>  |
+| `data` | array<br/> |
+| `data[]` | object<br/> |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

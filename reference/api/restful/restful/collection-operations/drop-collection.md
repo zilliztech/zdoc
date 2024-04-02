@@ -66,8 +66,8 @@ Success response:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
-| __collectionName__ | string  <br/>The name of the collection to delete.  |
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to delete.  |
 
 ## Response
 
@@ -99,10 +99,9 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+| `code` | integer  <br/>  |
+| `data` | object<br/> |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

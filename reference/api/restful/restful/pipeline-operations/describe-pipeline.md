@@ -156,10 +156,9 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-
-| __code__ | integer  <br/>  |
-| __data__ | object | object | object<br/> |
-| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+| `code` | integer  <br/>  |
+| `data` | object | object | object<br/> |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

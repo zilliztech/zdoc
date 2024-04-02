@@ -94,14 +94,13 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-
-| __code__ | integer  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | object<br/> |
-| __data[].instanceCount__ | integer  <br/>Number of clusters in the current project.  |
-| __data[].projectId__ | string  <br/>ID of the current project  |
-| __data[].projectName__ | string  <br/>Name of the current project  |
-| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+| `code` | integer  <br/>  |
+| `data` | array<br/> |
+| `data[]` | object<br/> |
+| `data[].instanceCount` | integer  <br/>Number of clusters in the current project.  |
+| `data[].projectId` | string  <br/>ID of the current project  |
+| `data[].projectName` | string  <br/>Name of the current project  |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

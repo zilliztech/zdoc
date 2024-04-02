@@ -68,7 +68,7 @@ Success response:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __cuSize__ | integer  <br/>The size of the CU to be associated to your cluster after the configuration.  |
+| `cuSize` | integer  <br/>The size of the CU to be associated to your cluster after the configuration.  |
 
 ## Response
 
@@ -103,11 +103,10 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-
-| __data__ | object<br/> |
-| __data.clusterId__ | string  <br/>The ID of a cluster.  |
-| __data.prompt__ | string  <br/>The statement indicating that the current operation succeeds.  |
-| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+| `data` | object<br/> |
+| `data.clusterId` | string  <br/>The ID of a cluster.  |
+| `data.prompt` | string  <br/>The statement indicating that the current operation succeeds.  |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

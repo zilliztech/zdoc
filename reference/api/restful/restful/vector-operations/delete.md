@@ -104,9 +104,9 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __id__ | string  <br/>The ID of the entity to be retrieved  |
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `id` | string  <br/>The ID of the entity to be retrieved  |
 
 ```json
 {
@@ -118,10 +118,10 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __id__ | array<br/>An array of IDs of the entities to be retrieved |
-| __id[]__ | string  <br/>  |
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `id` | array<br/>An array of IDs of the entities to be retrieved |
+| `id[]` | string  <br/>  |
 
 ```json
 {
@@ -133,9 +133,9 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __id__ | integer  <br/>The ID of the entity to be retrieved  |
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `id` | integer  <br/>The ID of the entity to be retrieved  |
 
 ```json
 {
@@ -147,10 +147,10 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __id__ | array<br/>An array of IDs of the entities to be retrieved |
-| __id[]__ | integer  <br/>  |
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `id` | array<br/>An array of IDs of the entities to be retrieved |
+| `id[]` | integer  <br/>  |
 
 ## Response
 
@@ -182,10 +182,9 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+| `code` | integer  <br/>  |
+| `data` | object<br/> |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

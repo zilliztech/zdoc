@@ -89,20 +89,20 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __partitionNames__ | array<br/>The name of the partitions to which this operation applies. |
-| __partitionNames[]__ | string  <br/>partitionName  |
-| __filter__ | string  <br/>The filter used to find matches for the search  |
-| __limit__ | integer  <br/>The maximum number of entities to return.<br/>The sum of this value of that of `offset` should be less than **1024**.<br/>The value defaults to 100<br/>The value ranges from 1 to 100.  |
-| __offset__ | integer  <br/>The number of entities to skip in the search results.<br/>The sum of this value and that of `limit` should not be greater than **1024**.<br/>The value is less than or equal to 1024.  |
-| __outputFields__ | array<br/>An array of fields to return along with the search results. |
-| __outputFields[]__ | string  <br/><br/>The value defaults to id, distance  |
-| __vector__ | array<br/>The query vector in the form of a list of floating numbers. |
-| __vector[]__ | number (float32) <br/>  |
-| __params__ | object<br/>List of search parameters |
-| __params.radius__ | number (float64) <br/>The angle where the vector with the least similarity resides.  |
-| __params.range_filter__ | number (float64) <br/>Used in combination to filter vector field values whose similarity to the query vector falls into a specific range.  |
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `partitionNames` | array<br/>The name of the partitions to which this operation applies. |
+| `partitionNames[]` | string  <br/>partitionName  |
+| `filter` | string  <br/>The filter used to find matches for the search  |
+| `limit` | integer  <br/>The maximum number of entities to return.<br/>The sum of this value of that of `offset` should be less than **1024**.<br/>The value defaults to 100<br/>The value ranges from 1 to 100.  |
+| `offset` | integer  <br/>The number of entities to skip in the search results.<br/>The sum of this value and that of `limit` should not be greater than **1024**.<br/>The value is less than or equal to 1024.  |
+| `outputFields` | array<br/>An array of fields to return along with the search results. |
+| `outputFields[]` | string  <br/><br/>The value defaults to id, distance  |
+| `vector` | array<br/>The query vector in the form of a list of floating numbers. |
+| `vector[]` | number (float32) <br/>  |
+| `params` | object<br/>List of search parameters |
+| `params.radius` | number (float64) <br/>The angle where the vector with the least similarity resides.  |
+| `params.range_filter` | number (float64) <br/>Used in combination to filter vector field values whose similarity to the query vector falls into a specific range.  |
 
 ## Response
 
@@ -136,11 +136,10 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-
-| __code__ | integer  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | object<br/> |
-| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+| `code` | integer  <br/>  |
+| `data` | array<br/> |
+| `data[]` | object<br/> |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

@@ -100,14 +100,13 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-
-| __code__ | integer  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | object<br/> |
-| __data[].cloudId__ | string  <br/>The ID of a cloud provider  |
-| __data[].regionId__ | string  <br/>The ID of a cloud region  |
-| __data[].apiBaseUrl__ | string  <br/>The base URL of an Zilliz Cloud open API endpiont  |
-| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+| `code` | integer  <br/>  |
+| `data` | array<br/> |
+| `data[]` | object<br/> |
+| `data[].cloudId` | string  <br/>The ID of a cloud provider  |
+| `data[].regionId` | string  <br/>The ID of a cloud region  |
+| `data[].apiBaseUrl` | string  <br/>The base URL of an Zilliz Cloud open API endpiont  |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 

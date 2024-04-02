@@ -96,12 +96,12 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__ | integer  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | object<br/> |
-| __data[].cloudId__ | string  <br/>The ID of a cloud provider.  |
-| __data[].description__ | string  <br/>The description of the cloud provider.  |
-| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+| `code` | integer  <br/>  |
+| `data` | array<br/> |
+| `data[]` | object<br/> |
+| `data[].cloudId` | string  <br/>The ID of a cloud provider.  |
+| `data[].description` | string  <br/>The description of the cloud provider.  |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 
