@@ -33,9 +33,6 @@ As explained in [Manage Collections (SDKs)](./manage-collections-sdks), Zilliz C
 
 The code snippet below repurposes the existing code to establish a connection to a Zilliz Cloud cluster and create a collection without specifying its index parameters. In this case, the collection lacks an index and remains unloaded.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
-<TabItem value='python'>
-
 ```python
 from pymilvus import MilvusClient, DataType
 
@@ -66,84 +63,9 @@ client.create_collection(
 )
 ```
 
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
-String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
-String TOKEN = "YOUR_CLUSTER_TOKEN";
-
-// 1. Connect to Milvus server
-ConnectConfig connectConfig = ConnectConfig.builder()
-    .uri(CLUSTER_ENDPOINT)
-    .token(TOKEN)
-    .build();
-
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. Create a collection
-
-// 2.1 Create schema
-CreateCollectionReq.CollectionSchema schema = client.createSchema(false, "");
-
-// 2.2 Add fields to schema
-schema.addPrimaryField("id", DataType.Int64, true, false);
-schema.addVectorField("vector", DataType.FloatVector, 5);
-
-// 2.3 Create a collection without schema and index parameters
-CreateCollectionReq customizedSetupReq = CreateCollectionReq.builder()
-    .collectionName("customized_setup")
-    .collectionSchema(schema)
-    .build();
-
-client.createCollection(customizedSetupReq);
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// 1. Set up a Milvus Client
-client = new MilvusClient({address, token});
-
-// 2. Define fields for the collection
-const fields = [
-    {
-        name: "id",
-        data_type: DataType.Int64,
-        is_primary_key: true,
-        auto_id: false
-    },
-    {
-        name: "vector",
-        data_type: DataType.FloatVector,
-        dim: 5
-    },
-]
-
-// 3. Create a collection
-await client.createCollection({
-    collection_name: "customized_setup",
-    fields: fields,
-})
-```
-
-</TabItem>
-</Tabs>
-
 ## Index a Collection{#index-a-collection}
 
 To create an index for a collection or index a collection, you need to set up the index parameters and call `create_index()`.
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
-<TabItem value='python'>
 
 ```python
 # 4.1. Set up the index parameters
@@ -164,64 +86,6 @@ client.create_index(
 )
 ```
 
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-
-// 4 Prepare index parameters
-
-// 4.1 Add an index for the vector field "vector"
-IndexParam indexParamForVectorField = IndexParam.builder()
-    .fieldName("vector")
-    .indexName("vector_index")
-    .indexType(IndexParam.IndexType.AUTOINDEXIVF_FLAT)
-    .metricType(IndexParam.MetricType.COSINE)
-    .build();
-
-List<IndexParam> indexParams = new ArrayList<>();
-indexParams.add(indexParamForVectorField);
-
-// 4.3 Crate an index file
-CreateIndexReq createIndexReq = CreateIndexReq.builder()
-    .collectionName("customized_setup")
-    .indexParams(indexParams)
-    .build();
-
-client.createIndex(createIndexReq);
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// 4. Set up index for the collection
-// 4.1. Set up the index parameters
-await client.createIndex({
-    collection_name: "customized_setup",
-    field_name: "vector",
-    index_type: "AUTOINDEX""IVF_FLAT",
-    metric_type: "COSINE",   
-    index_name: "vector_index",
-    params: { nprobe: 10 }
-})
-
-// 4.2 Add an index on a scalar field.
-await client.createIndex({
-    collection_name: "customized_setup",
-    field_name: "id",
-    index_name: "primary_field_index",
-    index_type: "STL_SORT"
-})
-```
-
-</TabItem>
-</Tabs>
-
 In the provided code snippet, we have established indexes on the vector field with the index type set to `AUTOINDEX` and metric type set to `COSINE`. Additionally, an index on a scalar field has been created with the index type `AUTOINDEX`. To learn more about the index type and metric types, read [AUTOINDEX Explained](./autoindex-explained) and [Similarity Metrics Explained](./search-metrics-explained).
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -233,9 +97,6 @@ In the provided code snippet, we have established indexes on the vector field wi
 ## Check Index Details{#check-index-details}
 
 Once you have created an index, you can check its details.
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
-<TabItem value='python'>
 
 ```python
 # 5. Describe index
@@ -268,104 +129,11 @@ print(res)
 # }
 ```
 
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-import io.milvus.v2.service.index.request.DescribeIndexReq;
-import io.milvus.v2.service.index.response.DescribeIndexResp;
-
-// 5. Describe index
-// 5.1 List the index names
-ListIndexesReq listIndexesReq = ListIndexesReq.builder()
-    .collectionName("customized_setup")
-    .build();
-
-List<String> indexNames = client.listIndexes(listIndexesReq);
-
-System.out.println(indexNames);
-
-// Output:
-// [
-//     "vector_index"
-// ]
-
-// 5.2 Describe an index
-DescribeIndexReq describeIndexReq = DescribeIndexReq.builder()
-    .collectionName("customized_setup")
-    .indexName("vector_index")
-    .build();
-
-DescribeIndexResp describeIndexResp = client.describeIndex(describeIndexReq);
-
-System.out.println(JSONObject.toJSON(describeIndexResp));
-
-// Output:
-// {
-//     "metricType": "COSINE",
-//     "indexType": "AUTOINDEX""IVF_FLAT",
-//     "fieldName": "vector",
-//     "indexName": "vector_index"
-// }
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// 5. Describe the index
-res = await client.describeIndex({
-    collection_name: "customized_setup",
-    index_name: "vector_index"
-})
-
-console.log(JSON.stringify(res.index_descriptions, null, 2))
-
-// Output
-// 
-// [
-//   {
-//     "params": [
-//       {
-//         "key": "params",
-//         "value": "{\"nprobe\":10}"
-//       },
-//       {
-//         "key": "index_type",
-//         "value": "AUTOINDEX""IVF_FLAT"
-//       },
-//       {
-//         "key": "metric_type",
-//         "value": "COSINE"
-//       }
-//     ],
-//     "index_name": "vector_index",
-//     "indexID": "448162378879954423",
-//     "field_name": "vector",
-//     "indexed_rows": "0",
-//     "total_rows": "0",
-//     "state": "Finished",
-//     "index_state_fail_reason": "",
-//     "pending_index_rows": "0"
-//   }
-// ]
-// 
-
-```
-
-</TabItem>
-</Tabs>
-
 You can check the index file created on a specific field, and collect the statistics on the number of rows indexed using this index file.
 
 ## Drop an Index{#drop-an-index}
 
 You can simply drop an index if it is no longer needed.
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
-<TabItem value='python'>
 
 ```python
 # 6. Drop index
@@ -374,32 +142,3 @@ client.drop_index(
     index_name="vector_index"
 )
 ```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-// 6. Drop index
-DropIndexReq dropIndexReq = DropIndexReq.builder()
-    .collectionName("customized_setup")
-    .indexName("vector_index")
-    .build();
-
-client.dropIndex(dropIndexReq);
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// 6. Drop the index
-await client.dropIndex({
-    collection_name: "customized_setup",
-    index_name: "vector_index"
-})
-```
-
-</TabItem>
-</Tabs>
