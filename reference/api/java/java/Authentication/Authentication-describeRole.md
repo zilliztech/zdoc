@@ -68,7 +68,20 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-DescribeRoleReq describeRoleReq = DescribeRoleReq._builder_()
+import io.milvus.v2.client.ConnectConfig
+import io.milvus.v2.client.MilvusClientV2
+import io.milvus.v2.service.rbac.request.DescribeUserReq
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("http://localhost:19530")
+        .token("root:Milvus")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Describe a role
+DescribeRoleReq describeRoleReq = DescribeRoleReq.builder()
         .roleName("test")
         .build();
 client.describeRole(describeRoleReq);

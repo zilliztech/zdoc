@@ -10,7 +10,7 @@ sidebar_position: 3
 import Admonition from '@theme/Admonition';
 
 
-# Manage Pipelines
+# Manage Pipeline
 
 This guide walks you through how to manage your created pipelines.
 
@@ -113,13 +113,13 @@ You can call the API to list all existing pipelines or view the details of a par
 
 - __View the details of a specific pipeline__
 
-    Follow the example below to view the details of a pipeline. Replace the value of `pipelineId`(`pipe-6ca5dd1b4672659d3c3487`) with your own pipeline ID.
+    Follow the example below to view the details of a pipeline.
 
     ```bash
     curl --request GET \
         --header "Content-Type: application/json" \
         --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487"
+        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}"
     ```
 
     Below is example output.
@@ -178,13 +178,13 @@ To drop a pipeline on the web UI, click the __...__ button under the __Actions__
 
 ### Via RESTful API{#via-restful-api}
 
-Follow the example below to drop a pipeline. Replace the value of `pipelineId`(`pipe-6ca5dd1b4672659d3c3487`) with your own pipeline ID.
+Follow the example below to drop a pipeline. 
 
 ```bash
 curl --request GET \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487"
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}"
 ```
 
 The following is an example output.

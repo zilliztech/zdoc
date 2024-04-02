@@ -1,6 +1,6 @@
 {
   "created_time": "1708421276",
-  "modified_time": "1709199785",
+  "modified_time": "1712041603",
   "name": "listAliases()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "KvSff5lOglJa2LdLSdBcJwPmnSd",
@@ -722,7 +722,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "ListAliasesReq listAliasesReq = ListAliasesReq.",
+                "content": "ListAliasesReq listAliasesReq = ListAliasesReq.builder()\n        .collectionName(\"test\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -734,31 +734,7 @@
             },
             {
               "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n        .build();\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ListAliasResp listAliasResp = client_v2.listAliases(listAliasesReq);",
+                "content": "ListAliasResp listAliasResp = client.listAliases(listAliasesReq);",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -1,6 +1,6 @@
 {
   "created_time": "1708420750",
-  "modified_time": "1709199886",
+  "modified_time": "1712040952",
   "name": "describeRole()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "NX2nfYbWXlBEeyd1gQhcsnDGnQe",
@@ -875,7 +875,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "DescribeRoleReq describeRoleReq = DescribeRoleReq.",
+                "content": "import io.milvus.v2.client.ConnectConfig\nimport io.milvus.v2.client.MilvusClientV2\nimport io.milvus.v2.service.rbac.request.DescribeUserReq\n\n// 1. Set up a client\nConnectConfig connectConfig = ConnectConfig.builder()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -887,11 +887,11 @@
             },
             {
               "text_run": {
-                "content": "builder",
+                "content": "        .uri(\"",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": true,
+                  "italic": false,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -899,7 +899,31 @@
             },
             {
               "text_run": {
-                "content": "()\n        .roleName(\"test\")\n        .build();\n",
+                "content": "http://localhost:19530",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\")\n        .token(\"root:Milvus\")\n        .build();\n        \nMilvusClientV2 client = new MilvusClientV2(connectConfig);\n\n\n// 2. Describe a role\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DescribeRoleReq describeRoleReq = DescribeRoleReq.builder()\n        .roleName(\"test\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

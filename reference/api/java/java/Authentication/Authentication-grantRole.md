@@ -52,7 +52,7 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-GrantRoleReq grantRoleReq = GrantRoleReq._builder_()
+GrantRoleReq grantRoleReq = GrantRoleReq.builder()
         .roleName("db_ro")
         .userName("test")
         .build();

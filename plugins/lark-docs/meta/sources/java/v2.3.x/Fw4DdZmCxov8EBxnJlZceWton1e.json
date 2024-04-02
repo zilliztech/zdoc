@@ -1,6 +1,6 @@
 {
   "created_time": "1708420885",
-  "modified_time": "1708936047",
+  "modified_time": "1712041045",
   "name": "updatePassword()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "NX2nfYbWXlBEeyd1gQhcsnDGnQe",
@@ -18,9 +18,9 @@
           "CgdwdqqUloSQtFx6yO7cDKNHnFg",
           "Q1HqdYhwuozB4TxQVwtcZVrHn4c",
           "ZTrOdtFZAoKyIfxrNFhcz0LZnBb",
+          "RrwqdRPrNokbcoxc62OcNHpRn6r",
+          "UFOyd0JyVo11fTx2S3ncrG15nHd",
           "Q6Uud7AUroGdztxw2cNc83e7n9d",
-          "DB9ddG6nHoN9lXxa3Zhc0IXtnMf",
-          "MsT3d856FoF344xWQu8cxTGinDc",
           "CuhbdfwsvozOlKx6GNEczLegnDg",
           "OCx4dU2IOoOduwxlQwccHLW0ngb",
           "OJ8rdMRFToBorCxpzJIcGWYdnqf",
@@ -131,7 +131,79 @@
           "elements": [
             {
               "text_run": {
-                "content": "updatePassword(UpdatePasswordReq.builder()\n    .newPassword(String newPassword)\n    .password(String password)\n    .userName(String userName)\n    .build()\n",
+                "content": "updatePassword(UpdatePasswordReq.builder()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .userName(String userName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    .password(String password)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".newPassword(String newPassword)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    .build()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -187,6 +259,112 @@
         }
       },
       {
+        "block_id": "RrwqdRPrNokbcoxc62OcNHpRn6r",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "userName(String userName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "WeWSdPHFioVc1xx37G6c0fwbnag"
+        ],
+        "parent_id": "Fw4DdZmCxov8EBxnJlZceWton1e"
+      },
+      {
+        "block_id": "WeWSdPHFioVc1xx37G6c0fwbnag",
+        "block_type": 2,
+        "parent_id": "RrwqdRPrNokbcoxc62OcNHpRn6r",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of an existing user.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UFOyd0JyVo11fTx2S3ncrG15nHd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "password(String password)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "DMPAdExNgoQx5FxCRFicCPBdnkg"
+        ],
+        "parent_id": "Fw4DdZmCxov8EBxnJlZceWton1e"
+      },
+      {
+        "block_id": "DMPAdExNgoQx5FxCRFicCPBdnkg",
+        "block_type": 2,
+        "parent_id": "UFOyd0JyVo11fTx2S3ncrG15nHd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The original password of the user.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "Q6Uud7AUroGdztxw2cNc83e7n9d",
         "block_type": 12,
         "bullet": {
@@ -223,112 +401,6 @@
             {
               "text_run": {
                 "content": "The new password of the user.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "DB9ddG6nHoN9lXxa3Zhc0IXtnMf",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "password(String password)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "children": [
-          "DjoiddERGo830axAIY0c7xQ3ncd"
-        ],
-        "parent_id": "Fw4DdZmCxov8EBxnJlZceWton1e"
-      },
-      {
-        "block_id": "DjoiddERGo830axAIY0c7xQ3ncd",
-        "block_type": 2,
-        "parent_id": "DB9ddG6nHoN9lXxa3Zhc0IXtnMf",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The original password of the user.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "MsT3d856FoF344xWQu8cxTGinDc",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "userName(String userName)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "children": [
-          "HpkEd5Dy4ora32xX2b7cnkCHnyg"
-        ],
-        "parent_id": "Fw4DdZmCxov8EBxnJlZceWton1e"
-      },
-      {
-        "block_id": "HpkEd5Dy4ora32xX2b7cnkCHnyg",
-        "block_type": 2,
-        "parent_id": "MsT3d856FoF344xWQu8cxTGinDc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The name of an existing user.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -505,31 +577,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "UpdatePasswordReq updatePasswordReq = UpdatePasswordReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .userName(\"test\")\n        .password(\"Zilliz@2023\")\n        .newPassword(\"Zilliz@2024\")\n        .build();\n",
+                "content": "UpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()\n        .userName(\"test\")\n        .password(\"Zilliz@2023\")\n        .newPassword(\"Zilliz@2024\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

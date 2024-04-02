@@ -24,9 +24,9 @@ public DeleteResp delete(DeleteReq request)
 ```java
 delete(DeleteReq.builder()
     .collectionName(String collectionName)
-    .expr(String expr)
-    .ids(List<Object> ids)
     .partitionName(String partitionName)
+    .filter(String filter)
+    .ids(List<Object> ids)
     .build()
 )
 ```
@@ -37,21 +37,21 @@ __BUILDER METHODS:__
 
     The name of an existing collection.
 
-- `expr(String expr)`
+- `partitionName(String partitionName)`
+
+    The name of a partition.
+
+- `filter(String filter)`
 
     A scalar filtering condition to filter matching entities. 
 
     The value defaults to an empty string, indicating that no condition applies.
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md).
+    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Scalar Expression Rules](https://milvus.io/docs/boolean.md).
 
 - `ids(List<Object> ids)`
 
     A specific entity ID or a list of entity IDs.
-
-- `partitionName(String partitionName)`
-
-    The name of a partition.
 
 __RETURN TYPE:__
 
@@ -76,10 +76,11 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-DeleteReq deleteReq = DeleteReq._builder_()
+// delete entities with filter "id > 10"
+DeleteReq deleteReq = DeleteReq.builder()
         .collectionName("test")
-        .expr("id > 10")
+        .filter("id > 10")
         .build();
-client_v2.delete(deleteReq);
+client.delete(deleteReq);
 ```
 

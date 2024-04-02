@@ -1,6 +1,6 @@
 {
   "created_time": "1708420827",
-  "modified_time": "1708936019",
+  "modified_time": "1712041038",
   "name": "revokeRole()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "NX2nfYbWXlBEeyd1gQhcsnDGnQe",
@@ -452,7 +452,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "RevokeRoleReq revokeRoleReq = RevokeRoleReq.",
+                "content": "RevokeRoleReq revokeRoleReq = RevokeRoleReq.builder()\n        .roleName(\"db_ro\")\n        .userName(\"test\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -464,31 +464,7 @@
             },
             {
               "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .roleName(\"db_ro\")\n        .userName(\"test\")\n        .build();\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "client_v2.revokeRole(revokeRoleReq);",
+                "content": "client.revokeRole(revokeRoleReq);",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

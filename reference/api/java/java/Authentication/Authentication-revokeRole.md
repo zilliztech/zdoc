@@ -52,10 +52,10 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-RevokeRoleReq revokeRoleReq = RevokeRoleReq._builder_()
+RevokeRoleReq revokeRoleReq = RevokeRoleReq.builder()
         .roleName("db_ro")
         .userName("test")
         .build();
-client_v2.revokeRole(revokeRoleReq);
+client.revokeRole(revokeRoleReq);
 ```
 

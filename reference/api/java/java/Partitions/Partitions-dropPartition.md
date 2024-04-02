@@ -54,7 +54,7 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-DropPartitionReq dropPartitionReq = DropPartitionReq._builder_()
+DropPartitionReq dropPartitionReq = DropPartitionReq.builder()
         .collectionName("test")
         .partitionName("test_partition")
         .build();

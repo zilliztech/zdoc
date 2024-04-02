@@ -5,7 +5,7 @@
   "node_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
   "node_type": "origin",
   "obj_create_time": "1689055977",
-  "obj_edit_time": "1707205173",
+  "obj_edit_time": "1711682038",
   "obj_token": "EvTZdgR6CoVhAQxSUK9cEdfsnOc",
   "obj_type": "docx",
   "origin_node_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
@@ -1019,7 +1019,6 @@
         "children": [
           "FQXNdzmpIoTEJPxDB23cKlf2nfc",
           "OsXgdD1bFoG4QJx3ecDcjEsSnAh",
-          "LdKod8edIo6RBZxFNdXcDioOnyy",
           "J7fZdtEx9oAYVsxwiz8c2lRLndc"
         ],
         "parent_id": "BhKJdf3kHovFYcxzIYvcryWSnQf",
@@ -1058,31 +1057,6 @@
             {
               "text_run": {
                 "content": "Capacity-optimized CU: 5 million 768-dimensional vectors",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "IOLldkYjkorVjgxMuZXcWipjnRe"
-      },
-      {
-        "block_id": "LdKod8edIo6RBZxFNdXcDioOnyy",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Cost-optimized CU: 5 million 768-dimensional vectors.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3723,7 +3697,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "Choice of three types of ",
+                "content": "Choice of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "two",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " types of ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3750,7 +3748,7 @@
             },
             {
               "text_run": {
-                "content": ": Cost-optimized, Capacity-optimized, and Performance-optimized.",
+                "content": ": Capacity-optimized, and Performance-optimized.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4476,6 +4474,6 @@
         "parent_id": "EvTZdgR6CoVhAQxSUK9cEdfsnOc"
       }
     ],
-    "counts": 171
+    "counts": 170
   }
 }

@@ -5,7 +5,7 @@
   "node_token": "EA2twSf5oiERMDkriKScU9GInc4",
   "node_type": "origin",
   "obj_create_time": "1689055409",
-  "obj_edit_time": "1699857158",
+  "obj_edit_time": "1711681557",
   "obj_token": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
   "obj_type": "docx",
   "origin_node_token": "EA2twSf5oiERMDkriKScU9GInc4",
@@ -71,7 +71,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "Zilliz Cloud offers Performance-optimized, Capacity-optimized, and Cost-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, ",
+                "content": "Zilliz Cloud offers Performance-optimized",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Capacity-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -413,6 +413,8 @@ class larkDocWriter {
             await this.__listed_docs()
         }
 
+        // console.log(this.records.filter(record => record["fields"]["Slug"][0].text == slug)[0].fields.Docs)
+
         const result = this.records.filter(record => {
             const record_slug = record["fields"]["Slug"] instanceof Array ? record["fields"]["Slug"][0].text : record["fields"]["Slug"]
             if (record["fields"]["Docs"] && record["fields"]["Docs"]["text"] === title && record_slug == slug && record["fields"]["Targets"] &&

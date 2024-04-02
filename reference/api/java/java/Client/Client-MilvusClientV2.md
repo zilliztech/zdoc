@@ -25,7 +25,7 @@ Constructs a client for common use cases.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This client serves as an easy-to-use alternative for the current set of APIs that handles CRUD operations on Zilliz Cloud.</p>
+<p>This client serves as an easy-to-use alternative for the current set of APIs that handles Create, Read, Update, and Delete (CRUD) operations on Zilliz Cloud.</p>
 
 </Admonition>
 
@@ -35,7 +35,7 @@ MilvusClientV2(ConnectConfig connectConfig);
 
 ## ConnectConfig{#connectconfig}
 
-`ConnectConfig` is a class that centralizes all the connection configurations in one place, which is then used by `MilvusClientV2` to actually create and manage the connection pool.
+__ConnectConfig__ allows you to configure the connection properties in one place so that __MilvusClientV2__ can reference it to create and manage the connection pool.
 
 ```java
 ConnectConfig.builder()
@@ -56,7 +56,7 @@ __BUILDER METHODS:__
     https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
     ```
 
-    For details on finding information on the Zilliz Cloud console, refer to [On Zilliz Cloud Console](/docs/on-zilliz-cloud-console).
+    To find needed information on the Zilliz Cloud console, refer to [On Zilliz Cloud Console](/docs/on-zilliz-cloud-console).
 
 - `token(String token)`
 
@@ -147,10 +147,23 @@ __BUILDER METHODS:__
 ## Examples{#examples}
 
 ```java
+import io.milvus.v2.client.ConnectConfig
+import io.milvus.v2.client.MilvusClientV2
+
 ConnectConfig connectConfig = ConnectConfig._builder_()
         .uri("https://in01-******.aws-us-west-2.vectordb.zillizcloud.com:19531")
-        .token("*****")
+        .token("user:password") // replace this with your token
         .build();
+        
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<ul>
+<li><p>Set <strong>uri</strong> to your cluster endpoint. The <strong>token</strong> parameter can be a Zilliz Cloud API key with sufficient permissions or the credentials of a cluster user in the format of <code>username:p@ssw0rd</code>.</p></li>
+<li><p>To find the above information, refer to <a href="/docs/on-zilliz-cloud-console">On Zilliz Cloud Console</a>.</p></li>
+</ul>
+
+</Admonition>
 

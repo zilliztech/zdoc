@@ -5,7 +5,7 @@
   "node_token": "Ri1IwbgN6ilzMrkoIjycmpkZn9d",
   "node_type": "origin",
   "obj_create_time": "1708764329",
-  "obj_edit_time": "1711611606",
+  "obj_edit_time": "1711939472",
   "obj_token": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
   "obj_type": "docx",
   "origin_node_token": "Ri1IwbgN6ilzMrkoIjycmpkZn9d",
@@ -4929,7 +4929,7 @@
             },
             {
               "text_run": {
-                "content": ": Grouping search currently does not support a vector field of the ",
+                "content": ": Currently, grouping search does not support a vector field of the ",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [

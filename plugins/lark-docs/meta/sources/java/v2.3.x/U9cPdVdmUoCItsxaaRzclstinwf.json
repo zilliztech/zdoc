@@ -1,6 +1,6 @@
 {
   "created_time": "1708420814",
-  "modified_time": "1709179905",
+  "modified_time": "1712041018",
   "name": "revokePrivilege()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "NX2nfYbWXlBEeyd1gQhcsnDGnQe",
@@ -136,7 +136,91 @@
           "elements": [
             {
               "text_run": {
-                "content": "revokePrivilege(RevokePrivilegeReq.builder()\n    .dbName(String databaseName)\n    .objectName(String objectName)\n    .objectType(String objectType)\n    .privilege(String privilege)\n    .roleName(String roleName)\n    .build()\n",
+                "content": "revokePrivilege(RevokePrivilegeReq.builder()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .dbName(String databaseName",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")\n    .roleName(String roleName)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .objectType(String objectType)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    .privilege(String privilege)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".objectName(String objectName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    .build()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -926,31 +1010,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "RevokePrivilegeReq revokePrivilegeReq = RevokePrivilegeReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .roleName(\"db_rw\")\n        .objectName(\"\")\n        .objectType(\"\")\n        .privilege(\"\")\n        .build();\n",
+                "content": "RevokePrivilegeReq revokePrivilegeReq = RevokePrivilegeReq.builder()\n        .roleName(\"db_rw\")\n        .objectName(\"\")\n        .objectType(\"\")\n        .privilege(\"\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

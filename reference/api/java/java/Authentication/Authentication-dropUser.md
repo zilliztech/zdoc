@@ -47,7 +47,7 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-DropUserReq dropUserReq = DropUserReq._builder_()
+DropUserReq dropUserReq = DropUserReq.builder()
         .userName("test")
         .build();
 client.dropUser(dropUserReq);

@@ -1,6 +1,6 @@
 {
   "created_time": "1708403264",
-  "modified_time": "1708403286",
+  "modified_time": "1711014538",
   "name": "MilvusClient",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "PTJzfzI0ulKGjwdUsxQcFxfJn6b",
@@ -38,16 +38,6 @@
       "token": "AzdefBpvklrrFOdFnA1cicgonLf",
       "type": "folder",
       "url": "https://zilliverse.feishu.cn/drive/folder/AzdefBpvklrrFOdFnA1cicgonLf"
-    },
-    {
-      "created_time": "1708317351",
-      "modified_time": "1708395812",
-      "name": "Data Import",
-      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
-      "parent_token": "ICGwfi8ZClVQLHdLn9Hc3oeFn1d",
-      "token": "KdfofBXCwlWnxOdG5cLcbbLgnLf",
-      "type": "folder",
-      "url": "https://zilliverse.feishu.cn/drive/folder/KdfofBXCwlWnxOdG5cLcbbLgnLf"
     },
     {
       "created_time": "1708317660",

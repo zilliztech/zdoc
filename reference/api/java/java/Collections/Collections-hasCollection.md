@@ -51,7 +51,8 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-HasCollectionReq hasCollectionReq = HasCollectionReq._builder_()
+// check whether collection test exists
+HasCollectionReq hasCollectionReq = HasCollectionReq.builder()
         .collectionName("test")
         .build();
 Boolean resp = client.hasCollection(hasCollectionReq);

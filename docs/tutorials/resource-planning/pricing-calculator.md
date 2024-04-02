@@ -44,8 +44,6 @@ The [Zilliz Cloud Pricing Calculator](https://zilliz.com/pricing#estimate_your_c
 
 - __Capacity-optimized CU__: Ideal for large data volumes, with five times the storage capacity of performance-optimized CUs.
 
-- __Cost-optimized CU__: Similar capacity to capacity-optimized CUs, but more cost-effective with slightly reduced performance.
-
 Explore further details under [Select the Right CU](./cu-types-explained).
 
 ### Cloud provider{#cloud-provider}

@@ -1,6 +1,6 @@
 {
   "created_time": "1708421670",
-  "modified_time": "1709200655",
+  "modified_time": "1712041540",
   "name": "query()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "HVVZfLAcOlz6bpdjY82cFmtNn2g",
@@ -19,17 +19,17 @@
           "HZNqd2zqDoSdTWxfs8bcn7pznGf",
           "RaeidE80ioYayFxQtNKctkBHnKe",
           "FsUkd0VaboFDc1xloFDcCinanXe",
+          "TblUdkrMeohBq4xwmmoc5f0tnsf",
+          "Lfa1dYQwso3vXexGu7KcopmZn6g",
+          "AhxjdTzdVoh9vxxi52vce63Vnde",
+          "D0qJdVvzTo6eDxxea4tcGHUbnkh",
           "PBaVdo9u3om0L2xt2OlcKgIbn1d",
-          "SIUtdC8TZo6aT4xMJYOcMVAGnPh",
-          "Oj18dDdCkoK9VTxGyLzcExYInxd",
+          "TIPsdG2JxoINbpxmB7Sc7jP0n2c",
           "JWjFdbwnkojKFrxRSWQcBOSQn9f",
-          "ZA8fdV7w1onWXBxoesjcRXY2nFb",
-          "I7jQdqag0oOZc1xMzHRcIVNtnjF",
-          "RoBOdML6do6BiOxqDCTcDiu6nLd",
           "FoFhdGm9loSVpixnPLxcoNJWn8k",
           "XuXkdBsVTogUo1xZdXdcAfIcnEf",
           "VUkEdHwv9oUKkdxogcXcxbg5n3e",
-          "MgHmdul1vocJDXxZE3ncBgkAn9c",
+          "APamdrcDioGFqKx8tDIcgV1lnld",
           "ENscdn7xuoSR9zxSBpBcFfzunac",
           "ZbrEdLX7Lo5dvxx05TNcXj7Lngg",
           "Xl52dvKFKoNta7x2Y25cw2yBntd",
@@ -141,7 +141,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "query(QueryReq.builder()\n    .collectionName(String collectionName)\n    .consistencyLevel(ConsistencyLevel consistencyLevel)\n    .filter(String filter)\n    .ids(List<Object> ids)\n    .limit(long limit)\n    .offset(long offset)\n",
+                "content": "query(QueryReq.builder()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -153,7 +153,7 @@
             },
             {
               "text_run": {
-                "content": "    .outputFields(",
+                "content": "    .collectionName(String collectionName)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -165,43 +165,7 @@
             },
             {
               "text_run": {
-                "content": "List",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "String",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "> outputFields)\n",
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -261,7 +225,139 @@
             },
             {
               "text_run": {
-                "content": "> partitionNames)\n    .build()\n",
+                "content": "> partitionNames)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .outputFields(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "> outputFields)\n    .ids(List<Object> ids)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .filter(String filter)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .consistencyLevel(ConsistencyLevel consistencyLevel)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .offset(long offset)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    .limit(long limit)\n    .build()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -353,6 +449,441 @@
             {
               "text_run": {
                 "content": "The name of an existing collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TblUdkrMeohBq4xwmmoc5f0tnsf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "partitionNames(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "> partitionNames)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "OScldThJMoTh9LxM3w3c0anjnre"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "OScldThJMoTh9LxM3w3c0anjnre",
+        "block_type": 2,
+        "parent_id": "TblUdkrMeohBq4xwmmoc5f0tnsf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of partition names.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Lfa1dYQwso3vXexGu7KcopmZn6g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "outputFields(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "> outputFields)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "GJI9dtA2RoTUpjxkjGEc21QGnZf",
+          "O2x2d27ZSoLvGixGae7cNCF1nzd"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "GJI9dtA2RoTUpjxkjGEc21QGnZf",
+        "block_type": 2,
+        "parent_id": "Lfa1dYQwso3vXexGu7KcopmZn6g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of field names to include in each entity in return.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O2x2d27ZSoLvGixGae7cNCF1nzd",
+        "block_type": 2,
+        "parent_id": "Lfa1dYQwso3vXexGu7KcopmZn6g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". If left unspecified, all fields",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " are selected as the output fields.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AhxjdTzdVoh9vxxi52vce63Vnde",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ids(List<Object> ids)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "OgKWdNXxRoIPWNx3q6McnEp9nYg"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "OgKWdNXxRoIPWNx3q6McnEp9nYg",
+        "block_type": 2,
+        "parent_id": "AhxjdTzdVoh9vxxi52vce63Vnde",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The IDs of entities to query.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D0qJdVvzTo6eDxxea4tcGHUbnkh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "filter(String filter)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "MKjvdylHzobKskxpjjFc0phXnvO",
+          "Dm1zdJvpzoYFEuxfiAVcquQOnMe"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "MKjvdylHzobKskxpjjFc0phXnvO",
+        "block_type": 2,
+        "parent_id": "D0qJdVvzTo6eDxxea4tcGHUbnkh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A scalar filtering condition to filter matching entities. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Dm1zdJvpzoYFEuxfiAVcquQOnMe",
+        "block_type": 2,
+        "parent_id": "D0qJdVvzTo6eDxxea4tcGHUbnkh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Boolean Expression Rules",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fboolean.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1179,13 +1710,13 @@
         }
       },
       {
-        "block_id": "SIUtdC8TZo6aT4xMJYOcMVAGnPh",
+        "block_id": "TIPsdG2JxoINbpxmB7Sc7jP0n2c",
         "block_type": 12,
         "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "filter(String filter)",
+                "content": "offset(long offset)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -1202,20 +1733,21 @@
           }
         },
         "children": [
-          "JfUidBK4toxMNExssP3chzDNnqd",
-          "CuKydnWZVoGXy5xH5mgcFdFYnkb"
+          "Cs89dXV3ToslkbxltjUcVXB7nQH",
+          "NPpzdZkSLoJR8rxlvgyceB4hnEE",
+          "IfHydHk5hoNT7mxWj5TcQQl3nCu"
         ],
         "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
       },
       {
-        "block_id": "JfUidBK4toxMNExssP3chzDNnqd",
+        "block_id": "Cs89dXV3ToslkbxltjUcVXB7nQH",
         "block_type": 2,
-        "parent_id": "SIUtdC8TZo6aT4xMJYOcMVAGnPh",
+        "parent_id": "TIPsdG2JxoINbpxmB7Sc7jP0n2c",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "A scalar filtering condition to filter matching entities. ",
+                "content": "The number of records to skip in the query result. ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1233,14 +1765,14 @@
         }
       },
       {
-        "block_id": "CuKydnWZVoGXy5xH5mgcFdFYnkb",
+        "block_id": "NPpzdZkSLoJR8rxlvgyceB4hnEE",
         "block_type": 2,
-        "parent_id": "SIUtdC8TZo6aT4xMJYOcMVAGnPh",
+        "parent_id": "TIPsdG2JxoINbpxmB7Sc7jP0n2c",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to ",
+                "content": "You can use this parameter in combination with ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1252,14 +1784,11 @@
             },
             {
               "text_run": {
-                "content": "Boolean Expression Rules",
+                "content": "limit",
                 "text_element_style": {
                   "bold": false,
-                  "inline_code": false,
+                  "inline_code": true,
                   "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fboolean.md"
-                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -1267,7 +1796,7 @@
             },
             {
               "text_run": {
-                "content": ". ",
+                "content": " to enable pagination.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1285,13 +1814,26 @@
         }
       },
       {
-        "block_id": "Oj18dDdCkoK9VTxGyLzcExYInxd",
-        "block_type": 12,
-        "bullet": {
+        "block_id": "IfHydHk5hoNT7mxWj5TcQQl3nCu",
+        "block_type": 2,
+        "parent_id": "TIPsdG2JxoINbpxmB7Sc7jP0n2c",
+        "text": {
           "elements": [
             {
               "text_run": {
-                "content": "ids(List<Object> ids)",
+                "content": "The sum of this value and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -1300,27 +1842,10 @@
                   "underline": false
                 }
               }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "children": [
-          "P5JYdr1SSolvmhx5wlFcnuOZnZe"
-        ],
-        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
-      },
-      {
-        "block_id": "P5JYdr1SSolvmhx5wlFcnuOZnZe",
-        "block_type": 2,
-        "parent_id": "Oj18dDdCkoK9VTxGyLzcExYInxd",
-        "text": {
-          "elements": [
+            },
             {
               "text_run": {
-                "content": "The IDs of entities to query.",
+                "content": " should be less than 16,384. ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1491,411 +2016,6 @@
         }
       },
       {
-        "block_id": "ZA8fdV7w1onWXBxoesjcRXY2nFb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "offset(long offset)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "children": [
-          "EvyJd3vp5oJJSSxSa3fcY2YwnFg",
-          "D05xdrV9PoWK38xDCUlchUSsnyh",
-          "DXS5dq03Yogjanx7vo8c62tdnff"
-        ],
-        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
-      },
-      {
-        "block_id": "EvyJd3vp5oJJSSxSa3fcY2YwnFg",
-        "block_type": 2,
-        "parent_id": "ZA8fdV7w1onWXBxoesjcRXY2nFb",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The number of records to skip in the query result. ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "D05xdrV9PoWK38xDCUlchUSsnyh",
-        "block_type": 2,
-        "parent_id": "ZA8fdV7w1onWXBxoesjcRXY2nFb",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "You can use this parameter in combination with ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "limit",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " to enable pagination.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "DXS5dq03Yogjanx7vo8c62tdnff",
-        "block_type": 2,
-        "parent_id": "ZA8fdV7w1onWXBxoesjcRXY2nFb",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The sum of this value and ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "limit",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " should be less than 16,384. ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "I7jQdqag0oOZc1xMzHRcIVNtnjF",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "outputFields(",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "List",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "String",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "> outputFields)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "children": [
-          "NAZAdqAuEojJImxWO0Gc8pCMnLb",
-          "DmGUd1w2foDPzMx6eGnc2QKYnCe"
-        ],
-        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
-      },
-      {
-        "block_id": "NAZAdqAuEojJImxWO0Gc8pCMnLb",
-        "block_type": 2,
-        "parent_id": "I7jQdqag0oOZc1xMzHRcIVNtnjF",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "A list of field names to include in each entity in return.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "DmGUd1w2foDPzMx6eGnc2QKYnCe",
-        "block_type": 2,
-        "parent_id": "I7jQdqag0oOZc1xMzHRcIVNtnjF",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The value defaults to ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "None",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ". If left unspecified, all fields are selected as the output fields.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "RoBOdML6do6BiOxqDCTcDiu6nLd",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "partitionNames(",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "List",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "String",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "> partitionNames)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "children": [
-          "F27OdFsf1ok3kUx9o23cwwK0nFc"
-        ],
-        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
-      },
-      {
-        "block_id": "F27OdFsf1ok3kUx9o23cwwK0nFc",
-        "block_type": 2,
-        "parent_id": "RoBOdML6do6BiOxqDCTcDiu6nLd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "A list of partition names.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
         "block_id": "FoFhdGm9loSVpixnPLxcoNJWn8k",
         "block_type": 2,
         "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg",
@@ -1928,7 +2048,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "QueryResp",
+                "content": "List\\<QueryResult\\>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1971,17 +2091,14 @@
         }
       },
       {
-        "block_id": "MgHmdul1vocJDXxZE3ncBgkAn9c",
+        "block_id": "APamdrcDioGFqKx8tDIcgV1lnld",
         "block_type": 2,
-        "comment_ids": [
-          "7339750809804390403"
-        ],
         "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "A ",
+                "content": "A list of ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1993,12 +2110,21 @@
             },
             {
               "text_run": {
-                "content": "QueryResp",
+                "content": "QueryResult",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
                 "text_element_style": {
                   "bold": true,
-                  "comment_ids": [
-                    "7339750809804390403"
-                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2008,7 +2134,7 @@
             },
             {
               "text_run": {
-                "content": " object representing one or more queried entities.",
+                "content": "objects representing specific query results with the specified output fields",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2057,7 +2183,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "fields",
+                "content": "entity",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -2373,55 +2499,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "//query by filter \"id < 10\"\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "QueryReq queryReq = QueryReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"book\")\n        .filter(\"id < 10\")\n        .build();\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "QueryResp queryResp = client_v2.query(queryReq);",
+                "content": "//query by filter \"id < 10\"\nQueryReq queryReq = QueryReq.builder()\n        .collectionName(\"test\")\n        .filter(\"id < 10\")\n        .build();\nQueryResp queryResp = client.query(queryReq);\n// QueryResp(queryResults=[QueryResp.QueryResult(entity={vector=[0.54480153, 0.8220552], id=0}), QueryResp.QueryResult(entity={vector=[0.75052005, 0.7581255], id=1}), QueryResp.QueryResult(entity={vector=[0.56026894, 0.23027527], id=2}), QueryResp.QueryResult(entity={vector=[0.38339353, 0.56710696], id=3}), QueryResp.QueryResult(entity={vector=[0.7986327, 0.54763454], id=4}), QueryResp.QueryResult(entity={vector=[0.5766768, 0.12176812], id=5})])\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

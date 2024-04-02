@@ -49,8 +49,9 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-DropAliasReq dropAliasReq = DropAliasReq._builder_()
+// drop alias "test_alias"
+DropAliasReq dropAliasReq = DropAliasReq.builder()
         .alias("test_alias")
         .build();
-client_v2.dropAlias(dropAliasReq);
+client.dropAlias(dropAliasReq);
 ```

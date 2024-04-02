@@ -1,6 +1,6 @@
 {
   "created_time": "1710932151",
-  "modified_time": "1710933820",
+  "modified_time": "1710987087",
   "name": "hybrid_search()",
   "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_token": "ZGbAfWoUjl0Z3xdgyItc8wYXngf",
@@ -383,7 +383,31 @@
             },
             {
               "text_run": {
-                "content": ": The query vector to search in the request.",
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "): The query vector to search in the request. This parameter accepts a list containing one element.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -420,7 +444,31 @@
             },
             {
               "text_run": {
-                "content": ": The vector field to use in the request.",
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "): The vector field to use in the request.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -457,7 +505,31 @@
             },
             {
               "text_run": {
-                "content": ": A dictionary of search parameters for the request. For details, refer to ",
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "dict",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "): A dictionary of search parameters for the request. For details, refer to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -521,7 +593,55 @@
             },
             {
               "text_run": {
-                "content": ": The maximum number of results to return in the request.",
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "int",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "): The maximum number of results to return in the request. When performing a hybrid search with multiple ANN search requests, the top results defined by ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from each request will be combined and re-ranked before returning the final search results.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -558,7 +678,31 @@
             },
             {
               "text_run": {
-                "content": ": (Optional) The expression to filter the results.",
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "): (Optional) The expression to filter the results.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -583,7 +727,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "rerank ",
+                "content": "rerank",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -595,7 +739,7 @@
             },
             {
               "text_run": {
-                "content": "(",
+                "content": " (",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

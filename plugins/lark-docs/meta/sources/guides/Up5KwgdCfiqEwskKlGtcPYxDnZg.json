@@ -5,7 +5,7 @@
   "node_token": "Up5KwgdCfiqEwskKlGtcPYxDnZg",
   "node_type": "origin",
   "obj_create_time": "1706261082",
-  "obj_edit_time": "1711422412",
+  "obj_edit_time": "1712038245",
   "obj_token": "FXu8dzknToUbLgxUKp8cjvGinZg",
   "obj_type": "docx",
   "origin_node_token": "Up5KwgdCfiqEwskKlGtcPYxDnZg",
@@ -363,55 +363,7 @@
             },
             {
               "text_run": {
-                "content": " (assuming its ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "pipelineId",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " is ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "pipe-7227d0729d73e63002ed46",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "). ",
+                "content": ". ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -435,7 +387,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "curl --request POST \\\n    --header \"Content-Type: application/json\" \\\n    --header \"Authorization: Bearer ${YOUR_CLUSTER_TOKEN}\" \\\n    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-7227d0729d73e63002ed46/run\" \\\n    -d '{\n        \"data\": {\n            \"doc_name\": \"zilliz_concept_doc.md\",\n        }\n",
+                "content": "curl --request POST \\\n    --header \"Content-Type: application/json\" \\\n    --header \"Authorization: Bearer ${YOUR_CLUSTER_TOKEN}\" \\\n    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}/run\" \\\n    -d '{\n        \"data\": {\n            \"doc_name\": \"zilliz_concept_doc.md\",\n        }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

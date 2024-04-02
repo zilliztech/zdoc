@@ -1,6 +1,6 @@
 {
   "created_time": "1708421441",
-  "modified_time": "1709200437",
+  "modified_time": "1712038368",
   "name": "describeIndex()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "UqeGfuMkilgT1HdhoyGc08FznEt",
@@ -1330,7 +1330,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "DescribeIndexReq describeIndexReq = DescribeIndexReq.",
+                "content": "// describe the index for field \"vector\"\nDescribeIndexReq describeIndexReq = DescribeIndexReq.builder()\n        .collectionName(\"test\")\n        .fieldName(\"vector\")\n        .build();\nDescribeIndexResp describeIndexResp = client.describeIndex(describeIndexReq);\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1342,31 +1342,7 @@
             },
             {
               "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n        .fieldName(\"vector\")\n        .build();\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "DescribeIndexResp describeIndexResp = client.describeIndex(describeIndexReq);",
+                "content": "// DescribeIndexResp(indexName=test, indexType=AUTOINDEX, metricType=L2, fieldName=vector)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

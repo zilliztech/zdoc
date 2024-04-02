@@ -1,6 +1,6 @@
 {
   "created_time": "1708421687",
-  "modified_time": "1709200734",
+  "modified_time": "1712042729",
   "name": "upsert()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "HVVZfLAcOlz6bpdjY82cFmtNn2g",
@@ -20,6 +20,7 @@
           "WJpqdS7JooVGYQxizzhcCtqpntd",
           "Liird4sC0owZXRx2HUdc6n2Lnih",
           "KunOdYAzKoE7qRxBcz2cdmShnPg",
+          "DVzEdXed2oAfhLxlsp5czNQdnpc",
           "IyV7doGLdo6stjxVS1Fc0wJunXg",
           "GxFRda9tSop9NWx9HbJcC1kinKe",
           "IElldONwmo26Bxx60F5c8E9Tnlg",
@@ -133,7 +134,55 @@
           "elements": [
             {
               "text_run": {
-                "content": "upsert(UpsertReq.builder()\n    .data(List<JSONObject> data)\n    .collectionName(String collectionName)\n    .build()\n",
+                "content": "upsert(UpsertReq.builder()\n    .data(List<JSONObject> data)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .collectionName(String collectionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .partitionName(String partitionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    .build()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -349,22 +398,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// A dictionary, or",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7339751413159231491"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\nJSONObject jsonObject = new JSONObject();\nJSONArray vectorArray = new JSONArray();\nvectorArray.put(0.6186516144460161);\nvectorArray.put(0.5927442462488592);\nvectorArray.put(0.848608119657156);\nvectorArray.put(0.9287046808231654);\nvectorArray.put(-0.42215796530168403);\n\njsonObject.put(\"id\", 0);\njsonObject.put(\"vector\", vectorArray);\n\n// A list of dictionaries\nJSONArray dataArray = new JSONArray();\n\nJSONObject dict1 = new JSONObject();\nJSONArray vectorArray1 = new JSONArray();\nvectorArray1.put(0.37417449965222693);\nvectorArray1.put(-0.9401784221711342);\nvectorArray1.put(0.9197526367693833);\nvectorArray1.put(0.49519396415367245);\nvectorArray1.put(-0.558567588166478);\n\ndict1.put(\"id\", 1);\ndict1.put(\"vector\", vectorArray1);\n\nJSONObject dict2 = new JSONObject();\nJSONArray vectorArray2 = new JSONArray();\nvectorArray2.put(0.46949086179692356);\nvectorArray2.put(-0.533609076732849);\nvectorArray2.put(-0.8344432775467099);\nvectorArray2.put(0.9797361846081416);\nvectorArray2.put(0.6294256393761057);\n\ndict2.put(\"id\", 2);\ndict2.put(\"vector\", vectorArray2);\n\ndataArray.put(dict1);\n",
+                "content": "List<JSONObject>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -376,7 +410,211 @@
             },
             {
               "text_run": {
-                "content": "dataArray.put(dict2);",
+                "content": " data = new ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ArrayList<>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "();\n\nJSONObject dict1 = new JSONObject();\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List<Float> vectorArray1 = new ArrayList<>();\nvectorArray1.add(0.37417449965222693);\nvectorArray1.add(-0.9401784221711342);\nvectorArray1.add(0.9197526367693833);\nvectorArray1.add(0.49519396415367245);\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vectorArray1.add(-0.558567588166478);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\ndict1.put(\"id\", 1);\ndict1.put(\"vector\", vectorArray1);\n\nJSONObject dict2 = new JSONObject();\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSONArray vectorArray2 = ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "new ArrayList<>();",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vectorArray2.add(0.46949086179692356);\nvectorArray2.add(-0.533609076732849);\nvectorArray2.add(-0.8344432775467099);\nvectorArray2.add(0.9797361846081416);\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vectorArray2.add(0.6294256393761057);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\ndict2.put(\"id\", 2);\ndict2.put(\"vector\", vectorArray2);\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "add",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(dict1);\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "add",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(dict2);",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -392,9 +630,6 @@
             "wrap": false
           }
         },
-        "comment_ids": [
-          "7339751413159231491"
-        ],
         "parent_id": "Liird4sC0owZXRx2HUdc6n2Lnih"
       },
       {
@@ -434,6 +669,59 @@
             {
               "text_run": {
                 "content": "The name of an existing collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DVzEdXed2oAfhLxlsp5czNQdnpc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "partitionName(String partitionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "TjtRdYBtvoohIYxjkrUcZahwnJg"
+        ],
+        "parent_id": "DGdZdLvmPoKuutxEJfnc2ww2nMh"
+      },
+      {
+        "block_id": "TjtRdYBtvoohIYxjkrUcZahwnJg",
+        "block_type": 2,
+        "parent_id": "DVzEdXed2oAfhLxlsp5czNQdnpc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of an existing partition.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -684,7 +972,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "JSONObject jsonObject = new JSONObject();\nList<Float> vectorList = new ArrayList<>();\nvectorList.add(2.0f);\nvectorList.add(3.0f);\njsonObject.put(\"vector\", vectorList);\njsonObject.put(\"id\", 0L);\n",
+                "content": "// upsert operation\nJSONObject jsonObject = new JSONObject();\nList<Float> vectorList = new ArrayList<>();\nvectorList.add(2.0f);\nvectorList.add(3.0f);\njsonObject.put(\"vector\", vectorList);\njsonObject.put(\"id\", 0L);\nUpsertReq upsertReq = UpsertReq.builder()\n        .collectionName(\"test\")\n        .data(Collections.singletonList(jsonObject))\n        .build();\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -696,79 +984,7 @@
             },
             {
               "text_run": {
-                "content": "UpsertReq upsertReq = UpsertReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "        .data(Collections.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "singletonList",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "(jsonObject))\n        .build();\n\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "client_v2.upsert(upsertReq);",
+                "content": "client.upsert(upsertReq);",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -812,7 +1028,7 @@
         }
       }
     ],
-    "counts": 23
+    "counts": 25
   },
   "slug": "Vector-upsert"
 }

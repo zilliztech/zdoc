@@ -28,13 +28,13 @@ After creating a Search pipeline, you can run it to perform a semantic search.
 
 ## Via RESTful API{#via-restful-api}
 
-The following example runs the Search pipeline named `my_text_search_pipeline` (assuming its `pipelineId` is `pipe-26a18a66ffc8c0edfdb874`). The query text is "How many collections can a cluster with more than 8 CUs hold?".
+The following example runs the Search pipeline named `my_text_search_pipeline`. The query text is "How many collections can a cluster with more than 8 CUs hold?".
 
 ```bash
 curl --request POST \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-26a18a66ffc8c0edfdb874/run" \
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}/run" \
     -d '{
       "data": {
         "query_text": "How many collections can a cluster with more than 8 CUs hold?"
@@ -55,7 +55,7 @@ The parameters in the above code are described as follows:
 
 - `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
 
-- Query input field: The name should be consistent with what you defined when [adding the ](./create-search-piplines#via-restful-api)__[SEARCH_DOC_CHUNK](./create-search-piplines#via-restful-api)__[ function](./create-search-piplines#via-restful-api). Input the text string you want to query in the value of this field.
+- Query input field: The name should be consistent with what you defined when [adding the ](./create-search-pipelines#via-restful-api)__[SEARCH_DOC_CHUNK](./create-search-pipelines#via-restful-api)__[ function](./create-search-pipelines#via-restful-api). Input the text string you want to query in the value of this field.
 
 - `params`: The search parameters to configure.
 

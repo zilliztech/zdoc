@@ -57,9 +57,9 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-DescribeUserReq describeUserReq = DescribeUserReq._builder_()
+DescribeUserReq describeUserReq = DescribeUserReq.builder()
         .userName("test")
         .build();
-DescribeUserResp describeUserResp = client_v2.describeUser(describeUserReq);
+DescribeUserResp describeUserResp = client.describeUser(describeUserReq);
 ```
 

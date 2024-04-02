@@ -53,9 +53,9 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-DescribeAliasReq describeAliasReq = DescribeAliasReq._builder_()
+DescribeAliasReq describeAliasReq = DescribeAliasReq.builder()
         .alias("test_alias")
         .build();
-DescribeAliasResp describeAliasResp = client_v2.describeAlias(describeAliasReq);
+DescribeAliasResp describeAliasResp = client.describeAlias(describeAliasReq);
 ```
 

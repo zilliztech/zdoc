@@ -5,7 +5,7 @@
   "node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
   "node_type": "origin",
   "obj_create_time": "1699859454",
-  "obj_edit_time": "1710492851",
+  "obj_edit_time": "1712027567",
   "obj_token": "WVx8dp8wGoBBKexHzdicvLnynYc",
   "obj_type": "docx",
   "origin_node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
@@ -13,7 +13,7 @@
   "owner": "ou_fbc044d19930afd389d5c369466c38b1",
   "parent_node_token": "RzBdwMKAxiiejDk9rWjc1Sv1nSf",
   "space_id": "7167193056431783939",
-  "title": "User Guides",
+  "title": "User Guide",
   "slug": "pipelines-user-guides",
   "blocks": {
     "items": [
@@ -28,7 +28,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "User Guides",
+                "content": "User Guide",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -53,7 +53,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Comprehensive user guides to help you use Pipelines on Zilliz Cloud.",
+                "content": "Comprehensive user guide to help you use Pipelines on Zilliz Cloud.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -124,7 +124,7 @@
       "node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
       "node_type": "origin",
       "obj_create_time": "1699859629",
-      "obj_edit_time": "1707100967",
+      "obj_edit_time": "1712025892",
       "obj_token": "GSLpdWWKpo2WFkxVKenc4qBynBh",
       "obj_type": "docx",
       "origin_node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
@@ -132,7 +132,7 @@
       "owner": "ou_fbc044d19930afd389d5c369466c38b1",
       "parent_node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
       "space_id": "7167193056431783939",
-      "title": "Create Pipelines",
+      "title": "Create Pipeline",
       "slug": "create-pipelines"
     },
     {
@@ -142,7 +142,7 @@
       "node_token": "RxmuwIgydiN3vkkKmATcam59nDc",
       "node_type": "origin",
       "obj_create_time": "1706250752",
-      "obj_edit_time": "1711421820",
+      "obj_edit_time": "1712026853",
       "obj_token": "R5dVdL4BNox7yXxg4u0cExydnmg",
       "obj_type": "docx",
       "origin_node_token": "RxmuwIgydiN3vkkKmATcam59nDc",
@@ -150,7 +150,7 @@
       "owner": "ou_fbc044d19930afd389d5c369466c38b1",
       "parent_node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
       "space_id": "7167193056431783939",
-      "title": "Manage Pipelines",
+      "title": "Manage Pipeline",
       "slug": "manage-pipelines"
     },
     {
@@ -160,7 +160,7 @@
       "node_token": "XFEcwie5GiRlH5kLtvzcA8lWnNb",
       "node_type": "origin",
       "obj_create_time": "1699859825",
-      "obj_edit_time": "1708758010",
+      "obj_edit_time": "1712025897",
       "obj_token": "XKz7dnRAyooJEHxjvaAciETmnfd",
       "obj_type": "docx",
       "origin_node_token": "XFEcwie5GiRlH5kLtvzcA8lWnNb",
@@ -168,7 +168,7 @@
       "owner": "ou_fbc044d19930afd389d5c369466c38b1",
       "parent_node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
       "space_id": "7167193056431783939",
-      "title": "Run Pipelines",
+      "title": "Run Pipeline",
       "slug": "run-pipelines"
     },
     {
@@ -178,7 +178,7 @@
       "node_token": "WbQZwNrsIiqw1bkkP7zctG6knXf",
       "node_type": "origin",
       "obj_create_time": "1703211072",
-      "obj_edit_time": "1708421545",
+      "obj_edit_time": "1712025913",
       "obj_token": "T1VMdLekqoex3OxJ2wccYe15nNg",
       "obj_type": "docx",
       "origin_node_token": "WbQZwNrsIiqw1bkkP7zctG6knXf",
@@ -186,7 +186,7 @@
       "owner": "ou_fbc044d19930afd389d5c369466c38b1",
       "parent_node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
       "space_id": "7167193056431783939",
-      "title": "Estimate Pipelines Usage",
+      "title": "Estimate Pipeline Usage",
       "slug": "estimate-pipelines-usage"
     },
     {

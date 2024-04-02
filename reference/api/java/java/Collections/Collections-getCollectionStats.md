@@ -57,9 +57,9 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-GetCollectionStatsReq getCollectionStatsReq = GetCollectionStatsReq._builder_()
+GetCollectionStatsReq getCollectionStatsReq = GetCollectionStatsReq.builder()
         .collectionName("test")
         .build();
-GetCollectionStatsResp getCollectionStatsResp = client_v2.getCollectionStats(getCollectionStatsReq);
+GetCollectionStatsResp getCollectionStatsResp = client.getCollectionStats(getCollectionStatsReq);
 ```
 

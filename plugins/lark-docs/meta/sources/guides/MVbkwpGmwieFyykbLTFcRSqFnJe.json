@@ -5,7 +5,7 @@
   "node_token": "MVbkwpGmwieFyykbLTFcRSqFnJe",
   "node_type": "origin",
   "obj_create_time": "1710916962",
-  "obj_edit_time": "1711442273",
+  "obj_edit_time": "1711964859",
   "obj_token": "JiOIdARjCoNjItxamDBcD3gTnid",
   "obj_type": "docx",
   "origin_node_token": "MVbkwpGmwieFyykbLTFcRSqFnJe",
@@ -24,26 +24,19 @@
           "OeFodTQlpolRGIx2u6ZcypS3nmh",
           "QtKmd6siRo0TI9xsMkscKYKpnnc",
           "VXppdWrFFoYocSx38UjcsiRNnGe",
-          "Qwhsd2CAoogOfKx4m4hcdILxnic",
+          "CsL9ds2nToiIwSxzmn5cpip5nIh",
+          "LpfQdtTBSojGDtxnYshcgBVgnzr",
+          "XI4xdbscaoKvq2xTCyNciQoantc",
+          "MpHvdrFu0obG2RxsCEIcgPU0nyg",
+          "LqkLd8wA3oAub0xrETTcIY1DnNd",
+          "PGP0dWCqiot1SGxHStBcDw7BnOc",
+          "MRcadvL94oAT9fxhDlRcYfVFnrh",
+          "VZwIdLGW3oF0JPxbR2XcrqjznVe",
+          "WacGdBlKro7eY7xbd2tclMVZnhk",
+          "Qf9QdwRCkolpu2xZBdYcMOK1nYf",
           "IvLPdW68Zo7d0JxgOsKckktYnhc",
           "B3DKdi774oZ18nxgnthcpOaqnqh",
-          "Kj5hd8fqYoqt9TxfZqccrQ9Wnbh",
-          "HHd0d9rweoXTghx47QJccimQnsb",
-          "HfYzdXixWoeooSx2JaZcPnW6nrF",
-          "WXE7dNrpLoKoWzxoGSccLs75ndb",
-          "GR05dYl6AoqCOMxhaFRcplT3nSh",
-          "NPCWdbm9noxDnmxVRFDccJINnee",
-          "WX9rdmibXotUMVxCPwOc16wTnac",
-          "OU6ZdKEt4o6fWmx6ojVc0xiYnJh",
-          "OEkNdBMKroN4OXxqmPXcmwGFnZf",
-          "JW0dd8dbBobmFPxbCq8cPX5qnfg",
-          "GB1pdmY1foxpKLxd8UCcvUXcnEh",
-          "JlFQd9w0NobE78xcrvSco463ndb",
-          "H2RUdQUhvoDDNjxKM8wcowUVnEe",
-          "R7wGd5KxboPhhBxPXXAcxKFqnne",
-          "Ajl3dxNQQocPIsxMKFoctBPenqg",
-          "OyyCdWilJor85Ox5kArcOSREn9b",
-          "CFBjdFGivokE80x2C5Hc1qUXnZc"
+          "GBuydQTXqo5SKTxeK2CcE4JbnXo"
         ],
         "comment_ids": [
           "7350485000565587971"
@@ -133,7 +126,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "A connector is a tool designed to support data streaming from one place to another. As indicated in the diagram below, a connector first scans the data in various file formats hosted on different object storage services (eg. AWS S3, Google Cloud Storage, etc.) and ",
+                "content": "A connector is a tool ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -145,7 +138,91 @@
             },
             {
               "text_run": {
-                "content": "transfer them into vector database via ",
+                "content": "for ingesting data to Zilliz Cloud from various data sources, including Object Storage, Kafka (coming soon) and more",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Taking object storage connector as an example",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", a connector ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "can monitor a diretory in object storage bucket and sync",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "files such as PDFs and HTMLs to",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -178,7 +255,7 @@
             },
             {
               "text_run": {
-                "content": ".",
+                "content": ", so that they can be converted to vector representation and stored in vector database for search. With ingestion and deletion pipelines, the files and their vector representation in Zilliz Cloud are kept in sync. Any addition or removal of files in the object storage will be mapped to the vector database collection.",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -190,10 +267,104 @@
                   "underline": false
                 }
               }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CsL9ds2nToiIwSxzmn5cpip5nIh",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D43060-1253%26mode%3Ddesign%26t%3DuIznTKLMN5wde6N5-4"
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "LpfQdtTBSojGDtxnYshcgBVgnzr",
+        "block_type": 4,
+        "comment_ids": [
+          "7352828078500691996",
+          "7351261054044782620"
+        ],
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Why use a connector?",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7351261054044782620",
+                    "7352828078500691996"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "XI4xdbscaoKvq2xTCyNciQoantc",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Real-time",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
             },
             {
               "text_run": {
-                "content": " These source data will be further processed by the ingestion or deletion pipeline and finally stored as entities in a Zillliz Cloud collection.",
+                "content": " Data Ingestion",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "MpHvdrFu0obG2RxsCEIcgPU0nyg",
+        "block_type": 2,
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Effortlessly ingest and index data in real-time, guaranteeing that the freshest content is instantly accessible for all search inquiries.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -211,15 +382,154 @@
         }
       },
       {
-        "block_id": "Qwhsd2CAoogOfKx4m4hcdILxnic",
-        "block_type": 27,
-        "image": {
-          "align": 2,
-          "height": 520,
-          "token": "XF2zbQ3YOocLiXx2Tp9cvOhNnSh",
-          "width": 2021
+        "block_id": "LqkLd8wA3oAub0xrETTcIY1DnNd",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Scalable and Adaptive",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
         },
         "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "PGP0dWCqiot1SGxHStBcDw7BnOc",
+        "block_type": 2,
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Easily scale up your data ingestion pipeline with zero DevOps hassle. The adaptive connectors seamlessly handle fluctuating traffic loads, ensuring smooth scalability.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MRcadvL94oAT9fxhDlRcYfVFnrh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search Index Kept in Sync With Heterogeneous Sources",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "VZwIdLGW3oF0JPxbR2XcrqjznVe",
+        "block_type": 2,
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Automatically sync the addition and deletion of documents to the search index. Moreover, fuse all common types of data source (coming soon).",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WacGdBlKro7eY7xbd2tclMVZnhk",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Observability",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
+      },
+      {
+        "block_id": "Qf9QdwRCkolpu2xZBdYcMOK1nYf",
+        "block_type": 2,
+        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Gain insight into your dataflow with detailed logging, ensuring transparency and detecting any anomalies that may arise.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "IvLPdW68Zo7d0JxgOsKckktYnhc",
@@ -260,7 +570,79 @@
           "elements": [
             {
               "text_run": {
-                "content": "When a connector is created, Zilliz Cloud periodically checks the provided object storage path for file addition or deletion. The workflow diagram below illustrates this process.",
+                "content": "Zilliz Cloud Connector provides flexible options to customize auto scan schedules. You can easily set the desired frequency for periodic scanning of data sources. Once the schedule is established, Zilliz Cloud Connector will ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "periodically scan",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " your data sources and",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ingest",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "into",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " your vector database at regular intervals. The screenshot provided demonstrates the easy process of configuring the scan schedule with just a few clicks.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -278,450 +660,17 @@
         }
       },
       {
-        "block_id": "Kj5hd8fqYoqt9TxfZqccrQ9Wnbh",
-        "block_type": 43,
-        "board": {
-          "height": 501,
-          "token": "CIzfw8L8uhD2YKbsCyncyo3wnrc",
-          "width": 597
-        },
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
-      },
-      {
-        "block_id": "HHd0d9rweoXTghx47QJccimQnsb",
+        "block_id": "GBuydQTXqo5SKTxeK2CcE4JbnXo",
         "block_type": 26,
         "iframe": {
           "component": {
             "iframe_type": 8,
-            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D42717-3567%26mode%3Ddesign%26t%3DWLxAkO0Etu3hnDgJ-4"
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D43851-1439%26mode%3Ddesign%26t%3D22P1KQjh95iz8Jw9-4"
           }
         },
         "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
-      },
-      {
-        "block_id": "HfYzdXixWoeooSx2JaZcPnW6nrF",
-        "block_type": 2,
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The connector consists of four components.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "WXE7dNrpLoKoWzxoGSccLs75ndb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "User",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": Users can access the current token usage via the control platform.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
-      },
-      {
-        "block_id": "GR05dYl6AoqCOMxhaFRcplT3nSh",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Control Platform: ",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Offers users an API to configure connectors and pipelines. It analyzes the configurations and sends them to the scheduler to ensure timely initiation of sync tasks.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
-      },
-      {
-        "block_id": "NPCWdbm9noxDnmxVRFDccJINnee",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Resource Pool: ",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "A self-developed task scheduler that receives and executes sync tasks.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
-      },
-      {
-        "block_id": "WX9rdmibXotUMVxCPwOc16wTnac",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Task: ",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Executes tasks and distinguishes between different data sources, such as HTTP and Kafka.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
-      },
-      {
-        "block_id": "OU6ZdKEt4o6fWmx6ojVc0xiYnJh",
-        "block_type": 2,
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Please note that the connector determines file updates based on the file name.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "OEkNdBMKroN4OXxqmPXcmwGFnZf",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Why use a connector?",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
-      },
-      {
-        "block_id": "JW0dd8dbBobmFPxbCq8cPX5qnfg",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Seamless Data Ingestion",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
-      },
-      {
-        "block_id": "GB1pdmY1foxpKLxd8UCcvUXcnEh",
-        "block_type": 2,
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "In RAG applications, the connector's role starts with data ingestion, where it sources information from various data streams and prepares it for processing.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "JlFQd9w0NobE78xcrvSco463ndb",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Real-time Data Availability",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
-      },
-      {
-        "block_id": "H2RUdQUhvoDDNjxKM8wcowUVnEe",
-        "block_type": 2,
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "For RAG applications, which often rely on the most current data to generate responses, connectors are crucial for real-time data availability.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "R7wGd5KxboPhhBxPXXAcxKFqnne",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Data Integrity and Consistency",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
-      },
-      {
-        "block_id": "Ajl3dxNQQocPIsxMKFoctBPenqg",
-        "block_type": 2,
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Connectors are responsible for maintaining the integrity and consistency of data as it moves from the original sources to the retrieval system, ensuring that the generated outputs are based on accurate and up-to-date information.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "OyyCdWilJor85Ox5kArcOSREn9b",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Scalability and Adaptability",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid"
-      },
-      {
-        "block_id": "CFBjdFGivokE80x2C5Hc1qUXnZc",
-        "block_type": 2,
-        "parent_id": "JiOIdARjCoNjItxamDBcD3gTnid",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Connectors help RAG systems to scale up and adapt as new data sources emerge or as existing ones evolve, without the need for substantial changes to the core system.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
       }
     ],
-    "counts": 24
+    "counts": 17
   }
 }

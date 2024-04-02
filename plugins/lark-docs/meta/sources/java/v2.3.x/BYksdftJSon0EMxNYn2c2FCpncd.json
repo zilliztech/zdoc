@@ -1,6 +1,6 @@
 {
   "created_time": "1708420845",
-  "modified_time": "1708935794",
+  "modified_time": "1712040940",
   "name": "createUser()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "NX2nfYbWXlBEeyd1gQhcsnDGnQe",
@@ -25,8 +25,12 @@
           "R4Pvdx7GiovvRjx2jnAcLzI6nxb",
           "ObYDdvGv7oUpcMx1uJFcklaNnWe",
           "NtTkdFoE9ot6XbxVTQQcdPVLntg",
+          "Wkpgd51szoXhsmxPzEqcjmotnve",
           "Fsfadmosaor8QPxmgGtcx2m9nnu",
-          "ZLbAdIGMDoLf4Bx7ZHfc4miDnVf"
+          "ZLbAdIGMDoLf4Bx7ZHfc4miDnVf",
+          "HPuOdQzmGo9uv4xk8F8c6jsenLe",
+          "G3QedsYecoygQAxg34jcaszVnYb",
+          "GgsddEYbvoOqG4xZXzBc29pMntg"
         ],
         "page": {
           "elements": [
@@ -446,10 +450,119 @@
         "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd"
       },
       {
+        "block_id": "Wkpgd51szoXhsmxPzEqcjmotnve",
+        "block_type": 2,
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "Fsfadmosaor8QPxmgGtcx2m9nnu",
         "block_type": 14,
         "code": {
           "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.client.ConnectConfig\nimport io.milvus.v2.client.MilvusClientV2\nimport io.milvus.v2.service.rbac.request.CreateUserReq\n\n// 1. Set up a client\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ConnectConfig connectConfig = ConnectConfig.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .uri(\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "http://localhost:19530",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\")\n        .token(\"root:Milvus\")\n        .build();\n        \nMilvusClientV2 client = new MilvusClientV2(connectConfig);\n\n\n// 2. Create a user\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "CreateUserReq createUserReq = CreateUserReq.",
@@ -476,7 +589,55 @@
             },
             {
               "text_run": {
-                "content": "()\n        .userName(\"test\")\n        .password(\"Zilliz@2023\")\n        .build();\n",
+                "content": "()\n        .userName(\"test\")\n        .password(\"Zilliz@2023\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .build();",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -514,7 +675,94 @@
           "elements": [
             {
               "text_run": {
-                "content": "",
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HPuOdQzmGo9uv4xk8F8c6jsenLe",
+        "block_type": 2,
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G3QedsYecoygQAxg34jcaszVnYb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.client.ConnectConfig\nimport io.milvus.v2.client.MilvusClientV2\nimport io.milvus.v2.service.rbac.request.CreateUserReq\n\n// 1. Set up a client\nConnectConfig connectConfig = ConnectConfig.builder()\n        .uri(\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\")\n        .token(\"user:password\")\n        .build();\n        \nMilvusClientV2 client = new MilvusClientV2(connectConfig);\n\n\n// 2. Create a role\nCreateUserReq createUserReq = CreateUserReq.builder()\n        .userName(\"user_1\")\n        .password(\"P@ssw0rd\")\n        .build();\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.createUser(createUserReq);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd"
+      },
+      {
+        "block_id": "GgsddEYbvoOqG4xZXzBc29pMntg",
+        "block_type": 2,
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -532,7 +780,7 @@
         }
       }
     ],
-    "counts": 18
+    "counts": 22
   },
   "slug": "Authentication-createUser"
 }

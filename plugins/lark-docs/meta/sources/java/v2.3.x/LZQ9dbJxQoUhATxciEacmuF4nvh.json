@@ -1,6 +1,6 @@
 {
   "created_time": "1708421428",
-  "modified_time": "1709019893",
+  "modified_time": "1712042525",
   "name": "createIndex()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "UqeGfuMkilgT1HdhoyGc08FznEt",
@@ -563,31 +563,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "IndexParam indexParam = IndexParam.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n",
+                "content": "// create an index for field \"vector\"\nIndexParam indexParam = IndexParam.builder()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -659,79 +635,7 @@
             },
             {
               "text_run": {
-                "content": ")\n        .fieldName(\"vector\")\n        .build();\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "CreateIndexReq createIndexReq = CreateIndexReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test2\")\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "        .indexParams(Collections.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "singletonList",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "(indexParam))\n        .build();\n",
+                "content": ")\n        .fieldName(\"vector\")\n        .build();\nCreateIndexReq createIndexReq = CreateIndexReq.builder()\n        .collectionName(\"test\")\n        .indexParams(Collections.singletonList(indexParam))\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

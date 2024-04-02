@@ -1,6 +1,6 @@
 {
   "created_time": "1708421161",
-  "modified_time": "1708935100",
+  "modified_time": "1712039535",
   "name": "loadCollection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "UqeGfuMkilgT1HdhoyGc08FznEt",
@@ -20,7 +20,9 @@
           "HQUjdZyLtozWntx91tZcwg0Xnob",
           "ASFjdzlqloLPaSx4zFTcMR0wnXb",
           "U1YudUh7boteNRxBLNfcW6bEnae",
-          "JcWaddg2YoASKoxYk2ScenC6nNA",
+          "IgQTdLmm2od29tx7CXPcquZPnAh",
+          "EukTde9cdo3xEsx8vnqct4WynWd",
+          "DGrMdvbqNoWoTzxOY5CcyRVfnyh",
           "Udcyd0GEWoKdT0x5AgscdIYinUd",
           "D8zudGvEtot9gFxlF1RcMNWenhd",
           "W6tYdgVpRoU4bNxjToKcbcDpnge",
@@ -232,7 +234,7 @@
             },
             {
               "text_run": {
-                "content": "    .partitionNames(",
+                "content": "    .",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -244,7 +246,7 @@
             },
             {
               "text_run": {
-                "content": "List",
+                "content": "numReplicas(Integer numReplicas)\n    .async(Boolean async)\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -256,7 +258,7 @@
             },
             {
               "text_run": {
-                "content": "<",
+                "content": "    .timeout(Long timeout)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -268,19 +270,7 @@
             },
             {
               "text_run": {
-                "content": "String",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "> partitionNames)\n    .build()\n",
+                "content": "\n    .build()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -389,61 +379,13 @@
         }
       },
       {
-        "block_id": "JcWaddg2YoASKoxYk2ScenC6nNA",
+        "block_id": "IgQTdLmm2od29tx7CXPcquZPnAh",
         "block_type": 12,
         "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "partitionNames(",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "List",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "String",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "> partitionNames)",
+                "content": "numReplicas(Integer numReplicas)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -460,19 +402,275 @@
           }
         },
         "children": [
-          "Se3Md7sXVo7l76xxnyAckrsHnab"
+          "BdAJddxG7oFx42xMfs9cx6T4nXg",
+          "DG1GdRnqToag0Axe0TactztznMg"
         ],
         "parent_id": "G9QJdgzrVoGLqwxxHo6cgzwfnEh"
       },
       {
-        "block_id": "Se3Md7sXVo7l76xxnyAckrsHnab",
+        "block_id": "BdAJddxG7oFx42xMfs9cx6T4nXg",
         "block_type": 2,
-        "parent_id": "JcWaddg2YoASKoxYk2ScenC6nNA",
+        "parent_id": "IgQTdLmm2od29tx7CXPcquZPnAh",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "A list of partition names to load.",
+                "content": "The number of replicas to create upon collection load.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DG1GdRnqToag0Axe0TactztznMg",
+        "block_type": 2,
+        "parent_id": "IgQTdLmm2od29tx7CXPcquZPnAh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", indicating that one replica is to be created upon collection load.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EukTde9cdo3xEsx8vnqct4WynWd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "async(Boolean async)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "HJ7mdiTa1o4VQRxcdowcukUmnke",
+          "HPRNd5WdXoXPiZx2qagcWxeknwe"
+        ],
+        "parent_id": "G9QJdgzrVoGLqwxxHo6cgzwfnEh"
+      },
+      {
+        "block_id": "HJ7mdiTa1o4VQRxcdowcukUmnke",
+        "block_type": 2,
+        "parent_id": "EukTde9cdo3xEsx8vnqct4WynWd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Whether this operation is asynchronous.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HPRNd5WdXoXPiZx2qagcWxeknwe",
+        "block_type": 2,
+        "parent_id": "EukTde9cdo3xEsx8vnqct4WynWd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Boolean.True",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", indicating immediate return while the process may still run in the background.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DGrMdvbqNoWoTzxOY5CcyRVfnyh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "timeout(Long timeout)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "RI4udCsctoVMqExSZBecxhFOndh",
+          "EehudUSxJol6CixPjulcLn7PnEe"
+        ],
+        "parent_id": "G9QJdgzrVoGLqwxxHo6cgzwfnEh"
+      },
+      {
+        "block_id": "RI4udCsctoVMqExSZBecxhFOndh",
+        "block_type": 2,
+        "parent_id": "DGrMdvbqNoWoTzxOY5CcyRVfnyh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The timeout duration of the process. The process terminates after the specified duration expires.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EehudUSxJol6CixPjulcLn7PnEe",
+        "block_type": 2,
+        "parent_id": "DGrMdvbqNoWoTzxOY5CcyRVfnyh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "60000L",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", indicating the timeout duration is one minute.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -649,31 +847,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "LoadCollectionReq loadCollectionReq = LoadCollectionReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n        .build();\n",
+                "content": "// load collection \"test\"\nLoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()\n        .collectionName(\"test\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -729,7 +903,7 @@
         }
       }
     ],
-    "counts": 21
+    "counts": 28
   },
   "slug": "Management-loadCollection"
 }

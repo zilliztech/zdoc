@@ -26,13 +26,14 @@ Constructs the schema of a field by defining the field name, data type, and othe
 ```java
 CreateCollectionReq.FieldSchema.builder()
     .name(String fieldName)
+    .description(String description)
     .dataType(DataType dataType)
-    .isPrimaryKey(boolean isPrimaryKey)
-    .autoID(boolean autoID)
     .maxLength(int maxLength)
     .dimension(int dimension)
-    .elementType(DataType elementType)
-    .maxCapacity(int maxCapacity)
+    .isPrimaryKey(boolean isPrimaryKey)
+    .isPartitionKey(boolean isPartitionKey)
+    .autoID(boolean autoID)
+
     .build();
 ```
 
@@ -41,6 +42,10 @@ __BUILDER METHODS:__
 - `name(String fieldName)`
 
     The name of the field.
+
+- `description(String description)`
+
+    The description of the field.
 
 - `dataType(DataType dataType)`
 
@@ -54,20 +59,6 @@ __BUILDER METHODS:__
 
     - Vector fields: Select __DataType.FloatVector__.
 
-- `isPrimaryKey(boolean isPrimaryKey)`
-
-    Whether the current field is the primary field.
-
-    Setting this to __True__ makes the current field the primary field.
-
-- `autoID(boolean autoID)`
-
-    Whether allows the primary field to automatically increment.
-
-    Setting this to __True__ makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
-
-    Set this parameter in the field with __isPrimaryKey__ set to __True__.
-
 - `maxLength(int maxLength)`
 
     The maximum number of characters a value should contain.
@@ -79,6 +70,26 @@ __BUILDER METHODS:__
     The number of dimensions a value should have.
 
     This is required if __dataType__ of this field is set to __DataType.FloatVector__.
+
+- `isPrimaryKey(boolean isPrimaryKey)`
+
+    Whether the current field is the primary field.
+
+    Setting this to __True__ makes the current field the primary field.
+
+- `isPartitionKey(boolean isPartitionKey)`
+
+    Whether the current field is the partitionKey field.
+
+    Setting this to __True__ makes the current field the partition key.
+
+- `autoID(boolean autoID)`
+
+    Whether allows the primary field to automatically increment.
+
+    Setting this to __True__ makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
+
+    Set this parameter in the field with __isPrimaryKey__ set to __True__.
 
 __RETURN TYPE:__
 
@@ -97,7 +108,8 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-CreateCollectionReq.FieldSchema fieldSchema1 = CreateCollectionReq.FieldSchema._builder_()
+// define a id field with autoID set to false
+CreateCollectionReq.FieldSchema fieldSchema = CreateCollectionReq.FieldSchema.builder()
         .name("id")
         .dataType(DataType._Int64_)
         .isPrimaryKey(Boolean._TRUE_)

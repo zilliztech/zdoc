@@ -1,6 +1,6 @@
 {
   "created_time": "1708421589",
-  "modified_time": "1708935643",
+  "modified_time": "1712041788",
   "name": "hasPartition()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "TXEsfWjuFl2cKPdDyrrcS7hFnwd",
@@ -528,31 +528,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "HasPartitionReq hasPartitionReq = HasPartitionReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n        .partitionName(\"test_partition\")\n        .build();\n",
+                "content": "// check is partition \"test_partition\" exists in collection\nHasPartitionReq hasPartitionReq = HasPartitionReq.builder()\n        .collectionName(\"test\")\n        .partitionName(\"test_partition\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

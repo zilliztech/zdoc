@@ -5,7 +5,7 @@
   "node_token": "FreNwlcuIi8yhCkbZYkclJEknAh",
   "node_type": "origin",
   "obj_create_time": "1710916974",
-  "obj_edit_time": "1711441295",
+  "obj_edit_time": "1712025973",
   "obj_token": "JeoDd2855o8bv4xBK8nc3XmOnof",
   "obj_type": "docx",
   "origin_node_token": "FreNwlcuIi8yhCkbZYkclJEknAh",
@@ -13,7 +13,7 @@
   "owner": "ou_fbc044d19930afd389d5c369466c38b1",
   "parent_node_token": "PlQgwKLgQis7mnkLoBzc40aVn6c",
   "space_id": "7167193056431783939",
-  "title": "Create Connectors",
+  "title": "Create Connector",
   "slug": "create-connectors",
   "blocks": {
     "items": [
@@ -38,7 +38,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Create Connectors",
+                "content": "Create Connector",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -58,12 +58,70 @@
       {
         "block_id": "J6TqdnohRohQxvxLPf4cidmAnNc",
         "block_type": 2,
+        "comment_ids": [
+          "7352834318995636228",
+          "7352834219336417283"
+        ],
         "parent_id": "JeoDd2855o8bv4xBK8nc3XmOnof",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The process of creating connectors is crucial in integrating various data sources into your Zilliz Cloud Pipelines. This guide walks you through the process of setting up connectors on the Zilliz Cloud web UI.",
+                "content": "Connectors makes it easy to integrate",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " various data sources into your Zilliz Cloud Pipelines.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7352834219336417283"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " This guide walks you through the simple  ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "process",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7352834318995636228"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " of setting up connectors on the Zilliz Cloud web UI.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -125,7 +183,7 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": true
           }
         },
         "parent_id": "JeoDd2855o8bv4xBK8nc3XmOnof"

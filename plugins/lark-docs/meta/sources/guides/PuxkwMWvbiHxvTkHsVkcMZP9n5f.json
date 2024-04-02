@@ -5,7 +5,7 @@
   "node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
   "node_type": "origin",
   "obj_create_time": "1705979316",
-  "obj_edit_time": "1709698062",
+  "obj_edit_time": "1712023485",
   "obj_token": "NIIldYshaoVw2bxiWjrcTt14nac",
   "obj_type": "docx",
   "origin_node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
@@ -34,8 +34,9 @@
           "N5tHdBrE7opgdUxbTTjcimxFnoC",
           "Em8BdOkVQorboKxgTnGcyYg9nEg",
           "JJA2dke09oflMfxhHSzcv8gHnRf",
-          "Ci0Ud28FZo6EnRx9S20cww9lnHh",
           "Gc5PdTe2uotjcPxxt44ckIApn5g",
+          "VmrVdFEZno3rgAxPQiycqs89nqg",
+          "Bt6AdL5MFoV8K0xzVwVcASIYnvb",
           "HiXpd49EYoUuO2xqZGdc24nTnfN",
           "VlhCd1DVCoeTb6xwcascOL71nIc",
           "OXZhdGWiBom1unxf0gSchwvanoc",
@@ -62,11 +63,6 @@
           "Qj1Idh1mfo6FPxxHLoMcOxOgnfg",
           "Yyg7d2CaUoHC5TxDssmcryKXngb",
           "LCY6d9mlloJt4CxPOyJczwqfnDd",
-          "LGdDdw0xKol0NGxaDaucB8Dxnqg",
-          "FaRydxNTroqQucxeKBtcwKKvnsg",
-          "VuVddsosToSQZlxWbJSctaZhnqc",
-          "Kkckd0xPooeWTrxP0dycIOD1nge",
-          "Y1mydhJ2KoqEn9xGxN5cupFtnkc",
           "E5yxdHM16okh57xV3WKcTJsYn0f",
           "DOYOdIct2o2mBnx8yoncnshTnVd",
           "Vi2QdlAMNoFL7CxF94ScCwninHh",
@@ -1258,6 +1254,9 @@
           "DspcdDOrGoK1fPxpmScccsqyn9c",
           "OqL7duFdOoZbcWx5XlOcAS6anJc",
           "Se7EdbNP4ouiNrxPQHccanQfned",
+          "PBDxdaFKKoZjBXxL3lxcJmPFnnd",
+          "BGMTdwxrzoxxFOxG24JcdsnQnLt",
+          "FtpedgGHtos8IzxGRt1cqa65n3f",
           "U2dndlSBRoB4woxA5drchh06nxg",
           "AlbddV5bJotPOEx2957cPaacnEf",
           "Hgeod7LKnoUTIYxfkK7cCy1wn5c",
@@ -1271,6 +1270,9 @@
             "DspcdDOrGoK1fPxpmScccsqyn9c",
             "OqL7duFdOoZbcWx5XlOcAS6anJc",
             "Se7EdbNP4ouiNrxPQHccanQfned",
+            "PBDxdaFKKoZjBXxL3lxcJmPFnnd",
+            "BGMTdwxrzoxxFOxG24JcdsnQnLt",
+            "FtpedgGHtos8IzxGRt1cqa65n3f",
             "U2dndlSBRoB4woxA5drchh06nxg",
             "AlbddV5bJotPOEx2957cPaacnEf",
             "Hgeod7LKnoUTIYxfkK7cCy1wn5c",
@@ -1321,9 +1323,21 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 3
+            "row_size": 4
           }
         }
       },
@@ -1415,6 +1429,108 @@
                 "content": "Remarks",
                 "text_element_style": {
                   "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PBDxdaFKKoZjBXxL3lxcJmPFnnd",
+        "block_type": 32,
+        "children": [
+          "EhvmdYb75o7fHSxuIIDcyMQzndf"
+        ],
+        "parent_id": "EvF3dnmPHovXrgx9h4DcNjx2ntb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "EhvmdYb75o7fHSxuIIDcyMQzndf",
+        "block_type": 2,
+        "parent_id": "PBDxdaFKKoZjBXxL3lxcJmPFnnd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Serverless Cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BGMTdwxrzoxxFOxG24JcdsnQnLt",
+        "block_type": 32,
+        "children": [
+          "Q7e8dIjqto6qU7xIaIjcj2adn4e"
+        ],
+        "parent_id": "EvF3dnmPHovXrgx9h4DcNjx2ntb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Q7e8dIjqto6qU7xIaIjcj2adn4e",
+        "block_type": 2,
+        "parent_id": "BGMTdwxrzoxxFOxG24JcdsnQnLt",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FtpedgGHtos8IzxGRt1cqa65n3f",
+        "block_type": 32,
+        "children": [
+          "CV9OddfbWotU8yxPrsQch6mDn5I"
+        ],
+        "parent_id": "EvF3dnmPHovXrgx9h4DcNjx2ntb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CV9OddfbWotU8yxPrsQch6mDn5I",
+        "block_type": 2,
+        "parent_id": "FtpedgGHtos8IzxGRt1cqa65n3f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can always create one serverless cluster. To create a new serverless cluster, drop the existing one first.",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1977,12 +2093,42 @@
       {
         "block_id": "B3Dtd1rbHoO9xgxNjM3cY061nce",
         "block_type": 2,
+        "comment_ids": [
+          "7352950227382337539"
+        ],
         "parent_id": "R3zZdYtZwoTROIxz7jYcIGcynJf",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Users can use up to 128 CUs across all standard clusters and 32 CUs for a single cluster.",
+                "content": "On the console, you can ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "create",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7352950227382337539"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " up to 128 compute units (CUs) across all standard clusters or 32 CUs for a single cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2084,71 +2230,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Users can use up to 128 CUs across all enterprise clusters and 32 CUs for a single cluster.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Ci0Ud28FZo6EnRx9S20cww9lnHh",
-        "block_type": 19,
-        "callout": {
-          "background_color": 2,
-          "border_color": 2,
-          "emoji_id": "blue_book"
-        },
-        "children": [
-          "RV3mdKiBPoRgCyxKvnMcGdFUnAc",
-          "Oxwcd8vOkoL4kyxpZPxc71N2nPf"
-        ],
-        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac"
-      },
-      {
-        "block_id": "RV3mdKiBPoRgCyxKvnMcGdFUnAc",
-        "block_type": 2,
-        "parent_id": "Ci0Ud28FZo6EnRx9S20cww9lnHh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Notes",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Oxwcd8vOkoL4kyxpZPxc71N2nPf",
-        "block_type": 2,
-        "parent_id": "Ci0Ud28FZo6EnRx9S20cww9lnHh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "You can always create one serverless cluster. To create a new serverless cluster, drop the existing one first.",
+                "content": "On the console, you can create up to 128 compute units (CUs) across all enterprise clusters or 32 CUs for a single cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2173,7 +2255,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "To create clusters with more than 32 CUs, ",
+                "content": "You are welcome to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2200,7 +2282,7 @@
             },
             {
               "text_run": {
-                "content": ".",
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2216,6 +2298,56 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "VmrVdFEZno3rgAxPQiycqs89nqg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If one of your clusters needs to use more than 32 CUs or, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac"
+      },
+      {
+        "block_id": "Bt6AdL5MFoV8K0xzVwVcASIYnvb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If all your enterprise clusters require more than 128 CUs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac"
       },
       {
         "block_id": "HiXpd49EYoUuO2xqZGdc24nTnfN",
@@ -6055,7 +6187,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Min(512 x Number of CUs, 65536)",
+                "content": "<= 512 x Number of CUs",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6261,7 +6393,7 @@
             },
             {
               "text_run": {
-                "content": "2",
+                "content": "20",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -6273,31 +6405,7 @@
             },
             {
               "text_run": {
-                "content": " partitions and ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "4",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " shards, while each of the remaining ",
+                "content": " partitions, while each of the remaining ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6333,7 +6441,7 @@
             },
             {
               "text_run": {
-                "content": "1",
+                "content": "10",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -6345,31 +6453,7 @@
             },
             {
               "text_run": {
-                "content": " partition and ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "12",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " shards. The consumed capacity of the cluster can be calculated as follows:",
+                "content": " partition. The consumed capacity of the cluster can be calculated as follows:",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6394,7 +6478,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "20 (collections) x 2 (partitions) x 4 (shards) + 30 (collections) x 1 (partitions) x 12 (shards) = 160 + 360 = 520",
+                "content": "20 (collections) x 20 (partitions) + 30 (collections) x 10 (partitions) = 400 + 300 = 700",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -6431,7 +6515,7 @@
             },
             {
               "text_run": {
-                "content": "520",
+                "content": "700",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -6529,19 +6613,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Min(",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "512 ",
+                "content": "<= 512 ",
                 "text_element_style": {
                   "bold": true,
                   "comment_ids": [
@@ -6556,7 +6628,7 @@
             },
             {
               "text_run": {
-                "content": "x Number of CUs, 65536)",
+                "content": "x Number of CUs",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -7550,477 +7622,6 @@
             {
               "text_run": {
                 "content": " partition/s per cluster.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "LGdDdw0xKol0NGxaDaucB8Dxnqg",
-        "block_type": 5,
-        "heading3": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Shards",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac"
-      },
-      {
-        "block_id": "FaRydxNTroqQucxeKBtcwKKvnsg",
-        "block_type": 2,
-        "comment_ids": [
-          "7330174641786798084",
-          "7329809564625600516"
-        ],
-        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "When creating a collection, you can create up to ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "8",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " shards",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7329809564625600516",
-                    "7330174641786798084"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7329809564625600516"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "for the collection. If not specified, a collection has a shard by default.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "VuVddsosToSQZlxWbJSctaZhnqc",
-        "block_type": 31,
-        "children": [
-          "P4KJdLBzLosJMWxvbRdcFZthnWf",
-          "AJMtdae87o5UQ6xdGPXcFasnnCg",
-          "OnIldS0zRoPanxxyFgfcMvKonCg",
-          "BPARdeFmkoqBh6xMOYzc4Qennlc",
-          "PogUd75JKoG6vPx7TBpcMMionJe",
-          "TZh0dkuhsobax6xcyW4cDNYRnSd"
-        ],
-        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac",
-        "table": {
-          "cells": [
-            "P4KJdLBzLosJMWxvbRdcFZthnWf",
-            "AJMtdae87o5UQ6xdGPXcFasnnCg",
-            "OnIldS0zRoPanxxyFgfcMvKonCg",
-            "BPARdeFmkoqBh6xMOYzc4Qennlc",
-            "PogUd75JKoG6vPx7TBpcMMionJe",
-            "TZh0dkuhsobax6xcyW4cDNYRnSd"
-          ],
-          "property": {
-            "column_size": 2,
-            "column_width": [
-              216,
-              115
-            ],
-            "merge_info": [
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              }
-            ],
-            "row_size": 3
-          }
-        }
-      },
-      {
-        "block_id": "P4KJdLBzLosJMWxvbRdcFZthnWf",
-        "block_type": 32,
-        "children": [
-          "Rjs8dAKcqoZFXvxiEWRcSgZ5ntb"
-        ],
-        "parent_id": "VuVddsosToSQZlxWbJSctaZhnqc",
-        "table_cell": {}
-      },
-      {
-        "block_id": "Rjs8dAKcqoZFXvxiEWRcSgZ5ntb",
-        "block_type": 2,
-        "parent_id": "P4KJdLBzLosJMWxvbRdcFZthnWf",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Item",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "AJMtdae87o5UQ6xdGPXcFasnnCg",
-        "block_type": 32,
-        "children": [
-          "PEhCdHLDDoMXQTxdw7bcB3wfn2g"
-        ],
-        "parent_id": "VuVddsosToSQZlxWbJSctaZhnqc",
-        "table_cell": {}
-      },
-      {
-        "block_id": "PEhCdHLDDoMXQTxdw7bcB3wfn2g",
-        "block_type": 2,
-        "parent_id": "AJMtdae87o5UQ6xdGPXcFasnnCg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Max Number",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "OnIldS0zRoPanxxyFgfcMvKonCg",
-        "block_type": 32,
-        "children": [
-          "T5VXdcgihoSgONxfPoacCxx4nNg"
-        ],
-        "parent_id": "VuVddsosToSQZlxWbJSctaZhnqc",
-        "table_cell": {}
-      },
-      {
-        "block_id": "T5VXdcgihoSgONxfPoacCxx4nNg",
-        "block_type": 2,
-        "parent_id": "OnIldS0zRoPanxxyFgfcMvKonCg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": " 1-8 CUs",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "BPARdeFmkoqBh6xMOYzc4Qennlc",
-        "block_type": 32,
-        "children": [
-          "CPWudGn0Mo1yONxFEgpc7wbBnif"
-        ],
-        "parent_id": "VuVddsosToSQZlxWbJSctaZhnqc",
-        "table_cell": {}
-      },
-      {
-        "block_id": "CPWudGn0Mo1yONxFEgpc7wbBnif",
-        "block_type": 2,
-        "parent_id": "BPARdeFmkoqBh6xMOYzc4Qennlc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "2",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "PogUd75JKoG6vPx7TBpcMMionJe",
-        "block_type": 32,
-        "children": [
-          "OArudWL5foCzEdxL0iac7yGWnWc"
-        ],
-        "parent_id": "VuVddsosToSQZlxWbJSctaZhnqc",
-        "table_cell": {}
-      },
-      {
-        "block_id": "OArudWL5foCzEdxL0iac7yGWnWc",
-        "block_type": 2,
-        "parent_id": "PogUd75JKoG6vPx7TBpcMMionJe",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "12 CUs and more",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "TZh0dkuhsobax6xcyW4cDNYRnSd",
-        "block_type": 32,
-        "children": [
-          "ZEcwd4bGboL6bsxzfnlcojiQnid"
-        ],
-        "parent_id": "VuVddsosToSQZlxWbJSctaZhnqc",
-        "table_cell": {}
-      },
-      {
-        "block_id": "ZEcwd4bGboL6bsxzfnlcojiQnid",
-        "block_type": 2,
-        "parent_id": "TZh0dkuhsobax6xcyW4cDNYRnSd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "8",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Kkckd0xPooeWTrxP0dycIOD1nge",
-        "block_type": 2,
-        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "You are advised to keep the default settings for the shard number when creating collections, especially for clusters using no more than ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "24",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " CUs.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Y1mydhJ2KoqEn9xGxN5cupFtnkc",
-        "block_type": 2,
-        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "When calculating the consumed and general capacity, refer to the notes in ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Collections",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FPuxkwMWvbiHxvTkHsVkcMZP9n5f%23NwcLdmvMlot6yyxzCLdcO6DSndb"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ". ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -12435,6 +12036,6 @@
         }
       }
     ],
-    "counts": 507
+    "counts": 495
   }
 }

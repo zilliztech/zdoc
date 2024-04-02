@@ -56,7 +56,8 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-RenameCollectionReq renameCollectionReq = RenameCollectionReq._builder_()
+// rename collection "test" to "test2"
+RenameCollectionReq renameCollectionReq = RenameCollectionReq.builder()
         .collectionName("test")
         .newCollectionName("test2")
         .build();

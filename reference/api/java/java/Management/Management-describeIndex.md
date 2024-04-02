@@ -87,10 +87,12 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-DescribeIndexReq describeIndexReq = DescribeIndexReq._builder_()
+// describe the index for field "vector"
+DescribeIndexReq describeIndexReq = DescribeIndexReq.builder()
         .collectionName("test")
         .fieldName("vector")
         .build();
 DescribeIndexResp describeIndexResp = client.describeIndex(describeIndexReq);
+// DescribeIndexResp(indexName=test, indexType=AUTOINDEX, metricType=L2, fieldName=vector)
 ```
 

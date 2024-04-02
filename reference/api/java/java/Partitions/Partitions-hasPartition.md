@@ -56,7 +56,8 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-HasPartitionReq hasPartitionReq = HasPartitionReq._builder_()
+// check is partition "test_partition" exists in collection
+HasPartitionReq hasPartitionReq = HasPartitionReq.builder()
         .collectionName("test")
         .partitionName("test_partition")
         .build();

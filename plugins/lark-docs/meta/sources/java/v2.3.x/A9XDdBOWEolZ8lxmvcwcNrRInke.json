@@ -1,6 +1,6 @@
 {
   "created_time": "1708421183",
-  "modified_time": "1708934653",
+  "modified_time": "1712041655",
   "name": "renameCollection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "KvSff5lOglJa2LdLSdBcJwPmnSd",
@@ -576,31 +576,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "RenameCollectionReq renameCollectionReq = RenameCollectionReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n        .newCollectionName(\"test2\")\n        .build();\n",
+                "content": "// rename collection \"test\" to \"test2\"\nRenameCollectionReq renameCollectionReq = RenameCollectionReq.builder()\n        .collectionName(\"test\")\n        .newCollectionName(\"test2\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

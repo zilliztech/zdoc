@@ -5,7 +5,7 @@
   "node_token": "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
   "node_type": "origin",
   "obj_create_time": "1693363951",
-  "obj_edit_time": "1708776170",
+  "obj_edit_time": "1711936332",
   "obj_token": "LCR9dQcdKojgN1x9GSKcu8lJnch",
   "obj_type": "docx",
   "origin_node_token": "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
@@ -1373,7 +1373,7 @@
             },
             {
               "text_run": {
-                "content": " field dimension is at least 32 for capacity- or cost-optimized CU type clusters to prevent migration errors. See ",
+                "content": " field dimension is at least 32 for capacity-optimized CU type clusters to prevent migration errors. See ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

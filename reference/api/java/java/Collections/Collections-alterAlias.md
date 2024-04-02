@@ -70,7 +70,8 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-AlterAliasReq alterAliasReq = AlterAliasReq._builder_()
+// alter the alias for collection "test"
+AlterAliasReq alterAliasReq = AlterAliasReq.builder()
         .collectionName("test")
         .alias("test_alias2")
         .build();

@@ -1,6 +1,6 @@
 {
   "created_time": "1708421620",
-  "modified_time": "1708935730",
+  "modified_time": "1712042488",
   "name": "releasePartitions()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "TXEsfWjuFl2cKPdDyrrcS7hFnwd",
@@ -560,67 +560,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test_partition\")\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "        .partitionNames(Collections.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "singletonList",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "(\"test_partition\"))\n        .build();\n",
+                "content": "// release partition in collection\nReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()\n        .collectionName(\"test_partition\")\n        .partitionNames(Collections.singletonList(\"test_partition\"))\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

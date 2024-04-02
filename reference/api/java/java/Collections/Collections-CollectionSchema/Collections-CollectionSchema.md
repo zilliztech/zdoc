@@ -25,31 +25,11 @@ Constructs the schema of a collection by defining fields, data types, and other 
 
 ```java
 CreateCollectionReq.CollectionSchema.builder()
-    .description(String description)
-    .enableDynamicField(boolean enableDynamicField)
     .fieldSchemaList(List<CreateCollectionReq.FieldSchema>)
     .build();
 ```
 
 __BUILDER METHODS:__
-
-- `description(String description)`
-
-    The description of the schema.
-
-    If a description is not provided, it will be set to an empty string.
-
-- `enableDynamicField(boolean enableDynamicField)`
-
-    Whether allows Zilliz Cloud saves the values of undefined fields in a dynamic field if the data being inserted into the target collection includes fields that are not defined in the collection's schema.
-
-    When you set this to __True__,  and Zilliz Cloud will create a field called __$meta__ to store any undefined fields and their values from the data that is inserted.
-
-    <Admonition type="info" icon="📘" title="What is a dynamic field?">
-
-    <p>If the data being inserted into the target collection includes fields that are not defined in the collection's schema, those fields will be saved in a dynamic field as key-value pairs.</p>
-
-    </Admonition>
 
 - `fieldSchemaList(List<CreateCollectionReq.FieldSchema>)`
 
@@ -78,10 +58,11 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema(Boolean._TRUE_, "");
-collectionSchema.addPrimaryField("id", DataType._Int64_, Boolean._TRUE_, Boolean._FALSE_);
-collectionSchema.addVectorField("vector", DataType._FloatVector_, dim);
-collectionSchema.addScalarField("int32", DataType._Int32_);
+// define a Collection Schema
+CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema();
+// add two fileds, id and vector
+collectionSchema.addField(AddFieldReq._builder_().fieldName("id").dataType(DataType._Int64_).isPrimaryKey(Boolean._TRUE_).autoID(Boolean._FALSE_).description("id").build());
+collectionSchema.addField(AddFieldReq._builder_().fieldName("vector").dataType(DataType._FloatVector_).dimension(dim).build());
 ```
 
 ## Methods{#methods}

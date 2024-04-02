@@ -1,6 +1,6 @@
 {
   "created_time": "1708420854",
-  "modified_time": "1709199434",
+  "modified_time": "1712040965",
   "name": "describeUser()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "NX2nfYbWXlBEeyd1gQhcsnDGnQe",
@@ -656,7 +656,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "DescribeUserReq describeUserReq = DescribeUserReq.",
+                "content": "DescribeUserReq describeUserReq = DescribeUserReq.builder()\n        .userName(\"test\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -668,31 +668,7 @@
             },
             {
               "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .userName(\"test\")\n        .build();\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "DescribeUserResp describeUserResp = client_v2.describeUser(describeUserReq);",
+                "content": "DescribeUserResp describeUserResp = client.describeUser(describeUserReq);",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

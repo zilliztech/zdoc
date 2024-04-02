@@ -30,7 +30,9 @@ public void loadCollection(LoadCollectionReq request)
 ```java
 loadCollection(LoadCollectionReq.builder()
     .collectionName(String collectionName)
-    .partitionNames(List<String> partitionNames)
+    .numReplicas(Integer numReplicas)
+    .async(Boolean async)
+    .timeout(Long timeout)
     .build()
 )
 ```
@@ -41,9 +43,23 @@ __BUILDER METHODS:__
 
     The name of a collection.
 
-- `partitionNames(List<String> partitionNames)`
+- `numReplicas(Integer numReplicas)`
 
-    A list of partition names to load.
+    The number of replicas to create upon collection load.
+
+    The value defaults to __1__, indicating that one replica is to be created upon collection load.
+
+- `async(Boolean async)`
+
+    Whether this operation is asynchronous.
+
+    The value defaults to `Boolean.True`, indicating immediate return while the process may still run in the background.
+
+- `timeout(Long timeout)`
+
+    The timeout duration of the process. The process terminates after the specified duration expires.
+
+    The value defaults to `60000L`, indicating the timeout duration is one minute.
 
 __RETURNS:__
 
@@ -58,7 +74,8 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-LoadCollectionReq loadCollectionReq = LoadCollectionReq._builder_()
+// load collection "test"
+LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
         .collectionName("test")
         .build();
 client.loadCollection(loadCollectionReq);

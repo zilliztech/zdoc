@@ -15,12 +15,6 @@ import TabItem from '@theme/TabItem';
 
 This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes.
 
-## Before you start{#before-you-start}
-
-- You have [signed up with Zilliz Cloud](https://cloud.zilliz.com). For details, refer to [Register with Zilliz Cloud](./register-with-zilliz-cloud).
-
-- You can click the __Open in Colab__ button above if you prefer to start right away in the browser.
-
 ## Install an SDK{#install-an-sdk}
 
 Zilliz Cloud supports the Milvus SDKs and all [RESTful API endpoints](/reference/restful/cloud-meta). You can use the RESTful API directly, or choose one of the following SDKs to start with:

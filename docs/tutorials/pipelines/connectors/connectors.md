@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # Connectors
 
-Comprehensive user guides to help you use Connectors on Zilliz Cloud.
+Comprehensive user guide to help you use Connectors on Zilliz Cloud.
 
 import DocCardList from '@theme/DocCardList';
 

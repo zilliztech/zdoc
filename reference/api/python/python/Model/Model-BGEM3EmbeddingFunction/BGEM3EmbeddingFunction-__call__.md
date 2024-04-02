@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 # __call__()
 
-This operation allows the [BGEM3EmbeddingFunction](./Model-BGEM3EmbeddingFunction) class to be called like a function. When an instance of BGEM3EmbeddingFunction is called, it will actually run the code within the ____call()____ method.
+This operation in [BGEM3EmbeddingFunction](./Model-BGEM3EmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
 
 The ____call__()__ method of BGEM3EmbeddingFunction shares the same functionality as [encode_documents()](./BGEM3EmbeddingFunction-encode_documents) and [encode_queries()](./BGEM3EmbeddingFunction-encode_queries).
 

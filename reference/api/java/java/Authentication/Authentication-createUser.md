@@ -52,9 +52,22 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-CreateUserReq createUserReq = CreateUserReq._builder_()
-        .userName("test")
-        .password("Zilliz@2023")
+import io.milvus.v2.client.ConnectConfig
+import io.milvus.v2.client.MilvusClientV2
+import io.milvus.v2.service.rbac.request.CreateUserReq
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530")
+        .token("user:password")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Create a role
+CreateUserReq createUserReq = CreateUserReq.builder()
+        .userName("user_1")
+        .password("P@ssw0rd")
         .build();
 client.createUser(createUserReq);
 ```

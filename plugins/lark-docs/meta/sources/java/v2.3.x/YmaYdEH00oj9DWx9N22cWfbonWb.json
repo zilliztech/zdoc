@@ -1,6 +1,6 @@
 {
   "created_time": "1708421337",
-  "modified_time": "1709005233",
+  "modified_time": "1710312165",
   "name": "MilvusClientV2",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "GD2QfAetplDekjdxJDYcTIwAnIg",
@@ -53,6 +53,7 @@
           "EBqtd7wnlo0tddxKJyHcftcknhc",
           "REH8dXPyooT0YrxjCNWcadjvniq",
           "YtRcdvjbaoIGaexFvnzco6ILnRb",
+          "WAd0dhja0oGhfNxZrxFcXj0dnmh",
           "TKhgdmskeoVZhLxZ2bicCyzznzf"
         ],
         "page": {
@@ -247,7 +248,55 @@
           "elements": [
             {
               "text_run": {
-                "content": "This client serves as an easy-to-use alternative for the current set of APIs that handles CRUD operations <include target=\"milvus\">in Milvus</include><include target=\"zilliz\">on Zilliz Cloud</include>.",
+                "content": "This client serves as an easy-to-use alternative for the current set of APIs that handles ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Create, Read, Update, and Delete (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CRUD",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " operations <include target=\"milvus\">in Milvus</include><include target=\"zilliz\">on Zilliz Cloud</include>.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -324,8 +373,8 @@
               "text_run": {
                 "content": "ConnectConfig",
                 "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
+                  "bold": true,
+                  "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -334,7 +383,7 @@
             },
             {
               "text_run": {
-                "content": " is a class that centralizes all the connection ",
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -346,7 +395,7 @@
             },
             {
               "text_run": {
-                "content": "configurations",
+                "content": "allows you to configure",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -358,7 +407,55 @@
             },
             {
               "text_run": {
-                "content": " in one place, which is then used by ",
+                "content": " the connection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " properties",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in one place",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " so that",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -372,8 +469,8 @@
               "text_run": {
                 "content": "MilvusClientV2",
                 "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
+                  "bold": true,
+                  "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -382,7 +479,31 @@
             },
             {
               "text_run": {
-                "content": " to actually create and manage the connection pool.",
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "can reference it to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "create and manage the connection pool.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -803,7 +924,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "For details on finding information on the Zilliz Cloud console, refer to ",
+                "content": "To find needed ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "information on the Zilliz Cloud console, refer to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1358,8 +1491,7 @@
           ],
           "style": {
             "align": 1,
-            "folded": false,
-            "indentation_level": "NoIndent"
+            "folded": false
           }
         },
         "parent_id": "VHXvddNDko93fnx0vtWcAZLXnme"
@@ -2901,6 +3033,18 @@
           "elements": [
             {
               "text_run": {
+                "content": "import io.milvus.v2.client.ConnectConfig\nimport io.milvus.v2.client.MilvusClientV2\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
                 "content": "ConnectConfig connectConfig = ConnectConfig.",
                 "text_element_style": {
                   "bold": false,
@@ -2961,7 +3105,115 @@
             },
             {
               "text_run": {
-                "content": "\")\n        .token(\"*****\")\n        .build();\n",
+                "content": "\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .token(\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "root:Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " // replace this with your token",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .build();",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3048,6 +3300,18 @@
           "elements": [
             {
               "text_run": {
+                "content": "import io.milvus.v2.client.ConnectConfig\nimport io.milvus.v2.client.MilvusClientV2\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
                 "content": "ConnectConfig connectConfig = ConnectConfig.",
                 "text_element_style": {
                   "bold": false,
@@ -3072,7 +3336,115 @@
             },
             {
               "text_run": {
-                "content": "()\n        .uri(\"https://in01-******.aws-us-west-2.vectordb.zillizcloud.com:19531\")\n        .token(\"*****\")\n        .build();\n",
+                "content": "()\n        .uri(\"https://in01-******.aws-us-west-2.vectordb.zillizcloud.com:19531\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .token(\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "user:password",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " // replace this with your token",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .build();",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3103,6 +3475,195 @@
         "parent_id": "YmaYdEH00oj9DWx9N22cWfbonWb"
       },
       {
+        "block_id": "WAd0dhja0oGhfNxZrxFcXj0dnmh",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "JR7YdBn1foATKXxYQuQcDMZvnXg",
+          "Qk0edz0HHofj8zx6ZcOcAR5en1f",
+          "EYxydW26goGaiLxfaWscPIkUnte"
+        ],
+        "parent_id": "YmaYdEH00oj9DWx9N22cWfbonWb"
+      },
+      {
+        "block_id": "JR7YdBn1foATKXxYQuQcDMZvnXg",
+        "block_type": 2,
+        "parent_id": "WAd0dhja0oGhfNxZrxFcXj0dnmh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Qk0edz0HHofj8zx6ZcOcAR5en1f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "uri",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to your cluster endpoint. The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "token",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameter can be a Zilliz Cloud API key with sufficient permissions or the credentials of a cluster user in the format of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "username:p@ssw0rd",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WAd0dhja0oGhfNxZrxFcXj0dnmh"
+      },
+      {
+        "block_id": "EYxydW26goGaiLxfaWscPIkUnte",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": " To find the above information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "On Zilliz Cloud Console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fon-zilliz-cloud-console"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WAd0dhja0oGhfNxZrxFcXj0dnmh"
+      },
+      {
         "block_id": "TKhgdmskeoVZhLxZ2bicCyzznzf",
         "block_type": 2,
         "parent_id": "YmaYdEH00oj9DWx9N22cWfbonWb",
@@ -3128,7 +3689,7 @@
         }
       }
     ],
-    "counts": 93
+    "counts": 97
   },
   "slug": "Client-MilvusClientV2"
 }

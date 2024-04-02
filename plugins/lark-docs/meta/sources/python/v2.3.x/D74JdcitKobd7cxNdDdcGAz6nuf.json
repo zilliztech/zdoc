@@ -1,6 +1,6 @@
 {
   "created_time": "1704956954",
-  "modified_time": "1710934260",
+  "modified_time": "1711354753",
   "name": "search()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
@@ -1391,7 +1391,10 @@
           "Dk9AdpCjnoLiNCxiOpxcUZX8neK",
           "XWwRdumLqonYmpxvZHPcDIAMnCb",
           "VmyJd3NVyoGuNkxh2BscRohPnvh",
-          "Lc5ZdwnHloZLsixyYxlcvzC1nDh"
+          "Lc5ZdwnHloZLsixyYxlcvzC1nDh",
+          "Mt3XdDSaEotE2Oxv5efcdG9Sn2e",
+          "GbH3dsEDHoph95x8EzZcMuBSnYb",
+          "Ezt3dR6YDo39ymxZXHscI6Ozn6e"
         ],
         "parent_id": "doxcnFl4fi2Cx5UIwCYIHe8dWgg"
       },
@@ -1839,6 +1842,291 @@
             {
               "text_run": {
                 "content": "Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Mt3XdDSaEotE2Oxv5efcdG9Sn2e",
+        "block_type": 2,
+        "parent_id": "PQiGdXJLPommH5xDcmJcliqYn6f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GbH3dsEDHoph95x8EzZcMuBSnYb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "max_empty_result_buckets",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "int",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "KChLdTeGFo8ErBxbpzgcTsrWnvm",
+          "Dq2tdqfvdoyinnxG6VvchvkAnfh"
+        ],
+        "parent_id": "PQiGdXJLPommH5xDcmJcliqYn6f"
+      },
+      {
+        "block_id": "KChLdTeGFo8ErBxbpzgcTsrWnvm",
+        "block_type": 2,
+        "parent_id": "GbH3dsEDHoph95x8EzZcMuBSnYb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This param is only used for range search for IVF-serial indexes, including ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BIN_IVF_FLAT",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IVF_FLAT",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IVF_SQ8",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IVF_PQ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SCANN",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". The value defaults to 1 and ranges from 1 to 65536.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Dq2tdqfvdoyinnxG6VvchvkAnfh",
+        "block_type": 2,
+        "parent_id": "GbH3dsEDHoph95x8EzZcMuBSnYb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "During range search, the search process terminates early if the number of buckets with no valid range search results reaches the specified value. Increasing this parameter improves range search recall.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ezt3dR6YDo39ymxZXHscI6Ozn6e",
+        "block_type": 2,
+        "parent_id": "PQiGdXJLPommH5xDcmJcliqYn6f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3279,7 +3567,7 @@
         "parent_id": "D74JdcitKobd7cxNdDdcGAz6nuf"
       }
     ],
-    "counts": 76
+    "counts": 81
   },
   "slug": "Vector-search"
 }

@@ -5,7 +5,7 @@
   "node_token": "N985w1llIi7z1SkhTH5cAoKcnKb",
   "node_type": "origin",
   "obj_create_time": "1689056279",
-  "obj_edit_time": "1707042241",
+  "obj_edit_time": "1711682178",
   "obj_token": "Gkiyd0tqkoVl3PxHc5Vclalzn2e",
   "obj_type": "docx",
   "origin_node_token": "N985w1llIi7z1SkhTH5cAoKcnKb",
@@ -37,7 +37,6 @@
           "M4uCd4Stso7S9bxgaO8cMfzYnLb",
           "BpDxdXneQoHD4yx7aDFcUd7CnIf",
           "H5oddWhrAorduoxfpr2cwf8Un5d",
-          "PWxddGnT1olo34xwsl0cWfEWnle",
           "YeCnd0lRhoIzzfxa6L7cP4KWnqh",
           "FPxddyGgjoM15IxKWEJcXZkFnWS",
           "Udvqdu7m3oix7PxmTALcH0PDn4g",
@@ -649,43 +648,6 @@
             {
               "text_run": {
                 "content": ": Ideal for large data volumes, with five times the storage capacity of performance-optimized CUs.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "Gkiyd0tqkoVl3PxHc5Vclalzn2e"
-      },
-      {
-        "block_id": "PWxddGnT1olo34xwsl0cWfEWnle",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Cost-optimized CU",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": Similar capacity to capacity-optimized CUs, but more cost-effective with slightly reduced performance.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1417,6 +1379,6 @@
         "parent_id": "Gkiyd0tqkoVl3PxHc5Vclalzn2e"
       }
     ],
-    "counts": 35
+    "counts": 34
   }
 }

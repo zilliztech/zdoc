@@ -1,6 +1,6 @@
 {
   "created_time": "1708422492",
-  "modified_time": "1709006683",
+  "modified_time": "1712039927",
   "name": "IndexParam",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "UqeGfuMkilgT1HdhoyGc08FznEt",
@@ -22,6 +22,7 @@
           "RR63dhuRioXTHXxhececJ4dWnic",
           "JMrOdATu5ouFLxxdmGPc5nEUnQe",
           "H0cVdQDzjovP5Gxs0SickseEnlh",
+          "HGhAd7554oa3dCxZyEQcmttwnzd",
           "Uf5hdCRR5ohY7TxoSblcX9T5n3t",
           "CUhLdz0UxoQTTNxXsuJcNalfn7G",
           "GF44d2n0rozcx2xeiEtciC11nSe",
@@ -207,7 +208,43 @@
             },
             {
               "text_run": {
-                "content": " metricType)\n",
+                "content": " metricType)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .extraParams(Map<String, Object> extraParams)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -850,6 +887,140 @@
         }
       },
       {
+        "block_id": "HGhAd7554oa3dCxZyEQcmttwnzd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "extraParams(Map<String, Object> extraParams)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "IJEGd5wVwoHdQGxFwzIc1YlPngb"
+        ],
+        "parent_id": "J0hLdJ68foCRu5xWsWacORuAnLg"
+      },
+      {
+        "block_id": "IJEGd5wVwoHdQGxFwzIc1YlPngb",
+        "block_type": 2,
+        "parent_id": "HGhAd7554oa3dCxZyEQcmttwnzd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Extra index parameters. For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "In-memory Index",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Findex.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "On-disk Index",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fdisk_index.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "GPU index",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fgpu_index.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "Uf5hdCRR5ohY7TxoSblcX9T5n3t",
         "block_type": 2,
         "parent_id": "J0hLdJ68foCRu5xWsWacORuAnLg",
@@ -1083,7 +1254,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "IndexParam indexParam = IndexParam.builder()\n",
+                "content": "// define index param for field \"vector\"\nIndexParam indexParam = IndexParam.builder()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1211,7 +1382,7 @@
         }
       }
     ],
-    "counts": 24
+    "counts": 26
   },
   "slug": "Management-IndexParam"
 }

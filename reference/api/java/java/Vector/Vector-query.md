@@ -24,13 +24,13 @@ public QueryResp query(QueryReq request)
 ```java
 query(QueryReq.builder()
     .collectionName(String collectionName)
-    .consistencyLevel(ConsistencyLevel consistencyLevel)
-    .filter(String filter)
-    .ids(List<Object> ids)
-    .limit(long limit)
-    .offset(long offset)
-    .outputFields(List<String> outputFields)
     .partitionNames(List<String> partitionNames)
+    .outputFields(List<String> outputFields)
+    .ids(List<Object> ids)
+    .filter(String filter)
+    .consistencyLevel(ConsistencyLevel consistencyLevel)
+    .offset(long offset)
+    .limit(long limit)
     .build()
 )
 ```
@@ -40,6 +40,26 @@ __BUILDER METHODS:__
 - `collectionName(String collectionName)`
 
     The name of an existing collection.
+
+- `partitionNames(List<String> partitionNames)`
+
+    A list of partition names.
+
+- `outputFields(List<String> outputFields)`
+
+    A list of field names to include in each entity in return.
+
+    The value defaults to __None__. If left unspecified, all fields in the collection are selected as the output fields.
+
+- `ids(List<Object> ids)`
+
+    The IDs of entities to query.
+
+- `filter(String filter)`
+
+    A scalar filtering condition to filter matching entities. 
+
+    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
@@ -55,15 +75,13 @@ __BUILDER METHODS:__
 
     </Admonition>
 
-- `filter(String filter)`
+- `offset(long offset)`
 
-    A scalar filtering condition to filter matching entities. 
+    The number of records to skip in the query result. 
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+    You can use this parameter in combination with `limit` to enable pagination.
 
-- `ids(List<Object> ids)`
-
-    The IDs of entities to query.
+    The sum of this value and `limit` should be less than 16,384. 
 
 - `limit(long limit)`
 
@@ -73,35 +91,17 @@ __BUILDER METHODS:__
 
     The sum of this value and `offset` should be less than 16,384. 
 
-- `offset(long offset)`
-
-    The number of records to skip in the query result. 
-
-    You can use this parameter in combination with `limit` to enable pagination.
-
-    The sum of this value and `limit` should be less than 16,384. 
-
-- `outputFields(List<String> outputFields)`
-
-    A list of field names to include in each entity in return.
-
-    The value defaults to __None__. If left unspecified, all fields are selected as the output fields.
-
-- `partitionNames(List<String> partitionNames)`
-
-    A list of partition names.
-
 __RETURN TYPE:__
 
-_QueryResp_
+_List\<QueryResult\>_
 
 __RETURNS:__
 
-A __QueryResp__ object representing one or more queried entities.
+A list of _QueryResult_ objects representing specific query results with the specified output fields
 
 __PARAMETERS:__
 
-- __fields__ (_Map\<String,Object\>_)
+- __entity__ (_Map\<String,Object\>_)
 
     A map that contains key-value pairs of field names and their values.
 
@@ -121,9 +121,11 @@ __EXCEPTIONS:__
 
 ```java
 //query by filter "id < 10"
-QueryReq queryReq = QueryReq._builder_()
-        .collectionName("book")
+QueryReq queryReq = QueryReq.builder()
+        .collectionName("test")
         .filter("id < 10")
         .build();
-QueryResp queryResp = client_v2.query(queryReq);
+QueryResp queryResp = client.query(queryReq);
+// QueryResp(queryResults=[QueryResp.QueryResult(entity={vector=[0.54480153, 0.8220552], id=0}), QueryResp.QueryResult(entity={vector=[0.75052005, 0.7581255], id=1}), QueryResp.QueryResult(entity={vector=[0.56026894, 0.23027527], id=2}), QueryResp.QueryResult(entity={vector=[0.38339353, 0.56710696], id=3}), QueryResp.QueryResult(entity={vector=[0.7986327, 0.54763454], id=4}), QueryResp.QueryResult(entity={vector=[0.5766768, 0.12176812], id=5})])
+
 ```

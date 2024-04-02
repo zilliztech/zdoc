@@ -1,6 +1,6 @@
 {
   "created_time": "1708421172",
-  "modified_time": "1708935120",
+  "modified_time": "1712039625",
   "name": "releaseCollection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "UqeGfuMkilgT1HdhoyGc08FznEt",
@@ -19,7 +19,8 @@
           "SKUQdBMJkoUWqMxRIA6ctdUsnxc",
           "Z1codRdHGoZWZBxnF0wcWWOqnid",
           "PZUyd36jfoQ0RKxlnW7cSvmwn0c",
-          "BEQldDxjaosJ26x4PRRc5WManOh",
+          "ZnS3d2vwJoGpHzxBmfHckPBFngf",
+          "QUg9dcAVeoF01exaoW0c4wX5nwf",
           "IlQmdapt0oDB0hxFTXVc9jyanCg",
           "AUEsdrN4NongXcxLneEcWQhgnJf",
           "OC3adXImVoPQbAx4rNacg4Eqnyf",
@@ -142,7 +143,7 @@
             },
             {
               "text_run": {
-                "content": "    .partitionNames(",
+                "content": "    .async(Boolean async)\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -154,7 +155,7 @@
             },
             {
               "text_run": {
-                "content": "List",
+                "content": "    .timeout(Long timeout)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -166,31 +167,7 @@
             },
             {
               "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "String",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "> partitionNames)\n    .build()\n",
+                "content": "\n    .build()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -299,61 +276,13 @@
         }
       },
       {
-        "block_id": "BEQldDxjaosJ26x4PRRc5WManOh",
+        "block_id": "ZnS3d2vwJoGpHzxBmfHckPBFngf",
         "block_type": 12,
         "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "partitionNames(",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "List",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "String",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "> partitionNames)",
+                "content": "async(Boolean async)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -370,19 +299,172 @@
           }
         },
         "children": [
+          "QKq8dGGscol3LDxciLUcHoienqb",
+          "GY1ideqmzoVCMtxx5FwcJgfwnRb"
+        ],
+        "parent_id": "PsSrdeIqnoUt3qxlGNXcTAQbnLh"
+      },
+      {
+        "block_id": "QKq8dGGscol3LDxciLUcHoienqb",
+        "block_type": 2,
+        "parent_id": "ZnS3d2vwJoGpHzxBmfHckPBFngf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Whether this operation is asynchronous.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GY1ideqmzoVCMtxx5FwcJgfwnRb",
+        "block_type": 2,
+        "parent_id": "ZnS3d2vwJoGpHzxBmfHckPBFngf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Boolean.True",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", indicating immediate return while the process may still run in the background.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QUg9dcAVeoF01exaoW0c4wX5nwf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "timeout(Long timeout)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "PCGadh0fsozSYrxkozBcp1dvnQe",
           "GTM8dp5ogoUil5xk98ecI2RGnPf"
         ],
         "parent_id": "PsSrdeIqnoUt3qxlGNXcTAQbnLh"
       },
       {
-        "block_id": "GTM8dp5ogoUil5xk98ecI2RGnPf",
+        "block_id": "PCGadh0fsozSYrxkozBcp1dvnQe",
         "block_type": 2,
-        "parent_id": "BEQldDxjaosJ26x4PRRc5WManOh",
+        "parent_id": "QUg9dcAVeoF01exaoW0c4wX5nwf",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "A list of partition names to release.",
+                "content": "The timeout duration of the process. The process terminates after the specified duration expires.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GTM8dp5ogoUil5xk98ecI2RGnPf",
+        "block_type": 2,
+        "parent_id": "QUg9dcAVeoF01exaoW0c4wX5nwf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "60000L",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", indicating the timeout duration is one minute.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -559,7 +641,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "ReleaseCollectionReq releaseCollectionReq = ReleaseCollectionReq.",
+                "content": "// release collection \"test\"\nReleaseCollectionReq releaseCollectionReq = ReleaseCollectionReq.builder()\n        .collectionName(\"test\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -571,31 +653,7 @@
             },
             {
               "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n        .build();\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "client_v2.releaseCollection(releaseCollectionReq);",
+                "content": "client.releaseCollection(releaseCollectionReq);",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -614,7 +672,7 @@
         "parent_id": "PsSrdeIqnoUt3qxlGNXcTAQbnLh"
       }
     ],
-    "counts": 17
+    "counts": 21
   },
   "slug": "Management-releaseCollection"
 }

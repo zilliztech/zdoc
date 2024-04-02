@@ -23,26 +23,26 @@ public void updatePassword(UpdatePasswordReq request)
 
 ```java
 updatePassword(UpdatePasswordReq.builder()
-    .newPassword(String newPassword)
-    .password(String password)
     .userName(String userName)
+    .password(String password)
+    .newPassword(String newPassword)
     .build()
 )
 ```
 
 __BUILDER METHODS:__
 
-- `newPassword(String newPassword)`
+- `userName(String userName)`
 
-    The new password of the user.
+    The name of an existing user.
 
 - `password(String password)`
 
     The original password of the user.
 
-- `userName(String userName)`
+- `newPassword(String newPassword)`
 
-    The name of an existing user.
+    The new password of the user.
 
 __RETURNS:__
 
@@ -57,7 +57,7 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-UpdatePasswordReq updatePasswordReq = UpdatePasswordReq._builder_()
+UpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()
         .userName("test")
         .password("Zilliz@2023")
         .newPassword("Zilliz@2024")

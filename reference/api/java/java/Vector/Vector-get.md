@@ -24,8 +24,9 @@ public GetResp get(GetReq request)
 ```java
 get(GetReq.builder()
     .collectionName(String collectionName)
-    .ids(List<Object> ids)
     .partitionName(String partitionName)
+    .ids(List<Object> ids)
+    .outputFields(List<String> outputFields)
     .build()
 )
 ```
@@ -36,13 +37,17 @@ __BUILDER METHODS:__
 
     The name of an existing collection.
 
+- `partitionName(String partitionName)`
+
+    The name of a partition.
+
 - `ids(List<Object> ids)`
 
     A specific entity ID or a list of entity IDs.
 
-- `partitionName(String partitionName)`
+- `outputFields(List<String> outputFields)`
 
-    The name of a partition.
+    A list of names of the fields to be included in the query result.
 
 __RETURN TYPE:__
 
@@ -71,10 +76,11 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-GetReq getReq = GetReq._builder_()
+// get entity with id 0
+GetReq getReq = GetReq.builder()
         .collectionName("test")
-        .ids(Collections._singletonList_("1"))
+        .ids(Collections.singletonList("0"))
         .build();
-GetResp statusR = client_v2.get(getReq);
+GetResp statusR = client.get(getReq);
 ```
 

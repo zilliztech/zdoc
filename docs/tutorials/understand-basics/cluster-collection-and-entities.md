@@ -16,7 +16,7 @@ A Zilliz Cloud cluster is a managed Milvus instance associated with certain comp
 
 ## Cluster{#cluster}
 
-When creating a cluster on Zilliz Cloud, you must specify the type of CU associated with the cluster. These types of CUs are available: Performance-optimized, Capacity-optimized, and Cost-optimized. You can learn how to choose among these types in [Select the Right CU](./cu-types-explained).
+When creating a cluster on Zilliz Cloud, you must specify the type of CU associated with the cluster. These types of CUs are available: Performance-optimized, Capacity-optimized. You can learn how to choose among these types in [Select the Right CU](./cu-types-explained).
 
 After determining the CU type, you must also specify its size. Note that the number of collections a cluster can hold varies based on its CU size. You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster. For more information on limits, refer to [Zilliz Cloud Limits](./limits).
 

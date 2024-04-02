@@ -1,6 +1,6 @@
 {
   "created_time": "1708420791",
-  "modified_time": "1708935877",
+  "modified_time": "1712040998",
   "name": "grantRole()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "NX2nfYbWXlBEeyd1gQhcsnDGnQe",
@@ -452,31 +452,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "GrantRoleReq grantRoleReq = GrantRoleReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .roleName(\"db_ro\")\n        .userName(\"test\")\n        .build();\n",
+                "content": "GrantRoleReq grantRoleReq = GrantRoleReq.builder()\n        .roleName(\"db_ro\")\n        .userName(\"test\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

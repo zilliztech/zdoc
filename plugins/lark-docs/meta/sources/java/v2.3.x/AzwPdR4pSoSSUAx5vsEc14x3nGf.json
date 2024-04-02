@@ -1,6 +1,6 @@
 {
   "created_time": "1708421136",
-  "modified_time": "1708934996",
+  "modified_time": "1712038493",
   "name": "getLoadState()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "UqeGfuMkilgT1HdhoyGc08FznEt",
@@ -592,67 +592,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "GetLoadStateReq getLoadStateReq = GetLoadStateReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "        ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "//.partitionName(\"partition1\")",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
+                "content": "// get load state for collection \"test\"\nGetLoadStateReq getLoadStateReq = GetLoadStateReq.builder()\n        .collectionName(\"test\")\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -676,7 +616,7 @@
             },
             {
               "text_run": {
-                "content": ".build();\n",
+                "content": ".build();\nBoolean resp = client.getLoadState(getLoadStateReq);\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -688,7 +628,7 @@
             },
             {
               "text_run": {
-                "content": "Boolean resp = client.getLoadState(getLoadStateReq);",
+                "content": "// return true or false",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

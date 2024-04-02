@@ -1,6 +1,6 @@
 {
   "created_time": "1708421652",
-  "modified_time": "1709200600",
+  "modified_time": "1712042785",
   "name": "get()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "HVVZfLAcOlz6bpdjY82cFmtNn2g",
@@ -19,9 +19,10 @@
           "XpaCdI7GwoTxJ3xP3WLc1l61n8f",
           "HrnGdXUn3oXElsx9lsBcGWtqngf",
           "UbIVdqqmGoE3PExRlUpcQluanRb",
+          "G2IHd5d8qoWKuMx9Z58caVfEn1T",
           "L1Zwd1ShGozrY4x5dp9clWyAnog",
+          "DVobdeFELoVm7Zx3byuc3ya9nod",
           "Zh6Jdn1piooHfyxWYeUcQaJknj6",
-          "UZoIdzS2CoaAEGx2PlfcHGXInDd",
           "PoIfdipWsoIBtwxtFV8cFSzEnYg",
           "NXdedjiDUotKhIxw9INcf8hFnTa",
           "BKmEdkI9Goe50Tx2HfJceBMtnld",
@@ -137,7 +138,55 @@
           "elements": [
             {
               "text_run": {
-                "content": "get(GetReq.builder()\n    .collectionName(String collectionName)\n",
+                "content": "get(GetReq.builder()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .collectionName(String collectionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .partitionName(String partitionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -197,7 +246,43 @@
             },
             {
               "text_run": {
-                "content": "> ids)\n    .partitionName(String partitionName)\n    .build()\n",
+                "content": "> ids)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".outputFields(List<String> outputFields)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    .build()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -289,6 +374,59 @@
             {
               "text_run": {
                 "content": "The name of an existing collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G2IHd5d8qoWKuMx9Z58caVfEn1T",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "partitionName(String partitionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "MUyfdoTtvoFGvexSWhOcmrimnLg"
+        ],
+        "parent_id": "XeXxd6ylAoSZ05xkXEqcS84XnIc"
+      },
+      {
+        "block_id": "MUyfdoTtvoFGvexSWhOcmrimnLg",
+        "block_type": 2,
+        "parent_id": "G2IHd5d8qoWKuMx9Z58caVfEn1T",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of a partition.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -407,13 +545,13 @@
         }
       },
       {
-        "block_id": "Zh6Jdn1piooHfyxWYeUcQaJknj6",
+        "block_id": "DVobdeFELoVm7Zx3byuc3ya9nod",
         "block_type": 12,
         "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "partitionName(String partitionName)",
+                "content": "outputFields(List<String> outputFields)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -430,19 +568,19 @@
           }
         },
         "children": [
-          "RV88d3wFKoxj83xph1ScHJARnge"
+          "MGXGdbvAcoMdzcxI0f6cKCryn6f"
         ],
         "parent_id": "XeXxd6ylAoSZ05xkXEqcS84XnIc"
       },
       {
-        "block_id": "RV88d3wFKoxj83xph1ScHJARnge",
+        "block_id": "MGXGdbvAcoMdzcxI0f6cKCryn6f",
         "block_type": 2,
-        "parent_id": "Zh6Jdn1piooHfyxWYeUcQaJknj6",
+        "parent_id": "DVobdeFELoVm7Zx3byuc3ya9nod",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The name of a partition.",
+                "content": "A list of names of the fields to be included in the query result.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -460,7 +598,7 @@
         }
       },
       {
-        "block_id": "UZoIdzS2CoaAEGx2PlfcHGXInDd",
+        "block_id": "Zh6Jdn1piooHfyxWYeUcQaJknj6",
         "block_type": 2,
         "parent_id": "XeXxd6ylAoSZ05xkXEqcS84XnIc",
         "text": {
@@ -1070,7 +1208,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "GetReq getReq = GetReq.",
+                "content": "// get entity with id 0\nGetReq getReq = GetReq.builder()\n        .collectionName(\"test\")\n        .ids(Collections.singletonList(\"0\"))\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1082,67 +1220,7 @@
             },
             {
               "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "        .ids(Collections.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "singletonList",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "(\"1\"))\n        .build();\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "GetResp statusR = client_v2.get(getReq);",
+                "content": "GetResp statusR = client.get(getReq);",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1186,7 +1264,7 @@
         }
       }
     ],
-    "counts": 27
+    "counts": 29
   },
   "slug": "Vector-get"
 }

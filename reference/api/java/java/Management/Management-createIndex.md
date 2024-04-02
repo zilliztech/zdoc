@@ -52,14 +52,15 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-IndexParam indexParam = IndexParam._builder_()
+// create an index for field "vector"
+IndexParam indexParam = IndexParam.builder()
         .metricType(IndexParam.MetricType._L2_)
         .indexType(IndexParam.IndexType._AUTOINDEX_)
         .fieldName("vector")
         .build();
-CreateIndexReq createIndexReq = CreateIndexReq._builder_()
-        .collectionName("test2")
-        .indexParams(Collections._singletonList_(indexParam))
+CreateIndexReq createIndexReq = CreateIndexReq.builder()
+        .collectionName("test")
+        .indexParams(Collections.singletonList(indexParam))
         .build();
 client.createIndex(createIndexReq);
 ```

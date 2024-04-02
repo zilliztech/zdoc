@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 # __call__()
 
-This operation in  takes a list of text strings and directly encodes them into vector embeddings.
+This operation in [SpladeEmbeddingFunction](./Model-SpladeEmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
 
 Unlike [encode_documents()](./SpladeEmbeddingFunction-encode_documents) or [encode_queries()](./SpladeEmbeddingFunction-encode_queries), which enable you to prepend __doc_instruction__ or __query_instruction__ and utilize __k_tokens_document__ or __k_tokens_query__ for result pruning, the __call__() method directly returns embeddings without offering the option to prepend instructions or prune results.
 

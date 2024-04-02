@@ -1,6 +1,6 @@
 {
   "created_time": "1708421113",
-  "modified_time": "1708933803",
+  "modified_time": "1712041565",
   "name": "dropCollection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "KvSff5lOglJa2LdLSdBcJwPmnSd",
@@ -19,6 +19,8 @@
           "AEA4d9p6AoESVGxBRIKck17rnPd",
           "Y9sMdCfBpo8vSNxRyf5cPtbunXb",
           "FjpPdxraCoP9mlxNzA1cueyunKb",
+          "TO3wdjkfzo44UvxnxOIclLcYnEe",
+          "KYeRdSJsgoygUOxYK3dcqEcanWe",
           "JLCcdJzGdokacqxYf1jcmUNjnvf",
           "LtcEdBLZOoPNX4xawzxcySijn8e",
           "RSOpdKdOuon1gLxw30icWIWlnvb",
@@ -130,7 +132,55 @@
           "elements": [
             {
               "text_run": {
-                "content": "dropCollection(DropCollectionReq.builder()\n    .collectionName(String collectionName)\n    .build()\n",
+                "content": "dropCollection(DropCollectionReq.builder()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .collectionName(String collectionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    .async(Boolean async)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .timeout(Long timeout)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    .build()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -222,6 +272,236 @@
             {
               "text_run": {
                 "content": "The name of an existing collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TO3wdjkfzo44UvxnxOIclLcYnEe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "async(Boolean async)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "WjoudGGMJoa8gixKxIecyAP1nke",
+          "Qg8ed9727o2TvTxdYGfcZpCWn5d"
+        ],
+        "parent_id": "KMYzdRhVjo5OqOxlB9acFeMgnOh"
+      },
+      {
+        "block_id": "WjoudGGMJoa8gixKxIecyAP1nke",
+        "block_type": 2,
+        "parent_id": "TO3wdjkfzo44UvxnxOIclLcYnEe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Whether this operation is asynchronous.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Qg8ed9727o2TvTxdYGfcZpCWn5d",
+        "block_type": 2,
+        "parent_id": "TO3wdjkfzo44UvxnxOIclLcYnEe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Boolean.True",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", indicating immediate return while the process may still run in the background.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KYeRdSJsgoygUOxYK3dcqEcanWe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "timeout(Long timeout)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "O26HdM6mMoRsYHxEntScAkWFnhp",
+          "VKOrdjzquoRsGtx71d4cOyUEnfe"
+        ],
+        "parent_id": "KMYzdRhVjo5OqOxlB9acFeMgnOh"
+      },
+      {
+        "block_id": "O26HdM6mMoRsYHxEntScAkWFnhp",
+        "block_type": 2,
+        "parent_id": "KYeRdSJsgoygUOxYK3dcqEcanWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The timeout duration of the process. The process terminates after the specified duration expires.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VKOrdjzquoRsGtx71d4cOyUEnfe",
+        "block_type": 2,
+        "parent_id": "KYeRdSJsgoygUOxYK3dcqEcanWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "60000L",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", indicating the timeout duration is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " minute.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -398,7 +678,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "DropCollectionReq dropCollectionReq = DropCollectionReq.",
+                "content": "// drop a collection: test\nDropCollectionReq dropCollectionReq = DropCollectionReq.builder()\n        .collectionName(\"test\")\n        .build();\nclient.dropCollection(dropCollectionReq);\n// check if dropped\nclient.hasCollection(HasCollectionReq.builder()\n        .collectionName(\"test\")\n        .build());\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -410,31 +690,7 @@
             },
             {
               "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n        .build();\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "client.dropCollection(dropCollectionReq);",
+                "content": "// false",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -478,7 +734,7 @@
         }
       }
     ],
-    "counts": 16
+    "counts": 22
   },
   "slug": "Collections-dropCollection"
 }

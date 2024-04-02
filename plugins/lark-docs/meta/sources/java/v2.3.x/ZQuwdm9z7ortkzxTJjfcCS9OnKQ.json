@@ -1,6 +1,6 @@
 {
   "created_time": "1708420762",
-  "modified_time": "1708935851",
+  "modified_time": "1712040974",
   "name": "dropRole()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "NX2nfYbWXlBEeyd1gQhcsnDGnQe",
@@ -397,31 +397,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "DropRoleReq dropRoleReq = DropRoleReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .roleName(\"test\")\n        .build();\n",
+                "content": "DropRoleReq dropRoleReq = DropRoleReq.builder()\n        .roleName(\"test\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

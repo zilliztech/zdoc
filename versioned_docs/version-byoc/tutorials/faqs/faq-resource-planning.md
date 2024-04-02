@@ -36,20 +36,12 @@ A Performance-optimized CU can serve 8 million 128-dimensional vectors or 2 mill
 
 A Capacity-optimized CU can serve 25 million 128-dimensional vectors or 5 million 768-dimensional vectors.
 
-A Cost-optimized CU can serve 25 million 128-dimensional vectors or 5 million 768-dimensional vectors.
-
 Since your collection's schema may differ from the ones in the simple guide above, we highly recommend you test the actual requirements against different CU types.
 
-__What's the difference between Performance-optimized CU, Capacity-optimized CU, and Cost-optimized CU?__
+__What's the difference between Performance-optimized CU and Capacity-optimized CU?__
 
 The "Performance-optimized Compute Unit" suits low latency or high throughput similarity searches. This option works best for high-search performance scenarios.
 
 The "Capacity-optimized Compute Unit" suits data volumes that are five times larger than the performance-optimized CU option. This option works best for increased storage capacity scenarios.
 
-The "Cost-optimized Compute Unit" provides the same large capacity as the "Capacity-optimized" option, but at a lower cost. This option is ideal for budget-conscious projects that need ample storage without high-performance demands.
-
 For more details, see [Select the Right CU](./cu-types-explained).
-
-__How can I save costs on using Zilliz Cloud if I have a limited budget?__
-
-To reduce cost, we suggest trying our cost-optimized CU type. This type of CU provides the same large capacity as the "Capacity-optimized" option, but at a lower cost with slightly reduced search performance. Refer to [Select the Right CU](./cu-types-explained) for more details.

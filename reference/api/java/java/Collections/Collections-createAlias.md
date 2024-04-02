@@ -70,6 +70,7 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
+// create a alias "test_alias" for collection "test"
 CreateAliasReq createAliasReq = CreateAliasReq._builder_()
         .collectionName("test")
         .alias("test_alias")

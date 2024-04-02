@@ -5,7 +5,7 @@
   "node_token": "RxmuwIgydiN3vkkKmATcam59nDc",
   "node_type": "origin",
   "obj_create_time": "1706250752",
-  "obj_edit_time": "1711421820",
+  "obj_edit_time": "1712026853",
   "obj_token": "R5dVdL4BNox7yXxg4u0cExydnmg",
   "obj_type": "docx",
   "origin_node_token": "RxmuwIgydiN3vkkKmATcam59nDc",
@@ -13,7 +13,7 @@
   "owner": "ou_fbc044d19930afd389d5c369466c38b1",
   "parent_node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
   "space_id": "7167193056431783939",
-  "title": "Manage Pipelines",
+  "title": "Manage Pipeline",
   "slug": "manage-pipelines",
   "blocks": {
     "items": [
@@ -55,7 +55,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Manage Pipelines",
+                "content": "Manage Pipeline",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -736,55 +736,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Follow the example below to view the details of a pipeline. Replace the value of ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "pipelineId",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "(",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "pipe-6ca5dd1b4672659d3c3487",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ") with your own pipeline ID.",
+                "content": "Follow the example below to view the details of a pipeline.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -820,7 +772,7 @@
             },
             {
               "text_run": {
-                "content": "    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487\"",
+                "content": "    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}\"",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1238,55 +1190,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Follow the example below to drop a pipeline. Replace the value of ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "pipelineId",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "(",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "pipe-6ca5dd1b4672659d3c3487",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ") with your own pipeline ID.",
+                "content": "Follow the example below to drop a pipeline. ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1322,7 +1226,7 @@
             },
             {
               "text_run": {
-                "content": "    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487\"",
+                "content": "    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}\"",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -51,9 +51,10 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-ListPartitionsReq listPartitionsReq = ListPartitionsReq._builder_()
+// list partitions in collection
+ListPartitionsReq listPartitionsReq = ListPartitionsReq.builder()
         .collectionName("test")
         .build();
-List<String> res = client_v2.listPartitions(listPartitionsReq);
+List<String> res = client.listPartitions(listPartitionsReq);
 ```
 

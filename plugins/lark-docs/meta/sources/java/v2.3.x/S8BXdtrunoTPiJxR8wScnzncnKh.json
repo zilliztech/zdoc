@@ -1,6 +1,6 @@
 {
   "created_time": "1708421451",
-  "modified_time": "1708934871",
+  "modified_time": "1712041698",
   "name": "dropIndex()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "UqeGfuMkilgT1HdhoyGc08FznEt",
@@ -506,31 +506,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "DropIndexReq dropIndexReq = DropIndexReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n        .fieldName(\"vector\")\n        .build();\n",
+                "content": "// drop index for field \"vector\"\nDropIndexReq dropIndexReq = DropIndexReq.builder()\n        .collectionName(\"test\")\n        .fieldName(\"vector\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

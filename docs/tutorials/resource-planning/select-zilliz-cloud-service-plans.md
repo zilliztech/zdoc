@@ -19,10 +19,10 @@ Zilliz Cloud provides a range of cluster types and plans to suit diverse require
 
 At its core, Zilliz Cloud offers two fundamental types of clusters: __Serverless__ and __Dedicated__.
 
-|  Cluster Type           |  Description                                                       |  Resource Allocation                                                                           |  Best Suited For                                                              |  Cluster Capacity                                                                                                                                                                                                                                     |
-| ----------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  __Serverless__         |  Simple, fully managed vector database cluster                     |  - Dynamic provisioning<br/> - Shared resources with other users<br/>                    |  - Vector database newcomers<br/> - Hassle-free experience seekers<br/> |  Appox. 1 million 768-dimensional vectors <br/> (* Actual capacity depends on your schema.)                                                                                                                                                        |
-|  __Dedicated__<br/>  |  - Full feature set<br/> - High availability & security<br/> |  - Dedicated [Compute Units (CUs)](./cu-types-explained)<br/> - Optimal performance<br/> |  - Enterprise setups<br/> - Strict performance & security needs<br/>    |  - Performance-optimized CU: 1 million 768-dimensional vectors<br/> - Capacity-optimized CU: 5 million 768-dimensional vectors<br/> - Cost-optimized CU: 5 million 768-dimensional vectors.<br/> (* Actual capacity depends on your schema.) |
+|  Cluster Type           |  Description                                                       |  Resource Allocation                                                                           |  Best Suited For                                                              |  Cluster Capacity                                                                                                                                                                     |
+| ----------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  __Serverless__         |  Simple, fully managed vector database cluster                     |  - Dynamic provisioning<br/> - Shared resources with other users<br/>                    |  - Vector database newcomers<br/> - Hassle-free experience seekers<br/> |  Appox. 1 million 768-dimensional vectors <br/> (* Actual capacity depends on your schema.)                                                                                        |
+|  __Dedicated__<br/>  |  - Full feature set<br/> - High availability & security<br/> |  - Dedicated [Compute Units (CUs)](./cu-types-explained)<br/> - Optimal performance<br/> |  - Enterprise setups<br/> - Strict performance & security needs<br/>    |  - Performance-optimized CU: 1 million 768-dimensional vectors<br/> - Capacity-optimized CU: 5 million 768-dimensional vectors<br/> (* Actual capacity depends on your schema.) |
 
 For more in-depth details on cluster configurations, explore the [Free Trials](./free-trials) and [Pricing Calculator](./pricing-calculator).
 
@@ -53,7 +53,7 @@ Zilliz Cloud categorizes its offerings into four distinct plans: __Starter__, __
 
 - Designed for SMEs or operations not mission-critical, with the flexibility to choose your preferred [cloud provider and region](./cloud-providers-and-regions).
 
-- Choice of three types of [CUs](./cu-types-explained): Cost-optimized, Capacity-optimized, and Performance-optimized.
+- Choice of two types of [CUs](./cu-types-explained): Capacity-optimized, and Performance-optimized.
 
 - Supports up to 24 CUs, maxing at 30 million 768-dimensional vectors.
 

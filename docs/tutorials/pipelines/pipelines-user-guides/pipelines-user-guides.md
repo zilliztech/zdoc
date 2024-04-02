@@ -10,9 +10,9 @@ sidebar_position: 1
 import Admonition from '@theme/Admonition';
 
 
-# User Guides
+# User Guide
 
-Comprehensive user guides to help you use Pipelines on Zilliz Cloud.
+Comprehensive user guide to help you use Pipelines on Zilliz Cloud.
 
 
 

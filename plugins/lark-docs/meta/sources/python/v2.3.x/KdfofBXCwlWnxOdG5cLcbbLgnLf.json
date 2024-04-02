@@ -1,13 +1,13 @@
 {
   "created_time": "1708317351",
-  "modified_time": "1708395812",
-  "name": "Data Import",
+  "modified_time": "1711014580",
+  "name": "DataImport",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
-  "parent_token": "ICGwfi8ZClVQLHdLn9Hc3oeFn1d",
+  "parent_token": "PTJzfzI0ulKGjwdUsxQcFxfJn6b",
   "token": "KdfofBXCwlWnxOdG5cLcbbLgnLf",
   "type": "folder",
   "url": "https://zilliverse.feishu.cn/drive/folder/KdfofBXCwlWnxOdG5cLcbbLgnLf",
-  "slug": "MilvusClient-DataImport",
+  "slug": "DataImport",
   "children": [
     {
       "created_time": "1704422184",

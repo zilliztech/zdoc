@@ -27,6 +27,7 @@ IndexParam.builder()
     .indexName(String indexName)
     .indexType(IndexParam.IndexType indexType)
     .metricType(IndexParam.MetricType metricType)
+    .extraParams(Map<String, Object> extraParams)
     .build();
 ```
 
@@ -48,6 +49,10 @@ __BUILDER METHODS:__
 
     The distance metric to use for the index. Possible values are __L2__, __IP__, __COSINE__.
 
+- `extraParams(Map<String, Object> extraParams)`
+
+    Extra index parameters. For details, refer to [In-memory Index](https://milvus.io/docs/index.md), [On-disk Index](https://milvus.io/docs/disk_index.md), and [GPU index](https://milvus.io/docs/gpu_index.md).
+
 __RETURN TYPE:__
 
 _IndexParam_
@@ -65,6 +70,7 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
+// define index param for field "vector"
 IndexParam indexParam = IndexParam.builder()
         .metricType(IndexParam.MetricType._L2_)
         .indexType(IndexParam.IndexType._AUTOINDEX_)

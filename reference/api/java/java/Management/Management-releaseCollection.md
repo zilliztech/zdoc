@@ -24,7 +24,8 @@ public void releaseCollection(ReleaseCollectionReq request)
 ```java
 releaseCollection(ReleaseCollectionReq.builder()
     .collectionName(String collectionName)
-    .partitionNames(List<String> partitionNames)
+    .async(Boolean async)
+    .timeout(Long timeout)
     .build()
 )
 ```
@@ -35,9 +36,17 @@ __BUILDER METHODS:__
 
     The name of a collection.
 
-- `partitionNames(List<String> partitionNames)`
+- `async(Boolean async)`
 
-    A list of partition names to release.
+    Whether this operation is asynchronous.
+
+    The value defaults to `Boolean.True`, indicating immediate return while the process may still run in the background.
+
+- `timeout(Long timeout)`
+
+    The timeout duration of the process. The process terminates after the specified duration expires.
+
+    The value defaults to `60000L`, indicating the timeout duration is one minute.
 
 __RETURNS:__
 
@@ -52,8 +61,9 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-ReleaseCollectionReq releaseCollectionReq = ReleaseCollectionReq._builder_()
+// release collection "test"
+ReleaseCollectionReq releaseCollectionReq = ReleaseCollectionReq.builder()
         .collectionName("test")
         .build();
-client_v2.releaseCollection(releaseCollectionReq);
+client.releaseCollection(releaseCollectionReq);
 ```

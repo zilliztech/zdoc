@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 # __call__()
 
-This operation allows the [OpenAIEmbeddingFunction](./Model-OpenAIEmbeddingFunction) class to be called like a function. When an instance of OpenAIEmbeddingFunction is called, it will actually run the code within the ____call()____ method.
+This operation in [OpenAIEmbeddingFunction](./Model-OpenAIEmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
 
 The ____call__()__ method of OpenAIEmbeddingFunction shares the same functionality as [encode_documents()](./OpenAIEmbeddingFunction-encode_documents) and [encode_queries()](./OpenAIEmbeddingFunction-encode_queries).
 

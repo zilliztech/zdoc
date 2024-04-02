@@ -1,6 +1,6 @@
 {
   "created_time": "1708421150",
-  "modified_time": "1708933932",
+  "modified_time": "1712041586",
   "name": "hasCollection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "KvSff5lOglJa2LdLSdBcJwPmnSd",
@@ -477,31 +477,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "HasCollectionReq hasCollectionReq = HasCollectionReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n        .build();\n",
+                "content": "// check whether collection test exists\nHasCollectionReq hasCollectionReq = HasCollectionReq.builder()\n        .collectionName(\"test\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

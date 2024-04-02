@@ -1,6 +1,6 @@
 {
   "created_time": "1708421236",
-  "modified_time": "1709005609",
+  "modified_time": "1711944594",
   "name": "createAlias()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "KvSff5lOglJa2LdLSdBcJwPmnSd",
@@ -939,6 +939,18 @@
         "block_type": 14,
         "code": {
           "elements": [
+            {
+              "text_run": {
+                "content": "// create a alias \"test_alias\" for collection \"test\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "CreateAliasReq createAliasReq = CreateAliasReq.",

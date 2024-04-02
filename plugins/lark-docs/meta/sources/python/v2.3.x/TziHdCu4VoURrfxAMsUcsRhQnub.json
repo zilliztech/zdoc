@@ -1,6 +1,6 @@
 {
   "created_time": "1704790733",
-  "modified_time": "1710488777",
+  "modified_time": "1712028308",
   "name": "create_collection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -2925,7 +2925,7 @@
             },
             {
               "text_run": {
-                "content": ", indicating that two shards are to be created along with this collection.",
+                "content": ", indicating that one shard is to be created along with this collection.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3015,7 +3015,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "By default, a collection contains two shards.",
+                "content": "By default, a collection contains one shard.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

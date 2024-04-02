@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 # __call__()
 
-This operation allows the [SentenceTransformerEmbeddingFunction](./Model-SentenceTransformerEmbeddingFunction) class to be called like a function. When an instance of SentenceTransformerEmbeddingFunction is called, it will actually run the code within the ____call()____ method.
+This operation in [SentenceTransformerEmbeddingFunction](./Model-SentenceTransformerEmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
 
 To prevent potential errors when directly using the ____call()____ method, avoid using __query_instruction__ or __doc_instruction__ for SentenceTransformerEmbeddingFunction initialization. For more information, refer to [SentenceTransformerEmbeddingFunction](./Model-SentenceTransformerEmbeddingFunction).
 

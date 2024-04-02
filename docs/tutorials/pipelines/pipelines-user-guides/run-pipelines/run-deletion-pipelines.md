@@ -28,13 +28,13 @@ After creating a Deletion pipeline, you can run it to remove all chunks in a spe
 
 ## Via RESTful API{#via-restful-api}
 
-The following example runs the Deletion pipeline named `my_doc_deletion_pipeline` (assuming its `pipelineId` is `pipe-7227d0729d73e63002ed46`). 
+The following example runs the Deletion pipeline named `my_doc_deletion_pipeline`. 
 
 ```bash
 curl --request POST \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-7227d0729d73e63002ed46/run" \
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}/run" \
     -d '{
         "data": {
             "doc_name": "zilliz_concept_doc.md",

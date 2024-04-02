@@ -5,7 +5,7 @@
   "node_token": "GQN0wDCrni4n36kyeVQcF41Lned",
   "node_type": "origin",
   "obj_create_time": "1708764162",
-  "obj_edit_time": "1709875827",
+  "obj_edit_time": "1711697600",
   "obj_token": "KaFedwfsXoaRXCx9S9Gc7NPSnph",
   "obj_type": "docx",
   "origin_node_token": "GQN0wDCrni4n36kyeVQcF41Lned",
@@ -23,9 +23,11 @@
         "children": [
           "Yin3d1SrPo48NGxBvsycXr6mnie",
           "doxcn8YG8JiRMqRlwOgaDEQ47Kd",
+          "Cy6odyevPowH0NxKDJOcHS0Tnbb",
           "doxcnoBBIhByhw83SJ8B2KHnLYb",
           "doxcnupECyWFWI47vzCKtUuZV8d",
           "doxcnRKZaY5205EdhSKG7nRbUIf",
+          "JfScd4goPoTPQZx295QcR4R3nNd",
           "doxcnNyH6AJeTi8a4MVcaOXbhVd",
           "doxcnQPttOAWaf5CKuYcbGe4rzg",
           "doxcn3OPQc52xER28EFcdJL3Cfb",
@@ -204,6 +206,31 @@
             {
               "text_run": {
                 "content": "This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Cy6odyevPowH0NxKDJOcHS0Tnbb",
+        "block_type": 2,
+        "parent_id": "KaFedwfsXoaRXCx9S9Gc7NPSnph",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"indev\">",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -506,6 +533,31 @@
           }
         },
         "parent_id": "KaFedwfsXoaRXCx9S9Gc7NPSnph"
+      },
+      {
+        "block_id": "JfScd4goPoTPQZx295QcR4R3nNd",
+        "block_type": 2,
+        "parent_id": "KaFedwfsXoaRXCx9S9Gc7NPSnph",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "doxcnNyH6AJeTi8a4MVcaOXbhVd",
@@ -6854,6 +6906,6 @@
         "parent_id": "KaFedwfsXoaRXCx9S9Gc7NPSnph"
       }
     ],
-    "counts": 184
+    "counts": 186
   }
 }

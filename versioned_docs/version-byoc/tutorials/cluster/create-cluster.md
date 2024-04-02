@@ -117,7 +117,7 @@ In the command above,
 
 - `cuSize`: The size of the CU used for the cluster. Value range: 1 to 256. By calling `Create Cluster`, you can create a cluster with up to 32 CUs. To create a cluster with more than 32 CUs, [contact us](https://zilliz.com/contact-sales).
 
-- `cuType`: The type of the CU used for the cluster. Valid values: __Performance-optimized__, __Capacity-optimized__, and __Cost-optimized__.
+- `cuType`: The type of the CU used for the cluster. Valid values: __Performance-optimized and __Capacity-optimized__.
 
 - `projectId`: The ID of the project in which you want to create a cluster. To list project IDs, call the `List Projects` operation.
 

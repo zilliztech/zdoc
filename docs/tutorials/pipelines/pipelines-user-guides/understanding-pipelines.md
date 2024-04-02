@@ -82,9 +82,9 @@ For a collection managed by Ingestion pipeline, deleting all entities (each with
 
 ## Related topics{#related-topics}
 
-- [Create Ingestion Pipeline](./create-ingestion-piplines)
+- [Create Ingestion Pipeline](./create-ingestion-pipelines)
 
-- [Create Search Pipeline](./create-search-piplines)
+- [Create Search Pipeline](./create-search-pipelines)
 
 - [Create Deletion Pipeline](./create-deletion-pipelines)
 

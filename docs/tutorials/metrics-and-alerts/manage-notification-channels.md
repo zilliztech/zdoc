@@ -58,7 +58,7 @@ To integrate with a PagerDuty service,
 
 1. [Create a service](https://support.pagerduty.com/docs/services-and-integrations#create-a-service) in the PagerDuty UI.
 
-1. [Create an Events API v2 integration](https://support.pagerduty.com/docs/services-and-integrations#create-a-generic-events-api-integration) to obtain the integration key. The integration key will be in the format: `https://events.pagerduty.com/v2/xxxx/xxxx`.
+1. [Create an Events API v2 integration](https://support.pagerduty.com/docs/services-and-integrations#create-a-generic-events-api-integration) to obtain the integration key. The integration key will be in the format: `c55ec4de243e440bd0e921750bdfxxxx`.
 
 1. In the [Zilliz Cloud console](https://cloud.zilliz.com/signup), configure the PagerDuty notification channel.
 

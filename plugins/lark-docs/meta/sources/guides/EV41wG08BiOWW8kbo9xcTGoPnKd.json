@@ -5,7 +5,7 @@
   "node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
   "node_type": "origin",
   "obj_create_time": "1689062914",
-  "obj_edit_time": "1711361791",
+  "obj_edit_time": "1711682834",
   "obj_token": "Ly6BdqdNooKWDhxejD8ckxaZnah",
   "obj_type": "docx",
   "origin_node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
@@ -246,13 +246,11 @@
           "XJKBdEwUfo5VFZxTvO8c7jhwnWf",
           "BwhRdqvbWoYJ9pxPbSgcKxIfnMe",
           "DuAOdjhFloT9Ofx93j5csGRen0d",
-          "BCKYdpLZXoTzCLxY6kIciS5YnOe",
           "N8WVdFnCpo91qsxqPl9c3eaWnSd",
           "VCpndPqDqosutzxQdphctEmWnSe",
           "T4C5de1ErocPYzxZTG2cKaSxnzb",
           "K4UsdhNC8o4Shlx49gMcR0xwnzh",
           "HUNodNpQAozrlWxjRewclS07nBf",
-          "EsXpdTjEloa6yMxllzycEfDyn7e",
           "V7xad8g3EoU9dExa4otc7DUBn2e",
           "D3gOddKBAo4QyKxKFxZcJqdUn6f",
           "F7xadmJpEoV6UyxnIdzcEeg6nMf",
@@ -261,8 +259,6 @@
           "HKcTdNbDEoptS2xWqnvcpN5wnNg",
           "DEa2ds4CBou6tIx7AjLcQONpnZg",
           "VpI1dxXTwo6Em0xGN2ZczrVYnNf",
-          "Zmwid21PqoxFi4x7l5scmEu2nhe",
-          "UzFedeXhCovmJRxek2IcqV9EnPb",
           "Nt6Idp1AjoGLm5xUaLhcsdZ4n3c",
           "BXCMdRGIjoH1sPxMxe5c4W1unUf",
           "NKEZdU2QyozjnXxAQvAcDEJgnUh",
@@ -9287,31 +9283,6 @@
         }
       },
       {
-        "block_id": "BCKYdpLZXoTzCLxY6kIciS5YnOe",
-        "block_type": 2,
-        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "A Cost-optimized CU can serve 25 million 128-dimensional vectors or 5 million 768-dimensional vectors.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
         "block_id": "N8WVdFnCpo91qsxqPl9c3eaWnSd",
         "block_type": 2,
         "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
@@ -9369,7 +9340,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "What's the difference between Performance-optimized CU, Capacity-optimized CU, and Cost-optimized CU?",
+                "content": "What's the difference between Performance-optimized CU and Capacity-optimized CU?",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -9420,31 +9391,6 @@
             {
               "text_run": {
                 "content": "The \"Capacity-optimized Compute Unit\" suits data volumes that are five times larger than the performance-optimized CU option. This option works best for increased storage capacity scenarios.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "EsXpdTjEloa6yMxllzycEfDyn7e",
-        "block_type": 2,
-        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The \"Cost-optimized Compute Unit\" provides the same large capacity as the \"Capacity-optimized\" option, but at a lower cost. This option is ideal for budget-conscious projects that need ample storage without high-performance demands.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -9723,83 +9669,6 @@
             {
               "text_run": {
                 "content": "",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Zmwid21PqoxFi4x7l5scmEu2nhe",
-        "block_type": 2,
-        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "How can I save costs on using Zilliz Cloud if I have a limited budget?",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "UzFedeXhCovmJRxek2IcqV9EnPb",
-        "block_type": 2,
-        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "To reduce cost, we suggest trying our cost-optimized CU type. This type of CU provides the same large capacity as the \"Capacity-optimized\" option, but at a lower cost with slightly reduced search performance. Refer to ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Select the Right CU",
-                "token": "UgqvwKh2QiKE1kkYNLJcaHt0nkg",
-                "url": "https://zilliverse.feishu.cn/wiki/UgqvwKh2QiKE1kkYNLJcaHt0nkg"
-              }
-            },
-            {
-              "text_run": {
-                "content": " for more details.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -12964,6 +12833,6 @@
         }
       }
     ],
-    "counts": 375
+    "counts": 371
   }
 }

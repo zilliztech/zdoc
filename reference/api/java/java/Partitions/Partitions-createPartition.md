@@ -52,7 +52,8 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-CreatePartitionReq createPartitionReq = CreatePartitionReq._builder_()
+// create a partition "test_partition" in collection "test"
+CreatePartitionReq createPartitionReq = CreatePartitionReq.builder()
         .collectionName("test")
         .partitionName("test_partition")
         .build();

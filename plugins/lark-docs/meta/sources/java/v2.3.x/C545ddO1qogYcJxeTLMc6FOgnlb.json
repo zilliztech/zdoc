@@ -1,6 +1,6 @@
 {
   "created_time": "1708421258",
-  "modified_time": "1708933871",
+  "modified_time": "1712041549",
   "name": "dropAlias()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "KvSff5lOglJa2LdLSdBcJwPmnSd",
@@ -423,7 +423,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "DropAliasReq dropAliasReq = DropAliasReq.",
+                "content": "// drop alias \"test_alias\"\nDropAliasReq dropAliasReq = DropAliasReq.builder()\n        .alias(\"test_alias\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -435,31 +435,7 @@
             },
             {
               "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .alias(\"test_alias\")\n        .build();\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "client_v2.dropAlias(dropAliasReq);",
+                "content": "client.dropAlias(dropAliasReq);",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

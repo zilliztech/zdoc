@@ -1,6 +1,6 @@
 {
   "created_time": "1708420865",
-  "modified_time": "1708935954",
+  "modified_time": "1712040982",
   "name": "dropUser()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "NX2nfYbWXlBEeyd1gQhcsnDGnQe",
@@ -397,31 +397,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "DropUserReq dropUserReq = DropUserReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .userName(\"test\")\n        .build();\n",
+                "content": "DropUserReq dropUserReq = DropUserReq.builder()\n        .userName(\"test\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

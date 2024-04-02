@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # AUTOINDEX Explained
 
-Zilliz Cloud offers Performance-optimized, Capacity-optimized, and Cost-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, __AUTOINDEX__ comes into play.
+Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, __AUTOINDEX__ comes into play.
 
 __AUTOINDEX__ is a proprietary index type available on Zilliz Cloud that can help you achieve better search performance. Whenever you want to index a vector field in your collection on Zilliz Cloud, __AUTOINDEX__ applies.
 

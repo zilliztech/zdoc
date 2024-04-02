@@ -1,6 +1,6 @@
 {
   "created_time": "1708421080",
-  "modified_time": "1709007355",
+  "modified_time": "1711943930",
   "name": "createSchema()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "KvSff5lOglJa2LdLSdBcJwPmnSd",
@@ -19,7 +19,6 @@
           "AiwXdmuGno2OrQxH1CkcYJBpnYd",
           "AyIUdowjdoJe6gxPkozceqrqn7g",
           "Obcld0X6vooboqxVzYicIpbNnGh",
-          "PXb0d5kdboCPEhxJ5rmcFXADnOe",
           "CHhZdnwDToKx1oxfyF5czSMlnQc",
           "AcBsdkBVcoXy7mxUr4KcBAdlneg",
           "TeH9d8KMpoyLMxxfaTAcg1Wpn6b",
@@ -80,67 +79,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "public CreateCollectionReq.CollectionSchema createSchema(b",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "oolean",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " enableDynamicField,\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "String",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " description)",
+                "content": "public CreateCollectionReq.CollectionSchema createSchema()",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -190,139 +129,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "MilvusClientV2.createSchema(",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "    ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "b",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "oolean",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " enableDynamicField,\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "   ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "String",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " description",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ")",
+                "content": "MilvusClientV2.createSchema()",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -367,263 +174,13 @@
       },
       {
         "block_id": "Obcld0X6vooboqxVzYicIpbNnGh",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "enableDynamicField",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "children": [
-          "G0NKd6uVDohdclxRSycc4UrGnBz",
-          "YLbKdnKECoKDJPxSMo4cxcnunAe",
-          "WSGcdpkpsoMcg6x5zJJcjm1EnSe"
-        ],
-        "parent_id": "RdfxdvgRfonSK8xlEgjc5PpVnDg"
-      },
-      {
-        "block_id": "G0NKd6uVDohdclxRSycc4UrGnBz",
         "block_type": 2,
-        "parent_id": "Obcld0X6vooboqxVzYicIpbNnGh",
+        "parent_id": "RdfxdvgRfonSK8xlEgjc5PpVnDg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Whether allows <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> saves the values of undefined fields in a dynamic field if the data being inserted into the target collection includes fields that are not defined in the collection's schema.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "YLbKdnKECoKDJPxSMo4cxcnunAe",
-        "block_type": 2,
-        "comment_ids": [
-          "7339746971568766979"
-        ],
-        "parent_id": "Obcld0X6vooboqxVzYicIpbNnGh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "When you set this to ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "True",
-                "text_element_style": {
-                  "bold": true,
-                  "comment_ids": [
-                    "7339746971568766979"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ", <include target=\"milvus\">Milvus</include> and <include target=\"zilliz\">Zilliz Cloud</include> will create a field called ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "$meta",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " to store any undefined fields and their values from the data that is inserted.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "WSGcdpkpsoMcg6x5zJJcjm1EnSe",
-        "block_type": 19,
-        "callout": {
-          "background_color": 2,
-          "border_color": 2,
-          "emoji_id": "blue_book"
-        },
-        "children": [
-          "QgRbdNTtNotxPWxUOLhcGK6DnGA",
-          "HtSOdatd9oEYOLxf1u9cqcrKnCg"
-        ],
-        "parent_id": "Obcld0X6vooboqxVzYicIpbNnGh"
-      },
-      {
-        "block_id": "QgRbdNTtNotxPWxUOLhcGK6DnGA",
-        "block_type": 2,
-        "parent_id": "WSGcdpkpsoMcg6x5zJJcjm1EnSe",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "What is a dynamic field?",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "HtSOdatd9oEYOLxf1u9cqcrKnCg",
-        "block_type": 2,
-        "parent_id": "WSGcdpkpsoMcg6x5zJJcjm1EnSe",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "If the data being inserted into the target collection includes fields that are not defined in the collection's schema, those fields will be saved in a reserved dynamic field named ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "$meta",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " as key-value pairs.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "PXb0d5kdboCPEhxJ5rmcFXADnOe",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "description",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "children": [
-          "S58dd43iBozMK7x3AoVc2EAOnEg"
-        ],
-        "parent_id": "RdfxdvgRfonSK8xlEgjc5PpVnDg"
-      },
-      {
-        "block_id": "S58dd43iBozMK7x3AoVc2EAOnEg",
-        "block_type": 2,
-        "parent_id": "PXb0d5kdboCPEhxJ5rmcFXADnOe",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The description of the schema.",
+                "content": "None",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -802,7 +359,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema(Boolean.",
+                "content": "// quickly create a collectionSchema\nCreateCollectionReq.CollectionSchema collectionSchema = client.createSchema();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -814,7 +371,19 @@
             },
             {
               "text_run": {
-                "content": "TRUE",
+                "content": "collectionSchema.addField(AddFieldReq.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -826,19 +395,7 @@
             },
             {
               "text_run": {
-                "content": ", \"\");\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "collectionSchema.addPrimaryField(\"id\", DataType.",
+                "content": "().fieldName(\"id\").dataType(DataType.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -862,7 +419,7 @@
             },
             {
               "text_run": {
-                "content": ", Boolean.",
+                "content": ").isPrimaryKey(Boolean.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -886,7 +443,7 @@
             },
             {
               "text_run": {
-                "content": ", Boolean.",
+                "content": ").autoID(Boolean.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -910,7 +467,7 @@
             },
             {
               "text_run": {
-                "content": ");\n",
+                "content": ").description(\"id\").build());\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -922,7 +479,31 @@
             },
             {
               "text_run": {
-                "content": "collectionSchema.addVectorField(\"vector\", DataType.",
+                "content": "collectionSchema.addField(AddFieldReq.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "().fieldName(\"vector\").dataType(DataType.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -946,43 +527,7 @@
             },
             {
               "text_run": {
-                "content": ", 8);\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "collectionSchema.addScalarField(\"num\", DataType.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Int32",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ");",
+                "content": ").dimension(dim).build());",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1001,7 +546,7 @@
         "parent_id": "RdfxdvgRfonSK8xlEgjc5PpVnDg"
       }
     ],
-    "counts": 20
+    "counts": 13
   },
   "slug": "Collections-createSchema"
 }

@@ -52,9 +52,10 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq._builder_()
+// release partition in collection
+ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
         .collectionName("test_partition")
-        .partitionNames(Collections._singletonList_("test_partition"))
+        .partitionNames(Collections.singletonList("test_partition"))
         .build();
 client.releasePartitions(releasePartitionsReq);
 ```

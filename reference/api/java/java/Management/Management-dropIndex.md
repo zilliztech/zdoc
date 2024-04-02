@@ -57,7 +57,8 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-DropIndexReq dropIndexReq = DropIndexReq._builder_()
+// drop index for field "vector"
+DropIndexReq dropIndexReq = DropIndexReq.builder()
         .collectionName("test")
         .fieldName("vector")
         .build();

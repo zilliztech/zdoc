@@ -50,9 +50,10 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-LoadPartitionsReq loadPartitionsReq = LoadPartitionsReq._builder_()
-        .collectionName("test_partition")
-        .partitionNames(Collections._singletonList_("test_partition"))
+// load partition in collection
+LoadPartitionsReq loadPartitionsReq = LoadPartitionsReq.builder()
+        .collectionName("test")
+        .partitionNames(Collections.singletonList("test_partition"))
         .build();
 client.loadPartitions(loadPartitionsReq);
 ```

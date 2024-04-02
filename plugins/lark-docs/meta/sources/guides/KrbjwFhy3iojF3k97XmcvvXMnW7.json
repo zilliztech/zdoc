@@ -5,7 +5,7 @@
   "node_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
   "node_type": "origin",
   "obj_create_time": "1701223750",
-  "obj_edit_time": "1707130086",
+  "obj_edit_time": "1711681912",
   "obj_token": "GQVdd3C8ho6IDexgNBMcTdf1nGc",
   "obj_type": "docx",
   "origin_node_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
@@ -4860,7 +4860,31 @@
             },
             {
               "text_run": {
-                "content": ", ",
+                "content": " ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "and",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4873,30 +4897,6 @@
             {
               "text_run": {
                 "content": "Capacity-optimized",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ", and ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Cost-optimized",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,

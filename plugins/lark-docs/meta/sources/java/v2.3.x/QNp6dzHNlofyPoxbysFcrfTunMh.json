@@ -1,6 +1,6 @@
 {
   "created_time": "1708421568",
-  "modified_time": "1709020457",
+  "modified_time": "1712041740",
   "name": "createPartition()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "TXEsfWjuFl2cKPdDyrrcS7hFnwd",
@@ -458,31 +458,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "CreatePartitionReq createPartitionReq = CreatePartitionReq.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n        .partitionName(\"test_partition\")\n        .build();\n",
+                "content": "// create a partition \"test_partition\" in collection \"test\"\nCreatePartitionReq createPartitionReq = CreatePartitionReq.builder()\n        .collectionName(\"test\")\n        .partitionName(\"test_partition\")\n        .build();\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

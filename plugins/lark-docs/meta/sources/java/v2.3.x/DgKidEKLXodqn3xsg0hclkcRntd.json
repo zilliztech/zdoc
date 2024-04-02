@@ -1,6 +1,6 @@
 {
   "created_time": "1708421642",
-  "modified_time": "1709200569",
+  "modified_time": "1712041857",
   "name": "delete()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "HVVZfLAcOlz6bpdjY82cFmtNn2g",
@@ -19,9 +19,9 @@
           "KrUkdue0xonP4PxqoRVcrQemnCf",
           "YvCmdZPNCoa9tTxoPkFcpfjsnDf",
           "ASRbdp3wRoRN8px9FmwcS9OinUg",
+          "Y0iTd9ug3o126txkHyQcXtDUnHf",
           "IJmwdGKnAoaE6CxXLIyc2267nah",
           "JMAAdWXnYoLagkxmMU2cAO2WnMB",
-          "PFIJdT5w8ouAkrxTikfc4JYqnKb",
           "A6ehdjYCgoiAJBxxbMJcIdS8nLe",
           "RfZSdo1Oto8UBRx85dYcjBsunXd",
           "FTRwdZK9koX675xYNX8cPd8Anwh",
@@ -137,7 +137,115 @@
           "elements": [
             {
               "text_run": {
-                "content": "delete(DeleteReq.builder()\n    .collectionName(String collectionName)\n    .expr(String expr)\n",
+                "content": "delete(DeleteReq.builder()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .collectionName(String collectionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .partitionName(String partitionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(String ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -197,7 +305,7 @@
             },
             {
               "text_run": {
-                "content": "> ids)\n    .partitionName(String partitionName)\n    .build()\n",
+                "content": "> ids)\n    .build()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -306,13 +414,102 @@
         }
       },
       {
+        "block_id": "Y0iTd9ug3o126txkHyQcXtDUnHf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "partitionName(String partitionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NUVLd74Bro6XQpxEVqCcDKgtnSb"
+        ],
+        "parent_id": "DgKidEKLXodqn3xsg0hclkcRntd"
+      },
+      {
+        "block_id": "NUVLd74Bro6XQpxEVqCcDKgtnSb",
+        "block_type": 2,
+        "parent_id": "Y0iTd9ug3o126txkHyQcXtDUnHf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of a partition.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "IJmwdGKnAoaE6CxXLIyc2267nah",
         "block_type": 12,
         "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "expr(String expr)",
+                "content": "filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(String ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -405,7 +602,7 @@
             },
             {
               "text_run": {
-                "content": "Boolean Expression Rules",
+                "content": "Scalar Expression Rules",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -522,59 +719,6 @@
             {
               "text_run": {
                 "content": "A specific entity ID or a list of entity IDs.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "PFIJdT5w8ouAkrxTikfc4JYqnKb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "partitionName(String partitionName)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "children": [
-          "OoFAd3UYMoxvQWxUSgechslGnHf"
-        ],
-        "parent_id": "DgKidEKLXodqn3xsg0hclkcRntd"
-      },
-      {
-        "block_id": "OoFAd3UYMoxvQWxUSgechslGnHf",
-        "block_type": 2,
-        "parent_id": "PFIJdT5w8ouAkrxTikfc4JYqnKb",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The name of a partition.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -945,7 +1089,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "DeleteReq deleteReq = DeleteReq.",
+                "content": "// delete entities with filter \"id > 10\"\nDeleteReq deleteReq = DeleteReq.builder()\n        .collectionName(\"test\")\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -957,19 +1101,7 @@
             },
             {
               "text_run": {
-                "content": "builder",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "()\n        .collectionName(\"test\")\n        .expr(\"id > 10\")\n        .build();\n",
+                "content": "        .",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -981,7 +1113,31 @@
             },
             {
               "text_run": {
-                "content": "client_v2.delete(deleteReq);",
+                "content": "filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(\"id > 10\")\n        .build();\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.delete(deleteReq);",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

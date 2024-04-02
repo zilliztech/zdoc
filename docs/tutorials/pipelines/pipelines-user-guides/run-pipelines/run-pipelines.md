@@ -10,7 +10,7 @@ sidebar_position: 4
 import Admonition from '@theme/Admonition';
 
 
-# Run Pipelines
+# Run Pipeline
 
 You can run the created pipelines to convert your unstructured data into embedding vectors(with or without metadata field), conduct a text semantic search, or delete unnecessary documents.
 

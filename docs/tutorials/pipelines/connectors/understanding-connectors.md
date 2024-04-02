@@ -16,44 +16,30 @@ The connector is an in-built tool that makes it easy to connect various data sou
 
 ## What is a connector?{#what-is-a-connector}
 
-A connector is a tool designed to support data streaming from one place to another. As indicated in the diagram below, a connector first scans the data in various file formats hosted on different object storage services (eg. AWS S3, Google Cloud Storage, etc.) and transfer them into vector database via [Zilliz Cloud Pipelines](./understanding-pipelines). These source data will be further processed by the ingestion or deletion pipeline and finally stored as entities in a Zillliz Cloud collection.
+A connector is a tool for ingesting data to Zilliz Cloud from various data sources, including Object Storage, Kafka (coming soon) and more. Taking object storage connector as an example, a connector can monitor a diretory in object storage bucket and sync files such as PDFs and HTMLs to [Zilliz Cloud Pipelines](./understanding-pipelines), so that they can be converted to vector representation and stored in vector database for search. With ingestion and deletion pipelines, the files and their vector representation in Zilliz Cloud are kept in sync. Any addition or removal of files in the object storage will be mapped to the vector database collection.
 
-![XF2zbQ3YOocLiXx2Tp9cvOhNnSh](/img/XF2zbQ3YOocLiXx2Tp9cvOhNnSh.png)
-
-## How does the connector work?{#how-does-the-connector-work}
-
-When a connector is created, Zilliz Cloud periodically checks the provided object storage path for file addition or deletion. The workflow diagram below illustrates this process.
-
-[Unsupported block type]
-
-![understanding-connectors](/img/understanding-connectors.png)
-
-The connector consists of four components.
-
-- __User__: Users can access the current token usage via the control platform.
-
-- __Control Platform: __Offers users an API to configure connectors and pipelines. It analyzes the configurations and sends them to the scheduler to ensure timely initiation of sync tasks.
-
-- __Resource Pool: __A self-developed task scheduler that receives and executes sync tasks.
-
-- __Task: __Executes tasks and distinguishes between different data sources, such as HTTP and Kafka.
-
-Please note that the connector determines file updates based on the file name.
+![connector-overview](/img/connector-overview.png)
 
 ## Why use a connector?{#why-use-a-connector}
 
-1. __Seamless Data Ingestion__
+1. __Real-time Data Ingestion__
 
-In RAG applications, the connector's role starts with data ingestion, where it sources information from various data streams and prepares it for processing.
+Effortlessly ingest and index data in real-time, guaranteeing that the freshest content is instantly accessible for all search inquiries.
 
-1. __Real-time Data Availability__
+1. __Scalable and Adaptive__
 
-For RAG applications, which often rely on the most current data to generate responses, connectors are crucial for real-time data availability.
+Easily scale up your data ingestion pipeline with zero DevOps hassle. The adaptive connectors seamlessly handle fluctuating traffic loads, ensuring smooth scalability.
 
-1. __Data Integrity and Consistency__
+1. __Search Index Kept in Sync With Heterogeneous Sources__
 
-Connectors are responsible for maintaining the integrity and consistency of data as it moves from the original sources to the retrieval system, ensuring that the generated outputs are based on accurate and up-to-date information.
+Automatically sync the addition and deletion of documents to the search index. Moreover, fuse all common types of data source (coming soon).
 
-1. __Scalability and Adaptability__
+1. __Observability__
 
-Connectors help RAG systems to scale up and adapt as new data sources emerge or as existing ones evolve, without the need for substantial changes to the core system.
+Gain insight into your dataflow with detailed logging, ensuring transparency and detecting any anomalies that may arise.
+
+## How does the connector work?{#how-does-the-connector-work}
+
+Zilliz Cloud Connector provides flexible options to customize auto scan schedules. You can easily set the desired frequency for periodic scanning of data sources. Once the schedule is established, Zilliz Cloud Connector will periodically scan your data sources and ingest data into your vector database at regular intervals. The screenshot provided demonstrates the easy process of configuring the scan schedule with just a few clicks.
+
+![configure-connector](/img/configure-connector.png)

@@ -52,8 +52,8 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-ListAliasesReq listAliasesReq = ListAliasesReq._builder_()
+ListAliasesReq listAliasesReq = ListAliasesReq.builder()
         .collectionName("test")
         .build();
-ListAliasResp listAliasResp = client_v2.listAliases(listAliasesReq);
+ListAliasResp listAliasResp = client.listAliases(listAliasesReq);
 ```

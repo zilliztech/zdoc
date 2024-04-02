@@ -16,36 +16,18 @@ import Admonition from '@theme/Admonition';
 This operation creates a collection schema.
 
 ```java
-public CreateCollectionReq.CollectionSchema createSchema(boolean enableDynamicField,
- String description)
+public CreateCollectionReq.CollectionSchema createSchema()
 ```
 
 ## Request Syntax{#request-syntax}
 
 ```java
-MilvusClientV2.createSchema(
-    boolean enableDynamicField,
-    String description
-)
+MilvusClientV2.createSchema()
 ```
 
 __PARAMETERS:__
 
-- `enableDynamicField`
-
-    Whether allows Zilliz Cloud saves the values of undefined fields in a dynamic field if the data being inserted into the target collection includes fields that are not defined in the collection's schema.
-
-    When you set this to __True__,  and Zilliz Cloud will create a field called __$meta__ to store any undefined fields and their values from the data that is inserted.
-
-    <Admonition type="info" icon="📘" title="What is a dynamic field?">
-
-    <p>If the data being inserted into the target collection includes fields that are not defined in the collection's schema, those fields will be saved in a reserved dynamic field named <strong>$meta</strong> as key-value pairs.</p>
-
-    </Admonition>
-
-- `description`
-
-    The description of the schema.
+None
 
 __RETURN TYPE:__
 
@@ -58,8 +40,8 @@ A __CreateCollectionReq.CollectionSchema__ object.
 ## Example{#example}
 
 ```java
-CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema(Boolean._TRUE_, "");
-collectionSchema.addPrimaryField("id", DataType._Int64_, Boolean._TRUE_, Boolean._FALSE_);
-collectionSchema.addVectorField("vector", DataType._FloatVector_, 8);
-collectionSchema.addScalarField("num", DataType._Int32_);
+// quickly create a collectionSchema
+CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema();
+collectionSchema.addField(AddFieldReq._builder_().fieldName("id").dataType(DataType._Int64_).isPrimaryKey(Boolean._TRUE_).autoID(Boolean._FALSE_).description("id").build());
+collectionSchema.addField(AddFieldReq._builder_().fieldName("vector").dataType(DataType._FloatVector_).dimension(dim).build());
 ```

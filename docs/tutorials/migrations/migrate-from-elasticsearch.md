@@ -58,7 +58,7 @@ Considerations:
 
 - Elasticsearch's `dense_vector` field maps to `FloatVector` in Zilliz Cloud. Choose either __Euclidean (L2)__ or __Inner Product (IP)__ as the metric type for the `FloatVector` field.
 
-- The vector data dimension is retained from the source index. Ensure the `dense_vector` field dimension is at least 32 for capacity- or cost-optimized CU type clusters to prevent migration errors. See [Select the Right CU](./cu-types-explained) for details.
+- The vector data dimension is retained from the source index. Ensure the `dense_vector` field dimension is at least 32 for capacity-optimized CU type clusters to prevent migration errors. See [Select the Right CU](./cu-types-explained) for details.
 
 - See [Field mapping reference](./migrate-from-elasticsearch#field-mapping-reference) for details on field mappings.
 

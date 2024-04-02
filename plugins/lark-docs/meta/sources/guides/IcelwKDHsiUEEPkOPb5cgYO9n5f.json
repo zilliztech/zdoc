@@ -5,7 +5,7 @@
   "node_token": "IcelwKDHsiUEEPkOPb5cgYO9n5f",
   "node_type": "origin",
   "obj_create_time": "1710916985",
-  "obj_edit_time": "1711420730",
+  "obj_edit_time": "1712025970",
   "obj_token": "NmMfdbBdeo4SJixMYIfcIfZIn4c",
   "obj_type": "docx",
   "origin_node_token": "IcelwKDHsiUEEPkOPb5cgYO9n5f",
@@ -13,7 +13,7 @@
   "owner": "ou_fbc044d19930afd389d5c369466c38b1",
   "parent_node_token": "PlQgwKLgQis7mnkLoBzc40aVn6c",
   "space_id": "7167193056431783939",
-  "title": "Manage Connectors",
+  "title": "Manage Connector",
   "slug": "manage-connectors",
   "blocks": {
     "items": [
@@ -52,7 +52,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Manage Connectors",
+                "content": "Manage Connector",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

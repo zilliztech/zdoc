@@ -62,9 +62,10 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-GetLoadStateReq getLoadStateReq = GetLoadStateReq._builder_()
+// get load state for collection "test"
+GetLoadStateReq getLoadStateReq = GetLoadStateReq.builder()
         .collectionName("test")
-        _//.partitionName("partition1")_
         .build();
 Boolean resp = client.getLoadState(getLoadStateReq);
+// return true or false
 ```

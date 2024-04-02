@@ -5,7 +5,7 @@
   "node_token": "JQDDwqHi3i47jAkybnCcgNt6nSe",
   "node_type": "origin",
   "obj_create_time": "1706261074",
-  "obj_edit_time": "1711705928",
+  "obj_edit_time": "1712038219",
   "obj_token": "Bvlndb45JoworixJokocT55Znke",
   "obj_type": "docx",
   "origin_node_token": "JQDDwqHi3i47jAkybnCcgNt6nSe",
@@ -334,55 +334,7 @@
             },
             {
               "text_run": {
-                "content": " (assuming its ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "pipelineId",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " is ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "pipe-26a18a66ffc8c0edfdb874",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "). The query text is \"How many collections can a cluster with more than 8 CUs hold?\".",
+                "content": ". The query text is \"How many collections can a cluster with more than 8 CUs hold?\".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -406,7 +358,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "curl --request POST \\\n    --header \"Content-Type: application/json\" \\\n    --header \"Authorization: Bearer ${YOUR_CLUSTER_TOKEN}\" \\\n    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-26a18a66ffc8c0edfdb874/run\" \\\n    -d '{\n      \"data\": {\n",
+                "content": "curl --request POST \\\n    --header \"Content-Type: application/json\" \\\n    --header \"Authorization: Bearer ${YOUR_CLUSTER_TOKEN}\" \\\n    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}/run\" \\\n    -d '{\n      \"data\": {\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

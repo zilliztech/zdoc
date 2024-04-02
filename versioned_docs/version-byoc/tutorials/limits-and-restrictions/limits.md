@@ -32,10 +32,10 @@ The following table lists the limits on the maximum number of organizations and 
 
 In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following table lists the limits on the general capacity of a cluster.
 
-|  __Number of CUs__ |  __General Capacity__            |
-| ------------------ | -------------------------------- |
-|  1-8 CUs           |  \<= 4,096                        |
-|  12 CUs and more   |  Min(512 x Number of CUs, 65536) |
+|  __Number of CUs__ |  __General Capacity__   |
+| ------------------ | ----------------------- |
+|  1-8 CUs           |  \<= 4,096               |
+|  12 CUs and more   |  \<= 512 x Number of CUs |
 
 The consumed capacity should be less than the general capacity available.
 
@@ -45,14 +45,14 @@ The consumed capacity should be less than the general capacity available.
 <ul>
 <li><strong>Calculating the consumed capacity in a cluster</strong></li>
 </ul>
-<p>For instance, let's assume that you have created <strong>50</strong> collections in a cluster; each of the first <strong>20</strong> collections has <strong>2</strong> partitions and <strong>4</strong> shards, while each of the remaining <strong>30</strong> collections has <strong>1</strong> partition and <strong>12</strong> shards. The consumed capacity of the cluster can be calculated as follows:</p>
-<p><strong>20 (collections) x 2 (partitions) x 4 (shards) + 30 (collections) x 1 (partitions) x 12 (shards) = 160 + 360 = 520</strong></p>
-<p>Based on the above calculation, Zilliz Cloud regards the cluster has a consumed capacity of <strong>520</strong>.</p>
+<p>For instance, let's assume that you have created <strong>50</strong> collections in a cluster; each of the first <strong>20</strong> collections has <strong>20</strong> partitions, while each of the remaining <strong>30</strong> collections has <strong>10</strong> partition. The consumed capacity of the cluster can be calculated as follows:</p>
+<p><strong>20 (collections) x 20 (partitions) + 30 (collections) x 10 (partitions) = 400 + 300 = 700</strong></p>
+<p>Based on the above calculation, Zilliz Cloud regards the cluster has a consumed capacity of <strong>700</strong>.</p>
 <ul>
 <li><strong>Calculating the general capacity of a cluster</strong></li>
 </ul>
 <p>The general capacity can be determined using the following formula:</p>
-<p><strong>Min(512 x Number of CUs, 65536)</strong></p>
+<p><strong>\<= 512 x Number of CUs</strong></p>
 <p>For instance, </p>
 <ul>
 <li><p>In a cluster of <strong>2</strong> CUs, you can create a maximum of <strong>128</strong> collections with a general capacity of <strong>1,024</strong>.</p></li>
@@ -71,19 +71,6 @@ Additionally, the rate limit for creating collections is __1 __collection/s per 
 |  Dedicated cluster<br/>                           |  4,096                                        |  You can create up to 4,096 partitions per collection in a dedicated cluster.                                |
 
 When calculating the consumed and general capacity, refer to the notes in [Collections](./limits#collections). Additionally, the rate limit for creating partitions is __1__ partition/s per cluster.
-
-### Shards{#shards}
-
-When creating a collection, you can create up to __8__ shards for the collection. If not specified, a collection has a shard by default.
-
-|  __Item__        |  __Max Number__ |
-| ---------------- | --------------- |
-|   1-8 CUs        |  2              |
-|  12 CUs and more |  8              |
-
-You are advised to keep the default settings for the shard number when creating collections, especially for clusters using no more than __24__ CUs.
-
-When calculating the consumed and general capacity, refer to the notes in [Collections](./limits#collections). 
 
 ### Fields{#fields}
 

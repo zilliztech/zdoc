@@ -95,8 +95,11 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-DescribeCollectionReq describeCollectionReq = DescribeCollectionReq._builder_()
+// get the collection detail
+DescribeCollectionReq describeCollectionReq = DescribeCollectionReq.builder()
         .collectionName("test")
         .build();
 DescribeCollectionResp describeCollectionResp = client.describeCollection(describeCollectionReq);
+/*DescribeCollectionResp(collectionName=test, description=test, numOfPartitions=1, fieldNames=[id, vector], vectorFieldName=[vector], primaryFieldName=id, enableDynamicField=false, autoID=false, collectionSchema=CreateCollectionReq.CollectionSchema(fieldSchemaList=[CreateCollectionReq.FieldSchema(name=id, description=, dataType=Int64, maxLength=65535, dimension=null, isPrimaryKey=true, isPartitionKey=false, autoID=false, elementType=null, maxCapacity=null), CreateCollectionReq.FieldSchema(name=vector, description=, dataType=FloatVector, maxLength=65535, dimension=2, isPrimaryKey=false, isPartitionKey=false, autoID=false, elementType=null, maxCapacity=null)]), createTime=0)*/
+
 ```

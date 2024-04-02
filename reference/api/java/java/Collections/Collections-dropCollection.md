@@ -24,6 +24,8 @@ public void dropCollection(DropCollectionReq request)
 ```java
 dropCollection(DropCollectionReq.builder()
     .collectionName(String collectionName)
+    .async(Boolean async)
+    .timeout(Long timeout)
     .build()
 )
 ```
@@ -33,6 +35,18 @@ __BUILDER METHODS:__
 - `collectionName(String collectionName)`
 
     The name of an existing collection.
+
+- `async(Boolean async)`
+
+    Whether this operation is asynchronous.
+
+    The value defaults to `Boolean.True`, indicating immediate return while the process may still run in the background.
+
+- `timeout(Long timeout)`
+
+    The timeout duration of the process. The process terminates after the specified duration expires.
+
+    The value defaults to `60000L`, indicating the timeout duration is __1__ minute.
 
 __RETURNS:__
 
@@ -47,9 +61,15 @@ __EXCEPTIONS:__
 ## Example{#example}
 
 ```java
-DropCollectionReq dropCollectionReq = DropCollectionReq._builder_()
+// drop a collection: test
+DropCollectionReq dropCollectionReq = DropCollectionReq.builder()
         .collectionName("test")
         .build();
 client.dropCollection(dropCollectionReq);
+// check if dropped
+client.hasCollection(HasCollectionReq.builder()
+        .collectionName("test")
+        .build());
+// false
 ```
 
