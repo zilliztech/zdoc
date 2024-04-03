@@ -1,6 +1,6 @@
 {
   "created_time": "1708421337",
-  "modified_time": "1710312165",
+  "modified_time": "1712043011",
   "name": "MilvusClientV2",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "GD2QfAetplDekjdxJDYcTIwAnIg",
@@ -552,7 +552,91 @@
           "elements": [
             {
               "text_run": {
-                "content": "ConnectConfig.builder()\n    .uri(String uri)\n    .token(String token)\n    .username(String userName)\n    .password(String password)\n    .dbName(String databaseName)\n",
+                "content": "// use either token or username/password\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ConnectConfig.builder()\n    .uri(String uri)\n    .token(String token)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "//",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".username(String userName)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "//",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".password(String password)\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -639,7 +723,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "ConnectConfig.builder()\n    .uri(String uri)\n    .token(String token)\n    .username(String userName)\n    .password(String password)\n",
+                "content": "// use either token or username/password\nConnectConfig.builder()\n    .uri(String uri)\n    .token(String token)\n    //.username(String userName)\n    //.password(String password)\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
