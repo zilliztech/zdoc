@@ -2,6 +2,7 @@
 slug: /reranker
 beta: FALSE
 notebook: FALSE
+type: origin
 token: DOcRwUYLPi1C5bkiTq8c5dEQnP9
 sidebar_position: 1
 ---
@@ -31,7 +32,7 @@ The diagram below illustrates the position of a reranker in an RAG pipeline:
 
 The initial retrieval with Approximate Nearest Neighbor (ANN) vector search alone is very efficient and often yields satisfactory results. In many scenarios, the secondary stage of reranking may not be deemed essential. For applications with high quality standards, employing a reranker can enhance accuracy, albeit with increased computational demands and longer search times. Typically, integrating a reranker model can add 100ms to a few seconds of latency to the search query, depending on factors like topK selection and reranker model size. When the initial retrieval yields incorrect or irrelevant documents, using a reranker effectively filters them out, thus improving the quality of the final generated response.
 
-If a reranker is deemed necessary for your use case, you can choose to [enable it in your Search pipeline](./create-search-piplines):
+If a reranker is deemed necessary for your use case, you can choose to [enable it in your Search pipeline](./create-search-pipelines):
 
 ![add-function-to-search-pipeline](/img/add-function-to-search-pipeline.png)
 

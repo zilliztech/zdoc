@@ -1,3 +1,11 @@
+---
+slug: /nodejs/collection.createCollection()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 0
+displayed_sidebar: nodejsSidebar
+---
+
 # createCollection()
 
 Creates a collection.

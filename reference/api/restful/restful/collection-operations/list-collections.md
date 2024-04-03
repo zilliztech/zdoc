@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 9
-slug: /list-collections
+slug: /restful/list-collections
 title: List Collections
 ---
 
@@ -97,8 +97,9 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`  | **array**<br/>A data array of strings. |
+| `code` | integer  <br/>  |
+| `data` | array<br/> |
+| `data[]` | string  <br/>  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -113,4 +114,3 @@ The properties in the returned response are listed in the following table.
 | 90011 | Invalid CollectionName. Reason: Name contains only alphanumeric letters and underscores |
 | 90102 | The cluster does not exist in current region. |
 | 90103 | The clusterId parameter is empty in the request path. |
-

@@ -2,6 +2,7 @@
 slug: /cloud-providers-and-regions
 beta: FALSE
 notebook: FALSE
+type: origin
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
 sidebar_position: 7
 ---
@@ -19,7 +20,7 @@ Zilliz Cloud provides clusters across various regions on Amazon Web Services (AW
 
 Zilliz Cloud supports deploying dedicated clusters on AWS.
 
-|  **AWS Region** |  **Location**     |  **Serverless Cluster** |  **Dedicated Cluster (Standard)** |  **Dedicated Cluster (Enterprise)** |
+|  __AWS Region__ |  __Location__     |  __Serverless Cluster__ |  __Dedicated Cluster (Standard)__ |  __Dedicated Cluster (Enterprise)__ |
 | --------------- | ----------------- | ----------------------- | --------------------------------- | ----------------------------------- |
 |  us-east-1      |  N. Virginia, USA |  No                     |  Yes                              |  Yes                                |
 |  us-east-2      |  Ohio, USA        |  No                     |  Yes                              |  Yes                                |
@@ -33,7 +34,7 @@ For more information on cluster types, see [Select Cluster Plans](./select-zilli
 
 Both serverless and dedicated clusters can be deployed on GCP.
 
-|  **GCP Region**   |  **Location** |  **Serverless Cluster** |  **Dedicated Cluster (Standard)** |  **Dedicated Cluster (Enterprise)** |
+|  __GCP Region__   |  __Location__ |  __Serverless Cluster__ |  __Dedicated Cluster (Standard)__ |  __Dedicated Cluster (Enterprise)__ |
 | ----------------- | ------------- | ----------------------- | --------------------------------- | ----------------------------------- |
 |  us-west1         |  Oregon, USA  |  Yes                    |  Yes                              |  Yes                                |
 |  asia-southeast-1 |  Singapore    |  Yes                    |  Yes                              |  Yes                                |
@@ -44,13 +45,13 @@ For more information on cluster types, see [Select Cluster Plans](./select-zilli
 
 Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
 
-|  **Azure Region** |  **Location**  |  **Serverless Cluster** |  **Dedicated Cluster (Standard)** |  **Dedicated Cluster (Enterprise)** |
+|  __Azure Region__ |  __Location__  |  __Serverless Cluster__ |  __Dedicated Cluster (Standard)__ |  __Dedicated Cluster (Enterprise)__ |
 | ----------------- | -------------- | ----------------------- | --------------------------------- | ----------------------------------- |
 |  east-us          |  Virginia, USA |  No                     |  Yes                              |  Yes                                |
 
 For more information on cluster types, see [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
 
-Currently, all clusters running on Microsoft Azure support Beta version features, such as the [cosine metric type](./search-metrics-explained#cosine-similarity), [range search](./conduct-a-range-search), [advanced expressions](./search-and-query-advanced-expressions), and [upsert operations](./upsert-entities).
+Currently, all clusters running on Microsoft Azure support Beta version features, such as the [cosine metric type](./search-metrics-explained#cosine-similarity), [range search](./single-vector-search#range-search), [advanced expressions](./get-and-scalar-query#use-advanced-operators), and [upsert operations](./insert-update-delete#upsert-entities).
 
 ## Related topics{#related-topics}
 

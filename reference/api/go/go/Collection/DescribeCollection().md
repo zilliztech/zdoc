@@ -1,3 +1,11 @@
+---
+slug: /go/client.DescribeCollection()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 1
+displayed_sidebar: goSidebar
+---
+
 # DescribeCollection()
 
 Shows the details of a collection, including the collection name, schema, and more.

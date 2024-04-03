@@ -1,3 +1,12 @@
+---
+slug: /go/client.QueryByPks()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 4
+displayed_sidebar: goSidebar
+---
+
+
 # QueryByPks()
 
 Queries one or more entities by primary keys.

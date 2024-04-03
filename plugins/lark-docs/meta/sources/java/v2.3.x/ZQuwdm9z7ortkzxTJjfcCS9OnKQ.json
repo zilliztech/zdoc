@@ -1,0 +1,434 @@
+{
+  "created_time": "1708420762",
+  "modified_time": "1712040974",
+  "name": "dropRole()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "NX2nfYbWXlBEeyd1gQhcsnDGnQe",
+  "token": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/ZQuwdm9z7ortkzxTJjfcCS9OnKQ",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ",
+        "block_type": 1,
+        "children": [
+          "O2DWdaxMjoi5xrxu4gFcykP3nKc",
+          "FeeFdygNwoccAqxttWJcpd4MnWe",
+          "Yz0UdX14doiERTx73zcc2DLFnmf",
+          "V2YpdsVEyov5iQxKk7KcARnNn5H",
+          "JubJderBuo1aASxxDuxczFSCn7b",
+          "HU70d4sGeohNllx2XCHcJhTSnwg",
+          "WQGAdxEn9oFHB5x2W9Zc0MIwnRg",
+          "LmDgd5IYfoyR7Axn0o3cHWoYnBb",
+          "WRlhdHAmyoyxEuxXmCHcGlGCnfe",
+          "BRVPde6BTo17eDxc8oQco8NKnse",
+          "TyqOdgwu2o0tXkxb7onckAkInBf",
+          "QDgPdbZxDomu4wxdjtsc7jkJnSd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "dropRole()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "O2DWdaxMjoi5xrxu4gFcykP3nKc",
+        "block_type": 2,
+        "parent_id": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation drops a custom role.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FeeFdygNwoccAqxttWJcpd4MnWe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "public void dropRole(DropRoleReq request)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ"
+      },
+      {
+        "block_id": "Yz0UdX14doiERTx73zcc2DLFnmf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ"
+      },
+      {
+        "block_id": "V2YpdsVEyov5iQxKk7KcARnNn5H",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "dropRole(DropRoleReq.builder()\n    .roleName(String roleName)\n    .build()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ"
+      },
+      {
+        "block_id": "JubJderBuo1aASxxDuxczFSCn7b",
+        "block_type": 2,
+        "parent_id": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BUILDER METHODS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HU70d4sGeohNllx2XCHcJhTSnwg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "roleName(String roleName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "UUZUdzoIZokDFdxPK04cWqrVnuS"
+        ],
+        "parent_id": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ"
+      },
+      {
+        "block_id": "UUZUdzoIZokDFdxPK04cWqrVnuS",
+        "block_type": 2,
+        "parent_id": "HU70d4sGeohNllx2XCHcJhTSnwg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the role to drop.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WQGAdxEn9oFHB5x2W9Zc0MIwnRg",
+        "block_type": 2,
+        "parent_id": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LmDgd5IYfoyR7Axn0o3cHWoYnBb",
+        "block_type": 2,
+        "parent_id": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "void",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WRlhdHAmyoyxEuxXmCHcGlGCnfe",
+        "block_type": 2,
+        "parent_id": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BRVPde6BTo17eDxc8oQco8NKnse",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusClientExceptions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "TT1Cd6Jfpo8EgsxpYLScfUSbnNf"
+        ],
+        "parent_id": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ"
+      },
+      {
+        "block_id": "TT1Cd6Jfpo8EgsxpYLScfUSbnNf",
+        "block_type": 2,
+        "parent_id": "BRVPde6BTo17eDxc8oQco8NKnse",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TyqOdgwu2o0tXkxb7onckAkInBf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ"
+      },
+      {
+        "block_id": "QDgPdbZxDomu4wxdjtsc7jkJnSd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "DropRoleReq dropRoleReq = DropRoleReq.builder()\n        .roleName(\"test\")\n        .build();\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.dropRole(dropRoleReq);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "ZQuwdm9z7ortkzxTJjfcCS9OnKQ"
+      }
+    ],
+    "counts": 15
+  },
+  "slug": "Authentication-dropRole"
+}

@@ -3,6 +3,7 @@ slug: /image-search-with-zilliz-cloud-and-pytorch
 sidebar_label: With PyTorch
 beta: FALSE
 notebook: 84_integrations_pytorch.ipynb
+type: origin
 token: XnWswbO9Zi4sykkgRzec8el8nyd
 sidebar_position: 5
 ---
@@ -42,7 +43,7 @@ with zipfile.ZipFile("./paintings.zip","r") as zip_ref:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The size of the dataset is 2.35 GB, and the time spent depends on your network condition.
+<p>The size of the dataset is 2.35 GB, and the time spent depends on your network condition.</p>
 
 </Admonition>
 
@@ -210,9 +211,8 @@ In the following steps, we will:
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    This step is relatively time-consuming because embedding takes time. Take a sip of coffee and relax.    
-    
-    PyTorch may not work well with Python 3.9 and earlier versions. Considering using Python 3.10 and later versions instead.
+    <p>This step is relatively time-consuming because embedding takes time. Take a sip of coffee and relax.</p>
+    <p>PyTorch may not work well with Python 3.9 and earlier versions. Considering using Python 3.10 and later versions instead.</p>
 
     </Admonition>
 

@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 The vector API provides a simple and efficient way to interact with vector embeddings in a Zilliz Cloud collection.
 
-
+## Contents
 
 import DocCardList from '@theme/DocCardList';
 

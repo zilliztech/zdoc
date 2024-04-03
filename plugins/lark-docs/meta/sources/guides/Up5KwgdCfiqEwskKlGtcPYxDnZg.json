@@ -1,0 +1,932 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": false,
+  "node_create_time": "1706261082",
+  "node_token": "Up5KwgdCfiqEwskKlGtcPYxDnZg",
+  "node_type": "origin",
+  "obj_create_time": "1706261082",
+  "obj_edit_time": "1712038245",
+  "obj_token": "FXu8dzknToUbLgxUKp8cjvGinZg",
+  "obj_type": "docx",
+  "origin_node_token": "Up5KwgdCfiqEwskKlGtcPYxDnZg",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "XFEcwie5GiRlH5kLtvzcA8lWnNb",
+  "space_id": "7167193056431783939",
+  "title": "Run Deletion Pipeline",
+  "slug": "run-deletion-pipelines",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "FXu8dzknToUbLgxUKp8cjvGinZg",
+        "block_type": 1,
+        "children": [
+          "Dvm9dlZndoC6mcxBYnbcfdyKnch",
+          "URwMdikywo2dqIxtcuvchecAncd",
+          "Ps3WdI0mQoaOtlxSV4jcA6KqnBg",
+          "DmkrdsREUo36wpx1AGHcd0EhnFd",
+          "Z9p4dP4UroeeUFxwkXJcnh6Xn8j",
+          "VySfdrc7cobr4Zxwssrcq8bnnVb",
+          "HpHcdFFoNo7Rvbxjp5dc94HsnKb",
+          "B6WIdAGoZoWx0Yxvsuxct6cTnyh",
+          "GvUKdki8CoLPXixH5aacT1t4nC7",
+          "V1h3dmYIFoLprDxJTdacwsyinbg",
+          "Q4JjdeMneoOrKnxzJMycWMbYnSc",
+          "HxS1dsPR7ofSJ2xCdx6cBB6wnKc",
+          "RSwudiXxRo40FnxtF0Oc36QRnhd",
+          "FnkHdhHXcojPrDxa2v5cria0nId",
+          "QpAydaizAoBnd6xWNJkcXq4dnue",
+          "Ctx5dFi45olfCsx9cYjc9Oh2nEe",
+          "Tu06d2AjOovpWux30PDcLJlqnQe",
+          "KsBXdB8mzoRGPnx6T7hcBWFInMc",
+          "BnHmdDuw8o4tAcxvWVwcrk9onmb",
+          "G74Rdvz2roVnBPx9j81c5o7onsd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Run Deletion Pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "Dvm9dlZndoC6mcxBYnbcfdyKnch",
+        "block_type": 2,
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After creating a Deletion pipeline, you can run it to remove all chunks in a specified document from a collection. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "URwMdikywo2dqIxtcuvchecAncd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On web UI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "Ps3WdI0mQoaOtlxSV4jcA6KqnBg",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click the \"▶︎\" button next to your Deletion pipeline. Alternatively, you can also click on the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Playground",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "DmkrdsREUo36wpx1AGHcd0EhnFd",
+        "block_type": 26,
+        "comment_ids": [
+          "7328338620134047748"
+        ],
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4232%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "Z9p4dP4UroeeUFxwkXJcnh6Xn8j",
+        "block_type": 13,
+        "children": [
+          "RGV5dqtbYoOGDJx3oyncZDQ4njg"
+        ],
+        "comment_ids": [
+          "7330219528949399555"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Input the name of the document to delete in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7330219528949399555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7330219528949399555"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field. Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7330219528949399555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Run",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7330219528949399555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7330219528949399555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "RGV5dqtbYoOGDJx3oyncZDQ4njg",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D36418-1198%26mode%3Ddesign%26t%3Dyd5OidvOYXAUPFRD-4"
+          }
+        },
+        "parent_id": "Z9p4dP4UroeeUFxwkXJcnh6Xn8j"
+      },
+      {
+        "block_id": "VySfdrc7cobr4Zxwssrcq8bnnVb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Check the results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "HpHcdFFoNo7Rvbxjp5dc94HsnKb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Via RESTful API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "B6WIdAGoZoWx0Yxvsuxct6cTnyh",
+        "block_type": 2,
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following example runs the Deletion pipeline named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "my_doc_deletion_pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GvUKdki8CoLPXixH5aacT1t4nC7",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "curl --request POST \\\n    --header \"Content-Type: application/json\" \\\n    --header \"Authorization: Bearer ${YOUR_CLUSTER_TOKEN}\" \\\n    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}/run\" \\\n    -d '{\n        \"data\": {\n            \"doc_name\": \"zilliz_concept_doc.md\",\n        }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    }'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": true
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "V1h3dmYIFoLprDxJTdacwsyinbg",
+        "block_type": 2,
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The parameters in the above code are described as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Q4JjdeMneoOrKnxzJMycWMbYnSc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "YOUR_CLUSTER_TOKEN",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The token used to authenticate API requests. This token can be an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fmanage-api-keys"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "cluster credential",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fcluster-credentials"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " that consists of a username and password pair.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "HxS1dsPR7ofSJ2xCdx6cBB6wnKc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "cloud-region",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The ID of the cloud region where your cluster exists. Currently, only ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "gcp-us-west1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is supported.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "RSwudiXxRo40FnxtF0Oc36QRnhd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": the name of the document to delete. If a document with the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " you specified exists, all chunks in this document will be deleted. If the document with the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " does not exist, the request can still be executed but the value of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "num_deleted_chunks",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the output will be 0.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "FnkHdhHXcojPrDxa2v5cria0nId",
+        "block_type": 2,
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Below is an example response.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QpAydaizAoBnd6xWNJkcXq4dnue",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n  \"code\": 200,\n  \"data\": {\n    \"num_deleted_chunks\": 567\n  }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "Ctx5dFi45olfCsx9cYjc9Oh2nEe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "Tu06d2AjOovpWux30PDcLJlqnQe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Pipelines",
+                "token": "RxmuwIgydiN3vkkKmATcam59nDc",
+                "url": "https://zilliverse.feishu.cn/wiki/RxmuwIgydiN3vkkKmATcam59nDc"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "KsBXdB8mzoRGPnx6T7hcBWFInMc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Estimate Pipelines Usage",
+                "token": "WbQZwNrsIiqw1bkkP7zctG6knXf",
+                "url": "https://zilliverse.feishu.cn/wiki/WbQZwNrsIiqw1bkkP7zctG6knXf"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "BnHmdDuw8o4tAcxvWVwcrk9onmb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Zilliz Cloud Limits",
+                "token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
+                "url": "https://zilliverse.feishu.cn/wiki/PuxkwMWvbiHxvTkHsVkcMZP9n5f#HiXpd49EYoUuO2xqZGdc24nTnfN"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      },
+      {
+        "block_id": "G74Rdvz2roVnBPx9j81c5o7onsd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "FAQs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Ffaq-pipelines"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FXu8dzknToUbLgxUKp8cjvGinZg"
+      }
+    ],
+    "counts": 22
+  }
+}

@@ -2,6 +2,7 @@
 slug: /activate-your-cloud
 beta: FALSE
 notebook: FALSE
+type: origin
 token: X08WweRsXiz0MPk4DIbcXYaInjc
 sidebar_position: 2
 ---
@@ -42,11 +43,11 @@ To acquire your external ARNs:
 
 1. Edit `terraform.tfvars.example` with your AWS configuration details and rename it to `terraform.tfvars`. The configuration includes the AWS region, AWS access and secret keys, and the external ID for your BYOC organization in Zilliz Cloud.
 
-    - **aws_region**: The AWS region where you want to deploy Zilliz Cloud services. Currently, the BYOC license supports only AWS **us-west-2 **region.
+    - __aws_region__: The AWS region where you want to deploy Zilliz Cloud services. Currently, the BYOC license supports only AWS __us-west-2 __region.
 
-    - **aws_access_key** and **aws_secret_key**: The credentials required to run your project. Enter the access key and secret key you created in the [Prerequisites](./byoc-prerequisites#create-temporary-security-credentials) topic.
+    - __aws_access_key__ and __aws_secret_key__: The credentials required to run your project. Enter the access key and secret key you created in the [Prerequisites](./byoc-prerequisites#create-temporary-security-credentials) topic.
 
-    - **external_id**: The external ID linked to your BYOC organization in Zilliz Cloud. This is the ID you obtained in [step 1](./activate-your-cloud#step-1-enter-byoc-organization-to-obtain-external-id).
+    - __external_id__: The external ID linked to your BYOC organization in Zilliz Cloud. This is the ID you obtained in [step 1](./activate-your-cloud#step-1-enter-byoc-organization-to-obtain-external-id).
 
 1. Initialize the Terraform configuration. This step prepares Terraform to manage AWS resources by downloading necessary tools to the `.terraform/` directory.
 
@@ -66,7 +67,7 @@ To acquire your external ARNs:
     terraform apply
     ```
 
-    During the execution process, you will receive a prompt in the CLI asking you to enter **yes** in order to authorize Terraform to carry out the required actions.
+    During the execution process, you will receive a prompt in the CLI asking you to enter __yes__ in order to authorize Terraform to carry out the required actions.
 
 1. After Terraform execution, carefully record the ARNs from the command output. These ARNs are important for the [subsequent activation steps](./activate-your-cloud#step-3-activate-cloud-region) in the Zilliz Cloud console.
 
@@ -86,11 +87,11 @@ To acquire your external ARNs:
 
 With your ARNs in hand, proceed to activate your cloud region in the Zilliz Cloud console.
 
-- **ARN**: Enter the ARNs from [Terraform's output](./activate-your-cloud).
+- __ARN__: Enter the ARNs from [Terraform's output](./activate-your-cloud).
 
-- **Netmask**: Select a subnet mask for BYOC deployment under your preferred VPC. Zilliz will create a new VPC under your AWS account for BYOC deployment. We recommend you select a suitable network segment based on the size of the BYOC cluster and long-term business plans.
+- __Netmask__: Select a subnet mask for BYOC deployment under your preferred VPC. Zilliz will create a new VPC under your AWS account for BYOC deployment. We recommend you select a suitable network segment based on the size of the BYOC cluster and long-term business plans.
 
-- **Active Cloud Region**: Ensure the region matches the [**aws_region**](./activate-your-cloud) in your Terraform configuration.
+- __Active Cloud Region__: Ensure the region matches the __[aws_region](./activate-your-cloud)__ in your Terraform configuration.
 
 ![activate-your-cloud-3](/byoc/activate-your-cloud-3.png)
 
@@ -98,7 +99,7 @@ With your ARNs in hand, proceed to activate your cloud region in the Zilliz Clou
 
 Allow about 30 minutes for the activation process to complete. You can review the resources created under your AWS account. For a list of necessary resources, refer to [Understand required resources and permissions](./byoc-prerequisites#understand-required-resources-and-permissions).
 
-Once complete, go to the **License** page to confirm that your license details are accurate. Then, proceed to [deploy a Zilliz Cloud cluster](./create-cluster) on your infrastructure.
+Once complete, go to the __License__ page to confirm that your license details are accurate. Then, proceed to [deploy a Zilliz Cloud cluster](./create-cluster) on your infrastructure.
 
 ![view-license-info](/byoc/view-license-info.png)
 

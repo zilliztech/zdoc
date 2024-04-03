@@ -1,9 +1,6 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
-
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Zilliz Cloud Developer Hub',
@@ -64,14 +61,30 @@ const config = {
           customCss: require.resolve('./src/css/custom.css'),
         },
       }),
-    ],
+    // ],
+    // [
+    //   'redocusaurus',
+    //   {
+    //     specs: [
+    //       {
+    //         spec: 'plugins/apifox-docs/meta/openapi.json',
+    //         route: '/reference/restful'
+    //       }
+    //     ],
+    //     theme: {
+    //       primaryColor: '#0077cc',
+    //     }
+    //   }
+    ]
   ],
   plugins: [
+    'docusaurus-lunr-search',
     [
       '@docusaurus/plugin-content-docs',
       {
         id: 'reference',
         path: 'reference',
+        breadcrumbs: false,
         routeBasePath: 'reference',
         sidebarPath: require.resolve('./sidebarsReference.js'),
       },
@@ -82,21 +95,63 @@ const config = {
         id: 'GTM-MBBF2KR',
       },
     ],
-    ['./plugins/lark-docs',
-    {
-      root: 'OUWXw5c4gia34ZkQUcEcMFbWn6s',
-      base: 'PnsobATKVayIDFs6hhQcChlGnje',
-      docSourceDir: './plugins/lark-docs/meta/sources',
-      targets: [
-        ['zilliz.saas', {
-          outputDir: 'docs/tutorials',
-          imageDir: 'static/img',
-        }],
-        ['zilliz.paas', {
-          outputDir: 'versioned_docs/version-byoc/tutorials',
-          imageDir: 'static/byoc',
-        }]
-      ]
+    ['./plugins/lark-docs', {
+      guides: {
+        root: 'OUWXw5c4gia34ZkQUcEcMFbWn6s',
+        base: 'PnsobATKVayIDFs6hhQcChlGnje',
+        sourceType: 'wiki',
+        docSourceDir: './plugins/lark-docs/meta/sources/guides',
+        targets: {
+          milvus: {
+            outputDir: 'milvus/guides/docs',
+            imageDir: 'milvus/guides/images'
+          },
+          zilliz: {
+            saas: {
+              outputDir: 'docs/tutorials',
+              imageDir: 'static/img',
+            },
+            paas: {
+              outputDir: 'versioned_docs/version-byoc/tutorials',
+              imageDir: 'static/byoc'
+            } 
+          }
+        }
+      },
+      python: {
+        root: 'PTJzfzI0ulKGjwdUsxQcFxfJn6b',
+        base: 'D1VabelmAansLwsNTvLc2Wxxn1g',
+        sourceType: 'drive',
+        version: 'v2.3.x',
+        docSourceDir: './plugins/lark-docs/meta/sources/python/v2.3.x',
+        targets: {
+          milvus: {
+            outputDir: 'milvus/reference/python/docs',
+            imageDir: 'milvus/reference/python/images'
+          },
+          zilliz: {
+            outputDir: 'reference/api/python/python',
+            imageDir: 'static/img',
+          }
+        }
+      },
+      java: {
+        root: 'GYfPfBbdglDhh5dzLH3cYaV1nDf',
+        base: 'Bp72bJ9wEazV1SsA30lcsuJgnfe',
+        sourceType: 'drive',
+        version: 'v2.3.x',
+        docSourceDir: './plugins/lark-docs/meta/sources/java/v2.3.x',
+        targets: {
+          milvus: {
+            outputDir: 'milvus/reference/java/docs',
+            imageDir: 'milvus/reference/java/images'
+          },
+          zilliz: {
+            outputDir: 'reference/api/java/java',
+            imageDir: 'static/img',
+          }
+        }
+      }
     }],
     './plugins/apifox-docs',
     './plugins/link-checks',
@@ -106,6 +161,11 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
+      docs: {
+        sidebar: {
+          autoCollapseCategories: true,
+        },
+      },
       navbar: {
         title: '',
         logo: {
@@ -131,7 +191,7 @@ const config = {
             className: 'header-link',
           },
           {
-            href: '/reference',
+            type: 'dropdown',
             label: 'Reference',
             position: 'left',
             items: [
@@ -292,8 +352,6 @@ const config = {
         copyright: `LF AI, LF AI & data, Milvus, and associated open-source project names are trademarks of the the Linux Foundation. <br/>© Zilliz ${new Date().getFullYear()} All rights reserved. <a class="setting-cookie-btn" >Cookie Settings</a>`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
         additionalLanguages: ['java', 'go'],
       },
       colorMode: {
@@ -304,23 +362,54 @@ const config = {
       },
     }),
   themes: [
-    [ '@easyops-cn/docusaurus-search-local', {
-      id: 'saas',
-      hashed: true,
-      indexBlog: false,
-      language: ['en', 'zh'],
-      docsDir: ['docs', 'reference'],
-      docsRouteBasePath: 'docs',
-      highlightSearchTermsOnTargetPage: true,
-    }],
-    'docusaurus-theme-frontmatter',
+    // [ '@easyops-cn/docusaurus-search-local', {
+    //   id: 'saas',
+    //   hashed: true,
+    //   indexBlog: false,
+    //   language: ['en', 'zh'],
+    //   docsDir: ['docs', 'reference'],
+    //   docsRouteBasePath: 'docs',
+    //   highlightSearchTermsOnTargetPage: true,
+    // }],
+    // 'docusaurus-theme-frontmatter',
+  ],
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossorigin: 'true',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel:'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap'
+      }
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel:'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0'
+      }
+    }
   ],
   scripts: [
     {
       src: '/js/cookieconsent.js',
       async: true,
     },
-    '/js/zilliz.js',
+    '/js/zilliz.js'
   ],
   stylesheets: ['/css/cookieconsent.css'],
 };

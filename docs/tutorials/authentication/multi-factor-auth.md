@@ -2,6 +2,7 @@
 slug: /multi-factor-auth
 beta: FALSE
 notebook: FALSE
+type: origin
 token: KHAMwm0HUiU6qdkH2LOcu0FFnug
 sidebar_position: 4
 ---
@@ -15,7 +16,7 @@ Authentication serves as a gateway to verify one's identity during the login pro
 
 ### Enable MFA{#enable-mfa}
 
-1. Go to your **Profile** and choose **Account Settings**.
+1. Go to your __Profile__ and choose __Account Settings__.
 
 1. Activate the Multi-Factor Authentication toggle.
 
@@ -27,9 +28,8 @@ Authentication serves as a gateway to verify one's identity during the login pro
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Users with accounts linked to Google are subject to Google's own MFA settings. For more information, see [Turn on 2-Step Verification](https://support.google.com/accounts/answer/185839?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP). 
-
-Similarly, MFA settings for GitHub-linked accounts are managed by GitHub. For more information, see [Configuring two-factor authentication](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication).
+<p>Users with accounts linked to Google are subject to Google's own MFA settings. For more information, see <a href="https://support.google.com/accounts/answer/185839?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">Turn on 2-Step Verification</a>. </p>
+<p>Similarly, MFA settings for GitHub-linked accounts are managed by GitHub. For more information, see <a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication">Configuring two-factor authentication</a>.</p>
 
 </Admonition>
 
@@ -37,21 +37,20 @@ Similarly, MFA settings for GitHub-linked accounts are managed by GitHub. For mo
 
 ### Disable MFA{#disable-mfa}
 
-1. Go to your **Profile** and choose **Account Settings**.
+1. Go to your __Profile__ and choose __Account Settings__.
 
 1. Deactivate the Multi-Factor Authentication toggle.
 
-1. In the dialog box, click **Disable** to confirm your action.
+1. In the dialog box, click __Disable__ to confirm your action.
 
-1. Verify your identity by entering the verification code sent to your email address. Click **Disable**.
+1. Verify your identity by entering the verification code sent to your email address. Click __Disable__.
 
 1. A prompt will appear notifying you that MFA is successfully disabled.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Users with accounts linked to Google are subject to Google's own MFA settings. For more information, see  [Turn off 2-Step Verification](https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP). 
-
-Similarly, MFA settings for GitHub-linked accounts are managed by GitHub. For more information, see [Disabling two-factor authentication for your personal account](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account).
+<p>Users with accounts linked to Google are subject to Google's own MFA settings. For more information, see  <a href="https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">Turn off 2-Step Verification</a>. </p>
+<p>Similarly, MFA settings for GitHub-linked accounts are managed by GitHub. For more information, see <a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account">Disabling two-factor authentication for your personal account</a>.</p>
 
 </Admonition>
 

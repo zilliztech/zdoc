@@ -1,0 +1,2135 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": false,
+  "node_create_time": "1706249872",
+  "node_token": "PPAbwMvgdiGvS2kRyrLc7bJvn9e",
+  "node_type": "origin",
+  "obj_create_time": "1706249872",
+  "obj_edit_time": "1711705881",
+  "obj_token": "MZKKdcR1moNfaExtipQc18bInxc",
+  "obj_type": "docx",
+  "origin_node_token": "PPAbwMvgdiGvS2kRyrLc7bJvn9e",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
+  "space_id": "7167193056431783939",
+  "title": "Create Deletion Pipeline",
+  "slug": "create-deletion-pipelines",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "MZKKdcR1moNfaExtipQc18bInxc",
+        "block_type": 1,
+        "children": [
+          "MBX8dKWyDoWgmuxdYi3c1mmInnd",
+          "BeTJdCFWXo0UU2xXVmXcchqTnJg",
+          "QS0xdu3B9ozRpQxi5FjcJ2oundc",
+          "LmXYdv7snoBkyXxCaPCcfLQsnkg",
+          "IjvkdTDYDo9uYsxwpT1ctaxlnle",
+          "L1iudbpZ6oE48lx19uZcCO3dndc",
+          "WWOUdqZOzoyB1Tx1KaOcecK2nCe",
+          "YdnndqXNDoPazcx7TkicGs8Jnbf",
+          "NG7JdtINwoeyVSx95PocHoPrnFh",
+          "WenIdh6YHo3Lt8xU0P6czM0qnmh",
+          "UbctdyJIOoX5TLxbVAXcgQVlnjb",
+          "Vx92dOa0JoAZNLxo8JxcDLsbnAh",
+          "F20UdWwjgoYvgcx5VWackoUanDc",
+          "JVJjdK85VoSsUZxP3mCcOlW6ngb",
+          "RgUZdOfcnotsK7xlu6icolE3n4e",
+          "QlWDdRBFDoVcuoxIJPacRfornkf",
+          "C99Rd5mQToMpbvx3ecucwZ1NnDd",
+          "PfhgdIcWio53wkxwwgGcKI0unof",
+          "YXntdS8ynol7JWxeiSzcaQqMnyd",
+          "UrRodRxiyoVrmUxZjaUc7su5nJI",
+          "TaHjdKWcBoYYTJxRx16cPBLnntd",
+          "IiNadcZEcooyy3xkCbZc8K1SnHd",
+          "TJVCdaGTKokJZmxLWhrcsmVnn7e",
+          "An46dBJpuoZv7xxMxyGc7fE1nth",
+          "TZaUdWrUOopR9Nxfdf9c0ICSnng",
+          "NapKdNWyIoelMFxvrizcDD7bnoc",
+          "NL3JdRuhIoAnErx9ZLWci2iJnpd",
+          "KniOdaoDWoNVvRx0gC9ckm63nPc",
+          "AkHydhsysoJq6qxDvJecXYKenwd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create Deletion Pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "MBX8dKWyDoWgmuxdYi3c1mmInnd",
+        "block_type": 2,
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The Zilliz Cloud web UI provides a simplified and intuitive way of creating pipelines in addition to an easy-to-use RESTful API.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BeTJdCFWXo0UU2xXVmXcchqTnJg",
+        "block_type": 34,
+        "children": [
+          "K3mhd4X0KoGjzVxw9Fkch7cpn5z",
+          "SSThdAaCWoSBZgxBfTIc97XYnEh",
+          "V3c2d7NYcofjN5xK8ELcLjOVnsW",
+          "KBcpdGiypohfPSxalMOcO7RBnLv"
+        ],
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc",
+        "quote_container": {}
+      },
+      {
+        "block_id": "K3mhd4X0KoGjzVxw9Fkch7cpn5z",
+        "block_type": 2,
+        "parent_id": "BeTJdCFWXo0UU2xXVmXcchqTnJg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SSThdAaCWoSBZgxBfTIc97XYnEh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, pipelines only work with collections in a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "serverless cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FKrbjwFhy3iojF3k97XmcvvXMnW7%3Fchunked%3Dfalse%23doxcnFZEzaQyrV1mnoVWFQYLPwd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a dedicated cluster deployed on GCP us-west1.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BeTJdCFWXo0UU2xXVmXcchqTnJg"
+      },
+      {
+        "block_id": "V3c2d7NYcofjN5xK8ELcLjOVnsW",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You must ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "create an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQFsIwkbwVi7CWdkMVGQcFnPonLc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Ingestion pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQFsIwkbwVi7CWdkMVGQcFnPonLc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " first before creating a Search pipeline.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BeTJdCFWXo0UU2xXVmXcchqTnJg"
+      },
+      {
+        "block_id": "KBcpdGiypohfPSxalMOcO7RBnLv",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In one project, you can only create up to 10 pipelines of the same type.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BeTJdCFWXo0UU2xXVmXcchqTnJg"
+      },
+      {
+        "block_id": "QS0xdu3B9ozRpQxi5FjcJ2oundc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On web UI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "LmXYdv7snoBkyXxCaPCcfLQsnkg",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Navigate to your project.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "IjvkdTDYDo9uYsxwpT1ctaxlnle",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Pipelines",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the navigation panel. Then switch to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab and click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Pipelines",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". To create a pipeline, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "L1iudbpZ6oE48lx19uZcCO3dndc",
+        "block_type": 13,
+        "children": [
+          "YZD2dX0vmo4cv6xIKJEc1Jmmnoc"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Choose the type of pipeline to create. Click on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " button in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Deletion Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "YZD2dX0vmo4cv6xIKJEc1Jmmnoc",
+        "block_type": 26,
+        "comment_ids": [
+          "7328319106787508228"
+        ],
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4222%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "L1iudbpZ6oE48lx19uZcCO3dndc"
+      },
+      {
+        "block_id": "WWOUdqZOzoyB1Tx1KaOcecK2nCe",
+        "block_type": 13,
+        "children": [
+          "GGywdNClaoHGdoxbBW5c5k56nse",
+          "ChvgdTmMEoborAxUoO1czo0Qnmc"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Configure the Deletion pipeline you wish to create.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "GGywdNClaoHGdoxbBW5c5k56nse",
+        "block_type": 31,
+        "children": [
+          "THQrd7wBRo2UjJxuLlQcFQQsnFf",
+          "ANe7d03fnorMcxxgD0UcVkMfnAh",
+          "J9Had4FuiodR7ixkJUpcjIo3nIg",
+          "Rmtgd1RTboeSbQxOiQmcsAZHnuf",
+          "PTvOdn586ocwAzxcd5vcU3KJnqf",
+          "SIWxd3RlgoeNZLx61RUcZOQOnYg"
+        ],
+        "parent_id": "WWOUdqZOzoyB1Tx1KaOcecK2nCe",
+        "table": {
+          "cells": [
+            "THQrd7wBRo2UjJxuLlQcFQQsnFf",
+            "ANe7d03fnorMcxxgD0UcVkMfnAh",
+            "J9Had4FuiodR7ixkJUpcjIo3nIg",
+            "Rmtgd1RTboeSbQxOiQmcsAZHnuf",
+            "PTvOdn586ocwAzxcd5vcU3KJnqf",
+            "SIWxd3RlgoeNZLx61RUcZOQOnYg"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              180,
+              315
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 3
+          }
+        }
+      },
+      {
+        "block_id": "THQrd7wBRo2UjJxuLlQcFQQsnFf",
+        "block_type": 32,
+        "children": [
+          "SsILdMc17oQDPmxklj2cZQa0nxg"
+        ],
+        "parent_id": "GGywdNClaoHGdoxbBW5c5k56nse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SsILdMc17oQDPmxklj2cZQa0nxg",
+        "block_type": 2,
+        "parent_id": "THQrd7wBRo2UjJxuLlQcFQQsnFf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameters",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ANe7d03fnorMcxxgD0UcVkMfnAh",
+        "block_type": 32,
+        "children": [
+          "DclFdmkmuoxN4mxay8GclUkHndh"
+        ],
+        "parent_id": "GGywdNClaoHGdoxbBW5c5k56nse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "DclFdmkmuoxN4mxay8GclUkHndh",
+        "block_type": 2,
+        "parent_id": "ANe7d03fnorMcxxgD0UcVkMfnAh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "J9Had4FuiodR7ixkJUpcjIo3nIg",
+        "block_type": 32,
+        "children": [
+          "FQRzdl1k5ozcGZx1cNCcVET4nWd"
+        ],
+        "parent_id": "GGywdNClaoHGdoxbBW5c5k56nse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FQRzdl1k5ozcGZx1cNCcVET4nWd",
+        "block_type": 2,
+        "parent_id": "J9Had4FuiodR7ixkJUpcjIo3nIg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Pipeline Name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Rmtgd1RTboeSbQxOiQmcsAZHnuf",
+        "block_type": 32,
+        "children": [
+          "IJBtd74Y5oW25kx5Lupc65ysnNe"
+        ],
+        "parent_id": "GGywdNClaoHGdoxbBW5c5k56nse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "IJBtd74Y5oW25kx5Lupc65ysnNe",
+        "block_type": 2,
+        "parent_id": "Rmtgd1RTboeSbQxOiQmcsAZHnuf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the new Deletion pipeline. It should only contain lowercase letters, numbers, and underscores.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PTvOdn586ocwAzxcd5vcU3KJnqf",
+        "block_type": 32,
+        "children": [
+          "Ypu6diqdSoc3Jwx6gehcmqTRn3b"
+        ],
+        "parent_id": "GGywdNClaoHGdoxbBW5c5k56nse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Ypu6diqdSoc3Jwx6gehcmqTRn3b",
+        "block_type": 2,
+        "parent_id": "PTvOdn586ocwAzxcd5vcU3KJnqf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description (Optional)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SIWxd3RlgoeNZLx61RUcZOQOnYg",
+        "block_type": 32,
+        "children": [
+          "CCHgdbGyLooWolxf899cgvS9nzd"
+        ],
+        "parent_id": "GGywdNClaoHGdoxbBW5c5k56nse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CCHgdbGyLooWolxf899cgvS9nzd",
+        "block_type": 2,
+        "parent_id": "SIWxd3RlgoeNZLx61RUcZOQOnYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The description of the new Deletion pipeline.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ChvgdTmMEoborAxUoO1czo0Qnmc",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4228%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "WWOUdqZOzoyB1Tx1KaOcecK2nCe"
+      },
+      {
+        "block_id": "YdnndqXNDoPazcx7TkicGs8Jnbf",
+        "block_type": 13,
+        "children": [
+          "GBUwdsJrRoF8qAxCCP1cGHp2nVg",
+          "NyY0dHJW7o0L9DxxC1qcuyFBnMh",
+          "EXrydlxZRovdFBxWsg1curmrn0c"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Add a function to the Deletion pipeline. You can add exactly one ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "PURGE_DOC_INDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "GBUwdsJrRoF8qAxCCP1cGHp2nVg",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enter function name.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YdnndqXNDoPazcx7TkicGs8Jnbf"
+      },
+      {
+        "block_id": "NyY0dHJW7o0L9DxxC1qcuyFBnMh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The input field name must be doc_name.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YdnndqXNDoPazcx7TkicGs8Jnbf"
+      },
+      {
+        "block_id": "EXrydlxZRovdFBxWsg1curmrn0c",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Add",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to save your function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YdnndqXNDoPazcx7TkicGs8Jnbf"
+      },
+      {
+        "block_id": "NG7JdtINwoeyVSx95PocHoPrnFh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Create Deletion Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "WenIdh6YHo3Lt8xU0P6czM0qnmh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Via RESTful API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "UbctdyJIOoX5TLxbVAXcgQVlnjb",
+        "block_type": 2,
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The example below creates a Deletion pipeline named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "my_doc_deletion_pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " with a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "PURGE_DOC_INDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function added. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Vx92dOa0JoAZNLxo8JxcDLsbnAh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "curl --request POST \\\n    --header \"Content-Type: application/json\" \\\n    --header \"Authorization: Bearer ${YOUR_API_KEY}\" \\\n    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines\" \\\n    -d '{\n        \"projectId\": \"proj-xxxx\",\n        \"name\": \"my_doc_deletion_pipeline\",\n        \"description\": \"A pipeline that deletes all info associated with a doc\",\n        \"type\": \"DELETION\",\n        \"functions\": [\n            {\n                \"name\": \"purge_chunks_by_doc_name\",\n                \"action\": \"PURGE_DOC_INDEX\",\n                \"inputField\": \"doc_name\"\n            }\n        ],\n    \n        \"clusterId\": \"${CLUSTER_ID}\",\n        \"collectionName\": \"my_new_collection\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    }'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "F20UdWwjgoYvgcx5VWackoUanDc",
+        "block_type": 2,
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The parameters in the above code are described as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JVJjdK85VoSsUZxP3mCcOlW6ngb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "YOUR_API_KEY",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The credential used to authenticate API requests. Learn more about how to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "View API Keys",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fmanage-api-keys%23view-api-keys"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "RgUZdOfcnotsK7xlu6icolE3n4e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "cloud-region",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The ID of the cloud region where your cluster exists. Currently, only ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "gcp-us-west1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is supported.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "QlWDdRBFDoVcuoxIJPacRfornkf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "projectId",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The ID of the project in which you want to create a pipeline. Learn more about ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "How Can I Obtain the Project ID?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fsupport.zilliz.com%2Fhc%2Fen-us%2Farticles%2F22048954409755-How-Can-I-Obtain-the-Project-ID"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "C99Rd5mQToMpbvx3ecucwZ1NnDd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The name of the pipeline to create. The pipeline name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "PfhgdIcWio53wkxwwgGcKI0unof",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "description",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (optional): The description of the pipeline to create",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "YXntdS8ynol7JWxeiSzcaQqMnyd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "type",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The type of the pipeline to create. Currently, available pipeline types include ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "INGESTION",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SEARCH",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DELETION",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "UrRodRxiyoVrmUxZjaUc7su5nJI",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "functions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The function(s) to add in the pipeline. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "A Deletion pipeline can only have one function.",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "EhMPddMJfoaHvbxUi90cnOwcn8g",
+          "DjZnda4gToHCzXxjAV7chyZfnch",
+          "B6Q1doFDzo5pWAxWqMVccxURnjh"
+        ],
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "EhMPddMJfoaHvbxUi90cnOwcn8g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UrRodRxiyoVrmUxZjaUc7su5nJI"
+      },
+      {
+        "block_id": "DjZnda4gToHCzXxjAV7chyZfnch",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "action",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The type of the function to add. You can only add a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "PURGE_DOC_INDEX",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function to a Deletion pipeline.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UrRodRxiyoVrmUxZjaUc7su5nJI"
+      },
+      {
+        "block_id": "B6Q1doFDzo5pWAxWqMVccxURnjh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "inputField",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The name of the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "inputField",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". The value should be ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UrRodRxiyoVrmUxZjaUc7su5nJI"
+      },
+      {
+        "block_id": "TaHjdKWcBoYYTJxRx16cPBLnntd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "clusterId",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7330215980477841412"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The ID of the cluster in which you want to create a pipeline. Currently, you can only choose",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " a serverless cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a dedicated cluster deployed on GCP us-west1. Learn more about ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "How can I find my CLUSTER_ID?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fsupport.zilliz.com%2Fhc%2Fen-us%2Farticles%2F21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7330215980477841412"
+        ],
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "IiNadcZEcooyy3xkCbZc8K1SnHd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collectionName",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The name of the collection in which you want to create a pipeline.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "TJVCdaGTKokJZmxLWhrcsmVnn7e",
+        "block_type": 2,
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Below is an example output.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "An46dBJpuoZv7xxMxyGc7fE1nth",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n  \"code\": 200,\n  \"data\": {\n    \"pipelineId\": \"pipe-ab2874d8138c8554375bb0\",\n    \"name\": \"my_doc_deletion_pipeline\",\n    \"type\": \"DELETION\",\n    \"description\": \"A pipeline that deletes all info associated with a doc\",\n    \"status\": \"SERVING\",\n    \"functions\": [\n      {\n        \"action\": \"PURGE_DOC_INDEX\",\n        \"name\": \"purge_chunks_by_doc_name\",\n        \"inputField\": \"doc_name\"\n      }\n    ],\n    \"clusterId\": \"in03-***************\",\n    \"collectionName\": \"my_new_collection\"\n  }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "TZaUdWrUOopR9Nxfdf9c0ICSnng",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "NapKdNWyIoelMFxvrizcDD7bnoc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Pipelines",
+                "token": "RxmuwIgydiN3vkkKmATcam59nDc",
+                "url": "https://zilliverse.feishu.cn/wiki/RxmuwIgydiN3vkkKmATcam59nDc"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "NL3JdRuhIoAnErx9ZLWci2iJnpd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Run Deletion Pipeline",
+                "token": "Up5KwgdCfiqEwskKlGtcPYxDnZg",
+                "url": "https://zilliverse.feishu.cn/wiki/Up5KwgdCfiqEwskKlGtcPYxDnZg"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "KniOdaoDWoNVvRx0gC9ckm63nPc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Zilliz Cloud Limits",
+                "token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
+                "url": "https://zilliverse.feishu.cn/wiki/PuxkwMWvbiHxvTkHsVkcMZP9n5f#HiXpd49EYoUuO2xqZGdc24nTnfN"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      },
+      {
+        "block_id": "AkHydhsysoJq6qxDvJecXYKenwd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "FAQs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Ffaq-pipelines"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MZKKdcR1moNfaExtipQc18bInxc"
+      }
+    ],
+    "counts": 55
+  }
+}

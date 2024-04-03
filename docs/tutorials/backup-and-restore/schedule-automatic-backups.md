@@ -2,6 +2,7 @@
 slug: /schedule-automatic-backups
 beta: FALSE
 notebook: FALSE
+type: origin
 token: HDmKwGeGLi2P67kGdNXcigXDn3e
 sidebar_position: 2
 ---
@@ -17,11 +18,11 @@ Zilliz Cloud allows you to enable automatic snapshots for your clusters, ensurin
 
 To create a snapshot schedule, follow these steps:
 
-1. Go to the **Backups** tab of your cluster and click on **Snapshot Schedule**.
+1. Go to the __Backups__ tab of your cluster and click on __Snapshot Schedule__.
 
-1. In the **Edit Snapshot Schedule** dialog box that appears, switch on **Schedule Automated Snapshots**.
+1. In the __Edit Snapshot Schedule__ dialog box that appears, switch on __Schedule Automated Snapshots__.
 
-1. Set the **Frequency**, **Backup Retention Period**, and the time window for automatic backups.
+1. Set the __Frequency__, __Backup Retention Period__, and the time window for automatic backups.
 
 ![create-snapshot-schedule](/img/create-snapshot-schedule.png)
 
@@ -29,7 +30,7 @@ To create a snapshot schedule, follow these steps:
 
 The snapshot schedule settings are cluster-specific and disabled by default. Since there is a cost for storing snapshots, you can determine when and how Zilliz Cloud creates snapshots on your behalf.
 
-The default setting configures that Zilliz Cloud automatically creates a snapshot for your cluster every day (**Frequency**) between 8 a.m. and 10 a.m. (**Time Period**), and keeps the snapshot for 7 days (**Retention Period**). Change the settings as you see fit.
+The default setting configures that Zilliz Cloud automatically creates a snapshot for your cluster every day (__Frequency__) between 8 a.m. and 10 a.m. (__Time Period__), and keeps the snapshot for 7 days (__Retention Period__). Change the settings as you see fit.
 
 ## Related topics{#related-topics}
 

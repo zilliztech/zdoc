@@ -2,6 +2,7 @@
 slug: /release-notes-220
 beta: FALSE
 notebook: FALSE
+type: origin
 token: GqyhwKVspiYRwDk8OaucNfgJnhd
 sidebar_position: 6
 ---
@@ -15,7 +16,7 @@ We are pleased to announce the release of Zilliz Cloud, which boasts a suite of 
 
 ## Milvus Compatibility{#milvus-compatibility}
 
-This release is compatible with **Milvus 2.2.x**.
+This release is compatible with __Milvus 2.2.x__.
 
 ## Overview{#overview}
 
@@ -39,7 +40,7 @@ Transitioning from ElasticSearch to Zilliz Cloud has never been easier. We've cr
 
 ## New Ticket System Go-Live{#new-ticket-system-go-live}
 
-Our brand-new ticketing system provides Zilliz Cloud users with a direct channel to our team. Whether you're submitting feedback, reporting issues, or seeking expert support, we've designed the system for efficiency and clarity. [__Explore the ticket system today and experience streamlined support.__](https://support.zilliz.com/hc/en-us/)
+Our brand-new ticketing system provides Zilliz Cloud users with a direct channel to our team. Whether you're submitting feedback, reporting issues, or seeking expert support, we've designed the system for efficiency and clarity. [Explore the ticket system today and experience streamlined support.](https://support.zilliz.com/hc/en-us/)
 
 ## Enhanced Data Import Capabilities{#enhanced-data-import-capabilities}
 

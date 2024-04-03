@@ -1,0 +1,131 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": true,
+  "node_create_time": "1710916944",
+  "node_token": "PlQgwKLgQis7mnkLoBzc40aVn6c",
+  "node_type": "origin",
+  "obj_create_time": "1710916944",
+  "obj_edit_time": "1712027576",
+  "obj_token": "H6bUdZ23ooywfMxKwAScDAx1nod",
+  "obj_type": "docx",
+  "origin_node_token": "PlQgwKLgQis7mnkLoBzc40aVn6c",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "RzBdwMKAxiiejDk9rWjc1Sv1nSf",
+  "space_id": "7167193056431783939",
+  "title": "Connectors",
+  "slug": "connectors",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "H6bUdZ23ooywfMxKwAScDAx1nod",
+        "block_type": 1,
+        "children": [
+          "CL82dHllloXfpfxIQxicVIt2nRf"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Connectors",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "CL82dHllloXfpfxIQxicVIt2nRf",
+        "block_type": 2,
+        "parent_id": "H6bUdZ23ooywfMxKwAScDAx1nod",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Comprehensive user guide to help you use Connectors on Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 2
+  },
+  "children": [
+    {
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "has_child": false,
+      "node_create_time": "1710916962",
+      "node_token": "MVbkwpGmwieFyykbLTFcRSqFnJe",
+      "node_type": "origin",
+      "obj_create_time": "1710916962",
+      "obj_edit_time": "1711964859",
+      "obj_token": "JiOIdARjCoNjItxamDBcD3gTnid",
+      "obj_type": "docx",
+      "origin_node_token": "MVbkwpGmwieFyykbLTFcRSqFnJe",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "parent_node_token": "PlQgwKLgQis7mnkLoBzc40aVn6c",
+      "space_id": "7167193056431783939",
+      "title": "Understanding Connectors",
+      "slug": "understanding-connectors"
+    },
+    {
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "has_child": false,
+      "node_create_time": "1710916974",
+      "node_token": "FreNwlcuIi8yhCkbZYkclJEknAh",
+      "node_type": "origin",
+      "obj_create_time": "1710916974",
+      "obj_edit_time": "1712025973",
+      "obj_token": "JeoDd2855o8bv4xBK8nc3XmOnof",
+      "obj_type": "docx",
+      "origin_node_token": "FreNwlcuIi8yhCkbZYkclJEknAh",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "parent_node_token": "PlQgwKLgQis7mnkLoBzc40aVn6c",
+      "space_id": "7167193056431783939",
+      "title": "Create Connector",
+      "slug": "create-connectors"
+    },
+    {
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "has_child": false,
+      "node_create_time": "1710916985",
+      "node_token": "IcelwKDHsiUEEPkOPb5cgYO9n5f",
+      "node_type": "origin",
+      "obj_create_time": "1710916985",
+      "obj_edit_time": "1712025970",
+      "obj_token": "NmMfdbBdeo4SJixMYIfcIfZIn4c",
+      "obj_type": "docx",
+      "origin_node_token": "IcelwKDHsiUEEPkOPb5cgYO9n5f",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "parent_node_token": "PlQgwKLgQis7mnkLoBzc40aVn6c",
+      "space_id": "7167193056431783939",
+      "title": "Manage Connector",
+      "slug": "manage-connectors"
+    }
+  ]
+}

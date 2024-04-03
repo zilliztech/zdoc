@@ -1,0 +1,2891 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1708764329",
+  "node_token": "RCBVwuDlyiHDFwkg4UWcO8gOnqb",
+  "node_type": "origin",
+  "obj_create_time": "1708764329",
+  "obj_edit_time": "1708770933",
+  "obj_token": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d",
+  "obj_type": "docx",
+  "origin_node_token": "RCBVwuDlyiHDFwkg4UWcO8gOnqb",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "AAJnwIbLViyZzgk6el3c3DERnpf",
+  "space_id": "7167193056431783939",
+  "title": "Get & Scalar Query",
+  "slug": "get-and-scalar-query",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d",
+        "block_type": 1,
+        "children": [
+          "doxcnEUsZIYBoSkKfX362rondci",
+          "doxcn4dZbUygiUiz7PHuwbzxjpf",
+          "doxcnHoaUM6CJbFy1p9qLuj7DJh",
+          "doxcnW13IC3xyOelUgt62xfBbPe",
+          "doxcntUNbC0zOB5xMpuYOYZNc6e",
+          "doxcn70X9g9zMZZHgBHL0B4v9Sg",
+          "doxcngBrqY4jeoIpNMLtTPukI0c",
+          "doxcn47iQVx2zZa0brH47jXdc2g",
+          "doxcnCZk724PYBfct8r1RMSM9Rf",
+          "doxcntiHdIvU5yd0YWgYTSmNpLe",
+          "doxcnEIhPpltzIzFwBW9y46SY1f",
+          "doxcnCrDPeh9VL8RZfPa5Bk0WJc",
+          "doxcnbMPeyT9E0sJ8Rmt7gYG9Sb",
+          "doxcnDhd85udxT1igQFOhWfORZe",
+          "doxcngCaJGiswMriXwT4BpYBQOc",
+          "doxcn70VCt6vythdRBJ7rgqQ5Jg",
+          "doxcnwRfjU5aOFDXbSKDhCl6V0c",
+          "doxcnc5yEzwsEsxFHTsqQxCUETd",
+          "doxcnMN7CuXHogDeIeMBQHkPGMf",
+          "doxcnM6thkXzBNrwfCDoFOIwG6c",
+          "doxcnwhL3GbIsuRxQpiWNA2Twac",
+          "doxcnmaC5NKLQREGiP03sXtuG4e",
+          "doxcn4N7LRrhTz7QdKNTamjSiEd",
+          "doxcn6cR8D4e6cTy31bIgU9BFXb",
+          "doxcn29vtoisy5gS5I6sZIgtitd",
+          "doxcngmggBQFKTlxK47kRVtND7d",
+          "doxcn9lsD6Z87MPLXfuFIIeIRcd",
+          "doxcneYvgiaC67JUWoJQd2XJoTd",
+          "doxcnkXrMD8NbBGZS0AnXijW70g",
+          "doxcnEikFWHA6aj0JfDfAKFiUTh",
+          "doxcn28kke2AtihexMkgs7HotQd",
+          "doxcngMfWAt3JIB1mXeY2OHlXhd",
+          "doxcnTKatHq8B10OWT6FYb9YhNc",
+          "doxcnIo6Kt2eiOXdPFULGzwHq4g",
+          "doxcnD31vBmv1bbSe47GO9NKmlE",
+          "doxcnfuwl67FtYjLlLuJUdH8cRE",
+          "doxcnXd8h6DFVV59TgBzbRmyv0e"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Get & Scalar Query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnEUsZIYBoSkKfX362rondci",
+        "block_type": 2,
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This guide demonstrates how to get entities by ID and conduct scalar filtering. A scalar filtering retrieves entities that match the specified filtering conditions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn4dZbUygiUiz7PHuwbzxjpf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnHoaUM6CJbFy1p9qLuj7DJh",
+        "block_type": 2,
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A scalar ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " filters entities in a collection based on a defined condition using boolean expressions. The query result is a set of entities that match the defined condition. Unlike a vector search, which identifies the closest vector to a given vector in a collection, queries filter entities based on specific criteria.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnW13IC3xyOelUgt62xfBbPe",
+        "block_type": 2,
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On Zilliz Cloud, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a filter is always a string compising field names joined by operators",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". In this guide, you will find various filter examples. To learn more about the operator details, go to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Reference",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FJ7Mfdy04WoRZtCxvlRvcdf9Pn7d%23doxcngMfWAt3JIB1mXeY2OHlXhd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " section.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcntUNbC0zOB5xMpuYOYZNc6e",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Preparations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcn70X9g9zMZZHgBHL0B4v9Sg",
+        "block_type": 2,
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following steps repurpose the code to connect to a Zilliz Cloud cluster, quickly set up a collection, and insert over 1,000 randomly generated entities into the collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcngBrqY4jeoIpNMLtTPukI0c",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Step 1: Create a collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcn47iQVx2zZa0brH47jXdc2g",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient\n\nCLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\"\nTOKEN = \"YOUR_CLUSTER_TOKEN\"\n\n# 1. Set up a Milvus client\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT,\n    token=TOKEN \n)\n\n# 2. Create a collection\nclient.create_collection(\n    collection_name=\"quick_setup\",\n    dimension=5,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnCZk724PYBfct8r1RMSM9Rf",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Step 2: Insert randomly generated entities",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcntiHdIvU5yd0YWgYTSmNpLe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 3. Insert randomly generated vectors \ncolors = [\"green\", \"blue\", \"yellow\", \"red\", \"black\", \"white\", \"purple\", \"pink\", \"orange\", \"brown\", \"grey\"]\ndata = [ {\n        \"id\": i, \n        \"vector\": [ random.uniform(-1, 1) for _ in range(5) ], \n        \"color\": random.choice(colors), \n        \"tag\": random.randint(1000, 9999) \n    } for i in range(1000) ]\n\nfor i in data:\n    i[\"color_tag\"] = \"{}_{}\".format(i[\"color\"], i[\"tag\"])\n\nprint(data[0])\n\n# Output\n#\n# {\n#     \"id\": 0,\n#     \"vector\": [\n#         0.5913205104316952,\n#         -0.5474675922381218,\n#         0.9433357315736743,\n#         0.22479148416151284,\n#         0.28294612647978834\n#     ],\n#     \"color\": \"grey\",\n#     \"tag\": 5024,\n#     \"color_tag\": \"grey_5024\"\n# }\n\n# 4. Insert entities to the collection\nres = client.insert(\n    collection_name=\"quick_setup\",\n    data=data\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"insert_count\": 1000\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnEIhPpltzIzFwBW9y46SY1f",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Step 3: Create partitions and insert more entities",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnCrDPeh9VL8RZfPa5Bk0WJc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 5. Create two partitions\nclient.create_partition(collection_name=\"quick_setup\", partition_name=\"partitionA\")\nclient.create_partition(collection_name=\"quick_setup\", partition_name=\"partitionB\")\n\n# 6. Insert 500 entities in partition A\ndata = [ {\n        \"id\": i + 1000, \n        \"vector\": [ random.uniform(-1, 1) for _ in range(5) ], \n        \"color\": random.choice(colors), \n        \"tag\": random.randint(1000, 9999) \n    } for i in range(500) ]\n\nfor i in data:\n    i[\"color_tag\"] = \"{}_{}\".format(i[\"color\"], i[\"tag\"])\n    \n    \nres = client.insert(\n    collection_name=\"quick_setup\",\n    data=data,\n    partition_name=\"partitionA\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"insert_count\": 500\n# }\n\n# 7. Insert 300 entities in partition B\ndata = [ {\n        \"id\": i + 1500, \n        \"vector\": [ random.uniform(-1, 1) for _ in range(5) ], \n        \"color\": random.choice(colors), \n        \"tag\": random.randint(1000, 9999) \n    } for i in range(300) ]\n\nfor i in data:\n    i[\"color_tag\"] = \"{}_{}\".format(i[\"color\"], i[\"tag\"])\n    \n    \nres = client.insert(\n    collection_name=\"quick_setup\",\n    data=data,\n    partition_name=\"partitionB\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"insert_count\": 300\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnbMPeyT9E0sJ8Rmt7gYG9Sb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Get Entities by ID",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnDhd85udxT1igQFOhWfORZe",
+        "block_type": 2,
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you know the IDs of the entities of your interests, you can use the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "get()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " method.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcngCaJGiswMriXwT4BpYBQOc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 4. Get entities by ID\nres = client.get(\n    collection_name=\"quick_setup\",\n    ids=[0, 1, 2]\n)\n\nprint(res)\n\n# Output\n#\n# [\n#     {\n#         \"id\": 0,\n#         \"vector\": [\n#             0.68824464,\n#             0.6552274,\n#             0.33593303,\n#             -0.7099536,\n#             -0.07070546\n#         ],\n#         \"color_tag\": \"green_2006\",\n#         \"color\": \"green\"\n#     },\n#     {\n#         \"id\": 1,\n#         \"vector\": [\n#             -0.98531723,\n#             0.33456197,\n#             0.2844234,\n#             0.42886782,\n#             0.32753858\n#         ],\n#         \"color_tag\": \"white_9298\",\n#         \"color\": \"white\"\n#     },\n#     {\n#         \"id\": 2,\n#         \"vector\": [\n#             -0.9886812,\n#             -0.44129863,\n#             -0.29859528,\n#             0.06059075,\n#             -0.43817034\n#         ],\n#         \"color_tag\": \"grey_5312\",\n#         \"color\": \"grey\"\n#     }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcn70VCt6vythdRBJ7rgqQ5Jg",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Get entities from partitions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnwRfjU5aOFDXbSKDhCl6V0c",
+        "block_type": 2,
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can also get entities from specific partitions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnc5yEzwsEsxFHTsqQxCUETd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 5. Get entities from partitions\nres = client.get(\n    collection_name=\"quick_setup\",\n    ids=[0, 1, 2],\n    partition_names=[\"_default\"]\n)\n\nprint(res)\n\n# Output\n#\n# [\n#     {\n#         \"color_tag\": \"green_2006\",\n#         \"color\": \"green\",\n#         \"id\": 0,\n#         \"vector\": [\n#             0.68824464,\n#             0.6552274,\n#             0.33593303,\n#             -0.7099536,\n#             -0.07070546\n#         ]\n#     },\n#     {\n#         \"color_tag\": \"white_9298\",\n#         \"color\": \"white\",\n#         \"id\": 1,\n#         \"vector\": [\n#             -0.98531723,\n#             0.33456197,\n#             0.2844234,\n#             0.42886782,\n#             0.32753858\n#         ]\n#     },\n#     {\n#         \"color_tag\": \"grey_5312\",\n#         \"color\": \"grey\",\n#         \"id\": 2,\n#         \"vector\": [\n#             -0.9886812,\n#             -0.44129863,\n#             -0.29859528,\n#             0.06059075,\n#             -0.43817034\n#         ]\n#     }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnMN7CuXHogDeIeMBQHkPGMf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use Basic Operators",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnM6thkXzBNrwfCDoFOIwG6c",
+        "block_type": 2,
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this section, you will find examples of how to use basic operators in scalar filtering. You can apply these filters to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector searches",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FRi1IwbgN6ilzMrkoIjycmpkZn9d%23doxcnVVpZCK90OPrFeXiLg1MiEh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "data deletions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FZn0MwWVCVibCPHkD063cNfOkn8d%23doxcnAZhaI3IMP0bk0MbLGcMxwh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " too.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnwhL3GbIsuRxQpiWNA2Twac",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter entities with their tag values falling between 1,000 to 1,500.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcn4ukt3hfw2sCinHPzi9Q6pc"
+        ],
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcn4ukt3hfw2sCinHPzi9Q6pc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "res = client.query(\n    collection_name=\"quick_setup\",\n    # highlight-start\n    filter=\"1000 < tag < 1500\",\n    output_fields=[\"color_tag\"],\n    # highlight-end\n    limit=3\n)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcnwhL3GbIsuRxQpiWNA2Twac"
+      },
+      {
+        "block_id": "doxcnmaC5NKLQREGiP03sXtuG4e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter entities with their ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "color",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " values set to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "red",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcngHpDy1lA22MOn7eNqgcE8g"
+        ],
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcngHpDy1lA22MOn7eNqgcE8g",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "res = client.query(\n    collection_name=\"quick_setup\",\n    # highlight-start\n    filter='color == \"brown\"',\n    output_fields=[\"color_tag\"],\n    # highlight-end\n    limit=3\n)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcnmaC5NKLQREGiP03sXtuG4e"
+      },
+      {
+        "block_id": "doxcn4N7LRrhTz7QdKNTamjSiEd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter entities with their ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "color",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " values not set to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "green",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "purple",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcnU3Qo4wbvKvyGUgd4BiGaIc"
+        ],
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnU3Qo4wbvKvyGUgd4BiGaIc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "res = client.query(\n    collection_name=\"quick_setup\",\n    # highlight-start\n    filter='color not in [\"green\", \"purple\"]',\n    output_fields=[\"color_tag\"],\n    # highlight-end\n    limit=3\n)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcn4N7LRrhTz7QdKNTamjSiEd"
+      },
+      {
+        "block_id": "doxcn6cR8D4e6cTy31bIgU9BFXb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter articles whose color tags start with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "red",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcn1993sTJNTlcBbtOz5oWE0c"
+        ],
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcn1993sTJNTlcBbtOz5oWE0c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "res = client.query(\n    collection_name=\"quick_setup\",\n    # highlight-start\n    filter='color_tag like \"red%\"',\n    output_fields=[\"color_tag\"],\n    # highlight-end\n    limit=3\n)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcn6cR8D4e6cTy31bIgU9BFXb"
+      },
+      {
+        "block_id": "doxcn29vtoisy5gS5I6sZIgtitd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter entities with their colors set to red and tag values within the range from 1,000 to 1,500.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcnB0ZAZGW8HjTAhJkoDFI3nh"
+        ],
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnB0ZAZGW8HjTAhJkoDFI3nh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "res = client.query(\n    collection_name=\"quick_setup\",\n    # highlight-start\n    filter='(color == \"red\") and (1000 < tag < 1500)',\n    output_fields=[\"color_tag\"],\n    # highlight-end\n    limit=3\n)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcn29vtoisy5gS5I6sZIgtitd"
+      },
+      {
+        "block_id": "doxcngmggBQFKTlxK47kRVtND7d",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use Advanced Operators",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcn9lsD6Z87MPLXfuFIIeIRcd",
+        "block_type": 2,
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this section, you will find examples of how to use advanced operators in scalar filtering. You can apply these filters to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector searches",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FRi1IwbgN6ilzMrkoIjycmpkZn9d%23doxcnVVpZCK90OPrFeXiLg1MiEh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "data deletions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FZn0MwWVCVibCPHkD063cNfOkn8d%23doxcnAZhaI3IMP0bk0MbLGcMxwh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " too.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcneYvgiaC67JUWoJQd2XJoTd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Count entities",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnkXrMD8NbBGZS0AnXijW70g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Counts the total number of entities in a collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcnCQdDghi6n6nmgHNXNDpkzh"
+        ],
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnCQdDghi6n6nmgHNXNDpkzh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "res = client.query(\n    collection_name=\"quick_setup\",\n    # highlight-start\n    output_fields=[\"count(*)\"]\n    # highlight-end\n)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcnkXrMD8NbBGZS0AnXijW70g"
+      },
+      {
+        "block_id": "doxcnEikFWHA6aj0JfDfAKFiUTh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Counts the total number of entities in specific partitions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcniYZNGMMBAxwUCl2yAaOc6c"
+        ],
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcniYZNGMMBAxwUCl2yAaOc6c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "res = client.query(\n    collection_name=\"quick_setup\",\n    # highlight-start\n    output_fields=[\"count(*)\"],\n    partition_name=\"partitionA\"\n    # highlight-end\n)\n\n# Output\n#\n# \n\nres = client.query(\n    collection_name=\"quick_setup\",\n    # highlight-start\n    output_fields=[\"count(*)\"],\n    partition_name=\"partitionB\"\n    # highlight-end\n)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcnEikFWHA6aj0JfDfAKFiUTh"
+      },
+      {
+        "block_id": "doxcn28kke2AtihexMkgs7HotQd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Counts the number of entities that match a filtering condition",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcncZSZzAVGegXdIlXdSJqxAh"
+        ],
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcncZSZzAVGegXdIlXdSJqxAh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "res = client.query(\n    collection_name=\"quick_setup\",\n    # highlight-start\n    filter='(publication == \"Towards Data Science\") and ((claps > 1500 and responses > 15) or (10 < reading_time < 15))',\n    output_fields=[\"count(*)\"],\n    # highlight-end\n)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "doxcn28kke2AtihexMkgs7HotQd"
+      },
+      {
+        "block_id": "doxcngMfWAt3JIB1mXeY2OHlXhd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Reference on scalar filters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnTKatHq8B10OWT6FYb9YhNc",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Basic Operators",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnIo6Kt2eiOXdPFULGzwHq4g",
+        "block_type": 2,
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "boolean expression",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is always ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a string comprising field names joined by operators",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". In this section, you will learn more about basic operators.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "block_type": 31,
+        "children": [
+          "doxcn47jEeTaxHK3KJAGpvOy4Vf",
+          "doxcnY7WYhp7So8S8WFZdhJhhog",
+          "doxcn8xQUctmAHVZXI0BSMCF8Hc",
+          "doxcnOreIkT5tdj8Rttom2ibmHy",
+          "doxcn25r5KW5So27cjGnOWL9jch",
+          "doxcncuCReSsB21yEE0QQufn7Me",
+          "doxcndw7V45xjs8kwqUXfzEqXnb",
+          "doxcnkqzH807llCnIxGtHWgypNg",
+          "doxcnC4QDYkVZZrWPojTuLcbwUg",
+          "doxcngZwjfPjWSTFACMMqSibGOK",
+          "doxcnlaleAqn8d6pElzMZTxnX8b",
+          "doxcnDEP1cGxzprAqz1fFhTlQLq",
+          "doxcnrRfhlI2iCyPO0vJnnCWQSh",
+          "doxcnKGzVyumSFgkNt3qER51z7g",
+          "doxcn0KBUSOMRYP2d4iiq6Hrzvd",
+          "doxcnYBE8e7sKD4isjRpFExmV4f",
+          "doxcnlAbhOGwuZ1XS8TUfPKpWeh",
+          "doxcnJqoxCMPrEMHQnwhgVXlkNh",
+          "doxcnYfOlHOislqjAWkNNncRvod",
+          "doxcnDBTUqqkG1wTD6shY2U1Gse",
+          "doxcnVSuAPkrLWHOaGjpcMqHhvf",
+          "doxcn3PYj7771Q43hYvrlvBEFrh",
+          "doxcn5ItQ2KztgmWv6xwfUd5asg",
+          "doxcnx3Q2lld6dvt7E3rbIy0l4e"
+        ],
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d",
+        "table": {
+          "cells": [
+            "doxcn47jEeTaxHK3KJAGpvOy4Vf",
+            "doxcnY7WYhp7So8S8WFZdhJhhog",
+            "doxcn8xQUctmAHVZXI0BSMCF8Hc",
+            "doxcnOreIkT5tdj8Rttom2ibmHy",
+            "doxcn25r5KW5So27cjGnOWL9jch",
+            "doxcncuCReSsB21yEE0QQufn7Me",
+            "doxcndw7V45xjs8kwqUXfzEqXnb",
+            "doxcnkqzH807llCnIxGtHWgypNg",
+            "doxcnC4QDYkVZZrWPojTuLcbwUg",
+            "doxcngZwjfPjWSTFACMMqSibGOK",
+            "doxcnlaleAqn8d6pElzMZTxnX8b",
+            "doxcnDEP1cGxzprAqz1fFhTlQLq",
+            "doxcnrRfhlI2iCyPO0vJnnCWQSh",
+            "doxcnKGzVyumSFgkNt3qER51z7g",
+            "doxcn0KBUSOMRYP2d4iiq6Hrzvd",
+            "doxcnYBE8e7sKD4isjRpFExmV4f",
+            "doxcnlAbhOGwuZ1XS8TUfPKpWeh",
+            "doxcnJqoxCMPrEMHQnwhgVXlkNh",
+            "doxcnYfOlHOislqjAWkNNncRvod",
+            "doxcnDBTUqqkG1wTD6shY2U1Gse",
+            "doxcnVSuAPkrLWHOaGjpcMqHhvf",
+            "doxcn3PYj7771Q43hYvrlvBEFrh",
+            "doxcn5ItQ2KztgmWv6xwfUd5asg",
+            "doxcnx3Q2lld6dvt7E3rbIy0l4e"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              212,
+              593
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 12
+          }
+        }
+      },
+      {
+        "block_id": "doxcn47jEeTaxHK3KJAGpvOy4Vf",
+        "block_type": 32,
+        "children": [
+          "doxcnIg4C4hKf2UI4fFbmjmPQLb"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnIg4C4hKf2UI4fFbmjmPQLb",
+        "block_type": 2,
+        "parent_id": "doxcn47jEeTaxHK3KJAGpvOy4Vf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Operator",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnY7WYhp7So8S8WFZdhJhhog",
+        "block_type": 32,
+        "children": [
+          "doxcnuSUXPIO8RWSxFV2f5I5hxb"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnuSUXPIO8RWSxFV2f5I5hxb",
+        "block_type": 2,
+        "parent_id": "doxcnY7WYhp7So8S8WFZdhJhhog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn8xQUctmAHVZXI0BSMCF8Hc",
+        "block_type": 32,
+        "children": [
+          "doxcnAjEI6jQpsX6KyoedgKEazh"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnAjEI6jQpsX6KyoedgKEazh",
+        "block_type": 2,
+        "parent_id": "doxcn8xQUctmAHVZXI0BSMCF8Hc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "add (&&)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnOreIkT5tdj8Rttom2ibmHy",
+        "block_type": 32,
+        "children": [
+          "doxcnXdG45rqIrEqPu702OM2Fvc"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnXdG45rqIrEqPu702OM2Fvc",
+        "block_type": 2,
+        "parent_id": "doxcnOreIkT5tdj8Rttom2ibmHy",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "True if both operands are true",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn25r5KW5So27cjGnOWL9jch",
+        "block_type": 32,
+        "children": [
+          "doxcnQX9PHoixUQ0xodnrCB3vSh"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnQX9PHoixUQ0xodnrCB3vSh",
+        "block_type": 2,
+        "parent_id": "doxcn25r5KW5So27cjGnOWL9jch",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "or (\\|\\|)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcncuCReSsB21yEE0QQufn7Me",
+        "block_type": 32,
+        "children": [
+          "doxcniNd411Woi2JK6FgAIlRLTg"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcniNd411Woi2JK6FgAIlRLTg",
+        "block_type": 2,
+        "parent_id": "doxcncuCReSsB21yEE0QQufn7Me",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "True if either operand is true",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcndw7V45xjs8kwqUXfzEqXnb",
+        "block_type": 32,
+        "children": [
+          "doxcnDrhLabKIx2mJdQyHFgPRac"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnDrhLabKIx2mJdQyHFgPRac",
+        "block_type": 2,
+        "parent_id": "doxcndw7V45xjs8kwqUXfzEqXnb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "+, -, *, /",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnkqzH807llCnIxGtHWgypNg",
+        "block_type": 32,
+        "children": [
+          "doxcnIvJsS3ZS24UgCzCzlNVVQc"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnIvJsS3ZS24UgCzCzlNVVQc",
+        "block_type": 2,
+        "parent_id": "doxcnkqzH807llCnIxGtHWgypNg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Addition, subtraction, multiplication, and division",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnC4QDYkVZZrWPojTuLcbwUg",
+        "block_type": 32,
+        "children": [
+          "doxcnTCF8avncn0XZLbYmA2zSBc"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnTCF8avncn0XZLbYmA2zSBc",
+        "block_type": 2,
+        "parent_id": "doxcnC4QDYkVZZrWPojTuLcbwUg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "**",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcngZwjfPjWSTFACMMqSibGOK",
+        "block_type": 32,
+        "children": [
+          "doxcn4pgCcKfBH0pJaM71rAVRZf"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn4pgCcKfBH0pJaM71rAVRZf",
+        "block_type": 2,
+        "parent_id": "doxcngZwjfPjWSTFACMMqSibGOK",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Exponent",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnlaleAqn8d6pElzMZTxnX8b",
+        "block_type": 32,
+        "children": [
+          "doxcnONEvLXJJ0kSnFq2QMZYv6d"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnONEvLXJJ0kSnFq2QMZYv6d",
+        "block_type": 2,
+        "parent_id": "doxcnlaleAqn8d6pElzMZTxnX8b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "%",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnDEP1cGxzprAqz1fFhTlQLq",
+        "block_type": 32,
+        "children": [
+          "doxcnkw1IQNfzFBv7GEFD41y80e"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnkw1IQNfzFBv7GEFD41y80e",
+        "block_type": 2,
+        "parent_id": "doxcnDEP1cGxzprAqz1fFhTlQLq",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Modulus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnrRfhlI2iCyPO0vJnnCWQSh",
+        "block_type": 32,
+        "children": [
+          "doxcnWoArwHYbUMudjWZsB7GeDg"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnWoArwHYbUMudjWZsB7GeDg",
+        "block_type": 2,
+        "parent_id": "doxcnrRfhlI2iCyPO0vJnnCWQSh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<, >",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnKGzVyumSFgkNt3qER51z7g",
+        "block_type": 32,
+        "children": [
+          "doxcn7UraYqlyE9IMX3kVsh5TTg"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn7UraYqlyE9IMX3kVsh5TTg",
+        "block_type": 2,
+        "parent_id": "doxcnKGzVyumSFgkNt3qER51z7g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Less than, greater than",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn0KBUSOMRYP2d4iiq6Hrzvd",
+        "block_type": 32,
+        "children": [
+          "doxcnxWMq8EqH4DMgWIEullZPVh"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnxWMq8EqH4DMgWIEullZPVh",
+        "block_type": 2,
+        "parent_id": "doxcn0KBUSOMRYP2d4iiq6Hrzvd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "==, !=",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnYBE8e7sKD4isjRpFExmV4f",
+        "block_type": 32,
+        "children": [
+          "doxcnxZOQt7hReL4SlEfm2CFcEc"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnxZOQt7hReL4SlEfm2CFcEc",
+        "block_type": 2,
+        "parent_id": "doxcnYBE8e7sKD4isjRpFExmV4f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Equal to, not equal to",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnlAbhOGwuZ1XS8TUfPKpWeh",
+        "block_type": 32,
+        "children": [
+          "doxcny85ufIhvIwpL55y6LZWySg"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcny85ufIhvIwpL55y6LZWySg",
+        "block_type": 2,
+        "parent_id": "doxcnlAbhOGwuZ1XS8TUfPKpWeh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<=, >=",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnJqoxCMPrEMHQnwhgVXlkNh",
+        "block_type": 32,
+        "children": [
+          "doxcnzGy0dSb8RqptAdhJxYJ4nc"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnzGy0dSb8RqptAdhJxYJ4nc",
+        "block_type": 2,
+        "parent_id": "doxcnJqoxCMPrEMHQnwhgVXlkNh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Less than or equal to, greater than or equal to",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnYfOlHOislqjAWkNNncRvod",
+        "block_type": 32,
+        "children": [
+          "doxcn85uI6yKKCvLgAjwQCu9Ish"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn85uI6yKKCvLgAjwQCu9Ish",
+        "block_type": 2,
+        "parent_id": "doxcnYfOlHOislqjAWkNNncRvod",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "not",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnDBTUqqkG1wTD6shY2U1Gse",
+        "block_type": 32,
+        "children": [
+          "doxcnrHWLUtW6LtoND1O9NmEPke"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnrHWLUtW6LtoND1O9NmEPke",
+        "block_type": 2,
+        "parent_id": "doxcnDBTUqqkG1wTD6shY2U1Gse",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Reverses the result of a given condition.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnVSuAPkrLWHOaGjpcMqHhvf",
+        "block_type": 32,
+        "children": [
+          "doxcn59RsCdlt1ORLTPxD3FvCGh"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn59RsCdlt1ORLTPxD3FvCGh",
+        "block_type": 2,
+        "parent_id": "doxcnVSuAPkrLWHOaGjpcMqHhvf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "like",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn3PYj7771Q43hYvrlvBEFrh",
+        "block_type": 32,
+        "children": [
+          "doxcns5DHPgyMbdaysMKkKVUNHX",
+          "doxcncGbZLuQ3wOgfM2eZD0Wm2g"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcns5DHPgyMbdaysMKkKVUNHX",
+        "block_type": 2,
+        "parent_id": "doxcn3PYj7771Q43hYvrlvBEFrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Compares a value to similar values using wildcard operators.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcncGbZLuQ3wOgfM2eZD0Wm2g",
+        "block_type": 2,
+        "parent_id": "doxcn3PYj7771Q43hYvrlvBEFrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For example, like \"prefix%\" matches strings that begin with \"prefix\".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn5ItQ2KztgmWv6xwfUd5asg",
+        "block_type": 32,
+        "children": [
+          "doxcnxSxgW9NBpoaUf0QaUX5QXb"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnxSxgW9NBpoaUf0QaUX5QXb",
+        "block_type": 2,
+        "parent_id": "doxcn5ItQ2KztgmWv6xwfUd5asg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "in",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnx3Q2lld6dvt7E3rbIy0l4e",
+        "block_type": 32,
+        "children": [
+          "doxcnNqde5kQgNmMTes622LYumb"
+        ],
+        "parent_id": "doxcnD31vBmv1bbSe47GO9NKmlE",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnNqde5kQgNmMTes622LYumb",
+        "block_type": 2,
+        "parent_id": "doxcnx3Q2lld6dvt7E3rbIy0l4e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Tests if an expression matches any value in a list of values.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnfuwl67FtYjLlLuJUdH8cRE",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Advanced operators",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcnXd8h6DFVV59TgBzbRmyv0e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "count(*)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcn9mpZ74Etx8ipDdYIe6wMZd",
+          "doxcntjtGyRVLzBfHorjIv5on1e",
+          "doxcnh5NxMtbsdjSJvg0E5wnW5f"
+        ],
+        "parent_id": "J7Mfdy04WoRZtCxvlRvcdf9Pn7d"
+      },
+      {
+        "block_id": "doxcn9mpZ74Etx8ipDdYIe6wMZd",
+        "block_type": 2,
+        "parent_id": "doxcnXd8h6DFVV59TgBzbRmyv0e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Counts the exact number of entities in the collection. Use this as an output field to get the exact number of entities in a collection or partition.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcntjtGyRVLzBfHorjIv5on1e",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "doxcnXLzaNcBksg1svpbqeDH1zc",
+          "doxcnFsiEGCp6I8dRforgtGXtMb"
+        ],
+        "parent_id": "doxcnXd8h6DFVV59TgBzbRmyv0e"
+      },
+      {
+        "block_id": "doxcnXLzaNcBksg1svpbqeDH1zc",
+        "block_type": 2,
+        "parent_id": "doxcntjtGyRVLzBfHorjIv5on1e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnFsiEGCp6I8dRforgtGXtMb",
+        "block_type": 2,
+        "parent_id": "doxcntjtGyRVLzBfHorjIv5on1e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This applies to loaded collections. You should use it as the only output field.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnh5NxMtbsdjSJvg0E5wnW5f",
+        "block_type": 2,
+        "parent_id": "doxcnXd8h6DFVV59TgBzbRmyv0e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 100
+  }
+}

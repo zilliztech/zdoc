@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 26
-slug: /run-pipeline
+slug: /restful/run-pipeline
 title: Run Pipeline
 ---
 
@@ -114,7 +114,6 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
             "num_deleted_chunks": 567
         }
     }
-    ```
 
 ## Request
 
@@ -134,16 +133,16 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 {
     "data": {
         "doc_url": "string",
-        "<scalar_field_name>": "string"
+        "\<scalar_field_name>": "string"
     }
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `data`  | **object**(required)<br/>Data ingestion parameters.|
-| `data.doc_url`  | **string**<br/>An active pre-signed URL of one of your documents in a GCS or an AWS S3 bucket. You should replace `doc_url` with the field name you have defined when you create the pipeline. Supported file types are `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, and `.pptx`|
-| `data.<scalar_field_name>`  | **string**<br/>|
+| `data` | object<br/>Data ingestion parameters. |
+| `data.doc_url` | string  <br/>An active pre-signed URL of one of your documents in a GCS or an AWS S3 bucket. You should replace `doc_url` with the field name you have defined when you create the pipeline. Supported file types are `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, and `.pptx`  |
+| `data.\<scalar_field_name>` | string  <br/>  |
 
 ```json
 {
@@ -153,9 +152,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     "params": {
         "limit": "integer",
         "offset": "integer",
-        "outputFields": [
-            {}
-        ],
+        "outputFields": [],
         "filter": "string"
     }
 }
@@ -163,13 +160,14 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `data`  | **object**(required)<br/>Search data.|
-| `data.query_text`  | **string**<br/>A query text. Zilliz Cloud embeds it and use the generated vector embeddings to conduct a search in the target collection.|
-| `params`  | **object**(required)<br/>Search parameters.|
-| `params.limit`  | **integer**<br/>Total number of records to return.|
-| `params.offset`  | **integer**<br/>Total number of records to skip in the search results.|
-| `params.outputFields`  | **array**<br/>A list of fields to output for each match in the search result.|
-| `params.filter`  | **string**<br/>A boolean expression for Zilliz Cloud to filter records before actual searches.|
+| `data` | object<br/>Search data. |
+| `data.query_text` | string  <br/>A query text. Zilliz Cloud embeds it and use the generated vector embeddings to conduct a search in the target collection.  |
+| `params` | object<br/>Search parameters. |
+| `params.limit` | integer  <br/>Total number of records to return.  |
+| `params.offset` | integer  <br/>Total number of records to skip in the search results.  |
+| `params[].outputFields` | array<br/>A list of fields to output for each match in the search result. |
+| `params[].outputFields[]` | string  <br/>A valid output field and should be the one defined in the preserve functions.  |
+| `params.filter` | string  <br/>A boolean expression for Zilliz Cloud to filter records before actual searches.  |
 
 ```json
 {
@@ -181,8 +179,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `data`  | **object**(required)<br/>Payload of the doc deletion request.|
-| `data.doc_name`  | **string**<br/>Name of the document to delete. Note that you can delete document by its name, and all the chunks of the document will be removed.|
+| `data` | object<br/>Payload of the doc deletion request. |
+| `data.doc_name` | string  <br/>Name of the document to delete. Note that you can delete document by its name, and all the chunks of the document will be removed.  |
 
 ## Response
 
@@ -218,11 +216,11 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
-| `data.num_chunks`   | **integer**<br/>Number of chunks generated. |
-| `data.doc_name`   | **string**<br/>Name of the chunked document with the file extension. |
-| `data.token_usage`   | **integer**<br/>Number of consumed tokens in this operation. |
+| `code` | integer  <br/>  |
+| `data` | object<br/>Payload of the response. |
+| `data.num_chunks` | integer  <br/>Number of chunks generated.  |
+| `data.doc_name` | string  <br/>Name of the chunked document with the file extension.  |
+| `data.token_usage` | integer  <br/>Number of consumed tokens in this operation.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -230,4 +228,3 @@ The properties in the returned response are listed in the following table.
 | Code | Error Message |
 | ---- | ------------- |
 | 10041 | (Possible pipeline errors are all under this error code.) |
-

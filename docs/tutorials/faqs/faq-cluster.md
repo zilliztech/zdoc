@@ -2,6 +2,7 @@
 slug: /faq-cluster
 beta: null
 notebook: null
+type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 2
 ---
@@ -12,31 +13,20 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 ## Contents
 
-- [What is the capacity of a serverless cluster?](#what-is-the-capacity-of-a-serverless-cluster)
-- [What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?](#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources)
-- [Can I change the CU type after my dedicated cluster is created?](#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created)
-- [Can I change the cloud region of my cluster after it is created?](#can-i-change-the-cloud-region-of-my-cluster-after-it-is-created)
-- [How can I scale down my cluster CU size?](#how-can-i-scale-down-my-cluster-cu-size)
-- [Can I deploy a serverless cluster on AWS?](#can-i-deploy-a-serverless-cluster-on-aws)
-- [Do serverless clusters in the starter plan support customized schema?](#do-serverless-clusters-in-the-starter-plan-support-customized-schema)
-- [How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?](#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud)
-- [Why can’t I connect to the cluster after the cluster is created?](#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created)
-- [What can I do if I cannot connect to Zilliz Cloud with Node.js SDK?](#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk)
-- [What happens to my inactive clusters?](#what-happens-to-my-inactive-clusters)
-- [Will I be charged if I suspend my cluster?](#will-i-be-charged-if-i-suspend-my-cluster)
+
 
 ## FAQs
 
 
 
 
-### What is the capacity of a serverless cluster?{#what-is-the-capacity-of-a-serverless-cluster}
+__What is the capacity of a serverless cluster?__
 
 Generally, a serverless cluster can handle 1 million 768-dimensional vectors. However, the actual capacity depends on your schema. 
 
 If your data exceeds the maximum capacity of a serverless cluster, please [upgrade](./select-zilliz-cloud-service-plans#select-a-cluster-plan) to Standard or Enterprise plan and [migrate your data ](./migrate-between-clusters#from-serverless-to-dedicated-cluster)to a dedicated cluster. For more information about the capacity of a dedicated cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
 
-### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
+__What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?__
 
 When inserting or upserting data, you will receive this error because your data exceeds the cluster CU capacity. To address this issue, you can follow the instructions below.
 
@@ -44,7 +34,7 @@ When inserting or upserting data, you will receive this error because your data 
 
 - If you are using a dedicated cluster, please [scale up your cluster](./manage-cluster#manage-and-configure-clusters) by increasing the CU size.
 
-### Can I change the CU type after my dedicated cluster is created?{#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created}
+__Can I change the CU type after my dedicated cluster is created?__
 
 Yes. To change the CU type, you need to follow the steps below.
 
@@ -52,7 +42,7 @@ Yes. To change the CU type, you need to follow the steps below.
 
 1. Migrate the data from the current cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
 
-### Can I change the cloud region of my cluster after it is created?{#can-i-change-the-cloud-region-of-my-cluster-after-it-is-created}
+__Can I change the cloud region of my cluster after it is created?__
 
 Yes. To change the cloud region of your cluster, you need to follow the steps below.
 
@@ -60,21 +50,21 @@ Yes. To change the cloud region of your cluster, you need to follow the steps be
 
 1. Migrate the data from the current cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
 
-### How can I scale down my cluster CU size?{#how-can-i-scale-down-my-cluster-cu-size}
+__How can I scale down my cluster CU size?__
 
 If you need to scale down your cluster CU size, please create a new cluster with the desired CU size first. Then, [migrate](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster) the data in your exsisting cluster to the new cluster.
 
 If you require assistance when scaling down the CU size, please[ submit a request](https://support.zilliz.com/hc/en-us).
 
-### Can I deploy a serverless cluster on AWS?{#can-i-deploy-a-serverless-cluster-on-aws}
+__Can I deploy a serverless cluster on AWS?__
 
 No. Currently, Zilliz Cloud only supports deploying a serverless cluster on GCP. If you need to deploy a cluster on AWS, please choose the Standard or Enterprise plan.
 
-### Do serverless clusters in the starter plan support customized schema?{#do-serverless-clusters-in-the-starter-plan-support-customized-schema}
+__Do serverless clusters in the starter plan support customized schema?__
 
-No. The free serverless clusters do not support customized schema. However, dynamic schema is enabled by default, meaning you can always insert data with fields that are not pre-defined. Refer to [Enable Dynamic Field](./enable-dynamic-schema) for more details about dynamic schema.
+No. The free serverless clusters do not support customized schema. However, dynamic schema is enabled by default, meaning you can always insert data with fields that are not pre-defined. Refer to [Enable Dynamic Field](./enable-dynamic-field) for more details about dynamic schema.
 
-### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
+__How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?__
 
 To establish a connection to a Zilliz Cloud cluster, you will need to provide several relevant parameters. For instance, the PyMilvus SDK's connect method can be used as shown below:
 
@@ -106,7 +96,7 @@ A connection timeout error may occur in the following scenarios:
 
     If you are attempting to connect to your cluster, you also need to ensure that you have turned off any VPN/Proxy connections, obtained your public IP address (private IP addresses simply do not work), and added that IP address to the whitelist for the clusters you want to connect to.
 
-### Why can’t I connect to the cluster after the cluster is created?{#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created}
+__Why can’t I connect to the cluster after the cluster is created?__
 
 You can identify the problem by following these steps:
 
@@ -114,9 +104,9 @@ You can identify the problem by following these steps:
 
 1. Check if the IP address of your connection is included in the IP white list.
 
-1. Test the connectivity of the port by running **telnet in01-(uuid).(region).vectordb.zillizcloud.com 19530**. If the issue remains unsolved after all above steps are tried, please[ submit a request](https://support.zilliz.com/hc/en-us).
+1. Test the connectivity of the port by running __telnet in01-(uuid).(region).vectordb.zillizcloud.com 19530__. If the issue remains unsolved after all above steps are tried, please[ submit a request](https://support.zilliz.com/hc/en-us).
 
-### What can I do if I cannot connect to Zilliz Cloud with Node.js SDK?{#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk}
+__What can I do if I cannot connect to Zilliz Cloud with Node.js SDK?__
 
 If you fail to connect to Zilliz Cloud with the Node.js SDK, please try the following:
 
@@ -128,10 +118,10 @@ If you fail to connect to Zilliz Cloud with the Node.js SDK, please try the foll
     const client = new MilvusClient('https://your-db-address-with-port', true, 'your-db-user', 'your-db-pasword');
     ```
 
-### What happens to my inactive clusters?{#what-happens-to-my-inactive-clusters}
+__What happens to my inactive clusters?__
 
 Your serverless clusters are automatically suspended with notice after 7 days of inactivity. You can always resume the clusters when necessary. However, your dedicated clusters will not be automatically suspended due to prolonged inactivity. To save costs, we advise you to manually suspend your dedicated clusters.
 
-### Will I be charged if I suspend my cluster?{#will-i-be-charged-if-i-suspend-my-cluster}
+__Will I be charged if I suspend my cluster?__
 
 When your cluster is suspended, you will only be charged for storage, not computing. For more details about storage costs, see [Pricing](https://zilliz.com/pricing).

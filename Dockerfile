@@ -14,15 +14,15 @@ COPY . /home/node/app
 ## development
 FROM base as development
 WORKDIR /home/node/app
-RUN yarn set version stable && yarn
+RUN npm install
 EXPOSE 3000
 CMD ["yarn", "start", "-h", "0.0.0.0"]
 
 ## production
-FROM base as production
+FROM node:lts as production
 WORKDIR /home/node/app
-COPY --from=development --chown=node:node /home/node/app/node_modules /home/node/app/node_modules
-RUN yarn build
+COPY --from=development --chown=node:node /home/node/app /home/node/app
+RUN npm run build
 
 ## deploy
 FROM nginx:stable-alpine as deploy

@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 10
-slug: /create-collection
+slug: /restful/create-collection
 title: Create Collection
 ---
 
@@ -76,13 +76,13 @@ Success response:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `dbName`  | **string**<br/>The name of the database. <zilliz>This parameter applies only to dedicated clusters.</zilliz>|
-| `collectionName`  | **string**(required)<br/>The name of the collection to create.|
-| `dimension`  | **integer**(required)<br/>The number of dimensions for the vector field of the collection. For performance-optimized CUs, this value ranges from 1 to 32768. For capacity-optimized and cost-optimized CUs, this value ranges from 32 to 32768.<br/>The value ranges from **1** to **32768**.|
-| `metricType`  | **string**<br/>The distance metric used for the collection.<br/>The value defaults to **L2**.|
-| `primaryField`  | **string**<br/>The primary key field.<br/>The value defaults to **id**.|
-| `vectorField`  | **string**<br/>The vector field.<br/>The value defaults to **vector**.|
-| `description`  | **string**<br/>The description of the collection|
+| `dbName` | string  <br/>The name of the database. <zilliz>This parameter applies only to dedicated clusters.</zilliz>  |
+| `collectionName` | string  <br/>The name of the collection to create.  |
+| `dimension` | integer  <br/>The number of dimensions for the vector field of the collection. For performance-optimized CUs, this value ranges from 1 to 32768. For capacity-optimized and cost-optimized CUs, this value ranges from 32 to 32768.<br/>The value ranges from 1 to 32768.  |
+| `metricType` | string  <br/>The distance metric used for the collection.<br/>The value defaults to L2  |
+| `primaryField` | string  <br/>The primary key field.<br/>The value defaults to id  |
+| `vectorField` | string  <br/>The vector field.<br/>The value defaults to vector  |
+| `description` | string  <br/>The description of the collection  |
 
 ## Response
 
@@ -114,8 +114,8 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
+| `code` | integer  <br/>  |
+| `data` | object<br/> |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -150,4 +150,3 @@ The properties in the returned response are listed in the following table.
 | 90122 | No dimension key field. |
 | 90136 | No create collection content provided. |
 | 90139 | Type mismatch for field 'xxx'. expected type:xxx |
-

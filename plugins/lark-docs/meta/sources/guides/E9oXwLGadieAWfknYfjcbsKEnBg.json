@@ -1,0 +1,167 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": true,
+  "node_create_time": "1710754412",
+  "node_token": "E9oXwLGadieAWfknYfjcbsKEnBg",
+  "node_type": "origin",
+  "obj_create_time": "1710754412",
+  "obj_edit_time": "1710756002",
+  "obj_token": "HrzCdtHAeo1QvjxkFz1cSKi0n3d",
+  "obj_type": "docx",
+  "origin_node_token": "E9oXwLGadieAWfknYfjcbsKEnBg",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
+  "space_id": "7167193056431783939",
+  "title": "Milvus Docs",
+  "slug": "milvus-docs",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "HrzCdtHAeo1QvjxkFz1cSKi0n3d",
+        "block_type": 1,
+        "children": [
+          "FeaidOJrToDpMrxJWANcXRrtnBb"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Milvus Docs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "FeaidOJrToDpMrxJWANcXRrtnBb",
+        "block_type": 2,
+        "parent_id": "HrzCdtHAeo1QvjxkFz1cSKi0n3d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "These are dedicated docs for Milvus, and should not be included in any Zilliz Cloud publications.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 2
+  },
+  "children": [
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": false,
+      "node_create_time": "1708325161",
+      "node_token": "I44HwALceivcZyke19xc1SnOn0c",
+      "node_type": "origin",
+      "obj_create_time": "1708325161",
+      "obj_edit_time": "1710732231",
+      "obj_token": "GO2adoGgXoxoD0xRUGAc6dbVnMh",
+      "obj_type": "docx",
+      "origin_node_token": "I44HwALceivcZyke19xc1SnOn0c",
+      "origin_space_id": "7314484612833640452",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "Hb5VwPWS0iTxFvkjCmdcQnwan9d",
+      "space_id": "7314484612833640452",
+      "title": "[Modified] MMap-enabled Data Storage",
+      "slug": "mmap-data-store"
+    },
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": true,
+      "node_create_time": "1708676529",
+      "node_token": "VBj3wFSvBiH3s4kquupcRzB9nkh",
+      "node_type": "origin",
+      "obj_create_time": "1708676529",
+      "obj_edit_time": "1708676546",
+      "obj_token": "Bq2gd4sB1ou1bzxZu3mcRIp8nmf",
+      "obj_type": "docx",
+      "origin_node_token": "VBj3wFSvBiH3s4kquupcRzB9nkh",
+      "origin_space_id": "7314484612833640452",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "Hb5VwPWS0iTxFvkjCmdcQnwan9d",
+      "space_id": "7314484612833640452",
+      "title": "[Draft] Milvus CDC",
+      "slug": "milvus-cdc"
+    },
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": false,
+      "node_create_time": "1709261627",
+      "node_token": "VNqrwaxdqiLZi9k2iMrc42Nxnlh",
+      "node_type": "origin",
+      "obj_create_time": "1709261627",
+      "obj_edit_time": "1710750016",
+      "obj_token": "UKsFd4WeRoz6VVxIEC8ci1ZdnCd",
+      "obj_type": "docx",
+      "origin_node_token": "VNqrwaxdqiLZi9k2iMrc42Nxnlh",
+      "origin_space_id": "7314484612833640452",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "Hb5VwPWS0iTxFvkjCmdcQnwan9d",
+      "space_id": "7314484612833640452",
+      "title": "[Modified] GPU Index",
+      "slug": "gpu-index"
+    },
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": true,
+      "node_create_time": "1710211843",
+      "node_token": "Q7rswYdeeiXpRPkMDuncCudgnHh",
+      "node_type": "origin",
+      "obj_create_time": "1710211843",
+      "obj_edit_time": "1710761945",
+      "obj_token": "P3NndTrduokSurxRCr6cZrpen4d",
+      "obj_type": "docx",
+      "origin_node_token": "Q7rswYdeeiXpRPkMDuncCudgnHh",
+      "origin_space_id": "7314484612833640452",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "Hb5VwPWS0iTxFvkjCmdcQnwan9d",
+      "space_id": "7314484612833640452",
+      "title": "[Draft] Embeddings",
+      "slug": "embeddings"
+    },
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": false,
+      "node_create_time": "1709283484",
+      "node_token": "GJi1wGLKOiNW0OkBe9Ecsj9snob",
+      "node_type": "origin",
+      "obj_create_time": "1709283484",
+      "obj_edit_time": "1710759623",
+      "obj_token": "VsVjdv2wLoS1wJxYpZIcVGycnlc",
+      "obj_type": "docx",
+      "origin_node_token": "GJi1wGLKOiNW0OkBe9Ecsj9snob",
+      "origin_space_id": "7314484612833640452",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "Hb5VwPWS0iTxFvkjCmdcQnwan9d",
+      "space_id": "7314484612833640452",
+      "title": "[Draft] Sparse Vector",
+      "slug": "sparse-vector"
+    }
+  ]
+}

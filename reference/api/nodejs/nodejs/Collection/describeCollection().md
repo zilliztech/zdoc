@@ -1,3 +1,11 @@
+---
+slug: /nodejs/collection.describeCollection()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 1
+displayed_sidebar: nodejsSidebar
+---
+
 # describeCollection()
 
 Describes the details of a collection, including its name, schema, and other relevant information.

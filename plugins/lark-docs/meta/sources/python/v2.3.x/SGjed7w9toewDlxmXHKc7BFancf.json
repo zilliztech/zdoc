@@ -1,0 +1,1470 @@
+{
+  "created_time": "1704354663",
+  "modified_time": "1708755810",
+  "name": "update_password()",
+  "owner_id": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_token": "BvYKfbpMUlczBxdyBvEc5Gb3nfb",
+  "token": "SGjed7w9toewDlxmXHKc7BFancf",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/SGjed7w9toewDlxmXHKc7BFancf",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "SGjed7w9toewDlxmXHKc7BFancf",
+        "block_type": 1,
+        "children": [
+          "doxcnyGlfsPwhQ8xIbiOYcqoFYb",
+          "Ym1TdM4UGopuUhxlS5GcWBDRnCd",
+          "MwYndg2BWoWMekxXSRQcS6wKnQf",
+          "Z74SdeKPMofSw9xSaWVcWgXlnSe",
+          "CFCZdKP3uoyoLix6faecyeDwnSe",
+          "C01IdADQton991xNQO8cRVEZnZb",
+          "O0pIdaQl9oNbUCx8ChacMy3dnQf",
+          "A5PfdhteYozPNXxwEuocBt3Qnyd",
+          "FzxWd5q0ToTWH6xOSmBc1Hcnnnf",
+          "NnZBdcdcUoY5e5xNN02c0vsBnMf",
+          "PN5Ud2kjJoKBlBx29XUck0henLe",
+          "GZ7TdljmPosqqTxaT40c64hTndd",
+          "W0rxdszN2olpOextAWzcv2QZnyc",
+          "Ze4ddnk0RotYDrxGZYectjktnCg",
+          "L7xJd7e1OoyHlCxcz5ecWQ4Onfh",
+          "UYXtdE8JRoUu9pxOj7JcxDItnJh",
+          "DwwYd1qoMonGUHxxhNgcgQWAnkh",
+          "doxcn1cuKRRI9onSkWOyO6cASob",
+          "NjNtdxoDJoQ6KvxZL5YcHOyNnBh",
+          "GbhPdEc5woJAHXxBsEWcuWtRnOg",
+          "QxoddURU3oiSIMx3SBkc3Bvonib",
+          "P8AOdG55doNoj0xU3eecleCCnXd",
+          "FVKVdtoOFoUSPGx5U4UcFVSanbh",
+          "VvaldwfavodR0lxj20XcqfJrnne",
+          "C0UGdvnZ0ojv5oxAkX7cH99Tnbe",
+          "K4ZodhRctoBmjPxcRXOctzKSnmh",
+          "BXmNdVUj3o3QfFxniCIckFdonUb"
+        ],
+        "comment_ids": [
+          "7320148535859838979"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "update_password()",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7320148535859838979"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnyGlfsPwhQ8xIbiOYcqoFYb",
+        "block_type": 2,
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation updates the password for a specific user.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ym1TdM4UGopuUhxlS5GcWBDRnCd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "MwYndg2BWoWMekxXSRQcS6wKnQf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "update_password(\n    user: str,\n    old_password: str,\n    new_password: str,\n    using: str,\n    timeout: float | None\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "Z74SdeKPMofSw9xSaWVcWgXlnSe",
+        "block_type": 2,
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CFCZdKP3uoyoLix6faecyeDwnSe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "user",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") - ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "E96pdhFGaov98sxJbZ8cv9iKnFh",
+          "LDVQd5X2royyYexMit0c9FTZnjh"
+        ],
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "E96pdhFGaov98sxJbZ8cv9iKnFh",
+        "block_type": 2,
+        "parent_id": "CFCZdKP3uoyoLix6faecyeDwnSe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[REQUIRED]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LDVQd5X2royyYexMit0c9FTZnjh",
+        "block_type": 2,
+        "parent_id": "CFCZdKP3uoyoLix6faecyeDwnSe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The specific user whose password is to be reset.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C01IdADQton991xNQO8cRVEZnZb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "old_password",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") - ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "HCxUdvkUcoeFR7xM9LOcDRQxnhf",
+          "NYf3dAo9OoBYmSxS3l6cl7IanAr",
+          "TwRzdJppNoIqQlxELPGcZZw5nyd"
+        ],
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "HCxUdvkUcoeFR7xM9LOcDRQxnhf",
+        "block_type": 2,
+        "parent_id": "C01IdADQton991xNQO8cRVEZnZb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[REQUIRED]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NYf3dAo9OoBYmSxS3l6cl7IanAr",
+        "block_type": 2,
+        "parent_id": "C01IdADQton991xNQO8cRVEZnZb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The original password for the specified user.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TwRzdJppNoIqQlxELPGcZZw5nyd",
+        "block_type": 2,
+        "parent_id": "C01IdADQton991xNQO8cRVEZnZb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Setting this to an incorrect password results in a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "MilvusException",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O0pIdaQl9oNbUCx8ChacMy3dnQf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "new_password",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") - ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "UN7mdqy2yoWYt7xx3QPcfrornof",
+          "IyFJdYTwgogX5XxeUTjcQcqKnUg",
+          "WYQ1dbdFAoQRcpxrOE2cJ4H5n2g"
+        ],
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "UN7mdqy2yoWYt7xx3QPcfrornof",
+        "block_type": 2,
+        "parent_id": "O0pIdaQl9oNbUCx8ChacMy3dnQf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[REQUIRED]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IyFJdYTwgogX5XxeUTjcQcqKnUg",
+        "block_type": 2,
+        "parent_id": "O0pIdaQl9oNbUCx8ChacMy3dnQf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The new password for the specified user. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WYQ1dbdFAoQRcpxrOE2cJ4H5n2g",
+        "block_type": 2,
+        "parent_id": "O0pIdaQl9oNbUCx8ChacMy3dnQf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The password must be a string of 8 to 64 characters and must include at least three of the following character types: uppercase letters, lowercase letters, numbers, and special characters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A5PfdhteYozPNXxwEuocBt3Qnyd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "using",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") - ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Skj5dK18voMdsHxekSJcSC35neh",
+          "DctBd57M1ohKySxnItEc0ZsSnef"
+        ],
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "Skj5dK18voMdsHxekSJcSC35neh",
+        "block_type": 2,
+        "parent_id": "A5PfdhteYozPNXxwEuocBt3Qnyd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The alias of the employed connection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DctBd57M1ohKySxnItEc0ZsSnef",
+        "block_type": 2,
+        "parent_id": "A5PfdhteYozPNXxwEuocBt3Qnyd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The default value is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "default",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", indicating that this operation employs the default connection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FzxWd5q0ToTWH6xOSmBc1Hcnnnf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "timeout",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "float ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "|",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " None",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")  ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "F0cQdP7f0oUClqxm5JgcEPk3nqb"
+        ],
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "F0cQdP7f0oUClqxm5JgcEPk3nqb",
+        "block_type": 2,
+        "parent_id": "FzxWd5q0ToTWH6xOSmBc1Hcnnnf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The timeout duration for this operation. Setting this to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " indicates that this operation timeouts when any response arrives or any error occurs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NnZBdcdcUoY5e5xNN02c0vsBnMf",
+        "block_type": 2,
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PN5Ud2kjJoKBlBx29XUck0henLe",
+        "block_type": 2,
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "NoneType",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GZ7TdljmPosqqTxaT40c64hTndd",
+        "block_type": 2,
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "W0rxdszN2olpOextAWzcv2QZnyc",
+        "block_type": 2,
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ze4ddnk0RotYDrxGZYectjktnCg",
+        "block_type": 2,
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "L7xJd7e1OoyHlCxcz5ecWQ4Onfh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusException",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Jt5wdVkqvovt8nx3tsmcS8qcnAd"
+        ],
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "Jt5wdVkqvovt8nx3tsmcS8qcnAd",
+        "block_type": 2,
+        "parent_id": "L7xJd7e1OoyHlCxcz5ecWQ4Onfh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UYXtdE8JRoUu9pxOj7JcxDItnJh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "DwwYd1qoMonGUHxxhNgcgQWAnkh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " connections,",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " utility",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\n# Connection to localhost:19530\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "connections.connect()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\n# Create a user\nuser = utility.create_user(user=\"admin\", password=\"123456\")\n\n# Update the password for the user.\nupdate_password(\n    user=\"admin\",\n    old_password=\"123456\",\n    new_password=\"123456Abc*\",\n    using=\"default\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "doxcn1cuKRRI9onSkWOyO6cASob",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related operations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "NjNtdxoDJoQ6KvxZL5YcHOyNnBh",
+        "block_type": 2,
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following operations are related to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "update_password()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GbhPdEc5woJAHXxBsEWcuWtRnOg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Role",
+                "token": "LZL1d0kckouPXNxJLCmcwbCTnkG",
+                "url": "https://zilliverse.feishu.cn/docx/LZL1d0kckouPXNxJLCmcwbCTnkG"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "QxoddURU3oiSIMx3SBkc3Bvonib",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "create_user()",
+                "token": "N44ndTSrgoEBx7xCID5cXRS7n1c",
+                "url": "https://zilliverse.feishu.cn/docx/N44ndTSrgoEBx7xCID5cXRS7n1c"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "P8AOdG55doNoj0xU3eecleCCnXd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "delete_user()",
+                "token": "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
+                "url": "https://zilliverse.feishu.cn/docx/E7zOdU2JpoqaU5xNYXvcAjgPnNh"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "FVKVdtoOFoUSPGx5U4UcFVSanbh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "list_roles()",
+                "token": "ClLXdDs64oixJBxlIrCcEB2dngb",
+                "url": "https://zilliverse.feishu.cn/docx/ClLXdDs64oixJBxlIrCcEB2dngb"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "VvaldwfavodR0lxj20XcqfJrnne",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "list_user()",
+                "token": "JeG6d5Sg2oPmXPxEhnyciq4snNd",
+                "url": "https://zilliverse.feishu.cn/docx/JeG6d5Sg2oPmXPxEhnyciq4snNd"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "C0UGdvnZ0ojv5oxAkX7cH99Tnbe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "list_users()",
+                "token": "MtF2dkZcso4XduxM194cUaiinqb",
+                "url": "https://zilliverse.feishu.cn/docx/MtF2dkZcso4XduxM194cUaiinqb"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "K4ZodhRctoBmjPxcRXOctzKSnmh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "list_usernames()",
+                "token": "RXi3dgtNYogU0cxmTsgcdT72nsc",
+                "url": "https://zilliverse.feishu.cn/docx/RXi3dgtNYogU0cxmTsgcdT72nsc"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      },
+      {
+        "block_id": "BXmNdVUj3o3QfFxniCIckFdonUb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "reset_password()",
+                "token": "K1Npdj5Ddod6UWxRN2ecf6K4nxf",
+                "url": "https://zilliverse.feishu.cn/docx/K1Npdj5Ddod6UWxRN2ecf6K4nxf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SGjed7w9toewDlxmXHKc7BFancf"
+      }
+    ],
+    "counts": 40
+  },
+  "slug": "utility-update_password"
+}

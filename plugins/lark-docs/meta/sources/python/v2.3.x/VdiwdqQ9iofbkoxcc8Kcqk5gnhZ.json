@@ -1,0 +1,903 @@
+{
+  "created_time": "1704176416",
+  "modified_time": "1708739053",
+  "name": "flush()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "ZGbAfWoUjl0Z3xdgyItc8wYXngf",
+  "token": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/VdiwdqQ9iofbkoxcc8Kcqk5gnhZ",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ",
+        "block_type": 1,
+        "children": [
+          "doxcnaXqBQKJtuxROWNODp5HXzf",
+          "doxcnOm8NNh8bEFX4SsmnKXDpYb",
+          "doxcncspdYSEhIQi2uH2VqX5kBm",
+          "SQptdmBAhozX0exyGW0ciIy0nbh",
+          "doxcnNGTS977wv3lbNarMarMpGc",
+          "doxcnXRxxqOUiAzobpz4D2a5Oth",
+          "QQn1dzN78oi5m4x7Kb3cvGx4nRf",
+          "FqBRd5jCPojMSixwDEacepuPn7g",
+          "XWkcdRlU2o7j0ZxIHO2c5opHnKe",
+          "PwSOdCgUxo5PT5xZcS7cZSgXnVf",
+          "KwDOdMsoWounbkxJJXxcfKK0n8f",
+          "WqqFdnpGfoRoQVxrhB5czKL3njb",
+          "TzqJdXGyTobhQoxY2RUcPX2Vnsg",
+          "doxcnJdeFNr5lQvwVNSGDNX1ECh",
+          "doxcn73ubcYrOEsSXhfSmWbleRh",
+          "doxcnFN50QnP0YmCXAqxpQKOfcc",
+          "OQm5dS0zkoErlHxuhKFckvCpndd",
+          "Gqpfd7LD1oKCi6x7MfScU1p1nvf",
+          "Um5XdyXxxoNKGqxdYnTcbDLYnsc",
+          "T9BudNQpmopp8vx1ZgocCFvQn4d",
+          "WocDduNqEoy9GSxe33yc47S0ndc"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "flush()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnaXqBQKJtuxROWNODp5HXzf",
+        "block_type": 2,
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation seals all segments in the collection. Any insertions after this operation will generate a new segment.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnOm8NNh8bEFX4SsmnKXDpYb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+      },
+      {
+        "block_id": "doxcncspdYSEhIQi2uH2VqX5kBm",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "flush(\n    timeout: float | None\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")   ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+      },
+      {
+        "block_id": "SQptdmBAhozX0exyGW0ciIy0nbh",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "As57dYphOobf4exgEZrcD5OAnYb",
+          "PqeOd44qIoZrsBxVZI8cDiWFnTf",
+          "Ubond1GaJox8uJx3iTectWGun3b",
+          "GgDIde962oI4mrxqqQfcNW3ZnZg"
+        ],
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+      },
+      {
+        "block_id": "As57dYphOobf4exgEZrcD5OAnYb",
+        "block_type": 2,
+        "parent_id": "SQptdmBAhozX0exyGW0ciIy0nbh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Can I call ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "flush()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " after every data insertion?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PqeOd44qIoZrsBxVZI8cDiWFnTf",
+        "block_type": 2,
+        "parent_id": "SQptdmBAhozX0exyGW0ciIy0nbh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When new data is inserted, it is written into a growing segment. Once the size of a growing segment reaches its upper limit, <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> automatically seals the segment. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ubond1GaJox8uJx3iTectWGun3b",
+        "block_type": 2,
+        "parent_id": "SQptdmBAhozX0exyGW0ciIy0nbh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Continuously calling this operation results in many sealed segments of small sizes, which can gradually degrade search performance. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GgDIde962oI4mrxqqQfcNW3ZnZg",
+        "block_type": 2,
+        "parent_id": "SQptdmBAhozX0exyGW0ciIy0nbh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "It is recommended that you wait for <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> to seal all segments before conducting any searches.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnNGTS977wv3lbNarMarMpGc",
+        "block_type": 2,
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnXRxxqOUiAzobpz4D2a5Oth",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+      },
+      {
+        "block_id": "QQn1dzN78oi5m4x7Kb3cvGx4nRf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "timeout",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "float ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "|",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " None",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")  ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ARLTdPtB3oGdIHx7JEIcsR6on2b"
+        ],
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+      },
+      {
+        "block_id": "ARLTdPtB3oGdIHx7JEIcsR6on2b",
+        "block_type": 2,
+        "parent_id": "QQn1dzN78oi5m4x7Kb3cvGx4nRf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The timeout duration for this operation. Setting this to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " indicates that this operation timeouts when any response arrives or any error occurs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FqBRd5jCPojMSixwDEacepuPn7g",
+        "block_type": 2,
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XWkcdRlU2o7j0ZxIHO2c5opHnKe",
+        "block_type": 2,
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "NoneType",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PwSOdCgUxo5PT5xZcS7cZSgXnVf",
+        "block_type": 2,
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KwDOdMsoWounbkxJJXxcfKK0n8f",
+        "block_type": 2,
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WqqFdnpGfoRoQVxrhB5czKL3njb",
+        "block_type": 2,
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TzqJdXGyTobhQoxY2RUcPX2Vnsg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusException",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcniFHF5ODW5oiL9rQgoNicGb"
+        ],
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+      },
+      {
+        "block_id": "doxcniFHF5ODW5oiL9rQgoNicGb",
+        "block_type": 2,
+        "parent_id": "TzqJdXGyTobhQoxY2RUcPX2Vnsg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnJdeFNr5lQvwVNSGDNX1ECh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+      },
+      {
+        "block_id": "doxcn73ubcYrOEsSXhfSmWbleRh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import Collection, CollectionSchema, FieldSchema, DataType\n\nschema = CollectionSchema([\n    FieldSchema(\"id\", DataType.INT64, is_primary=True),\n    FieldSchema(\"vector\", DataType.FLOAT_VECTOR, dim=5)\n])\n\n# Create a collection\ncollection = Collection(\n    name=\"test_collection\",\n    schema=schema\n)\n\n# Insert some data\ncollection.insert(\n    data=[\n        [0,1,2,3,4],                         # id\n        [                                    # vector\n            [0.1,0.2,-0.3,-0.4,0.5],\n            [0.3,-0.1,-0.2,-0.6,0.7],\n            [-0.6,-0.3,0.2,0.8,0.7],\n            [0.6,0.2,-0.3,-0.8,0.5],\n            [0.3,0.1,-0.2,-0.6,-0.7],\n        ],\n    ]\n)\n\n# Flush the data \ncollection.flush()\n\n# Check the number of flushed entities in the collection \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection.num_entities # 5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+      },
+      {
+        "block_id": "doxcnFN50QnP0YmCXAqxpQKOfcc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related operations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+      },
+      {
+        "block_id": "OQm5dS0zkoErlHxuhKFckvCpndd",
+        "block_type": 2,
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following operations are related to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "flush()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Gqpfd7LD1oKCi6x7MfScU1p1nvf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "describe()",
+                "token": "EZwsd887JojFjLxbMByckhW0nxg",
+                "url": "https://zilliverse.feishu.cn/docx/EZwsd887JojFjLxbMByckhW0nxg"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+      },
+      {
+        "block_id": "Um5XdyXxxoNKGqxdYnTcbDLYnsc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "drop()",
+                "token": "L8UTdDNkPoeew0x6LoDcfHx4nof",
+                "url": "https://zilliverse.feishu.cn/docx/L8UTdDNkPoeew0x6LoDcfHx4nof"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+      },
+      {
+        "block_id": "T9BudNQpmopp8vx1ZgocCFvQn4d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "get_replicas()",
+                "token": "BQKPdDd5xo8OPgxoXorcMxk0nVb",
+                "url": "https://zilliverse.feishu.cn/docx/BQKPdDd5xo8OPgxoXorcMxk0nVb"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+      },
+      {
+        "block_id": "WocDduNqEoy9GSxe33yc47S0ndc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "set_properties()",
+                "token": "ECmAdaYKboPTNlxqkLxcUEZ4nrh",
+                "url": "https://zilliverse.feishu.cn/docx/ECmAdaYKboPTNlxqkLxcUEZ4nrh"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+      }
+    ],
+    "counts": 28
+  },
+  "slug": "Collection-flush"
+}

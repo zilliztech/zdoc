@@ -1,0 +1,460 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": true,
+  "node_create_time": "1708764316",
+  "node_token": "NDLBwtFIuihc5wkq37KchzqLnrc",
+  "node_type": "origin",
+  "obj_create_time": "1708764316",
+  "obj_edit_time": "1712117215",
+  "obj_token": "YNYxd48lAoEgeixVOVZcJi5vnob",
+  "obj_type": "docx",
+  "origin_node_token": "NDLBwtFIuihc5wkq37KchzqLnrc",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "KEKtwN7kUiIf7akFPlOcFCkmnQe",
+  "space_id": "7167193056431783939",
+  "title": "Manage Indexes",
+  "slug": "manage-indexes",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "YNYxd48lAoEgeixVOVZcJi5vnob",
+        "block_type": 1,
+        "children": [
+          "doxcnX0Cg2lshcMqJOn27GrBUpd",
+          "doxcnaGzkt6nNW1UXwYIAYb7Lem",
+          "VDo8dhhceobeOaxNpePcrM3Pnhh",
+          "XaB8dNLUKooUBkxbkLMcTOczn7f"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage Indexes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnX0Cg2lshcMqJOn27GrBUpd",
+        "block_type": 2,
+        "parent_id": "YNYxd48lAoEgeixVOVZcJi5vnob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Learn how to manipulate indexes on vector and scalar fields via SDKs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnaGzkt6nNW1UXwYIAYb7Lem",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "doxcnt6t3qfEQweHiNE0oRbmysd",
+          "doxcndK8A17xFPRDY3P1fEyGm5d",
+          "EV15d7lyToYAWGxJ8ENc5qhFntg",
+          "doxcnqPOePLJNKvtP34wi9cGBSh",
+          "SpD2dwqQloTBZ5xE3uAcKuRfn8f",
+          "doxcnIArw4WpXM6nAUPjFjtOyGg",
+          "doxcngl75Z9OUup6Z8iWYQWaZpd",
+          "doxcnagfgPHgZoQaTS3ndtYhJVf",
+          "doxcnOvyefjQa5ZRbdAY2HR2UIe"
+        ],
+        "parent_id": "YNYxd48lAoEgeixVOVZcJi5vnob"
+      },
+      {
+        "block_id": "doxcnt6t3qfEQweHiNE0oRbmysd",
+        "block_type": 2,
+        "parent_id": "doxcnaGzkt6nNW1UXwYIAYb7Lem",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcndK8A17xFPRDY3P1fEyGm5d",
+        "block_type": 2,
+        "parent_id": "doxcnaGzkt6nNW1UXwYIAYb7Lem",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Whether a collection is automatically indexed and loaded depends on how you create the collection. A collection is automatically loaded upon creation in the following scenarios:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EV15d7lyToYAWGxJ8ENc5qhFntg",
+        "block_type": 2,
+        "parent_id": "doxcnaGzkt6nNW1UXwYIAYb7Lem",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnqPOePLJNKvtP34wi9cGBSh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On the console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FCmR5wFcybi3iMokOJBxcXDQcntg%23doxcn6rO2wos8rkkx1rCGc3VrVh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "doxcnaGzkt6nNW1UXwYIAYb7Lem"
+      },
+      {
+        "block_id": "SpD2dwqQloTBZ5xE3uAcKuRfn8f",
+        "block_type": 2,
+        "parent_id": "doxcnaGzkt6nNW1UXwYIAYb7Lem",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnIArw4WpXM6nAUPjFjtOyGg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Using RESTful API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fcreate-collection"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "doxcnaGzkt6nNW1UXwYIAYb7Lem"
+      },
+      {
+        "block_id": "doxcngl75Z9OUup6Z8iWYQWaZpd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Quick setup mode via applicable SDKs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FUSQ2w6yj0i3WN1k3eEYciscinkc%23doxcnAI6QfJZrpMSq0Zxr0rpKWf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "doxcnaGzkt6nNW1UXwYIAYb7Lem"
+      },
+      {
+        "block_id": "doxcnagfgPHgZoQaTS3ndtYhJVf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Customized setup mode via applicable SDKs with index parameters specified.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FUSQ2w6yj0i3WN1k3eEYciscinkc%23doxcnaPivulqLaXnD497ju40FKc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "doxcnaGzkt6nNW1UXwYIAYb7Lem"
+      },
+      {
+        "block_id": "doxcnOvyefjQa5ZRbdAY2HR2UIe",
+        "block_type": 2,
+        "parent_id": "doxcnaGzkt6nNW1UXwYIAYb7Lem",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can also create a collection that is not loaded automatically and start managing indexes on your own.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VDo8dhhceobeOaxNpePcrM3Pnhh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Contents",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YNYxd48lAoEgeixVOVZcJi5vnob"
+      },
+      {
+        "block_id": "XaB8dNLUKooUBkxbkLMcTOczn7f",
+        "block_type": 2,
+        "parent_id": "YNYxd48lAoEgeixVOVZcJi5vnob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this chapter, you will find out how to manage your collection indexes on vector and scalar fields.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 14
+  },
+  "children": [
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1708764325",
+      "node_token": "Qc0SwFomWiEXvMkDAH9cMAhlnIh",
+      "node_type": "origin",
+      "obj_create_time": "1708764325",
+      "obj_edit_time": "1709800938",
+      "obj_token": "Gy4jdcTIpoSQapxLRoEcWNTdn9f",
+      "obj_type": "docx",
+      "origin_node_token": "Qc0SwFomWiEXvMkDAH9cMAhlnIh",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "NDLBwtFIuihc5wkq37KchzqLnrc",
+      "space_id": "7167193056431783939",
+      "title": "Index Vector Fields",
+      "slug": "index-vector-fields"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1708764325",
+      "node_token": "XCCwwOLqKi2nYGkfy5Gc0Vnfnpb",
+      "node_type": "origin",
+      "obj_create_time": "1708764325",
+      "obj_edit_time": "1711613781",
+      "obj_token": "JWt0dxAUhoijWaxtaslcrorSnZg",
+      "obj_type": "docx",
+      "origin_node_token": "XCCwwOLqKi2nYGkfy5Gc0Vnfnpb",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "NDLBwtFIuihc5wkq37KchzqLnrc",
+      "space_id": "7167193056431783939",
+      "title": "Index Scalar Fields",
+      "slug": "index-scalar-fields"
+    }
+  ]
+}

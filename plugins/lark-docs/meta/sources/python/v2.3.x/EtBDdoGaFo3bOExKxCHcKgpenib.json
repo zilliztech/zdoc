@@ -1,0 +1,433 @@
+{
+  "created_time": "1704427618",
+  "modified_time": "1708506728",
+  "name": "commit()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "SzykfW0E7lSK4sdsvhOcAhkan0b",
+  "token": "EtBDdoGaFo3bOExKxCHcKgpenib",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/EtBDdoGaFo3bOExKxCHcKgpenib",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "EtBDdoGaFo3bOExKxCHcKgpenib",
+        "block_type": 1,
+        "children": [
+          "doxcnVOk5hZYD5gL6CaMAsBtcKg",
+          "UWs9dS6M7oIbu7xRKhocfoeLnad",
+          "doxcnPghTFwpJZ3nlzedOfrLS3c",
+          "doxcnHNAbV4nO3lexLY61v0dFnh",
+          "doxcnjV7sMSY6v3co0ROkBhMMZb",
+          "doxcnk3pECAgUQx051DRf4XWtJh",
+          "doxcnYsNAZaZM6DcaKTtVQe66he",
+          "ZxGQdqEjFogfynxdg79cn4bKnNc",
+          "WkAhd0rUFopJd6xiXFrcjpL5n1b"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "commit()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnVOk5hZYD5gL6CaMAsBtcKg",
+        "block_type": 2,
+        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation commits the appended data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UWs9dS6M7oIbu7xRKhocfoeLnad",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib"
+      },
+      {
+        "block_id": "doxcnPghTFwpJZ3nlzedOfrLS3c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pymilvus.LocalBulkWriter.commit(\n    **kwargs\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib"
+      },
+      {
+        "block_id": "doxcnHNAbV4nO3lexLY61v0dFnh",
+        "block_type": 2,
+        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnjV7sMSY6v3co0ROkBhMMZb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "kwargs",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "GBpEdkpbKoCMTNx1XiOcwAZonRe"
+        ],
+        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib"
+      },
+      {
+        "block_id": "GBpEdkpbKoCMTNx1XiOcwAZonRe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "call_back",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (function)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "AMGpdjveVoPc9rxFLcLcicaLn6g",
+          "SzxqdSkSroZpD8xDt0Sc0LLinke"
+        ],
+        "parent_id": "doxcnjV7sMSY6v3co0ROkBhMMZb"
+      },
+      {
+        "block_id": "AMGpdjveVoPc9rxFLcLcicaLn6g",
+        "block_type": 2,
+        "parent_id": "GBpEdkpbKoCMTNx1XiOcwAZonRe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A callback function to call after this operation is completed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SzxqdSkSroZpD8xDt0Sc0LLinke",
+        "block_type": 2,
+        "parent_id": "GBpEdkpbKoCMTNx1XiOcwAZonRe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", indicating no callback is there to call. Use this to add post-commit actions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnk3pECAgUQx051DRf4XWtJh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib"
+      },
+      {
+        "block_id": "doxcnYsNAZaZM6DcaKTtVQe66he",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import (\n    CollectionSchema, \n    FieldSchema, \n    LocalBulkWriter, \n    DataType, \n    BulkFileType\n)\n\n# Set up a schema\nschema = CollectionSchema(fields=[\n    FieldSchema(name=\"id\", dtype=DataType.INT64, is_primary=True),\n    FieldSchema(name=\"vector\", dtype=DataType.FLOAT_VECTOR, dim=5),\n    ]\n)\n\n# Set up a local bulk writer\nwriter = LocalBulkWriter(\n    schema=schema,\n    local_path=\"/tmp/output\",\n)\n\n# Append a row to the writer\nwriter.append_row(\n    {\"id\": 0, \"vector\": [0.1, 0.4, -0.8, -0.2, 0.4]}\n)\n\n# Commit the appended data\ndef callback():\n    print(\"Commit completes\")\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "writer.commit(call_back=callback)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib"
+      },
+      {
+        "block_id": "ZxGQdqEjFogfynxdg79cn4bKnNc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related methods",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib"
+      },
+      {
+        "block_id": "WkAhd0rUFopJd6xiXFrcjpL5n1b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "append_row()",
+                "token": "WCxIdVwCpoIaMUxbabWcSRCkn2g",
+                "url": "https://zilliverse.feishu.cn/docx/WCxIdVwCpoIaMUxbabWcSRCkn2g"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib"
+      }
+    ],
+    "counts": 13
+  },
+  "slug": "LocalBulkWriter-commit"
+}

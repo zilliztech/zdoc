@@ -1,0 +1,43 @@
+{
+  "created_time": "1703727831",
+  "modified_time": "1704348293",
+  "name": "FieldSchema",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "NZa5fZusilxYZ5d3Q1Dc1l8BnOd",
+  "token": "RV1nfeylFlUftwd2w4Wc40TYn6d",
+  "type": "folder",
+  "url": "https://zilliverse.feishu.cn/drive/folder/RV1nfeylFlUftwd2w4Wc40TYn6d",
+  "slug": "ORM-FieldSchema",
+  "children": [
+    {
+      "created_time": "1704339666",
+      "modified_time": "1708751518",
+      "name": "construct_from_dict()",
+      "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_token": "RV1nfeylFlUftwd2w4Wc40TYn6d",
+      "token": "DCLUdOpVjohl8HxPUx1cGjokngf",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/DCLUdOpVjohl8HxPUx1cGjokngf"
+    },
+    {
+      "created_time": "1704340195",
+      "modified_time": "1709016942",
+      "name": "FieldSchema",
+      "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_token": "RV1nfeylFlUftwd2w4Wc40TYn6d",
+      "token": "EVKhdy0vwoSLSux2RW2c660unjh",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/EVKhdy0vwoSLSux2RW2c660unjh"
+    },
+    {
+      "created_time": "1704348290",
+      "modified_time": "1708751561",
+      "name": "to_dict()",
+      "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_token": "RV1nfeylFlUftwd2w4Wc40TYn6d",
+      "token": "G1gsdGWwuoPOPrxJdABcfa76nUd",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/G1gsdGWwuoPOPrxJdABcfa76nUd"
+    }
+  ]
+}

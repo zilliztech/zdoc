@@ -1,3 +1,11 @@
+---
+slug: /go/client.DropCollection()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 3
+displayed_sidebar: goSidebar
+---
+
 # DropCollection()
 
 Drops a specified collection.

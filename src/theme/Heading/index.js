@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Link from '@docusaurus/Link'
 import Heading from '@theme-original/Heading';
-import useFrontMatter from '@theme/useFrontMatter';
+import {useDoc} from '@docusaurus/theme-common/internal';
 import styles from './styles.module.css';
 
 const BetaTagComponent = (children) => (
@@ -96,7 +96,8 @@ const OpenInButtonLink = ({
 
 export default function HeadingWrapper(props) {
   try {
-    const { beta, notebook } = useFrontMatter();
+    const { frontMatter } = useDoc();
+    const { beta, notebook } = frontMatter;
 
     if (props.as === 'h1' && beta) {
       props = {

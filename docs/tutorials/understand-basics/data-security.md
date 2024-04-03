@@ -2,6 +2,7 @@
 slug: /data-security
 beta: FALSE
 notebook: FALSE
+type: origin
 token: SIhBwKFJri4u2CkyD3ucnO7an3g
 sidebar_position: 7
 ---
@@ -49,7 +50,7 @@ For details, see [User Roles](./user-roles).
 
 For Internet connections, Zilliz Cloud uses the HTTPS protocol and provides a whitelist feature to enable IP filtering.
 
-Once you add specific CIDR blocks to the whitelist of a cluster, only IP addresses in the specified range can access the cluster. To completely prevent Internet access, you can add **127.0.0.1/32** to the cluster whitelist.
+Once you add specific CIDR blocks to the whitelist of a cluster, only IP addresses in the specified range can access the cluster. To completely prevent Internet access, you can add __127.0.0.1/32__ to the cluster whitelist.
 
 For details, see [Set up Whitelist](./setup-whitelist).
 
@@ -63,7 +64,7 @@ For details, see [Set up a Private Link](./setup-a-private-link).
 
 Once a cluster is up and security settings are applied, Zilliz Cloud implements various measures to secure data storage and transmission.
 
-In Zilliz Cloud, vector data is stored in object storage (AWS S3 or GCS) with server-side encryption enabled. Data belonging to different tenants is isolated through namespaces. Additionally, Zilliz Cloud uses [JumpServer](https://en.wikipedia.org/wiki/Jump_server) to keep records and perform audits on all cluster access operations, such as logins, queries, and modifications. These audit logs can be used to track and investigate potential security incidents or data leakage risks.
+In Zilliz Cloud, vector data is stored in object storage (AWS S3 or GCS) with server-side encryption enabled. Data belonging to different users is isolated in buckets. Additionally, Zilliz Cloud uses [JumpServer](https://en.wikipedia.org/wiki/Jump_server) to keep records and perform audits on all cluster access operations, such as logins, queries, and modifications. These audit logs can be used to track and investigate potential security incidents or data leakage risks.
 
 ## Backup and restoration{#backup-and-restoration}
 
@@ -71,7 +72,7 @@ To safeguard data integrity, Zilliz Cloud offers reliable backup and restoration
 
 The platform features a recycle bin functionality with a maximum retention period of 30 days, allowing you to recover accidentally deleted data. Furthermore, you can schedule automatic backups to ensure regular and secure data backups.
 
-For details, see [Backup & Restore](./backup-and-restore).
+For details, see [Backup & Restore](/docs/backup-and-restore).
 
 ## Summary{#summary}
 

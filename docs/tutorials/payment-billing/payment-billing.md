@@ -2,8 +2,9 @@
 slug: /payment-billing
 beta: FALSE
 notebook: FALSE
+type: origin
 token: FmkCwm1QHitB7uk9U9ncLnHrnse
-sidebar_position: 14
+sidebar_position: 15
 ---
 
 import Admonition from '@theme/Admonition';
@@ -17,13 +18,13 @@ This guide details the available ways for you to subscribe to our services on Zi
 
 <Admonition type="info" icon="📘" title="Notes">
 
-In order to manage payment and billing, you need to be an **Organization Owner**.
+<p>In order to manage payment and billing, you need to be an <strong>Organization Owner</strong>.</p>
 
 </Admonition>
 
 ### Payment options{#payment-options}
 
-|  **Payment method**             |  **Description**                                                                                                                                                |
+|  __Payment method__             |  __Description__                                                                                                                                                |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |  Credits                        |  You earn credits upon registration or by participating in Zilliz Cloud events, etc. Credits can be used to cover the expenses of using Zilliz Cloud services.  |
 |  Credit card                    |  You receive a monthly invoice for your usage on Zilliz Cloud.                                                                                                  |
@@ -34,7 +35,7 @@ In order to manage payment and billing, you need to be an **Organization Owner**
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Credits and Advance Pay can be combined with either a credit card or a Marketplace subscription (AWS/GCP/Azure). However, it is not possible to set both a credit card and a Marketplace subscription simultaneously.
+<p>Credits and Advance Pay can be combined with either a credit card or a Marketplace subscription (AWS/GCP/Azure). However, it is not possible to set both a credit card and a Marketplace subscription simultaneously.</p>
 
 </Admonition>
 
@@ -48,7 +49,7 @@ If multiple payment methods are in use, their priority is as follows:
 
 1. Credit card / AWS Marketplace subscription / GCP Marketplace subscription / Azure Marketplace subscription.
 
-**Example: **For a $500 unpaid bill, with $100 in credits and $200 in Advance Pay funds available, plus a linked credit card:
+__Example: __For a $500 unpaid bill, with $100 in credits and $200 in Advance Pay funds available, plus a linked credit card:
 
 - The $100 credits are used first, reducing the bill to $400.
 
@@ -86,7 +87,7 @@ You can subscribe to Zilliz Cloud services on [AWS](./subscribe-on-aws-marketpla
 
 - Zilliz Cloud Standard Plan
 
-    |  **Unit/Count**                                        |  **Cost per unit or count** |
+    |  __Unit/Count__                                        |  __Cost per unit or count__ |
     | ------------------------------------------------------ | --------------------------- |
     |  1 AWS performance-optimized CU per hour as one unit   |  $0.159                     |
     |  1 AWS capacity-optimized CU per hour as one unit      |  $0.159                     |
@@ -103,7 +104,7 @@ You can subscribe to Zilliz Cloud services on [AWS](./subscribe-on-aws-marketpla
 
 - Zilliz Cloud Enterprise Plan
 
-    |  **Unit/Count**                                        |  **Cost per unit or count** |
+    |  __Unit/Count__                                        |  __Cost per unit or count__ |
     | ------------------------------------------------------ | --------------------------- |
     |  1 AWS performance-optimized CU per hour as one unit   |  $0.248                     |
     |  1 AWS capacity-optimized CU per hour as one unit      |  $0.248                     |
@@ -118,7 +119,7 @@ You can subscribe to Zilliz Cloud services on [AWS](./subscribe-on-aws-marketpla
     |  1 GB for storage on Azure per month as one unit       |  $0.025                     |
     |  1 GB for backup service on Azure as one unit          |  $0.025                     |
 
-Using the above table, if you have deployed a Zilliz Cloud cluster in the **Standard Plan** with one performance-optimized CU on AWS, you will be charged via your Marketplace subscription 159 units per hour, that is $0.159/hour.
+Using the above table, if you have deployed a Zilliz Cloud cluster in the __Standard Plan__ with one performance-optimized CU on AWS, you will be charged via your Marketplace subscription 159 units per hour, that is $0.159/hour.
 
 ## Related topics{#related-topics}
 

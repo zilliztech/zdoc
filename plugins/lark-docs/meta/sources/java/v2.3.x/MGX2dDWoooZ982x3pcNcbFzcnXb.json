@@ -1,0 +1,1392 @@
+{
+  "created_time": "1708421441",
+  "modified_time": "1712038368",
+  "name": "describeIndex()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "UqeGfuMkilgT1HdhoyGc08FznEt",
+  "token": "MGX2dDWoooZ982x3pcNcbFzcnXb",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/MGX2dDWoooZ982x3pcNcbFzcnXb",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "MGX2dDWoooZ982x3pcNcbFzcnXb",
+        "block_type": 1,
+        "children": [
+          "DfQ2dgBLPo2hu5xg8gocGHkfnmc",
+          "I1zrdyLMIo4EBSxsTHIc67gAnLg",
+          "BhyQdx4w9o0ZWqxnkfoclPwUn0g",
+          "MMhbd4GmXosU53xPFLocU7TEnvI",
+          "FMcGdare6oRdXRxnqTgc3PeqnLc",
+          "Wh6OdfJS7oWtMJxasWMcRO0wnWb",
+          "PkA7d0WgBocqPWxMbHycTOoWnag",
+          "KMa6d7qTCoGyNCxlymUcpiQGnee",
+          "C3k9d6re6o01SGxXW93c7XKknZg",
+          "PkoZdl4Nhok5oIxDSKOcFGGpnHb",
+          "XbCVdZeWToQD9Jxi8y6cupGLnJv",
+          "SaILdaeUzoPbKVxfCvhcyS6Fn5f",
+          "Q30Pd1e0DoheSox9h2GcnZywnWe",
+          "BuRLdyAF9oXbDTxdio4cS8cCnma",
+          "R8fUd731VoLfEMxsqeyc31denZb",
+          "YsCPdXvz5oKod8xnZOpcUL9mnAf",
+          "RwUjdAusroTNSCxCevhctfm4nBg",
+          "AcR2dUsj1ockDpxuK5fctegznPe",
+          "QbzCdRjyRo5U8Jxh2P4cWnv9nQc",
+          "MmVRdazFso0H5WxVaNEcK9l8nwh",
+          "XCLQdOGEpooLQkxDa0AcWbYvn8e",
+          "Xj6adadlbohWCPxd8Doc9KmYnNd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "describeIndex()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "DfQ2dgBLPo2hu5xg8gocGHkfnmc",
+        "block_type": 2,
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation describes a specific index.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I1zrdyLMIo4EBSxsTHIc67gAnLg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "public DescribeIndexResp describeIndex(DescribeIndexReq request)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb"
+      },
+      {
+        "block_id": "BhyQdx4w9o0ZWqxnkfoclPwUn0g",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb"
+      },
+      {
+        "block_id": "MMhbd4GmXosU53xPFLocU7TEnvI",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "describeIndex(DescribeIndexReq.builder()\n    .collectionName(String collectionName)\n    .fieldName(String fieldName)\n    .indexName(String indexName)\n    .build()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb"
+      },
+      {
+        "block_id": "FMcGdare6oRdXRxnqTgc3PeqnLc",
+        "block_type": 2,
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BUILDER METHODS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Wh6OdfJS7oWtMJxasWMcRO0wnWb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collectionName(String collectionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "VrUbd0ED4o9agHxe0O3cL3EFn0e",
+          "C4dUdxYVSo14BjxtVCfckz3Mnbd"
+        ],
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb"
+      },
+      {
+        "block_id": "VrUbd0ED4o9agHxe0O3cL3EFn0e",
+        "block_type": 2,
+        "parent_id": "Wh6OdfJS7oWtMJxasWMcRO0wnWb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of an existing collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C4dUdxYVSo14BjxtVCfckz3Mnbd",
+        "block_type": 2,
+        "parent_id": "Wh6OdfJS7oWtMJxasWMcRO0wnWb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Setting this to a non-existing collection results in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "MilvusException",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PkA7d0WgBocqPWxMbHycTOoWnag",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "fieldName(String fieldName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Y1sxd33AroX5gdxADKsca7Penmf"
+        ],
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb"
+      },
+      {
+        "block_id": "Y1sxd33AroX5gdxADKsca7Penmf",
+        "block_type": 2,
+        "parent_id": "PkA7d0WgBocqPWxMbHycTOoWnag",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the field on which the index is created.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KMa6d7qTCoGyNCxlymUcpiQGnee",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "indexName(String indexName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "JvshdnxC4ocOPJxMs68cOZqrnuf",
+          "SQr1dANKHo5jmDxM5a1c9Tcqneb"
+        ],
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb"
+      },
+      {
+        "block_id": "JvshdnxC4ocOPJxMs68cOZqrnuf",
+        "block_type": 2,
+        "parent_id": "KMa6d7qTCoGyNCxlymUcpiQGnee",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the index to describe.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SQr1dANKHo5jmDxM5a1c9Tcqneb",
+        "block_type": 2,
+        "parent_id": "KMa6d7qTCoGyNCxlymUcpiQGnee",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Setting this to a non-existing collection results in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "MilvusException",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C3k9d6re6o01SGxXW93c7XKknZg",
+        "block_type": 2,
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE: ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PkoZdl4Nhok5oIxDSKOcFGGpnHb",
+        "block_type": 2,
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "DescribeIndexResp",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XbCVdZeWToQD9Jxi8y6cupGLnJv",
+        "block_type": 2,
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SaILdaeUzoPbKVxfCvhcyS6Fn5f",
+        "block_type": 2,
+        "comment_ids": [
+          "7339748355226124291"
+        ],
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DescribeIndexResp",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7339748355226124291"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " object that contains the details of the specified index.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Q30Pd1e0DoheSox9h2GcnZywnWe",
+        "block_type": 2,
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BuRLdyAF9oXbDTxdio4cS8cCnma",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "indexName",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "JTqYdYHkQoWPwBxnCOfcRU98nXb"
+        ],
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb"
+      },
+      {
+        "block_id": "JTqYdYHkQoWPwBxnCOfcRU98nXb",
+        "block_type": 2,
+        "parent_id": "BuRLdyAF9oXbDTxdio4cS8cCnma",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the created index.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "R8fUd731VoLfEMxsqeyc31denZb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "indexType",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "VCMtdxFx9ojhxPxC6tWcHnN3nEd",
+          "FcL4dqkjYoi3TmxSgIJcZHhnnpy"
+        ],
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb"
+      },
+      {
+        "block_id": "VCMtdxFx9ojhxPxC6tWcHnN3nEd",
+        "block_type": 2,
+        "parent_id": "R8fUd731VoLfEMxsqeyc31denZb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The algorithm that is used to build the index. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FcL4dqkjYoi3TmxSgIJcZHhnnpy",
+        "block_type": 2,
+        "parent_id": "R8fUd731VoLfEMxsqeyc31denZb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "In-memory Index",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Findex.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "On-disk Index",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fdisk_index.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Scalar Index",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fscalar_index.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".</include><include target=\"zilliz\">On Zilliz Cloud, the value is always ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AUTOINDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AUTOINDEX Explained",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fautoindex-explained"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YsCPdXvz5oKod8xnZOpcUL9mnAf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "metricType",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "LkIfdfCdkoJb8ZxHAsCcyxY2nQg",
+          "CT6ydeKkaoB1UVxkwekcVQwTnRc"
+        ],
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb"
+      },
+      {
+        "block_id": "LkIfdfCdkoJb8ZxHAsCcyxY2nQg",
+        "block_type": 2,
+        "parent_id": "YsCPdXvz5oKod8xnZOpcUL9mnAf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The algorithm that is used to measure similarity between vectors. Possible values are ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IP",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "L2",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "COSINE",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CT6ydeKkaoB1UVxkwekcVQwTnRc",
+        "block_type": 2,
+        "parent_id": "YsCPdXvz5oKod8xnZOpcUL9mnAf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This is available only when the specified field is a vector field.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RwUjdAusroTNSCxCevhctfm4nBg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "fieldName",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Me2WdDNFsoSkaBxK45ZcPLLlnUc"
+        ],
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb"
+      },
+      {
+        "block_id": "Me2WdDNFsoSkaBxK45ZcPLLlnUc",
+        "block_type": 2,
+        "parent_id": "RwUjdAusroTNSCxCevhctfm4nBg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the field on which the index has been created.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AcR2dUsj1ockDpxuK5fctegznPe",
+        "block_type": 2,
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QbzCdRjyRo5U8Jxh2P4cWnv9nQc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusClientExceptions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "D03Pd9cWDoKlwGxahkdc4xvGnWh"
+        ],
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb"
+      },
+      {
+        "block_id": "D03Pd9cWDoKlwGxahkdc4xvGnWh",
+        "block_type": 2,
+        "parent_id": "QbzCdRjyRo5U8Jxh2P4cWnv9nQc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MmVRdazFso0H5WxVaNEcK9l8nwh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb"
+      },
+      {
+        "block_id": "XCLQdOGEpooLQkxDa0AcWbYvn8e",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// describe the index for field \"vector\"\nDescribeIndexReq describeIndexReq = DescribeIndexReq.builder()\n        .collectionName(\"test\")\n        .fieldName(\"vector\")\n        .build();\nDescribeIndexResp describeIndexResp = client.describeIndex(describeIndexReq);\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// DescribeIndexResp(indexName=test, indexType=AUTOINDEX, metricType=L2, fieldName=vector)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb"
+      },
+      {
+        "block_id": "Xj6adadlbohWCPxd8Doc9KmYnNd",
+        "block_type": 2,
+        "parent_id": "MGX2dDWoooZ982x3pcNcbFzcnXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 35
+  },
+  "slug": "Management-describeIndex"
+}

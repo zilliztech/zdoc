@@ -93,7 +93,11 @@ __PARAMETERS:__
 
         - __range_filter__  (float) -  
 
-            Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of __radius__. Otherwise, this value should be lower than that of __radius__.
+            Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of __radius__. Otherwise, this value should be lower than that of __radius__. 
+
+        - __group_by_field__ (_str_)
+
+            Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
 
     For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
 

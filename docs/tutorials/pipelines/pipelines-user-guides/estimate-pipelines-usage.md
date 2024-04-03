@@ -1,7 +1,8 @@
 ---
 slug: /estimate-pipelines-usage
-beta: TRUE
+beta: FALSE
 notebook: FALSE
+type: origin
 token: WbQZwNrsIiqw1bkkP7zctG6knXf
 sidebar_position: 5
 ---
@@ -9,13 +10,13 @@ sidebar_position: 5
 import Admonition from '@theme/Admonition';
 
 
-# Estimate Pipelines Usage
+# Estimate Pipeline Usage
 
 The cost of running pipelines is measured by tokens. Similar to Large Language Model (LLM) that uses token as a basic unit, pipelines process documents and search queries by parsing and embedding the text as a series of tokens. To understand the cost of a pipeline run, you can use our Estimate Pipeline Usage tool to count tokens of a file or a text string. 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-This tool uses a Byte-Pair Encoding (BPE) tokenizer and the estimated usage may vary by 30% based on different processing strategy. Therefore, you should only use the estimated usage as a reference. For actual usage, please refer to the [Pipelines list](./manage-pipelines#view-pipeline).
+<p>This tool uses a Byte-Pair Encoding (BPE) tokenizer and the estimated usage may vary by 30% based on different processing strategy. Therefore, you should only use the estimated usage as a reference. For actual usage, please refer to the <a href="./manage-pipelines#view-pipeline">Pipelines list</a>.</p>
 
 </Admonition>
 
@@ -31,9 +32,9 @@ Token is a special concept in NLP. It can be thought of as a sub-word. Some word
 
 ## How is the token processed by Pipelines?{#how-is-the-token-processed-by-pipelines}
 
-[Ingestion Pipeline](./understanding-pipelines#ingestion-pipelines) processes documents by parsing files into tokens and then splitting and embedding the token series. [Search Pipeline](./understanding-pipelines#search-pipelines) processes the query by embedding the token series. By passing the tokens to a deep learning model (called embedding model), the "essence" of the text is converted into a vector representation, which can be stored in and retrieved by a vector database. With the help of this process, Pipelines is able to help the API users to understand the meaning and semantics of different words and their context within a sentence or text.
+[Ingestion Pipeline](./pipelines-user-guides) processes documents by parsing files into tokens and then splitting and embedding the token series. [Search Pipeline](./pipelines-user-guides) processes the query by embedding the token series. By passing the tokens to a deep learning model (called embedding model), the "essence" of the text is converted into a vector representation, which can be stored in and retrieved by a vector database. With the help of this process, Pipelines is able to help the API users to understand the meaning and semantics of different words and their context within a sentence or text.
 
-[Deletion](./understanding-pipelines#deletion-pipelines) Pipelines usually doesn't involve processing text as tokens.
+[Deletion](./pipelines-user-guides) Pipelines usually doesn't involve processing text as tokens.
 
 ## Estimate Pipelines Usage{#estimate-pipelines-usage}
 
@@ -59,17 +60,17 @@ To help easily understand the cost implication of any pipeline run, we offer a w
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        You can only input a maximum of 100,000 characters.
+        <p>You can only input a maximum of 100,000 characters.</p>
 
         </Admonition>
 
-1. Click **Calculate**.
+1. Click __Calculate__.
 
     ![estimate-piplines-usage](/img/estimate-piplines-usage.png)
 
 1. Check the estimated token count of your file.
 
-1. Click **Reset** to upload another local file.
+1. Click __Reset__ to upload another local file.
 
 ## Related topics{#related-topics}
 
@@ -77,5 +78,5 @@ To help easily understand the cost implication of any pipeline run, we offer a w
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 
-- [FAQs](./faq-pipelines)
+- [FAQs](/docs/faq-pipelines)
 

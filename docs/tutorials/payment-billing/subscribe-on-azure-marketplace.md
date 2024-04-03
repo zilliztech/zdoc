@@ -3,6 +3,7 @@ slug: /subscribe-on-azure-marketplace
 sidebar_label: Azure Marketplace
 beta: FALSE
 notebook: FALSE
+type: origin
 token: LbFXwpruviFWWokwtkhcVmnhnFh
 sidebar_position: 4
 ---
@@ -24,15 +25,15 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and start subscribing to Zilliz Cloud as follows:
 
-1. Search for **Zilliz Cloud** in the search box, or click [here](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview) to view Zilliz Cloud on Azure Marketplace.
+1. Search for __Zilliz Cloud__ in the search box, or click [here](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview) to view Zilliz Cloud on Azure Marketplace.
 
     ![search_for_zilliz_on_azure](/img/search_for_zilliz_on_azure.png)
 
-1. Click **Zilliz Cloud**.
+1. Click __Zilliz Cloud__.
 
     Familiarize yourself with the services and pricing.
 
-1. Switch to the** Plans + Pricing **tab. Click **Get it now**.
+1. Switch to the__ Plans + Pricing __tab. Click __Get it now__.
 
     ![get_it_now_on_azure](/img/get_it_now_on_azure.png)
 
@@ -40,23 +41,23 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
     ![enter_basic_information_azure](/img/enter_basic_information_azure.png)
 
-1. On the **Subscribe to Zilliz Cloud** page, complete the following steps:
+1. On the __Subscribe to Zilliz Cloud__ page, complete the following steps:
 
-    1. Configure the **Project Details**.
+    1. Configure the __Project Details__.
 
-    1. Configure the **SaaS Details**. Name your subscription to easily identify it later. Choose **On** for **Recurring Billing**.
+    1. Configure the __SaaS Details__. Name your subscription to easily identify it later. Choose __On__ for __Recurring Billing__.
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        When recurring billing is on, you will be automatically subscribed to Zilliz Cloud on Azure at the end of each month. When recurring billing is off, your subscription will end at the end of the month and your Zilliz Cloud organization and account will be automatically unlinked from this Azure Marketplace susbcription.
+        <p>When recurring billing is on, you will be automatically subscribed to Zilliz Cloud on Azure at the end of each month. When recurring billing is off, your subscription will end at the end of the month and your Zilliz Cloud organization and account will be automatically unlinked from this Azure Marketplace susbcription.</p>
 
         </Admonition>
 
-    1. Review the subscription details and click **Review+Subscribe**.
+    1. Review the subscription details and click __Review+Subscribe__.
 
     ![configure_subscription_on_azure](/img/configure_subscription_on_azure.png)
 
-1. On the next page, link your Azure Marketplace subscription to Zilliz Cloud by clicking **Configure account now**.
+1. On the next page, link your Azure Marketplace subscription to Zilliz Cloud by clicking __Configure account now__.
 
     ![configure_account_azure](/img/configure_account_azure.png)
 
@@ -70,7 +71,7 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
         ![azure_link_subscription_with_account](/img/azure_link_subscription_with_account.png)
 
-1. Go to **Billing** on Zilliz Cloud to ensure your Azure Marketplace subscription is set as your payment method.
+1. Go to __Billing__ on Zilliz Cloud to ensure your Azure Marketplace subscription is set as your payment method.
 
 ## Update Azure Marketplace subscription{#update-azure-marketplace-subscription}
 
@@ -88,7 +89,7 @@ For more information, please refer to [Change Azure subscription and/or resource
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    It takes a few minutes for Azure Marketplace to complete the cancellation process.
+    <p>It takes a few minutes for Azure Marketplace to complete the cancellation process.</p>
 
     </Admonition>
 
@@ -100,11 +101,11 @@ For more information, please refer to [Change Azure subscription and/or resource
 
 1. Open the Azure Marketplace homepage.
 
-1. Click **All resources** or find your subscription in the **Resources/Recent** tab.
+1. Click __All resources__ or find your subscription in the __Resources/Recent__ tab.
 
     ![azure_all_resources](/img/azure_all_resources.png)
 
-1. Navigate to the subscription you want to cancel. Click **Cancel subscription**. Wait for a few minutes for Azure Marketplace to complete the process.
+1. Navigate to the subscription you want to cancel. Click __Cancel subscription__. Wait for a few minutes for Azure Marketplace to complete the process.
 
     ![cancel_azure_subscription](/img/cancel_azure_subscription.png)
 

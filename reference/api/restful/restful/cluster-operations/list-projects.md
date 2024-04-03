@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 28
-slug: /list-projects
+slug: /restful/list-projects
 title: List Projects
 ---
 
@@ -94,11 +94,12 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`  | **array**<br/>A data array of objects. |
-| `data.instanceCount`   | **integer**<br/>Number of clusters in the current project. |
-| `data.projectId`   | **string**<br/>ID of the current project |
-| `data.projectName`   | **string**<br/>Name of the current project |
+| `code` | integer  <br/>  |
+| `data` | array<br/> |
+| `data[]` | object<br/> |
+| `data[].instanceCount` | integer  <br/>Number of clusters in the current project.  |
+| `data[].projectId` | string  <br/>ID of the current project  |
+| `data[].projectName` | string  <br/>Name of the current project  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -106,4 +107,3 @@ The properties in the returned response are listed in the following table.
 | Code | Error Message |
 | ---- | ------------- |
 |  | (to be added) |
-

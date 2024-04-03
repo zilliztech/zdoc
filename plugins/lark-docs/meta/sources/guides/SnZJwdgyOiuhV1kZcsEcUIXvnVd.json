@@ -1,0 +1,792 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1708676627",
+  "node_token": "SnZJwdgyOiuhV1kZcsEcUIXvnVd",
+  "node_type": "origin",
+  "obj_create_time": "1708676627",
+  "obj_edit_time": "1709450133",
+  "obj_token": "W6WedzYtvofpowxyLOVcgsauncd",
+  "obj_type": "docx",
+  "origin_node_token": "SnZJwdgyOiuhV1kZcsEcUIXvnVd",
+  "origin_space_id": "7314484612833640452",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "VBj3wFSvBiH3s4kquupcRzB9nkh",
+  "space_id": "7314484612833640452",
+  "title": "Monitoring",
+  "slug": "cdc-monitoring",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "W6WedzYtvofpowxyLOVcgsauncd",
+        "block_type": 1,
+        "children": [
+          "TL6Cds0pPoqHQIxnHGDcKMRmnnd",
+          "P6qEdqp1ioll7ExabHdcHoOsnGg",
+          "I8FwdlCs6oye6exAFhuc6KUWnne",
+          "NIGZd3je9ope1IxY4dlcfqm6nOe",
+          "K0s2dB3Zao3RjfxkzCvciyIBnyd",
+          "FyUydsKLgoN3kDxO2ghc2culn3f",
+          "Iu9jdCwjtocCkox1RkQcUk6qnHh",
+          "Nygjd9QhaoglX9xsR64cHLt0nwN",
+          "SuS9d5o83oeuwGxoQ9icYBgRnIc",
+          "Jp7ed4tJJo9UTYxbasVcpmjUnMc",
+          "MS6LdRe3uoPaQvxmpufcptNynde",
+          "XE26dYNPto5WkqxjnbbclOz5nId",
+          "SG1UdAPOaoPxM1xJPGoclGrwnPh",
+          "B5S2dg7Z9o6UElxmEMecSJ3enyd",
+          "HchWd6lncolhhRx7rjZcvZ7Qn6c",
+          "KdpjddSuqo3gcexuRp4cXoVMnmg",
+          "PU8UdmZ7ZoL7KsxCHV5cLDDEnWf"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Monitoring",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "TL6Cds0pPoqHQIxnHGDcKMRmnnd",
+        "block_type": 2,
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Milvus-CDC provides comprehensive monitoring capabilities through Grafana dashboards, allowing you to visualize key metrics and ensure the smooth operation of your Change Data Capture (CDC) tasks and server health.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "P6qEdqp1ioll7ExabHdcHoOsnGg",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Metrics for CDC tasks",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd"
+      },
+      {
+        "block_id": "I8FwdlCs6oye6exAFhuc6KUWnne",
+        "block_type": 2,
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To get started, import the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "cdc-grafana.json",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fzilliztech%2Fmilvus-cdc%2Fblob%2Fmain%2Fserver%2Fconfigs%2Fcdc-grafana.json"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " file into Grafana. This will add a dashboard specifically designed for monitoring the status of CDC tasks.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NIGZd3je9ope1IxY4dlcfqm6nOe",
+        "block_type": 2,
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CDC Grafana Dashboard Overview",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "K0s2dB3Zao3RjfxkzCvciyIBnyd",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D40180-1179%26mode%3Ddesign%26t%3DG8zM2pN2P8jKat5o-4"
+          }
+        },
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd"
+      },
+      {
+        "block_id": "FyUydsKLgoN3kDxO2ghc2culn3f",
+        "block_type": 2,
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Key Metrics Explained:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Iu9jdCwjtocCkox1RkQcUk6qnHh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Task",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Number of CDC tasks in different states, including ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Initial",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Running",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Paused",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd"
+      },
+      {
+        "block_id": "Nygjd9QhaoglX9xsR64cHLt0nwN",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Total",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Total number of requests received by Milvus-CDC.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd"
+      },
+      {
+        "block_id": "SuS9d5o83oeuwGxoQ9icYBgRnIc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Success",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Number of successful requests received by Milvus-CDC.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd"
+      },
+      {
+        "block_id": "Jp7ed4tJJo9UTYxbasVcpmjUnMc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "task num",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Number of tasks in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Initial",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Paused",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Running",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " states over time.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd"
+      },
+      {
+        "block_id": "MS6LdRe3uoPaQvxmpufcptNynde",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "task state",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": State of individual tasks.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd"
+      },
+      {
+        "block_id": "XE26dYNPto5WkqxjnbbclOz5nId",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "request count",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Number of successful and total requests",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd"
+      },
+      {
+        "block_id": "SG1UdAPOaoPxM1xJPGoclGrwnPh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "request latency",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Latency of requests through p99, average and other statistics.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd"
+      },
+      {
+        "block_id": "B5S2dg7Z9o6UElxmEMecSJ3enyd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "replicate data rate",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Replication data rate for read/write operations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd"
+      },
+      {
+        "block_id": "HchWd6lncolhhRx7rjZcvZ7Qn6c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "replicate tt lag",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Replication time lag for read/write operations.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd"
+      },
+      {
+        "block_id": "KdpjddSuqo3gcexuRp4cXoVMnmg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "api execute count",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Number of times different Milvus-CDC APIs were executed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd"
+      },
+      {
+        "block_id": "PU8UdmZ7ZoL7KsxCHV5cLDDEnWf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "center ts",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Timestamp for read/write tasks.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W6WedzYtvofpowxyLOVcgsauncd"
+      }
+    ],
+    "counts": 18
+  }
+}

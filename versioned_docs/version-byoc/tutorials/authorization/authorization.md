@@ -2,8 +2,9 @@
 slug: /authorization
 beta: FALSE
 notebook: FALSE
+type: origin
 token: HvXowwu7Xifm3nkEq3EcZBoUnob
-sidebar_position: 11
+sidebar_position: 12
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,8 +13,6 @@ import Admonition from '@theme/Admonition';
 # Authorization
 
 Topics related to role-based access control (RBAC) on your Zilliz Cloud clusters.
-
-## Contents{#contents}
 
 import DocCardList from '@theme/DocCardList';
 

@@ -3,6 +3,7 @@ slug: /question-answering-using-zilliz-cloud-and-cohere
 sidebar_label: With Cohere
 beta: FALSE
 notebook: 82_integrations_cohere.ipynb
+type: origin
 token: WjZswh3lJi6k5BkyLaNchzodnib
 sidebar_position: 3
 ---
@@ -16,7 +17,7 @@ This page illustrates how to create a question-answering system based on the SQu
 
 ## Before you start{#before-you-start}
 
-Code snippets on this page require **pymilvus**, **cohere**, **pandas**, **numpy**, and **tqdm** installed. Among these packages, **pymilvus** is the client for Zilliz Cloud. If these packages are not present on your system, run the following commands to install them:
+Code snippets on this page require __pymilvus__, __cohere__, __pandas__, __numpy__, and __tqdm__ installed. Among these packages, __pymilvus__ is the client for Zilliz Cloud. If these packages are not present on your system, run the following commands to install them:
 
 ```bash
 pip install pymilvus cohere pandas numpy tqdm openai tiktoken
@@ -66,7 +67,7 @@ To know more about the model and dataset used on this page, refer to [Cohere](ht
 
 ## Prepare dataset{#prepare-dataset}
 
-In this example, we are going to use the Stanford Question Answering Dataset (SQuAD) as our truth source for answering questions. This dataset comes in the form of a JSON file and we are going to use **pandas** to load it in.
+In this example, we are going to use the Stanford Question Answering Dataset (SQuAD) as our truth source for answering questions. This dataset comes in the form of a JSON file and we are going to use __pandas__ to load it in.
 
 ```python
 # Download the dataset
@@ -185,7 +186,7 @@ Once all the data is inserted into the Zilliz Cloud collection, we can ask the s
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Searches performed on data right after insertion might be a little slower as searching unindexed data is done in a brute-force manner. Once the new data is automatically indexed, the searches will speed up.
+<p>Searches performed on data right after insertion might be a little slower as searching unindexed data is done in a brute-force manner. Once the new data is automatically indexed, the searches will speed up.</p>
 
 </Admonition>
 

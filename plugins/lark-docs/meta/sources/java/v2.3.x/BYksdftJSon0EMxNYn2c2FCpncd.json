@@ -1,0 +1,786 @@
+{
+  "created_time": "1708420845",
+  "modified_time": "1712040940",
+  "name": "createUser()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "NX2nfYbWXlBEeyd1gQhcsnDGnQe",
+  "token": "BYksdftJSon0EMxNYn2c2FCpncd",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/BYksdftJSon0EMxNYn2c2FCpncd",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "BYksdftJSon0EMxNYn2c2FCpncd",
+        "block_type": 1,
+        "children": [
+          "YsBOdBB1HogUDoxNMkXcRsr7nOc",
+          "CYhMdXiq5oomRFxvVHQcD7DRn5b",
+          "H5VQdGAxYoDQCdxXFXncwPpsndd",
+          "NXr6ddfpjoOKEkxgeifc6j8VnFh",
+          "Pwnbd0Z2Do2eSgxnMAec3lkJnie",
+          "XRVqd4a8ioHpjDxoMT4cYEBXnPh",
+          "Pv2ud6azhoLvSYxbhoNc69ksnmd",
+          "Yh9md4KSJo7BFSxGo9TcqCpLnv5",
+          "YAaYd29n5oCFR3xBbR2c9EYRnzf",
+          "R4Pvdx7GiovvRjx2jnAcLzI6nxb",
+          "ObYDdvGv7oUpcMx1uJFcklaNnWe",
+          "NtTkdFoE9ot6XbxVTQQcdPVLntg",
+          "Wkpgd51szoXhsmxPzEqcjmotnve",
+          "Fsfadmosaor8QPxmgGtcx2m9nnu",
+          "ZLbAdIGMDoLf4Bx7ZHfc4miDnVf",
+          "HPuOdQzmGo9uv4xk8F8c6jsenLe",
+          "G3QedsYecoygQAxg34jcaszVnYb",
+          "GgsddEYbvoOqG4xZXzBc29pMntg"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "createUser()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "YsBOdBB1HogUDoxNMkXcRsr7nOc",
+        "block_type": 2,
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation creates a user.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CYhMdXiq5oomRFxvVHQcD7DRn5b",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "public void createUser(CreateUserReq request)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd"
+      },
+      {
+        "block_id": "H5VQdGAxYoDQCdxXFXncwPpsndd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd"
+      },
+      {
+        "block_id": "NXr6ddfpjoOKEkxgeifc6j8VnFh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "createUser(CreateUserReq.builder()\n    .userName(String userName)\n    .password(String password)\n    .build()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd"
+      },
+      {
+        "block_id": "Pwnbd0Z2Do2eSgxnMAec3lkJnie",
+        "block_type": 2,
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BUILDER METHODS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XRVqd4a8ioHpjDxoMT4cYEBXnPh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "userName(String roleName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "CRZSdXgx6oPsF5xOmz3c6QVrnHf"
+        ],
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd"
+      },
+      {
+        "block_id": "CRZSdXgx6oPsF5xOmz3c6QVrnHf",
+        "block_type": 2,
+        "parent_id": "XRVqd4a8ioHpjDxoMT4cYEBXnPh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the user to create.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Pv2ud6azhoLvSYxbhoNc69ksnmd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "password(String password)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Vjvedwfkso8m45xWwW7ch9uOnkg"
+        ],
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd"
+      },
+      {
+        "block_id": "Vjvedwfkso8m45xWwW7ch9uOnkg",
+        "block_type": 2,
+        "parent_id": "Pv2ud6azhoLvSYxbhoNc69ksnmd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The password of the user to create.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Yh9md4KSJo7BFSxGo9TcqCpLnv5",
+        "block_type": 2,
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YAaYd29n5oCFR3xBbR2c9EYRnzf",
+        "block_type": 2,
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "void",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "R4Pvdx7GiovvRjx2jnAcLzI6nxb",
+        "block_type": 2,
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ObYDdvGv7oUpcMx1uJFcklaNnWe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusClientExceptions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "AAthdcvBcoC1qIxQlrNcSUrrn2h"
+        ],
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd"
+      },
+      {
+        "block_id": "AAthdcvBcoC1qIxQlrNcSUrrn2h",
+        "block_type": 2,
+        "parent_id": "ObYDdvGv7oUpcMx1uJFcklaNnWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NtTkdFoE9ot6XbxVTQQcdPVLntg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd"
+      },
+      {
+        "block_id": "Wkpgd51szoXhsmxPzEqcjmotnve",
+        "block_type": 2,
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Fsfadmosaor8QPxmgGtcx2m9nnu",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.client.ConnectConfig\nimport io.milvus.v2.client.MilvusClientV2\nimport io.milvus.v2.service.rbac.request.CreateUserReq\n\n// 1. Set up a client\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ConnectConfig connectConfig = ConnectConfig.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .uri(\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "http://localhost:19530",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\")\n        .token(\"root:Milvus\")\n        .build();\n        \nMilvusClientV2 client = new MilvusClientV2(connectConfig);\n\n\n// 2. Create a user\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CreateUserReq createUserReq = CreateUserReq.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "()\n        .userName(\"test\")\n        .password(\"Zilliz@2023\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .build();",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.createUser(createUserReq);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd"
+      },
+      {
+        "block_id": "ZLbAdIGMDoLf4Bx7ZHfc4miDnVf",
+        "block_type": 2,
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HPuOdQzmGo9uv4xk8F8c6jsenLe",
+        "block_type": 2,
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G3QedsYecoygQAxg34jcaszVnYb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.client.ConnectConfig\nimport io.milvus.v2.client.MilvusClientV2\nimport io.milvus.v2.service.rbac.request.CreateUserReq\n\n// 1. Set up a client\nConnectConfig connectConfig = ConnectConfig.builder()\n        .uri(\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\")\n        .token(\"user:password\")\n        .build();\n        \nMilvusClientV2 client = new MilvusClientV2(connectConfig);\n\n\n// 2. Create a role\nCreateUserReq createUserReq = CreateUserReq.builder()\n        .userName(\"user_1\")\n        .password(\"P@ssw0rd\")\n        .build();\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.createUser(createUserReq);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd"
+      },
+      {
+        "block_id": "GgsddEYbvoOqG4xZXzBc29pMntg",
+        "block_type": 2,
+        "parent_id": "BYksdftJSon0EMxNYn2c2FCpncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 22
+  },
+  "slug": "Authentication-createUser"
+}

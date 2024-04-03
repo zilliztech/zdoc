@@ -1,3 +1,11 @@
+---
+slug: /go/client.InsertRows()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 1
+displayed_sidebar: goSidebar
+---
+
 # InsertRows()
 
 Inserts entities into a specified collection in a list of rows.

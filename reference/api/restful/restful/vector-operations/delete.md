@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 13
-slug: /delete
+slug: /restful/delete
 title: Delete
 ---
 
@@ -104,25 +104,24 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `dbName`  | **string**<br/>The name of the database.|
-| `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
-| `id`  | **string**(required)<br/>The ID of the entity to be retrieved|
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `id` | string  <br/>The ID of the entity to be retrieved  |
 
 ```json
 {
     "dbName": "string",
     "collectionName": "string",
-    "id": [
-        {}
-    ]
+    "id": []
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `dbName`  | **string**<br/>The name of the database.|
-| `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
-| `id`  | **array**(required)<br/>An array of IDs of the entities to be retrieved|
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `id` | array<br/>An array of IDs of the entities to be retrieved |
+| `id[]` | string  <br/>  |
 
 ```json
 {
@@ -134,25 +133,24 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `dbName`  | **string**<br/>The name of the database.|
-| `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
-| `id`  | **integer**(required)<br/>The ID of the entity to be retrieved|
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `id` | integer  <br/>The ID of the entity to be retrieved  |
 
 ```json
 {
     "dbName": "string",
     "collectionName": "string",
-    "id": [
-        {}
-    ]
+    "id": []
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `dbName`  | **string**<br/>The name of the database.|
-| `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
-| `id`  | **array**(required)<br/>An array of IDs of the entities to be retrieved|
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `id` | array<br/>An array of IDs of the entities to be retrieved |
+| `id[]` | integer  <br/>  |
 
 ## Response
 
@@ -184,8 +182,8 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
+| `code` | integer  <br/>  |
+| `data` | object<br/> |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -210,4 +208,3 @@ The properties in the returned response are listed in the following table.
 | 90132 | No delete content provided. |
 | 90139 | Type mismatch for field 'xxx'. expected type:xxx |
 | 90140 | The number of elements in parameter 'id' should not exceed 100. |
-

@@ -1,0 +1,491 @@
+{
+  "created_time": "1704448312",
+  "modified_time": "1708506779",
+  "name": "commit()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "Yhy1fHTMnlLKvydKzsIcnfPdnmb",
+  "token": "VccVd4MTgoPzCixDVtgcEoKWnPf",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/VccVd4MTgoPzCixDVtgcEoKWnPf",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "VccVd4MTgoPzCixDVtgcEoKWnPf",
+        "block_type": 1,
+        "children": [
+          "GNt3dWrlkoEu3bx4QMOcKjYnnud",
+          "JqYBdtA2Wo0240xzA3ZcB68JnRg",
+          "LZvtdjTlFoV0lgxFIb5cNLWCnIg",
+          "TtA5dMyGIoPbNJxgEgtc4B5pnRe",
+          "BSHZdE8gcopqT0xcY7PcvVSNngk",
+          "Uu5jd3aKcocymcxSlYIcLlZ3nlL",
+          "JUHmdetIdotmEaxZCUhcBMLEnlb",
+          "SefsduCpNotYeTx4Wshc8700neh",
+          "JhdjdoYmGoukFQxBLjCc3RMnn1d",
+          "NHP7dEclOo0MBFxQnqKc8dbcnWc",
+          "HMPadnkKgoFJI3xa0THcjoV8nIg"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "commit()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "GNt3dWrlkoEu3bx4QMOcKjYnnud",
+        "block_type": 2,
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation commits the appended data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JqYBdtA2Wo0240xzA3ZcB68JnRg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
+      },
+      {
+        "block_id": "LZvtdjTlFoV0lgxFIb5cNLWCnIg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "commit(\n    **kwargs\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
+      },
+      {
+        "block_id": "TtA5dMyGIoPbNJxgEgtc4B5pnRe",
+        "block_type": 2,
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BSHZdE8gcopqT0xcY7PcvVSNngk",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "kwargs",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "HwEZdO4WdoSw62xkGJ8cHIZCnab"
+        ],
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
+      },
+      {
+        "block_id": "HwEZdO4WdoSw62xkGJ8cHIZCnab",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "call_back",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (function)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "JSCcdgxKVo1fKVxauyRcBLJLn6g",
+          "RZ7odxdT0oCPtRxQ8GQcgsTDnxw"
+        ],
+        "parent_id": "BSHZdE8gcopqT0xcY7PcvVSNngk"
+      },
+      {
+        "block_id": "JSCcdgxKVo1fKVxauyRcBLJLn6g",
+        "block_type": 2,
+        "parent_id": "HwEZdO4WdoSw62xkGJ8cHIZCnab",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A callback function to call after this operation is completed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RZ7odxdT0oCPtRxQ8GQcgsTDnxw",
+        "block_type": 2,
+        "parent_id": "HwEZdO4WdoSw62xkGJ8cHIZCnab",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", indicating no callback is there to call. Use this to add post-commit actions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Uu5jd3aKcocymcxSlYIcLlZ3nlL",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
+      },
+      {
+        "block_id": "JUHmdetIdotmEaxZCUhcBMLEnlb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import (\n    CollectionSchema, \n    FieldSchema, \n    RemoteBulkWriter, \n    DataType, \n    BulkFileType\n)\n\n# Set up a schema\nschema = CollectionSchema(fields=[\n    FieldSchema(name=\"id\", dtype=DataType.INT64, is_primary=True),\n    FieldSchema(name=\"vector\", dtype=DataType.FLOAT_VECTOR, dim=5),\n    ]\n)\n\n# Set up bucket connection parameters\nconnect_param = RemoteBulkWriter.ConnectParam(\n    endpoint=\"storage.googleapis.com\", # use 's3.amazonaws.com' for AWS\n    access_key=\"ACCESS_KEY\",\n    secret_key=\"SECRET_KEY\",\n    bucket_name=\"BUCKET_NAME\",\n    secure=True,\n)\n\n# Set up a remote bulk writer\nwriter = RemoteBulkWriter(\n    schema=schema,\n    connect_param=connect_param,\n    local_path=\"/tmp/output\",\n)\n\n# Append a row to the writer\nwriter.append_row(\n    {\"id\": 0, \"vector\": [0.1, 0.4, -0.8, -0.2, 0.4]}\n)\n\n# Commit the appended data\ndef callback():\n    print(\"Commit completes\")\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "writer.commit(call_back=callback)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
+      },
+      {
+        "block_id": "SefsduCpNotYeTx4Wshc8700neh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related classes and methods",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
+      },
+      {
+        "block_id": "JhdjdoYmGoukFQxBLjCc3RMnn1d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "append_row()",
+                "token": "F1MFdP8VvoMu17x4Vg9cH6ztnqb",
+                "url": "https://zilliverse.feishu.cn/docx/F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
+      },
+      {
+        "block_id": "NHP7dEclOo0MBFxQnqKc8dbcnWc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "AzureConnectParam",
+                "token": "C2YSddNqZoDNmNxWqqEcuzhKn4f",
+                "url": "https://zilliverse.feishu.cn/docx/C2YSddNqZoDNmNxWqqEcuzhKn4f"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
+      },
+      {
+        "block_id": "HMPadnkKgoFJI3xa0THcjoV8nIg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "S3ConnectParam",
+                "token": "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
+                "url": "https://zilliverse.feishu.cn/docx/CSpOd0XgWoVAhzx5xbVcpCVfnPg"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
+      }
+    ],
+    "counts": 15
+  },
+  "slug": "RemoteBulkWriter-commit"
+}

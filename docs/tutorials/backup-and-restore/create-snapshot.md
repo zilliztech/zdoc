@@ -2,6 +2,7 @@
 slug: /create-snapshot
 beta: FALSE
 notebook: FALSE
+type: origin
 token: HHXewT7wTiM1zqkySjHcMNX5n9b
 sidebar_position: 1
 ---
@@ -15,7 +16,7 @@ Snapshots are point-of-time backup copies of a managed cluster on Zilliz Cloud. 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Snapshots are supported only for the **Standard** and **Enterprise** tiers. If your cluster runs on the **Serverless** tier, upgrade it first. For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
+<p>Snapshots are supported only for the <strong>Standard</strong> and <strong>Enterprise</strong> tiers. If your cluster runs on the <strong>Serverless</strong> tier, upgrade it first. For more information on cluster types, see <a href="./select-zilliz-cloud-service-plans">Select Cluster Plans</a>.</p>
 
 </Admonition>
 
@@ -29,11 +30,11 @@ You can take a snapshot of your cluster based on the following figure. Your clus
 
 ## Adjust snapshot retention period{#adjust-snapshot-retention-period}
 
-You can determine how long Zilliz Cloud keeps your snapshot by setting **Retention Period** in days. Currently, the default retention period is 7 days, with a maximum of 30 days.
+You can determine how long Zilliz Cloud keeps your snapshot by setting __Retention Period__ in days. Currently, the default retention period is 7 days, with a maximum of 30 days.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Data transfer used to create the snapshots is separately charged at the rate of **$0.025/GB**. For example, a 20 GB snapshot will incur a one-time data transfer charge of **$0.025 x 20 = $0.5**. Currently, a snapshot can live on Zilliz Cloud for up to 30 days free of charge.
+<p>Data transfer used to create the snapshots is separately charged at the rate of <strong>$0.025/GB</strong>. For example, a 20 GB snapshot will incur a one-time data transfer charge of <strong>$0.025 x 20 = $0.5</strong>. Currently, a snapshot can live on Zilliz Cloud for up to 30 days free of charge.</p>
 
 </Admonition>
 

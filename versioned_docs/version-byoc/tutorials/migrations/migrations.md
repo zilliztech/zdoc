@@ -2,8 +2,9 @@
 slug: /migrations
 beta: FALSE
 notebook: FALSE
+type: origin
 token: IeNswy8ySiutKAkdphRc4lfynsf
-sidebar_position: 7
+sidebar_position: 8
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,8 +13,6 @@ import Admonition from '@theme/Admonition';
 # Migrations
 
 You can migrate your data from self-hosted Milvus, Elasticsearch, and even between Zilliz Cloud clusters.
-
-## Contents{#contents}
 
 import DocCardList from '@theme/DocCardList';
 

@@ -1,0 +1,2249 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": false,
+  "node_create_time": "1693553299",
+  "node_token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
+  "node_type": "origin",
+  "obj_create_time": "1693553299",
+  "obj_edit_time": "1711617951",
+  "obj_token": "FNlcdU22Loec6BxE8uEcjFK9npd",
+  "obj_type": "docx",
+  "origin_node_token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
+  "space_id": "7167193056431783939",
+  "title": "Email Accounts",
+  "slug": "email-accounts",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "FNlcdU22Loec6BxE8uEcjFK9npd",
+        "block_type": 1,
+        "children": [
+          "SGmZdgOUioKHM7x8xTLcK4DvnVf",
+          "BbftdtLNvoORwbxGxXocqGlbnkh",
+          "Z7jrdJtyvoQS3YxJEDjcUdznnZe",
+          "SldKdLjDxoLfa5xso2LcqFotncf",
+          "TNQUduPzNoqPMWx6tgbcGSwMn8b",
+          "DIdPdzixJo4GM3xP6Umcb1PinKg",
+          "CIHDdy38ioYpICxkR4EcYAm9n0g",
+          "XS5Cd4wKxo6Pa9xhHK6c6Mm2n8e",
+          "XA81dBxwmo7F2OxL5XucoQrUnye",
+          "BaKAdzSpwoBsf4xdgylcDXLRndg",
+          "QKhodSPViokOu0xOURvc4cunnhe",
+          "J2SKdU5E0oiMcjxSQSNcjbTCn4e",
+          "SDBNd0UC8o3QPQxHNX0c3XqHnRc",
+          "AsKBdXCnQoPU4Jxca0fcncMznVc",
+          "LyN0dDTT9oQypgxvw2uc3WlknGf",
+          "LuvtdRV5ToXxzJxKWpDclSIQn0f",
+          "Pad2d4wrJoRGv9xKI4SczowmnNe",
+          "P36ndicTroeTl4xvq0Lcsz4in4b",
+          "L3z0dqsqco7EWRxzqVHcN89Rn5b",
+          "D7vbdWGpgoQR1txfeo9cKIzLnJf",
+          "YMKMdbwdxoHqHDxLwQfcRptjnEd",
+          "XZDedIjeNoUZlBx0CApcJJ2Vnxe",
+          "RMy9dY8xjojnlBx6Felcg35SnLh",
+          "W8cpdX8wHoDJUnxSZXLcae55nrd",
+          "MwX6drT5AoYKXlxCZ63cFPShnbf",
+          "P3KSd1XhDoZz4GxvQy9cR1AvnOb",
+          "NigKdUpYno1pEyxAUyGczeOBnJg",
+          "WbcKdNTRwobpI0xnYshc7E9En7c",
+          "QeppdatkcowsHBx5i8pcN0OwnFd",
+          "XzmKdQz6PoaMXMxCuvKcuTWvnqg",
+          "E4x9dvlgloOahhxlfTNcy1opnEd",
+          "KQNAdsWBIoCC6GxGxF6cPCkkn4d",
+          "H29RdLb81ooBp2xxEOecOxAFnxe",
+          "Byekd6bLIoyg0fxal4AcUjGnnsd",
+          "SjlUdDhSEo3ZXOxCpcKcZAKenYd",
+          "UZFEdujhDoNevNx9Rf6cpurUnnd",
+          "BupwdkmeCoa9brxbq06cxX1MnPf",
+          "IoMydaptQo4RDnxB5NScrsbYnad",
+          "ShJWdCsq7oF7BsxsScrctT8OnGf",
+          "OYVSdMEqiof3dIxfJbrcpzZjnrb",
+          "VIBHdYqLQoyivQxZLuacmwxEnRg",
+          "D3JpdDrcNoLCs0xpvUscTWlfnXf",
+          "GrF8dEY50oxPGmxhXfocRG4cnwc",
+          "WpNSdjXVRorCnbxEIsTckzATneb",
+          "PKlJdiilWovXdcxomqecrNjdnIc",
+          "Ydcqd8nvCou2UyxHCDNcLCe2nVC",
+          "S1oIdNjKAozFJ0xeO0NcLkAjnZc",
+          "CW7ZdGOrioWqIfxiirRc4hRPnr8",
+          "M9widwDdRofmHXxu0y4c29UXnle",
+          "JFRqdrHcGoOBHAxSGIbcs3k6ndd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Email",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Account",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "s",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "SGmZdgOUioKHM7x8xTLcK4DvnVf",
+        "block_type": 2,
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once you have ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "registered an account",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FHriHwEU3qiQrgskz3a0cdkcpnyf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "with",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BbftdtLNvoORwbxGxXocqGlbnkh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Modify your account information",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "Z7jrdJtyvoQS3YxJEDjcUdznnZe",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Go to your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Profile",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Account Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "SldKdLjDxoLfa5xso2LcqFotncf",
+        "block_type": 13,
+        "children": [
+          "KScbd2jflouKcTxUA5pcCkxzn0d",
+          "FaifdVTiCoA6ABxvUB1cfvW9nWf",
+          "Oi5bdz7OHoiYXmxZJPyc3qomnRf"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click the pencil icon next to the Account section to edit the following account information:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "KScbd2jflouKcTxUA5pcCkxzn0d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "First Name and Last Name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SldKdLjDxoLfa5xso2LcqFotncf"
+      },
+      {
+        "block_id": "FaifdVTiCoA6ABxvUB1cfvW9nWf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Company ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SldKdLjDxoLfa5xso2LcqFotncf"
+      },
+      {
+        "block_id": "Oi5bdz7OHoiYXmxZJPyc3qomnRf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Country",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SldKdLjDxoLfa5xso2LcqFotncf"
+      },
+      {
+        "block_id": "TNQUduPzNoqPMWx6tgbcGSwMn8b",
+        "block_type": 34,
+        "children": [
+          "JIM6dn2NGoubn0xDYqWc9Z6EnOc",
+          "I6NTdgKYOoxyHUx7QcGcBq0pnWb"
+        ],
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd",
+        "quote_container": {}
+      },
+      {
+        "block_id": "JIM6dn2NGoubn0xDYqWc9Z6EnOc",
+        "block_type": 2,
+        "parent_id": "TNQUduPzNoqPMWx6tgbcGSwMn8b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I6NTdgKYOoxyHUx7QcGcBq0pnWb",
+        "block_type": 2,
+        "comment_ids": [
+          "7311314126712832003"
+        ],
+        "parent_id": "TNQUduPzNoqPMWx6tgbcGSwMn8b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Direct modification of the account's email address is not available.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " If you need to change your email, refer to our guide",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "FAQs",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Ffaq-account"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DIdPdzixJo4GM3xP6Umcb1PinKg",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D17058-533%26mode%3Ddesign%26t%3DH1TA3QUFdIqvLTC9-4"
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "CIHDdy38ioYpICxkR4EcYAm9n0g",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Switch login method",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "XS5Cd4wKxo6Pa9xhHK6c6Mm2n8e",
+        "block_type": 2,
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Maintaining a consistent login method with your initial registration is required, but Zilliz Cloud offers flexibility if you need to switch your login method.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XA81dBxwmo7F2OxL5XucoQrUnye",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Switch from password login to third-party login",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "BaKAdzSpwoBsf4xdgylcDXLRndg",
+        "block_type": 2,
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To switch from password to third-party (Google or GitHub) login, follow the same steps for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "linking your Zilliz Cloud account to a third-party service",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FHriHwEU3qiQrgskz3a0cdkcpnyf%23YbvMdD1wRosc9xxhmBwcKnbcnIc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ensuring that ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "MFA is disabled",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FKHAMwm0HUiU6qdkH2LOcu0FFnug%23EFLCdZhDdoOp8qx48rmcLG8RnXg"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " beforehand.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QKhodSPViokOu0xOURvc4cunnhe",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Switch from third-party login to password login",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "J2SKdU5E0oiMcjxSQSNcjbTCn4e",
+        "block_type": 2,
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To revert to using an email and password for login after linking your Zilliz Cloud account to a third-party account, simply ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "unlink your Zilliz Cloud account from the third-party service",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FGMdhwQQCRi2QaLkimNOcc3qNnbh%23Pad2d4wrJoRGv9xKI4SczowmnNe"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SDBNd0UC8o3QPQxHNX0c3XqHnRc",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Switch between third-party logins",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "AsKBdXCnQoPU4Jxca0fcncMznVc",
+        "block_type": 2,
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you have already linked your Zilliz Cloud account with a third-party account and wish to switch to another third-party login, you can follow the following instructions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LyN0dDTT9oQypgxvw2uc3WlknGf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unlink from the current third-party account",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FGMdhwQQCRi2QaLkimNOcc3qNnbh%23Pad2d4wrJoRGv9xKI4SczowmnNe"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "LuvtdRV5ToXxzJxKWpDclSIQn0f",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Link your Zilliz Cloud account to the new desired third-party account",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FHriHwEU3qiQrgskz3a0cdkcpnyf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "Pad2d4wrJoRGv9xKI4SczowmnNe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unlink from third-party authentication",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "P36ndicTroeTl4xvq0Lcsz4in4b",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unlink from your Google account",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "L3z0dqsqco7EWRxzqVHcN89Rn5b",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Go to your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Profile",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Account Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "D7vbdWGpgoQR1txfeo9cKIzLnJf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Unlink from Google",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "YMKMdbwdxoHqHDxLwQfcRptjnEd",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Read the information in the dialog box and click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Confirm",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "XZDedIjeNoUZlBx0CApcJJ2Vnxe",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set a new password via the link sent to your email.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "RMy9dY8xjojnlBx6Felcg35SnLh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Your login method is now set to your work email and the new password.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "W8cpdX8wHoDJUnxSZXLcae55nrd",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D17190-553%26mode%3Ddesign%26t%3DzmVL7cw74ALDBcDH-4"
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "MwX6drT5AoYKXlxCZ63cFPShnbf",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unlink from your Git",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "H",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ub account",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "P3KSd1XhDoZz4GxvQy9cR1AvnOb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Go to your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Profile",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Account Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "NigKdUpYno1pEyxAUyGczeOBnJg",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Unlink from GitHub",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "WbcKdNTRwobpI0xnYshc7E9En7c",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Read the information in the dialog box and click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Confirm",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "QeppdatkcowsHBx5i8pcN0OwnFd",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set a new password via the link sent to your email.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "XzmKdQz6PoaMXMxCuvKcuTWvnqg",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Your login method is now set to your work email and the new password.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "E4x9dvlgloOahhxlfTNcy1opnEd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Delete your account",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "KQNAdsWBIoCC6GxGxF6cPCkkn4d",
+        "block_type": 34,
+        "children": [
+          "OYGLdGRgioeYzBxPYRhcVrHjnme",
+          "ZxHgdVnE4oRks0xbBUTc2SrLnVU"
+        ],
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd",
+        "quote_container": {}
+      },
+      {
+        "block_id": "OYGLdGRgioeYzBxPYRhcVrHjnme",
+        "block_type": 2,
+        "parent_id": "KQNAdsWBIoCC6GxGxF6cPCkkn4d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "🚧 Warning",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZxHgdVnE4oRks0xbBUTc2SrLnVU",
+        "block_type": 2,
+        "parent_id": "KQNAdsWBIoCC6GxGxF6cPCkkn4d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Deleting your account is irreversible. Exercise caution and ensure all necessary preparations are made before proceeding with this action.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "H29RdLb81ooBp2xxEOecOxAFnxe",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "Byekd6bLIoyg0fxal4AcUjGnnsd",
+        "block_type": 2,
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ensure you meet the following criteria before proceeding:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SjlUdDhSEo3ZXOxCpcKcZAKenYd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you are the only project owner in a project with clusters, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "delete the project clusters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FPharwAysCiBzvgkuqqecmNzunQf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "UZFEdujhDoNevNx9Rf6cpurUnnd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you are the only organization owner, delete the organization.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "BupwdkmeCoa9brxbq06cxX1MnPf",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Procedures",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "IoMydaptQo4RDnxB5NScrsbYnad",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Log in to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.zilliz.com%2Flogin"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "ShJWdCsq7oF7BsxsScrctT8OnGf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click the profile icon in the upper right corner. Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Account Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "OYVSdMEqiof3dIxfJbrcpzZjnrb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Account",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Settings ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "window, click the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Delete Account",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " button.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "VIBHdYqLQoyivQxZLuacmwxEnRg",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before confirming to delete your account, fill out the feedback form first. Click the button to proceed with the deletion.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "D3JpdDrcNoLCs0xpvUscTWlfnXf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enter your account email address again in the text box. Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Send Verification Code",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and enter the code you received in your email inbox. Read the information below and tick the boxes. Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Next",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to continue.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "GrF8dEY50oxPGmxhXfocRG4cnwc",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You will receive an email notification when your account is successfully deleted.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "WpNSdjXVRorCnbxEIsTckzATneb",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D9167-1477%26mode%3Ddesign%26t%3D8mObjTO11svW2v8a-4"
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "PKlJdiilWovXdcxomqecrNjdnIc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "Ydcqd8nvCou2UyxHCDNcLCe2nVC",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Organization Information",
+                "token": "BX8nwr7eHiZY3CkHnuYcGCj1n4e",
+                "url": "https://zilliverse.feishu.cn/wiki/BX8nwr7eHiZY3CkHnuYcGCj1n4e"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "S1oIdNjKAozFJ0xeO0NcLkAjnZc",
+        "block_type": 2,
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CW7ZdGOrioWqIfxiirRc4hRPnr8",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Delete Your Organization",
+                "token": "OCc5wCndbipOkzk8tkUc9IuJnle",
+                "url": "https://zilliverse.feishu.cn/wiki/OCc5wCndbipOkzk8tkUc9IuJnle"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      },
+      {
+        "block_id": "M9widwDdRofmHXxu0y4c29UXnle",
+        "block_type": 2,
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JFRqdrHcGoOBHAxSGIbcs3k6ndd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "View Activities",
+                "token": "UfqGwAVleiNu7FkH28JcnlgOnpf",
+                "url": "https://zilliverse.feishu.cn/wiki/UfqGwAVleiNu7FkH28JcnlgOnpf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FNlcdU22Loec6BxE8uEcjFK9npd"
+      }
+    ],
+    "counts": 58
+  }
+}

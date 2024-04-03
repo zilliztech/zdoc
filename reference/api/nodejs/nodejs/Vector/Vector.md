@@ -3,6 +3,7 @@ slug: /nodejs/vector
 beta: FALSE
 notebook: FALSE
 sidebar_position: 1
+displayed_sidebar: nodejsSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 The vector API provides a simple and efficient way to interact with vector embeddings in a Zilliz Cloud collection.
 
-
+## Contents
 
 import DocCardList from '@theme/DocCardList';
 

@@ -1,0 +1,556 @@
+{
+  "created_time": "1704424220",
+  "modified_time": "1704424480",
+  "name": "BulkInsertState",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "BvYKfbpMUlczBxdyBvEc5Gb3nfb",
+  "token": "Arn1dIKgwoISFoxT7xVc3UrBnAf",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/Arn1dIKgwoISFoxT7xVc3UrBnAf",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Arn1dIKgwoISFoxT7xVc3UrBnAf",
+        "block_type": 1,
+        "children": [
+          "THFJdGdcqoL8qnxswhicgkpYncd",
+          "JS0VdoSv4orCihxFn9GcPif1nRf",
+          "MDswdh1RPoiXz9xu8s0cYppDn9g",
+          "YEd4dKYB2ou6vOxRJ0wcydFlnfe",
+          "UITVdfO9XobVJjxcfn2cK9r5nMf",
+          "EolSdQQVBoAW1LxrJe2cHThIn6g",
+          "Sr5Idncs5o3CIHxQG1Sc7UFjnue",
+          "BmIZd7cnKoYQTWxTx9bcZxjwnPc",
+          "NfmKdxcf0olnXfx178ecqiX3nZf"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BulkInsertState",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "THFJdGdcqoL8qnxswhicgkpYncd",
+        "block_type": 2,
+        "parent_id": "Arn1dIKgwoISFoxT7xVc3UrBnAf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This is an enumeration that provides the following constants.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JS0VdoSv4orCihxFn9GcPif1nRf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Constants",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Arn1dIKgwoISFoxT7xVc3UrBnAf"
+      },
+      {
+        "block_id": "MDswdh1RPoiXz9xu8s0cYppDn9g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportPending",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " = 0",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "FsfyduHQFoqkZqxfXq8chLD9nJh"
+        ],
+        "parent_id": "Arn1dIKgwoISFoxT7xVc3UrBnAf"
+      },
+      {
+        "block_id": "FsfyduHQFoqkZqxfXq8chLD9nJh",
+        "block_type": 2,
+        "parent_id": "MDswdh1RPoiXz9xu8s0cYppDn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Indicates that the bulk-insert task is pending.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YEd4dKYB2ou6vOxRJ0wcydFlnfe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportFailed",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " = 1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "MqYld2ztbonJhOx6g6fc14PUnug"
+        ],
+        "parent_id": "Arn1dIKgwoISFoxT7xVc3UrBnAf"
+      },
+      {
+        "block_id": "MqYld2ztbonJhOx6g6fc14PUnug",
+        "block_type": 2,
+        "parent_id": "YEd4dKYB2ou6vOxRJ0wcydFlnfe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Indicates that the bulk-insert task failed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UITVdfO9XobVJjxcfn2cK9r5nMf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportStarted",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " = 2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "HXeydlsItonj05xFl2jcTt6GnYd"
+        ],
+        "parent_id": "Arn1dIKgwoISFoxT7xVc3UrBnAf"
+      },
+      {
+        "block_id": "HXeydlsItonj05xFl2jcTt6GnYd",
+        "block_type": 2,
+        "parent_id": "UITVdfO9XobVJjxcfn2cK9r5nMf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Indicates that the bulk-insert task has started.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EolSdQQVBoAW1LxrJe2cHThIn6g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportPersisted",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " = 5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "EHMgdpiMco5vAxxO26pc4RcPnoh"
+        ],
+        "parent_id": "Arn1dIKgwoISFoxT7xVc3UrBnAf"
+      },
+      {
+        "block_id": "EHMgdpiMco5vAxxO26pc4RcPnoh",
+        "block_type": 2,
+        "parent_id": "EolSdQQVBoAW1LxrJe2cHThIn6g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Indicates that the bulk-insert task has been persisted.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Sr5Idncs5o3CIHxQG1Sc7UFjnue",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportCompleted",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " = 6",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "KxlsdLuiJoSEP1x1AgQcrFODnLe"
+        ],
+        "parent_id": "Arn1dIKgwoISFoxT7xVc3UrBnAf"
+      },
+      {
+        "block_id": "KxlsdLuiJoSEP1x1AgQcrFODnLe",
+        "block_type": 2,
+        "parent_id": "Sr5Idncs5o3CIHxQG1Sc7UFjnue",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Indicates that the bulk-insert task is completed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BmIZd7cnKoYQTWxTx9bcZxjwnPc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportFailedAndCleaned",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " = 7",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "R1s2dJhjtonROHx7barcQZqunad"
+        ],
+        "parent_id": "Arn1dIKgwoISFoxT7xVc3UrBnAf"
+      },
+      {
+        "block_id": "R1s2dJhjtonROHx7barcQZqunad",
+        "block_type": 2,
+        "parent_id": "BmIZd7cnKoYQTWxTx9bcZxjwnPc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Indicates that the bulk-insert task failed with data cleaned.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NfmKdxcf0olnXfx178ecqiX3nZf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportUnknownState",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " = 100",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "FKFDds7uIos8VGxO0XNchpwVnuc"
+        ],
+        "parent_id": "Arn1dIKgwoISFoxT7xVc3UrBnAf"
+      },
+      {
+        "block_id": "FKFDds7uIos8VGxO0XNchpwVnuc",
+        "block_type": 2,
+        "parent_id": "NfmKdxcf0olnXfx178ecqiX3nZf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Indicates that the bulk-insert task is in an unknown state.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 17
+  },
+  "slug": "utility-BulkInsertState"
+}

@@ -1,3 +1,11 @@
+---
+slug: /nodejs/vector.query()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 2
+displayed_sidebar: nodejsSidebar
+---
+
 # query()
 
 Queries entities that meet specific criteria in a collection.

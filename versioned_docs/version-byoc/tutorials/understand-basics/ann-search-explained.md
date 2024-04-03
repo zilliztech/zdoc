@@ -2,6 +2,7 @@
 slug: /ann-search-explained
 beta: FALSE
 notebook: FALSE
+type: origin
 token: CWHGw3g9Ui9GEHkjhu2cHBOInXf
 sidebar_position: 4
 ---
@@ -63,4 +64,4 @@ Once the index is ready, the search goes as follows:
 
 1. Perform cached_beam_search with the query set for each given parameter L, and output statistics such as recall rate and QPS. Warmup and hotspot data statistics are not included in query time.
 
-For details, refer to [DiskANN, A Disk-based ANNS Solution with High Recall and High QPS on Billion-scale Dataset](https://milvus.io/blog/2021-09-24-diskann.md)**.**
+For details, refer to [DiskANN, A Disk-based ANNS Solution with High Recall and High QPS on Billion-scale Dataset](https://milvus.io/blog/2021-09-24-diskann.md)__.__

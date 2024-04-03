@@ -1,0 +1,475 @@
+{
+  "created_time": "1704448003",
+  "modified_time": "1708506760",
+  "name": "append_row()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "Yhy1fHTMnlLKvydKzsIcnfPdnmb",
+  "token": "F1MFdP8VvoMu17x4Vg9cH6ztnqb",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/F1MFdP8VvoMu17x4Vg9cH6ztnqb",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb",
+        "block_type": 1,
+        "children": [
+          "AojudLx6zojYWhxojtDcAAWRnGe",
+          "DO7Od4HXEoOzUYxirdkcnXn9n0c",
+          "DmoPdVFBKoeOASxNNjfcjLjInVe",
+          "NvGfdBBE3oEeCZxrKfWcNgEsn3e",
+          "DiSpdJ12To8ncfxjmOwcoBR9n1c",
+          "SPuedGMYWohNMMx8Gc2cbvZTnYc",
+          "XNkfd58nio3JTPxYylkcpHXpnfd",
+          "TEYxdRBw7ospPFx7WKYcPJxInNe",
+          "Vvw6dkiNno9GkVxiV7tcLncrnae",
+          "PVFxdXfJeoPgdAxxjgwcn1r4n4g",
+          "RHS7d9cmpo4y4jxCuGwcgHcHnGh"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "append_row()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "AojudLx6zojYWhxojtDcAAWRnGe",
+        "block_type": 2,
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation appends records to the writer.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DO7Od4HXEoOzUYxirdkcnXn9n0c",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+      },
+      {
+        "block_id": "DmoPdVFBKoeOASxNNjfcjLjInVe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "append_row(\n    row: dict\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+      },
+      {
+        "block_id": "NvGfdBBE3oEeCZxrKfWcNgEsn3e",
+        "block_type": 2,
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DiSpdJ12To8ncfxjmOwcoBR9n1c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "row",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "dict",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "SOn2dudm5oQ32MxBUQCcxObwndh",
+          "RYbSdAOMkoK1Dnxb0BDcirsGnfb"
+        ],
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+      },
+      {
+        "block_id": "SOn2dudm5oQ32MxBUQCcxObwndh",
+        "block_type": 2,
+        "parent_id": "DiSpdJ12To8ncfxjmOwcoBR9n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A dictionary representing an entity to be appended.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RYbSdAOMkoK1Dnxb0BDcirsGnfb",
+        "block_type": 2,
+        "parent_id": "DiSpdJ12To8ncfxjmOwcoBR9n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The keys and their values in the dictionary should match the schema referenced in the current ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "LocalBulkWriter",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SPuedGMYWohNMMx8Gc2cbvZTnYc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+      },
+      {
+        "block_id": "XNkfd58nio3JTPxYylkcpHXpnfd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import (\n    CollectionSchema, \n    FieldSchema, \n    RemoteBulkWriter, \n    DataType, \n    BulkFileType\n)\n\n# Set up a schema\nschema = CollectionSchema(fields=[\n    FieldSchema(name=\"id\", dtype=DataType.INT64, is_primary=True),\n    FieldSchema(name=\"vector\", dtype=DataType.FLOAT_VECTOR, dim=5),\n    ]\n)\n\n# Set up bucket connection parameters\nconnect_param = RemoteBulkWriter.ConnectParam(\n    endpoint=\"storage.googleapis.com\", # use 's3.amazonaws.com' for AWS\n    access_key=\"ACCESS_KEY\",\n    secret_key=\"SECRET_KEY\",\n    bucket_name=\"BUCKET_NAME\",\n    secure=True,\n)\n\n# Set up a remote bulk writer\nwriter = RemoteBulkWriter(\n    schema=schema,\n    connect_param=connect_param,\n    local_path=\"/tmp/output\",\n)\n\n# Append a row to the writer\nwriter.append_row(\n    {\"id\": 0, \"vector\": [0.1, 0.4, -0.8, -0.2, 0.4]}\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+      },
+      {
+        "block_id": "TEYxdRBw7ospPFx7WKYcPJxInNe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related classes and methods",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+      },
+      {
+        "block_id": "Vvw6dkiNno9GkVxiV7tcLncrnae",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "commit()",
+                "token": "VccVd4MTgoPzCixDVtgcEoKWnPf",
+                "url": "https://zilliverse.feishu.cn/docx/VccVd4MTgoPzCixDVtgcEoKWnPf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+      },
+      {
+        "block_id": "PVFxdXfJeoPgdAxxjgwcn1r4n4g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "AzureConnectParam",
+                "token": "C2YSddNqZoDNmNxWqqEcuzhKn4f",
+                "url": "https://zilliverse.feishu.cn/docx/C2YSddNqZoDNmNxWqqEcuzhKn4f"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+      },
+      {
+        "block_id": "RHS7d9cmpo4y4jxCuGwcgHcHnGh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "S3ConnectParam",
+                "token": "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
+                "url": "https://zilliverse.feishu.cn/docx/CSpOd0XgWoVAhzx5xbVcpCVfnPg"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+      }
+    ],
+    "counts": 14
+  },
+  "slug": "RemoteBulkWriter-append_row"
+}

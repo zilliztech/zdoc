@@ -1,8 +1,9 @@
 ---
 slug: /understanding-pipelines
-beta: TRUE
+beta: FALSE
 notebook: FALSE
-token: Z2MUw8RaRiwlm4kGXAGcI6ybnFA
+type: origin
+token: WOVmwtcwPiSlLekwzQncTGEhnWg
 sidebar_position: 1
 ---
 
@@ -37,7 +38,7 @@ The INDEX_DOC function splits the input text document into chunks and generates 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-An Ingestion pipeline requires one and only one INDEX_DOC function.
+<p>An Ingestion pipeline requires one and only one INDEX_DOC function.</p>
 
 </Admonition>
 
@@ -81,11 +82,11 @@ For a collection managed by Ingestion pipeline, deleting all entities (each with
 
 ## Related topics{#related-topics}
 
-- [Create Ingestion Pipeline](./create-ingestion-piplines)
+- [Create Ingestion Pipeline](./create-ingestion-pipelines)
 
-- [Create Search Pipeline](./create-search-piplines)
+- [Create Search Pipeline](./create-search-pipelines)
 
 - [Create Deletion Pipeline](./create-deletion-pipelines)
 
-- [FAQs](./faq-pipelines)
+- [FAQs](/docs/faq-pipelines)
 

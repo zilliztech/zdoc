@@ -1,3 +1,11 @@
+---
+slug: /go/client.ListCollection()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 2
+displayed_sidebar: goSidebar
+---
+
 # ListCollections()
 
 Lists all the collections in a cluster. Note that the schema information is not provided in the collection list.

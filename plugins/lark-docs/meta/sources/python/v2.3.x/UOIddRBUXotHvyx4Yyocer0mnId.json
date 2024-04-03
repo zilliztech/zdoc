@@ -1,0 +1,677 @@
+{
+  "created_time": "1704546457",
+  "modified_time": "1708756829",
+  "name": "get_server_type()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "BvYKfbpMUlczBxdyBvEc5Gb3nfb",
+  "token": "UOIddRBUXotHvyx4Yyocer0mnId",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/UOIddRBUXotHvyx4Yyocer0mnId",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "UOIddRBUXotHvyx4Yyocer0mnId",
+        "block_type": 1,
+        "children": [
+          "doxcnk8RcNf16FLidStl08BIjUh",
+          "DPSvdHq62ouzH0xz0Ppc0mXUnwg",
+          "doxcn8CJFOjrmhf3oMlWM0zWcyd",
+          "doxcnuS1xyxkZc1KNqU33DbJowf",
+          "VXhQdTq4bo3GfExnt57cSfTsnFb",
+          "Hi2adihTOoHM4mxiFgtcGOdInDd",
+          "FAi6dthpoooqaBx5AeScQdoJnPe",
+          "doxcnvAXr7mSuUQ63oJo58kYVbc",
+          "PoQad6nFWowjYCx6I55cZ4rQnZp",
+          "K978dMqeBooLnnxN1wUcHKJXnge",
+          "doxcn4upqYIn938KDzjhsLtptGf",
+          "doxcnUfpFi2ENTojQWRXVjKofjc",
+          "doxcnifuHjvZHoyzKFKf5zwLZmf",
+          "LH3IdAAinovoxDxME6ecnzYNnqb",
+          "OuYYdlLZyoGx5kxf4t7cHcFMnLb"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "get_server_type()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnk8RcNf16FLidStl08BIjUh",
+        "block_type": 2,
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation checks the type of the <include target=\"milvus\">Milvus instance</include><include target=\"zilliz\">Zilliz Cloud cluster</include>.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DPSvdHq62ouzH0xz0Ppc0mXUnwg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId"
+      },
+      {
+        "block_id": "doxcn8CJFOjrmhf3oMlWM0zWcyd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "get_server_type(\n    using: str = \"default\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId"
+      },
+      {
+        "block_id": "doxcnuS1xyxkZc1KNqU33DbJowf",
+        "block_type": 2,
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VXhQdTq4bo3GfExnt57cSfTsnFb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "using",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") - ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "JjzTdJxdpoxdKTxKmBQcOdornFg",
+          "SzATdzTn9odoSExrvZgcliaAnGh"
+        ],
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId"
+      },
+      {
+        "block_id": "JjzTdJxdpoxdKTxKmBQcOdornFg",
+        "block_type": 2,
+        "parent_id": "VXhQdTq4bo3GfExnt57cSfTsnFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The alias of the employed connection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SzATdzTn9odoSExrvZgcliaAnGh",
+        "block_type": 2,
+        "parent_id": "VXhQdTq4bo3GfExnt57cSfTsnFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The default value is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "default",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", indicating that this operation employs the default connection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Hi2adihTOoHM4mxiFgtcGOdInDd",
+        "block_type": 2,
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FAi6dthpoooqaBx5AeScQdoJnPe",
+        "block_type": 2,
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnvAXr7mSuUQ63oJo58kYVbc",
+        "block_type": 2,
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "The server type. Possible values are as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PoQad6nFWowjYCx6I55cZ4rQnZp",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "W39Fd28VHoIW0jxSbEscbnD8nMh"
+        ],
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId"
+      },
+      {
+        "block_id": "W39Fd28VHoIW0jxSbEscbnD8nMh",
+        "block_type": 2,
+        "parent_id": "PoQad6nFWowjYCx6I55cZ4rQnZp",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Indicates that the current server is a Zilliz Cloud cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "K978dMqeBooLnnxN1wUcHKJXnge",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "milvus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "W7mVdwRY5o9r48xRJvxcXxEGnfd"
+        ],
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId"
+      },
+      {
+        "block_id": "W7mVdwRY5o9r48xRJvxcXxEGnfd",
+        "block_type": 2,
+        "parent_id": "K978dMqeBooLnnxN1wUcHKJXnge",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Indicates that the current server is a Milvus instance.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn4upqYIn938KDzjhsLtptGf",
+        "block_type": 2,
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXAMPLE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnUfpFi2ENTojQWRXVjKofjc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import connections, utility\n\n# Connection to localhost:19530\nconnections.connect()\n\n# Check the server type\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "server_type = utility.get_server_type()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId"
+      },
+      {
+        "block_id": "doxcnifuHjvZHoyzKFKf5zwLZmf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related operations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId"
+      },
+      {
+        "block_id": "LH3IdAAinovoxDxME6ecnzYNnqb",
+        "block_type": 2,
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following operations are related to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "get_server_type()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OuYYdlLZyoGx5kxf4t7cHcFMnLb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "get_server_version()",
+                "token": "PoPkdkzSnofUihxzKLqcw7hYnrf",
+                "url": "https://zilliverse.feishu.cn/docx/PoPkdkzSnofUihxzKLqcw7hYnrf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UOIddRBUXotHvyx4Yyocer0mnId"
+      }
+    ],
+    "counts": 20
+  },
+  "slug": "utility-get_server_type"
+}

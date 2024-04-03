@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 6
-slug: /modify-cluster
+slug: /restful/modify-cluster
 title: Modify Cluster
 ---
 
@@ -68,7 +68,7 @@ Success response:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `cuSize`  | **integer**(required)<br/>The size of the CU to be associated to your cluster after the configuration.|
+| `cuSize` | integer  <br/>The size of the CU to be associated to your cluster after the configuration.  |
 
 ## Response
 
@@ -103,10 +103,9 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
-| `data.clusterId`   | **string**<br/>The ID of a cluster. |
-| `data.prompt`   | **string**<br/>The statement indicating that the current operation succeeds. |
+| `data` | object<br/> |
+| `data.clusterId` | string  <br/>The ID of a cluster.  |
+| `data.prompt` | string  <br/>The statement indicating that the current operation succeeds.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -116,4 +115,3 @@ The properties in the returned response are listed in the following table.
 | 80006 | Invalid cuSize. The parameter value should be one of [1 |
 | 80014 | Invalid projectId. The projectId should like proj-xxxxxx |
 | 80021 | Serverless cluster not support this operation. |
-

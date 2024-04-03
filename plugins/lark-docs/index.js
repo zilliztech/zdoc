@@ -1,8 +1,10 @@
 const docScraper = require('./larkDocScraper.js')
 const docWriter = require('./larkDocWriter.js')
+const driveWriter = require('./larkDriveWriter.js')
 const Utils = require('./larkUtils.js')
 const fs = require('node:fs')
-require('dotenv/config')
+const inquirer = require('inquirer')
+require('dotenv/config');
 
 module.exports = function (context, options) {
     return {
@@ -10,6 +12,7 @@ module.exports = function (context, options) {
         extendCli(cli) {
             cli
                 .command('fetch-lark-docs')
+                .option('-man, --manual <manual>', 'Name of the manual to fetch')
                 .option('-doc, --docTitle <docTitle>', 'Title of a child Lark doc')
                 .option('-token, --docToken <docToken>', 'Token of a child Lark doc')
                 .option('-src-only, --sourceOnly', 'Only fetch doc sources')
@@ -21,74 +24,162 @@ module.exports = function (context, options) {
                 .action(async (opts) => {
 
                     const options = context.siteConfig.plugins.filter(plugin => plugin[0].includes('lark-docs'))[0][1]
+                    process.env.REPO_BRANCH = fs.readFileSync('.git/HEAD', 'utf8').split(': ')[1].trim().split('/').slice(-1)[0]
+                    const manuals = Object.keys(options)
+                    const utils = new Utils()
+
+                    // Determine the manual to fetch
+                    var manual;
+
+                    if (opts.manual === undefined) {
+                        manual = options[manuals[0]]
+                        console.log(`Fetching ${manuals[0]} ...`)
+                    } else if (manuals.includes(opts.manual)) {
+                        manual = options[opts.manual]
+                        console.log(`Fetching ${opts.manual} ...`)
+                    } else {
+                        throw new Error(`Please provide a valid manual tag... \nAvailable manual tags: \n- ${manuals.join('\n- ')}`)
+                    }
+
+                    const { root, base, sourceType, docSourceDir, targets } = manual
+
+                    // Intialize scraper and writer
+                    const scraper = new docScraper(root, base, sourceType, docSourceDir)
                     
+                    if (!fs.existsSync(docSourceDir)) {
+                        fs.mkdirSync(docSourceDir, { recursive: true })
+                    }
+
                     if (opts.pubTarget === undefined) {
                         // Only pull source files from Feishu iteratively
                         if (opts.sourceOnly) {
-                            const scraper = new docScraper(options.root, options.base)
+                            // const scraper = new docScraper(root, base, sourceType, docSourceDir)
                             await scraper.fetch(recursive=true)
                         // Pull specific source file from Feishu
                         } else if (opts.docToken !== undefined) {
-                            const scraper = new docScraper(options.root, options.base)
+                            // const scraper = new docScraper(root, base, sourceType, docSourceDir)
                             await scraper.fetch(recursive=false, page_token=opts.docToken)
                         } else {
                             throw new Error('Please provide a target')
                         }
                     } else {
-                        const { outputDir, imageDir } = options.targets.filter(target => target[0] === opts.pubTarget)[0][1]
+                        try {
+                            var { outputDir, imageDir } = eval(`targets.${opts.pubTarget}`)
+                        } catch (e) {
+                            throw new Error(`Please provide a valid target... \n\nAvailable targets: \n- ${utils.list_valid_targets(targets).join('\n- ')}\n`)
+                        }
 
-                        const utils = new Utils(options.root, options.docSourceDir, outputDir)
+                        if (!fs.existsSync(outputDir)) {
+                            fs.mkdirSync(outputDir, { recursive: true })
+                        }
+
+                        if (!fs.existsSync(imageDir)) {
+                            fs.mkdirSync(imageDir, { recursive: true })
+                        }
+
+                        const writer = sourceType === 'wiki'? 
+                            new docWriter(root, base, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown) : 
+                            new driveWriter(root, base, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown, opts.manual)
 
                         // Add necessary imports to category pages
                         if (opts.postProcess) {
                             console.log('Post processing file paths')
-                            utils.post_process_file_paths()
+                            utils.post_process_file_paths(outputDir)
                         }
 
                         // Generate doc pages iteratively
                         if (opts.docTitle === undefined && !opts.faq && !opts.postProcess) {
                             console.log('Fetching docs from Feishu...')
-                            utils.pre_process_file_paths()
+                            utils.pre_process_file_paths(outputDir)
                             
                             if (!opts.skipSourceDown) {
-                                const scraper = new docScraper(options.root, options.base)
+                                // const scraper = new docScraper(root, base, sourceType, docSourceDir)
                                 await scraper.fetch(recursive=true)
                             }
                             
-                            const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
-                            await writer.write_docs(outputDir, options.root)
+                            // const writer = new docWriter(root, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
+                            await writer.write_docs(outputDir, root)
 
-                            utils.post_process_file_paths()
+                            utils.post_process_file_paths(outputDir)
                         }
         
                         // Generate a specific doc page
                         if (opts.docTitle !== undefined) {
-                            var source
+                            var paths = fs.readdirSync(docSourceDir).filter(file => {
+                                var source = JSON.parse(fs.readFileSync(docSourceDir + '/' + file, 'utf8'))
+                                if (Object.keys(source).includes('title')) {
+                                    return source.title === opts.docTitle
+                                } else {
+                                    return source.name === opts.docTitle
+                                }
+                            })
     
-                            var token = fs.readdirSync(options.docSourceDir).filter(file => {
-                                source = JSON.parse(fs.readFileSync(options.docSourceDir + '/' + file, 'utf8'))
-                                return source.title === opts.docTitle
-                            }).map(file => {
-                                source = JSON.parse(fs.readFileSync(options.docSourceDir + '/' + file, 'utf8'))
-                                return source.node_token
-                            })[0]
-    
-                            if (token === undefined) {
+                            if (paths.length === 0) {
                                 console.log('Please provide a valid doc token or title')
                                 return
                             }
 
-                            const scraper = new docScraper(options.root, options.base)
-                            await scraper.fetch(recursive=false, page_token=token)
+                            var token;
+                            var source_type;
+
+                            if (paths.length === 1) {
+                                var source = JSON.parse(fs.readFileSync(docSourceDir + '/' + paths[0], 'utf8'))
+                                token = source.node_token ? source.node_token : source.token
+                                source_type = source.node_type ? source.node_type : source.type
+                                await scraper.fetch(recursive=false, page_token=token) 
+                            }
+
+                            if (paths.length > 1) {
+                                const sources = paths.map(path => {
+                                    var source = JSON.parse(fs.readFileSync(docSourceDir + '/' + path, 'utf8'))
+                                    return source
+                                })
+
+                                const type = sources.map(source => source.obj_type ? source.obj_type : source.type).filter((value, index, array) => {
+                                    return array.indexOf(value) === index
+                                }).length === 1 ? 'docx' : 'folder'
+
+                                if (type === 'docx') {
+                                    const slugs = paths.map(path => {
+                                        var source = JSON.parse(fs.readFileSync(docSourceDir + '/' + path, 'utf8'))
+                                        return `${source.slug} (${source.node_token ? source.node_token : source.token})`
+                                    })
+
+                                    const answers = await inquirer.prompt([
+                                        {
+                                            type: 'list',
+                                            name: 'token',
+                                            message: 'Multiple docs with the same title found. \nPlease select a doc slug:',
+                                            choices: slugs
+                                        }
+                                    ])
+
+                                    var source = JSON.parse(fs.readFileSync(docSourceDir + '/' + paths[slugs.indexOf(answers.token)], 'utf8'))
+                                    token = source.node_token ? source.node_token : source.token
+                                    source_type = source.node_type ? source.node_type : source.type
+                                    console.log(token)
+                                    
+                                    // const scraper = new docScraper(root, base)
+                                    await scraper.fetch(recursive=false, page_token=token)                                    
+                                } else {
+                                    for (source of sources) {
+                                        await scraper.fetch(recursive=false, page_token=source.token)
+                                    }
+
+                                    var source = sources.filter(source => Object.keys(source).includes('children'))[0]
+                                    source.blocks = sources.filter(source => Object.keys(source).includes('blocks'))[0].blocks
+                                    token = source.token
+                                    source_type = source.type
+                                    console.log(token)
+                                }
+                            }
     
-                            const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
+                            // const writer = new docWriter(root, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
                             const meta = await writer.__is_to_publish(opts.docTitle, source.slug)
 
-                            var file_path = outputDir + '/' + utils.determine_file_path(token, options.docSourceDir)
+                            var file_path = outputDir + '/' + utils.determine_file_path(token, outputDir)
 
-                            console.log(source.slug)
-
-                            const doc_card_list = Object.keys(source).indexOf('children') > -1 ? true : false
+                            const doc_card_list = Object.keys(source).includes('children') ? true : false
     
                             if (meta['publish']) {
                                 const page_slug = source.slug
@@ -96,8 +187,10 @@ module.exports = function (context, options) {
                                 const notebook = meta['notebook']
                                 const labels = meta['labels']
                                 const keywords = meta['keywords']
-                                const sidebarPos = JSON.parse(fs.readFileSync(options.docSourceDir + '/' + source.parent_node_token + '.json', 'utf8')).children.map((child, index) => {
-                                    if (child.node_token === token) {
+                                const parent = Object.keys(source).includes('parent_node_token') ? source.parent_node_token : source.parent_token
+                                const sidebarPos = JSON.parse(fs.readFileSync(docSourceDir + '/' + parent + '.json', 'utf8')).children.map((child, index) => {
+                                    const child_token = child.node_token ? child.node_token : child.token
+                                    if (child_token === token) {
                                         return index+1
                                     }
                                 }).filter(index => index !== undefined)[0]
@@ -106,8 +199,9 @@ module.exports = function (context, options) {
                                     path: file_path.split('/').slice(0, -1).join('/'),
                                     page_title: opts.docTitle,
                                     page_slug: page_slug,
-                                    page_beta: page_beta,
-                                    notebook: notebook,
+                                    page_beta: page_beta ? page_beta : false,
+                                    notebook: notebook ? notebook : false,
+                                    page_type: source_type,
                                     page_token: token,
                                     sidebar_position: sidebarPos,
                                     sidebar_label: labels,
@@ -123,31 +217,35 @@ module.exports = function (context, options) {
                         }
                                     
                         if (opts.faq) {
-                            const scraper = new docScraper(options.root, options.base)
-    
+                            // const scraper = new docScraper(root, base)
                             var source
     
-                            var token = fs.readdirSync(options.docSourceDir).filter(file => {
-                                source = JSON.parse(fs.readFileSync(options.docSourceDir + '/' + file, 'utf8'))
+                            var token = fs.readdirSync(docSourceDir).filter(file => {
+                                source = JSON.parse(fs.readFileSync(docSourceDir + '/' + file, 'utf8'))
                                 return source.title === 'FAQs'
                             }).map(file => {
-                                source = JSON.parse(fs.readFileSync(options.docSourceDir + '/' + file, 'utf8'))
+                                source = JSON.parse(fs.readFileSync(docSourceDir + '/' + file, 'utf8'))
                                 return source.node_token
                             })[0]
     
                             await scraper.fetch(recursive=false, page_token=token)
     
-                            const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
+                            // const writer = new docWriter(root, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
     
                             const path = outputDir + '/faqs'
+                            
                             if (!fs.existsSync(path)) {
                                 fs.mkdirSync(path)
                             }
     
                             await writer.write_faqs(path)
                         }
+
+                        if (opts.pubTarget === "milvus") {
+                            utils.postprocess_for_milvus(outputDir, docSourceDir)
+                        }
     
-                    }                    
+                    }
                 })
         }
     }

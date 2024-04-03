@@ -3,6 +3,7 @@ slug: /question-answering-over-documents-with-zilliz-cloud-and-langchain
 sidebar_label: With LangChain
 beta: FALSE
 notebook: 83_integrations_langchain.ipynb
+type: origin
 token: VSL7w4qDdiW0onkmrpucHCiBnIC
 sidebar_position: 4
 ---
@@ -18,7 +19,7 @@ For this example, we will use a 1 CU cluster and the OpenAI embedding API to emb
 
 ## Before you start{#before-you-start}
 
-Code snippets on this page require **pymilvus** and **langchain** to be installed. Additionally, OpenAI's embedding API has been used to embed documents into the vector store, so **openai** and **tiktoken** are also required. If these packages are not already installed on your system, run the following commands to install them.
+Code snippets on this page require __pymilvus__ and __langchain__ to be installed. Additionally, OpenAI's embedding API has been used to embed documents into the vector store, so __openai__ and __tiktoken__ are also required. If these packages are not already installed on your system, run the following commands to install them.
 
 ```bash
 python -m pip install --upgrade pymilvus langchain openai tiktoken
@@ -168,7 +169,7 @@ rag_chain = (
 print(rag_chain.invoke("Explain IVF_FLAT in Milvus."))
 ```
 
-The returned results include a `content` argument as the **output_text**. 
+The returned results include a `content` argument as the __output_text__. 
 
 ```python
 # Output

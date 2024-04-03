@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 12
-slug: /drop-collection
+slug: /restful/drop-collection
 title: Drop Collection
 ---
 
@@ -66,8 +66,8 @@ Success response:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `dbName`  | **string**<br/>The name of the database.|
-| `collectionName`  | **string**(required)<br/>The name of the collection to delete.|
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to delete.  |
 
 ## Response
 
@@ -99,8 +99,8 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
+| `code` | integer  <br/>  |
+| `data` | object<br/> |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -118,4 +118,3 @@ The properties in the returned response are listed in the following table.
 | 90103 | The clusterId parameter is empty in the request path. |
 | 90138 | No drop collection content provided. |
 | 90139 | Type mismatch for field 'xxx'. expected type:xxx |
-

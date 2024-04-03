@@ -2,6 +2,7 @@
 slug: /create-snapshot
 beta: FALSE
 notebook: FALSE
+type: origin
 token: HHXewT7wTiM1zqkySjHcMNX5n9b
 sidebar_position: 1
 ---
@@ -23,7 +24,7 @@ You can take a snapshot of your cluster based on the following figure. Your clus
 
 ## Adjust snapshot retention period{#adjust-snapshot-retention-period}
 
-You can determine how long Zilliz Cloud keeps your snapshot by setting **Retention Period** in days. Currently, the default retention period is 7 days, with a maximum of 30 days.
+You can determine how long Zilliz Cloud keeps your snapshot by setting __Retention Period__ in days. Currently, the default retention period is 7 days, with a maximum of 30 days.
 
 ## Related topics{#related-topics}
 

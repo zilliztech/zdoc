@@ -1,0 +1,107 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": true,
+  "node_create_time": "1706496271",
+  "node_token": "IjRMw4Zp6iiqDUkbGk9crGoan9e",
+  "node_type": "origin",
+  "obj_create_time": "1706496271",
+  "obj_edit_time": "1708758016",
+  "obj_token": "BJLvdek3Bo1ohkxL39hcPHsCnze",
+  "obj_type": "docx",
+  "origin_node_token": "IjRMw4Zp6iiqDUkbGk9crGoan9e",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
+  "space_id": "7167193056431783939",
+  "title": "Pipeline Integrations",
+  "slug": "pipeline-integrations",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "BJLvdek3Bo1ohkxL39hcPHsCnze",
+        "block_type": 1,
+        "children": [
+          "JnY3deNrpo4VHrxLen1c8RCynjd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Pipeline ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Integrations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "JnY3deNrpo4VHrxLen1c8RCynjd",
+        "block_type": 2,
+        "parent_id": "BJLvdek3Bo1ohkxL39hcPHsCnze",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Still do not know how to integrate great open-source and third-party services with Zilliz Cloud Pipelines? Use these guides to start with. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 2
+  },
+  "children": [
+    {
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "has_child": false,
+      "node_create_time": "1706496279",
+      "node_token": "Wg3kwOqKXiJQK9k7wh2ccanlnhg",
+      "node_type": "origin",
+      "obj_create_time": "1706496279",
+      "obj_edit_time": "1708401533",
+      "obj_token": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+      "obj_type": "docx",
+      "origin_node_token": "Wg3kwOqKXiJQK9k7wh2ccanlnhg",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "parent_node_token": "IjRMw4Zp6iiqDUkbGk9crGoan9e",
+      "space_id": "7167193056431783939",
+      "title": "Using Pipelines in LlamaIndex",
+      "slug": "use-pipeline-in-llamaindex"
+    }
+  ]
+}

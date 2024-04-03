@@ -1,3 +1,11 @@
+---
+slug: /go/client.CreateCollection()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 0
+displayed_sidebar: goSidebar
+---
+
 # CreateCollection()
 
 Creates a collection with a specified schema.

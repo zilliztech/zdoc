@@ -1,0 +1,63 @@
+{
+  "created_time": "1703727838",
+  "modified_time": "1708500642",
+  "name": "RemoteBulkWriter",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "KdfofBXCwlWnxOdG5cLcbbLgnLf",
+  "token": "Yhy1fHTMnlLKvydKzsIcnfPdnmb",
+  "type": "folder",
+  "url": "https://zilliverse.feishu.cn/drive/folder/Yhy1fHTMnlLKvydKzsIcnfPdnmb",
+  "slug": "DataImport-RemoteBulkWriter",
+  "children": [
+    {
+      "created_time": "1704448003",
+      "modified_time": "1708506760",
+      "name": "append_row()",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "Yhy1fHTMnlLKvydKzsIcnfPdnmb",
+      "token": "F1MFdP8VvoMu17x4Vg9cH6ztnqb",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+    },
+    {
+      "created_time": "1708500640",
+      "modified_time": "1708501621",
+      "name": "AzureConnectParam",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "Yhy1fHTMnlLKvydKzsIcnfPdnmb",
+      "token": "C2YSddNqZoDNmNxWqqEcuzhKn4f",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/C2YSddNqZoDNmNxWqqEcuzhKn4f"
+    },
+    {
+      "created_time": "1704448312",
+      "modified_time": "1708506779",
+      "name": "commit()",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "Yhy1fHTMnlLKvydKzsIcnfPdnmb",
+      "token": "VccVd4MTgoPzCixDVtgcEoKWnPf",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/VccVd4MTgoPzCixDVtgcEoKWnPf"
+    },
+    {
+      "created_time": "1704444729",
+      "modified_time": "1708500474",
+      "name": "RemoteBulkWriter",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "Yhy1fHTMnlLKvydKzsIcnfPdnmb",
+      "token": "G77zdbzpPo4pOaxTDcccgRNfnVc",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/G77zdbzpPo4pOaxTDcccgRNfnVc"
+    },
+    {
+      "created_time": "1704445630",
+      "modified_time": "1708501892",
+      "name": "S3ConnectParam",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "Yhy1fHTMnlLKvydKzsIcnfPdnmb",
+      "token": "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/CSpOd0XgWoVAhzx5xbVcpCVfnPg"
+    }
+  ]
+}

@@ -1,3 +1,11 @@
+---
+slug: /go/client.Insert()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 0
+displayed_sidebar: goSidebar
+---
+
 # Insert()
 
 Inserts entities into a specified collection in a list of columns.

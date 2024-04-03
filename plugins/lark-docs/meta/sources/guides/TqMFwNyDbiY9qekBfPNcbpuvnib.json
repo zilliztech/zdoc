@@ -1,0 +1,1931 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689055599",
+  "node_token": "TqMFwNyDbiY9qekBfPNcbpuvnib",
+  "node_type": "origin",
+  "obj_create_time": "1689055599",
+  "obj_edit_time": "1709778298",
+  "obj_token": "F3jWdRGdmoHc41xczChcVS1Vnob",
+  "obj_type": "docx",
+  "origin_node_token": "TqMFwNyDbiY9qekBfPNcbpuvnib",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+  "space_id": "7167193056431783939",
+  "title": "Schema Explained",
+  "slug": "schema-explained",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
+        "block_type": 1,
+        "children": [
+          "LKQ0dC4wxoD33Px60PscUUQGndd",
+          "X1bydoCkEowTowxb84HcQtPHnkb",
+          "RTo1dq5gIoBnTjx63qrcXqePnXe",
+          "U4UXd8Z5YooE4JxOWS0cE6F4nHg",
+          "YtLxdyS55oaj8tx6g8wcV5BOnXc",
+          "AMXIdQMBXoXHErxi8l6cnioSnbe",
+          "Ew57dZ9LCo3T5KxKAs9cwzKxnzd",
+          "HLjxdkx05oCMEaxIzabcNjuxnac",
+          "Qk43dF4j1onNCRxAlixcYTRAnBz",
+          "Xtrud1TDVoRyEzxn77wcdfSWn3U",
+          "DqyfdXHMBoWzFvxB6XycczuRnJb",
+          "E5SXdRnpDobB4qxLioQcROjgnyg",
+          "PVqPd0s3poh4j0x5ptgcN4RfnVh",
+          "JOh9dHYuSoWDUTxSXfRcaXWrnq4",
+          "XocLdKJjuoDPtPxX7f8cvRK1ncy",
+          "NFCMdQSKtoMA1wxm9sucKe8Wnjc",
+          "H9O9dB9SToOGzWxUKUOc5IbRnih",
+          "I7VxdZdfsoFauvxowAacxrfVnXd",
+          "NaomdhyYZo8AvjxCevjc6c5bnCd",
+          "An89dxhsQo9v6oxC1rJcDw9HnZg",
+          "UbkxdkWJOoKKznxJXvscRwZVnVd",
+          "MZ0NdkBGHoK0zzxJ5e6cfa1fnXc",
+          "HbO2dBzy8oovQoxJIifc0b3on4f",
+          "QObvdIh0ToJQgDxAaJ9cvEshnkb",
+          "PH7cd7ConoDN6XxsI4vcVPRvnDD",
+          "A1CEdCNPfodWCuxxe5Gc3dM1nQb",
+          "Z2JFdwTz1ommS2xyKSxcQCcbnFb",
+          "XVCud9tuXo6IAzxUAh5c39BKnSh",
+          "BuGNdnMtYoFjOpxl3CAcnBI3nGf",
+          "YjoKdqc6Jo9F9nxLgwtcI7mnnrc",
+          "SDYHdyjckofUSbxwqk0ck7vanSe",
+          "PqQgdQTbQodNA9xdIaUcSwbvnAh"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Schema Explained",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "LKQ0dC4wxoD33Px60PscUUQGndd",
+        "block_type": 2,
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Defining a d",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ata ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is the process of creating a clear and organized data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "structure",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for storing information in a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "A d",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ata ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " also ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "illustrates",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " how the data is connected. The objective of",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " a",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is to recognize all the data components in a dataset, demonstrate how they are linked, and determine the most effective ways to represent these relationships.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X1bydoCkEowTowxb84HcQtPHnkb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Defining ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "RTo1dq5gIoBnTjx63qrcXqePnXe",
+        "block_type": 2,
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In a Zilliz Cloud cluster, collections may have schemas that represent different data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "structures",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". It's essential to define the data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " properly to represent the structure of your dataset. To define a data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you need to consider the following components:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "U4UXd8Z5YooE4JxOWS0cE6F4nHg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Entity",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "KTeYdl80bopKoFxGv13cwHOJn1b",
+          "AibJdywJpoQ6OZxZAMHcIFDCncd"
+        ],
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "KTeYdl80bopKoFxGv13cwHOJn1b",
+        "block_type": 2,
+        "parent_id": "U4UXd8Z5YooE4JxOWS0cE6F4nHg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "An entity in a collection is similar to a row in a tabular database. Each property of an entity corresponds to a column in that tabular database. When determining the dataset to be inserted into a collection, identify the entities and the properties that are shared among them.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AibJdywJpoQ6OZxZAMHcIFDCncd",
+        "block_type": 2,
+        "parent_id": "U4UXd8Z5YooE4JxOWS0cE6F4nHg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For example, a book can be an entity in a collection, and its properties can include title, author, ISBN, and language.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YtLxdyS55oaj8tx6g8wcV5BOnXc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Data types",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "RTahdWsjPoxK54xbUnucAVf3nFb",
+          "BzpvdBCNRo0AlnxxpECcG5EPn3y"
+        ],
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "RTahdWsjPoxK54xbUnucAVf3nFb",
+        "block_type": 2,
+        "parent_id": "YtLxdyS55oaj8tx6g8wcV5BOnXc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Each property of an entity has its own data type. Set an appropriate data type to define a property.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BzpvdBCNRo0AlnxxpECcG5EPn3y",
+        "block_type": 2,
+        "parent_id": "YtLxdyS55oaj8tx6g8wcV5BOnXc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For instance, the data type for title should be ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "VarChar",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AMXIdQMBXoXHErxi8l6cnioSnbe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Constraints on entity property values",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "BC8AdIAPhoawjsx3zGVcrBUbnix"
+        ],
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "BC8AdIAPhoawjsx3zGVcrBUbnix",
+        "block_type": 2,
+        "parent_id": "AMXIdQMBXoXHErxi8l6cnioSnbe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Different data types may have their own constraints. For example, a vector field has a constraint on the number of dimensions, and a VarChar field has a constraint on the maximum number of characters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ew57dZ9LCo3T5KxKAs9cwzKxnzd",
+        "block_type": 2,
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The d",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ata ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for a collection is sometimes time-consuming, especially when there are many properties to define. Zilliz Cloud clusters support both dynamic and fixed data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "fields",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to facilitate the process.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HLjxdkx05oCMEaxIzabcNjuxnac",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Dynamic data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "s",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "Qk43dF4j1onNCRxAlixcYTRAnBz",
+        "block_type": 2,
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A collection can have one primary key field and one vector field. If you enable the dynamic field, you do not have to define the collection schema beforehand. All you have to do is provide a name for the collection and the number of dimensions for the vector field. Zilliz Cloud will then determine which fields and their values should be saved as key-value pairs in a reserved field called ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "$meta",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " upon data insertions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Xtrud1TDVoRyEzxn77wcdfSWn3U",
+        "block_type": 2,
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For example, the following code snippet creates a collection named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "medium_articles",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " without providing the collection with a fixed schema.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DqyfdXHMBoWzFvxB6XycczuRnJb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Connect using a MilvusClient object\nfrom pymilvus import MilvusClient\n\nCLUSTER_ENDPOINT=\"YOUR_CLUSTER_ENDPOINT\" # Set your cluster endpoint\nTOKEN=\"YOUR_CLUSTER_TOKEN\" # Set your token\n\n# Initialize a MilvusClient instance\n# Replace uri and API key with your own\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console\n    token=TOKEN # API key or a colon-separated cluster username and password\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\n# Create a collection\nclient.create_collection(\n    collection_name=\"medium_articles\",\n    dimension=768\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "E5SXdRnpDobB4qxLioQcROjgnyg",
+        "block_type": 2,
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When you insert an entity into the collection, Zilliz Cloud will parse the data and save the non-schema-defined fields as key-value pairs in the reserved field named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "$meta",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PVqPd0s3poh4j0x5ptgcN4RfnVh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "client.insert(\n    collection_name=\"medium_articles\",\n    data: {\n        \"id\": 0,\n        \"title\": \"The Reported Mortality Rate of Coronavirus Is Not Important\",\n        \"vector\": [0.041732933, 0.013779674, ...., -0.013061441],\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        \"link\": \"<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\",\n        \"reading_time\": 13,\n        \"publication\": \"The Startup\",\n        \"claps\": 1100,\n        \"responses\": 18\n    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "JOh9dHYuSoWDUTxSXfRcaXWrnq4",
+        "block_type": 34,
+        "children": [
+          "MdsudOPiqoPdo3xDRDxc9Q0knzd",
+          "PSUfdfg87oWOw1xdMdScVBJjnqb",
+          "P12jdBCl1ofgkIx3H57cxPhpnIg",
+          "CAFPdtb0iohBGAxJxYdc4pFBnzc",
+          "O72ydawWwo72zqxypaBc44drnLb"
+        ],
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
+        "quote_container": {}
+      },
+      {
+        "block_id": "MdsudOPiqoPdo3xDRDxc9Q0knzd",
+        "block_type": 2,
+        "parent_id": "JOh9dHYuSoWDUTxSXfRcaXWrnq4",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PSUfdfg87oWOw1xdMdScVBJjnqb",
+        "block_type": 2,
+        "parent_id": "JOh9dHYuSoWDUTxSXfRcaXWrnq4",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enabling the dynamic field can be helpful when you need to handle schema change requests. It's recommended that you enable it while creating a collection as it proves to be useful in most cases. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "P12jdBCl1ofgkIx3H57cxPhpnIg",
+        "block_type": 2,
+        "parent_id": "JOh9dHYuSoWDUTxSXfRcaXWrnq4",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "However, there are two scenarios where you might want to avoid using the dynamic field.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CAFPdtb0iohBGAxJxYdc4pFBnzc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the field keys in your dataset contain special characters like ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "$",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or escape characters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JOh9dHYuSoWDUTxSXfRcaXWrnq4"
+      },
+      {
+        "block_id": "O72ydawWwo72zqxypaBc44drnLb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you are focused on achieving extreme filtering performance.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JOh9dHYuSoWDUTxSXfRcaXWrnq4"
+      },
+      {
+        "block_id": "XocLdKJjuoDPtPxX7f8cvRK1ncy",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Fixed data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "fields",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "NFCMdQSKtoMA1wxm9sucKe8Wnjc",
+        "block_type": 2,
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Representing your data using fixed data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "fields",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is a reliable way to keep your data clean and achieve search results that meet your expectations. While the process of fixed data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "fields",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " may take time, making changes to it is simple. We highly recommend utilizing fixed data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "fields",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for your dataset.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "H9O9dB9SToOGzWxUKUOc5IbRnih",
+        "block_type": 2,
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To create a collection schema using the above data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "fields",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you can do as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I7VxdZdfsoFauvxowAacxrfVnXd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import FieldSchema, CollectionSchema, DataType, Collection\n\nfields = [\n    FieldSchema(name=\"id\", dtype=DataType.INT64, is_primary=True),\n    FieldSchema(name=\"title\", dtype=DataType.VARCHAR, max_length=512),   \n    FieldSchema(name=\"title_vector\", dtype=DataType.FLOAT_VECTOR, dim=768),\n    FieldSchema(name=\"link\", dtype=DataType.VARCHAR, max_length=512),\n    FieldSchema(name=\"reading_time\", dtype=DataType.INT64),\n    FieldSchema(name=\"publication\", dtype=DataType.VARCHAR, max_length=512),\n    FieldSchema(name=\"claps\", dtype=DataType.INT64),\n    FieldSchema(name=\"responses\", dtype=DataType.INT64)\n]\n\n# Build the schema\nschema = CollectionSchema(\n    fields,\n    description=\"Schema of Medium articles\"\n)\n\ncollection = Collection(\n    name=\"medium_articles\", \n    description=\"Medium articles published between Jan and August in 2020 in prominent publications\",\n    schema=schema\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "NaomdhyYZo8AvjxCevjc6c5bnCd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Data types",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "An89dxhsQo9v6oxC1rJcDw9HnZg",
+        "block_type": 2,
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For your reference, Zilliz Cloud supports the following field data types:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UbkxdkWJOoKKznxJXvscRwZVnVd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Boolean value (BOOLEAN)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "MZ0NdkBGHoK0zzxJ5e6cfa1fnXc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "8-byte floating-point (DOUBLE)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "HbO2dBzy8oovQoxJIifc0b3on4f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "4-byte floating-point (FLOAT)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "QObvdIh0ToJQgDxAaJ9cvEshnkb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Float vector (FLOAT_VECTOR)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "PH7cd7ConoDN6XxsI4vcVPRvnDD",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "8-bit ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "integer",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (INT8)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "A1CEdCNPfodWCuxxe5Gc3dM1nQb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "32-bit ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "integer",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (INT32)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "Z2JFdwTz1ommS2xyKSxcQCcbnFb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "64-bit ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "integer",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (INT64)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "XVCud9tuXo6IAzxUAh5c39BKnSh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Variable character (VARCHAR)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "BuGNdnMtYoFjOpxl3CAcnBI3nGf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FDzxkwMyxzifAFxkXZiqcErjtnke"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "YjoKdqc6Jo9F9nxLgwtcI7mnnrc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What’s next",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "SDYHdyjckofUSbxwqk0ck7vanSe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Collections",
+                "token": "XzguwvYt9ipFpkkNdNzcgMnOnJe",
+                "url": "https://zilliverse.feishu.cn/wiki/XzguwvYt9ipFpkkNdNzcgMnOnJe"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      },
+      {
+        "block_id": "PqQgdQTbQodNA9xdIaUcSwbvnAh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Enable Dynamic Field",
+                "token": "DzxkwMyxzifAFxkXZiqcErjtnke",
+                "url": "https://zilliverse.feishu.cn/wiki/DzxkwMyxzifAFxkXZiqcErjtnke"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
+      }
+    ],
+    "counts": 43
+  }
+}

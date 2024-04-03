@@ -1,7 +1,8 @@
 ---
 slug: /use-pipeline-in-llamaindex
-beta: TRUE
+beta: FALSE
 notebook: FALSE
+type: origin
 token: Wg3kwOqKXiJQK9k7wh2ccanlnhg
 sidebar_position: 1
 ---
@@ -38,9 +39,8 @@ You should
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    [Find your OpenAI API key](https://beta.openai.com/account/api-keys)    
-    
-    [Find your Zilliz Cloud credentials](./on-zilliz-cloud-console)
+    <p><a href="https://beta.openai.com/account/api-keys">Find your OpenAI API key</a></p>
+    <p><a href="./on-zilliz-cloud-console">Find your Zilliz Cloud credentials</a></p>
 
     </Admonition>
 
@@ -77,9 +77,10 @@ zcp_index.insert_doc_url(
 
 <Admonition type="info" icon="📘" title="Notes">
 
-- Zilliz Cloud pipelines are to be created automatically if there is none.
-
-- It is optional to add metadata for each document. The metadata can be used to filter doc chunks during retrieval.
+<ul>
+<li><p>Zilliz Cloud pipelines are to be created automatically if there is none.</p></li>
+<li><p>It is optional to add metadata for each document. The metadata can be used to filter doc chunks during retrieval.</p></li>
+</ul>
 
 </Admonition>
 
@@ -87,11 +88,11 @@ zcp_index.insert_doc_url(
 
 To conduct semantic search with `ZillizCloudPipelineIndex`, you can use it `as_query_engine()` by specifying a few parameters:
 
-- **search_top_k**: The number of text nodes/chunks to retrieve. defaults to `DEFAULT_SIMILARITY_TOP_K` (2).
+- __search_top_k__: The number of text nodes/chunks to retrieve. defaults to `DEFAULT_SIMILARITY_TOP_K` (2).
 
-- **filters**: The metadata filters. Defaults to None.
+- __filters__: The metadata filters. Defaults to None.
 
-- **output_metadata**: A list of names of the metadata fields to return with the retrieved text node. Defaults to `[]`.
+- __output_metadata__: A list of names of the metadata fields to return with the retrieved text node. Defaults to `[]`.
 
 ```python
 from llama_index.vector_stores.types import ExactMatchFilter, MetadataFilters
@@ -141,11 +142,11 @@ print(response.response)
 
 You can get the managed index without running data ingestion. To get ready with Zilliz Cloud Pipelines, you need to provide either pipeline IDs or the associated collection name:
 
-- **Pipeline IDs**
+- __Pipeline IDs__
 
     A dictionary that contains the IDs of INGESTION, SEARCH, and DELETION pipelines, such as `{"INGESTION": "pipe-xx1", "SEARCH": "pipe-xx2", "DELETION": “pipe-xx3”}`
 
-- **Collection name**
+- __Collection name__
 
     The collection name defaults to `zcp_llamalection`. If no pipeline IDs are given, the index will try to get pipelines with the name of an associated collection.
 
@@ -165,13 +166,13 @@ advanced_zcp_index = ZillizCloudPipelineIndex(
 
 ### Customize pipelines{#customize-pipelines}
 
-If no pipelines are provided or found, then you can manually create and customize pipelines with the following **optional** parameters:
+If no pipelines are provided or found, then you can manually create and customize pipelines with the following __optional__ parameters:
 
-- **metadata_schema**: A dictionary of metadata schema with field name as key and data type as value. For example, `{"user_id": "VarChar"}`.
+- __metadata_schema__: A dictionary of metadata schema with field name as key and data type as value. For example, `{"user_id": "VarChar"}`.
 
-- **chunkSize**: An integer of chunk size using token as unit. If no chunk size is specified, then Zilliz Cloud Pipeline will use a built-in default chunk size (500 tokens) to split documents.
+- __chunkSize__: An integer of chunk size using token as unit. If no chunk size is specified, then Zilliz Cloud Pipeline will use a built-in default chunk size (500 tokens) to split documents.
 
-For other applicable parameters, refer to [Zilliz Cloud Pipelines](./pipelines) for more available pipeline parameters.
+For other applicable parameters, refer to [Zilliz Cloud Pipelines](/docs/pipelines) for more available pipeline parameters.
 
 ```python
 advanced_zcp_index.create_pipelines(

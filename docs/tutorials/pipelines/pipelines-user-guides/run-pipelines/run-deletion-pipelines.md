@@ -1,7 +1,8 @@
 ---
 slug: /run-deletion-pipelines
-beta: TRUE
+beta: FALSE
 notebook: FALSE
+type: origin
 token: Up5KwgdCfiqEwskKlGtcPYxDnZg
 sidebar_position: 3
 ---
@@ -15,11 +16,11 @@ After creating a Deletion pipeline, you can run it to remove all chunks in a spe
 
 ## On web UI{#on-web-ui}
 
-1. Click the "▶︎" button next to your Deletion pipeline. Alternatively, you can also click on the **Run Pipelines** tab.
+1. Click the "▶︎" button next to your Deletion pipeline. Alternatively, you can also click on the __Playground__ tab.
 
 ![run-pipeline](/img/run-pipeline.png)
 
-1. Input the name of the document to delete in the `doc_name` field. Click **Run**.
+1. Input the name of the document to delete in the `doc_name` field. Click __Run__.
 
     ![run-deletion-pipeline-playground](/img/run-deletion-pipeline-playground.png)
 
@@ -27,13 +28,13 @@ After creating a Deletion pipeline, you can run it to remove all chunks in a spe
 
 ## Via RESTful API{#via-restful-api}
 
-The following example runs the Deletion pipeline named `my_doc_deletion_pipeline` (assuming its `pipelineId` is `pipe-7227d0729d73e63002ed46`). 
+The following example runs the Deletion pipeline named `my_doc_deletion_pipeline`. 
 
 ```bash
 curl --request POST \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-7227d0729d73e63002ed46/run" \
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}/run" \
     -d '{
         "data": {
             "doc_name": "zilliz_concept_doc.md",
@@ -43,7 +44,7 @@ curl --request POST \
 
 The parameters in the above code are described as follows:
 
-- `YOUR_CLUSTER_TOKEN`: The token used to authenticate API requests. This token can be an [API key](./manage-api-keys) or a [cluster credential](./cluster-credentials) that consists of a username and password pair.
+- `YOUR_CLUSTER_TOKEN`: The token used to authenticate API requests. This token can be an [API key](/docs/manage-api-keys) or a [cluster credential](/docs/cluster-credentials) that consists of a username and password pair.
 
 - `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
 
@@ -68,5 +69,5 @@ Below is an example response.
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 
-- [FAQs](./faq-pipelines)
+- [FAQs](/docs/faq-pipelines)
 

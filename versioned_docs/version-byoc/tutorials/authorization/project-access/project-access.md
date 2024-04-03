@@ -2,6 +2,7 @@
 slug: /project-access
 beta: FALSE
 notebook: FALSE
+type: origin
 token: O3rEwwCCTiu0k1kAyygcKYwhnzg
 sidebar_position: 4
 ---
@@ -12,8 +13,6 @@ import Admonition from '@theme/Admonition';
 # Project Access
 
 Learn about how to manage projects and project users.
-
-## Contents{#contents}
 
 import DocCardList from '@theme/DocCardList';
 

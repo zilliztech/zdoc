@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 25
-slug: /list-pipelines
+slug: /restful/list-pipelines
 title: List Pipelines
 ---
 
@@ -147,8 +147,9 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`  | **array**<br/>A data array of s. |
+| `code` | string  <br/>  |
+| `data` | array<br/> |
+| `data[]` | object<br/> |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -156,4 +157,3 @@ The properties in the returned response are listed in the following table.
 | Code | Error Message |
 | ---- | ------------- |
 | 10041 | (Possible pipeline errors are all under this error code.) |
-

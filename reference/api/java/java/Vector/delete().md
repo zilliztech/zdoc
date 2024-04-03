@@ -53,4 +53,4 @@ This method catches all the exceptions and returns an `R<MutationResult>` object
 
 - If the API fails by RPC exception, it returns `R.Status.Unknow` and the error message of the exception.
 
-- If the API succeeds, it returns a valid `MutationResult` held by the R template. You can use `MutationResultWrapper` to get the returned information. See the corresponding section in [insert()](insert().md#MutationResultWrapper) for more information about `MutationResultWrapper`.
+- If the API succeeds, it returns a valid `MutationResult` held by the R template. You can use `MutationResultWrapper` to get the returned information. See the corresponding section in insert() for more information about `MutationResultWrapper`.

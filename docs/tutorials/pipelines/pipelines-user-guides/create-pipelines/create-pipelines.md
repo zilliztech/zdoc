@@ -1,7 +1,8 @@
 ---
 slug: /create-pipelines
-beta: TRUE
+beta: FALSE
 notebook: FALSE
+type: origin
 token: GamzwNAVPiwblikNFHwcJ5ipnKc
 sidebar_position: 2
 ---
@@ -9,7 +10,7 @@ sidebar_position: 2
 import Admonition from '@theme/Admonition';
 
 
-# Create Pipelines
+# Create Pipeline
 
 You can create pipelines either on the Zilliz Cloud console or via RESTful APIs. The Zilliz Cloud web UI provides a simplified and intuitive way of creating Pipelines while creating pipelines via RESTful API offers more flexibility and customization compared to the Web UI.
 

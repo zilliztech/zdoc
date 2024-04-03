@@ -68,11 +68,11 @@ __PARAMETERS:__
 
 __RETURN TYPE:__
 
-_[CollectionSchema](./PyMilvusLegacy-CollectionSchema)_
+_[CollectionSchema](./ORM-CollectionSchema)_
 
 __RETURNS:__
 
-A __[CollectionSchema](./PyMilvusLegacy-CollectionSchema)__ object.
+A __[CollectionSchema](./ORM-CollectionSchema)__ object.
 
 __EXCEPTIONS:__
 

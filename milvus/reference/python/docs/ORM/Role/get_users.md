@@ -1,0 +1,56 @@
+# get_users()
+
+This operation lists all users associated with the current role.
+
+## Request Syntax{#request-syntax}
+
+```python
+get_users()
+```
+
+__PARAMETERS__
+
+N/A
+
+__RETURN TYPE:__
+
+_tuple_
+
+__RETURNS:__
+
+A tuple that contains the names of all users added to the current role.
+
+## Examples{#examples}
+
+```python
+from pymilvus import Role
+
+# Get an existing role
+role = Role(name="admin")
+
+# List all users associated with the current role
+users = role.get_users() # (admin, )
+```
+
+## Related operations{#related-operations}
+
+The following operations are related to `get_users()`:
+
+- [add_user()](./Role-add_user)
+
+- [create()](./Role-create)
+
+- [drop()](./Role-drop)
+
+- [grant()](./Role-grant)
+
+- [is_exist()](./Role-is_exist)
+
+- [list_grant()](./Role-list_grant)
+
+- [list_grants()](./Role-list_grants)
+
+- [remove_user()](./Role-remove_user)
+
+- [revoke()](./Role-revoke)
+

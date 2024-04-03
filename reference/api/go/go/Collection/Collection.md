@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 The collection APIs provide a way to manage collections in the connected Zilliz Cloud cluster.
 
-
+## Contents
 
 import DocCardList from '@theme/DocCardList';
 

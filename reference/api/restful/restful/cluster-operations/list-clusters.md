@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 3
-slug: /list-clusters
+slug: /restful/list-clusters
 title: List Clusters
 ---
 
@@ -112,23 +112,24 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
-| `data.count`   | **integer**<br/>The total number of clusters returned. |
-| `data.currentPage`   | **integer**<br/>The current page in the results. |
-| `data.pageSize`   | **integer**<br/>The number of clusters per page in the results. |
-| `data.clusters`   | **array**<br/>An array of clusters in detail. |
-| `data.clusters[].projectId`   | **string**<br/>The ID of the project to which the current cluster belongs. |
-| `data.clusters[].clusterId`   | **string**<br/>The ID of the cluster. |
-| `data.clusters[].clusterName`   | **string**<br/>The name of the cluster. |
-| `data.clusters[].description`   | **string**<br/>An optional description about the cluster. |
-| `data.clusters[].regionId`   | **string**<br/>The ID of the region where the cluster exists. |
-| `data.clusters[].clusterType`   | **string**<br/>The type of CU associated with the cluster. Possible values are **Performance-optimized** and **Capacity-optimized**. |
-| `data.clusters[].cuSize`   | **integer**<br/>The size of the CU associated with the cluster. |
-| `data.clusters[].status`   | **string**<br/>The current status of the cluster. Possible values are **INITIALIZING**, **RUNNING**, **SUSPENDING**, and **RESUMING**. |
-| `data.clusters[].connectAddress`   | **string**<br/>The public endpoint of the cluster. You can connect to the cluster using this endpoint from the public network. |
-| `data.clusters[].privateLinkAddress`   | **string**<br/>The private endpoint of the cluster. You can set up a private link to allow your VPS in the same cloud region to access your cluster. |
-| `data.clusters[].createTime`   | **string**<br/>The time at which the cluster has been created. |
+| `code` | integer  <br/>  |
+| `data` | object<br/> |
+| `data.count` | integer  <br/>The total number of clusters returned.  |
+| `data.currentPage` | integer  <br/>The current page in the results.  |
+| `data.pageSize` | integer  <br/>The number of clusters per page in the results.  |
+| `data[].clusters` | array<br/>An array of clusters in detail. |
+| `data[].clusters[]` | object<br/> |
+| `data[].clusters[].projectId` | string  <br/>The ID of the project to which the current cluster belongs.  |
+| `data[].clusters[].clusterId` | string  <br/>The ID of the cluster.  |
+| `data[].clusters[].clusterName` | string  <br/>The name of the cluster.  |
+| `data[].clusters[].description` | string  <br/>An optional description about the cluster.  |
+| `data[].clusters[].regionId` | string  <br/>The ID of the region where the cluster exists.  |
+| `data[].clusters[].clusterType` | string  <br/>The type of CU associated with the cluster. Possible values are **Performance-optimized** and **Capacity-optimized**.  |
+| `data[].clusters[].cuSize` | integer  <br/>The size of the CU associated with the cluster.  |
+| `data[].clusters[].status` | string  <br/>The current status of the cluster. Possible values are **INITIALIZING**, **RUNNING**, **SUSPENDING**, and **RESUMING**.  |
+| `data[].clusters[].connectAddress` | string  <br/>The public endpoint of the cluster. You can connect to the cluster using this endpoint from the public network.  |
+| `data[].clusters[].privateLinkAddress` | string  <br/>The private endpoint of the cluster. You can set up a private link to allow your VPS in the same cloud region to access your cluster.  |
+| `data[].clusters[].createTime` | string  <br/>The time at which the cluster has been created.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -140,4 +141,3 @@ The properties in the returned response are listed in the following table.
 | 80003 | The parameter value for 'pageSize' should be between 5 and 100. |
 | 80004 | The parameter 'currentPage' should have a value between 1 and the maximum value of Int. |
 | 90117 | Invalid domain name used |
-

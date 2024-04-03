@@ -1,0 +1,539 @@
+{
+  "created_time": "1708421150",
+  "modified_time": "1712041586",
+  "name": "hasCollection()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "KvSff5lOglJa2LdLSdBcJwPmnSd",
+  "token": "HOgkdNByyoAO4GxnLZjcpC8an8c",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/HOgkdNByyoAO4GxnLZjcpC8an8c",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "HOgkdNByyoAO4GxnLZjcpC8an8c",
+        "block_type": 1,
+        "children": [
+          "CsU1d8SwxoRjtRxHCxQcjkKpnER",
+          "M26IdTUBvoVAVjx4rJlcxaMnnSd",
+          "L3Erd73g3osstPxwXx4cX1eonad",
+          "R9oMdWYcBoY7hCxUN6RcUXZAnDg",
+          "LV1idUQdxocM6zxKvYwcCrVPn9d",
+          "IdqCdxTFzo22mlxWn6yclvFon8f",
+          "X98YdhQPXoUPXBxTbgecCu6jnit",
+          "X9JvdMjzwoeuYwx9iH7cSnSGnhd",
+          "Mp6GdlcRmoB9RExdJFmcBMl2nEh",
+          "UK7YdDDfloX4RmxFRPcchIeQnvh",
+          "QMVkdasq3odAytxKKGZcGgTYnKu",
+          "R1ESdhN3moJ8STx5wZKc9rbxnMb",
+          "BMSAd85XQoq05tx4qaLcHOt2nVA",
+          "SM1JdexfvortCyxlPXacN0nInjc",
+          "Fb6qdWa1QowkTUxFaWrcWczlnmd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "hasCollection()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "CsU1d8SwxoRjtRxHCxQcjkKpnER",
+        "block_type": 2,
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation checks whether a specific collection exists.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "M26IdTUBvoVAVjx4rJlcxaMnnSd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "public ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Boolean",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.oracle.com%2Fen%2Fjava%2Fjavase%2F17%2Fdocs%2Fapi%2Fjava.base%2Fjava%2Flang%2FBoolean.html"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " hasCollection(HasCollectionReq request)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c"
+      },
+      {
+        "block_id": "L3Erd73g3osstPxwXx4cX1eonad",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c"
+      },
+      {
+        "block_id": "R9oMdWYcBoY7hCxUN6RcUXZAnDg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "hasCollection(HasCollectionReq.builder()\n    .collectionName(String collectionName)\n    .build()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c"
+      },
+      {
+        "block_id": "LV1idUQdxocM6zxKvYwcCrVPn9d",
+        "block_type": 2,
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BUILDER METHODS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IdqCdxTFzo22mlxWn6yclvFon8f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collectionName(String collectionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "DIFWdEWaho7n9ix4c77cOZ3qn9f"
+        ],
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c"
+      },
+      {
+        "block_id": "DIFWdEWaho7n9ix4c77cOZ3qn9f",
+        "block_type": 2,
+        "parent_id": "IdqCdxTFzo22mlxWn6yclvFon8f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of a collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X98YdhQPXoUPXBxTbgecCu6jnit",
+        "block_type": 2,
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X9JvdMjzwoeuYwx9iH7cSnSGnhd",
+        "block_type": 2,
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "bool",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Mp6GdlcRmoB9RExdJFmcBMl2nEh",
+        "block_type": 2,
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UK7YdDDfloX4RmxFRPcchIeQnvh",
+        "block_type": 2,
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A boolean value indicating whether the specified collection exists.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QMVkdasq3odAytxKKGZcGgTYnKu",
+        "block_type": 2,
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "R1ESdhN3moJ8STx5wZKc9rbxnMb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusClientExceptions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "LN8VdtKbdo0nXkx6URWcKSGDnFh"
+        ],
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c"
+      },
+      {
+        "block_id": "LN8VdtKbdo0nXkx6URWcKSGDnFh",
+        "block_type": 2,
+        "parent_id": "R1ESdhN3moJ8STx5wZKc9rbxnMb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BMSAd85XQoq05tx4qaLcHOt2nVA",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c"
+      },
+      {
+        "block_id": "SM1JdexfvortCyxlPXacN0nInjc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// check whether collection test exists\nHasCollectionReq hasCollectionReq = HasCollectionReq.builder()\n        .collectionName(\"test\")\n        .build();\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Boolean resp = client.hasCollection(hasCollectionReq);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c"
+      },
+      {
+        "block_id": "Fb6qdWa1QowkTUxFaWrcWczlnmd",
+        "block_type": 2,
+        "parent_id": "HOgkdNByyoAO4GxnLZjcpC8an8c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 18
+  },
+  "slug": "Collections-hasCollection"
+}

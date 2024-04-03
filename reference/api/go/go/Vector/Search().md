@@ -1,3 +1,12 @@
+---
+slug: /go/client.Search()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 2
+displayed_sidebar: goSidebar
+---
+
+
 # Search()
 
 Conducts an approximate nearest neighbor (ANN) search on a vector field and pairs up with boolean expressions to conduct filtering on scalar fields before searching.

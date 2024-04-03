@@ -2,6 +2,7 @@
 slug: /connect-to-cluster
 beta: FALSE
 notebook: FALSE
+type: origin
 token: IVFfws0lJi8gIVkRvrvc9aXvnNe
 sidebar_position: 2
 ---
@@ -26,7 +27,7 @@ Ensure the following prerequisites are met before proceeding:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-For those leaning towards the utilization of RESTful APIs over SDKs, it's important to understand that a continuous connection cannot be established. This is attributed to the HTTP protocol's unidirectional communication mode.
+<p>For those leaning towards the utilization of RESTful APIs over SDKs, it's important to understand that a continuous connection cannot be established. This is attributed to the HTTP protocol's unidirectional communication mode.</p>
 
 </Admonition>
 

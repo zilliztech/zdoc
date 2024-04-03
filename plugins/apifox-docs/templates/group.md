@@ -1,8 +1,9 @@
 ---
-slug: /{{slug}}
+slug: /restful/{{slug}}
 beta: FALSE
 notebook: FALSE
 sidebar_position: {{position}}
+displayed_sidebar: restfulSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 21
-slug: /upsert
+slug: /restful/upsert
 title: Upsert
 ---
 
@@ -88,9 +88,9 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `dbName`  | **string**<br/>The name of the database.|
-| `collectionName`  | **string**(required)<br/>The name of the collection to which entities will be inserted.|
-| `data`  | **object**(required)<br/>An entity object. Note that the keys in the entity should match the collection schema.|
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which entities will be inserted.  |
+| `data` | object<br/>An entity object. Note that the keys in the entity should match the collection schema. |
 
 ```json
 {
@@ -105,10 +105,11 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `dbName`  | **string**<br/>The name of the database.|
-| `collectionName`  | **string**(required)<br/>The name of the collection to which entities will be inserted.|
-| `partitionName`  | **string**<br/>The name of the partition to which this operation applies.|
-| `data`  | **array**(required)<br/>An array of entity objects. Note that the keys in an entity object should match the collection schema|
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which entities will be inserted.  |
+| `partitionName` | string  <br/>The name of the partition to which this operation applies.  |
+| `data` | array<br/>An array of entity objects. Note that the keys in an entity object should match the collection schema |
+| `data[]` | object<br/> |
 
 ## Response
 
@@ -145,10 +146,11 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
-| `data.upsertCount`   | **integer**<br/>The number of inserted entities. |
-| `data.upsertIds`   | **array**<br/>An array of the IDs of inserted entities. |
+| `code` | integer  <br/>  |
+| `data` | object<br/> |
+| `data.upsertCount` | integer  <br/>The number of inserted entities.  |
+| `data[].upsertIds` | array<br/>An array of the IDs of inserted entities. |
+| `data[].upsertIds[]` | string  <br/>  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -162,4 +164,3 @@ The properties in the returned response are listed in the following table.
 | 90150 | no data key field |
 | 90151 | The value of the 'data' parameter is empty. |
 | 90152 | There is an empty object in the 'data' parameter. |
-

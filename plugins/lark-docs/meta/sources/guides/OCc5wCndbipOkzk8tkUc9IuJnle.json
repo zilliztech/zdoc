@@ -1,0 +1,841 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": false,
+  "node_create_time": "1693551389",
+  "node_token": "OCc5wCndbipOkzk8tkUc9IuJnle",
+  "node_type": "origin",
+  "obj_create_time": "1693551389",
+  "obj_edit_time": "1708692363",
+  "obj_token": "DXwWdylwKoXkt2xndB0cMOpdn30",
+  "obj_type": "docx",
+  "origin_node_token": "OCc5wCndbipOkzk8tkUc9IuJnle",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+  "space_id": "7167193056431783939",
+  "title": "Delete Your Organization",
+  "slug": "delete-your-organization",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "DXwWdylwKoXkt2xndB0cMOpdn30",
+        "block_type": 1,
+        "children": [
+          "Mi3AdgHipoDEb1xa8zDcy4yenud",
+          "IjRfdV0ydoDE60xvzohc1gLonHb",
+          "AetodT4pFonsGrxYnmZc5ouQnnZ",
+          "DIQjd7ENdolS7wxDk5ecOVX4nEg",
+          "EQX3d2k9eoaOIyxP138cx1TTnHf",
+          "GIAHd74MBodMN9xkvm2c9BPqnyc",
+          "ZT2cdrjqYoTj7QxHMT2cO9OQn0e",
+          "YiWDdNOQaoWrLAxaowCcXSY5nhd",
+          "FMZUdR3tgo0T06xKttvcKt5DnVd",
+          "KwcIdYImRo4VTWxAFCqcj2Vtn5e",
+          "FALSdY5E5ongOsxpNnvcVuHTnLC",
+          "F58ddXGvfopdFexqSUQc7hMVnvh",
+          "NVl7dFuAsoPfJdxdUKvcc6RXnDZ",
+          "J53pdaOIdoeuCSxOBbYcq9rSn8e",
+          "OhHYdivU5oFlhvxXfnhcbFmknvb",
+          "GcrkdAMQPoauA3xCdyLcASosnjM",
+          "JgdQdBt3dowJl2xipUKcIaRwn0e",
+          "Uak0doX6SodIBWxMWTOc1UChnOg",
+          "VGxzd7RFHoOaitxg62Ec7okynHh",
+          "VbUwd7s47o0Op1xhnYdckCtcnGg",
+          "IIfZd7S6iol5vfx0PgjcGq5Fncd"
+        ],
+        "comment_ids": [
+          "7321672204134236164"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Delete Your Organization",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7321672204134236164"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "Mi3AdgHipoDEb1xa8zDcy4yenud",
+        "block_type": 2,
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This topic describes how to delete an organization in Zilliz Cloud. Once the organization is deleted, all its data will be cleaned permanently and cannot be recovered.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IjRfdV0ydoDE60xvzohc1gLonHb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "AetodT4pFonsGrxYnmZc5ouQnnZ",
+        "block_type": 2,
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Make sure the following conditions are met:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DIQjd7ENdolS7wxDk5ecOVX4nEg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "All clusters in the current organizations are ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "deleted",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FPharwAysCiBzvgkuqqecmNzunQf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "EQX3d2k9eoaOIyxP138cx1TTnHf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "All organization ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "bills",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FPBEbwjRu9iyyaFkZnuzcINHCnke"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " are paid.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "GIAHd74MBodMN9xkvm2c9BPqnyc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You are granted the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " role in the target organization.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "ZT2cdrjqYoTj7QxHMT2cO9OQn0e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "All remaining advance pay funds need to be refunded.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "YiWDdNOQaoWrLAxaowCcXSY5nhd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Third-party ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "marketplace subscription needs to be cancelled",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FLDlOweEzmiLkdQkvPFec5lrcnbf%3Fchunked%3Dfalse%23D4pldg5InoPKLsxzU3Rct1ARnOg"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "FMZUdR3tgo0T06xKttvcKt5DnVd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Delete organization",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "KwcIdYImRo4VTWxAFCqcj2Vtn5e",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Log in to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.zilliz.com%2Flogin"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "FALSdY5E5ongOsxpNnvcVuHTnLC",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enter the organization that you want to delete.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "F58ddXGvfopdFexqSUQc7hMVnvh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the left-side navigation pane, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "NVl7dFuAsoPfJdxdUKvcc6RXnDZ",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "System Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " page, find the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Delete Organization",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " area and click the button.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "J53pdaOIdoeuCSxOBbYcq9rSn8e",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Follow the instructions in the pop-up window and click the button to complete deleting the organization.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "OhHYdivU5oFlhvxXfnhcbFmknvb",
+        "block_type": 34,
+        "children": [
+          "ZLdZdAB4uo5EmoxObgLcI13Nndh",
+          "Kcu2dkNlqoBbsaxXrbwcxfynn5m"
+        ],
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30",
+        "quote_container": {}
+      },
+      {
+        "block_id": "ZLdZdAB4uo5EmoxObgLcI13Nndh",
+        "block_type": 2,
+        "parent_id": "OhHYdivU5oFlhvxXfnhcbFmknvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "🚧 Warning",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Kcu2dkNlqoBbsaxXrbwcxfynn5m",
+        "block_type": 2,
+        "parent_id": "OhHYdivU5oFlhvxXfnhcbFmknvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The action of deleting an organization cannot be undone. Please take extra caution with this action.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GcrkdAMQPoauA3xCdyLcASosnjM",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D9167-1990%26mode%3Ddesign%26t%3D8mObjTO11svW2v8a-4"
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "JgdQdBt3dowJl2xipUKcIaRwn0e",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "Uak0doX6SodIBWxMWTOc1UChnOg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "A Panorama View",
+                "token": "CA04wUpF0id2sckrZjqcAOZGnnz",
+                "url": "https://zilliverse.feishu.cn/wiki/CA04wUpF0id2sckrZjqcAOZGnnz"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "VGxzd7RFHoOaitxg62Ec7okynHh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Organizations and Members",
+                "token": "BX8nwr7eHiZY3CkHnuYcGCj1n4e",
+                "url": "https://zilliverse.feishu.cn/wiki/BX8nwr7eHiZY3CkHnuYcGCj1n4e"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "VbUwd7s47o0Op1xhnYdckCtcnGg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Projects and Collaborators",
+                "token": "O3rEwwCCTiu0k1kAyygcKYwhnzg",
+                "url": "https://zilliverse.feishu.cn/wiki/O3rEwwCCTiu0k1kAyygcKYwhnzg"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      },
+      {
+        "block_id": "IIfZd7S6iol5vfx0PgjcGq5Fncd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "View Activities",
+                "token": "UfqGwAVleiNu7FkH28JcnlgOnpf",
+                "url": "https://zilliverse.feishu.cn/wiki/UfqGwAVleiNu7FkH28JcnlgOnpf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DXwWdylwKoXkt2xndB0cMOpdn30"
+      }
+    ],
+    "counts": 24
+  }
+}

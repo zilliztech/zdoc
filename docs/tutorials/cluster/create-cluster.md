@@ -2,6 +2,7 @@
 slug: /create-cluster
 beta: FALSE
 notebook: FALSE
+type: origin
 token: KrbjwFhy3iojF3k97XmcvvXMnW7
 sidebar_position: 1
 ---
@@ -34,41 +35,41 @@ Ensure:
 
 1. Select the appropriate organization and project.
 
-1. Click **+ Create Cluster**.
+1. Click __+ Create Cluster__.
 
     ![create_cluster_01](/img/create_cluster_01.png)
 
-1. In the **Create New Cluster** section, choose the **Starter** plan and fill in the required parameters. 
+1. In the __Create New Cluster__ section, choose the __Starter__ plan and fill in the required parameters. 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    Each user is permitted one free serverless cluster. For additional clusters, opt for the Standard or Enterprise plans.
+    <p>Each user is permitted one free serverless cluster. For additional clusters, opt for the Standard or Enterprise plans.</p>
 
     </Admonition>
 
-    |  **Parameter**               |  **Description**                                                                                                                                                                                                                        |
+    |  __Parameter__               |  __Description__                                                                                                                                                                                                                        |
     | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    |  **Cluster Name**            |  Name of the cluster.                                                                                                                                                                                                                   |
-    |  **Cloud Provider & Region** |  The cluster's location and the cloud provider it is hosted on. At present, our serverless clusters are available on Google Cloud Platform (GCP). For more information, see [Cloud Providers & Regions](./cloud-providers-and-regions). |
+    |  __Cluster Name__            |  Name of the cluster.                                                                                                                                                                                                                   |
+    |  __Cloud Provider & Region__ |  The cluster's location and the cloud provider it is hosted on. At present, our serverless clusters are available on Google Cloud Platform (GCP). For more information, see [Cloud Providers & Regions](./cloud-providers-and-regions). |
 
     ![create_cluster_02](/img/create_cluster_02.png)
 
-1. Process with **Next: Create Collection**.
+1. Process with __Next: Create Collection__.
 
-1. In the **Create Collection for Your New Cluster** section, select **New Collection**.
+1. In the __Create Collection for Your New Cluster__ section, select __New Collection__.
 
     ![create_cluster_03](/img/create_cluster_03.png)
 
     Specify the parameters for the new collection as below:
 
-    |  **Parameter**       |  **Description**                                                                                                                                                                                                                                                                                                                      |
+    |  __Parameter__       |  __Description__                                                                                                                                                                                                                                                                                                                      |
     | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    |  **Collection name** |  The name of the collection.                                                                                                                                                                                                                                                                                                          |
-    |  **Dimension**       |  The dimension of the vector data in the collection. The default value is 768.                                                                                                                                                                                                                                                        |
-    |  **Metric Type**     |  The metric type measures the similarity between vectors. Valid values:<br/> - Euclidean: measures the distance between two vectors in a plane. The smaller the result, the more similar the two vectors.<br/> - Inner product: multiplies two vectors. The more positive the result, the more similar the two vectors.<br/> |
-    |  **Description**     |  The description of the collection. This parameter is optional.                                                                                                                                                                                                                                                                       |
+    |  __Collection name__ |  The name of the collection.                                                                                                                                                                                                                                                                                                          |
+    |  __Dimension__       |  The dimension of the vector data in the collection. The default value is 768.                                                                                                                                                                                                                                                        |
+    |  __Metric Type__     |  The metric type measures the similarity between vectors. Valid values:<br/> - Euclidean: measures the distance between two vectors in a plane. The smaller the result, the more similar the two vectors.<br/> - Inner product: multiplies two vectors. The more positive the result, the more similar the two vectors.<br/> |
+    |  __Description__     |  The description of the collection. This parameter is optional.                                                                                                                                                                                                                                                                       |
 
-1. Click **Create Collection and Cluster**. A dialog box will display the public endpoint and API key for the cluster. Record these details for future access.
+1. Click __Create Collection and Cluster__. A dialog box will display the public endpoint and API key for the cluster. Record these details for future access.
 
 </TabItem>
 
@@ -125,27 +126,27 @@ In the command above,
 
 1. Enter the desired organization and project.
 
-1. Click **+ Create Cluster**.
+1. Click __+ Create Cluster__.
 
     ![create_cluster_01](/img/create_cluster_01.png)
 
-1. On the **Create New Cluster** page, opt for the **Standard** or **Enterprise** plan and fill out the relevant parameters.
+1. On the __Create New Cluster__ page, opt for the __Standard__ or __Enterprise__ plan and fill out the relevant parameters.
 
     ![create-dedicated_cluster](/img/create-dedicated_cluster.png)
 
-    - **Cluster Name**: Assign a unique identifier for your cluster.
+    - __Cluster Name__: Assign a unique identifier for your cluster.
 
-    - **Cloud Provider Settings**: Choose the cloud service provider and the specific region where your cluster will be deployed. For more information, see [Cloud Providers & Regions](./cloud-providers-and-regions).
+    - __Cloud Provider Settings__: Choose the cloud service provider and the specific region where your cluster will be deployed. For more information, see [Cloud Providers & Regions](./cloud-providers-and-regions).
 
-    - **CU Settings**:
+    - __CU Settings__:
 
-        - **CU Type**: Select a CU Type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right CU](./cu-types-explained).
+        - __CU Type__: Select a CU Type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right CU](./cu-types-explained).
 
-        - **CU Size**: Select the total size of the cluster in terms of CUs.
+        - __CU Size__: Select the total size of the cluster in terms of CUs.
 
-    - **Cloud Backup**: Decide whether to enable automatic cloud backup for safeguarding the data stored within your cluster, ensuring data persistence and recovery capabilities in case of failures.
+    - __Cloud Backup__: Decide whether to enable automatic cloud backup for safeguarding the data stored within your cluster, ensuring data persistence and recovery capabilities in case of failures.
 
-1. Click **Create Cluster**. You'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
+1. Click __Create Cluster__. You'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
 
 </TabItem>
 
@@ -187,13 +188,13 @@ In the command above,
 
 - `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
 
-- `plan`: The plan tier of the Zilliz Cloud service you subscribe to. Valid values: **Standard** and **Enterprise**.
+- `plan`: The plan tier of the Zilliz Cloud service you subscribe to. Valid values: __Standard__ and __Enterprise__.
 
 - `clusterName`: The name of the cluster to create.
 
 - `cuSize`: The size of the CU used for the cluster. Value range: 1 to 256. By calling `Create Cluster`, you can create a cluster with up to 32 CUs. To create a cluster with more than 32 CUs, [contact us](https://zilliz.com/contact-sales).
 
-- `cuType`: The type of the CU used for the cluster. Valid values: **Performance-optimized and **Capacity-optimized**.
+- `cuType`: The type of the CU used for the cluster. Valid values: __Performance-optimized and __Capacity-optimized__.
 
 - `projectId`: The ID of the project in which you want to create a cluster. To list project IDs, call the `List Projects` operation.
 
@@ -203,4 +204,4 @@ In the command above,
 
 ## Verification{#verification}
 
-After you create the cluster, you can check its status on the cluster list page. A cluster in the **Running** state indicates successful creation.
+After you create the cluster, you can check its status on the cluster list page. A cluster in the __Running__ state indicates successful creation.

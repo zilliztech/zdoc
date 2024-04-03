@@ -2,6 +2,7 @@
 slug: /api-comparison
 beta: FALSE
 notebook: FALSE
+type: origin
 token: DAk8w3GCJiuUTTkms6IcMtnAnMf
 sidebar_position: 2
 ---
@@ -17,9 +18,9 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 
 ## Scenario-specific privileges{#scenario-specific-privileges}
 
-The table below provides a comparison of API availability across various service tiers. Note that the availability of the API for the [Bring Your Own Cloud (BYOC)](./byoc/start-with-byoc) solution is consistent with that of the **Standard and Enterprise** tiers.
+The table below provides a comparison of API availability across various service tiers. Note that the availability of the API for the [Bring Your Own Cloud (BYOC)](/docs/byoc/start-with-byoc) solution is consistent with that of the __Standard and Enterprise__ tiers.
 
-|                                   |  **API**                       |  **Ops on GUI** |  **Starter tier** |  **Standard & Enterprise tiers** |
+|                                   |  __API__                       |  __Ops on GUI__ |  __Starter tier__ |  __Standard & Enterprise tiers__ |
 | --------------------------------- | ------------------------------ | --------------- | ----------------- | -------------------------------- |
 |  Alias                            |  alterAlias()                  |  ✘              |  ✘                |  ✔︎                              |
 |                                   |  createAlias()                 |  ✘              |  ✘                |  ✔︎                              |

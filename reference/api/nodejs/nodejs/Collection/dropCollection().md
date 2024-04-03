@@ -1,3 +1,11 @@
+---
+slug: /nodejs/collection.dropCollection()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 3
+displayed_sidebar: nodejsSidebar
+---
+
 # dropCollection()
 
 Drops a collection, including all data in the collection.

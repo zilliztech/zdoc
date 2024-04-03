@@ -2,6 +2,7 @@
 slug: /email-accounts
 beta: FALSE
 notebook: FALSE
+type: origin
 token: GMdhwQQCRi2QaLkimNOcc3qNnbh
 sidebar_position: 1
 ---
@@ -15,7 +16,7 @@ Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz 
 
 ## Modify your account information{#modify-your-account-information}
 
-1. Go to your **Profile** and click **Account Settings**.
+1. Go to your __Profile__ and click __Account Settings__.
 
 1. Click the pencil icon next to the Account section to edit the following account information:
 
@@ -27,7 +28,7 @@ Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Direct modification of the account's email address is not available. If you need to change your email, refer to our guide in [FAQs](./faq-account).
+<p>Direct modification of the account's email address is not available. If you need to change your email, refer to our guide in <a href="/docs/faq-account">FAQs</a>.</p>
 
 </Admonition>
 
@@ -57,11 +58,11 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 ### Unlink from your Google account{#unlink-from-your-google-account}
 
-1. Go to your **Profile** and click **Account Settings**.
+1. Go to your __Profile__ and click __Account Settings__.
 
-1. Click **Unlink from Google**.
+1. Click __Unlink from Google__.
 
-1. Read the information in the dialog box and click **Confirm**.
+1. Read the information in the dialog box and click __Confirm__.
 
 1. Set a new password via the link sent to your email.
 
@@ -71,11 +72,11 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 ### Unlink from your GitHub account{#unlink-from-your-github-account}
 
-1. Go to your **Profile** and click **Account Settings**.
+1. Go to your __Profile__ and click __Account Settings__.
 
-1. Click **Unlink from GitHub**.
+1. Click __Unlink from GitHub__.
 
-1. Read the information in the dialog box and click **Confirm**.
+1. Read the information in the dialog box and click __Confirm__.
 
 1. Set a new password via the link sent to your email.
 
@@ -85,7 +86,7 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-Deleting your account is irreversible. Exercise caution and ensure all necessary preparations are made before proceeding with this action.
+<p>Deleting your account is irreversible. Exercise caution and ensure all necessary preparations are made before proceeding with this action.</p>
 
 </Admonition>
 
@@ -101,13 +102,13 @@ Ensure you meet the following criteria before proceeding:
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
-1. Click the profile icon in the upper right corner. Click **Account Settings**.
+1. Click the profile icon in the upper right corner. Click __Account Settings__.
 
-1. In the **Account** **Settings **window, click the **Delete Account** button.
+1. In the __Account__ __Settings __window, click the __Delete Account__ button.
 
 1. Before confirming to delete your account, fill out the feedback form first. Click the button to proceed with the deletion.
 
-1. Enter your account email address again in the text box. Click **Send Verification Code** and enter the code you received in your email inbox. Read the information below and tick the boxes. Click **Next** to continue.
+1. Enter your account email address again in the text box. Click __Send Verification Code__ and enter the code you received in your email inbox. Read the information below and tick the boxes. Click __Next__ to continue.
 
 1. You will receive an email notification when your account is successfully deleted.
 
@@ -119,5 +120,5 @@ Ensure you meet the following criteria before proceeding:
 
 - [Delete Your Organization](./delete-your-organization)
 
-- [View Activities](./view-activities) 
+- [View Activities](./view-activities)
 

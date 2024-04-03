@@ -2,6 +2,7 @@
 slug: /project-users
 beta: FALSE
 notebook: FALSE
+type: origin
 token: DXbRwHM79iK5VDkV5E8cW6N7nxb
 sidebar_position: 2
 ---
@@ -21,7 +22,7 @@ Enter the email addresses of the users you wish to invite. They will receive an 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Each time you can invite one or more users with the same role to join the project.
+<p>Each time you can invite one or more users with the same role to join the project.</p>
 
 </Admonition>
 
@@ -35,7 +36,7 @@ To revoke or resend the invitation, you must be an [Organization Owner](./resour
 
 <Admonition type="info" icon="📘" title="Notes">
 
-You can revoke or resend an invitation before the user accepts it.
+<p>You can revoke or resend an invitation before the user accepts it.</p>
 
 </Admonition>
 
@@ -57,7 +58,7 @@ Note that if you are the only owner of a project, you cannot leave it as each pr
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-Once you leave a project, your access to the project and associated resources will be revoked.
+<p>Once you leave a project, your access to the project and associated resources will be revoked.</p>
 
 </Admonition>
 

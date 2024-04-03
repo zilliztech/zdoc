@@ -3,6 +3,7 @@ slug: /question-answering-using-zilliz-cloud-and-hugging-face
 sidebar_label: With HuggingFace
 beta: FALSE
 notebook: 81_integrations_huggingface.ipynb
+type: origin
 token: RWxKwfwFniNU1skCVCgcrKHbnCd
 sidebar_position: 2
 ---
@@ -16,7 +17,7 @@ This page illustrates how to build a question-answering system using Zilliz Clou
 
 ## Before you start{#before-you-start}
 
-The code snippets on this page require the following packages to be installed: **pymilvus**, **transformers**, and **datasets**. The packages **transformers** and **datasets** are the Hugging Face packages to create the pipeline, and **pymilvus** is the client for Zilliz Cloud. If these packages are not present on your system, run the following commands to install them:
+The code snippets on this page require the following packages to be installed: __pymilvus__, __transformers__, and __datasets__. The packages __transformers__ and __datasets__ are the Hugging Face packages to create the pipeline, and __pymilvus__ is the client for Zilliz Cloud. If these packages are not present on your system, run the following commands to install them:
 
 ```bash
 pip install transformers datasets pymilvus torch
@@ -296,7 +297,7 @@ The output would vary with the subset of data you have downloaded if you leave [
 
 - [Image Search with Zilliz Cloud and PyTorch](./image-search-with-zilliz-cloud-and-pytorch)
 
-- [Documentation QA using Zilliz Cloud and LlamaIndex](./documentation-qa-using-zilliz-cloud-and-llamaindex)
+- [Documentation QA using Zilliz Cloud and LlamaIndex](./rag-with-zilliz-cloud-and-llamaindex)
 
 - [Movie Search Using Zilliz Cloud and SentenceTransformers](./movie-search-using-zilliz-cloud-and-sentencetransformers) 
 

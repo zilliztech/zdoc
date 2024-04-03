@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 18
-slug: /import
+slug: /restful/import
 title: Import
 ---
 
@@ -75,12 +75,12 @@ Your access key and secret key should have necessary permissions to access the o
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `clusterId`  | **string**(required)<br/>The ID of a cluster to which this operation applies.|
-| `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
-| `partitionName`  | **string**<br/>The name of the partition to which this operation applies.|
-| `objectUrl`  | **string**(required)<br/>The URL of the object that stores the data to be imported.|
-| `accessKey`  | **string**<br/>The access key used to access the specified object.|
-| `secretKey`  | **string**<br/>The access secret key used to access the specified object.|
+| `clusterId` | string  <br/>The ID of a cluster to which this operation applies.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `partitionName` | string  <br/>The name of the partition to which this operation applies.  |
+| `objectUrl` | string  <br/>The URL of the object that stores the data to be imported.  |
+| `accessKey` | string  <br/>The access key used to access the specified object.  |
+| `secretKey` | string  <br/>The access secret key used to access the specified object.  |
 
 ## Response
 
@@ -114,9 +114,9 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
-| `data.jobId`   | **string**<br/>The ID of the import task that has been submitted |
+| `code` | integer  <br/>  |
+| `data` | object<br/> |
+| `data.jobId` | string  <br/>The ID of the import task that has been submitted  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -132,13 +132,13 @@ The properties in the returned response are listed in the following table.
 | 47035 | The specified object size exceeds limit. |
 | 47036 | The number of objects not equal to the number of collection fields. |
 | 47039 | The specified cluster do not support multiple imports at the same time. |
-| 47053 | Failed to checkFiles {xxx}. |
+| 47053 | Failed to checkFiles \{xxx}. |
 | 47055 | The current cluster is currently importing data (xxx). To ensure more stable service of your Milvus cluster |
 | 80020 | Cluster not exist or you don't have permission. |
 | 80020 | Cluster not exist or you don't have permission. |
 | 80020 | Cluster not exist or you don't have permission. |
-| 83001 | Failed to getObjectMeta {xxx}. |
-| 83001 | Failed to getObjectMeta {xxx}. |
+| 83001 | Failed to getObjectMeta \{xxx}. |
+| 83001 | Failed to getObjectMeta \{xxx}. |
 | 83004 | Importing files across clouds is not currently supported |
 | 90011 | Invalid CollectionName. Reason: Name contains only alphanumeric letters and underscores |
 | 90011 | Invalid CollectionName. Reason: Name contains only alphanumeric letters and underscores |
@@ -149,4 +149,3 @@ The properties in the returned response are listed in the following table.
 | 90117 | Invalid domain name used |
 | 90142 | No import content provided. |
 | 90145 | No ObjectUrl key field. |
-

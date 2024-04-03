@@ -1,0 +1,1252 @@
+{
+  "created_time": "1710499588",
+  "modified_time": "1710742640",
+  "name": "SpladeEmbeddingFunction",
+  "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_token": "KhHLfDpyyl4rEKdPnQjcjd8cnOf",
+  "token": "UdeRd0YVhoDBeVxrQaBcoikVnAI",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/UdeRd0YVhoDBeVxrQaBcoikVnAI",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI",
+        "block_type": 1,
+        "children": [
+          "GW7adKSaooKj0Hxw2nQcfFu0nOf",
+          "IQtJdMTJjoHt4Vx1wd3cxjg8ngE",
+          "N10Xdr63po9H5CxQiHdc9pWVn9e",
+          "BvmMdXrjvoLoJExvbADc5O6TnHh",
+          "P7DsdCKiYoeBSjx7vTcckMkmnvw",
+          "YPGpdEuKvot050xOZtOcR33Dnch",
+          "AkRsdO3CjouNqHxNtO8cYIN6nog",
+          "QvT2dEYJ1o21s5xs9KNc8iffnHb",
+          "BAQydzKC0o3mOFx7Yw6caeRencf",
+          "GbaidR2AVo6Xqexpb83cIyX2nDJ",
+          "NDjkdxL3uo0NZPxZTRDcho8nnVc",
+          "A7lPdD97hoaTIExuHsecL8ednIc",
+          "JobNd75MAoLkV8xqfsRcFLepnJh",
+          "Wl9DdAVQboQF60xijHPckL1Kn28",
+          "Uhy8dm138oEiD5xSPFPc4NlJnKq",
+          "HYa3dsbbvoabJDxpcpncSXKYnZf"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "SpladeEmbeddingFunction",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "GW7adKSaooKj0Hxw2nQcfFu0nOf",
+        "block_type": 2,
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "SpladeEmbeddingFunction",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is a class in pymilvus that handles encoding text into embeddings using SPLADE models to support embedding retrieval in Milvus.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IQtJdMTJjoHt4Vx1wd3cxjg8ngE",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pymilvus.model.sparse.SpladeEmbeddingFunction",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI"
+      },
+      {
+        "block_id": "N10Xdr63po9H5CxQiHdc9pWVn9e",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Constructor",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI"
+      },
+      {
+        "block_id": "BvmMdXrjvoLoJExvbADc5O6TnHh",
+        "block_type": 2,
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Constructs a SpladeEmbeddingFunction for common use cases.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "P7DsdCKiYoeBSjx7vTcckMkmnvw",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "SpladeEmbeddingFunction(\n    model_name: str = \"naver/splade-cocondenser-ensembledistil\",\n    batch_size: int = 32,\n    query_instruction: str = \"\",\n    doc_instruction: str = \"\",\n    device: Optional[str] = \"cpu\",\n    k_tokens_query: Optional[int] = None,\n    k_tokens_document: Optional[int] = None,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    **",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "kwargs",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7347564154439335940"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "comment_ids": [
+          "7347564154439335940"
+        ],
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI"
+      },
+      {
+        "block_id": "YPGpdEuKvot050xOZtOcR33Dnch",
+        "block_type": 2,
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AkRsdO3CjouNqHxNtO8cYIN6nog",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "model_name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NYpqd3FU9oawgdx1zs4clVH7nGe"
+        ],
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI"
+      },
+      {
+        "block_id": "NYpqd3FU9oawgdx1zs4clVH7nGe",
+        "block_type": 2,
+        "parent_id": "AkRsdO3CjouNqHxNtO8cYIN6nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the SPLADE model to use for encoding. Valid options are ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "naver/splade-cocondenser-ensembledistil",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (default), ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "naver/splade_v2_max",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "naver/splade_v2_distil",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "naver/splade-cocondenser-selfdistil",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Play with models",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fnaver%2Fsplade%3Ftab%3Dreadme-ov-file%23playing-with-the-model"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QvT2dEYJ1o21s5xs9KNc8iffnHb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "batch_size",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "int",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "JsFad7H0uoXj0MxxV3cclWOUn3d"
+        ],
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI"
+      },
+      {
+        "block_id": "JsFad7H0uoXj0MxxV3cclWOUn3d",
+        "block_type": 2,
+        "parent_id": "QvT2dEYJ1o21s5xs9KNc8iffnHb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The batch size used for the computation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BAQydzKC0o3mOFx7Yw6caeRencf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "query_instruction",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "O4mgd4X9Toa8KJx4OJHcyLPanDb"
+        ],
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI"
+      },
+      {
+        "block_id": "O4mgd4X9Toa8KJx4OJHcyLPanDb",
+        "block_type": 2,
+        "parent_id": "BAQydzKC0o3mOFx7Yw6caeRencf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The query to use for encoding.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GbaidR2AVo6Xqexpb83cIyX2nDJ",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "doc_instruction",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "E7wudmGLZoph0QxHJomcuBFTnra"
+        ],
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI"
+      },
+      {
+        "block_id": "E7wudmGLZoph0QxHJomcuBFTnra",
+        "block_type": 2,
+        "parent_id": "GbaidR2AVo6Xqexpb83cIyX2nDJ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The document to use for encoding.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NDjkdxL3uo0NZPxZTRDcho8nnVc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "device",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Zh24dQtjDoW5TIxZA13cfUjvnVc"
+        ],
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI"
+      },
+      {
+        "block_id": "Zh24dQtjDoW5TIxZA13cfUjvnVc",
+        "block_type": 2,
+        "parent_id": "NDjkdxL3uo0NZPxZTRDcho8nnVc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The device to use, with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "cpu",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for the CPU and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "cuda:n",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for the nth GPU device.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A7lPdD97hoaTIExuHsecL8ednIc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "k_tokens_query",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7346886035118276611"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346886035118276611"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "int",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346886035118276611"
+                  ],
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346886035118276611"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Qx2cdK2geoh1fJx1mmdcmCdxnwc"
+        ],
+        "comment_ids": [
+          "7346886035118276611"
+        ],
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI"
+      },
+      {
+        "block_id": "Qx2cdK2geoh1fJx1mmdcmCdxnwc",
+        "block_type": 2,
+        "comment_ids": [
+          "7346886035118276611"
+        ],
+        "parent_id": "A7lPdD97hoaTIExuHsecL8ednIc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The number of top tokens to use for query encodings. If not specified, it will use all non-zero tokens.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346886035118276611"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JobNd75MAoLkV8xqfsRcFLepnJh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "k_tokens_document",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7346886035118276611"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346886035118276611"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "int",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346886035118276611"
+                  ],
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346886035118276611"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "KLFcde5JzovVzPxdIVpclUronDd"
+        ],
+        "comment_ids": [
+          "7346886035118276611"
+        ],
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI"
+      },
+      {
+        "block_id": "KLFcde5JzovVzPxdIVpclUronDd",
+        "block_type": 2,
+        "comment_ids": [
+          "7346886035118276611"
+        ],
+        "parent_id": "JobNd75MAoLkV8xqfsRcFLepnJh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The number of top tokens to use for document encodings. If not specified, it will use all non-zero tokens.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346886035118276611"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Wl9DdAVQboQF60xijHPckL1Kn28",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "**kwargs",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NzZkdnDBMoUpK0xwAHCci0Pvn5b"
+        ],
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI"
+      },
+      {
+        "block_id": "NzZkdnDBMoUpK0xwAHCci0Pvn5b",
+        "block_type": 2,
+        "parent_id": "Wl9DdAVQboQF60xijHPckL1Kn28",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Allows additional keyword arguments to be passed to the model initialization. For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AutoModelForMaskedLM",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fhuggingface.co%2Fdocs%2Ftransformers%2Fmodel_doc%2Fauto%23transformers.AutoModelForMaskedLM"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Uhy8dm138oEiD5xSPFPc4NlJnKq",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI"
+      },
+      {
+        "block_id": "HYa3dsbbvoabJDxpcpncSXKYnZf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import model\n\nsplade_ef = model.sparse.SpladeEmbeddingFunction(\n    model_name=\"naver/splade-cocondenser-selfdistil\", \n    device=\"cpu\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "UdeRd0YVhoDBeVxrQaBcoikVnAI"
+      }
+    ],
+    "counts": 25
+  },
+  "slug": "Model-SpladeEmbeddingFunction"
+}

@@ -1,3 +1,11 @@
+---
+slug: /nodejs/vector.insert()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 0
+displayed_sidebar: nodejsSidebar
+---
+
 # insert()
 
 Inserts entities into a collection.

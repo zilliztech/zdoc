@@ -1,3 +1,11 @@
+---
+slug: /nodejs/vector.delete()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 4
+displayed_sidebar: nodejsSidebar
+---
+
 # delete()
 
 Deletes entities from a collection by IDs.

@@ -1,0 +1,514 @@
+{
+  "created_time": "1708420827",
+  "modified_time": "1712041038",
+  "name": "revokeRole()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "NX2nfYbWXlBEeyd1gQhcsnDGnQe",
+  "token": "I3TpdzCiroOEgfxElmhcJvBfn2d",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/I3TpdzCiroOEgfxElmhcJvBfn2d",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "I3TpdzCiroOEgfxElmhcJvBfn2d",
+        "block_type": 1,
+        "children": [
+          "FptkdSbBMocs5qx2mH3cZYUfn5c",
+          "WlSOd4FpHoz1hRxpV0fcjDcYnKd",
+          "DzcJdA2AaoIaMyxtEJLcNNM6nxa",
+          "UEtgd9DYHoNYBmxF1hicbdQXnLg",
+          "RRmwd6ObJormkUxqAiBcjZHhnnf",
+          "G7iLda0IoohTBnx91JEcjviJnbk",
+          "KzeZdyC8BoBCsKxy2qScmhH3n9f",
+          "Iqe4dD5TRoMUG3xc2Egcrqmsn9b",
+          "JNHYd2QFfo1JTixUrVJcrbMFnDc",
+          "V5Prdn3XWoqBucxRWnqc0pgqnri",
+          "LblUd2KgFoSKo6x87L1cJ7Bgnyd",
+          "ZSBudkR2Ro2CDXxbep6cwghAnTe",
+          "UcbbdVHNooTLxexF3amcnYktnrf",
+          "UALNdeQENoomL8xoN1lcR9wKnsd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "revokeRole()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "FptkdSbBMocs5qx2mH3cZYUfn5c",
+        "block_type": 2,
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation revokes the role assigned to a user.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WlSOd4FpHoz1hRxpV0fcjDcYnKd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "public void revokeRole(RevokeRoleReq request)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d"
+      },
+      {
+        "block_id": "DzcJdA2AaoIaMyxtEJLcNNM6nxa",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d"
+      },
+      {
+        "block_id": "UEtgd9DYHoNYBmxF1hicbdQXnLg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "revokeRole(RevokeRoleReq.builder()\n    .roleName(String roleName)\n    .userName(String userName)\n    .build()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d"
+      },
+      {
+        "block_id": "RRmwd6ObJormkUxqAiBcjZHhnnf",
+        "block_type": 2,
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BUILDER METHODS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G7iLda0IoohTBnx91JEcjviJnbk",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "roleName(String roleName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "AwCVdT3INoqfy1xppK5cZ4npnEh"
+        ],
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d"
+      },
+      {
+        "block_id": "AwCVdT3INoqfy1xppK5cZ4npnEh",
+        "block_type": 2,
+        "parent_id": "G7iLda0IoohTBnx91JEcjviJnbk",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the role to revoke.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KzeZdyC8BoBCsKxy2qScmhH3n9f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "userName(String userName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "T59cdS8mSoBPa7xwGnrc8CMFnyb"
+        ],
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d"
+      },
+      {
+        "block_id": "T59cdS8mSoBPa7xwGnrc8CMFnyb",
+        "block_type": 2,
+        "parent_id": "KzeZdyC8BoBCsKxy2qScmhH3n9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of an existing user.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Iqe4dD5TRoMUG3xc2Egcrqmsn9b",
+        "block_type": 2,
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JNHYd2QFfo1JTixUrVJcrbMFnDc",
+        "block_type": 2,
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "void",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "V5Prdn3XWoqBucxRWnqc0pgqnri",
+        "block_type": 2,
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LblUd2KgFoSKo6x87L1cJ7Bgnyd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusClientExceptions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "LwUTdegBnowslYxdbXLcEAFhnHX"
+        ],
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d"
+      },
+      {
+        "block_id": "LwUTdegBnowslYxdbXLcEAFhnHX",
+        "block_type": 2,
+        "parent_id": "LblUd2KgFoSKo6x87L1cJ7Bgnyd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZSBudkR2Ro2CDXxbep6cwghAnTe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d"
+      },
+      {
+        "block_id": "UcbbdVHNooTLxexF3amcnYktnrf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RevokeRoleReq revokeRoleReq = RevokeRoleReq.builder()\n        .roleName(\"db_ro\")\n        .userName(\"test\")\n        .build();\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.revokeRole(revokeRoleReq);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d"
+      },
+      {
+        "block_id": "UALNdeQENoomL8xoN1lcR9wKnsd",
+        "block_type": 2,
+        "parent_id": "I3TpdzCiroOEgfxElmhcJvBfn2d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 18
+  },
+  "slug": "Authentication-revokeRole"
+}

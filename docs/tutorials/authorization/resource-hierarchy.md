@@ -2,6 +2,7 @@
 slug: /resource-hierarchy
 beta: FALSE
 notebook: FALSE
+type: origin
 token: CA04wUpF0id2sckrZjqcAOZGnnz
 sidebar_position: 2
 ---
@@ -25,7 +26,7 @@ Zilliz Cloud facilitates access control across three distinct scopes:
 
 Organizations serve as a means to group projects that share common objectives, such as encompassing all projects under a particular business unit.
 
-In an organization, you can create several projects and manage organization-level resources, including [billing](./payment-billing), [API keys](./manage-api-keys), [organization members](./organizations), [activities](./view-activities), [organization settings](./organization-settings), and [recycle bin](./use-recycle-bin).
+In an organization, you can create several projects and manage organization-level resources, including [billing](/docs/payment-billing), [API keys](./manage-api-keys), [organization members](./organizations), [activities](./view-activities),  [organization settings](/docs/organization-settings), and [recycle bin](./use-recycle-bin).
 
 ![a-panorama-view-2](/img/a-panorama-view-2.png)
 

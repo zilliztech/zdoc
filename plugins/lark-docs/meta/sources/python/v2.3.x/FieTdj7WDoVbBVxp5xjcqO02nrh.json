@@ -1,0 +1,699 @@
+{
+  "created_time": "1710760718",
+  "modified_time": "1710767173",
+  "name": "__call__()",
+  "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_token": "E4slfDkKPlWEmXdq36GcPtAKnMg",
+  "token": "FieTdj7WDoVbBVxp5xjcqO02nrh",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/FieTdj7WDoVbBVxp5xjcqO02nrh",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "FieTdj7WDoVbBVxp5xjcqO02nrh",
+        "block_type": 1,
+        "children": [
+          "Vqz0dygeDoI3SCxgP2Sco8Ywnvf",
+          "GqBcdf5SNolgJMx1KfvcCAnCnjc",
+          "GI5Ddk2IAorfFRxc5pWcvDTOnxc",
+          "ELTddmmzUojOCvxo6UkcB5CsnMh",
+          "He3Ydne0OoxUphx1C01c3DKZnEg",
+          "D1qSdsA26oIw20xUj12c15CKn3g",
+          "EyuUdBdcBogM18xNyIpcuKFjnri",
+          "DyTzdrTBQoc0UtxHlImcoLVrneg",
+          "PRI5dXR2govb2QxClu6c4VFNnpy",
+          "A7GPdL2NkoLpyUxxfnUcidlCnCe",
+          "H3krdASlGodyyex40zecXijnntc",
+          "IiMpdasxToHcPHxgxjucATIunTf",
+          "L5vGdENZqoI26uxaG0Hc1JKxnOb",
+          "K19LdwjSwonTVzxmnPxcpMPTnEf"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "__call__()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "Vqz0dygeDoI3SCxgP2Sco8Ywnvf",
+        "block_type": 2,
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "OpenAIEmbeddingFunction",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FQPcodlsnAoSMvIxEFmlcMNPbntd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " takes a list of text strings and directly encodes them into vector embeddings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GqBcdf5SNolgJMx1KfvcCAnCnjc",
+        "block_type": 2,
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "__call__()",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " method of OpenAIEmbeddingFunction shares the same functionality as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "encode_documents()",
+                "token": "UrG5delwyok3RPx0UBlcdBQ5nZd",
+                "url": "https://zilliverse.feishu.cn/docx/UrG5delwyok3RPx0UBlcdBQ5nZd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "encode_queries()",
+                "token": "Sf9UdzL3rolQNAxDm8Ecga3snhg",
+                "url": "https://zilliverse.feishu.cn/docx/Sf9UdzL3rolQNAxDm8Ecga3snhg"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GI5Ddk2IAorfFRxc5pWcvDTOnxc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh"
+      },
+      {
+        "block_id": "ELTddmmzUojOCvxo6UkcB5CsnMh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Instance created\nopenai_ef = OpenAIEmbeddingFunction()\n\n# __call__ method will be called\nopenai_ef(\n    texts: List[str]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -> List[np.array]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh"
+      },
+      {
+        "block_id": "He3Ydne0OoxUphx1C01c3DKZnEg",
+        "block_type": 2,
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D1qSdsA26oIw20xUj12c15CKn3g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "texts",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List[str]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NEYpdl3POolvhSxg9wTcRzBVnrg"
+        ],
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh"
+      },
+      {
+        "block_id": "NEYpdl3POolvhSxg9wTcRzBVnrg",
+        "block_type": 2,
+        "parent_id": "D1qSdsA26oIw20xUj12c15CKn3g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of string values, where each string represents text that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EyuUdBdcBogM18xNyIpcuKFjnri",
+        "block_type": 2,
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DyTzdrTBQoc0UtxHlImcoLVrneg",
+        "block_type": 2,
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "List[np.array]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PRI5dXR2govb2QxClu6c4VFNnpy",
+        "block_type": 2,
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A7GPdL2NkoLpyUxxfnUcidlCnCe",
+        "block_type": 2,
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list where each element is a NumPy array.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "H3krdASlGodyyex40zecXijnntc",
+        "block_type": 2,
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Exceptions:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IiMpdasxToHcPHxgxjucATIunTf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportError",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "BpiwdI4HCouMNZxj9cpcQiQwnmb"
+        ],
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh"
+      },
+      {
+        "block_id": "BpiwdI4HCouMNZxj9cpcQiQwnmb",
+        "block_type": 2,
+        "parent_id": "IiMpdasxToHcPHxgxjucATIunTf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when the OpenAI module is not installed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "L5vGdENZqoI26uxaG0Hc1JKxnOb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh"
+      },
+      {
+        "block_id": "K19LdwjSwonTVzxmnPxcpMPTnEf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import model\n\nopenai_ef = model.dense.OpenAIEmbeddingFunction(\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    model_name='text-embedding-3-large', ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Specify the model name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    dimensions=512 ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Set the embedding dimensionality according to MRL feature.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n)\n\ndocs = [\n    \"Artificial intelligence was founded as an academic discipline in 1956.\",\n    \"Alan Turing was the first person to conduct substantial research in AI.\",\n    \"Born in Maida Vale, London, Turing was raised in southern England.\",\n]\n\nopenai_ef(docs)\n\n# [array([ 1.77358780e-02, -2.06100717e-02, -1.10160727e-02, -5.27569763e-02,\n#          4.22616638e-02, -6.68976083e-03,  4.18110052e-03,  1.04632668e-01,\n# ...\n#          3.78031246e-02, -4.20645699e-02, -4.66991328e-02, -3.67034003e-02,\n#         -2.61381622e-02, -7.74914995e-02,  1.88917443e-02,  2.48224158e-02,\n#         -8.93921182e-02,  6.78001530e-03,  3.54858451e-02, -5.09016626e-02,\n#          3.80731490e-03,  4.72489968e-02,  2.11893879e-02,  9.96136945e-03,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#         -5.77749610e-02,  9.73062310e-03,  4.63456511e-02, -4.32428494e-02])]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "FieTdj7WDoVbBVxp5xjcqO02nrh"
+      }
+    ],
+    "counts": 17
+  },
+  "slug": "OpenAIEmbeddingFunction-__call__"
+}

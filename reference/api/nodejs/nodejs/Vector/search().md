@@ -1,3 +1,11 @@
+---
+slug: /nodejs/vector.search()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 1
+displayed_sidebar: nodejsSidebar
+---
+
 # search()
 
 Performs Approximate Nearest Neighbor (ANN) searches based on one or more vectors in a collection.

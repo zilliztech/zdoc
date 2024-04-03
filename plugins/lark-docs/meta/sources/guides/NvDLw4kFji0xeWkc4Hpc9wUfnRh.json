@@ -1,0 +1,4177 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1702957091",
+  "node_token": "NvDLw4kFji0xeWkc4Hpc9wUfnRh",
+  "node_type": "origin",
+  "obj_create_time": "1702957091",
+  "obj_edit_time": "1711447727",
+  "obj_token": "NoO5dX5QboENU1xRgADc59x1nog",
+  "obj_type": "docx",
+  "origin_node_token": "NvDLw4kFji0xeWkc4Hpc9wUfnRh",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "Xma9w6Ne9ihcsZkFkSmcHidEnZg",
+  "space_id": "7167193056431783939",
+  "title": "Manage Project Alerts",
+  "slug": "manage-project-alerts",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "block_type": 1,
+        "children": [
+          "doxcnKqhVsQXo2M3hoRwkur4n9f",
+          "doxcni0YMYlSGn1mQbNZWiZI8lf",
+          "BLthdPXcwotJmKxZsOEc31W0nDg",
+          "doxcniIesqZT5uM89tzz2SHmpbh",
+          "V9lidpfwhojSkyxWSgmcURCWngg",
+          "QnFpdIidZoR4lMxS8GbcWtS9ndd",
+          "BDg3dun5AoBeSLxgtAocdmyPnGb",
+          "VgOJdSkV7onVyOxvNpUcVAJJn2f",
+          "DVu9dWx4roBTMXxARKEcaJJSnrd",
+          "NNapdCUwlogOS4xleI3ceONXnG0",
+          "doxcnYQBHZrlrOt5vHZK02QxC0f",
+          "doxcnfDBH8mUMxDk0opwrDRDMYf",
+          "FcKEdqX0coRNPSxTGHzcX82rnxb",
+          "doxcnP4IqPryKsSHxRS2BC1MXoh",
+          "doxcnGUxwsES6tTUIpOFtVodwve",
+          "doxcnyzuPxtxJyicn7QqcJeu9Re",
+          "doxcn6s19GsOabRGeHDFbVu9zHb",
+          "WMFCdX742oL29wxQ6h5cf5OVnah",
+          "PHZSdOHZtoK6AvxmKwncKs0jnN8",
+          "G2EHdSDSqou9P3xnWFzcMB9OnGf",
+          "Glfud27gPo95WExyODCctC0mnEg",
+          "C5iZd9KAwor4bMxKJ7bcV0j5nAe",
+          "WqXfdKw9noDTcjxkR8Bczbx8nXd",
+          "TACMdw0Zko7cpSxsTKMczV7On3e",
+          "SJwadQtMvo5dZ3xNg04cDWcznhg",
+          "DxCpdu4PloiA98xEPsJcfcVBnZW",
+          "DmwAdqXbEoqDwzxjOxKcM2lInQe",
+          "M2PgdOUqioOXaoxeWJmczdlKnhd",
+          "JtWkdNt9PofXMax6GzDczEB0nEg",
+          "ZbzBdHdFQocENtxBNX0caU5tnFg",
+          "DhLnd1jMTohFFfxlKyScgJeFnvf",
+          "FLLSdQLH4olnanxwKxTc4rAwnXf",
+          "H2yqdA6NsoMiTaxKJxFc3e56n6b",
+          "RIMXdAqxWoopuNx4G1CcaJMTn7d",
+          "Qr5IdZG1doK9u5x44vDcMaPinaf",
+          "S27JdZlCYojVIixa9mZceCekn2f",
+          "Qa16dGPjeoEJH3xbbT7ceqLfn6g",
+          "OSrYdzz3lo2uUSxhYK8ckB0Lngf",
+          "J2SWdQOCpoiFSkx87RDcPQTOn6d",
+          "J75WdkYgIon2GUxtsD6cTmRQnpe",
+          "InTDdOPDQoUiuQxHUHccAgFLnSg",
+          "ReZnd3r2Vo2Ay9xRmBDcbgM1nrr",
+          "LGqbdEFGJoHdW9xgX7Bc3rronef",
+          "J0C4dsLv6okbS5xHL39cEC4tnu7",
+          "Q5SzdeVuuouLoOxtIwqcns7cnsc",
+          "CBl1dstnjobajKxDyc2c7GkZndc",
+          "EztQdbHjcoBuuKx3UsrccV6xnjc",
+          "LjofdSnJ6oMnZlxVLjDcbE7Ln5g",
+          "Ybetdw7ijo9sHVxIOX9cEJj7nPg",
+          "RePidpIXZouhSKxZ1p9ctyrTn7g",
+          "RkgIdzVmNodFkpxxvqTcK3hDnUb",
+          "XEnDdBvwlon0PvxdIIzc1qx9nlP",
+          "C5bydgs2XoU3sDxxTXCcsw6fnEo",
+          "WkeZd5ZNyoJlvZxFW2Pcwwfwnnb",
+          "L7DfdJGHKoXzmJxAHTVc6CIun2c",
+          "Z5GtdrMVzobWnoxcR4dc5zGQn7c",
+          "CeqodNYIqo8iWdxSnqrcGD0inHf",
+          "UX94d4qKpoG8OLxYElXce115nOb",
+          "DoNzdSTPGo4Cj9xLOkgccZgWnqe",
+          "KkyNdd1oPoX0OnxYTOjcMTpintc",
+          "MXYBd3UOVoJVj6xEvs7c8jr5nHh",
+          "B4SZdYCn1owfQKxsKXZcOMdknDe",
+          "KcpXdJujtoL0Udxnuc0ccZSnnze",
+          "RgYKduufeo9Jg6xDOOWc3mkEnUe",
+          "Xc3ddRAUToJFJ8xXmTAcZK8Oncf",
+          "WQLtd7T7To4cS5xvKsVcBGZDnQb",
+          "Xfajd0EtxoHcN4x3dIncVTSpnrg",
+          "VBbIdxULMoNNuEx4GD5cQLxrnch",
+          "KTBAd11Ihod19wxRuVAcp1kdn6e",
+          "X7kSdHTuvoxQcKxpA9xcYyo2nuh",
+          "MBTedb202oeaLyxFXdRcVdU8nqd",
+          "YlFBdTlQ2oCl7rxI1guchMMQnug",
+          "Lu8DdLGaYoYVkQx7JWrcSQumnie",
+          "EbhYdFWVAoRkUCxFytMcJnhbnKc",
+          "doxcn6wp9Nbeag6ltSeuMe3tAif",
+          "doxcnaVPdtzkbBNp4JXRxR1w7Wc",
+          "doxcnHsuEjS6TWBRHCKGrfA60lb",
+          "doxcn3NUuLDyCnLbPXAnpkCfrMe"
+        ],
+        "comment_ids": [
+          "7322051683437297667"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage Project Alerts",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322051683437297667"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnKqhVsQXo2M3hoRwkur4n9f",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud offers two types of alerts for resource monitoring: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Alerts",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for <exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">billing-related</exclude><include target=\"paas\">license-related</include> matters and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Project Alerts",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for operational performance of clusters in specific projects. For a quick reference, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Metrics & Alerts Reference",
+                "token": "KnnBwce9JifxvXkd070cvgUPnag",
+                "url": "https://zilliverse.feishu.cn/wiki/KnnBwce9JifxvXkd070cvgUPnag"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcni0YMYlSGn1mQbNZWiZI8lf",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This topic describes how to view and manage project alerts.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BLthdPXcwotJmKxZsOEc31W0nDg",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcniIesqZT5uM89tzz2SHmpbh",
+        "block_type": 34,
+        "children": [
+          "doxcnykqHwbIRWl5iYshQUMmAYg",
+          "doxcnLo72TMVh21xjFG87emRnMh"
+        ],
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "quote_container": {}
+      },
+      {
+        "block_id": "doxcnykqHwbIRWl5iYshQUMmAYg",
+        "block_type": 2,
+        "parent_id": "doxcniIesqZT5uM89tzz2SHmpbh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnLo72TMVh21xjFG87emRnMh",
+        "block_type": 2,
+        "parent_id": "doxcniIesqZT5uM89tzz2SHmpbh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This feature is exclusively available to clusters in the Standard and Enterprise plans. For more information, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Select the Right Cluster Plan",
+                "token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
+                "url": "https://zilliverse.feishu.cn/wiki/Ghq9wEiOOivgeIkmj2HcHC9onXe"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "V9lidpfwhojSkyxWSgmcURCWngg",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QnFpdIidZoR4lMxS8GbcWtS9ndd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "BDg3dun5AoBeSLxgtAocdmyPnGb",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Below is a table outlining the default conditions for each default project alert.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VgOJdSkV7onVyOxvNpUcVAJJn2f",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When an alert in an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " status, the specified recipients will receive notifications once the conditions are met. You can ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "edit an alert",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FNvDLw4kFji0xeWkc4Hpc9wUfnRh%23J2SWdQOCpoiFSkx87RDcPQTOn6d"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to change its status.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DVu9dWx4roBTMXxARKEcaJJSnrd",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For more information about recommended actions, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Metrics & Alerts Reference",
+                "token": "KnnBwce9JifxvXkd070cvgUPnag",
+                "url": "https://zilliverse.feishu.cn/wiki/KnnBwce9JifxvXkd070cvgUPnag"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "block_type": 31,
+        "children": [
+          "KA1rdEWeQonR05xNHj2ct5j3nIH",
+          "WuVidOUTWoPQVIx5tlkcmPaMnKe",
+          "X6M6dRTMMoxBYPxbgNycWXd5nIh",
+          "Tbt2dHYd0oW2Thxr4jEcx7XxnGf",
+          "WYPxdbc1Ho6qs0xMY2OcDBp0npf",
+          "CgWjdMpDdoVgAtx3KfjcVvqGnkd",
+          "OuILdsd2doZz3CxgXrLcDKdGnYe",
+          "S3uudMmjQofibPxSWeRcUL0Xnmh",
+          "Ut5Pd7FR5owgrXxz5o3cMQO5ntV",
+          "XfmqdVhsZoYb3ixhm2IcL6sGnof",
+          "LakUd4B1Lo8K2Sxwf6lc6A54nFf",
+          "GsnidOvIkoLrLqxm50GcBNLEnVh",
+          "GW58d6fD3oTNglxhgxlc5TnZn9c",
+          "C3RHdmqBeoiYd1xic9oc48nlnmf",
+          "GZONdxiMToeHt3xQQWscegyon0g",
+          "CAbJdvoAIo2ymtxlyhscZx4KnRc",
+          "Ff9NdVwmWoqwXFxsmGyctprBnpe",
+          "WXtidkq6YoF4JnxK0gscEFZ4n6f",
+          "IyCPdkDRwosPTxxsQCxcE5REnxg",
+          "QPtXdVBmQoZBCoxJHfrcicvmnah",
+          "OwsYdCNBLoukMuxF2fUcNoCinse"
+        ],
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "table": {
+          "cells": [
+            "KA1rdEWeQonR05xNHj2ct5j3nIH",
+            "WuVidOUTWoPQVIx5tlkcmPaMnKe",
+            "X6M6dRTMMoxBYPxbgNycWXd5nIh",
+            "Tbt2dHYd0oW2Thxr4jEcx7XxnGf",
+            "WYPxdbc1Ho6qs0xMY2OcDBp0npf",
+            "CgWjdMpDdoVgAtx3KfjcVvqGnkd",
+            "OuILdsd2doZz3CxgXrLcDKdGnYe",
+            "S3uudMmjQofibPxSWeRcUL0Xnmh",
+            "Ut5Pd7FR5owgrXxz5o3cMQO5ntV",
+            "XfmqdVhsZoYb3ixhm2IcL6sGnof",
+            "LakUd4B1Lo8K2Sxwf6lc6A54nFf",
+            "GsnidOvIkoLrLqxm50GcBNLEnVh",
+            "GW58d6fD3oTNglxhgxlc5TnZn9c",
+            "C3RHdmqBeoiYd1xic9oc48nlnmf",
+            "GZONdxiMToeHt3xQQWscegyon0g",
+            "CAbJdvoAIo2ymtxlyhscZx4KnRc",
+            "Ff9NdVwmWoqwXFxsmGyctprBnpe",
+            "WXtidkq6YoF4JnxK0gscEFZ4n6f",
+            "IyCPdkDRwosPTxxsQCxcE5REnxg",
+            "QPtXdVBmQoZBCoxJHfrcicvmnah",
+            "OwsYdCNBLoukMuxF2fUcNoCinse"
+          ],
+          "property": {
+            "column_size": 3,
+            "column_width": [
+              159,
+              73,
+              254
+            ],
+            "header_row": true,
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 7
+          }
+        }
+      },
+      {
+        "block_id": "KA1rdEWeQonR05xNHj2ct5j3nIH",
+        "block_type": 32,
+        "children": [
+          "K74tdnfBBod9iBxKtYzcPRRsnue"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "K74tdnfBBod9iBxKtYzcPRRsnue",
+        "block_type": 2,
+        "parent_id": "KA1rdEWeQonR05xNHj2ct5j3nIH",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Alert Target",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WuVidOUTWoPQVIx5tlkcmPaMnKe",
+        "block_type": 32,
+        "children": [
+          "TSYFd9dG2oYbw3xSPmqcFGQknvp"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "TSYFd9dG2oYbw3xSPmqcFGQknvp",
+        "block_type": 2,
+        "parent_id": "WuVidOUTWoPQVIx5tlkcmPaMnKe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X6M6dRTMMoxBYPxbgNycWXd5nIh",
+        "block_type": 32,
+        "children": [
+          "N6x8dxPDtoofUbxpbRQcVKLHnfg"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "N6x8dxPDtoofUbxpbRQcVKLHnfg",
+        "block_type": 2,
+        "parent_id": "X6M6dRTMMoxBYPxbgNycWXd5nIh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Default Trigger Condition",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Tbt2dHYd0oW2Thxr4jEcx7XxnGf",
+        "block_type": 32,
+        "children": [
+          "FXvSdfMwYoFOi5x0frac3Ay8nEe",
+          "EeOAdXdhroiX3UxeHyucznIXnIe"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FXvSdfMwYoFOi5x0frac3Ay8nEe",
+        "block_type": 2,
+        "parent_id": "Tbt2dHYd0oW2Thxr4jEcx7XxnGf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CU Computation",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EeOAdXdhroiX3UxeHyucznIXnIe",
+        "block_type": 2,
+        "parent_id": "Tbt2dHYd0oW2Thxr4jEcx7XxnGf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WYPxdbc1Ho6qs0xMY2OcDBp0npf",
+        "block_type": 32,
+        "children": [
+          "EkjBdlRISobq2Xx0v4Ocah27n6c"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "EkjBdlRISobq2Xx0v4Ocah27n6c",
+        "block_type": 2,
+        "parent_id": "WYPxdbc1Ho6qs0xMY2OcDBp0npf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "%",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CgWjdMpDdoVgAtx3KfjcVvqGnkd",
+        "block_type": 32,
+        "children": [
+          "MKgndtKc7oDy9cx2wlBcOdzinpg",
+          "S1eUdXX4VozgHgxEFiQcTlz1nBc"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "MKgndtKc7oDy9cx2wlBcOdzinpg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Trigger alerts at >70% utilized computational power for 10+ minutes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CgWjdMpDdoVgAtx3KfjcVvqGnkd"
+      },
+      {
+        "block_id": "S1eUdXX4VozgHgxEFiQcTlz1nBc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CRITICAL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Trigger alerts at >90% utilized computational power for 10+ minutes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CgWjdMpDdoVgAtx3KfjcVvqGnkd"
+      },
+      {
+        "block_id": "OuILdsd2doZz3CxgXrLcDKdGnYe",
+        "block_type": 32,
+        "children": [
+          "VyH5dnCfhoS8xfxdSt2c1l0wnRh"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "VyH5dnCfhoS8xfxdSt2c1l0wnRh",
+        "block_type": 2,
+        "parent_id": "OuILdsd2doZz3CxgXrLcDKdGnYe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CU Capacity",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "S3uudMmjQofibPxSWeRcUL0Xnmh",
+        "block_type": 32,
+        "children": [
+          "QXSLd5w2moF4l0xpmPmcxcfSnwc"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QXSLd5w2moF4l0xpmPmcxcfSnwc",
+        "block_type": 2,
+        "parent_id": "S3uudMmjQofibPxSWeRcUL0Xnmh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "%",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ut5Pd7FR5owgrXxz5o3cMQO5ntV",
+        "block_type": 32,
+        "children": [
+          "Pkj1d5Uh5o1kZoxG4U9crmtwnQg",
+          "EpZIdMB3nobzcsxbvoScw7dpngd"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Pkj1d5Uh5o1kZoxG4U9crmtwnQg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Trigger alerts at >70% utilized CU capacity for 10+ minutes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Ut5Pd7FR5owgrXxz5o3cMQO5ntV"
+      },
+      {
+        "block_id": "EpZIdMB3nobzcsxbvoScw7dpngd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CRITICAL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Trigger alerts at >90% utilized CU capacity for 10+ minutes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Ut5Pd7FR5owgrXxz5o3cMQO5ntV"
+      },
+      {
+        "block_id": "XfmqdVhsZoYb3ixhm2IcL6sGnof",
+        "block_type": 32,
+        "children": [
+          "SKVpd8CnDozhrGx6SgOcU9Tunx1"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SKVpd8CnDozhrGx6SgOcU9Tunx1",
+        "block_type": 2,
+        "parent_id": "XfmqdVhsZoYb3ixhm2IcL6sGnof",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search (QPS)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LakUd4B1Lo8K2Sxwf6lc6A54nFf",
+        "block_type": 32,
+        "children": [
+          "XvRAdJ4S8oGwaWxZAN0c6Nzfn5Y"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "XvRAdJ4S8oGwaWxZAN0c6Nzfn5Y",
+        "block_type": 2,
+        "parent_id": "LakUd4B1Lo8K2Sxwf6lc6A54nFf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "QPS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GsnidOvIkoLrLqxm50GcBNLEnVh",
+        "block_type": 32,
+        "children": [
+          "BzQydwAZQoZnKRxHM5PcxOtPnNh"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "BzQydwAZQoZnKRxHM5PcxOtPnNh",
+        "block_type": 2,
+        "parent_id": "GsnidOvIkoLrLqxm50GcBNLEnVh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Trigger ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " alerts at >50 search operations per second for 10+ minutes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GW58d6fD3oTNglxhgxlc5TnZn9c",
+        "block_type": 32,
+        "children": [
+          "JXNldyaSxomcPCxPx52ceFXsnJd"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "JXNldyaSxomcPCxPx52ceFXsnJd",
+        "block_type": 2,
+        "parent_id": "GW58d6fD3oTNglxhgxlc5TnZn9c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Query (QPS)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C3RHdmqBeoiYd1xic9oc48nlnmf",
+        "block_type": 32,
+        "children": [
+          "EpMjdPgF9oHFAvxNwoBcJPI0nLg"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "EpMjdPgF9oHFAvxNwoBcJPI0nLg",
+        "block_type": 2,
+        "parent_id": "C3RHdmqBeoiYd1xic9oc48nlnmf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "QPS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GZONdxiMToeHt3xQQWscegyon0g",
+        "block_type": 32,
+        "children": [
+          "GKVMdDtd8omKAwxZu3bcMQSinVf"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "GKVMdDtd8omKAwxZu3bcMQSinVf",
+        "block_type": 2,
+        "parent_id": "GZONdxiMToeHt3xQQWscegyon0g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Trigger ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " alerts at >50 query operations per second for 10+ minutes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CAbJdvoAIo2ymtxlyhscZx4KnRc",
+        "block_type": 32,
+        "children": [
+          "GQh4dZIsFoioEHxHeMPczWROnRb"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "GQh4dZIsFoioEHxHeMPczWROnRb",
+        "block_type": 2,
+        "parent_id": "CAbJdvoAIo2ymtxlyhscZx4KnRc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search Latency (P99)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ff9NdVwmWoqwXFxsmGyctprBnpe",
+        "block_type": 32,
+        "children": [
+          "WRCHdx3XPoOIRpxEvgrcznolnqd"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "WRCHdx3XPoOIRpxEvgrcznolnqd",
+        "block_type": 2,
+        "parent_id": "Ff9NdVwmWoqwXFxsmGyctprBnpe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ms",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WXtidkq6YoF4JnxK0gscEFZ4n6f",
+        "block_type": 32,
+        "children": [
+          "D2pydPN83oSxvNxhvRwc4Amcn1c"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "D2pydPN83oSxvNxhvRwc4Amcn1c",
+        "block_type": 2,
+        "parent_id": "WXtidkq6YoF4JnxK0gscEFZ4n6f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Trigger ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " alerts at P99 latency >1,000ms for 10+ minutes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IyCPdkDRwosPTxxsQCxcE5REnxg",
+        "block_type": 32,
+        "children": [
+          "W6Gtd3Khbou9KRxpPrscVYKRnWX"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "W6Gtd3Khbou9KRxpPrscVYKRnWX",
+        "block_type": 2,
+        "parent_id": "IyCPdkDRwosPTxxsQCxcE5REnxg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Query Latency (P99)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QPtXdVBmQoZBCoxJHfrcicvmnah",
+        "block_type": 32,
+        "children": [
+          "JLbHdlAuGoRYsQxL0hbcIlL9nPe"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "JLbHdlAuGoRYsQxL0hbcIlL9nPe",
+        "block_type": 2,
+        "parent_id": "QPtXdVBmQoZBCoxJHfrcicvmnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ms",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OwsYdCNBLoukMuxF2fUcNoCinse",
+        "block_type": 32,
+        "children": [
+          "E4tYdSXm0oWahWxKKBKcrsdEnLe"
+        ],
+        "parent_id": "NNapdCUwlogOS4xleI3ceONXnG0",
+        "table_cell": {}
+      },
+      {
+        "block_id": "E4tYdSXm0oWahWxKKBKcrsdEnLe",
+        "block_type": 2,
+        "parent_id": "OwsYdCNBLoukMuxF2fUcNoCinse",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Trigger ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " alerts at P99 latency >1,000ms for 10+ minutes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnYQBHZrlrOt5vHZK02QxC0f",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Permissions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnfDBH8mUMxDk0opwrDRDMYf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Organization owners and project owners or members can view project alerts.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "FcKEdqX0coRNPSxTGHzcX82rnxb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Configuration",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Only organization or project owners can configure cluster alerts. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "doxcnP4IqPryKsSHxRS2BC1MXoh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Receiving notifications",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Available to any organization member if designated by the owner.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "doxcnGUxwsES6tTUIpOFtVodwve",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For more information on user roles, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "User Roles",
+                "token": "AFNZwDcXNiChK0ke5h5c65xZnje",
+                "url": "https://zilliverse.feishu.cn/wiki/AFNZwDcXNiChK0ke5h5c65xZnje"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnyzuPxtxJyicn7QqcJeu9Re",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View project alerts",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "doxcn6s19GsOabRGeHDFbVu9zHb",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Navigate to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Project Alerts",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " page to view project alerts.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WMFCdX742oL29wxQ6h5cf5OVnah",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Components of an alert",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PHZSdOHZtoK6AvxmKwncKs0jnN8",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Alert Target",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Preconfigured by Zilliz Cloud with trigger conditions and severity.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "G2EHdSDSqou9P3xnWFzcMB9OnGf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Status",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Indicates if the alert is active (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") or not. When an alert in an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " status, the specified recipients will receive notifications once the conditions are met.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "Glfud27gPo95WExyODCctC0mnEg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Condition",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Trigger conditions for the alert.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "C5iZd9KAwor4bMxKJ7bcV0j5nAe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Severity Level",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Categorized as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CRITICAL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "WqXfdKw9noDTcjxkR8Bczbx8nXd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Receiver",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Designated roles or email addresses for receiving notifications. You can also set up custom notification channels using webhooks. For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Notification Channels",
+                "token": "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
+                "url": "https://zilliverse.feishu.cn/wiki/ARpTwYXlIi7ZLtkEHx5ciUK6nuc"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "TACMdw0Zko7cpSxsTKMczV7On3e",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SJwadQtMvo5dZ3xNg04cDWcznhg",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D26228-1260%26mode%3Ddesign%26t%3DoC0jbdBxCo83LrF4-4"
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "DxCpdu4PloiA98xEPsJcfcVBnZW",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DmwAdqXbEoqDwzxjOxKcM2lInQe",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "M2PgdOUqioOXaoxeWJmczdlKnhd",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30755-2017%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "JtWkdNt9PofXMax6GzDczEB0nEg",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZbzBdHdFQocENtxBNX0caU5tnFg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a project alert",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "DhLnd1jMTohFFfxlKyScgJeFnvf",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In addition to default project alerts, you can click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Alert",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to create an alert by customizing the alert type, severity level, alert condition, and notification recipients.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FLLSdQLH4olnanxwKxTc4rAwnXf",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For supported custom alert targets, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Metrics & Alerts Reference",
+                "token": "KnnBwce9JifxvXkd070cvgUPnag",
+                "url": "https://zilliverse.feishu.cn/wiki/KnnBwce9JifxvXkd070cvgUPnag"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "H2yqdA6NsoMiTaxKJxFc3e56n6b",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RIMXdAqxWoopuNx4G1CcaJMTn7d",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D26193-1138%26mode%3Ddesign%26t%3DoC0jbdBxCo83LrF4-4"
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "Qr5IdZG1doK9u5x44vDcMaPinaf",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "S27JdZlCYojVIixa9mZceCekn2f",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Qa16dGPjeoEJH3xbbT7ceqLfn6g",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30755-1920%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "OSrYdzz3lo2uUSxhYK8ckB0Lngf",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "J2SWdQOCpoiFSkx87RDcPQTOn6d",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Edit a project alert",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "J75WdkYgIon2GUxtsD6cTmRQnpe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Customizations",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Modify alert conditions, update notification recipients, and change the active status.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "InTDdOPDQoUiuQxHUHccAgFLnSg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Restrictions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Alert target type and severity level are fixed and cannot be changed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "ReZnd3r2Vo2Ay9xRmBDcbgM1nrr",
+        "block_type": 34,
+        "children": [
+          "FPBidaxAcoHUS2xkSmhc5ShFnhf",
+          "Cf4hddUhtoPnXpx83t6ciFSOnqh"
+        ],
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "quote_container": {}
+      },
+      {
+        "block_id": "FPBidaxAcoHUS2xkSmhc5ShFnhf",
+        "block_type": 2,
+        "parent_id": "ReZnd3r2Vo2Ay9xRmBDcbgM1nrr",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Cf4hddUhtoPnXpx83t6ciFSOnqh",
+        "block_type": 2,
+        "parent_id": "ReZnd3r2Vo2Ay9xRmBDcbgM1nrr",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To quickly enable or disable an alert, you can select ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Enable",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Disable",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Actions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LGqbdEFGJoHdW9xgX7Bc3rronef",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "J0C4dsLv6okbS5xHL39cEC4tnu7",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D26213-1206%26mode%3Ddesign%26t%3DoC0jbdBxCo83LrF4-4"
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "Q5SzdeVuuouLoOxtIwqcns7cnsc",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CBl1dstnjobajKxDyc2c7GkZndc",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EztQdbHjcoBuuKx3UsrccV6xnjc",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30755-1943%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "LjofdSnJ6oMnZlxVLjDcbE7Ln5g",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ybetdw7ijo9sHVxIOX9cEJj7nPg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enable or disable a project alert",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "RePidpIXZouhSKxZ1p9ctyrTn7g",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To quickly enable or disable a project alert, select ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Enable",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Disable",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Actions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RkgIdzVmNodFkpxxvqTcK3hDnUb",
+        "block_type": 34,
+        "children": [
+          "VFcEdbLRpo0SstxjuZtcTlCXneb",
+          "Qn5kdtqwloAqsCxPottcguKzn5i"
+        ],
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "quote_container": {}
+      },
+      {
+        "block_id": "VFcEdbLRpo0SstxjuZtcTlCXneb",
+        "block_type": 2,
+        "parent_id": "RkgIdzVmNodFkpxxvqTcK3hDnUb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Qn5kdtqwloAqsCxPottcguKzn5i",
+        "block_type": 2,
+        "parent_id": "RkgIdzVmNodFkpxxvqTcK3hDnUb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once an alert is disabled, you'll no longer receive alert notifications if alert conditions are met.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XEnDdBvwlon0PvxdIIzc1qx9nlP",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C5bydgs2XoU3sDxxTXCcsw6fnEo",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D29833-1159%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "WkeZd5ZNyoJlvZxFW2Pcwwfwnnb",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "L7DfdJGHKoXzmJxAHTVc6CIun2c",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z5GtdrMVzobWnoxcR4dc5zGQn7c",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30755-1966%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "CeqodNYIqo8iWdxSnqrcGD0inHf",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UX94d4qKpoG8OLxYElXce115nOb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Delete a project alert",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "DoNzdSTPGo4Cj9xLOkgccZgWnqe",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once a project alert is no longer needed, you can delete it.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KkyNdd1oPoX0OnxYTOjcMTpintc",
+        "block_type": 34,
+        "children": [
+          "HE4HdAz8UooHCPxzsowcc4tsnSb",
+          "N6Gpd6qhKoHyVrxJjMSckH1KnKc"
+        ],
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "quote_container": {}
+      },
+      {
+        "block_id": "HE4HdAz8UooHCPxzsowcc4tsnSb",
+        "block_type": 2,
+        "parent_id": "KkyNdd1oPoX0OnxYTOjcMTpintc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "🚧 Warning",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "N6Gpd6qhKoHyVrxJjMSckH1KnKc",
+        "block_type": 2,
+        "parent_id": "KkyNdd1oPoX0OnxYTOjcMTpintc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once an alert is deleted, you'll no longer receive notifications for the alert target.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MXYBd3UOVoJVj6xEvs7c8jr5nHh",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "B4SZdYCn1owfQKxsKXZcOMdknDe",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D26223-1228%26mode%3Ddesign%26t%3DoC0jbdBxCo83LrF4-4"
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "KcpXdJujtoL0Udxnuc0ccZSnnze",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RgYKduufeo9Jg6xDOOWc3mkEnUe",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Xc3ddRAUToJFJ8xXmTAcZK8Oncf",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30755-1984%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "WQLtd7T7To4cS5xvKsVcBGZDnQb",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Xfajd0EtxoHcN4x3dIncVTSpnrg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View alert history",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "VBbIdxULMoNNuEx4GD5cQLxrnch",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View triggered alerts on the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Alert History",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab, with filters for alert target, severity level, and time range.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KTBAd11Ihod19wxRuVAcp1kdn6e",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X7kSdHTuvoxQcKxpA9xcYyo2nuh",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30755-2009%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "MBTedb202oeaLyxFXdRcVdU8nqd",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YlFBdTlQ2oCl7rxI1guchMMQnug",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Lu8DdLGaYoYVkQx7JWrcSQumnie",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D28921-1169%26mode%3Ddesign%26t%3DomIeeUNkPgalJmuW-4"
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "EbhYdFWVAoRkUCxFytMcJnhbnKc",
+        "block_type": 2,
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn6wp9Nbeag6ltSeuMe3tAif",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "doxcnaVPdtzkbBNp4JXRxR1w7Wc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "View Cluster Metrics",
+                "token": "DbPIw4jLOiEabCk5uptc6EZ1nbf",
+                "url": "https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "doxcnHsuEjS6TWBRHCKGrfA60lb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Organization Alerts",
+                "token": "UPg7wiU71ioeELk8I8KcLDYqncb",
+                "url": "https://zilliverse.feishu.cn/wiki/UPg7wiU71ioeELk8I8KcLDYqncb"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      },
+      {
+        "block_id": "doxcn3NUuLDyCnLbPXAnpkCfrMe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Metrics & Alerts Reference",
+                "token": "KnnBwce9JifxvXkd070cvgUPnag",
+                "url": "https://zilliverse.feishu.cn/wiki/KnnBwce9JifxvXkd070cvgUPnag"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
+      }
+    ],
+    "counts": 132
+  }
+}

@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 15
-slug: /search
+slug: /restful/search
 title: Search
 ---
 
@@ -74,18 +74,12 @@ curl --request POST \
 {
     "dbName": "string",
     "collectionName": "string",
-    "partitionNames": [
-        {}
-    ],
+    "partitionNames": [],
     "filter": "string",
     "limit": "integer",
     "offset": "integer",
-    "outputFields": [
-        {}
-    ],
-    "vector": [
-        {}
-    ],
+    "outputFields": [],
+    "vector": [],
     "params": {
         "radius": "number",
         "range_filter": "number"
@@ -95,17 +89,20 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `dbName`  | **string**<br/>The name of the database.|
-| `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
-| `partitionNames`  | **array**<br/>The name of the partitions to which this operation applies.|
-| `filter`  | **string**<br/>The filter used to find matches for the search|
-| `limit`  | **integer**<br/>The maximum number of entities to return.<br/>The sum of this value of that of `offset` should be less than **1024**.<br/>The value defaults to **100**.<br/>The value ranges from **1** to **100**.|
-| `offset`  | **integer**<br/>The number of entities to skip in the search results.<br/>The sum of this value and that of `limit` should not be greater than **1024**.<br/>The maximum value is **1024**.|
-| `outputFields`  | **array**<br/>An array of fields to return along with the search results.|
-| `vector`  | **array (number \[float32\])**(required)<br/>The query vector in the form of a list of floating numbers.|
-| `params`  | **object**<br/>List of search parameters|
-| `params.radius`  | **number(float64)**<br/>The angle where the vector with the least similarity resides.|
-| `params.range_filter`  | **number(float64)**<br/>Used in combination to filter vector field values whose similarity to the query vector falls into a specific range.|
+| `dbName` | string  <br/>The name of the database.  |
+| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
+| `partitionNames` | array<br/>The name of the partitions to which this operation applies. |
+| `partitionNames[]` | string  <br/>partitionName  |
+| `filter` | string  <br/>The filter used to find matches for the search  |
+| `limit` | integer  <br/>The maximum number of entities to return.<br/>The sum of this value of that of `offset` should be less than **1024**.<br/>The value defaults to 100<br/>The value ranges from 1 to 100.  |
+| `offset` | integer  <br/>The number of entities to skip in the search results.<br/>The sum of this value and that of `limit` should not be greater than **1024**.<br/>The value is less than or equal to 1024.  |
+| `outputFields` | array<br/>An array of fields to return along with the search results. |
+| `outputFields[]` | string  <br/><br/>The value defaults to id, distance  |
+| `vector` | array<br/>The query vector in the form of a list of floating numbers. |
+| `vector[]` | number (float32) <br/>  |
+| `params` | object<br/>List of search parameters |
+| `params.radius` | number (float64) <br/>The angle where the vector with the least similarity resides.  |
+| `params.range_filter` | number (float64) <br/>Used in combination to filter vector field values whose similarity to the query vector falls into a specific range.  |
 
 ## Response
 
@@ -139,8 +136,9 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`  | **array**<br/>A data array of objects. |
+| `code` | integer  <br/>  |
+| `data` | array<br/> |
+| `data[]` | object<br/> |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -168,4 +166,3 @@ The properties in the returned response are listed in the following table.
 | 90126 | The sum of the 'offset' parameter value and the 'limit' parameter value should not exceed 16384. |
 | 90135 | No search content provided. |
 | 90139 | Type mismatch for field 'xxx'. expected type:xxx |
-

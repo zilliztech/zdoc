@@ -3,6 +3,7 @@ slug: /subscribe-on-aws-marketplace
 sidebar_label: AWS Marketplace
 beta: FALSE
 notebook: FALSE
+type: origin
 token: LDlOweEzmiLkdQkvPFec5lrcnbf
 sidebar_position: 2
 ---
@@ -28,17 +29,17 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribing to Zilliz Cloud as follows:
 
-1. Search for **Zilliz Cloud** in the search box, or [click here](https://aws.amazon.com/marketplace/search/results?searchTerms=zilliz+cloud) to view Zilliz Cloud on AWS.
+1. Search for __Zilliz Cloud__ in the search box, or [click here](https://aws.amazon.com/marketplace/search/results?searchTerms=zilliz+cloud) to view Zilliz Cloud on AWS.
 
     ![search_for_zilliz_on_aws](/img/search_for_zilliz_on_aws.png)
 
-1. Click **Zilliz Cloud**.
+1. Click __Zilliz Cloud__.
 
     Familiarize yourself with the services and pricing.
 
     ![view_purchase_options](/img/view_purchase_options.png)
 
-1. Click **View purchase options**, then **Subscribe**. Follow the prompt to **Set up your account** on Zilliz Cloud.
+1. Click __View purchase options__, then __Subscribe__. Follow the prompt to __Set up your account__ on Zilliz Cloud.
 
     ![aws_flash_message](/img/aws_flash_message.png)
 
@@ -46,11 +47,11 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.
+    <p>AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.</p>
 
     </Admonition>
 
-1. Go to **Billing** to ensure your AWS Marketplace subscription is set as your payment method.
+1. Go to __Billing__ to ensure your AWS Marketplace subscription is set as your payment method.
 
     ![aws-marketplace-success](/img/aws-marketplace-success.png)
 
@@ -66,7 +67,7 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    It takes a few minutes for AWS Marketplace to complete the cancellation process.
+    <p>It takes a few minutes for AWS Marketplace to complete the cancellation process.</p>
 
     </Admonition>
 
@@ -84,7 +85,7 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    It takes a few minutes for AWS Marketplace to complete the cancellation process.
+    <p>It takes a few minutes for AWS Marketplace to complete the cancellation process.</p>
 
     </Admonition>
 

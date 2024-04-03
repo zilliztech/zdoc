@@ -2,8 +2,9 @@
 slug: /pipelines-concepts
 beta: FALSE
 notebook: FALSE
+type: origin
 token: V5DNwjhUmimGnuksnkAcmch3n0c
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';

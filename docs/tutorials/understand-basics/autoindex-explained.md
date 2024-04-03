@@ -2,6 +2,7 @@
 slug: /autoindex-explained
 beta: FALSE
 notebook: FALSE
+type: origin
 token: EA2twSf5oiERMDkriKScU9GInc4
 sidebar_position: 1
 ---
@@ -11,15 +12,15 @@ import Admonition from '@theme/Admonition';
 
 # AUTOINDEX Explained
 
-Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, **AUTOINDEX** comes into play.
+Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, __AUTOINDEX__ comes into play.
 
-**AUTOINDEX** is a proprietary index type available on Zilliz Cloud that can help you achieve better search performance. Whenever you want to index a vector field in your collection on Zilliz Cloud, **AUTOINDEX** applies.
+__AUTOINDEX__ is a proprietary index type available on Zilliz Cloud that can help you achieve better search performance. Whenever you want to index a vector field in your collection on Zilliz Cloud, __AUTOINDEX__ applies.
 
 ## Features and benefits{#features-and-benefits}
 
-**AUTOINDEX** offers a significant performance advantage over open-source Milvus, achieving up to 3x QPS on specific datasets.
+__AUTOINDEX__ offers a significant performance advantage over open-source Milvus, achieving up to 3x QPS on specific datasets.
 
-**AUTOINDEX** delivers high performance in these aspects:
+__AUTOINDEX__ delivers high performance in these aspects:
 
 - Leverage Single Instruction, Multiple Data (SIMD) to speed up queries and storage, squeezing every possible bit of performance out of machines.
 
@@ -29,13 +30,13 @@ Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Becau
 
 ### Cost efficiency{#cost-efficiency}
 
-**AUTOINDEX** supports pure in-memory, hybrid disk, and memory-mapped (MMAP) modes to meet users' varying needs for capacity and performance. In in-memory mode, **AUTOINDEX** uses dynamic quantization to significantly reduce memory usage. In hybrid disk mode, **AUTOINDEX** can dynamically cache data and use algorithms to minimize I/O operations and maintain high performance.
+__AUTOINDEX__ supports pure in-memory, hybrid disk, and memory-mapped (MMAP) modes to meet users' varying needs for capacity and performance. In in-memory mode, __AUTOINDEX__ uses dynamic quantization to significantly reduce memory usage. In hybrid disk mode, __AUTOINDEX__ can dynamically cache data and use algorithms to minimize I/O operations and maintain high performance.
 
 ### Autonomous tuning{#autonomous-tuning}
 
 Approximate nearest neighbor (ANN) algorithms require a trade-off between recall and performance. Query parameters have a significant impact on the results. If the query parameter size is too small, the recall will be extremely low and may not meet business requirements. Conversely, if the query parameter size is excessively large, the performance will be severely degraded.
 
-Choosing query parameters requires a lot of domain-specific knowledge, which greatly increases the learning curve for users. To address this issue, **AUTOINDEX** has developed an intelligent algorithm that facilitates the selection of query parameters. By analyzing the distribution of users' datasets during index building, **AUTOINDEX** achieves a trade-off between recall and performance, powered by a machine learning model for query parameter recommendation. This way, users no longer need to manually set query parameters.
+Choosing query parameters requires a lot of domain-specific knowledge, which greatly increases the learning curve for users. To address this issue, __AUTOINDEX__ has developed an intelligent algorithm that facilitates the selection of query parameters. By analyzing the distribution of users' datasets during index building, __AUTOINDEX__ achieves a trade-off between recall and performance, powered by a machine learning model for query parameter recommendation. This way, users no longer need to manually set query parameters.
 
 ## Index building and search settings{#index-building-and-search-settings}
 

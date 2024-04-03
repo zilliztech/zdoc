@@ -32,12 +32,14 @@ class refGen {
     env.addFilter('req_format', this.req_format)
     env.addFilter('list_error', this.list_error)
     env.addFilter('get_example', this.get_example)
+    env.addFilter('prepare_entries', this.prepare_entries)
 
     const template = env.getTemplate("reference.md")
     var idx = 0
     for (const page_url of Object.keys(specifications.paths)) {
       for (const method of Object.keys(specifications.paths[page_url])) {
         
+        const header_params = []
         const query_params = []
         const path_params = []
         const req_bodies = []
@@ -47,7 +49,7 @@ class refGen {
 
         const page_title = specifications.paths[page_url][method].summary
         const page_excerpt = specifications.paths[page_url][method].description
-        const page_parent = parents.filter(x => x === specifications.paths[page_url][method].tags[0])[0].split(' ').join('-').toLowerCase()
+        const page_parent = parents.filter(x => x === specifications.paths[page_url][method].tags[0])[0].split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
         const page_slug = this.get_slug(page_title)
         const page_method = method.toLowerCase()
         const host = lang === 'zh-CN' ? 'cloud.zilliz.com.cn' : 'zillizcloud.com'
@@ -62,6 +64,10 @@ class refGen {
 
             if (param.in == 'path') {
               path_params.push(param)
+            }
+
+            if (param.in == 'header') {
+              header_params.push(param)
             }
           }
         }
@@ -85,7 +91,7 @@ class refGen {
           } else {
             res_body = schema
           }
-        }    
+        }
 
         const t = template.render({
           page_title,
@@ -94,6 +100,7 @@ class refGen {
           page_url,
           server,
           page_method,
+          header_params,
           query_params,
           path_params,
           req_bodies,
@@ -119,7 +126,7 @@ class refGen {
     const template = env.getTemplate("group.md")
 
     for (const group of Object.keys(specifications.tags)) {
-      const slug = specifications.tags[group].name.split(' ').join('-').toLowerCase()
+      const slug = specifications.tags[group].name.split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
       const group_name = specifications.tags[group].name.split(' ')[0]
       const descriptions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/descriptions.json', 'utf-8'))
       const description = descriptions.filter(x => x.name === slug)[0].description
@@ -208,15 +215,18 @@ class refGen {
     }
 
     const iterate_array = function(obj) {
-      let x = [{}]
+      let x = []
       if (obj.type == 'array') {
         if (obj.items.hasOwnProperty('anyOf')) {
           for (const item of obj.items.anyOf) {
             x = iterate_array(item)
           }
         }
-        for (const key of Object.keys(obj.properties)) {
-          x[0][key] = iterate_object(obj.properties[key])
+
+        if (obj.properties) {
+          for (const key of Object.keys(obj.properties)) {
+            x[0][key] = iterate_object(obj.properties[key])
+          }
         }
       } else if (obj.type == 'object') {
         x[0] = iterate_object(obj)
@@ -259,7 +269,7 @@ class refGen {
       const titles = JSON.parse(fs.readFileSync(`plugins/apifox-docs/meta/titles.json`, 'utf-8'))
       return titles[page_title]
     } else {
-      return page_title.split(' ').join('-').toLowerCase()
+      return page_title.split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
     }
   }
 
@@ -320,6 +330,134 @@ class refGen {
     }
 
     return specifications
+  }
+
+  prepare_entries(req_body) {
+    var entries = []
+
+    var process_plain = function(field, name, parent_name, parent_type) {
+      var format = field.format ? `(${field.format})` : ''
+      var required = field.required ? '__REQUIRED__' : ''
+      var default_value = field.default ? `<br/>The value defaults to ${field.default}` : ''
+      var description = field.description ? field.description.replace('\n', '<br/>').trim() : ''
+      var value_range = ""
+      var field_name = ""
+
+      if (parent_type == 'array' && name != '') {
+        field_name = `${parent_name}[].${name}`
+      } else if (parent_type == 'array') {
+        field_name = `${parent_name}[]`
+      } else if (parent_type == 'object') {
+        field_name = `${parent_name}.${name}`
+      } else {
+        field_name = name
+      }
+
+      if (field.minimum && field.maximum) {
+        value_range = `<br/>The value ranges from ${field.minimum} to ${field.maximum}.`
+      } else if (field.minimum) {
+        value_range = `<br/>The value is greater than or equal to ${field.minimum}.`
+      } else if (field.maximum) {
+        value_range = `<br/>The value is less than or equal to ${field.maximum}.`
+      }
+
+      entries.push(`| __${field_name}__ | ${field.type} ${format} ${required}<br/>${description}${default_value}${value_range}  |`)
+    }
+
+    var process_object = function(field, name, parent_name, parent_type) {
+      var description = field.description ? field.description.replace('\n', '<br/>').trim() : ''
+      var field_name = ""
+      if (parent_type == 'array' && name != '') {
+        field_name = `${parent_name}[].${name}`
+      } else if (parent_type == 'array') {
+        field_name = `${parent_name}[]`
+      } else if (parent_type == 'object') {
+        field_name = `${parent_name}.${name}`
+      } else {
+        field_name = name
+      }
+
+      entries.push(`| __${field_name}__ | object<br/>${description} |`)
+
+      for (const prop in field.properties) {
+        if (field.properties[prop].type == 'object') {
+          process_object(field.properties[prop], prop, field_name, 'object')
+        } else if (field.properties[prop].type == 'array') {
+          process_array(field.properties[prop], prop, field_name, 'array')
+        } else if (field.properties[prop].anyOf || field.properties[prop].oneOf) {
+          process_composite(field.properties[prop], prop, field_name)
+        } else {
+          process_plain(field.properties[prop], prop, field_name, 'object')
+        }
+      }
+    }
+
+    var process_array = function(field, name, parent_name, parent_type) {
+      var description = field.description ? field.description.replace('\n', '<br/>').trim() : ''
+      var field_name = ""
+      if (parent_type == 'array' && name != '') {
+        field_name = `${parent_name}[].${name}`
+      } else if (parent_type == 'array') {
+        field_name = `${parent_name}[]`
+      } else if (parent_type == 'object') {
+        field_name = `${parent_name}.${name}`
+      } else {
+        field_name = name
+      }
+
+      entries.push(`| __${field_name}__ | array<br/>${description} |`)
+      
+
+      if (field.items.type == 'object') {
+        process_object(field.items, '', field_name, 'array')
+      } else if (field.items.type == 'array') {
+        process_array(field.items, '', field_name, 'array')
+      } else if (field.items.anyOf || field.items.oneOf) {
+        process_composite(field.items, '', field_name, 'array')
+      } else {
+        process_plain(field.items, '', field_name, 'array')
+      }
+    }
+
+    var process_composite = function(field, name, parent_name, parent_type) {
+      var description = field.description ? field.description.replace('\n', '<br/>').trim() : ''
+      var field_name = ""
+      var possible_types = []
+
+      if (parent_type == 'array' && name != '') {
+        field_name = `${parent_name}[].${name}`
+      } else if (parent_type == 'array') {
+        field_name = `${parent_name}[]`
+      } else if (parent_type == 'object') {
+        field_name = `${parent_name}.${name}`
+      } else {
+        field_name = name
+      }
+
+      if (parent_type != "" && field.anyOf) {
+        possible_types = field.anyOf ? field.anyOf.map(x => x.type) : [field.type]
+      }
+
+      if (parent_type != "" && field.oneOf) {
+        possible_types = field.oneOf ? field.oneOf.map(x => x.type) : [field.type]
+      }
+
+      entries.push(`| __${field_name}__ | ${possible_types.join(' | ')}<br/>${description} |`)
+    }
+
+    for (const prop in req_body.properties) {
+      if (req_body.properties[prop].type == 'object') {
+        process_object(req_body.properties[prop], prop, '')
+      } else if (req_body.properties[prop].type == 'array') {
+        process_array(req_body.properties[prop], prop, '')
+      } else if (req_body.properties[prop].anyOf || req_body.properties[prop].oneOf) {
+        process_composite(req_body.properties[prop], prop, '')
+      } else {
+        process_plain(req_body.properties[prop], prop, '')
+      }
+    }
+
+    return entries.join('\n')
   }
 
   __delete_examples(body) {

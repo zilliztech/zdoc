@@ -1,3 +1,12 @@
+---
+slug: /nodejs/client.MilvusClient()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 0
+displayed_sidebar: nodejsSidebar
+---
+
+
 # MilvusClient()
 
 Creates a Milvus client.

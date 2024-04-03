@@ -1,3 +1,12 @@
+---
+slug: /go/client.DeleteByPks()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 5
+displayed_sidebar: goSidebar
+---
+
+
 # DeleteByPks()
 
 Deletes one or more entities from a collection by filtering primary key fields with boolean expressions.

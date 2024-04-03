@@ -1,8 +1,9 @@
 ---
-slug: /cloud-meta
+slug: /restful/cloud-meta
 beta: FALSE
 notebook: FALSE
 sidebar_position: 0
+displayed_sidebar: restfulSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 0
-slug: /list-cloud-providers
+slug: /restful/list-cloud-providers
 title: List Cloud Providers
 ---
 
@@ -96,10 +96,11 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`  | **array**<br/>A data array of objects. |
-| `data.cloudId`   | **string**<br/>The ID of a cloud provider. |
-| `data.description`   | **string**<br/>The description of the cloud provider. |
+| `code` | integer  <br/>  |
+| `data` | array<br/> |
+| `data[]` | object<br/> |
+| `data[].cloudId` | string  <br/>The ID of a cloud provider.  |
+| `data[].description` | string  <br/>The description of the cloud provider.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -110,4 +111,3 @@ The properties in the returned response are listed in the following table.
 | 80001 | The token is illegal |
 | 80002 | The token is invalid |
 | 90117 | Invalid domain name used |
-

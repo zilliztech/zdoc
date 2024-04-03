@@ -1,0 +1,1292 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689062936",
+  "node_token": "BcXMwUYQ3iD7mEkWKFhcU5PUnB5",
+  "node_type": "origin",
+  "obj_create_time": "1689062936",
+  "obj_edit_time": "1708777112",
+  "obj_token": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+  "obj_type": "docx",
+  "origin_node_token": "BcXMwUYQ3iD7mEkWKFhcU5PUnB5",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
+  "space_id": "7167193056431783939",
+  "title": "Release Notes (June 11, 2023)",
+  "slug": "release-notes-200",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "block_type": 1,
+        "children": [
+          "VNdjdog35o7nP5xj8ttcvb18n0f",
+          "YqLhdLMoDoG0PgxZVDucFRsnnGT",
+          "PVvYdCu8OozcbUxwqBzc9qp2n4g",
+          "XDZgdpEcyoq4gGxRGTccoJklndb",
+          "Yt60dySnsonPzWxUcc2cGXhbnxn",
+          "GbvKd4X43o4CU6xcZn6cPHgHn8d",
+          "HngSd8fbYoBoYQxXxEbc4qqYn9b",
+          "RhbAdZfPYoUu7zx5g41c1D4anod",
+          "ShBDdxuUcodtAfxUv8IctrzZnMc",
+          "HXuXdM4Wfo4hKyxpEaQcBeLLnog",
+          "G76cd0nBKoE3SpxZowQcPSILn9f",
+          "VrEDd3ZQFoawyhxGrMwcXrDTnTh",
+          "UsFVdQOUmoZm92xSJ8EcoXTonhe",
+          "UQRYdFzTXo7L3Fx2HBic6YM6npg",
+          "BG6LdqJLUoZy3pxS8Knchhronhu",
+          "UYyKd8voKoTL7fxvP4fctrUbn9d",
+          "TuaudqmRMogsLexIVTvcOykXnRf",
+          "SDFKd6rVFoj0YVxG7TqcVfLTnVg",
+          "GwTUdceJwoUx9HxGdzocqkFenQe",
+          "KbztdNTqCowiFDx1KXVco0GDnUe",
+          "PU1Dd3XREo5hTDxwCFWckEe4nxd",
+          "NEP8dC8dvoGXl7xJOUFcXCJnnpf",
+          "ASCOdr7dJoMWsax9apCcS9OsnUd",
+          "UT72dCJZgoe08px1CjJcy8JhnEf",
+          "Vb2cdjG6ZoUgOVxmscscL02Hnee",
+          "Ej6Adg9wXo4CzZxzxYacO4gInpb",
+          "AgB4dSRCToN4PKxRfCncYVVhnbf",
+          "T50LdHptOoHy7axiaascrmmonzU",
+          "VLUFddOWwoLJRFx1B2kc674rnQg",
+          "Q4szdxEs5oRmPYxvbV5cCG0bn2e",
+          "B72zdE47woWlsXxa9fVcPGNNnwg",
+          "RxGIdAX5Mo7sDmxkKUKcYf2snVW"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Release Notes (June 11, 2023)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "VNdjdog35o7nP5xj8ttcvb18n0f",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, cost-optimized CU, organization and collaboration support, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "RBAC",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " support, partition key, dynamic schema, and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " type support. Try out this game-changing update today!",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YqLhdLMoDoG0PgxZVDucFRsnnGT",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Milvus Compatibility",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8"
+      },
+      {
+        "block_id": "PVvYdCu8OozcbUxwqBzc9qp2n4g",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This release is compatible with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus 2.1.x",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XDZgdpEcyoq4gGxRGTccoJklndb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud Serverless Vector Database Service Launch",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8"
+      },
+      {
+        "block_id": "Yt60dySnsonPzWxUcc2cGXhbnxn",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "We are excited to announce the launch of Zilliz Cloud's Serverless Vector Database Service. This new offering provides an even more effortless vector data search experience compared to our dedicated cluster solutions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GbvKd4X43o4CU6xcZn6cPHgHn8d",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To support early-stage ventures, we are offering two free collections as part of our Serverless Service. Each collection has the capacity to handle 500,000 vectors on a 768-dimensional scale, providing substantial data handling capabilities without the need for extensive infrastructure. Try our innovative new feature and boost your data processing capabilities today. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Free Trials",
+                "token": "LMfdwRwKIiJtywkwbHVcGnOFnRf",
+                "url": "https://zilliverse.feishu.cn/wiki/LMfdwRwKIiJtywkwbHVcGnOFnRf"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HngSd8fbYoBoYQxXxEbc4qqYn9b",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud's Plan Tiers: Starter, Standard, Enterprise, and Self-hosted",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8"
+      },
+      {
+        "block_id": "RhbAdZfPYoUu7zx5g41c1D4anod",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "We are pleased to offer a range of plan tiers: Starter, Standard, Enterprise, and Self-hosted. Each tier is designed to balance cost, service, and security considerations, ensuring that every user has a plan that meets their needs. With Zilliz Cloud, you have the flexibility to scale and evolve your vector database management in alignment with your business growth.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ShBDdxuUcodtAfxUv8IctrzZnMc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Starter Plan: The simplest way to experience fully-managed vector databases with our Serverless instances. Minimal configuration is required, and it is available on GCP.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8"
+      },
+      {
+        "block_id": "HXuXdM4Wfo4hKyxpEaQcBeLLnog",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Standard Plan: Designed for teams with fewer than five engineers and complex workloads. It offers a dedicated cluster with advanced database features and configurations, as well as excellent cost-efficiency. Available on both ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and GCP.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8"
+      },
+      {
+        "block_id": "G76cd0nBKoE3SpxZowQcPSILn9f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enterprise Plan: Designed for at-scale organizations with advanced security and support needs. It offers a dedicated cluster with full features, high availability, and advanced configurations, providing robust database solutions on both ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and GCP.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8"
+      },
+      {
+        "block_id": "VrEDd3ZQFoawyhxGrMwcXrDTnTh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Self-hosted Plan: Ideal for businesses prioritizing privacy and regulatory adherence. It provides self-managed vector database services within your Virtual Private Cloud (VPC), giving you full control. Suitable for environments prioritizing privacy and regulatory adherence.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8"
+      },
+      {
+        "block_id": "UsFVdQOUmoZm92xSJ8EcoXTonhe",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Learn more on the pricing page.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliz.com%2Fpricing"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UQRYdFzTXo7L3Fx2HBic6YM6npg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cost-Optimized Compute Unit (CU)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8"
+      },
+      {
+        "block_id": "BG6LdqJLUoZy3pxS8Knchhronhu",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A compute unit (CU) is a basic unit of compute resources used for parallel processing of data. Zilliz Cloud offers two types of CUs to meet various business requirements: Performance-optimized and Capacity-optimized. With the release of Zilliz Cloud 2.0.0, we introduce a new type of CU: the Cost-optimized CU.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UYyKd8voKoTL7fxvP4fctrUbn9d",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The Cost-optimized CU is designed for workloads that require cost savings optimization. If your application does not require ultra-fast response times and you are prioritizing cost-efficiency, this CU type is the right choice. Its capacity is identical to the Capacity-optimized CU, which can hold approximately 5,000,000 vectors with 768 dimensions. Although it may not offer the same level of performance as the other two types of CUs, it can still provide reliable performance while being budget-friendly. This option can be useful for small teams or startups that need to control costs while still delivering a reliable service.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TuaudqmRMogsLexIVTvcOykXnRf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Organization, Collaboration, and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "RBAC",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8"
+      },
+      {
+        "block_id": "SDFKd6rVFoj0YVxG7TqcVfLTnVg",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "We are excited to announce that Zilliz Cloud now offers sophisticated organizational and member management capabilities. This allows multiple users to collaborate seamlessly across various levels, including Cluster, Project, and Organization.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GwTUdceJwoUx9HxGdzocqkFenQe",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This major update is supported by the integration of Role-Based Access Control (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "RBAC",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "), which allows fine-grained control over who can access specific resources. This ensures both security and flexibility, enabling teams to work together more efficiently while maintaining a high degree of data protection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KbztdNTqCowiFDx1KXVco0GDnUe",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This enhancement not only offers greater control over project access but also streamlines the collaborative process, making it easier for teams to manage their vector database in a more secure and organized environment. Dive into this feature today and experience a new level of collaborative efficiency with Zilliz Cloud. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Learn more",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FHvXowwu7Xifm3nkEq3EcZBoUnob"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PU1Dd3XREo5hTDxwCFWckEe4nxd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Partition Key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8"
+      },
+      {
+        "block_id": "NEP8dC8dvoGXl7xJOUFcXCJnnpf",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud 2.0.0 introduces the Partition Key feature. This feature allows you to designate a specific field as a partition key when creating a collection. Entities are then stored into partitions based on the values of their partition keys.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ASCOdr7dJoMWsax9apCcS9OsnUd",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This feature is particularly useful during ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " filtering, as conditions on the partition key field can be executed significantly faster than traditional scan-based filtering methods. Essentially, entities with the same partition key are physically grouped together, thus avoiding unnecessary scans.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UT72dCJZgoe08px1CjJcy8JhnEf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Dynamic Schema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8"
+      },
+      {
+        "block_id": "Vb2cdjG6ZoUgOVxmscscL02Hnee",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "We are excited to announce that Zilliz Cloud now supports Dynamic Schema starting from version 2.0.0. This major enhancement significantly improves flexibility in accommodating diverse business requirements. Users can now insert entities with dynamically varied fields into a collection, rather than being limited by a pre-defined static schema.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ej6Adg9wXo4CzZxzxYacO4gInpb",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For advanced users, we have incorporated a hybrid approach to collection creation by blending Dynamic and Static Schema. This allows users to designate \"required\" fields in the schema design and activate advanced indexing optimizations. Meanwhile, \"optional\" fields are supported by the dynamic schema mechanism. This novel approach boosts ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " performance while maintaining schema flexibility.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AgB4dSRCToN4PKxRfCncYVVhnbf",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Explore this feature in Zilliz Cloud 2.0.0 and witness a significant uplift in your database schema's adaptability. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Learn more about this feature",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FDzxkwMyxzifAFxkXZiqcErjtnke"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T50LdHptOoHy7axiaascrmmonzU",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Type Support",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8"
+      },
+      {
+        "block_id": "VLUFddOWwoLJRFx1B2kc674rnQg",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "We are excited to announce a major enhancement to Zilliz Cloud in our latest update - the integration of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " data management and Approximate Nearest Neighbor (ANN) Search capabilities.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Q4szdxEs5oRmPYxvbV5cCG0bn2e",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JavaScript Object Notation",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", is a crucial data interchange format that has become essential in today's database management world. With the introduction of JSON support in Zilliz Cloud, you can now easily store and manage JSON data, opening up endless possibilities for data manipulation and querying.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "B72zdE47woWlsXxa9fVcPGNNnwg",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The real power lies in the innovative coupling of this with our existing ANN Search feature. This combination means you can now perform complex queries that combine the flexibility of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " data structure with the precision of ANN search, offering a significant leap forward in database querying capabilities.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RxGIdAX5Mo7sDmxkKUKcYf2snVW",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Experience the synergistic benefits of these two powerful technologies in one place, and unlock a new level of efficiency and precision in your data management and querying tasks. Step into the future of database technology with Zilliz Cloud today. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Learn more about this feature",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FLTa6we6DziWCb9kmpm5cIRL0nld"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 33
+  }
+}

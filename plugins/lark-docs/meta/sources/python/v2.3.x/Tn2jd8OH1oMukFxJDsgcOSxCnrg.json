@@ -1,0 +1,1888 @@
+{
+  "created_time": "1704424634",
+  "modified_time": "1708488367",
+  "name": "LocalBulkWriter",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "SzykfW0E7lSK4sdsvhOcAhkan0b",
+  "token": "Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+        "block_type": 1,
+        "children": [
+          "P4y8dCGwio5R2kxMOXicnOClnuh",
+          "doxcnw05mIJ9fViDD0GJdG9iEUd",
+          "doxcnpy2JcjLkkdcn7kzjED7fSd",
+          "doxcnY2rZpVWvBYjCsIOXDZEorh",
+          "SCxZdzqtyoYpWoxl4ptcusWmnkc",
+          "BkKTd8bOCoYgPOxg86scjbZfnlp",
+          "CA2Ndvdl4oZz7cxhUVScHSTSnmd",
+          "TUGDdtQX8o8ZNzx4heBcHcE5nSe",
+          "MkjWdPMhGoE7SZxG9AFcVMYUngd",
+          "Mqdcde3omogYbmxPK8DcumvInlg",
+          "OwCmdxmZhoY9PNxZkHXcjkmnn6e",
+          "SSeSdeDv5ooYBUxv9AqcmTKUnzh",
+          "Xz6XdjGa4oXlSUx803Ec8l8Yn8b",
+          "HpSFdmcYaoq3h1x3ZQocUlagnne",
+          "SsEVdBdl2ofHFyxWIcQcY7lnnGb",
+          "Vprfdsfxeo69atxvFJxcIa6vnNe",
+          "YdIdd0pB2oRlg6xC1o3cUcKHnZe",
+          "Kh25d7v6WobpodxXoTqcGhnsn3c",
+          "UBgvdXPNto4EJmxvXbJcvO5Vnih",
+          "KNlLd87O0okpNHxO2KKcNssIn8g",
+          "FHUEdGuRmoVptqxsg72ct2D8nyc",
+          "doxcnHqkrNS6tfpBN5Z9e7cwldd",
+          "doxcnlyaUP0xPQEWjLiNOYezFze",
+          "MT8Ud4VOLo9bh0xxFhIcRNrpn4d"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "LocalBulkWriter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "P4y8dCGwio5R2kxMOXicnOClnuh",
+        "block_type": 2,
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A LocalBulkWriter instance rewrites your raw data locally in a format that <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> understands.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnw05mIJ9fViDD0GJdG9iEUd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "class pymilvus.LocalBulkWriter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "doxcnpy2JcjLkkdcn7kzjED7fSd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Constructor",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "doxcnY2rZpVWvBYjCsIOXDZEorh",
+        "block_type": 2,
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Constructs a LocalBulkWriter object by schema, output path, segment size, and file type.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SCxZdzqtyoYpWoxl4ptcusWmnkc",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "O1BLdvz6HofuXIx5qXIcp51dnSe",
+          "FC2VdDciHo60k8xWexvcsmzJnzg"
+        ],
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "O1BLdvz6HofuXIx5qXIcp51dnSe",
+        "block_type": 2,
+        "parent_id": "SCxZdzqtyoYpWoxl4ptcusWmnkc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FC2VdDciHo60k8xWexvcsmzJnzg",
+        "block_type": 2,
+        "parent_id": "SCxZdzqtyoYpWoxl4ptcusWmnkc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "LocalBulkWriter",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " object intends to rewrite your raw data locally in a format that <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> understands.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BkKTd8bOCoYgPOxg86scjbZfnlp",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import CollectionSchema, LocalBulkWriter, BulkFileType\n\nwriter = LocalBulkWriter(\n    schema=CollectionSchema(),\n    local_path=\"string\",\n    segment_size=512*1024*1024,\n    file_type=BulkFileType.NPY\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "CA2Ndvdl4oZz7cxhUVScHSTSnmd",
+        "block_type": 2,
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TUGDdtQX8o8ZNzx4heBcHcE5nSe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CollectionSchema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FWToudUwm4oVXeKxLg3jcj3IAnjh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ZPPldXbdToGartxJ8BIcAbagnNg",
+          "XtgodkffaoI87WxnSCKc9605nTe"
+        ],
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "ZPPldXbdToGartxJ8BIcAbagnNg",
+        "block_type": 2,
+        "parent_id": "TUGDdtQX8o8ZNzx4heBcHcE5nSe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[REQUIRED]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XtgodkffaoI87WxnSCKc9605nTe",
+        "block_type": 2,
+        "parent_id": "TUGDdtQX8o8ZNzx4heBcHcE5nSe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The schema of a target collection to which the rewritten data is to be imported.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MkjWdPMhGoE7SZxG9AFcVMYUngd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "local_path",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "QfROdD2bRoeDAvxcp3ocolC6nUg",
+          "OeWEdMQAIopmQxxJbMNcnpHrnig"
+        ],
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "QfROdD2bRoeDAvxcp3ocolC6nUg",
+        "block_type": 2,
+        "parent_id": "MkjWdPMhGoE7SZxG9AFcVMYUngd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[REQUIRED]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OeWEdMQAIopmQxxJbMNcnpHrnig",
+        "block_type": 2,
+        "parent_id": "MkjWdPMhGoE7SZxG9AFcVMYUngd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The path to the directory that is to hold the rewritten data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Mqdcde3omogYbmxPK8DcumvInlg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "segment_size",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "int",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "QkcAdq6Nooalr9xWnPWcm31pnxd",
+          "Kys8dLWQUo87XExaE3QcyzNZnMc",
+          "FTxQd6HvKoLW7jxmdSwcEpdWnqe",
+          "Vk86dEXUSosweYxXqpScFiSxnzc"
+        ],
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "QkcAdq6Nooalr9xWnPWcm31pnxd",
+        "block_type": 2,
+        "parent_id": "Mqdcde3omogYbmxPK8DcumvInlg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The maximum size of a file segment.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Kys8dLWQUo87XExaE3QcyzNZnMc",
+        "block_type": 2,
+        "parent_id": "Mqdcde3omogYbmxPK8DcumvInlg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "While rewriting your raw data, <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> splits your raw data into segments.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FTxQd6HvKoLW7jxmdSwcEpdWnqe",
+        "block_type": 2,
+        "parent_id": "Mqdcde3omogYbmxPK8DcumvInlg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "536,870,912",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in bytes, which is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "512",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "MB",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Vk86dEXUSosweYxXqpScFiSxnzc",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "YODMdrsZLovWcAxfgJ4c9kCNnsg",
+          "CSH4dnIdeoEdeexIGYlc1Qm9nle",
+          "Eikid47dyo9KMSxyH9CcYxBlnUh",
+          "WKmmdoUMPoau8Nxpv07c6x7znie"
+        ],
+        "parent_id": "Mqdcde3omogYbmxPK8DcumvInlg"
+      },
+      {
+        "block_id": "YODMdrsZLovWcAxfgJ4c9kCNnsg",
+        "block_type": 2,
+        "parent_id": "Vk86dEXUSosweYxXqpScFiSxnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "How does BulkWriter segment my data?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CSH4dnIdeoEdeexIGYlc1Qm9nle",
+        "block_type": 2,
+        "parent_id": "Vk86dEXUSosweYxXqpScFiSxnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The way ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BulkWriter",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " segments your data varies with the target file type.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Eikid47dyo9KMSxyH9CcYxBlnUh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "JSON_RB",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Parquet",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "WuPBdOjnFoMgRCxbSSacQcsmnTd"
+        ],
+        "parent_id": "Vk86dEXUSosweYxXqpScFiSxnzc"
+      },
+      {
+        "block_id": "WuPBdOjnFoMgRCxbSSacQcsmnTd",
+        "block_type": 2,
+        "parent_id": "Eikid47dyo9KMSxyH9CcYxBlnUh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the generated file exceeds the specified segment size, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BulkWriter",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " creates multiple files and names them in sequence numbers, each no larger than the segment size.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WKmmdoUMPoau8Nxpv07c6x7znie",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "NPY",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "TxWqdAKXIozlY2xtriIcLrj6nLc"
+        ],
+        "parent_id": "Vk86dEXUSosweYxXqpScFiSxnzc"
+      },
+      {
+        "block_id": "TxWqdAKXIozlY2xtriIcLrj6nLc",
+        "block_type": 2,
+        "parent_id": "WKmmdoUMPoau8Nxpv07c6x7znie",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the generated file exceeds the specified segment size, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BulkWriter",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " creates multiple subdirectories and names them in sequence numbers. Each subdirectory contains all the necessary NumPy files that are no larger than the segment size.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OwCmdxmZhoY9PNxZkHXcjkmnn6e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "file_type",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BulkFileType",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FCROadSmHNoV2CuxREnccTkaen0e"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Wg5bdBcZeoAndgxgNyIcGcDRnuh",
+          "Mf71dvN7Qo4N7rxXWxrc0kgnnjd",
+          "Hhg1dwSpao9zunxVpoYcA6YDnge"
+        ],
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "Wg5bdBcZeoAndgxgNyIcGcDRnuh",
+        "block_type": 2,
+        "parent_id": "OwCmdxmZhoY9PNxZkHXcjkmnn6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The type of the output file.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Mf71dvN7Qo4N7rxXWxrc0kgnnjd",
+        "block_type": 2,
+        "parent_id": "OwCmdxmZhoY9PNxZkHXcjkmnn6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BulkFileType.NPY",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Hhg1dwSpao9zunxVpoYcA6YDnge",
+        "block_type": 2,
+        "parent_id": "OwCmdxmZhoY9PNxZkHXcjkmnn6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Possible options are ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BulkFileType.NPY",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BulkFileType.JSON_RB",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BulkFileType.PARQUET",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SSeSdeDv5ooYBUxv9AqcmTKUnzh",
+        "block_type": 2,
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Xz6XdjGa4oXlSUx803Ec8l8Yn8b",
+        "block_type": 2,
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "LocalBulkWriter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HpSFdmcYaoq3h1x3ZQocUlagnne",
+        "block_type": 2,
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SsEVdBdl2ofHFyxWIcQcY7lnnGb",
+        "block_type": 2,
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "LocalBulkWriter",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " object.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Vprfdsfxeo69atxvFJxcIa6vnNe",
+        "block_type": 2,
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YdIdd0pB2oRlg6xC1o3cUcKHnZe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "SchemaNotReadyException",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "TjIjdqAK5odzrBxFybUcZBExnih"
+        ],
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "TjIjdqAK5odzrBxFybUcZBExnih",
+        "block_type": 2,
+        "parent_id": "YdIdd0pB2oRlg6xC1o3cUcKHnZe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when the provided schema is invalid.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Kh25d7v6WobpodxXoTqcGhnsn3c",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Properties",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "UBgvdXPNto4EJmxvXbJcvO5Vnih",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "uuid",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "AsAkd2vAmoB7mHxEABlczgQ4nkh"
+        ],
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "AsAkd2vAmoB7mHxEABlczgQ4nkh",
+        "block_type": 2,
+        "parent_id": "UBgvdXPNto4EJmxvXbJcvO5Vnih",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A randomly generated UUID, used to name the output file or directory, with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", Parquet, and NumPy formats supported.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KNlLd87O0okpNHxO2KKcNssIn8g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "data_path",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pathlib.PosixPath",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Wr4jdwSDuo3kzdx5QeScvwTqnQl"
+        ],
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "Wr4jdwSDuo3kzdx5QeScvwTqnQl",
+        "block_type": 2,
+        "parent_id": "KNlLd87O0okpNHxO2KKcNssIn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The path to the output directory.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FHUEdGuRmoVptqxsg72ct2D8nyc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "batch_files",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "XBk8dJZl7omOB0xDYmgc02gBnlc"
+        ],
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "XBk8dJZl7omOB0xDYmgc02gBnlc",
+        "block_type": 2,
+        "parent_id": "FHUEdGuRmoVptqxsg72ct2D8nyc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of the generated file names.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnHqkrNS6tfpBN5Z9e7cwldd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Methods",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
+      },
+      {
+        "block_id": "doxcnlyaUP0xPQEWjLiNOYezFze",
+        "block_type": 2,
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following are the methods of the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "LocalBulkWriter",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " class:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MT8Ud4VOLo9bh0xxFhIcRNrpn4d",
+        "block_type": 2,
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 48
+  },
+  "slug": "DataImport-LocalBulkWriter"
+}

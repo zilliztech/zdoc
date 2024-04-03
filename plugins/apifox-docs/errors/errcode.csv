@@ -79,14 +79,14 @@
 90140,The number of elements in parameter 'id' should not exceed 100.,,,,,,,,,,,,,,,,,,
 90011,Invalid CollectionName. Reason: Name contains only alphanumeric letters and underscores, and the first character should be an underscore, a lowercase letter, or a uppercase letter
 47005,The specified cluster collection not exists.
-47053,Failed to checkFiles {xxx}.
+47053,Failed to checkFiles \{xxx}.
 80020,Invalid clusterId or you do not have permission to access that Cluster.
 10003,Invalid s3 ObjectUrl. [xxx]
 83001,Failed to getObjectMeta {Access denied}.
 47005,The specified cluster collection not exists.
 90144,No jobId record found under this cluster, please check your request parameters.
 90103,The clusterId parameter is empty in the request path.
-83001,Failed to getObjectMeta {xxx}.
+83001,Failed to getObjectMeta \{xxx}.
 40021,The cluster ID does not exist.
 40022,No access to this cluster. Please request access from your admin.
 40003,Action not available given the current status of the cluster.

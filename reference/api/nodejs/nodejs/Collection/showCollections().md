@@ -1,3 +1,11 @@
+---
+slug: /nodejs/collection.showCollections()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 2
+displayed_sidebar: nodejsSidebar
+---
+
 # showCollections()
 
 Lists all collections or gets the loading status of collections.

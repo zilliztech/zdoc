@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 4
-slug: /describe-cluster
+slug: /restful/describe-cluster
 title: Describe Cluster
 ---
 
@@ -115,22 +115,22 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
-| `data.projectId`   | **string**<br/>The ID of the project to which the current cluster belongs. |
-| `data.clusterId`   | **string**<br/>The ID of the cluster. |
-| `data.clusterName`   | **string**<br/>The Name of the cluster. |
-| `data.description`   | **string**<br/>An optional description of the cluster. |
-| `data.regionId`   | **string**<br/>The ID of the cloud region where the cluster exists. |
-| `data.clusterType`   | **string**<br/>The type of the CU associated with the cluster. |
-| `data.cuSize`   | **integer**<br/>The size of the CU used by the cluster. |
-| `data.status`   | **string**<br/>The current status of the cluster. Possible values are **CREATING**, **RUNNING**, **SUSPENDING**, and **RESUMING**. |
-| `data.connectAddress`   | **string**<br/>The public endpoint of the cluster. You can use this to connect to your cluster from public networks. |
-| `data.privateLinkAddress`   | **string**<br/>The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region. |
-| `data.createTime`   | **string**<br/>The time when this cluster has been creaated. |
-| `data.storageSize`   | **integer(sint64)**<br/>The storage size of the cluster in MB. |
-| `data.snapshotNumber`   | **integer**<br/>The number of snapshofts created from the cluster. |
-| `data.createProgress`   | **integer**<br/>The creation progress of the cluster. |
+| `code` | integer  <br/>  |
+| `data` | object<br/> |
+| `data.projectId` | string  <br/>The ID of the project to which the current cluster belongs.  |
+| `data.clusterId` | string  <br/>The ID of the cluster.  |
+| `data.clusterName` | string  <br/>The Name of the cluster.  |
+| `data.description` | string  <br/>An optional description of the cluster.  |
+| `data.regionId` | string  <br/>The ID of the cloud region where the cluster exists.  |
+| `data.clusterType` | string  <br/>The type of the CU associated with the cluster.  |
+| `data.cuSize` | integer  <br/>The size of the CU used by the cluster.  |
+| `data.status` | string  <br/>The current status of the cluster. Possible values are **CREATING**, **RUNNING**, **SUSPENDING**, and **RESUMING**.  |
+| `data.connectAddress` | string  <br/>The public endpoint of the cluster. You can use this to connect to your cluster from public networks.  |
+| `data.privateLinkAddress` | string  <br/>The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region.  |
+| `data.createTime` | string  <br/>The time when this cluster has been creaated.  |
+| `data.storageSize` | integer (sint64) <br/>The storage size of the cluster in MB.  |
+| `data.snapshotNumber` | integer  <br/>The number of snapshofts created from the cluster.  |
+| `data.createProgress` | integer  <br/>The creation progress of the cluster.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -142,4 +142,3 @@ The properties in the returned response are listed in the following table.
 | 80020 | Cluster not exist or you don't have permission. |
 | 90103 | The clusterId parameter is empty in the request path. |
 | 90117 | Invalid domain name used |
-

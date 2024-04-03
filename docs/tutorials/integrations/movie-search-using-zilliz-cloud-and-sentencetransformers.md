@@ -3,6 +3,7 @@ slug: /movie-search-using-zilliz-cloud-and-sentencetransformers
 sidebar_label: With SentenceTransformers
 beta: FALSE
 notebook: 86_integrations_sentencetransformers.ipynb
+type: origin
 token: KPlpwDwupiZu0ZkYOu3cY3EWn7f
 sidebar_position: 7
 ---
@@ -116,7 +117,7 @@ At this point, we are going to begin setting up Zilliz Cloud. The steps are as f
 
 Once these steps are done the collection is ready to be inserted into and searched. Any data added will be indexed automatically and be available for search immediately. If the data is very fresh, the search might be slower as brute force searching will be used on data that is still in process of getting indexed.
 
-## **Insert the data**{#insert-the-data}
+## __Insert the data__{#insert-the-data}
 
 For this example, we are going to use the SentenceTransformers miniLM model to create embeddings of the plot text. This model returns 384-dimensional embeddings.
 
@@ -174,7 +175,7 @@ if len(data_batch[0]) != 0:
 collection.flush()
 ```
 
-## Perform **the search**{#perform-the-search}
+## Perform __the search__{#perform-the-search}
 
 With all the data inserted into Zilliz Cloud, we can start performing our searches. In this example, we are going to search for movies based on the plot. Because we are doing a batch search, the search time is shared across the movie searches.
 

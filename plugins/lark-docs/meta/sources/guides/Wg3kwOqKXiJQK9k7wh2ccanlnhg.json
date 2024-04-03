@@ -1,0 +1,1959 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": false,
+  "node_create_time": "1706496279",
+  "node_token": "Wg3kwOqKXiJQK9k7wh2ccanlnhg",
+  "node_type": "origin",
+  "obj_create_time": "1706496279",
+  "obj_edit_time": "1708401533",
+  "obj_token": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+  "obj_type": "docx",
+  "origin_node_token": "Wg3kwOqKXiJQK9k7wh2ccanlnhg",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "IjRMw4Zp6iiqDUkbGk9crGoan9e",
+  "space_id": "7167193056431783939",
+  "title": "Using Pipelines in LlamaIndex",
+  "slug": "use-pipeline-in-llamaindex",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "block_type": 1,
+        "children": [
+          "RL69dfTeOon6dVxNrRqcCD1DnTg",
+          "ZfVMdPSDLoxyppxpXW4coXaAngU",
+          "SK3Hd2Po3oV6VPxgL0ack6TCnl0",
+          "ZSUCdTaLyoYrhzxi3f6ckKBnnGZ",
+          "Il1tduRHioa0E1xAoptcym6unIb",
+          "BRmRdNXmpoBu6sxusRWcUOP6n9c",
+          "CNyodWBKNolN1OxHWwpcoMQcnkc",
+          "KPQjd3o72oo0FCxegCkcefTCnAc",
+          "DGxtd1jWBoKRI3xDByZcVNYLnQb",
+          "MnQ5dE5GBoT9qzxNdStc5mFVnMc",
+          "KF2fdGwRHo3H7YxFbyDcm3ypn9V",
+          "SNWwds0P4oaeHtxMRAccVft4n04",
+          "ThSsdydwVoRKBzxUIVMcc8MUnmc",
+          "Xu6ydbiYMoFWumx7HUoczdrenIf",
+          "RfaxdZGcKovyiUxMzpIcMR0InLf",
+          "UyyLdU5hkouVcHxchUmc7dvYnPh",
+          "StwHdOxroo2WTbxG7Mbc2I2On6e",
+          "V8pddvw4UomCADxrPjlcOl3xnPf",
+          "AQfDdNvI1oSSO2xvLAJcVThAnzd",
+          "AtlGdXMYroN2egxmAXBcmrf8ntb",
+          "DzK6dM1BWoqWAfx4vFCcCJ0Qnah",
+          "SkcHd63AKob8XjxZYDpcjrAgnIc",
+          "Hz7FdN8cKoIGVrx1mclc6Zqsn0c",
+          "GimAdqNy8o7etdxN4szcG4uJnpr",
+          "ZBl3dYJ78oaHyax3un3craktnYg",
+          "VVWXdMXdJoAvT7xHA1LcyCldnnu",
+          "Bjzddsy5OoI5CgxuhQice8CjnEy",
+          "JXF5dOwEBohPP0xNLOScQlsindf",
+          "XQjpdM4k0oYWtdx3t0scQb8jn8e",
+          "WVTgdwtMgowwtrxuY6Tc8BlDnph",
+          "HFCzdq1TyooKR5x3xTkcNMACnje",
+          "FfX8dD8P8o0R8gxwkF5cTitKnZc",
+          "OkXwdA6WEolVdMxAtZJczyLZnmg",
+          "VUecdbTUvotgK8xymIVcUzvrnUd",
+          "Dpg7d3Az0okDWixms9fcuPWRnsf",
+          "L49OdiajEo3F6yxAYDWc8ggNn0g",
+          "Ye5TdWC8qoNoG0xZkXack9xcn2d",
+          "RpUDdgKlAop8Z0xrRpsc3XvTnKd",
+          "VJiydo8diomQ7txTzqlc0SWRnSd",
+          "JIhSdhyjooDD6Ex2c01cfc7yn0c",
+          "WTsGdF7cQoP0mTxyU0IcDyhxnfd",
+          "Kv8jdL9khow9CNx0RCEcfxv6nhe"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Using Pipelines in LlamaIndex",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "RL69dfTeOon6dVxNrRqcCD1DnTg",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud Pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FRzBdwMKAxiiejDk9rWjc1Sv1nSf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is a scalable API service for retrieval. You can use Zilliz Cloud Pipelines as managed indexes in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "LLamaIndex",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.llamaindex.ai%2Fen%2Fstable%2Fexamples%2Fmanaged%2FzcpDemo.html"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". This service can transform documents into vector embeddings and store them in Zilliz Cloud for effective semantic search.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZfVMdPSDLoxyppxpXW4coXaAngU",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "SK3Hd2Po3oV6VPxgL0ack6TCnl0",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You should",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZSUCdTaLyoYrhzxi3f6ckKBnnGZ",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install LLamaIndex Python SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "N1Gad2l3eokr3pxEexbcMlqqn70"
+        ],
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "N1Gad2l3eokr3pxEexbcMlqqn70",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pip install llama-index",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "ZSUCdTaLyoYrhzxi3f6ckKBnnGZ"
+      },
+      {
+        "block_id": "Il1tduRHioa0E1xAoptcym6unIb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Configure credentials of your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "OpenAI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fplatform.openai.com%2F"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " & ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.zilliz.com%2Fsignup%3Futm_source%3Dtwitter%26amp%3Butm_medium%3Dsocial%2520%26amp%3Butm_campaign%3D2023-12-22_social_pipeline-llamaindex_twitter"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " accounts.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NCbJdSOZ6ogKMQxc1zBcSFW9nVg",
+          "MMxEdnFBJoWSc9x269Pcu8ScnYc"
+        ],
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "NCbJdSOZ6ogKMQxc1zBcSFW9nVg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from getpass import getpass\nimport os\n\nos.environ[\"OPENAI_API_KEY\"] = getpass(\"Enter your OpenAI API Key:\")\n\nZILLIZ_PROJECT_ID = getpass(\"Enter your Zilliz Project ID:\")\nZILLIZ_CLUSTER_ID = getpass(\"Enter your Zilliz Cluster ID:\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ZILLIZ_TOKEN = getpass(\"Enter your Zilliz API Key:\")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Il1tduRHioa0E1xAoptcym6unIb"
+      },
+      {
+        "block_id": "MMxEdnFBJoWSc9x269Pcu8ScnYc",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "OPdyd3A6XoiMJaxDnnEcgbHUnte",
+          "OpAednbz9omq3bxKurycaOOHnzf",
+          "Ykczdez7NoWKqlxKETFcz2xtn7b"
+        ],
+        "parent_id": "Il1tduRHioa0E1xAoptcym6unIb"
+      },
+      {
+        "block_id": "OPdyd3A6XoiMJaxDnnEcgbHUnte",
+        "block_type": 2,
+        "parent_id": "MMxEdnFBJoWSc9x269Pcu8ScnYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "indentation_level": "NoIndent"
+          }
+        }
+      },
+      {
+        "block_id": "OpAednbz9omq3bxKurycaOOHnzf",
+        "block_type": 2,
+        "parent_id": "MMxEdnFBJoWSc9x269Pcu8ScnYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Find your OpenAI API key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fbeta.openai.com%2Faccount%2Fapi-keys"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ykczdez7NoWKqlxKETFcz2xtn7b",
+        "block_type": 2,
+        "parent_id": "MMxEdnFBJoWSc9x269Pcu8ScnYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Find your Zilliz Cloud credentials",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FJRdOwTnJUiCdCMkw3ZBcBO5Dnke"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BRmRdNXmpoBu6sxusRWcUOP6n9c",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Index documents",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "CNyodWBKNolN1OxHWwpcoMQcnkc",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud Pipelines accepts files from AWS S3 and Google Cloud Storage. You can generate a presigned url from the Object Storage and use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "from_document_url()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "insert_doc_url()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to ingest the file. It can automatically index the document and store the doc chunks as vectors on Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KPQjd3o72oo0FCxegCkcefTCnAc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from llama_index.indices import ZillizCloudPipelineIndex\n\nzcp_index = ZillizCloudPipelineIndex.from_document_url(\n    # a public or pre-signed url of a file stored on AWS S3 or Google Cloud Storage\n    url=\"https://publicdataset.zillizcloud.com/milvus_doc.md\",\n    project_id=ZILLIZ_PROJECT_ID,\n    cluster_id=ZILLIZ_CLUSTER_ID,\n    token=ZILLIZ_TOKEN,\n    # optional\n    metadata={\"version\": \"2.3\"},  # used for filtering\n    collection_name=\"zcp_llamalection\",  # change this value will specify customized collection name\n)\n\n# Insert more docs, eg. a Milvus v2.2 document\nzcp_index.insert_doc_url(\n    url=\"https://publicdataset.zillizcloud.com/milvus_doc_22.md\",\n    metadata={\"version\": \"2.2\"},\n)\n\n# Output\n# {'token_usage': 984, 'doc_name': 'milvus_doc_22.md', 'num_chunks': 7}\n\n# # Delete docs by doc name\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# zcp_index.delete_by_doc_name(doc_name=\"milvus_doc_22.md\")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "DGxtd1jWBoKRI3xDByZcVNYLnQb",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "MiPAdBevfoI5Afxf5AWcoytOn5C",
+          "T8ONdsWokoChAoxDO8ucHYNFn9e",
+          "DXHDdk6eOoNC6pxuTb5cL7kUnRt"
+        ],
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "MiPAdBevfoI5Afxf5AWcoytOn5C",
+        "block_type": 2,
+        "parent_id": "DGxtd1jWBoKRI3xDByZcVNYLnQb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T8ONdsWokoChAoxDO8ucHYNFn9e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud pipelines are to be created automatically if there is none.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DGxtd1jWBoKRI3xDByZcVNYLnQb"
+      },
+      {
+        "block_id": "DXHDdk6eOoNC6pxuTb5cL7kUnRt",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "It is optional to add metadata for each document. The metadata can be used to filter doc chunks during retrieval.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DGxtd1jWBoKRI3xDByZcVNYLnQb"
+      },
+      {
+        "block_id": "MnQ5dE5GBoT9qzxNdStc5mFVnMc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use pipelines as query engine",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "KF2fdGwRHo3H7YxFbyDcm3ypn9V",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To conduct semantic search with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ZillizCloudPipelineIndex",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you can use it ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "as_query_engine()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " by specifying a few parameters:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SNWwds0P4oaeHtxMRAccVft4n04",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "search_top_k",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The number of text nodes/chunks to retrieve. defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DEFAULT_SIMILARITY_TOP_K",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (2).",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "ThSsdydwVoRKBzxUIVMcc8MUnmc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "filters",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The metadata filters. Defaults to None.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "Xu6ydbiYMoFWumx7HUoczdrenIf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "output_metadata",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": A list of names of the metadata fields to return with the retrieved text node. Defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "[]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "RfaxdZGcKovyiUxMzpIcMR0InLf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from llama_index.vector_stores.types import ExactMatchFilter, MetadataFilters\n\nquery_engine_milvus23 = zcp_index.as_query_engine(\n    search_top_k=3,\n    filters=MetadataFilters(\n        filters=[\n            ExactMatchFilter(key=\"version\", value=\"2.3\")\n        ]  # version == \"2.3\"\n    ),\n    output_metadata=[\"version\"],\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "UyyLdU5hkouVcHxchUmc7dvYnPh",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Then the query engine is ready for Semantic Search or Retrieval Augmented Generation with Milvus 2.3 documents.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "StwHdOxroo2WTbxG7Mbc2I2On6e",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Retrieve",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "V8pddvw4UomCADxrPjlcOl3xnPf",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following code snippet demonstrates how to use Zilliz Cloud Pipelines to conduct semantic searches.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AQfDdNvI1oSSO2xvLAJcVThAnzd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "question = \"Can users delete entities by filtering non-primary fields?\"\nretrieved_nodes = query_engine_milvus23.retrieve(question)\nprint(retrieved_nodes)\n\n# Output\n# [NodeWithScore(node=TextNode(id_='447198459513870883', embedding=None, metadata={'version': '2.3'}, excluded_embed_metadata_keys=[], excluded_llm_metadata_keys=[], relationships={}, text='# Delete Entities\\nThis topic describes how to delete entities in Milvus.  \\nMilvus supports deleting entities by primary key or complex boolean expressions. Deleting entities by primary key is much faster and lighter than deleting them by complex boolean expressions. This is because Milvus executes queries first when deleting data by complex boolean expressions.  \\nDeleted entities can still be retrieved immediately after the deletion if the consistency level is set lower than Strong.\\nEntities deleted beyond the pre-specified span of time for Time Travel cannot be retrieved again.\\nFrequent deletion operations will impact the system performance.  \\nBefore deleting entities by comlpex boolean expressions, make sure the collection has been loaded.\\nDeleting entities by complex boolean expressions is not an atomic operation. Therefore, if it fails halfway through, some data may still be deleted.\\nDeleting entities by complex boolean expressions is supported only when the consistency is set to Bounded. For details, see Consistency.', start_char_idx=None, end_char_idx=None, text_template='{metadata_str}\\n\\n{content}', metadata_template='{key}: {value}', metadata_seperator='\\n'), score=0.728226900100708), NodeWithScore(node=TextNode(id_='447198459513870886', embedding=None, metadata={'version': '2.3'}, excluded_embed_metadata_keys=[], excluded_llm_metadata_keys=[], relationships={}, text='# Delete Entities\\n## Prepare boolean expression\\n### Complex boolean expression\\nTo filter entities that meet specific conditions, define complex boolean expressions.  \\nFilter entities whose word_count is greater than or equal to 11000:  \\n```python\\nexpr = \"word_count >= 11000\"\\n```  \\nFilter entities whose book_name is not Unknown:  \\n```python\\nexpr = \"book_name != Unknown\"\\n```  \\nFilter entities whose primary key values are greater than 5 and word_count is smaller than or equal to 9999:  \\n```python\\nexpr = \"book_id > 5 && word_count <= 9999\"\\n```', start_char_idx=None, end_char_idx=None, text_template='{metadata_str}\\n\\n{content}', metadata_template='{key}: {value}', metadata_seperator='\\n'), score=0.687866747379303), NodeWithScore(node=TextNode(id_='447198459513870884', embedding=None, metadata={'version': '2.3'}, excluded_embed_metadata_keys=[], excluded_llm_metadata_keys=[], relationships={}, text='# Delete Entities\\n## Prepare boolean expression\\nPrepare the boolean expression that filters the entities to delete.  \\nMilvus supports deleting entities by primary key or complex boolean expressions. For more information on expression rules and supported operators, see Boolean Expression Rules.', start_char_idx=None, end_char_idx=None, text_template='{metadata_str}\\n\\n{content}', metadata_template='{key}: {value}', metadata_seperator='\\n'), score=0.6814976334571838)]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "AtlGdXMYroN2egxmAXBcmrf8ntb",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The query engine with filters retrieves only text nodes with the \"version 2.3\" tag.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DzK6dM1BWoqWAfx4vFCcCJ0Qnah",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "SkcHd63AKob8XjxZYDpcjrAgnIc",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following code snippet demonstrates how to use the query engine as a RAG agent backed by Zilliz Cloud Pipelines and OpenAI's LLMs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Hz7FdN8cKoIGVrx1mclc6Zqsn0c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "response = query_engine_milvus23.query(question)\nprint(response.response)\n\n# Output\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Yes, users can delete entities by filtering non-primary fields using complex boolean expressions in Milvus. The complex boolean expressions allow users to define specific conditions to filter entities based on non-primary fields, such as word_count or book_name. By specifying the desired conditions in the boolean expression, users can delete entities that meet those conditions. However, it is important to note that deleting entities by complex boolean expressions is not an atomic operation, and if it fails halfway through, some data may still be deleted.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "GimAdqNy8o7etdxN4szcG4uJnpr",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Advanced use cases",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "ZBl3dYJ78oaHyax3un3craktnYg",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can get the managed index without running data ingestion. To get ready with Zilliz Cloud Pipelines, you need to provide either pipeline IDs or the associated collection name:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VVWXdMXdJoAvT7xHA1LcyCldnnu",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Pipeline IDs",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "L2wwdauxrojyOYxwxscci0wznDg"
+        ],
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "L2wwdauxrojyOYxwxscci0wznDg",
+        "block_type": 2,
+        "parent_id": "VVWXdMXdJoAvT7xHA1LcyCldnnu",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A dictionary that contains the IDs of INGESTION, SEARCH, and DELETION pipelines, such as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{\"INGESTION\": \"pipe-xx1\", \"SEARCH\": \"pipe-xx2\", \"DELETION\": “pipe-xx3”}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Bjzddsy5OoI5CgxuhQice8CjnEy",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Collection name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "XcTvdcBc1oMSRSxjFCTcLkNfnHd"
+        ],
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "XcTvdcBc1oMSRSxjFCTcLkNfnHd",
+        "block_type": 2,
+        "parent_id": "Bjzddsy5OoI5CgxuhQice8CjnEy",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The collection name defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "zcp_llamalection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". If no pipeline IDs are given, the index will try to get pipelines with the name of an associated collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JXF5dOwEBohPP0xNLOScQlsindf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from llama_index.indices import ZillizCloudPipelineIndex\n\nadvanced_zcp_index = ZillizCloudPipelineIndex(\n    project_id=ZILLIZ_PROJECT_ID,\n    cluster_id=ZILLIZ_CLUSTER_ID,\n    token=ZILLIZ_TOKEN,\n    collection_name=\"zcp_llamalection_advanced\",\n)\n\n# Output\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# No available pipelines. Please create pipelines first.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "XQjpdM4k0oYWtdx3t0scQb8jn8e",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Customize pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "WVTgdwtMgowwtrxuY6Tc8BlDnph",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If no pipelines are provided or found, then you can manually create and customize pipelines with the following ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "optional",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameters:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HFCzdq1TyooKR5x3xTkcNMACnje",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "metadata_schema",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": A dictionary of metadata schema with field name as key and data type as value. For example, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{\"user_id\": \"VarChar\"}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "FfX8dD8P8o0R8gxwkF5cTitKnZc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "chunkSize",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": An integer of chunk size using token as unit. If no chunk size is specified, then Zilliz Cloud Pipeline will use a built-in default chunk size (500 tokens) to split documents.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "OkXwdA6WEolVdMxAtZJczyLZnmg",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For other applicable parameters, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud Pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fpipelines"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for more available pipeline parameters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VUecdbTUvotgK8xymIVcUzvrnUd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "advanced_zcp_index.create_pipelines(\n    metadata_schema={\"user_id\": \"VarChar\"},\n    chunkSize=350,\n    # other pipeline params\n)\n\n# Output\n# {'INGESTION': 'pipe-***********************,\n#  'SEARCH': 'pipe-***********************',\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#  'DELETION': 'pipe-***********************'}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "Dpg7d3Az0okDWixms9fcuPWRnsf",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Multi-tenancy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "L49OdiajEo3F6yxAYDWc8ggNn0g",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "With the tenant-specific value (eg. user id) as metadata, the managed index can achieve multi-tenancy by applying metadata filters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ye5TdWC8qoNoG0xZkXack9xcn2d",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "By specifying metadata value, each document is tagged with the tenant-specific field at ingestion.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RpUDdgKlAop8Z0xrRpsc3XvTnKd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "advanced_zcp_index.insert_doc_url(\n    url=\"https://publicdataset.zillizcloud.com/milvus_doc.md\",\n    metadata={\"user_id\": \"user_001\"},\n)\n\n# Output\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# {'token_usage': 1247, 'doc_name': 'milvus_doc.md', 'num_chunks': 10}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "VJiydo8diomQ7txTzqlc0SWRnSd",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Then the managed index can build a query engine for each tenant by filtering the tenant-specific field.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JIhSdhyjooDD6Ex2c01cfc7yn0c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from llama_index.vector_stores.types import ExactMatchFilter, MetadataFilters\n\nquery_engine_for_user_001 = advanced_zcp_index.as_query_engine(\n    search_top_k=3,\n    filters=MetadataFilters(\n        filters=[ExactMatchFilter(key=\"user_id\", value=\"user_001\")]\n    ),\n    output_metadata=[\"user_id\"],  # optional, display user_id in outputs\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      },
+      {
+        "block_id": "WTsGdF7cQoP0mTxyU0IcDyhxnfd",
+        "block_type": 2,
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can change ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "filters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to build query engines with different conditions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Kv8jdL9khow9CNx0RCEcfxv6nhe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "question = \"Can I delete entities by filtering non-primary fields?\"\n\n# search_results = query_engine_for_user_001.retrieve(question)\nresponse = query_engine_for_user_001.query(question)\nprint(response.response)\n\n# Output\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Yes, you can delete entities by filtering non-primary fields. Milvus supports deleting entities by complex boolean expressions, which allows you to filter entities based on specific conditions on non-primary fields. You can define complex boolean expressions using operators such as greater than or equal to, not equal to, and logical operators like AND and OR. By using these expressions, you can filter entities based on the values of non-primary fields and delete them accordingly.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Jad3d9P6OohiF7xo1NZcOOVYn3c"
+      }
+    ],
+    "counts": 54
+  }
+}

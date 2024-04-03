@@ -1,3 +1,11 @@
+---
+slug: /nodejs/vector.get()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 3
+displayed_sidebar: nodejsSidebar
+---
+
 # get()
 
 Gets entities by IDs.

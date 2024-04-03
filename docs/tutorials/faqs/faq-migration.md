@@ -2,6 +2,7 @@
 slug: /faq-migration
 beta: null
 notebook: null
+type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 6
 ---
@@ -12,15 +13,14 @@ This topic lists the possible issues that you may encounter while you migrate da
 
 ## Contents
 
-- [How to migrate data from Elasticsearch to Zilliz Cloud?](#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud)
-- [Can I migrate data from a serverless cluster to a dedicated cluster?](#can-i-migrate-data-from-a-serverless-cluster-to-a-dedicated-cluster)
+
 
 ## FAQs
 
 
 
 
-### How to migrate data from Elasticsearch to Zilliz Cloud?{#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud}
+__How to migrate data from Elasticsearch to Zilliz Cloud?__
 
 You can follow the steps below to import data from Elasticsearch to Zilliz Cloud.
 
@@ -68,6 +68,6 @@ You can follow the steps below to import data from Elasticsearch to Zilliz Cloud
 
 Alternatively, you can also import data from Elasticsearch on the Zilliz Cloud web console. For more information, see [Migrate from Elasticsearch](./migrate-from-elasticsearch) .
 
-### Can I migrate data from a serverless cluster to a dedicated cluster?{#can-i-migrate-data-from-a-serverless-cluster-to-a-dedicated-cluster}
+__Can I migrate data from a serverless cluster to a dedicated cluster?__
 
 Yes. Zilliz Cloud supports migrating data from a serverless cluster to a dedicated cluster. For more information about how to migrate data, please refer to [Migrate Between Clusters](./migrate-between-clusters).

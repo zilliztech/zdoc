@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 24
-slug: /create-pipeline
+slug: /restful/create-pipeline
 title: Create Pipeline
 ---
 
@@ -218,13 +218,14 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `projectId`  | **string**(required)<br/>ID of the target project of this operation.|
-| `name`  | **string**(required)<br/>Name of the pipeline to create.|
-| `type`  | **string**(required)<br/>Type of the pipeline to create. For an ingestion pipeline, the value should be `INGESTION`.|
-| `description`  | **string**(required)<br/>Description of the pipeline to create.|
-| `functions`  | **array**(required)<br/>Actions to take in the pipeline to create. For an ingestion pipeline, you can add only one doc-indexing function and multilpe preserve functions.|
-| `clusterId`  | **string**(required)<br/>ID of a target cluster. You can find it in cluster details on Zilliz Cloud console.|
-| `newCollectionName`  | **string**(required)<br/>Name of the collection to create in the specified cluster. Zilliz Cloud creates a new collection and name it using this value.|
+| `projectId` | string  <br/>ID of the target project of this operation.  |
+| `name` | string  <br/>Name of the pipeline to create.  |
+| `type` | string  <br/>Type of the pipeline to create. For an ingestion pipeline, the value should be `INGESTION`.  |
+| `description` | string  <br/>Description of the pipeline to create.  |
+| `functions` | array<br/>Actions to take in the pipeline to create. For an ingestion pipeline, you can add only one doc-indexing function and multilpe preserve functions. |
+| `functions[]` | object | object<br/> |
+| `clusterId` | string  <br/>ID of a target cluster. You can find it in cluster details on Zilliz Cloud console.  |
+| `newCollectionName` | string  <br/>Name of the collection to create in the specified cluster. Zilliz Cloud creates a new collection and name it using this value.  |
 
 ```json
 {
@@ -245,11 +246,16 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `projectId`  | **string**(required)<br/>ID of the target project of this operation.|
-| `name`  | **string**(required)<br/>Name of the pipeline to create.|
-| `description`  | **string**(required)<br/>Description of the pipeline to create.|
-| `type`  | **string**(required)<br/>Type of the pipeline to create. For a search pipeline, the value should be `SEARCH`.|
-| `functions`  | **array**(required)<br/>Actions to take in the search pipeline to create. You can define multiple functions to retrieve results from different collections.|
+| `projectId` | string  <br/>ID of the target project of this operation.  |
+| `name` | string  <br/>Name of the pipeline to create.  |
+| `description` | string  <br/>Description of the pipeline to create.  |
+| `type` | string  <br/>Type of the pipeline to create. For a search pipeline, the value should be `SEARCH`.  |
+| `functions` | array<br/>Actions to take in the search pipeline to create. You can define multiple functions to retrieve results from different collections. |
+| `functions[]` | object<br/> |
+| `functions[].name` | string  <br/>Name of the function to create.  |
+| `functions[].action` | string  <br/>Type of the function to create. For a search pipeline, possible value is `SEARCH_DOC_CHUNK`.  |
+| `functions[].clusterId` | string  <br/>ID of a target collection in which Zilliz Cloud concducts the search.  |
+| `functions[].collectionName` | string  <br/>Name of the collection in which ZIlliz Cloud conducts the search.  |
 
 ```json
 {
@@ -271,13 +277,17 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `projectId`  | **string**(required)<br/>ID of the target project of this operation.|
-| `name`  | **string**(required)<br/>Name of the pipeline to create.|
-| `description`  | **string**(required)<br/>Description of the pipeline to create.|
-| `type`  | **string**(required)<br/>Type of the pipeline to create. For a deletion pipeline, the value should be `DELETION`|
-| `functions`  | **array**(required)<br/>Actions to take in the pipeline to create.|
-| `clusterId`  | **string**(required)<br/>ID of a target cluster. You can find it in cluster details on Zilliz Cloud console.|
-| `collectionName`  | **string**(required)<br/>Name of the collection to create in the specified cluster. Zilliz Cloud creates a new collection and name it using this value.|
+| `projectId` | string  <br/>ID of the target project of this operation.  |
+| `name` | string  <br/>Name of the pipeline to create.  |
+| `description` | string  <br/>Description of the pipeline to create.  |
+| `type` | string  <br/>Type of the pipeline to create. For a deletion pipeline, the value should be `DELETION`  |
+| `functions` | array<br/>Actions to take in the pipeline to create. |
+| `functions[]` | object<br/> |
+| `functions[].name` | string  <br/>Name of the function to create.  |
+| `functions[].action` | string  <br/>Type of the function to create. For a delete pipeline, possible value is `PURGE_DOC_INDEX`.  |
+| `functions[].inputField` | string  <br/>Name the field according to your needs. In a delete pipeline, use it for the name of a document to delete.  |
+| `clusterId` | string  <br/>ID of a target cluster. You can find it in cluster details on Zilliz Cloud console.  |
+| `collectionName` | string  <br/>Name of the collection to create in the specified cluster. Zilliz Cloud creates a new collection and name it using this value.  |
 
 ## Response
 
@@ -318,17 +328,17 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
-| `data.pipelineId`   | **integer**<br/>A pipeline ID. |
-| `data.name`   | **string**<br/>Name of the pipeline. |
-| `data.type`   | **string**<br/>Type of the pipeline. For an ingestion pipeline, the value should be `INGESTION`. |
-| `data.description`   | **string**<br/>Description of the pipeline. |
-| `data.status`   | **string**<br/>Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working. |
-| `data.totalTokenUsage`   | **integer**<br/>Number of consumed tokens in this operation. |
-| `data.functions`   | ****<br/>Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function. |
-| `data.clusterID`   | **string**<br/>The target cluster to which the pipeline applies. |
-| `data.collectionName`   | **string**<br/>The target collection to which the pipeline applies. |
+| `code` | integer  <br/>  |
+| `data` | object<br/> |
+| `data.pipelineId` | integer  <br/>A pipeline ID.  |
+| `data.name` | string  <br/>Name of the pipeline.  |
+| `data.type` | string  <br/>Type of the pipeline. For an ingestion pipeline, the value should be `INGESTION`.  |
+| `data.description` | string  <br/>Description of the pipeline.  |
+| `data.status` | string  <br/>Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working.  |
+| `data.totalTokenUsage` | integer  <br/>Number of consumed tokens in this operation.  |
+| `functions` | object | object<br/>Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function. |
+| `data.clusterID` | string  <br/>The target cluster to which the pipeline applies.  |
+| `data.collectionName` | string  <br/>The target collection to which the pipeline applies.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -336,4 +346,3 @@ The properties in the returned response are listed in the following table.
 | Code | Error Message |
 | ---- | ------------- |
 | 10041 | (Possible pipeline errors are all under this error code.) |
-

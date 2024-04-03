@@ -1,0 +1,185 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": true,
+  "node_create_time": "1689059653",
+  "node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+  "node_type": "origin",
+  "obj_create_time": "1689059653",
+  "obj_edit_time": "1708758049",
+  "obj_token": "QCcZdGPZzo3KcNxUUrAcn0xynIS",
+  "obj_type": "docx",
+  "origin_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "SkFxwYKdfirHv3k0g6zcXLPtnWD",
+  "space_id": "7167193056431783939",
+  "title": "Organization Settings",
+  "slug": "organization-settings",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "QCcZdGPZzo3KcNxUUrAcn0xynIS",
+        "block_type": 1,
+        "children": [
+          "WhXcdDfSEoimjox3SopceaNQnRd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Organization Settings",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "WhXcdDfSEoimjox3SopceaNQnRd",
+        "block_type": 2,
+        "parent_id": "QCcZdGPZzo3KcNxUUrAcn0xynIS",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Everything on Zilliz Cloud is managed within your organization. Learn about how to set up your organization to fit your needs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 2
+  },
+  "children": [
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": false,
+      "node_create_time": "1703660747",
+      "node_token": "GjfKwMsMeid9VXk3khkcir1Mnpb",
+      "node_type": "origin",
+      "obj_create_time": "1703660747",
+      "obj_edit_time": "1705029548",
+      "obj_token": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb",
+      "obj_type": "docx",
+      "origin_node_token": "GjfKwMsMeid9VXk3khkcir1Mnpb",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+      "space_id": "7167193056431783939",
+      "title": "View System Settings",
+      "slug": "view-system-settings"
+    },
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": false,
+      "node_create_time": "1702438447",
+      "node_token": "UfqGwAVleiNu7FkH28JcnlgOnpf",
+      "node_type": "origin",
+      "obj_create_time": "1702438447",
+      "obj_edit_time": "1705404303",
+      "obj_token": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+      "obj_type": "docx",
+      "origin_node_token": "UfqGwAVleiNu7FkH28JcnlgOnpf",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+      "space_id": "7167193056431783939",
+      "title": "View Activities",
+      "slug": "view-activities"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689062713",
+      "node_token": "MLIRwRbrtiawJgkMEdOcPQnRnVf",
+      "node_type": "origin",
+      "obj_create_time": "1689062713",
+      "obj_edit_time": "1705404501",
+      "obj_token": "J7CrdT5GEoKVfzxnSaNcoUnnnsb",
+      "obj_type": "docx",
+      "origin_node_token": "MLIRwRbrtiawJgkMEdOcPQnRnVf",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+      "space_id": "7167193056431783939",
+      "title": "Manage Timezone",
+      "slug": "manage-timezone"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689062734",
+      "node_token": "FUtxwSaoSiDKFikcDw8cKngKn1f",
+      "node_type": "origin",
+      "obj_create_time": "1689062734",
+      "obj_edit_time": "1705404590",
+      "obj_token": "BvUwdOP7roWBYkxyGWMcKXo9nOb",
+      "obj_type": "docx",
+      "origin_node_token": "FUtxwSaoSiDKFikcDw8cKngKn1f",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+      "space_id": "7167193056431783939",
+      "title": "Set up Maintenance Window",
+      "slug": "setup-maintenance-window"
+    },
+    {
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "has_child": false,
+      "node_create_time": "1693551389",
+      "node_token": "OCc5wCndbipOkzk8tkUc9IuJnle",
+      "node_type": "origin",
+      "obj_create_time": "1693551389",
+      "obj_edit_time": "1708692363",
+      "obj_token": "DXwWdylwKoXkt2xndB0cMOpdn30",
+      "obj_type": "docx",
+      "origin_node_token": "OCc5wCndbipOkzk8tkUc9IuJnle",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "parent_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+      "space_id": "7167193056431783939",
+      "title": "Delete Your Organization",
+      "slug": "delete-your-organization"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1698146417",
+      "node_token": "Tr5lwpgrCiETZzkaFSYcBTDjnlz",
+      "node_type": "origin",
+      "obj_create_time": "1698146417",
+      "obj_edit_time": "1705404948",
+      "obj_token": "KbDmdFWjGoP2Yqxmcrkc776XnR0",
+      "obj_type": "docx",
+      "origin_node_token": "Tr5lwpgrCiETZzkaFSYcBTDjnlz",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+      "space_id": "7167193056431783939",
+      "title": "Use Recycle Bin",
+      "slug": "use-recycle-bin"
+    }
+  ]
+}

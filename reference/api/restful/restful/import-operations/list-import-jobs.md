@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 20
-slug: /list-import-jobs
+slug: /restful/list-import-jobs
 title: List Import Jobs
 ---
 
@@ -90,15 +90,16 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
-| `data.count`   | **string**<br/>Total number of records listed in this response. |
-| `data.currentPage`   | **string**<br/>The current page number for your reference. |
-| `data.pageSize`   | **string**<br/>The maximum number of records to be included in each return. |
-| `data.records`   | **array**<br/> |
-| `data.records[].collectionName`   | **string**<br/>The target collection name of a import task. |
-| `data.records[].jobId`   | **string**<br/>The ID of an import task. |
-| `data.records[].state`   | **string**<br/>The corresponding status of the import task. Possible values are <b>ImportRunning</b>, <b>ImportCompleted</b> and <b>ImportFailed</b>. |
+| `code` | string  <br/>  |
+| `data` | object<br/> |
+| `data.count` | string  <br/>Total number of records listed in this response.  |
+| `data.currentPage` | string  <br/>The current page number for your reference.  |
+| `data.pageSize` | string  <br/>The maximum number of records to be included in each return.  |
+| `data[].records` | array<br/> |
+| `data[].records[]` | object<br/> |
+| `data[].records[].collectionName` | string  <br/>The target collection name of a import task.  |
+| `data[].records[].jobId` | string  <br/>The ID of an import task.  |
+| `data[].records[].state` | string  <br/>The corresponding status of the import task. Possible values are <b>ImportRunning</b>, <b>ImportCompleted</b> and <b>ImportFailed</b>.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -114,4 +115,3 @@ The properties in the returned response are listed in the following table.
 | 90102 | The cluster does not exist in current region. |
 | 90104 | The clusterId parameter is empty in the request parameter. |
 | 90117 | Invalid domain name used |
-

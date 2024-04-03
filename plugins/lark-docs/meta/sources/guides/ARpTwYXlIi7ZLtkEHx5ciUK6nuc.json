@@ -1,0 +1,2698 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1709689998",
+  "node_token": "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
+  "node_type": "origin",
+  "obj_create_time": "1709689998",
+  "obj_edit_time": "1711701507",
+  "obj_token": "EZFWdEgJdouilgxgpXhctZdEneg",
+  "obj_type": "docx",
+  "origin_node_token": "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "Xma9w6Ne9ihcsZkFkSmcHidEnZg",
+  "space_id": "7167193056431783939",
+  "title": "Manage Notification Channels",
+  "slug": "manage-notification-channels",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "EZFWdEgJdouilgxgpXhctZdEneg",
+        "block_type": 1,
+        "children": [
+          "OyS6d5cBJoNZQpxqmBScM1mgnWg",
+          "NwuXd2rdJoovAIxop4jcw1qnnvn",
+          "VeWVdX5pIouAUFxo2f7cdQTDnGd",
+          "NF43d6WTDodSMVxwZ1acf2LwnMf",
+          "Edh2d0b6WoJUwqxqeZHcP4pDnbf",
+          "VEj6dQpqcoBKmFxsydNc9skMnHg",
+          "GkWWdXp3MoFyYAxfHLZcK2DOnpd",
+          "ZZyYdsOiEodZo4x6UujcjMIpnAK",
+          "LwDNdPa9boYVzsxfwYTcHDcxnqf",
+          "Ub3LdjX1boXRMBxujKBc2n7snCd",
+          "TMfWdZdJEoBalcxJk0wcPHGynYg",
+          "GZXrdZuNDoy2YAxnVQ6cF048nof",
+          "WdnndHe94onI0exkqMbcscslnkg",
+          "FDFldrki4oCXJaxtOqpcuYVrnXc",
+          "Hj1CdRXVSod0dNx9phKcx1xenpb",
+          "TduDdgCdFoy9fxxaXB4cknXNnZf",
+          "DtMKdl492ocyu4xaPNYcfmvYn1f",
+          "T3fZdKZhQoTGPqx93gDc1Du6nVC",
+          "SsUBdNnEVoGH1UxFPu4cep9pnTg",
+          "NX5Hd5HkJoinLLxjHCmccAMBnJf",
+          "XpXXdPSB1o7wQhxV0YTcU5hpndg",
+          "DzqBdLgBPoRM4RxzTHrc8PXMnNg",
+          "IdLvdNclyoMe18xSruqcsc6Qnsh",
+          "ZLsJdkdKWosVoPxvqEMcchiRnlb",
+          "LeecdS36Mo3XhDx8AnycAaZRn9g",
+          "Y6H2d0UdzolwrqxqiRxcgqDqnnb",
+          "UvJOdOfKfodz8px6lBacYwz7n5d",
+          "HvOSdZAkAoalY3xrVP4cC8k0ngd",
+          "U16kd4uqgoeyjmxmnk8cnY3KnEf",
+          "ZN7ndtmSAoB8LvxuClkcyxeenGf",
+          "BmgKdhmaLohXVFxvKPWccjzJnVc",
+          "LuVddmNK1oMqgqx8892cFj7wnBd",
+          "FyrWdoozno3h5cx1B7zchBZ9nBc",
+          "XFiBdoNKRoqxQIxTKnscN1hMnaf",
+          "OyoIdxi9JoBEBexjzpkcmWqOnrh"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage Notification Channels",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "OyS6d5cBJoNZQpxqmBScM1mgnWg",
+        "block_type": 2,
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Alert notifications in Zilliz Cloud keep you informed about events occurring within your clusters. By default, these notifications are sent to specified user email addresses. However, you can also set up custom notification channels using webhooks for more integrated, event-driven notifications. This guide will walk you through the process of configuring alert notification channels.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NwuXd2rdJoovAIxop4jcw1qnnvn",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "VeWVdX5pIouAUFxo2f7cdQTDnGd",
+        "block_type": 2,
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To manage notification channels, make sure you are an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "organization or project owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FAFNZwDcXNiChK0ke5h5c65xZnje"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NF43d6WTDodSMVxwZ1acf2LwnMf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set up notification channels",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "Edh2d0b6WoJUwqxqeZHcP4pDnbf",
+        "block_type": 2,
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, Zilliz Cloud offers four main types of notification channels:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VEj6dQpqcoBKmFxsydNc9skMnHg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Email",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FARpTwYXlIi7ZLtkEHx5ciUK6nuc%23GZXrdZuNDoy2YAxnVQ6cF048nof"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Receive notifications at specified email addresses.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "GkWWdXp3MoFyYAxfHLZcK2DOnpd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PagerDuty",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FARpTwYXlIi7ZLtkEHx5ciUK6nuc%23T3fZdKZhQoTGPqx93gDc1Du6nVC"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Integrate with a PagerDuty service using an integration key.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "ZZyYdsOiEodZo4x6UujcjMIpnAK",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Slack",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FARpTwYXlIi7ZLtkEHx5ciUK6nuc%23IdLvdNclyoMe18xSruqcsc6Qnsh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Integrate with a Slack app using a webhook URL.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "LwDNdPa9boYVzsxfwYTcHDcxnqf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Webhook",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FARpTwYXlIi7ZLtkEHx5ciUK6nuc%23HvOSdZAkAoalY3xrVP4cC8k0ngd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Integrate with custom services or applications using a valid webhook URL.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "Ub3LdjX1boXRMBxujKBc2n7snCd",
+        "block_type": 2,
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can access the management page of notification channels in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Edit Alert",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Create Alert",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " dialog box in the Zilliz Cloud console.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TMfWdZdJEoBalcxJk0wcPHGynYg",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D42170-1178%26mode%3Ddesign%26t%3DA30t3AZi02fHpmTB-4"
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "GZXrdZuNDoy2YAxnVQ6cF048nof",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Email",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "WdnndHe94onI0exkqMbcscslnkg",
+        "block_type": 2,
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To set up email notifications,",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FDFldrki4oCXJaxtOqpcuYVrnXc",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.zilliz.com%2Fsignup"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", navigate to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Alert Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab on the organization or project alert page.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "Hj1CdRXVSod0dNx9phKcx1xenpb",
+        "block_type": 13,
+        "children": [
+          "SHbfd14SIo9qyqxfXsscJywznhe"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To modify an existing alert, select ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Edit",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Actions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column next to the desired alert target. To create a new alert, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Alert",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the upper-right corner.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "SHbfd14SIo9qyqxfXsscJywznhe",
+        "block_type": 34,
+        "children": [
+          "CKdadCJbeotau3xtMXmc9wpznAf",
+          "Ty3Gd3oc0oCmKcxVdXccNJeanug"
+        ],
+        "parent_id": "Hj1CdRXVSod0dNx9phKcx1xenpb",
+        "quote_container": {}
+      },
+      {
+        "block_id": "CKdadCJbeotau3xtMXmc9wpznAf",
+        "block_type": 2,
+        "parent_id": "SHbfd14SIo9qyqxfXsscJywznhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ty3Gd3oc0oCmKcxVdXccNJeanug",
+        "block_type": 2,
+        "parent_id": "SHbfd14SIo9qyqxfXsscJywznhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Organization Alerts",
+                "token": "UPg7wiU71ioeELk8I8KcLDYqncb",
+                "url": "https://zilliverse.feishu.cn/wiki/UPg7wiU71ioeELk8I8KcLDYqncb"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TduDdgCdFoy9fxxaXB4cknXNnZf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Send To",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field of the dialog box, select user roles or email addresses of individual users to receive alert notifications.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "DtMKdl492ocyu4xaPNYcfmvYn1f",
+        "block_type": 2,
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Organization Alerts",
+                "token": "UPg7wiU71ioeELk8I8KcLDYqncb",
+                "url": "https://zilliverse.feishu.cn/wiki/UPg7wiU71ioeELk8I8KcLDYqncb"
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Project Alerts",
+                "token": "NvDLw4kFji0xeWkc4Hpc9wUfnRh",
+                "url": "https://zilliverse.feishu.cn/wiki/NvDLw4kFji0xeWkc4Hpc9wUfnRh"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T3fZdKZhQoTGPqx93gDc1Du6nVC",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PagerDuty",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "SsUBdNnEVoGH1UxFPu4cep9pnTg",
+        "block_type": 2,
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To integrate with a PagerDuty service,",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NX5Hd5HkJoinLLxjHCmccAMBnJf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a service",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fsupport.pagerduty.com%2Fdocs%2Fservices-and-integrations%23create-a-service"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the PagerDuty UI.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "XpXXdPSB1o7wQhxV0YTcU5hpndg",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create an Events API v2 integration",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fsupport.pagerduty.com%2Fdocs%2Fservices-and-integrations%23create-a-generic-events-api-integration"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to obtain the integration key. The integration key will be in the format: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "c55ec4de243e440bd0e921750bdfxxxx",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "DzqBdLgBPoRM4RxzTHrc8PXMnNg",
+        "block_type": 13,
+        "children": [
+          "IaDqdGMUfoHMeXxHsAZcECIRnzd",
+          "ThsFdJ4vXo051WxCs6tcZutBnyc",
+          "Xclkdd37KoymazxngIvcRKr4nNf",
+          "RLEydv4eJoNqr7xOS5QcRWQGnib"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.zilliz.com%2Fsignup"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", configure the PagerDuty notification channel.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "IaDqdGMUfoHMeXxHsAZcECIRnzd",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Navigate to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Alert Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab on the organization or project alert page.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DzqBdLgBPoRM4RxzTHrc8PXMnNg"
+      },
+      {
+        "block_id": "ThsFdJ4vXo051WxCs6tcZutBnyc",
+        "block_type": 13,
+        "children": [
+          "JoWNdWCkVoQ7inxq3NVcIxb0nld"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To modify an existing alert, select ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Edit",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Actions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column next to the desired alert target. To create a new alert, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Alert",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the upper-right corner.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DzqBdLgBPoRM4RxzTHrc8PXMnNg"
+      },
+      {
+        "block_id": "JoWNdWCkVoQ7inxq3NVcIxb0nld",
+        "block_type": 34,
+        "children": [
+          "JSFTda0hCoiWGBxp6JCc1YFfnme",
+          "RE9Pdl1UmoEqXWx1PS6cTbNlnUb"
+        ],
+        "parent_id": "ThsFdJ4vXo051WxCs6tcZutBnyc",
+        "quote_container": {}
+      },
+      {
+        "block_id": "JSFTda0hCoiWGBxp6JCc1YFfnme",
+        "block_type": 2,
+        "parent_id": "JoWNdWCkVoQ7inxq3NVcIxb0nld",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RE9Pdl1UmoEqXWx1PS6cTbNlnUb",
+        "block_type": 2,
+        "parent_id": "JoWNdWCkVoQ7inxq3NVcIxb0nld",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Organization Alerts",
+                "token": "UPg7wiU71ioeELk8I8KcLDYqncb",
+                "url": "https://zilliverse.feishu.cn/wiki/UPg7wiU71ioeELk8I8KcLDYqncb"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Xclkdd37KoymazxngIvcRKr4nNf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the dialog box that appears, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Channel",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Send To",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field and choose ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "PagerDuty",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the dropdown list.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DzqBdLgBPoRM4RxzTHrc8PXMnNg"
+      },
+      {
+        "block_id": "RLEydv4eJoNqr7xOS5QcRWQGnib",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enter the PagerDuty integration key obtained and select the service region hosting your PagerDuty account. For more information on PagerDuty service regions, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Service Regions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fsupport.pagerduty.com%2Fdocs%2Fservice-regions"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DzqBdLgBPoRM4RxzTHrc8PXMnNg"
+      },
+      {
+        "block_id": "IdLvdNclyoMe18xSruqcsc6Qnsh",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Slack",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "ZLsJdkdKWosVoPxvqEMcchiRnlb",
+        "block_type": 2,
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To set up Slack integration,",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LeecdS36Mo3XhDx8AnycAaZRn9g",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a webhook",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fapi.slack.com%2Fmessaging%2Fwebhooks%23getting_started"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the Slack UI.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "Y6H2d0UdzolwrqxqiRxcgqDqnnb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Webhook URL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " section, obtain the webhook URL. The URL will be in the format: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "https://hooks.slack.com/services/xxxxxxxxxxxx/xxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "UvJOdOfKfodz8px6lBacYwz7n5d",
+        "block_type": 13,
+        "children": [
+          "N3vPd1AGsoyR6VxYUj5cpoAnnlL",
+          "KFJ9dlEDtokoOJxBBHHcdrKSnGh",
+          "C1Z4dpzidoYZ9WxBrZxc7kugnwb",
+          "OEkWdR5bMo0Z0GxCqDmcWiKFnEc"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.zilliz.com%2Fsignup"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", configure the Slack notification channel.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "N3vPd1AGsoyR6VxYUj5cpoAnnlL",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Navigate to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Alert Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab on the organization or project alert page.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UvJOdOfKfodz8px6lBacYwz7n5d"
+      },
+      {
+        "block_id": "KFJ9dlEDtokoOJxBBHHcdrKSnGh",
+        "block_type": 13,
+        "children": [
+          "ImuTdqDa9otYXcx17zXcasl5ncg"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To modify an existing alert, select ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Edit",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Actions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column next to the desired alert target. To create a new alert, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Alert",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the upper-right corner.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UvJOdOfKfodz8px6lBacYwz7n5d"
+      },
+      {
+        "block_id": "ImuTdqDa9otYXcx17zXcasl5ncg",
+        "block_type": 34,
+        "children": [
+          "Wojxdo74uorTgIxw8WncdLEQnTh",
+          "EV3Bd08cyonYGZx3Hs3cYk4pnMe"
+        ],
+        "parent_id": "KFJ9dlEDtokoOJxBBHHcdrKSnGh",
+        "quote_container": {}
+      },
+      {
+        "block_id": "Wojxdo74uorTgIxw8WncdLEQnTh",
+        "block_type": 2,
+        "parent_id": "ImuTdqDa9otYXcx17zXcasl5ncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EV3Bd08cyonYGZx3Hs3cYk4pnMe",
+        "block_type": 2,
+        "parent_id": "ImuTdqDa9otYXcx17zXcasl5ncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Organization Alerts",
+                "token": "UPg7wiU71ioeELk8I8KcLDYqncb",
+                "url": "https://zilliverse.feishu.cn/wiki/UPg7wiU71ioeELk8I8KcLDYqncb"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C1Z4dpzidoYZ9WxBrZxc7kugnwb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the dialog box that appears, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Channel",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Send To",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field and choose ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Slack",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the dropdown list.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UvJOdOfKfodz8px6lBacYwz7n5d"
+      },
+      {
+        "block_id": "OEkWdR5bMo0Z0GxCqDmcWiKFnEc",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enter the webhook URL obtained.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UvJOdOfKfodz8px6lBacYwz7n5d"
+      },
+      {
+        "block_id": "HvOSdZAkAoalY3xrVP4cC8k0ngd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Webhook",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "U16kd4uqgoeyjmxmnk8cnY3KnEf",
+        "block_type": 2,
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Webhook",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " option offered by Zilliz Cloud allows you to set up a custom notification channel.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZN7ndtmSAoB8LvxuClkcyxeenGf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Obtain the webhook URL of your service.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "BmgKdhmaLohXVFxvKPWccjzJnVc",
+        "block_type": 13,
+        "children": [
+          "T59Ddo6doolZ5jx2aZlcRJYMnwr",
+          "PhCUdpdZuogdv1xx5czch3k3nNi",
+          "KiLcdXZiWoAbZ9x0y6dcSIqMn3n",
+          "ApscdJnDdoczS8xQB7hcZDuEnoe"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.zilliz.com%2Fsignup"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", configure the Webhook notification channel.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "T59Ddo6doolZ5jx2aZlcRJYMnwr",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Navigate to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Alert Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab on the organization or project alert page.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BmgKdhmaLohXVFxvKPWccjzJnVc"
+      },
+      {
+        "block_id": "PhCUdpdZuogdv1xx5czch3k3nNi",
+        "block_type": 13,
+        "children": [
+          "TqirdJNA0oXG3sx2N3ycK7gTndd"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To modify an existing alert, select ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Edit",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Actions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column next to the desired alert target. To create a new alert, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Alert",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the upper-right corner.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BmgKdhmaLohXVFxvKPWccjzJnVc"
+      },
+      {
+        "block_id": "TqirdJNA0oXG3sx2N3ycK7gTndd",
+        "block_type": 34,
+        "children": [
+          "AkMKdbpPioV5QIxfMpfcQNGFnKe",
+          "GTmLdKIUWohHSmxO4D3cfzjknac"
+        ],
+        "parent_id": "PhCUdpdZuogdv1xx5czch3k3nNi",
+        "quote_container": {}
+      },
+      {
+        "block_id": "AkMKdbpPioV5QIxfMpfcQNGFnKe",
+        "block_type": 2,
+        "parent_id": "TqirdJNA0oXG3sx2N3ycK7gTndd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GTmLdKIUWohHSmxO4D3cfzjknac",
+        "block_type": 2,
+        "parent_id": "TqirdJNA0oXG3sx2N3ycK7gTndd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Organization Alerts",
+                "token": "UPg7wiU71ioeELk8I8KcLDYqncb",
+                "url": "https://zilliverse.feishu.cn/wiki/UPg7wiU71ioeELk8I8KcLDYqncb"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KiLcdXZiWoAbZ9x0y6dcSIqMn3n",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the dialog box that appears, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Channel",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Send To",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field and choose ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Webhook",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the dropdown list.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BmgKdhmaLohXVFxvKPWccjzJnVc"
+      },
+      {
+        "block_id": "ApscdJnDdoczS8xQB7hcZDuEnoe",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enter the webhook URL of your service.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BmgKdhmaLohXVFxvKPWccjzJnVc"
+      },
+      {
+        "block_id": "LuVddmNK1oMqgqx8892cFj7wnBd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Test connectivity",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "FyrWdoozno3h5cx1B7zchBZ9nBc",
+        "block_type": 2,
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After setting up a notification channel, click the Send Test Message icon to verify that it is properly configured.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XFiBdoNKRoqxQIxTKnscN1hMnaf",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D42975-1252%26mode%3Ddesign%26t%3DlvW9Xp0k3YucguIZ-4"
+          }
+        },
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg"
+      },
+      {
+        "block_id": "OyoIdxi9JoBEBexjzpkcmWqOnrh",
+        "block_type": 2,
+        "parent_id": "EZFWdEgJdouilgxgpXhctZdEneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 60
+  }
+}

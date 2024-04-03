@@ -1,0 +1,2909 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": false,
+  "node_create_time": "1706249857",
+  "node_token": "TQnswMmIpiTmUSkf1iscU05Lnfb",
+  "node_type": "origin",
+  "obj_create_time": "1706249857",
+  "obj_edit_time": "1711705838",
+  "obj_token": "YukudPBOKoO40RxXcmecNSynnV9",
+  "obj_type": "docx",
+  "origin_node_token": "TQnswMmIpiTmUSkf1iscU05Lnfb",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
+  "space_id": "7167193056431783939",
+  "title": "Create Search Pipeline",
+  "slug": "create-search-pipelines",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "YukudPBOKoO40RxXcmecNSynnV9",
+        "block_type": 1,
+        "children": [
+          "ThFBdmrX6oxeGfxY0lacaP8Xnne",
+          "Cbr0ddO49oKWftxNggec7Zxxnce",
+          "FSrSdJmYDo1PaoxqPnvcx06lnwh",
+          "BNk6dpn64oIE2IxsrEUcLb4Fn26",
+          "WCladAIR2o7KLjxooWUcLvpDnXf",
+          "VR3idai0tovxK3xmNBicRnw1nOd",
+          "AM7IdewWIoWG8oxiEUBclokJnQN",
+          "XSU1dYZmQox24XxfQWJchCehnEf",
+          "X4vNdWkoooca5KxBRJQcf4SLnZe",
+          "Z7KZdYvxBoMTWDxjIaOcmmGVnqg",
+          "PAQUdGhjwo77lrx9I6Wcc9AenAd",
+          "BeeUdG7S0oFIS9xjv7Nc9pRLnBb",
+          "GFondnB5QoEyTVxmGA7c86m7nve",
+          "RJUEdJsthorcrBxcUiUccvKgnqI",
+          "PG8edfwuKo2T0ZxVWApcrMDDnmf",
+          "Vq77dgi7hoCw6HxpZqoc99SMnud",
+          "VAGzd22P5olyooxRSHCclHtXnID",
+          "DHtVdopAmo6QfVx8D9PcfOVBnQb",
+          "XElDduCwzosxP3xukF5cyR2enWc",
+          "JWVYdOxRdo9sqExhxIacPWX7nhh",
+          "CnmndHDSgoWevUxkJzvcjRyinZg",
+          "PiMndQ1kWoYe5uxg11xc34monAf",
+          "ZsCcddm9EoLIL5x0FfocMP5Sntg",
+          "PoFWdQMR0ovQkOxWybgcj4JBnmb",
+          "YgwadLmzIoa90RxvkTHc6HLPnJh",
+          "FJqidsCyOo7jkoxXJJZcp6WsnHb",
+          "Txj1d78M2oOzaLxKSa3ccvCGnlc",
+          "K1CGdgeflo8vYQx4Mvvc1PaCnsh",
+          "JTFhdfsbdoz5Jsx45XLcPt1inYr",
+          "DvqJdUQ1No7jC3x1zcecTkaPnrc",
+          "AfPzdjrusoS7gwxo953cvMjBn6c",
+          "Fq9Fd52uaoMnsXxHrJgc7tgknQg"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create Search Pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "ThFBdmrX6oxeGfxY0lacaP8Xnne",
+        "block_type": 2,
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The Zilliz Cloud web UI provides a simplified and intuitive way of creating pipelines while the RESTful API offers more flexibility and customization.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Cbr0ddO49oKWftxNggec7Zxxnce",
+        "block_type": 2,
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FSrSdJmYDo1PaoxqPnvcx06lnwh",
+        "block_type": 2,
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unlike Ingestion and Deletion pipelines, when creating a Search pipeline, the cluster and collection are defined at the function level instead of the pipeline level. This is because Zilliz Cloud allows you to search from multiple collections at a time.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BNk6dpn64oIE2IxsrEUcLb4Fn26",
+        "block_type": 2,
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WCladAIR2o7KLjxooWUcLvpDnXf",
+        "block_type": 34,
+        "children": [
+          "SEtDdnwS2oROXLxFJTlcdZWQnVf",
+          "LKL3d3eR7ov24ZxMg2gcvRdvnFc",
+          "I5Stdn3uYo8h7ZxuY4bcrS1VnZN",
+          "Kd2PdChULoXOQIx5EH0ce2YMn3e"
+        ],
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9",
+        "quote_container": {}
+      },
+      {
+        "block_id": "SEtDdnwS2oROXLxFJTlcdZWQnVf",
+        "block_type": 2,
+        "parent_id": "WCladAIR2o7KLjxooWUcLvpDnXf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LKL3d3eR7ov24ZxMg2gcvRdvnFc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, pipelines only work with collections in a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "serverless cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FKrbjwFhy3iojF3k97XmcvvXMnW7%3Fchunked%3Dfalse%23doxcnFZEzaQyrV1mnoVWFQYLPwd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a dedicated cluster deployed on GCP us-west1.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WCladAIR2o7KLjxooWUcLvpDnXf"
+      },
+      {
+        "block_id": "I5Stdn3uYo8h7ZxuY4bcrS1VnZN",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You must ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "create an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQFsIwkbwVi7CWdkMVGQcFnPonLc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Ingestion pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQFsIwkbwVi7CWdkMVGQcFnPonLc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " first before creating a Search pipeline.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WCladAIR2o7KLjxooWUcLvpDnXf"
+      },
+      {
+        "block_id": "Kd2PdChULoXOQIx5EH0ce2YMn3e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In one project, you can only create up to 10 pipelines of the same type.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WCladAIR2o7KLjxooWUcLvpDnXf"
+      },
+      {
+        "block_id": "VR3idai0tovxK3xmNBicRnw1nOd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On web UI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "AM7IdewWIoWG8oxiEUBclokJnQN",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Navigate to your project.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "XSU1dYZmQox24XxfQWJchCehnEf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Pipelines",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the navigation panel. Then switch to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab and click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Pipelines",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". To create a pipeline, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "X4vNdWkoooca5KxBRJQcf4SLnZe",
+        "block_type": 13,
+        "children": [
+          "REF5dL6hXoWIHlxFoKDcLGlWn5b"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Choose the type of pipeline to create. Click on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " button in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Search Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "REF5dL6hXoWIHlxFoKDcLGlWn5b",
+        "block_type": 26,
+        "comment_ids": [
+          "7328309662230167556"
+        ],
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4210%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "X4vNdWkoooca5KxBRJQcf4SLnZe"
+      },
+      {
+        "block_id": "Z7KZdYvxBoMTWDxjIaOcmmGVnqg",
+        "block_type": 13,
+        "children": [
+          "LuKlduoWio8eGyxXZyUczb8Wnub",
+          "INZwdXRHqoShqMxq1tnc28fQnzb"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Configure the Search pipeline you wish to create.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "LuKlduoWio8eGyxXZyUczb8Wnub",
+        "block_type": 31,
+        "children": [
+          "S4pCdtWxgorkCIxcqBwckwTQnFh",
+          "VJdldc9t0orsk3xlF5UcgoJdndf",
+          "CNvldwiCro2Tv7xFOVlc8PcNn3e",
+          "HFWkdbbNSohOMYxOjeacNeF1nZb",
+          "WiG8dvAIPowy53x4eaqcf5UgnGc",
+          "DwTQdWrpooVFgkxuuF7cHNbbnhd"
+        ],
+        "parent_id": "Z7KZdYvxBoMTWDxjIaOcmmGVnqg",
+        "table": {
+          "cells": [
+            "S4pCdtWxgorkCIxcqBwckwTQnFh",
+            "VJdldc9t0orsk3xlF5UcgoJdndf",
+            "CNvldwiCro2Tv7xFOVlc8PcNn3e",
+            "HFWkdbbNSohOMYxOjeacNeF1nZb",
+            "WiG8dvAIPowy53x4eaqcf5UgnGc",
+            "DwTQdWrpooVFgkxuuF7cHNbbnhd"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              180,
+              315
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 3
+          }
+        }
+      },
+      {
+        "block_id": "S4pCdtWxgorkCIxcqBwckwTQnFh",
+        "block_type": 32,
+        "children": [
+          "H9JxdwvOwomPOVxrTPockVl7nue"
+        ],
+        "parent_id": "LuKlduoWio8eGyxXZyUczb8Wnub",
+        "table_cell": {}
+      },
+      {
+        "block_id": "H9JxdwvOwomPOVxrTPockVl7nue",
+        "block_type": 2,
+        "parent_id": "S4pCdtWxgorkCIxcqBwckwTQnFh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameters",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VJdldc9t0orsk3xlF5UcgoJdndf",
+        "block_type": 32,
+        "children": [
+          "UjfYdGxOCoS3oxxmSUAcrKZ3n9d"
+        ],
+        "parent_id": "LuKlduoWio8eGyxXZyUczb8Wnub",
+        "table_cell": {}
+      },
+      {
+        "block_id": "UjfYdGxOCoS3oxxmSUAcrKZ3n9d",
+        "block_type": 2,
+        "parent_id": "VJdldc9t0orsk3xlF5UcgoJdndf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CNvldwiCro2Tv7xFOVlc8PcNn3e",
+        "block_type": 32,
+        "children": [
+          "EOA7dxx68o8Z6ixopwYcyNxbnXb"
+        ],
+        "parent_id": "LuKlduoWio8eGyxXZyUczb8Wnub",
+        "table_cell": {}
+      },
+      {
+        "block_id": "EOA7dxx68o8Z6ixopwYcyNxbnXb",
+        "block_type": 2,
+        "parent_id": "CNvldwiCro2Tv7xFOVlc8PcNn3e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Pipeline Name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HFWkdbbNSohOMYxOjeacNeF1nZb",
+        "block_type": 32,
+        "children": [
+          "QXjMdyyYRo8ebix34AGcTV0ZnGb"
+        ],
+        "parent_id": "LuKlduoWio8eGyxXZyUczb8Wnub",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QXjMdyyYRo8ebix34AGcTV0ZnGb",
+        "block_type": 2,
+        "parent_id": "HFWkdbbNSohOMYxOjeacNeF1nZb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the new Search pipeline. It should only contain lowercase letters, numbers, and underscores only.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WiG8dvAIPowy53x4eaqcf5UgnGc",
+        "block_type": 32,
+        "children": [
+          "LUBqdE4SkozdXExxeN4co2exn7g"
+        ],
+        "parent_id": "LuKlduoWio8eGyxXZyUczb8Wnub",
+        "table_cell": {}
+      },
+      {
+        "block_id": "LUBqdE4SkozdXExxeN4co2exn7g",
+        "block_type": 2,
+        "parent_id": "WiG8dvAIPowy53x4eaqcf5UgnGc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description (Optional)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DwTQdWrpooVFgkxuuF7cHNbbnhd",
+        "block_type": 32,
+        "children": [
+          "PQfHd9EgkozTrUxa3zEcKYXUnbg"
+        ],
+        "parent_id": "LuKlduoWio8eGyxXZyUczb8Wnub",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PQfHd9EgkozTrUxa3zEcKYXUnbg",
+        "block_type": 2,
+        "parent_id": "DwTQdWrpooVFgkxuuF7cHNbbnhd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The description of the new Search pipeline.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "INZwdXRHqoShqMxq1tnc28fQnzb",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4220%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "Z7KZdYvxBoMTWDxjIaOcmmGVnqg"
+      },
+      {
+        "block_id": "PAQUdGhjwo77lrx9I6Wcc9AenAd",
+        "block_type": 13,
+        "children": [
+          "H3gpdRbsSo4pw4x6T5DcRJl8nPc",
+          "LlsNdirlxoNeBlxX6FTcsxbcnHh",
+          "GS80dUMI1oy52BxoGfocmzrIn2f",
+          "HYSDdqmDdosXxrx8LV6cMRmsndg",
+          "EZUqdVy3pofRlFxAZLyc7vrWnbb"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Add a function to the Search pipeline. You can add exactly one ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SEARCH_DOC_CHUNK",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "H3gpdRbsSo4pw4x6T5DcRJl8nPc",
+        "block_type": 34,
+        "children": [
+          "CpKFdSlIYoL5Sjx7tsJc3u16nU4",
+          "QUEldj9Raorgz1xvYjCc1VaCn6c"
+        ],
+        "parent_id": "PAQUdGhjwo77lrx9I6Wcc9AenAd",
+        "quote_container": {}
+      },
+      {
+        "block_id": "CpKFdSlIYoL5Sjx7tsJc3u16nU4",
+        "block_type": 2,
+        "parent_id": "H3gpdRbsSo4pw4x6T5DcRJl8nPc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QUEldj9Raorgz1xvYjCc1VaCn6c",
+        "block_type": 2,
+        "parent_id": "H3gpdRbsSo4pw4x6T5DcRJl8nPc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For convenience, the web UI forces the input field name to be ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query_text",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". To customize it, you can ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "create a Search pipeline via RESTful API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FTQnswMmIpiTmUSkf1iscU05Lnfb%23GFondnB5QoEyTVxmGA7c86m7nve"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LlsNdirlxoNeBlxX6FTcsxbcnHh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enter function name.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PAQUdGhjwo77lrx9I6Wcc9AenAd"
+      },
+      {
+        "block_id": "GS80dUMI1oy52BxoGfocmzrIn2f",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Choose ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Target Cluster",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Target collection",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". The Target Cluster must be serverless cluster and the Target Collection must be created by an Ingestion pipeline, otherwise the Search pipeline won't be compatible.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PAQUdGhjwo77lrx9I6Wcc9AenAd"
+      },
+      {
+        "block_id": "HYSDdqmDdosXxrx8LV6cMRmsndg",
+        "block_type": 13,
+        "children": [
+          "WmcodiqQcoVS5uxpKPSc72OZnug",
+          "VG4AdHcOhopppjx3HsFcv4KWnfe"
+        ],
+        "comment_ids": [
+          "7337946656044695555",
+          "7337939862162571267"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "(Optional) Enable ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337939862162571267",
+                    "7337946656044695555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "reranker",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337939862162571267",
+                    "7337946656044695555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FDOcRwUYLPi1C5bkiTq8c5dEQnP9"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " if you want to rank the search results based on their relevance to the query to improve search quality. However, note that enabling reranker will lead to higher cost and search latency. By default, this feature is disabled. Once enabled, you can choose the model service used for reranking. Currently, only ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337939862162571267",
+                    "7337946656044695555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "zilliz/bge-reranker-base",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7337939862162571267",
+                    "7337946656044695555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is available.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337939862162571267",
+                    "7337946656044695555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PAQUdGhjwo77lrx9I6Wcc9AenAd"
+      },
+      {
+        "block_id": "WmcodiqQcoVS5uxpKPSc72OZnug",
+        "block_type": 31,
+        "children": [
+          "Z0YfdhwJooLQdOxnESRc6RannCf",
+          "XgP3dyIA6o3XJmxOuTucclTmnKh",
+          "BT6hdAYlsoTWIgxFV5jcnINJnVe",
+          "YHNgdbilXonXAaxlMhOcQeHVnjh"
+        ],
+        "parent_id": "HYSDdqmDdosXxrx8LV6cMRmsndg",
+        "table": {
+          "cells": [
+            "Z0YfdhwJooLQdOxnESRc6RannCf",
+            "XgP3dyIA6o3XJmxOuTucclTmnKh",
+            "BT6hdAYlsoTWIgxFV5jcnINJnVe",
+            "YHNgdbilXonXAaxlMhOcQeHVnjh"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              214,
+              260
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 2
+          }
+        }
+      },
+      {
+        "block_id": "Z0YfdhwJooLQdOxnESRc6RannCf",
+        "block_type": 32,
+        "children": [
+          "VhtSdKf1ioPIX8xjN28cnG9pn8d"
+        ],
+        "parent_id": "WmcodiqQcoVS5uxpKPSc72OZnug",
+        "table_cell": {}
+      },
+      {
+        "block_id": "VhtSdKf1ioPIX8xjN28cnG9pn8d",
+        "block_type": 2,
+        "parent_id": "Z0YfdhwJooLQdOxnESRc6RannCf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Reranker Model Service",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XgP3dyIA6o3XJmxOuTucclTmnKh",
+        "block_type": 32,
+        "children": [
+          "QGYddnXDeo7S4cxdY5Zc5dY8nj8"
+        ],
+        "parent_id": "WmcodiqQcoVS5uxpKPSc72OZnug",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QGYddnXDeo7S4cxdY5Zc5dY8nj8",
+        "block_type": 2,
+        "parent_id": "XgP3dyIA6o3XJmxOuTucclTmnKh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BT6hdAYlsoTWIgxFV5jcnINJnVe",
+        "block_type": 32,
+        "children": [
+          "QjvGdQXDBoRfa2xOk4BcM9yyneJ"
+        ],
+        "parent_id": "WmcodiqQcoVS5uxpKPSc72OZnug",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QjvGdQXDBoRfa2xOk4BcM9yyneJ",
+        "block_type": 2,
+        "parent_id": "BT6hdAYlsoTWIgxFV5jcnINJnVe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz/bge-reranker-base",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YHNgdbilXonXAaxlMhOcQeHVnjh",
+        "block_type": 32,
+        "children": [
+          "PcOHdzXGvouC6ixBJX9cGXVNnBe"
+        ],
+        "parent_id": "WmcodiqQcoVS5uxpKPSc72OZnug",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PcOHdzXGvouC6ixBJX9cGXVNnBe",
+        "block_type": 2,
+        "parent_id": "YHNgdbilXonXAaxlMhOcQeHVnjh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Open-source cross-encoder architecture reranker model published by BAAI. This model is hosted on Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VG4AdHcOhopppjx3HsFcv4KWnfe",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D39309-1180%26mode%3Ddesign%26t%3DJwNw3ufDtfY5CmiK-4"
+          }
+        },
+        "parent_id": "HYSDdqmDdosXxrx8LV6cMRmsndg"
+      },
+      {
+        "block_id": "EZUqdVy3pofRlFxAZLyc7vrWnbb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Add",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to save your function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PAQUdGhjwo77lrx9I6Wcc9AenAd"
+      },
+      {
+        "block_id": "BeeUdG7S0oFIS9xjv7Nc9pRLnBb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Create Search Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "GFondnB5QoEyTVxmGA7c86m7nve",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Via RESTful API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "RJUEdJsthorcrBxcUiUccvKgnqI",
+        "block_type": 34,
+        "children": [
+          "HP4cdVBa0oU5hfxTbrXc6d5Tn9e",
+          "LK9qdEpLGojiU2x0KVxcKU5wn9d"
+        ],
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9",
+        "quote_container": {}
+      },
+      {
+        "block_id": "HP4cdVBa0oU5hfxTbrXc6d5Tn9e",
+        "block_type": 2,
+        "parent_id": "RJUEdJsthorcrBxcUiUccvKgnqI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LK9qdEpLGojiU2x0KVxcKU5wn9d",
+        "block_type": 2,
+        "parent_id": "RJUEdJsthorcrBxcUiUccvKgnqI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When creating a Search pipeline, the cluster and collection are defined at the function level instead of the pipeline level. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PG8edfwuKo2T0ZxVWApcrMDDnmf",
+        "block_type": 2,
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following example creates a Search pipeline named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "my_text_search_pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " with a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SEARCH_DOC_CHUNK",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function added. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Vq77dgi7hoCw6HxpZqoc99SMnud",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "curl --request POST \\\n    --header \"Content-Type: application/json\" \\\n    --header \"Authorization: Bearer ${YOUR_API_KEY}\" \\\n    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines\" \\\n    -d '{\n        \"projectId\": \"proj-xxxx\",       \n        \"name\": \"my_text_search_pipeline\",\n        \"description\": \"A pipeline that receives text and search for semantically similar doc chunks\",\n        \"type\": \"SEARCH\",\n        \"functions\": [\n            {\n                \"name\": \"search_chunk_text_and_title\",\n                \"action\": \"SEARCH_DOC_CHUNK\",\n                \"inputField\": \"query_text\",\n                \"clusterId\": \"${CLUSTER_ID}\",\n                \"collectionName\": \"my_new_collection\",\n                \"reranker\": \"zilliz/bge-reranker-base\"\n            }\n        ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "VAGzd22P5olyooxRSHCclHtXnID",
+        "block_type": 2,
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The parameters in the above code are described as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DHtVdopAmo6QfVx8D9PcfOVBnQb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "YOUR_API_KEY",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The credential used to authenticate API requests. Learn more about how to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "View API Keys",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fmanage-api-keys%23view-api-keys"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "XElDduCwzosxP3xukF5cyR2enWc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "cloud-region",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The ID of the cloud region where your cluster exists. Currently, only ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "gcp-us-west1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is supported.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "JWVYdOxRdo9sqExhxIacPWX7nhh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "projectId",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The ID of the project in which you want to create a pipeline. Learn more about ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "How Can I Obtain the Project ID?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fsupport.zilliz.com%2Fhc%2Fen-us%2Farticles%2F22048954409755-How-Can-I-Obtain-the-Project-ID"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "CnmndHDSgoWevUxkJzvcjRyinZg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The name of the pipeline to create. The pipeline name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "PiMndQ1kWoYe5uxg11xc34monAf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "description",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (optional): The description of the pipeline to create.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "ZsCcddm9EoLIL5x0FfocMP5Sntg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "type",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The type of the pipeline to create. Currently, available pipeline types include ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "INGESTION",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SEARCH",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DELETION",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "PoFWdQMR0ovQkOxWybgcj4JBnmb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "functions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The function(s) to add in the pipeline. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "A Search pipeline can only have one function.",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "QdMNd2lekowCNFxtn1AcTTPjngh",
+          "Gk7gdYlftoFE4Nx6pn9cQuoyneg",
+          "L3OGdtHpEoY6fFx1gjrccam3nFh",
+          "NalJdpdtvoOIq6xOLc4cpSqcnNb",
+          "JtEGdEWhpoTxK4xOhXoclOS4n8j",
+          "MCqmdqGyzo4aWfxkR6fcrX7PnZz"
+        ],
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "QdMNd2lekowCNFxtn1AcTTPjngh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PoFWdQMR0ovQkOxWybgcj4JBnmb"
+      },
+      {
+        "block_id": "Gk7gdYlftoFE4Nx6pn9cQuoyneg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "action",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The type of the function to add. You can only add a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SEARCH_DOC_CHUNK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function to a Search pipeline.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PoFWdQMR0ovQkOxWybgcj4JBnmb"
+      },
+      {
+        "block_id": "L3OGdtHpEoY6fFx1gjrccam3nFh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "inputField",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The name of the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "inputField",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". You can configure this parameter as you wish. But when ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "running the pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FXFEcwie5GiRlH5kLtvzcA8lWnNb"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you should always use a consistent input field name. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PoFWdQMR0ovQkOxWybgcj4JBnmb"
+      },
+      {
+        "block_id": "NalJdpdtvoOIq6xOLc4cpSqcnNb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "clusterId",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The ID of the cluster in which you want to create a pipeline. Currently, you can only choose",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " a serverless cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a dedicated cluster deployed on GCP us-west1. Learn more about ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "How can I find my CLUSTER_ID?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fsupport.zilliz.com%2Fhc%2Fen-us%2Farticles%2F21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PoFWdQMR0ovQkOxWybgcj4JBnmb"
+      },
+      {
+        "block_id": "JtEGdEWhpoTxK4xOhXoclOS4n8j",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collectionName",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The name of the collection in which you want to create a pipeline.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PoFWdQMR0ovQkOxWybgcj4JBnmb"
+      },
+      {
+        "block_id": "MCqmdqGyzo4aWfxkR6fcrX7PnZz",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "reranker",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337945979953840132"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(Optional): This is an optional parameter for those who want to reorder or rank a set of candidate outputs to improve the quality of the search results. If you do not need the ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337945979953840132"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "reranker",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337945979953840132"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FDOcRwUYLPi1C5bkiTq8c5dEQnP9"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you can omit this parameter. Currently, only ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337945979953840132"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "zilliz/bge-reranker-base",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337945979953840132"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is available as the parameter value.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337945979953840132"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7337945979953840132"
+        ],
+        "parent_id": "PoFWdQMR0ovQkOxWybgcj4JBnmb"
+      },
+      {
+        "block_id": "YgwadLmzIoa90RxvkTHc6HLPnJh",
+        "block_type": 2,
+        "comment_ids": [
+          "7330215690617831427"
+        ],
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Below is an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "example output",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7330215690617831427"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FJqidsCyOo7jkoxXJJZcp6WsnHb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n  \"code\": 200,\n  \"data\": {\n    \"pipelineId\": \"pipe-84e6d9dba930e035150972\",\n    \"name\": \"my_text_search_pipeline\",\n    \"type\": \"SEARCH\",\n    \"description\": \"A pipeline that receives text and search for semantically similar doc chunks\",\n    \"status\": \"SERVING\",\n    \"functions\": [\n      {\n        \"action\": \"SEARCH_DOC_CHUNK\",\n        \"name\": \"search_chunk_text_and_title\",\n        \"inputField\": \"query_text\",\n        \"clusterId\": \"in03-***************\",\n        \"collectionName\": \"my_new_collection\",\n        \"embedding\": \"zilliz/bge-base-en-v1.5\",\n        \"reranker\": \"zilliz/bge-reranker-base\"\n      }\n    ],\n    \"totalTokenUsage\": 0\n  }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "Txj1d78M2oOzaLxKSa3ccvCGnlc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "K1CGdgeflo8vYQx4Mvvc1PaCnsh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Run Search Pipeline",
+                "token": "JQDDwqHi3i47jAkybnCcgNt6nSe",
+                "url": "https://zilliverse.feishu.cn/wiki/JQDDwqHi3i47jAkybnCcgNt6nSe"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "JTFhdfsbdoz5Jsx45XLcPt1inYr",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Pipelines",
+                "token": "RxmuwIgydiN3vkkKmATcam59nDc",
+                "url": "https://zilliverse.feishu.cn/wiki/RxmuwIgydiN3vkkKmATcam59nDc"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "DvqJdUQ1No7jC3x1zcecTkaPnrc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Estimate Pipelines Usage",
+                "token": "WbQZwNrsIiqw1bkkP7zctG6knXf",
+                "url": "https://zilliverse.feishu.cn/wiki/WbQZwNrsIiqw1bkkP7zctG6knXf"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "AfPzdjrusoS7gwxo953cvMjBn6c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Zilliz Cloud Limits",
+                "token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
+                "url": "https://zilliverse.feishu.cn/wiki/PuxkwMWvbiHxvTkHsVkcMZP9n5f#HiXpd49EYoUuO2xqZGdc24nTnfN"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      },
+      {
+        "block_id": "Fq9Fd52uaoMnsXxHrJgc7tgknQg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "FAQs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Ffaq-pipelines"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
+      }
+    ],
+    "counts": 77
+  }
+}

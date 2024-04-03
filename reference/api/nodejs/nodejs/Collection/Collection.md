@@ -3,6 +3,7 @@ slug: /nodejs/collection
 beta: FALSE
 notebook: FALSE
 sidebar_position: 2
+displayed_sidebar: nodejsSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 The collection APIs provide a way to manage collections in the connected Zilliz Cloud cluster.
 
-
+## Contents
 
 import DocCardList from '@theme/DocCardList';
 

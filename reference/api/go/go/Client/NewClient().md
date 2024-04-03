@@ -1,3 +1,11 @@
+---
+slug: /go/client.NewClient()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 0
+displayed_sidebar: goSidebar
+---
+
 # NewClient()
 
 Creates a Milvus client.

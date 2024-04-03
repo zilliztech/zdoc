@@ -1,3 +1,12 @@
+---
+slug: /go/client.Query()
+beta: FALSE
+notebook: FALSE
+sidebar_position: 3
+displayed_sidebar: goSidebar
+---
+
+
 # Query()
 
 Queries one or more entities based on scalar fields filtered by boolean expressions.

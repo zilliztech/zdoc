@@ -1,0 +1,45 @@
+name: "fetch lark docs (auto)"
+on:
+  schedule:
+  - cron: "0 3,9 * * *"
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+    - name: get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y%m%d')"
+    - name: set up Environment
+      uses: actions/setup-node@v4.0.1
+    - name: checkout repo
+      uses: actions/checkout@v4
+    - name: fetch docs
+      run: |
+        npm install
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -skipS
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -post
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        SPACE_ID: ${{ secrets.SPACE_ID }}
+        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+    - name: build docsite
+      run: |
+        npm run build
+    - name: link checks
+      env:
+          TOKEN: ${{ secrets.ACTION_TOKEN }}
+      run: |
+        curl -H "Authorization: token $TOKEN" https://raw.githubusercontent.com/zilliztech/zilliz-cloud-client/release_2.0.0/packages/CommonService/client/src/consts/Link.ts -o plugins/link-checks/meta/Link.ts
+        npx docusaurus link-checks
+    - name: commit to dev
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        branch: dev
+        create_branch: true
+        push_options: --force
+      

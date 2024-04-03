@@ -1,0 +1,182 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": true,
+  "node_create_time": "1701844170",
+  "node_token": "VTZZwCkkCi7FwnklLDhcMJwvnQb",
+  "node_type": "origin",
+  "obj_create_time": "1701844170",
+  "obj_edit_time": "1708757996",
+  "obj_token": "MomDdhGAioojyTxn3HfcUrNqnjb",
+  "obj_type": "docx",
+  "origin_node_token": "VTZZwCkkCi7FwnklLDhcMJwvnQb",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
+  "space_id": "7167193056431783939",
+  "title": "Import Data",
+  "slug": "import-data",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "MomDdhGAioojyTxn3HfcUrNqnjb",
+        "block_type": 1,
+        "children": [
+          "SCc9dLpQfoDyvtxcyKBcWKz6nYe"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Import Data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "SCc9dLpQfoDyvtxcyKBcWKz6nYe",
+        "block_type": 2,
+        "parent_id": "MomDdhGAioojyTxn3HfcUrNqnjb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once you have prepared your data by following the procedures in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Prepare Data Import",
+                "token": "YNbGwiEjAinaQfkSdNlcTehwn8I",
+                "url": "https://zilliverse.feishu.cn/wiki/YNbGwiEjAinaQfkSdNlcTehwn8I"
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you can start the data import on the Zilliz Cloud console, via RESTful ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", or via SDKs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 2
+  },
+  "children": [
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": false,
+      "node_create_time": "1694400387",
+      "node_token": "KkdswLx2bi4bgCkY6bEc7Do9neh",
+      "node_type": "origin",
+      "obj_create_time": "1694400387",
+      "obj_edit_time": "1711611302",
+      "obj_token": "Np4Sdm31soFi7DxOtqncL4lhnHb",
+      "obj_type": "docx",
+      "origin_node_token": "KkdswLx2bi4bgCkY6bEc7Do9neh",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "VTZZwCkkCi7FwnklLDhcMJwvnQb",
+      "space_id": "7167193056431783939",
+      "title": "Import Data (Console)",
+      "slug": "import-data-on-web-ui"
+    },
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": false,
+      "node_create_time": "1694400410",
+      "node_token": "ZOikw2pIUiAZj9kuLYRcdhLnnoc",
+      "node_type": "origin",
+      "obj_create_time": "1694400410",
+      "obj_edit_time": "1711615909",
+      "obj_token": "PSRUdR7rVo8acGxFNZ7c0Gu1nPg",
+      "obj_type": "docx",
+      "origin_node_token": "ZOikw2pIUiAZj9kuLYRcdhLnnoc",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "VTZZwCkkCi7FwnklLDhcMJwvnQb",
+      "space_id": "7167193056431783939",
+      "title": "Import Data (RESTful API)",
+      "slug": "import-data-via-restful-api"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1697778473",
+      "node_token": "MvgAwL4HIiuRRJkH0FwcJhxSnld",
+      "node_type": "origin",
+      "obj_create_time": "1697778473",
+      "obj_edit_time": "1711611220",
+      "obj_token": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+      "obj_type": "docx",
+      "origin_node_token": "MvgAwL4HIiuRRJkH0FwcJhxSnld",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "VTZZwCkkCi7FwnklLDhcMJwvnQb",
+      "space_id": "7167193056431783939",
+      "title": "Import Data (SDK)",
+      "slug": "import-data-via-sdks"
+    }
+  ]
+}

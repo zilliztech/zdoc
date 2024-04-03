@@ -1,7 +1,7 @@
 ---
-displayed_sidebar: referenceSidebar
+displayed_sidebar: restfulSidebar
 sidebar_position: 7
-slug: /resume-cluster
+slug: /restful/resume-cluster
 title: Resume Cluster
 ---
 
@@ -93,10 +93,10 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`    | **object**<br/>A data object. |
-| `data.clusterId`   | **string**<br/>The ID of a cluster. |
-| `data.prompt`   | **string**<br/>The statement indicating that the current operation succeeds. |
+| `code` | integer  <br/>  |
+| `data` | object<br/> |
+| `data.clusterId` | string  <br/>The ID of a cluster.  |
+| `data.prompt` | string  <br/>The statement indicating that the current operation succeeds.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
@@ -110,4 +110,3 @@ The properties in the returned response are listed in the following table.
 | 90102 | The cluster does not exist in current region. |
 | 90103 | The clusterId parameter is empty in the request path. |
 | 90117 | Invalid domain name used |
-
