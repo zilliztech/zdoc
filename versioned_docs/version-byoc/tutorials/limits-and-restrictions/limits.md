@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # Zilliz Cloud Limits
 
-This page provides information about limits on the Zilliz Cloud platform as well as clusters. [Submit a request](https://support.zilliz.com/hc/en-us) to us if you need to report issues related to these limits.
+This page provides information about limits on the Zilliz Cloud platform. [Submit a request](https://support.zilliz.com/hc/en-us) to us if you need to report issues related to these limits.
 
 ## Organizations, Projects & Members{#organizations-projects-and-members}
 

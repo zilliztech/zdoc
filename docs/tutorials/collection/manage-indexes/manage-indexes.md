@@ -27,7 +27,9 @@ Learn how to manipulate indexes on vector and scalar fields via SDKs.
 
 </Admonition>
 
+## Contents{#contents}
 
+In this chapter, you will find out how to manage your collection indexes on vector and scalar fields.
 
 import DocCardList from '@theme/DocCardList';
 

@@ -5,7 +5,7 @@
   "node_token": "NDLBwtFIuihc5wkq37KchzqLnrc",
   "node_type": "origin",
   "obj_create_time": "1708764316",
-  "obj_edit_time": "1710122665",
+  "obj_edit_time": "1712117215",
   "obj_token": "YNYxd48lAoEgeixVOVZcJi5vnob",
   "obj_type": "docx",
   "origin_node_token": "NDLBwtFIuihc5wkq37KchzqLnrc",
@@ -23,7 +23,8 @@
         "children": [
           "doxcnX0Cg2lshcMqJOn27GrBUpd",
           "doxcnaGzkt6nNW1UXwYIAYb7Lem",
-          "doxcnn80IrnH8T6dXKnfpU5vZXb"
+          "VDo8dhhceobeOaxNpePcrM3Pnhh",
+          "XaB8dNLUKooUBkxbkLMcTOczn7f"
         ],
         "page": {
           "elements": [
@@ -366,14 +367,39 @@
         }
       },
       {
-        "block_id": "doxcnn80IrnH8T6dXKnfpU5vZXb",
+        "block_id": "VDo8dhhceobeOaxNpePcrM3Pnhh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Contents",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YNYxd48lAoEgeixVOVZcJi5vnob"
+      },
+      {
+        "block_id": "XaB8dNLUKooUBkxbkLMcTOczn7f",
         "block_type": 2,
         "parent_id": "YNYxd48lAoEgeixVOVZcJi5vnob",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "",
+                "content": "In this chapter, you will find out how to manage your collection indexes on vector and scalar fields.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -391,7 +417,7 @@
         }
       }
     ],
-    "counts": 13
+    "counts": 14
   },
   "children": [
     {

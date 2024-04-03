@@ -32,6 +32,8 @@ For details on the calculation of general and consumed capacity, refer to [Zilli
 
 ## Contents{#contents}
 
+In this chapter, you will find out how to manage your collections on the Console or through the SDKs.
+
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

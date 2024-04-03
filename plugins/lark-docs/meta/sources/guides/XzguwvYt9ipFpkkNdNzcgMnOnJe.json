@@ -5,7 +5,7 @@
   "node_token": "XzguwvYt9ipFpkkNdNzcgMnOnJe",
   "node_type": "origin",
   "obj_create_time": "1708764316",
-  "obj_edit_time": "1708764316",
+  "obj_edit_time": "1712117132",
   "obj_token": "GuQMddl0eovsTCxQUtTcv85fnWb",
   "obj_type": "docx",
   "origin_node_token": "XzguwvYt9ipFpkkNdNzcgMnOnJe",
@@ -27,7 +27,8 @@
           "doxcnRPJBrliUiZt8JkO1w7HDzf",
           "doxcnq3ETjTz7fKWMnHstvS2iVe",
           "doxcnzE4CMe1Ify9R1NL5asVl8f",
-          "doxcnk5AjbwgSlYya9U6Hl7DNFh"
+          "doxcnk5AjbwgSlYya9U6Hl7DNFh",
+          "QhwjdGla3o7ybuxB1ULc0GSMnPh"
         ],
         "page": {
           "elements": [
@@ -968,9 +969,34 @@
           }
         },
         "parent_id": "GuQMddl0eovsTCxQUtTcv85fnWb"
+      },
+      {
+        "block_id": "QhwjdGla3o7ybuxB1ULc0GSMnPh",
+        "block_type": 2,
+        "parent_id": "GuQMddl0eovsTCxQUtTcv85fnWb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this chapter, you will find out how to manage your collections on the Console or through the SDKs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       }
     ],
-    "counts": 40
+    "counts": 41
   },
   "children": [
     {
@@ -1015,7 +1041,7 @@
       "node_token": "USQ2w6yj0i3WN1k3eEYciscinkc",
       "node_type": "origin",
       "obj_create_time": "1708764320",
-      "obj_edit_time": "1709804104",
+      "obj_edit_time": "1712048524",
       "obj_token": "SvJfdY9UPo4dCGxngZGckkJwnwg",
       "obj_type": "docx",
       "origin_node_token": "USQ2w6yj0i3WN1k3eEYciscinkc",

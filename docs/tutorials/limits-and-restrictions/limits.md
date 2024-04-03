@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # Zilliz Cloud Limits
 
-This page provides information about limits on the Zilliz Cloud platform as well as clusters. [Submit a request](https://support.zilliz.com/hc/en-us) to us if you need to report issues related to these limits.
+This page provides information about limits on the Zilliz Cloud platform. [Submit a request](https://support.zilliz.com/hc/en-us) to us if you need to report issues related to these limits.
 
 ## Organizations, Projects & Members{#organizations-projects-and-members}
 
@@ -27,26 +27,26 @@ The following table lists the limits on the maximum number of organizations and 
 
 ## Clusters & CUs{#clusters-and-cus}
 
-The maximum number of clusters and CUs varies with your payment method and subscription plan. The following focuses on dedicated clusters.
+The maximum number of clusters and CUs varies with your payment method and subscription plan.
 
 - __Without a valid payment method__
 
-    |  __Subscription Plan__ |  __Max number__ |  __Remarks__                                                                                                    |
-    | ---------------------- | --------------- | --------------------------------------------------------------------------------------------------------------- |
-    |  Serverless Cluster    |  1              |  You can always create one serverless cluster. To create a new serverless cluster, drop the existing one first. |
-    |  Standard Cluster      |  1<br/>      |  Only one free cluster can be created. <br/> To continue, please add a payment method.                       |
-    |  Enterprise Cluster    |  0              |                                                                                                                 |
+    |  __Subscription Plan__ |  __Max number__ |  __Remarks__                                                                                                                                  |
+    | ---------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+    |  Serverless Cluster    |  1              |  Only 1 cluster is available for the Free Serverless cluster plan. You can drop an existing cluster and replace it with a new one if requird. |
+    |  Standard Cluster      |  1<br/>      |  The Trial Standard Cluster plan offers only 1 cluster. If you would like additional clusters, please provide payment.                        |
+    |  Enterprise Cluster    |  0              |                                                                                                                                               |
 
 - __With a valid payment method__
 
     |  __Subscription Plan__ |  __Limits__ |  __Remarks__                                                                                                                 |
     | ---------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------- |
     |  Standard Cluster      |  128 CUs    |  On the console, you can create up to 128 compute units (CUs) across all standard clusters or 32 CUs for a single cluster.   |
-    |  Enterprise Cluster    |  128 CUs    |  On the console, you can create up to 128 compute units (CUs) across all enterprise clusters or 32 CUs for a single cluster. |
+    |  Enterprise Cluster    |  128 CUs    |  On the console, you can create up to 128 compute units (CUs) across all Enterprise clusters or 32 CUs for a single cluster. |
 
 You are welcome to [contact us](https://support.zilliz.com/hc/en-us) 
 
-- If one of your clusters needs to use more than 32 CUs or,
+- If one of your clusters needs more than 32 CUs or,
 
 - If all your enterprise clusters require more than 128 CUs.
 

@@ -5,7 +5,7 @@
   "node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
   "node_type": "origin",
   "obj_create_time": "1705979316",
-  "obj_edit_time": "1712023485",
+  "obj_edit_time": "1712116801",
   "obj_token": "NIIldYshaoVw2bxiWjrcTt14nac",
   "obj_type": "docx",
   "origin_node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
@@ -139,12 +139,42 @@
       {
         "block_id": "Qm87dQPOJoAM6Sx0a6ccVF7yn7d",
         "block_type": 2,
+        "comment_ids": [
+          "7353286896950263810"
+        ],
         "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "This page provides information about limits on the Zilliz Cloud platform as well as clusters. ",
+                "content": "This page provides information about limits on the Zilliz Cloud platform",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7353286896950263810"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1197,14 +1227,32 @@
       {
         "block_id": "N5tHdBrE7opgdUxbTTjcimxFnoC",
         "block_type": 2,
+        "comment_ids": [
+          "7353287820649168924"
+        ],
         "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The maximum number of clusters and CUs varies with your payment method and subscription plan. The following focuses on dedicated clusters.",
+                "content": "The maximum number of clusters and CUs varies with your payment method and subscription plan",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7353287820649168924"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1455,6 +1503,9 @@
       {
         "block_id": "EhvmdYb75o7fHSxuIIDcyMQzndf",
         "block_type": 2,
+        "comment_ids": [
+          "7353288068171890690"
+        ],
         "parent_id": "PBDxdaFKKoZjBXxL3lxcJmPFnnd",
         "text": {
           "elements": [
@@ -1463,6 +1514,9 @@
                 "content": "Serverless Cluster",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7353288068171890690"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1523,14 +1577,20 @@
       {
         "block_id": "CV9OddfbWotU8yxPrsQch6mDn5I",
         "block_type": 2,
+        "comment_ids": [
+          "7353290006728884252"
+        ],
         "parent_id": "FtpedgGHtos8IzxGRt1cqa65n3f",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "You can always create one serverless cluster. To create a new serverless cluster, drop the existing one first.",
+                "content": "Only 1 cluster is available for the Free Serverless cluster plan. You can drop an existing cluster and replace it with a new one if requird.",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7353290006728884252"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1649,8 +1709,7 @@
         "block_id": "Hgeod7LKnoUTIYxfkK7cCy1wn5c",
         "block_type": 32,
         "children": [
-          "QhdQdpoJxoRtXuxQks8ctKUmnUb",
-          "XDgEdnR99odMAaxhva8ctKQnnIh"
+          "QhdQdpoJxoRtXuxQks8ctKUmnUb"
         ],
         "parent_id": "EvF3dnmPHovXrgx9h4DcNjx2ntb",
         "table_cell": {}
@@ -1658,39 +1717,20 @@
       {
         "block_id": "QhdQdpoJxoRtXuxQks8ctKUmnUb",
         "block_type": 2,
+        "comment_ids": [
+          "7353290263269310465"
+        ],
         "parent_id": "Hgeod7LKnoUTIYxfkK7cCy1wn5c",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Only one free cluster can be created. ",
+                "content": "The Trial Standard Cluster plan offers only 1 cluster. If you would like additional clusters, please provide payment. ",
                 "text_element_style": {
                   "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "XDgEdnR99odMAaxhva8ctKQnnIh",
-        "block_type": 2,
-        "parent_id": "Hgeod7LKnoUTIYxfkK7cCy1wn5c",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "To continue, please add a payment method.",
-                "text_element_style": {
-                  "bold": false,
+                  "comment_ids": [
+                    "7353290263269310465"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2094,6 +2134,7 @@
         "block_id": "B3Dtd1rbHoO9xgxNjM3cY061nce",
         "block_type": 2,
         "comment_ids": [
+          "7353290666916478977",
           "7352950227382337539"
         ],
         "parent_id": "R3zZdYtZwoTROIxz7jYcIGcynJf",
@@ -2104,6 +2145,9 @@
                 "content": "On the console, you can ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7353290666916478977"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2117,7 +2161,8 @@
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7352950227382337539"
+                    "7352950227382337539",
+                    "7353290666916478977"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -2131,6 +2176,9 @@
                 "content": " up to 128 compute units (CUs) across all standard clusters or 32 CUs for a single cluster.",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7353290666916478977"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2225,14 +2273,20 @@
       {
         "block_id": "TywbdKO2FoTjkjxDKFzcXiVnnxd",
         "block_type": 2,
+        "comment_ids": [
+          "7353290724697391132"
+        ],
         "parent_id": "QAdSdcEc1oSWkmxMBqEcZkAPnlM",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "On the console, you can create up to 128 compute units (CUs) across all enterprise clusters or 32 CUs for a single cluster.",
+                "content": "On the console, you can create up to 128 compute units (CUs) across all Enterprise clusters or 32 CUs for a single cluster.",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7353290724697391132"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2306,9 +2360,12 @@
           "elements": [
             {
               "text_run": {
-                "content": "If one of your clusters needs to use more than 32 CUs or, ",
+                "content": "If one of your clusters needs more than 32 CUs or, ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7353290908995256348"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2322,6 +2379,9 @@
             "folded": false
           }
         },
+        "comment_ids": [
+          "7353290908995256348"
+        ],
         "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac"
       },
       {
@@ -12036,6 +12096,6 @@
         }
       }
     ],
-    "counts": 495
+    "counts": 494
   }
 }
