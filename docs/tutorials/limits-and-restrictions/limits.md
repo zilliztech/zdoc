@@ -41,14 +41,14 @@ The maximum number of clusters and CUs varies with your payment method and subsc
 
     |  __Subscription Plan__ |  __Limits__ |  __Remarks__                                                                                                                 |
     | ---------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------- |
-    |  Standard Cluster      |  128 CUs    |  On the console, you can create up to 128 compute units (CUs) across all standard clusters or 32 CUs for a single cluster.   |
-    |  Enterprise Cluster    |  128 CUs    |  On the console, you can create up to 128 compute units (CUs) across all Enterprise clusters or 32 CUs for a single cluster. |
+    |  Standard Cluster      |  128 CUs    |  On the console, you can create up to 128 compute units (CUs) across all Standard Clusters or 32 CUs for a single cluster.   |
+    |  Enterprise Cluster    |  128 CUs    |  On the console, you can create up to 128 compute units (CUs) across all Enterprise Clusters or 32 CUs for a single cluster. |
 
 You are welcome to [contact us](https://support.zilliz.com/hc/en-us) 
 
 - If one of your clusters needs more than 32 CUs or,
 
-- If all your enterprise clusters require more than 128 CUs.
+- If all your Enterprise Clusters require more than 128 CUs.
 
 ## Pipelines{#pipelines}
 
@@ -152,7 +152,7 @@ The consumed capacity should be less than the general capacity available.
 
 </Admonition>
 
-Additionally, the rate limit for creating collections is __1 __collection/s per cluster.
+Additionally, the rate limit for creating collections is __1__ collection/s per cluster.
 
 ### Partitions{#partitions}
 

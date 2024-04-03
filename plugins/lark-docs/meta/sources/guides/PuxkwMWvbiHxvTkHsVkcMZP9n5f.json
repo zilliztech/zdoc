@@ -5,7 +5,7 @@
   "node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
   "node_type": "origin",
   "obj_create_time": "1705979316",
-  "obj_edit_time": "1712116801",
+  "obj_edit_time": "1712118109",
   "obj_token": "NIIldYshaoVw2bxiWjrcTt14nac",
   "obj_type": "docx",
   "origin_node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
@@ -2173,7 +2173,7 @@
             },
             {
               "text_run": {
-                "content": " up to 128 compute units (CUs) across all standard clusters or 32 CUs for a single cluster.",
+                "content": " up to 128 compute units (CUs) across all Standard Clusters or 32 CUs for a single cluster.",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -2281,7 +2281,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "On the console, you can create up to 128 compute units (CUs) across all Enterprise clusters or 32 CUs for a single cluster.",
+                "content": "On the console, you can create up to 128 compute units (CUs) across all Enterprise Clusters or 32 CUs for a single cluster.",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -2391,7 +2391,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "If all your enterprise clusters require more than 128 CUs.",
+                "content": "If all your Enterprise Clusters require more than 128 CUs.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -7062,7 +7062,7 @@
             },
             {
               "text_run": {
-                "content": "1 ",
+                "content": "1",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -7074,7 +7074,7 @@
             },
             {
               "text_run": {
-                "content": "collection/s per cluster.",
+                "content": " collection/s per cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

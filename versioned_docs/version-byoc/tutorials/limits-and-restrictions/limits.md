@@ -62,7 +62,7 @@ The consumed capacity should be less than the general capacity available.
 
 </Admonition>
 
-Additionally, the rate limit for creating collections is __1 __collection/s per cluster.
+Additionally, the rate limit for creating collections is __1__ collection/s per cluster.
 
 ### Partitions{#partitions}
 
