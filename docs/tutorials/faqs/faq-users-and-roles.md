@@ -13,20 +13,22 @@ This topic lists the possible issues about users, roles, and access that you may
 
 ## Contents
 
-
+- [Can I leave my organization?](#can-i-leave-my-organization)
+- [How can I edit my organization name?](#how-can-i-edit-my-organization-name)
+- [How can I invite a colleague or teammate to collaborate?](#how-can-i-invite-a-colleague-or-teammate-to-collaborate)
 
 ## FAQs
 
 
 
 
-__Can I leave my organization?__
+### Can I leave my organization?{#can-i-leave-my-organization}
 
 If you are an organization member, you can freely leave the organization. 
 
 If you are an organization owner, you can only leave the organization when you are not the last owner in the organization. An organization has to have at least one owner and the only owner in the organization cannot leave it.
 
-__How can I edit my organization name?__
+### How can I edit my organization name?{#how-can-i-edit-my-organization-name}
 
 1. Select the organization.
 
@@ -38,7 +40,7 @@ __How can I edit my organization name?__
 
 1. You will receive a message that your organization name has been successfully changed.
 
-__How can I invite a colleague or teammate to collaborate?__
+### How can I invite a colleague or teammate to collaborate?{#how-can-i-invite-a-colleague-or-teammate-to-collaborate}
 
 If you are an organization owner, you can invite users to your organization by clicking __Members__.
 

@@ -13,13 +13,13 @@ This topic lists the possible issues that you may encounter while backing up and
 
 ## Contents
 
-
+- [Is the snapshot feature available in the standard plan?](#is-the-snapshot-feature-available-in-the-standard-plan)
 
 ## FAQs
 
 
 
 
-__Is the snapshot feature available in the standard plan?__
+### Is the snapshot feature available in the standard plan?{#is-the-snapshot-feature-available-in-the-standard-plan}
 
 Yes. Creating snapshots is available in both standard and enterprise plans.

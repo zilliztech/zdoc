@@ -13,14 +13,19 @@ This topic lists the possible issues about accounts that you may encounter on Zi
 
 ## Contents
 
-
+- [How can I change my account email address?](#how-can-i-change-my-account-email-address)
+- [Why is my account locked and how to unlock it?](#why-is-my-account-locked-and-how-to-unlock-it)
+- [How to unlink my account from Google?](#how-to-unlink-my-account-from-google)
+- [How to delete my account?](#how-to-delete-my-account)
+- [Why is my organization frozen?](#why-is-my-organization-frozen)
+- [How can I unfreeze my organization?](#how-can-i-unfreeze-my-organization)
 
 ## FAQs
 
 
 
 
-__How can I change my account email address?__
+### How can I change my account email address?{#how-can-i-change-my-account-email-address}
 
 Currently, Zilliz Cloud does not support changing your account email address directly. However, you can try the following workaround plan.
 
@@ -34,7 +39,7 @@ Currently, Zilliz Cloud does not support changing your account email address dir
 
 1. Follow the instructions and log in to Zilliz Cloud with your new email address.
 
-__Why is my account locked and how to unlock it?__
+### Why is my account locked and how to unlock it?{#why-is-my-account-locked-and-how-to-unlock-it}
 
 Your account will be locked after three failed login attempts.
 
@@ -46,7 +51,7 @@ To unlock your account, you can choose one of the following methods.
 
 1. [Submit a request](https://support.zilliz.com/hc/en-us) to unlock your account.
 
-__How to unlink my account from Google?__
+### How to unlink my account from Google?{#how-to-unlink-my-account-from-google}
 
 To unlink your Zilliz Cloud account from Google, please
 
@@ -60,17 +65,17 @@ To unlink your Zilliz Cloud account from Google, please
 
 1. Check your email inbox for detailed instructions on how to unlink from Google and set up your new Zilliz Cloud account.
 
-__How to delete my account?__
+### How to delete my account?{#how-to-delete-my-account}
 
 Zilliz Cloud supports deleting account on the web console. For more information, see [Manage Your Account](./email-accounts#delete-your-account).
 
-__Why is my organization frozen?__
+### Why is my organization frozen?{#why-is-my-organization-frozen}
 
 If you are a free-trial user, your organization can be frozen due to insufficient or expired free credits. 
 
 If you already added a payment method, your organization can be frozen due to overdue payments.
 
-__How can I unfreeze my organization?__
+### How can I unfreeze my organization?{#how-can-i-unfreeze-my-organization}
 
 If you are an organization member, you can only contact your organization owner to perform the operations and unfreeze the organization.
 

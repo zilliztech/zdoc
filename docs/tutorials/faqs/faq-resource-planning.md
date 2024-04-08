@@ -13,38 +13,45 @@ This topic lists the possible issues that you may encounter while planning your 
 
 ## Contents
 
-
+- [What is a Compute Unit (CU)?](#what-is-a-compute-unit-cu)
+- [How can I avoid expenses on unused clusters?](#how-can-i-avoid-expenses-on-unused-clusters)
+- [How can I estimate the cost of using Zilliz Cloud?](#how-can-i-estimate-the-cost-of-using-zilliz-cloud)
+- [Does Zilliz Cloud support deployment on Azure?](#does-zilliz-cloud-support-deployment-on-azure)
+- [How can I know which plan I am on?](#how-can-i-know-which-plan-i-am-on)
+- [How many CUs do I need for a given collection?](#how-many-cus-do-i-need-for-a-given-collection)
+- [What's the difference between Performance-optimized CU and Capacity-optimized CU?](#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu)
+- [How can I downgrade from Enterprise plan to Standard plan?](#how-can-i-downgrade-from-enterprise-plan-to-standard-plan)
 
 ## FAQs
 
 
 
 
-__What is a Compute Unit (CU)?__
+### What is a Compute Unit (CU)?{#what-is-a-compute-unit-cu}
 
 A compute unit (CU) is a group of hardware resources for serving your indexes and search requests. You can simply consider a CU as a fully-managed physical node for deploying search service.
 
 For more details, see [Select the Right CU](./cu-types-explained).
 
-__How can I avoid expenses on unused clusters?__
+### How can I avoid expenses on unused clusters?{#how-can-i-avoid-expenses-on-unused-clusters}
 
 We recommend suspending unused clusters to save computing costs. You can resume them later when necessary.
 
-__How can I estimate the cost of using Zilliz Cloud?__
+### How can I estimate the cost of using Zilliz Cloud?{#how-can-i-estimate-the-cost-of-using-zilliz-cloud}
 
 You can use our [calculator](https://zilliz.com/pricing) to get a cost estimate.
 
-__Does Zilliz Cloud support deployment on Azure?__
+### Does Zilliz Cloud support deployment on Azure?{#does-zilliz-cloud-support-deployment-on-azure}
 
 Yes. Zilliz Cloud now supports deployment on Azure. This feature is in beta version now.
 
-__How can I know which plan I am on?__
+### How can I know which plan I am on?{#how-can-i-know-which-plan-i-am-on}
 
 To view your plan, choose a specific cluster under a project. Navigate to the __Cluster Details__ tab, and you can find the plan detail under the __Summary__ section.
 
 ![cluster_plan](/img/cluster_plan.png)
 
-__How many CUs do I need for a given collection?__
+### How many CUs do I need for a given collection?{#how-many-cus-do-i-need-for-a-given-collection}
 
 A Performance-optimized CU can serve 8 million 128-dimensional vectors or 2 million 768-dimensional vectors.
 
@@ -52,7 +59,7 @@ A Capacity-optimized CU can serve 25 million 128-dimensional vectors or 5 millio
 
 Since your collection's schema may differ from the ones in the simple guide above, we highly recommend you test the actual requirements against different CU types.
 
-__What's the difference between Performance-optimized CU and Capacity-optimized CU?__
+### What's the difference between Performance-optimized CU and Capacity-optimized CU?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
 
 The "Performance-optimized Compute Unit" suits low latency or high throughput similarity searches. This option works best for high-search performance scenarios.
 
@@ -60,7 +67,7 @@ The "Capacity-optimized Compute Unit" suits data volumes that are five times lar
 
 For more details, see [Select the Right CU](./cu-types-explained).
 
-__How can I downgrade from Enterprise plan to Standard plan?__
+### How can I downgrade from Enterprise plan to Standard plan?{#how-can-i-downgrade-from-enterprise-plan-to-standard-plan}
 
 You can downgrade your plan by deleting your enterprise plan clusters and creating new clusters in the standard plan.
 

@@ -352,8 +352,8 @@ class larkDocWriter {
                 let links = []
 
                 sub_page = sub_page.map(line => {
-                    if (line.startsWith('**')) {
-                        let qtext = line.replace(/\*/g, '').trim()
+                    if (line.startsWith('__')) {
+                        let qtext = line.replace(/\_/g, '').trim()
                         let qslug = slugify(qtext, {lower: true, strict: true})
                         line = `### ${qtext}{#${qslug}}`
                         links.push(`- [${qtext}](#${qslug})`)

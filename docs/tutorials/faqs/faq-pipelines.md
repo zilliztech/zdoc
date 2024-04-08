@@ -13,20 +13,26 @@ __How can Zilliz Cloud Pipelines enhance my semantic search capabilities?__
 
 ## Contents
 
-
+- [How can Zilliz Cloud Pipelines enhance my semantic search capabilities?](#how-can-zilliz-cloud-pipelines-enhance-my-semantic-search-capabilities)
+- [Which Zilliz Cloud Product Tiers are Pipelines available in?](#which-zilliz-cloud-product-tiers-are-pipelines-available-in)
+- [Which embedding model does Zilliz Cloud Pipelines use?](#which-embedding-model-does-zilliz-cloud-pipelines-use)
+- [How is Zilliz Cloud Pipelines charged?](#how-is-zilliz-cloud-pipelines-charged)
+- [Can I use Zilliz Cloud Pipelines standalone?](#can-i-use-zilliz-cloud-pipelines-standalone)
+- [What data sources are supported by Ingestion Pipelines?](#what-data-sources-are-supported-by-ingestion-pipelines)
+- [What document file formats are supported by Pipelines?](#what-document-file-formats-are-supported-by-pipelines)
 
 ## FAQs
 
 
-
+### How can Zilliz Cloud Pipelines enhance my semantic search capabilities?{#how-can-zilliz-cloud-pipelines-enhance-my-semantic-search-capabilities}
 
 Pipelines help create high-quality vector embeddings, which serve as the foundation for relevant semantic search results.
 
-__Which Zilliz Cloud Product Tiers are Pipelines available in?__
+### Which Zilliz Cloud Product Tiers are Pipelines available in?{#which-zilliz-cloud-product-tiers-are-pipelines-available-in}
 
 Zilliz Cloud Pipeline is available on all tiers as long as you have created a cluster on GCP us-west1. 
 
-__Which embedding model does Zilliz Cloud Pipelines use?__
+### Which embedding model does Zilliz Cloud Pipelines use?{#which-embedding-model-does-zilliz-cloud-pipelines-use}
 
 The text doc ingestion and search pipelines support various embedding models.
 
@@ -62,18 +68,18 @@ The text doc ingestion and search pipelines support various embedding models.
 
         Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model.
 
-__How is Zilliz Cloud Pipelines charged?__
+### How is Zilliz Cloud Pipelines charged?{#how-is-zilliz-cloud-pipelines-charged}
 
 Currently, Zilliz Cloud Pipelines is free to use. You only need to pay for the cluster usage.
 
-__Can I use Zilliz Cloud Pipelines standalone?__
+### Can I use Zilliz Cloud Pipelines standalone?{#can-i-use-zilliz-cloud-pipelines-standalone}
 
 No, you must be a Zilliz Cloud vector database customer to access the Pipelines functionalities.
 
-__What data sources are supported by Ingestion Pipelines?__
+### What data sources are supported by Ingestion Pipelines?{#what-data-sources-are-supported-by-ingestion-pipelines}
 
 Currently, Ingestion Pipelines support local files and files stored on AWS S3 and Google Cloud Storage. We are actively working to expand support for additional data sources in the future.
 
-__What document file formats are supported by Pipelines?__
+### What document file formats are supported by Pipelines?{#what-document-file-formats-are-supported-by-pipelines}
 
 Supported file formats include `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`. When [running an Ingestion pipeline](./run-ingestion-pipelines), you can either upload a local file or use an S3 presigned URL or a GCS signed URL.

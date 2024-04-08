@@ -13,18 +13,19 @@ This topic lists the possible issues that you may encounter while you import dat
 
 ## Contents
 
-
+- [Can I bulk insert data into the Zilliz Cloud vector databases?](#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases)
+- [What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
 
 ## FAQs
 
 
 
 
-__Can I bulk insert data into the Zilliz Cloud vector databases?__
+### Can I bulk insert data into the Zilliz Cloud vector databases?{#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases}
 
 Yes. But currently, you can only bulk insert data into the vector databases by using the Zilliz Cloud UI. Please refer to [Import Data on Web UI](./import-data-on-web-ui) for more information.
 
-__What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?__
+### What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
 
 To solve this problem, please follow the steps below.
 
