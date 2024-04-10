@@ -1,11 +1,16 @@
 import React from 'react';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import clsx from 'clsx';
+import TOCItems from '@theme/TOCItems';
 import {useDoc} from '@docusaurus/theme-common/internal';
+import FeedbackBox from '../../components/FeedbackBox';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import TOC from '@theme/TOC';
+import styles from './styles.module.css';
+// Using a custom className
+// This prevents TOCInline/TOCCollapsible getting highlighted by mistake
+const LINK_CLASS_NAME = 'table-of-contents__link toc-highlight';
+const LINK_ACTIVE_CLASS_NAME = 'table-of-contents__link--active';
 
 function EditThisPage() {
-
   const {frontMatter, metadata} = useDoc();
   const source = metadata.source.replace('\@site\/', '')
 
@@ -32,7 +37,7 @@ function EditThisPage() {
     {() => {
       const hostname = window.location.hostname;
       if (hostname.includes('cloud-uat') || hostname.includes('localhost')) {
-        return (<div id="edit-this-page" style={{marginTop: '3rem', marginBottom: '3rem', fontSize: '0.8rem'}}>
+        return (<div id="edit-this-page" style={{padding: '1rem 0', fontSize: '0.8rem'}}>
           <div style={{ marginBottom: '0.25rem' }}>
             <i style={{ display: 'inline-block', minHeight: '2rem', marginRight: '0.5rem' }}>
               <span className="material-symbols-outlined">edit</span>
@@ -66,22 +71,16 @@ function EditThisPage() {
   )
 }
 
-export default function DocItemTOCDesktop() {
-  const {toc, frontMatter} = useDoc();
-  if (toc[0].value !== 'ON THIS PAGE') {
-    toc.splice(0,0, {value: 'ON THIS PAGE', id: '', level: 2})
-  }
-
+export default function TOC({className, ...props}) {
   return (
-    <>
+    <div className={clsx(styles.tableOfContents, 'thin-scrollbar', className)}>
       <EditThisPage />
-      <TOC
-        toc={toc}
-        minHeadingLevel={frontMatter.toc_min_heading_level}
-        maxHeadingLevel={frontMatter.toc_max_heading_level}
-        className={ThemeClassNames.docs.docTocDesktop}
+      <TOCItems
+        {...props}
+        linkClassName={LINK_CLASS_NAME}
+        linkActiveClassName={LINK_ACTIVE_CLASS_NAME}
       />
-    </>
-
+      <FeedbackBox />
+    </div>
   );
 }

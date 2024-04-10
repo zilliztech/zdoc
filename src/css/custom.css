@@ -39,22 +39,6 @@ body {
   --ifm-list-left-padding: 1.5rem;
 }
 
-ul.table-of-contents > li:first-child {
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-ul.table-of-contents > li:first-child > a {
-  color: 000000 !important;
-  cursor: default;
-} 
-
-div.theme-doc-toc-desktop {
-  padding-top: 0;
-  top: 10rem !important;
-  /* top: 16.5rem !important; */
-}
-
 .menu__caret::before {
   background: var(--ifm-menu-link-sublist-icon) 50% / 1.5rem 1.5rem
 }
@@ -211,11 +195,6 @@ div[role="tabpanel"] .tabs > li.tabs__item--active {
   color: var(--ifm-color-primary-light);
 }
 
-#edit-this-page {
-  position: sticky;
-  top: 7rem;
-}
-
 #edit-this-page a {
   color: rgba(0, 0, 0, 0.8);
 }
@@ -223,6 +202,16 @@ div[role="tabpanel"] .tabs > li.tabs__item--active {
 #edit-this-page a:hover {
   color: var(--ifm-color-primary-light);
   text-decoration: none;
+}
+
+#feedback-box #thumbsUp {
+  cursor: pointer;
+  border: 1px solid rgb(107, 114, 128);
+}
+
+#feedback-box #thumbsDown {
+  cursor: pointer;
+  border: 1px solid rgb(107, 114, 128);
 }
 
 .card {
