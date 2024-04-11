@@ -1,7 +1,7 @@
 name: "fetch lark docs (auto)"
 on:
   schedule:
-  - cron: "0 3,9 * * *"
+  - cron: "0 2,6,10,14,18,22 * * *"
 
 jobs:
   fetch:

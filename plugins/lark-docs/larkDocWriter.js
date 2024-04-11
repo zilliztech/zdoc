@@ -352,8 +352,8 @@ class larkDocWriter {
                 let links = []
 
                 sub_page = sub_page.map(line => {
-                    if (line.startsWith('__')) {
-                        let qtext = line.replace(/\_/g, '').trim()
+                    if (line.startsWith('**')) {
+                        let qtext = line.replace(/\*/g, '').trim()
                         let qslug = slugify(qtext, {lower: true, strict: true})
                         line = `### ${qtext}{#${qslug}}`
                         links.push(`- [${qtext}](#${qslug})`)
@@ -1012,11 +1012,11 @@ class larkDocWriter {
                 content = this.__style_markdown(element, elements, 'inline_code', '`');
             } else {                
                 if (style['bold']) {
-                    content = this.__style_markdown(element, elements, 'bold', '__');
+                    content = this.__style_markdown(element, elements, 'bold', '**');
                 }
 
                 if (style['italic']) {
-                    content = this.__style_markdown(element, elements, 'italic', '_');
+                    content = this.__style_markdown(element, elements, 'italic', '*');
                 }
 
                 if (style['strikethrough']) {
@@ -1064,17 +1064,21 @@ class larkDocWriter {
         if (!content.match(/^\s+$/)) {
             // single element
             if ((!prev || (prev && !prev['text_run']['text_element_style'][style_name])) && style[style_name] && (!next || (next && !next['text_run']['text_element_style'][style_name]))) {
-                content = `${decorator}${content}${decorator}`;
+                let prefix_spaces = content.match(/^\s*/)[0];
+                let suffix_spaces = content.match(/\s*$/)[0];
+                content = `${prefix_spaces}${decorator}${content.trim()}${decorator}${suffix_spaces}`;
             }
 
             // first element
             if ((!prev || (prev && !prev['text_run']['text_element_style'][style_name])) && style[style_name] && next && next['text_run']['text_element_style'][style_name]) {
-                content = `${decorator}${content}`;
+                let prefix_spaces = content.match(/^\s*/)[0];
+                content = `${prefix_spaces}${decorator}${content.trimStart()}`;
             }
 
             // last element
             if (prev && prev['text_run']['text_element_style'][style_name] && style[style_name] && (!next || (next && !next['text_run']['text_element_style'][style_name]))) {
-                content = `${content}${decorator}`;
+                let suffix_spaces = content.match(/\s*$/)[0];
+                content = `${content.trimEnd()}${decorator}${suffix_spaces}`;
             }
 
             // middle element

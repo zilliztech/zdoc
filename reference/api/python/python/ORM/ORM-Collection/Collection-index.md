@@ -23,33 +23,33 @@ index(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __kwargs - __
+- **kwargs -** 
 
     Additional keyword arguments.
 
-    - __index_name__ (_str_) -
+    - **index_name** (*str*) -
 
         The name of the index. If no index is specified, the default index name is used.
 
         A default index name is in the following format: `_default_idx_{field_id}`.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_Index_
+*Index*
 
-__RETURNS:__
+**RETURNS:**
 
 An Index object of the current collection.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __IndexNotExistException__
+- **IndexNotExistException**
 
     This exception will be raised when the specified index does not exist.
 
-- __AmbiguousIndexName__
+- **AmbiguousIndexName**
 
     This exception will be raised when multiple indexes exist but no index name has been specified. 
 
