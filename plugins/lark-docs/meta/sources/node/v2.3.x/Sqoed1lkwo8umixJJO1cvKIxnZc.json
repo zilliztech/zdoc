@@ -1,0 +1,1284 @@
+{
+  "created_time": "1708409262",
+  "modified_time": "1713177771",
+  "name": "releasePartitions()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "JfB5fh16rl1R1qdNVgec1Kdongc",
+  "token": "Sqoed1lkwo8umixJJO1cvKIxnZc",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/Sqoed1lkwo8umixJJO1cvKIxnZc",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Sqoed1lkwo8umixJJO1cvKIxnZc",
+        "block_type": 1,
+        "children": [
+          "Wwd2dOcsAoZ222xahjXcxcsvnYe",
+          "Jv6idRDgXoPPAUxCbLncOisBnAh",
+          "ZwC7dv73gomz0ZxxJq6c2W9Lnpg",
+          "CzNMdfFq5oZ7bhxQSz6cwwlJnec",
+          "QWYndvGJJozMkax1pzdc2xq1nYf",
+          "D83PdUD3MoqSfzxCqMQc5aXonjN",
+          "QffadhqK4oxk8JxzQHgcQnawnMh",
+          "Ejyldg1YCo0N5ZxcPxJcdwernSf",
+          "QKR5d6s5Oogg2kx6WXgcJVMrnjg",
+          "Ydw3d6hp4o4svOxIitTcrSy9nsd",
+          "BgiXdwDBUog7hSxR7fFcGrNAndg",
+          "Y2sXdKBlAom5j5xZEZ3cdgZ3nwc",
+          "GM8Yde08JoBmPSxY5Y0cDR3pnTg",
+          "SEZBdaVNmo4LY0xGgeicnSJznsf",
+          "IvOAdnSgpopYkGxpjvAcMKHOnQh",
+          "TBosdZP93oPjGPxTxZkcYG2inHf",
+          "OYxrdRHIPoXpGmxbQgccIC6SnKc",
+          "PKlKdS5rqoI7aUxs359c6aIVnvf"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "releasePartitions()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "Wwd2dOcsAoZ222xahjXcxcsvnYe",
+        "block_type": 2,
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation releases the partitions in a specified collection from memory.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Jv6idRDgXoPPAUxCbLncOisBnAh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "releasePartitions(data): ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Promise",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ResStatus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc"
+      },
+      {
+        "block_id": "ZwC7dv73gomz0ZxxJq6c2W9Lnpg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc"
+      },
+      {
+        "block_id": "CzNMdfFq5oZ7bhxQSz6cwwlJnec",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "milvusClient.releasePartitions({\n    collection_name: string,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    partition_names: string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "[],\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    timeout?: number",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " })",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc"
+      },
+      {
+        "block_id": "QWYndvGJJozMkax1pzdc2xq1nYf",
+        "block_type": 2,
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D83PdUD3MoqSfzxCqMQc5aXonjN",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_name ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ing",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "S0gEdWnYpoLHmyxPvSdc9KtDnqb",
+          "AQKsdl6b0oSFpGxkPeTce5utn0b"
+        ],
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc"
+      },
+      {
+        "block_id": "S0gEdWnYpoLHmyxPvSdc9KtDnqb",
+        "block_type": 2,
+        "parent_id": "D83PdUD3MoqSfzxCqMQc5aXonjN",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[REQUIRED]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AQKsdl6b0oSFpGxkPeTce5utn0b",
+        "block_type": 2,
+        "parent_id": "D83PdUD3MoqSfzxCqMQc5aXonjN",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of an existing collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QffadhqK4oxk8JxzQHgcQnawnMh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "partition_names",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string[]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "JRhUdLKZ1of5HMx55HccWK32nHh",
+          "NKtKdRjwko96DxxMLpfcRtFHn5b"
+        ],
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc"
+      },
+      {
+        "block_id": "JRhUdLKZ1of5HMx55HccWK32nHh",
+        "block_type": 2,
+        "parent_id": "QffadhqK4oxk8JxzQHgcQnawnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[REQUIRED]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NKtKdRjwko96DxxMLpfcRtFHn5b",
+        "block_type": 2,
+        "parent_id": "QffadhqK4oxk8JxzQHgcQnawnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of the names of the partitions to release.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ejyldg1YCo0N5ZxcPxJcdwernSf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "timeout",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "number",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")  ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "V3vfd64bworEvKxM5jvcrG5tnVe",
+          "PX4TdfgAao5scUxVd46cgn43n8f"
+        ],
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc"
+      },
+      {
+        "block_id": "V3vfd64bworEvKxM5jvcrG5tnVe",
+        "block_type": 2,
+        "parent_id": "Ejyldg1YCo0N5ZxcPxJcdwernSf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The timeout duration for this operation. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PX4TdfgAao5scUxVd46cgn43n8f",
+        "block_type": 2,
+        "parent_id": "Ejyldg1YCo0N5ZxcPxJcdwernSf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Setting this to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " indicates that this operation timeouts when any response arrives or any error occurs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QKR5d6s5Oogg2kx6WXgcJVMrnjg",
+        "block_type": 2,
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Promise",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\\",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<ResStatus>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ydw3d6hp4o4svOxIitTcrSy9nsd",
+        "block_type": 2,
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This method returns a promise that resolves to a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ResStatus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " object.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BgiXdwDBUog7hSxR7fFcGrNAndg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n    code: number,\n    error_code: string | number,\n    reason: string\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc"
+      },
+      {
+        "block_id": "Y2sXdKBlAom5j5xZEZ3cdgZ3nwc",
+        "block_type": 2,
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GM8Yde08JoBmPSxY5Y0cDR3pnTg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "code",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "number",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "RTaEdCWmxoqzLix4P8ycDtmDnPf"
+        ],
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc"
+      },
+      {
+        "block_id": "RTaEdCWmxoqzLix4P8ycDtmDnPf",
+        "block_type": 2,
+        "parent_id": "GM8Yde08JoBmPSxY5Y0cDR3pnTg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A code that indicates the operation result. It remains ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "0",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " if this operation succeeds.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SEZBdaVNmo4LY0xGgeicnSJznsf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "error_code",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " | ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "number",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "BoKQdVBhJoLY7axDmS5cML5fnbh"
+        ],
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc"
+      },
+      {
+        "block_id": "BoKQdVBhJoLY7axDmS5cML5fnbh",
+        "block_type": 2,
+        "parent_id": "SEZBdaVNmo4LY0xGgeicnSJznsf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "An error code that indicates an occurred error. It remains ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Success",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " if this operation succeeds. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IvOAdnSgpopYkGxpjvAcMKHOnQh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "reason",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") - ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Ch36dJBccoBH4TxTLgUcRFETnig"
+        ],
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc"
+      },
+      {
+        "block_id": "Ch36dJBccoBH4TxTLgUcRFETnig",
+        "block_type": 2,
+        "parent_id": "IvOAdnSgpopYkGxpjvAcMKHOnQh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TBosdZP93oPjGPxTxZkcYG2inHf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc"
+      },
+      {
+        "block_id": "OYxrdRHIPoXpGmxbQgccIC6SnKc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "new milvusClient(MILUVS_ADDRESS).releasePartitions({\n    collection_name: 'my_collection',\n    partition_names: ['my_partition'],\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " });",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc"
+      },
+      {
+        "block_id": "PKlKdS5rqoI7aUxs359c6aIVnvf",
+        "block_type": 2,
+        "parent_id": "Sqoed1lkwo8umixJJO1cvKIxnZc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 28
+  },
+  "slug": "Partitions-releasePartitions"
+}

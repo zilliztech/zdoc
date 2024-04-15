@@ -1,0 +1,1687 @@
+{
+  "created_time": "1708408689",
+  "modified_time": "1713177493",
+  "name": "createAlias()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",
+  "token": "MPuIdwujBoXM6rx7Okfc3lhZnUd",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/MPuIdwujBoXM6rx7Okfc3lhZnUd",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd",
+        "block_type": 1,
+        "children": [
+          "TIfMdTycCopxEJxMWUycGbIvnpg",
+          "XVTGdsIOzoIa7JxaiONcpP6znwd",
+          "P8ibdeQ5YoWN1axeBmmcnfIHnfc",
+          "KBCmdRr49oY3IexkkQDcYPgRnia",
+          "L0oTd2abNoW8TZxZeFQcsyICnrh",
+          "L9cQd7aDToxPsNx504UcHenwn7d",
+          "AMGEdBplroKDGGxw2k8c9zONnHf",
+          "VKlHd85troQfGSx4sFLc360snAf",
+          "Kom8d1e4coIreqxObYbcqO8hnIg",
+          "T8M5dDqLsoPGZQxIb1lcsB63nOb",
+          "Hmd3dHYOnoyXzdxfbiecEvnJnSh",
+          "UPgUd7JOloVg8txXMLZcRl8rn9e",
+          "Li5ZdM3IUojOAyxU8LCc5XCGnAh",
+          "Ofr4duzW5oZVsDxgIEtc3Edcnxh",
+          "UWMOdyk9boQbjUxP3fhcjJOtnPf",
+          "X111dtmeooZg6IxSXmZcJWqQnJd",
+          "L1OWd8cAUoGbynxBD4jcrtvrnef",
+          "JMuIdw379ooWmMx5Y6IchCefnpg"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "createAlias()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "TIfMdTycCopxEJxMWUycGbIvnpg",
+        "block_type": 2,
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation creates an alias for an existing collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XVTGdsIOzoIa7JxaiONcpP6znwd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "createAlias(data): ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Promise",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ResStatus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd"
+      },
+      {
+        "block_id": "P8ibdeQ5YoWN1axeBmmcnfIHnfc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd"
+      },
+      {
+        "block_id": "KBCmdRr49oY3IexkkQDcYPgRnia",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "milvusClient.createAlias({\n   alias: string,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "   collection_name: string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "   timeout?: number",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " })",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd"
+      },
+      {
+        "block_id": "L0oTd2abNoW8TZxZeFQcsyICnrh",
+        "block_type": 2,
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "L9cQd7aDToxPsNx504UcHenwn7d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "alias ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "KJm0dO5JdoYjtBx6RUpcswKOnhc",
+          "BXaAdJsBIoQ83KxgNRHceNlTnzd",
+          "Sp4tdFk3JoCbDaxd99qc8V4inIc"
+        ],
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd"
+      },
+      {
+        "block_id": "KJm0dO5JdoYjtBx6RUpcswKOnhc",
+        "block_type": 2,
+        "parent_id": "L9cQd7aDToxPsNx504UcHenwn7d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[REQUIRED]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BXaAdJsBIoQ83KxgNRHceNlTnzd",
+        "block_type": 2,
+        "parent_id": "L9cQd7aDToxPsNx504UcHenwn7d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The alias of the collection. Before this operation, ensure that the alias does not already exist. If it does, exceptions will occur.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Sp4tdFk3JoCbDaxd99qc8V4inIc",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "IczIdAWNZoJpIaxPFlKcKMSancd",
+          "X1T0duAZuoePPgxTd3MchzfLn6e",
+          "ZnwcdW9cjoyjB8xRArUcC0Mqnrd",
+          "DfbpdRl2aocKs1x3ZuPcRnuXngf",
+          "NUOcdw9W6oXBbIxosSkcfQ4Nncf",
+          "RfqgdpArTodi7hxCgpQc0RYVnjb",
+          "EYjCdlsSiokPEhxqBWpcEldnnBV",
+          "ZD5rdF2ZhoPR3Wx42DmcuH6tnVh",
+          "XBzWdUrLLoAUjjxkv0gcztkinbc",
+          "QWfUda9I9o4bsVxGBfAcC7sHn2f"
+        ],
+        "parent_id": "L9cQd7aDToxPsNx504UcHenwn7d"
+      },
+      {
+        "block_id": "IczIdAWNZoJpIaxPFlKcKMSancd",
+        "block_type": 2,
+        "parent_id": "Sp4tdFk3JoCbDaxd99qc8V4inIc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What is a collection alias?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X1T0duAZuoePPgxTd3MchzfLn6e",
+        "block_type": 2,
+        "parent_id": "Sp4tdFk3JoCbDaxd99qc8V4inIc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZnwcdW9cjoyjB8xRArUcC0Mqnrd",
+        "block_type": 2,
+        "parent_id": "Sp4tdFk3JoCbDaxd99qc8V4inIc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">In Milvus</include><include target=\"zilliz\">On Zilliz Cloud</include>, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DfbpdRl2aocKs1x3ZuPcRnuXngf",
+        "block_type": 2,
+        "parent_id": "Sp4tdFk3JoCbDaxd99qc8V4inIc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Below is an example of reassigning the alias of one collection to another:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NUOcdw9W6oXBbIxosSkcfQ4Nncf",
+        "block_type": 2,
+        "parent_id": "Sp4tdFk3JoCbDaxd99qc8V4inIc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Suppose there are two collections: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection_1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection_2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". There is also a collection alias named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "bob",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", which was originally assigned to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection_1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RfqgdpArTodi7hxCgpQc0RYVnjb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'s alias = [\"bob\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Sp4tdFk3JoCbDaxd99qc8V4inIc"
+      },
+      {
+        "block_id": "EYjCdlsSiokPEhxqBWpcEldnnBV",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'s alias = []",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Sp4tdFk3JoCbDaxd99qc8V4inIc"
+      },
+      {
+        "block_id": "ZD5rdF2ZhoPR3Wx42DmcuH6tnVh",
+        "block_type": 2,
+        "parent_id": "Sp4tdFk3JoCbDaxd99qc8V4inIc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After calling ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "alter_alias(\"collection_2\", \"bob\")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XBzWdUrLLoAUjjxkv0gcztkinbc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'s alias = []",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Sp4tdFk3JoCbDaxd99qc8V4inIc"
+      },
+      {
+        "block_id": "QWfUda9I9o4bsVxGBfAcC7sHn2f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'s alias = [\"bob\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Sp4tdFk3JoCbDaxd99qc8V4inIc"
+      },
+      {
+        "block_id": "AMGEdBplroKDGGxw2k8c9zONnHf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_name ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "YHRQdeaeqopvKKxkI1QcfHgBnCe",
+          "LJwEdPqfPo40utxLfpMcIo3dnLg"
+        ],
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd"
+      },
+      {
+        "block_id": "YHRQdeaeqopvKKxkI1QcfHgBnCe",
+        "block_type": 2,
+        "parent_id": "AMGEdBplroKDGGxw2k8c9zONnHf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[REQUIRED]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LJwEdPqfPo40utxLfpMcIo3dnLg",
+        "block_type": 2,
+        "parent_id": "AMGEdBplroKDGGxw2k8c9zONnHf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the collection to create an alias for.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VKlHd85troQfGSx4sFLc360snAf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "timeout",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "number",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")  ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Z3DOd4ElcoP0ADxShEicE6W5nmQ"
+        ],
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd"
+      },
+      {
+        "block_id": "Z3DOd4ElcoP0ADxShEicE6W5nmQ",
+        "block_type": 2,
+        "parent_id": "VKlHd85troQfGSx4sFLc360snAf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The timeout duration for this operation. Setting this to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " indicates that this operation timeouts when any response arrives or any error occurs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Kom8d1e4coIreqxObYbcqO8hnIg",
+        "block_type": 2,
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Promise",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\\",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<ResStatus>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T8M5dDqLsoPGZQxIb1lcsB63nOb",
+        "block_type": 2,
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This method returns a promise that resolves to a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ResStatus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " object.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Hmd3dHYOnoyXzdxfbiecEvnJnSh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n    code: number,\n    error_code: string | number,\n    reason: string\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd"
+      },
+      {
+        "block_id": "UPgUd7JOloVg8txXMLZcRl8rn9e",
+        "block_type": 2,
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Li5ZdM3IUojOAyxU8LCc5XCGnAh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "code",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "number",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "R723dlGQwojjMnxDJUcc8KIDnRc"
+        ],
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd"
+      },
+      {
+        "block_id": "R723dlGQwojjMnxDJUcc8KIDnRc",
+        "block_type": 2,
+        "parent_id": "Li5ZdM3IUojOAyxU8LCc5XCGnAh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A code that indicates the operation result. It remains ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "0",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " if this operation succeeds.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ofr4duzW5oZVsDxgIEtc3Edcnxh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "error_code",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " | ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "number",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "F7JTdl9xRoIUCMxlpezcCyognjd"
+        ],
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd"
+      },
+      {
+        "block_id": "F7JTdl9xRoIUCMxlpezcCyognjd",
+        "block_type": 2,
+        "parent_id": "Ofr4duzW5oZVsDxgIEtc3Edcnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "An error code that indicates an occurred error. It remains ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Success",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " if this operation succeeds. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UWMOdyk9boQbjUxP3fhcjJOtnPf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "reason",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") - ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "UA9aduZR6oy5QcxyAOIcpYnXnzA"
+        ],
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd"
+      },
+      {
+        "block_id": "UA9aduZR6oy5QcxyAOIcpYnXnzA",
+        "block_type": 2,
+        "parent_id": "UWMOdyk9boQbjUxP3fhcjJOtnPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X111dtmeooZg6IxSXmZcJWqQnJd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd"
+      },
+      {
+        "block_id": "L1OWd8cAUoGbynxBD4jcrtvrnef",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "const milvusClient = new milvusClient(MILUVS_ADDRESS);\n const resStatus = await milvusClient.createAlias({\n   alias: 'my_collection_alias',\n   collection_name: 'my_collection',\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " });",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd"
+      },
+      {
+        "block_id": "JMuIdw379ooWmMx5Y6IchCefnpg",
+        "block_type": 2,
+        "parent_id": "MPuIdwujBoXM6rx7Okfc3lhZnUd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 38
+  },
+  "slug": "Collections-createAlias"
+}

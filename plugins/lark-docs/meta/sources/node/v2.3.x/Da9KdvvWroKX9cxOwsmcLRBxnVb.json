@@ -1,0 +1,1934 @@
+{
+  "created_time": "1708408092",
+  "modified_time": "1713177349",
+  "name": "describeUser()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "H1JWfZh74lkVhgdfGiKcQfsinPg",
+  "token": "Da9KdvvWroKX9cxOwsmcLRBxnVb",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/Da9KdvvWroKX9cxOwsmcLRBxnVb",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb",
+        "block_type": 1,
+        "children": [
+          "PCpDdQCTPoEFAlxlGa7cubfunrg",
+          "QJ7HdsqbXo11xnxBMHycLoYbn6e",
+          "AJI4dEX2nojVh5xpXW9cyFGPnoh",
+          "LsBHd8Ov5oaRJ7x2uwwcCrQEnBb",
+          "Hksmdjcs5oKqGjxRMLsc7fRLn1b",
+          "WNPmdKr9OoU8zOxrRp0cShuYnCd",
+          "BzNidPf0CoWV3nxohGsc3XWnnVd",
+          "UMTedx8YXoX99AxUmVxc0vvBnBh",
+          "OZDtddo77oFtKFxy2jxc1Gyonre",
+          "HLNddRHmmojgRrxHltScz3Bznld",
+          "Nio2dDJPnookPdxXP6Tc81mEnEc",
+          "MQffdmFK4oar6Cx6Um6c6iRwnze",
+          "ZrpqdeoVsoiKx7xKXz8c53AWnUh",
+          "IkZNdr2apoKKnPxyERfch6sgn68",
+          "G9PHdYoTGo6LwQxLDcfc66kGned",
+          "SpyBdoYYBogrRfxfUUvcCNi1nvL",
+          "Toqtd8ZJAouZEbxQ86vckMtnnih"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "describeUser()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "PCpDdQCTPoEFAlxlGa7cubfunrg",
+        "block_type": 2,
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This is a method template.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QJ7HdsqbXo11xnxBMHycLoYbn6e",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "describeUser(data): ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Promise",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SelectUserResponse",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb"
+      },
+      {
+        "block_id": "AJI4dEX2nojVh5xpXW9cyFGPnoh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb"
+      },
+      {
+        "block_id": "LsBHd8Ov5oaRJ7x2uwwcCrQEnBb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "milvusClient.describeUser({",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    includeRoleInfo?: boolean,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    timeout?: number,",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "username",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338313004607930371"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": string\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "})",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "comment_ids": [
+          "7338313004607930371"
+        ],
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb"
+      },
+      {
+        "block_id": "Hksmdjcs5oKqGjxRMLsc7fRLn1b",
+        "block_type": 2,
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WNPmdKr9OoU8zOxrRp0cShuYnCd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "username",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "OdASdyyqTozcjoxnaHPcajbhnJc",
+          "RmzSdpC3moQvUZxsnVjc24aznAG"
+        ],
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb"
+      },
+      {
+        "block_id": "OdASdyyqTozcjoxnaHPcajbhnJc",
+        "block_type": 2,
+        "parent_id": "WNPmdKr9OoU8zOxrRp0cShuYnCd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[REQUIRED]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RmzSdpC3moQvUZxsnVjc24aznAG",
+        "block_type": 2,
+        "parent_id": "WNPmdKr9OoU8zOxrRp0cShuYnCd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the user to describe.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BzNidPf0CoWV3nxohGsc3XWnnVd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "includeRoleInfo",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7339754972634890244"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339754972634890244"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "boolean",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339754972634890244"
+                  ],
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339754972634890244"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ZjgVdoaiTohwW7x2GLKce1Ejndc"
+        ],
+        "comment_ids": [
+          "7339754972634890244"
+        ],
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb"
+      },
+      {
+        "block_id": "ZjgVdoaiTohwW7x2GLKce1Ejndc",
+        "block_type": 2,
+        "comment_ids": [
+          "7339754972634890244"
+        ],
+        "parent_id": "BzNidPf0CoWV3nxohGsc3XWnnVd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A boolean value indicating whether to include role information.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339754972634890244"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UMTedx8YXoX99AxUmVxc0vvBnBh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "timeout",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "number",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")  ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "X89oddv6noImCJxVgbmcgDkGnLA",
+          "E8AAdxqqboBXLBxoPLIcoZRnn9F"
+        ],
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb"
+      },
+      {
+        "block_id": "X89oddv6noImCJxVgbmcgDkGnLA",
+        "block_type": 2,
+        "parent_id": "UMTedx8YXoX99AxUmVxc0vvBnBh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The timeout duration for this operation. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "E8AAdxqqboBXLBxoPLIcoZRnn9F",
+        "block_type": 2,
+        "parent_id": "UMTedx8YXoX99AxUmVxc0vvBnBh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Setting this to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " indicates that this operation timeouts when any response arrives or any error occurs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OZDtddo77oFtKFxy2jxc1Gyonre",
+        "block_type": 2,
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Promise",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\\",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<SelectUserResponse>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HLNddRHmmojgRrxHltScz3Bznld",
+        "block_type": 2,
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This method returns a promise that resolves to a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SelectUserResponse",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " object.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Nio2dDJPnookPdxXP6Tc81mEnEc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338313675373035523"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    result: ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338313675373035523"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "UserResult",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338313675373035523"
+                  ],
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "[]",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338313675373035523"
+                  ],
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338313675373035523"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    status: ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338313675373035523"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ResStatus",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338313675373035523"
+                  ],
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338313675373035523"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "comment_ids": [
+          "7338313675373035523"
+        ],
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb"
+      },
+      {
+        "block_id": "MQffdmFK4oar6Cx6Um6c6iRwnze",
+        "block_type": 2,
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZrpqdeoVsoiKx7xKXz8c53AWnUh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "UserResult",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "HNe8divV3oE9Pvxvcu1caz39nmg",
+          "Gxj8daP8gojM0vxce2acCWN5n8c",
+          "Q95BdA5IroSlBYxGxCxcGMERnYc"
+        ],
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb"
+      },
+      {
+        "block_id": "HNe8divV3oE9Pvxvcu1caz39nmg",
+        "block_type": 2,
+        "comment_ids": [
+          "7339755135937789955"
+        ],
+        "parent_id": "ZrpqdeoVsoiKx7xKXz8c53AWnUh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339755135937789955"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "UserResult ",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7339755135937789955"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "type.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339755135937789955"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Gxj8daP8gojM0vxce2acCWN5n8c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "roles",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7339755135937789955"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339755135937789955"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "RoleEntity[]",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339755135937789955"
+                  ],
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339755135937789955"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "LFJMd4tUOomrIHxWorrc0iIgnZe"
+        ],
+        "comment_ids": [
+          "7339755135937789955"
+        ],
+        "parent_id": "ZrpqdeoVsoiKx7xKXz8c53AWnUh"
+      },
+      {
+        "block_id": "LFJMd4tUOomrIHxWorrc0iIgnZe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") - ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "GP1OdlKP5ovJeQxSPC9c9DIAnQg"
+        ],
+        "parent_id": "Gxj8daP8gojM0vxce2acCWN5n8c"
+      },
+      {
+        "block_id": "GP1OdlKP5ovJeQxSPC9c9DIAnQg",
+        "block_type": 2,
+        "comment_ids": [
+          "7339755135937789955"
+        ],
+        "parent_id": "LFJMd4tUOomrIHxWorrc0iIgnZe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The roles that have been granted to the user.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339755135937789955"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "indentation_level": "NoIndent"
+          }
+        }
+      },
+      {
+        "block_id": "Q95BdA5IroSlBYxGxCxcGMERnYc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "user",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7339755135937789955"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339755135937789955"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "User",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339755135937789955"
+                  ],
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339755135937789955"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "CIBudjxtWoHuCex6ptacblHDnHY"
+        ],
+        "comment_ids": [
+          "7339755135937789955"
+        ],
+        "parent_id": "ZrpqdeoVsoiKx7xKXz8c53AWnUh"
+      },
+      {
+        "block_id": "CIBudjxtWoHuCex6ptacblHDnHY",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") - ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "D0Ufdia5uoWE2ZxIZWgctMb0n5c"
+        ],
+        "parent_id": "Q95BdA5IroSlBYxGxCxcGMERnYc"
+      },
+      {
+        "block_id": "D0Ufdia5uoWE2ZxIZWgctMb0n5c",
+        "block_type": 2,
+        "parent_id": "CIBudjxtWoHuCex6ptacblHDnHY",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The roles that have been granted to the user.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "indentation_level": "NoIndent"
+          }
+        }
+      },
+      {
+        "block_id": "IkZNdr2apoKKnPxyERfch6sgn68",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ResStatus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Pe5Odo0YQoZ2EmxFT7vcptYPnAf",
+          "LTgWdyLPmoRvHNxg4MeckLSan3f",
+          "I80BdRyeZoAws0x6tjRcIxQoneM",
+          "Wyvxd0SbwotfnLxte6fcHZTgn7f"
+        ],
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb"
+      },
+      {
+        "block_id": "Pe5Odo0YQoZ2EmxFT7vcptYPnAf",
+        "block_type": 2,
+        "parent_id": "IkZNdr2apoKKnPxyERfch6sgn68",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ResStatus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " object.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LTgWdyLPmoRvHNxg4MeckLSan3f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "code",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "number",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "OJkodZbetoSdZpx3OUnc66DZnNe"
+        ],
+        "parent_id": "IkZNdr2apoKKnPxyERfch6sgn68"
+      },
+      {
+        "block_id": "OJkodZbetoSdZpx3OUnc66DZnNe",
+        "block_type": 2,
+        "parent_id": "LTgWdyLPmoRvHNxg4MeckLSan3f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A code that indicates the operation result. It remains ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "0",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " if this operation succeeds.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I80BdRyeZoAws0x6tjRcIxQoneM",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "error_code",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " | ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "number",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "GhM6dwgTFoFkLJxicNZcN3zrnmb"
+        ],
+        "parent_id": "IkZNdr2apoKKnPxyERfch6sgn68"
+      },
+      {
+        "block_id": "GhM6dwgTFoFkLJxicNZcN3zrnmb",
+        "block_type": 2,
+        "parent_id": "I80BdRyeZoAws0x6tjRcIxQoneM",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "An error code that indicates an occurred error. It remains ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Success",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " if this operation succeeds. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Wyvxd0SbwotfnLxte6fcHZTgn7f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "reason",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") - ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Uk6EdQGLtoKBa7xzBqLcbCuwnyf"
+        ],
+        "parent_id": "IkZNdr2apoKKnPxyERfch6sgn68"
+      },
+      {
+        "block_id": "Uk6EdQGLtoKBa7xzBqLcbCuwnyf",
+        "block_type": 2,
+        "parent_id": "Wyvxd0SbwotfnLxte6fcHZTgn7f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G9PHdYoTGo6LwQxLDcfc66kGned",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb"
+      },
+      {
+        "block_id": "SpyBdoYYBogrRfxfUUvcCNi1nvL",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "milvusClient.describeUser({username: 'name'})",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb"
+      },
+      {
+        "block_id": "Toqtd8ZJAouZEbxQ86vckMtnnih",
+        "block_type": 2,
+        "parent_id": "Da9KdvvWroKX9cxOwsmcLRBxnVb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 37
+  },
+  "slug": "Authentication-describeUser"
+}

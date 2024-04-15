@@ -13,8 +13,6 @@ import Admonition from '@theme/Admonition';
 
 Welcome to the Java SDK Reference!
 
-## Contents
-
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

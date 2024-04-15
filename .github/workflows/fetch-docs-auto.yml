@@ -21,8 +21,12 @@ jobs:
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -skipS
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -post
+        npx docusaurus fetch-lark-docs -man python -tar zilliz
         npx docusaurus fetch-lark-docs -man python -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man java -tar zilliz
         npx docusaurus fetch-lark-docs -man java -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man node -tar zilliz
+        npx docusaurus fetch-lark-docs -man node -tar zilliz -post
       env:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}

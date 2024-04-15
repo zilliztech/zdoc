@@ -12,8 +12,6 @@ import Admonition from '@theme/Admonition';
 
 Welcome to the Go SDK Reference!
 
-## Contents
-
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

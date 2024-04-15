@@ -151,6 +151,23 @@ const config = {
             imageDir: 'static/img',
           }
         }
+      },
+      node: {
+        root: 'Vg1kfluyll0h7MdlUMaciXfEnZd',
+        base: 'DVVobtXQMamuLqsQij5c29nVn3c',
+        sourceType: 'drive',
+        version: 'v2.3.x',
+        docSourceDir: './plugins/lark-docs/meta/sources/node/v2.3.x',
+        targets: {
+          milvus: {
+            outputDir: 'milvus/reference/node/docs',
+            imageDir: 'milvus/reference/node/images'
+          },
+          zilliz: {
+            outputDir: 'reference/api/nodejs/nodejs',
+            imageDir: 'static/img',
+          }
+        }
       }
     }],
     './plugins/apifox-docs',
@@ -352,7 +369,7 @@ const config = {
         copyright: `LF AI, LF AI & data, Milvus, and associated open-source project names are trademarks of the the Linux Foundation. <br/>© Zilliz ${new Date().getFullYear()} All rights reserved. <a class="setting-cookie-btn" >Cookie Settings</a>`,
       },
       prism: {
-        additionalLanguages: ['java', 'go'],
+        additionalLanguages: ['java', 'go', 'bash'],
       },
       colorMode: {
         disableSwitch: true,

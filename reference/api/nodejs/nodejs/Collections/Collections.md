@@ -1,16 +1,16 @@
 ---
-slug: /node/Vector
+slug: /node/Collections
 beta: false
 notebook: false
 type: folder
-token: XhBJfuQ6slBh8Tdj7BEc4Mp6n4b
-sidebar_position: 6
+token: WKkof79XQltPmgdgU18c2tLUnOd
+sidebar_position: 3
 displayed_sidebar: nodeSidebar
 ---
 
-# Vector
+# Collections
 
-Methods related to CRUD operations within a collection.
+Methods for you to manage collections.
 
 import DocCardList from '@theme/DocCardList';
 
