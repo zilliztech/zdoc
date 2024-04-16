@@ -5,7 +5,7 @@
   "node_token": "NGvbww7DpirhxOknAWncOrmqnNJ",
   "node_type": "origin",
   "obj_create_time": "1708765008",
-  "obj_edit_time": "1713254437",
+  "obj_edit_time": "1713255341",
   "obj_token": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
   "obj_type": "docx",
   "origin_node_token": "NGvbww7DpirhxOknAWncOrmqnNJ",
@@ -506,7 +506,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "String CLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\";\nString TOKEN = \"YOUR_CLUSTER_TOKEN\";\n\n// 1. Connect to Milvus server\nConnectConfig connectConfig = ConnectConfig.builder()\n   .uri(CLUSTER_ENDPOINT)\n   .token(TOKEN)\n   .secure(true)\n   .build();\n\nMilvusClientV2 client = new MilvusClientV2(connectConfig); \n\n// 2. List all users and roles\nList<String> roleNames = client.listRoles();\n\nSystem.out.println(roleNames);\n\n// Output:\n// [\n//     \"db_admin\",\n//     \"db_ro\",\n//     \"db_rw\"\n// ]\n\nList<String> userNames = client.listUsers();\n\nSystem.out.println(userNames);\n\n// Output:\n",
+                "content": "import io.milvus.v2.client.ConnectConfig;\nimport io.milvus.v2.client.MilvusClientV2;\n\nString CLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\";\nString TOKEN = \"YOUR_CLUSTER_TOKEN\";\n\n// 1. Connect to Milvus server\nConnectConfig connectConfig = ConnectConfig.builder()\n   .uri(CLUSTER_ENDPOINT)\n   .token(TOKEN)\n   .secure(true)\n   .build();\n\nMilvusClientV2 client = new MilvusClientV2(connectConfig); \n\n// 2. List all users and roles\nList<String> roleNames = client.listRoles();\n\nSystem.out.println(roleNames);\n\n// Output\n//\n// <include target=\"zilliz\">[\"db_admin\", \"db_ro\", \"db_rw\"]</include><include target=\"milvus\">[\"admin\", \"public\"]</include>\n\nList<String> userNames = client.listUsers();\n\nSystem.out.println(userNames);\n\n// Output\n//\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -518,7 +518,7 @@
             },
             {
               "text_run": {
-                "content": "// [\"db_admin\"]",
+                "content": "// <include target=\"zilliz\">[\"db_admin\"]</include><include target=\"milvus\">[\"root\"]</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -543,7 +543,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "const { MilvusClient, DataType, sleep } = require(\"@zilliz/milvus2-sdk-node\")\n\nconst address = \"YOUR_CLUSTER_ENDPOINT\"\nconst token = \"YOUR_CLUSTER_TOKEN\"\n\nasync function main() {\n// 1. Connect to the cluster\nconst client = new MilvusClient({address, token})\n\n// 2. List roles and users\nvar res = await client.listRoles()\n\nconsole.log(res.results.map(r => r.role.name))\n\n// Output\n// \n// [ 'db_admin', 'db_ro', 'db_rw' ]\n// \n\nres = await client.listUsers()\n\nconsole.log(res.usernames)\n\n// Output\n// \n// [ 'db_admin', 'user1' ]\n",
+                "content": "const { MilvusClient, DataType, sleep } = require(\"@zilliz/milvus2-sdk-node\")\n\nconst address = \"YOUR_CLUSTER_ENDPOINT\"\nconst token = \"YOUR_CLUSTER_TOKEN\"\n\nasync function main() {\n// 1. Connect to the cluster\nconst client = new MilvusClient({address, token})\n\n// 2. List roles and users\nvar res = await client.listRoles()\n\nconsole.log(res.results.map(r => r.role.name))\n\n// Output\n//\n// <include target=\"zilliz\">[\"db_admin\", \"db_ro\", \"db_rw\"]</include><include target=\"milvus\">[\"admin\", \"public\"]</include>\n\nres = await client.listUsers()\n\nconsole.log(res.usernames)\n\n// Output\n//\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -555,7 +555,7 @@
             },
             {
               "text_run": {
-                "content": "// ",
+                "content": "// <include target=\"zilliz\">[\"db_admin\"]</include><include target=\"milvus\">[\"root\"]</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -692,7 +692,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "if (roleNames.contains(\"db_ro\")) {\n    DropRoleReq dropRoleReq = DropRoleReq.builder()\n        .roleName(\"read_only\")\n        .build();\n\n    client.dropRole(dropRoleReq);\n}\n\nCreateRoleReq createRoleReq = CreateRoleReq.builder()\n    .roleName(\"read_only\")\n    .build();\n\nclient.createRole(createRoleReq);\n\nroleNames = client.listRoles();\n\nSystem.out.println(roleNames);\n\n// Output:\n// [\n//     \"admin\",\n//     \"public\",\n//     \"db_ro\"\n",
+                "content": "import io.milvus.v2.service.rbac.request.DropRoleReq;\nimport io.milvus.v2.service.rbac.request.CreateRoleReq;\n\nif (roleNames.contains(\"db_ro\")) {\n    DropRoleReq dropRoleReq = DropRoleReq.builder()\n        .roleName(\"read_only\")\n        .build();\n\n    client.dropRole(dropRoleReq);\n}\n\nCreateRoleReq createRoleReq = CreateRoleReq.builder()\n    .roleName(\"read_only\")\n    .build();\n\nclient.createRole(createRoleReq);\n\nroleNames = client.listRoles();\n\nSystem.out.println(roleNames);\n\n// Output\n//\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -704,7 +704,7 @@
             },
             {
               "text_run": {
-                "content": "// ]",
+                "content": "// [\"admin\", \"public\", \"db_ro\"]",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -729,7 +729,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 2. Create a role\nvar res = await client.listRoles()\n\nconsole.log(res.results)\n\n// Output\n// \n// [\n//   { users: [], role: { name: 'admin' } },\n//   { users: [], role: { name: 'public' } }\n// ]\n",
+                "content": "// 2. Create a role\nvar res = await client.listRoles()\n\nconsole.log(res.results.map(r => role.name))\n\n// Output\n//\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -741,7 +741,7 @@
             },
             {
               "text_run": {
-                "content": "// ",
+                "content": "// [\"admin\", \"public\", \"db_ro\"]",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -878,7 +878,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 3. Create a user\nCreateUserReq createUserReq = CreateUserReq.builder()\n   .userName(\"user1\")\n   .password(\"p@ssw0rd!\")\n   .build();\n\nclient.createUser(createUserReq);\n\nuserNames = client.listUsers();\n\nSystem.out.println(userNames);\n\n// Output:\n// [\n//     \"db_admin\",\n//     \"user1\"\n",
+                "content": "import io.milvus.v2.service.rbac.request.DropUserReq;\nimport io.milvus.v2.service.rbac.request.CreateUserReq;\n\n// 3. Create a user\nCreateUserReq createUserReq = CreateUserReq.builder()\n   .userName(\"user1\")\n   .password(\"p@ssw0rd!\")\n   .build();\n\nclient.createUser(createUserReq);\n\nuserNames = client.listUsers();\n\nSystem.out.println(userNames);\n\n// Output\n//\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -890,7 +890,7 @@
             },
             {
               "text_run": {
-                "content": "// ]",
+                "content": "// <include target=\"zilliz\">[\"db_admin\", \"user1\"]</include><include target=\"milvus\">[\"root\", \"user1\"]</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -915,7 +915,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 3. Create a user\n\nif (!res.usernames.includes(\"user1\")) {\n    await client.createUser({\n        username: \"user1\",\n        password: \"p@ssw0rd!\"\n    })\n}\n\nres = await client.listUsers()\n\nconsole.log(res.usernames)\n\n// Output\n// \n// [ 'db_admin', 'user1' ]\n",
+                "content": "// 3. Create a user\n\nif (!res.usernames.includes(\"user1\")) {\n    await client.createUser({\n        username: \"user1\",\n        password: \"p@ssw0rd!\"\n    })\n}\n\nres = await client.listUsers()\n\nconsole.log(res.usernames)\n\n// Output\n//\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -927,7 +927,7 @@
             },
             {
               "text_run": {
-                "content": "// ",
+                "content": "// <include target=\"zilliz\">[\"db_admin\", \"user1\"]</include><include target=\"milvus\">[\"root\", \"user1\"]</include> ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1145,7 +1145,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 4. Update user password\nUpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()\n   .userName(\"user1\")\n   .password(\"p@ssw0rd!\")\n   .newPassword(\"p@ssw0rd123!\")\n   .build();\n\n",
+                "content": "import io.milvus.v2.service.rbac.request.UpdatePasswordReq;\n\n// 4. Update user password\nUpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()\n   .userName(\"user1\")\n   .password(\"p@ssw0rd!\")\n   .newPassword(\"p@ssw0rd123!\")\n   .build();\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1331,7 +1331,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 3. Grant permissions to the role\nGrantPrivilegeReq grantPrivilegeReq = GrantPrivilegeReq.builder()\n    .roleName(\"read_only\")\n    .objectType(\"Global\")\n    .objectName(\"*\")\n    .privilege(\"DescribeCollection\")\n    .build();\n\n",
+                "content": "import io.milvus.v2.service.rbac.request.GrantPrivilegeReq;\n\n// 3. Grant permissions to the role\nGrantPrivilegeReq grantPrivilegeReq = GrantPrivilegeReq.builder()\n    .roleName(\"read_only\")\n    .objectType(\"Global\")\n    .objectName(\"*\")\n    .privilege(\"DescribeCollection\")\n    .build();\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1690,7 +1690,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 5. Describe the role\nDescribeRoleReq describeRoleReq = DescribeRoleReq.builder()\n   .roleName(\"db_ro\")\n   .build();\n\nDescribeRoleResp describeRoleResp = client.describeRole(describeRoleReq);\n\nSystem.out.println(JSONObject.toJSON(describeRoleResp));\n\n// Output:\n// {\"grantInfos\": [\n//     {\n//         \"dbName\": \"default\",\n//         \"objectName\": \"*\",\n//         \"grantor\": \"\",\n//         \"privilege\": \"GetLoadState\",\n//         \"objectType\": \"Collection\"\n//     },\n//     {\n//         \"dbName\": \"default\",\n//         \"objectName\": \"*\",\n//         \"grantor\": \"\",\n//         \"privilege\": \"GetLoadingProgress\",\n//         \"objectType\": \"Collection\"\n//     },\n//     {\n//         \"dbName\": \"default\",\n//         \"objectName\": \"*\",\n//         \"grantor\": \"\",\n//         \"privilege\": \"HasPartition\",\n//         \"objectType\": \"Collection\"\n//     },\n//     \"(10 elements are hidden)\"\n",
+                "content": "import io.milvus.v2.service.rbac.request.DescribeRoleReq;\n\n// 5. Describe the role\nDescribeRoleReq describeRoleReq = DescribeRoleReq.builder()\n   .roleName(\"db_ro\")\n   .build();\n\nDescribeRoleResp describeRoleResp = client.describeRole(describeRoleReq);\n\nSystem.out.println(JSONObject.toJSON(describeRoleResp));\n\n// Output:\n<include target=\"milvus\">\n// {\"grantInfos\": [\n//     {\n//         \"dbName\": \"default\",\n//         \"objectName\": \"*\",\n//         \"grantor\": \"\",\n//         \"privilege\": \"DescribeCollection\",\n//         \"objectType\": \"Global\"\n//     },\n// ]}\n</include>\n<include target=\"zilliz\">\n// {\"grantInfos\": [\n//     {\n//         \"dbName\": \"default\",\n//         \"objectName\": \"*\",\n//         \"grantor\": \"\",\n//         \"privilege\": \"GetLoadState\",\n//         \"objectType\": \"Collection\"\n//     },\n//     {\n//         \"dbName\": \"default\",\n//         \"objectName\": \"*\",\n//         \"grantor\": \"\",\n//         \"privilege\": \"GetLoadingProgress\",\n//         \"objectType\": \"Collection\"\n//     },\n//     {\n//         \"dbName\": \"default\",\n//         \"objectName\": \"*\",\n//         \"grantor\": \"\",\n//         \"privilege\": \"HasPartition\",\n//         \"objectType\": \"Collection\"\n//     },\n//     \"(10 elements are hidden)\"\n// ]}\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1702,7 +1702,7 @@
             },
             {
               "text_run": {
-                "content": "// ]}",
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1727,7 +1727,46 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 5. Describe the role\n\nvar res = await client.describeRole({\n    roleName: \"db_ro\"\n})\n\nconsole.log(res.results)\n\n// Output\n// \n// [ { users: [], role: { name: 'db_ro' } } ]\n",
+                "content": "// 5. Describe the role\n\nvar res = await client.describeRole({\n    roleName: \"db_ro\"\n})\n\nconsole.log(res.results)\n\n// Output\n// \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// [ ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{ users: [], role: { name: 'db_ro' } } ]",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7358374400318734340"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1755,6 +1794,9 @@
             "wrap": true
           }
         },
+        "comment_ids": [
+          "7358374400318734340"
+        ],
         "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
       },
       {
@@ -1899,7 +1941,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 6. Assign a role to a user\nGrantRoleReq grantRoleReq = GrantRoleReq.builder()\n   .userName(\"user1\")\n   .roleName(\"db_ro\")\n   .build();\n\nclient.grantRole(grantRoleReq);\n\n// 7. Describe the user\nDescribeUserReq describeUserReq = DescribeUserReq.builder()\n   .userName(\"user1\")\n   .build();\n\nDescribeUserResp describeUserResp = client.describeUser(describeUserReq);\n\nSystem.out.println(JSONObject.toJSON(describeUserResp));\n\n// Output:\n",
+                "content": "import io.milvus.v2.service.rbac.request.GrantRoleReq;\n\n// 6. Assign a role to a user\nGrantRoleReq grantRoleReq = GrantRoleReq.builder()\n   .userName(\"user1\")\n   .roleName(\"db_ro\")\n   .build();\n\nclient.grantRole(grantRoleReq);\n\n// 7. Describe the user\nDescribeUserReq describeUserReq = DescribeUserReq.builder()\n   .userName(\"user1\")\n   .build();\n\nDescribeUserResp describeUserResp = client.describeUser(describeUserReq);\n\nSystem.out.println(JSONObject.toJSON(describeUserResp));\n\n// Output:\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2060,7 +2102,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 8. Revoke a role from a user\nRevokeRoleReq revokeRoleReq = RevokeRoleReq.builder()\n   .userName(\"user1\")\n   .roleName(\"db_ro\")\n   .build();\n\n",
+                "content": "import io.milvus.v2.service.rbac.request.RevokeRoleReq;\n\n// 8. Revoke a role from a user\nRevokeRoleReq revokeRoleReq = RevokeRoleReq.builder()\n   .userName(\"user1\")\n   .roleName(\"db_ro\")\n   .build();\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2221,7 +2263,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 9. Drop the user\nDropUserReq dropUserReq = DropUserReq.builder()\n   .userName(\"user1\")\n   .build();\n\nclient.dropUser(dropUserReq);\n\nuserNames = client.listUsers();\n\nSystem.out.println(userNames);\n\n// Output:\n",
+                "content": "import io.milvus.v2.service.rbac.request.DropUserReq;\n\n// 9. Drop the user\nDropUserReq dropUserReq = DropUserReq.builder()\n   .userName(\"user1\")\n   .build();\n\nclient.dropUser(dropUserReq);\n\nuserNames = client.listUsers();\n\nSystem.out.println(userNames);\n\n// Output:\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2541,7 +2583,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 11. Drop the role\nDropRoleReq dropRoleReq = DropRoleReq.builder()\n    .roleName(\"read_only\")\n    .build();\n    \nclient.dropRole(dropRoleReq);\n\nroleNames = client.listRoles();\n\nSystem.out.println(roleNames);\n\n// Output:\n// [\n//     \"admin\",\n//     \"public\"\n",
+                "content": "import io.milvus.v2.service.rbac.request.DropRoleReq;\n\n// 11. Drop the role\nDropRoleReq dropRoleReq = DropRoleReq.builder()\n    .roleName(\"read_only\")\n    .build();\n    \nclient.dropRole(dropRoleReq);\n\nroleNames = client.listRoles();\n\nSystem.out.println(roleNames);\n\n// Output:\n// [\n//     \"admin\",\n//     \"public\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

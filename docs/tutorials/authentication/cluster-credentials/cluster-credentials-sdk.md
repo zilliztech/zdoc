@@ -67,6 +67,9 @@ print(users)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
@@ -84,18 +87,16 @@ List<String> roleNames = client.listRoles();
 
 System.out.println(roleNames);
 
-// Output:
-// [
-//     "db_admin",
-//     "db_ro",
-//     "db_rw"
-// ]
+// Output
+//
+// ["db_admin", "db_ro", "db_rw"]
 
 List<String> userNames = client.listUsers();
 
 System.out.println(userNames);
 
-// Output:
+// Output
+//
 // ["db_admin"]
 ```
 
@@ -119,18 +120,16 @@ var res = await client.listRoles()
 console.log(res.results.map(r => r.role.name))
 
 // Output
-// 
-// [ 'db_admin', 'db_ro', 'db_rw' ]
-// 
+//
+// ["db_admin", "db_ro", "db_rw"]
 
 res = await client.listUsers()
 
 console.log(res.usernames)
 
 // Output
-// 
-// [ 'db_admin', 'user1' ]
-// 
+//
+// ["db_admin"]
 ```
 
 </TabItem>
@@ -166,6 +165,9 @@ print(users)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.rbac.request.DropUserReq;
+import io.milvus.v2.service.rbac.request.CreateUserReq;
+
 // 3. Create a user
 CreateUserReq createUserReq = CreateUserReq.builder()
    .userName("user1")
@@ -178,11 +180,9 @@ userNames = client.listUsers();
 
 System.out.println(userNames);
 
-// Output:
-// [
-//     "db_admin",
-//     "user1"
-// ]
+// Output
+//
+// ["db_admin", "user1"]
 ```
 
 </TabItem>
@@ -204,9 +204,8 @@ res = await client.listUsers()
 console.log(res.usernames)
 
 // Output
-// 
-// [ 'db_admin', 'user1' ]
-// 
+//
+// ["db_admin", "user1"] 
 ```
 
 </TabItem>
@@ -236,6 +235,8 @@ client.update_password(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.rbac.request.UpdatePasswordReq;
+
 // 4. Update user password
 UpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()
    .userName("user1")
@@ -315,6 +316,8 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.rbac.request.DescribeRoleReq;
+
 // 5. Describe the role
 DescribeRoleReq describeRoleReq = DescribeRoleReq.builder()
    .roleName("db_ro")
@@ -325,6 +328,7 @@ DescribeRoleResp describeRoleResp = client.describeRole(describeRoleReq);
 System.out.println(JSONObject.toJSON(describeRoleResp));
 
 // Output:
+
 // {"grantInfos": [
 //     {
 //         "dbName": "default",
@@ -349,6 +353,7 @@ System.out.println(JSONObject.toJSON(describeRoleResp));
 //     },
 //     "(10 elements are hidden)"
 // ]}
+
 ```
 
 </TabItem>
@@ -409,6 +414,8 @@ print(user_info)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.rbac.request.GrantRoleReq;
+
 // 6. Assign a role to a user
 GrantRoleReq grantRoleReq = GrantRoleReq.builder()
    .userName("user1")
@@ -480,6 +487,8 @@ client.revoke_role(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.rbac.request.RevokeRoleReq;
+
 // 8. Revoke a role from a user
 RevokeRoleReq revokeRoleReq = RevokeRoleReq.builder()
    .userName("user1")
@@ -525,6 +534,8 @@ client.drop_user(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.rbac.request.DropUserReq;
+
 // 9. Drop the user
 DropUserReq dropUserReq = DropUserReq.builder()
    .userName("user1")
