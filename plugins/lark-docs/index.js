@@ -54,11 +54,11 @@ module.exports = function (context, options) {
                         // Only pull source files from Feishu iteratively
                         if (opts.sourceOnly) {
                             // const scraper = new docScraper(root, base, sourceType, docSourceDir)
-                            await scraper.fetch(recursive=true)
+                            await scraper.fetch(true)
                         // Pull specific source file from Feishu
                         } else if (opts.docToken !== undefined) {
                             // const scraper = new docScraper(root, base, sourceType, docSourceDir)
-                            await scraper.fetch(recursive=false, page_token=opts.docToken)
+                            await scraper.fetch(false, opts.docToken)
                         } else {
                             throw new Error('Please provide a target')
                         }
@@ -94,7 +94,7 @@ module.exports = function (context, options) {
                             
                             if (!opts.skipSourceDown) {
                                 // const scraper = new docScraper(root, base, sourceType, docSourceDir)
-                                await scraper.fetch(recursive=true)
+                                await scraper.fetch(true)
                             }
                             
                             // const writer = new docWriter(root, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
@@ -126,7 +126,7 @@ module.exports = function (context, options) {
                                 var source = JSON.parse(fs.readFileSync(docSourceDir + '/' + paths[0], 'utf8'))
                                 token = source.node_token ? source.node_token : source.token
                                 source_type = source.node_type ? source.node_type : source.type
-                                await scraper.fetch(recursive=false, page_token=token) 
+                                await scraper.fetch(false, token) 
                             }
 
                             if (paths.length > 1) {
@@ -160,10 +160,10 @@ module.exports = function (context, options) {
                                     console.log(token)
                                     
                                     // const scraper = new docScraper(root, base)
-                                    await scraper.fetch(recursive=false, page_token=token)                                    
+                                    await scraper.fetch(false, token)                                    
                                 } else {
                                     for (source of sources) {
-                                        await scraper.fetch(recursive=false, page_token=source.token)
+                                        await scraper.fetch(false, source.token)
                                     }
 
                                     var source = sources.filter(source => Object.keys(source).includes('children'))[0]
@@ -228,7 +228,7 @@ module.exports = function (context, options) {
                                 return source.node_token
                             })[0]
     
-                            await scraper.fetch(recursive=false, page_token=token)
+                            await scraper.fetch(false, token)
     
                             // const writer = new docWriter(root, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
     
