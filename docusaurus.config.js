@@ -78,7 +78,6 @@ const config = {
     ]
   ],
   plugins: [
-    'docusaurus-lunr-search',
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -379,16 +378,16 @@ const config = {
       },
     }),
   themes: [
-    // [ '@easyops-cn/docusaurus-search-local', {
-    //   id: 'saas',
-    //   hashed: true,
-    //   indexBlog: false,
-    //   language: ['en', 'zh'],
-    //   docsDir: ['docs', 'reference'],
-    //   docsRouteBasePath: 'docs',
-    //   highlightSearchTermsOnTargetPage: true,
-    // }],
-    // 'docusaurus-theme-frontmatter',
+    [ '@easyops-cn/docusaurus-search-local', {
+      id: 'saas',
+      hashed: true,
+      indexBlog: false,
+      language: ['en', 'zh'],
+      docsDir: ['docs', 'reference'],
+      docsRouteBasePath: 'docs',
+      highlightSearchTermsOnTargetPage: true,
+    }],
+    'docusaurus-theme-frontmatter',
   ],
   headTags: [
     {
