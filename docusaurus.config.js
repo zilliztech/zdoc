@@ -369,7 +369,7 @@ const config = {
         copyright: `LF AI, LF AI & data, Milvus, and associated open-source project names are trademarks of the the Linux Foundation. <br/>© Zilliz ${new Date().getFullYear()} All rights reserved. <a class="setting-cookie-btn" >Cookie Settings</a>`,
       },
       prism: {
-        additionalLanguages: ['java', 'go', 'bash'],
+        additionalLanguages: ['java', 'go', 'bash', 'json'],
       },
       colorMode: {
         disableSwitch: true,
