@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation drops a user.
 
 ```javascript
-deleteUser(data): *Promise*<*ResStatus*>
+deleteUser(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

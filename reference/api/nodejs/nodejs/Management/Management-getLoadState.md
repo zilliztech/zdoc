@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation displays whether a specified collection or partition is loaded or not.
 
 ```javascript
-getLoadState(data): *Promise*<*GetLoadStateResponse*>
+getLoadState(data): Promise<GetLoadStateResponse>
 ```
 
 ## Request Syntax{#request-syntax}

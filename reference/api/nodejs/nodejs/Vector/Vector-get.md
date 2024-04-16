@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation gets specific entities by their IDs.
 
 ```javascript
-get(data): *Promise*<*QueryResults*>
+get(data): Promise<QueryResults>
 ```
 
 ## Request Syntax{#request-syntax}

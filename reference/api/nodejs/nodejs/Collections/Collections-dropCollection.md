@@ -5,7 +5,7 @@ beta: false
 notebook: false
 type: docx
 token: KLknda2VtocQSBx7PKVc6F9Nnug
-sidebar_position: 7
+sidebar_position: 8
 ---
 
 import Admonition from '@theme/Admonition';
@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation drops a collection.
 
 ```javascript
-dropCollection(data): *Promise*<*ResStatus*>
+dropCollection(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

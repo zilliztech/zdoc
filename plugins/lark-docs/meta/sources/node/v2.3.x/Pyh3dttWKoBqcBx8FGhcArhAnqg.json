@@ -1,6 +1,6 @@
 {
   "created_time": "1708409241",
-  "modified_time": "1713177764",
+  "modified_time": "1713233847",
   "name": "loadPartitions()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "JfB5fh16rl1R1qdNVgec1Kdongc",
@@ -87,55 +87,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "loadPartitions(data): ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Promise",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ResStatus",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ">",
+                "content": "loadPartitions(data): Promise<ResStatus>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

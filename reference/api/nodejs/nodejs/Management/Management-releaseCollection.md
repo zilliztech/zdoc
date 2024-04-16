@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation releases the data of a specific collection from memory.
 
 ```javascript
-releaseCollection(data): *Promise*<*ResStatus*>
+releaseCollection(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

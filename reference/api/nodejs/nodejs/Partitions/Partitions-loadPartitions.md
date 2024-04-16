@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation loads a specific set of partitions in a specified collection into memory.
 
 ```javascript
-loadPartitions(data): *Promise*<*ResStatus*>
+loadPartitions(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

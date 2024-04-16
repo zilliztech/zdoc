@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation checks whether the specified partition exists in the specified collection.
 
 ```javascript
-hasPartition(data): *Promise*<*BoolResponse*>
+hasPartition(data): Promise<BoolResponse>
 ```
 
 ## Request Syntax{#request-syntax}

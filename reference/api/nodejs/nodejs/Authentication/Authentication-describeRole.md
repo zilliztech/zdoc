@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation describes a specific role.
 
 ```javascript
-describeRole(data): *Promise*<*SelectRoleResponse*>
+describeRole(data): Promise<SelectRoleResponse>
 ```
 
 ## Request Syntax{#request-syntax}

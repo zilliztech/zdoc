@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation inserts or updates data in a specific collection.
 
 ```javascript
-upsert(data): *Promise*<*MutationResult*>
+upsert(data): Promise<MutationResult>
 ```
 
 ## Request Syntax{#request-syntax}

@@ -1,6 +1,6 @@
 {
   "created_time": "1708409221",
-  "modified_time": "1713177757",
+  "modified_time": "1713233839",
   "name": "listPartitions()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "JfB5fh16rl1R1qdNVgec1Kdongc",
@@ -86,55 +86,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "listPartitions(data): ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Promise",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ShowPartitionsResponse",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ">",
+                "content": "listPartitions(data): Promise<ShowPartitionsResponse>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

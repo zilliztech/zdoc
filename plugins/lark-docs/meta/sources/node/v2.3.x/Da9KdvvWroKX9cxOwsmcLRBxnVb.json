@@ -1,6 +1,6 @@
 {
   "created_time": "1708408092",
-  "modified_time": "1713177349",
+  "modified_time": "1713232904",
   "name": "describeUser()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "H1JWfZh74lkVhgdfGiKcQfsinPg",
@@ -84,55 +84,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "describeUser(data): ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Promise",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "SelectUserResponse",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ">",
+                "content": "describeUser(data): Promise<SelectUserResponse>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

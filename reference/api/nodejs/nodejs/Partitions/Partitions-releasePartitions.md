@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation releases the partitions in a specified collection from memory.
 
 ```javascript
-releasePartitions(data): *Promise*<*ResStatus*>
+releasePartitions(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

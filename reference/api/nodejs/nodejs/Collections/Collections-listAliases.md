@@ -1,48 +1,48 @@
 ---
 displayed_sidbar: nodeSidebar
-slug: /node/Collections-dropAlias
+slug: /node/Collections-listAliases
 beta: false
 notebook: false
 type: docx
-token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
-sidebar_position: 7
+token: KeoKdlitaog6n1xpX8McIIIrnWb
+sidebar_position: 12
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# dropAlias()
+# listAliases()
 
-This operation drops a specified collection alias. 
+This is a method template.
 
 ```javascript
-dropAlias(data): Promise<ResStatus>
+listAliases(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}
 
+This method has the following alternatives.
+
 ```javascript
-milvusClient.dropAlias({
-   alias: string,
-   timeout?: number
- })
+listAliases({
+    collection_name: string
+    timeout?: number
+})
 ```
 
 **PARAMETERS:**
 
-- **alias** (*string*) -
+- **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    The alias of a collection. 
+    The name of an existing collection.
 
-    Before this operation, ensure that the alias exists. Otherwise, exceptions will occur.
-
-- **timeout** (*number*)  
+- **timeout** (*number*) -
 
     The timeout duration for this operation. 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
 **RETURNS** *Promise\<ResStatus>*
 
@@ -74,9 +74,6 @@ This method returns a promise that resolves to a **ResStatus** object.
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);
- const resStatus = await milvusClient.dropAlias({
-   alias: 'my_collection_alias',
-   collection_name: 'my_collection',
- });
+const res = await milvusClient.listAliases({ collection_name: 'my_collection' });
 ```
 

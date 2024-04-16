@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation lists the partitions in a specified collection.
 
 ```javascript
-listPartitions(data): *Promise*<*ShowPartitionsResponse*>
+listPartitions(data): Promise<ShowPartitionsResponse>
 ```
 
 ## Request Syntax{#request-syntax}

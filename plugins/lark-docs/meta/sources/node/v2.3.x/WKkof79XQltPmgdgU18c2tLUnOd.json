@@ -1,6 +1,6 @@
 {
   "created_time": "1708407731",
-  "modified_time": "1712565593",
+  "modified_time": "1713233185",
   "name": "Collections",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "Vg1kfluyll0h7MdlUMaciXfEnZd",
@@ -11,7 +11,7 @@
   "children": [
     {
       "created_time": "1708408637",
-      "modified_time": "1713177481",
+      "modified_time": "1713233009",
       "name": "alterAlias()",
       "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",
@@ -21,7 +21,7 @@
     },
     {
       "created_time": "1708408689",
-      "modified_time": "1713177493",
+      "modified_time": "1713233019",
       "name": "createAlias()",
       "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",
@@ -31,7 +31,7 @@
     },
     {
       "created_time": "1708408429",
-      "modified_time": "1713177515",
+      "modified_time": "1713233028",
       "name": "createCollection()",
       "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",
@@ -50,8 +50,18 @@
       "url": "https://zilliverse.feishu.cn/docx/VUp6d9FvcoBV0AxYJmvcq9DAnUg"
     },
     {
+      "created_time": "1713233183",
+      "modified_time": "1713245762",
+      "name": "describeAlias()",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",
+      "token": "YCzNdg5yWoeZVrxj7jGcb1UXnBd",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/YCzNdg5yWoeZVrxj7jGcb1UXnBd"
+    },
+    {
       "created_time": "1708408469",
-      "modified_time": "1713177542",
+      "modified_time": "1713233584",
       "name": "describeCollection()",
       "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",
@@ -61,7 +71,7 @@
     },
     {
       "created_time": "1708408655",
-      "modified_time": "1713177550",
+      "modified_time": "1713233605",
       "name": "dropAlias()",
       "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",
@@ -71,7 +81,7 @@
     },
     {
       "created_time": "1708408490",
-      "modified_time": "1713177560",
+      "modified_time": "1713233613",
       "name": "dropCollection()",
       "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",
@@ -81,7 +91,7 @@
     },
     {
       "created_time": "1708408515",
-      "modified_time": "1713177578",
+      "modified_time": "1713233622",
       "name": "getCollectionStatistics()",
       "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",
@@ -91,7 +101,7 @@
     },
     {
       "created_time": "1708408538",
-      "modified_time": "1713177588",
+      "modified_time": "1713233630",
       "name": "hasCollection()",
       "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",
@@ -111,7 +121,7 @@
     },
     {
       "created_time": "1708408737",
-      "modified_time": "1713177606",
+      "modified_time": "1713233644",
       "name": "listAliases()",
       "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",
@@ -131,7 +141,7 @@
     },
     {
       "created_time": "1708408622",
-      "modified_time": "1713177630",
+      "modified_time": "1713233709",
       "name": "renameCollection()",
       "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",

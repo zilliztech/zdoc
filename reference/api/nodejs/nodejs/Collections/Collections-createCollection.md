@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation creates a collection either with default or customized settings. 
 
 ```javascript
-createCollection(data): *Promise*<*ResStatus*>
+createCollection(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

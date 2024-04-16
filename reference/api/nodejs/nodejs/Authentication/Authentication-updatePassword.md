@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation updates the password of a specific user.
 
 ```javascript
-updatePassword(data): *Promise<ResStatus>*
+updatePassword(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

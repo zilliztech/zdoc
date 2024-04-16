@@ -5,7 +5,7 @@ beta: false
 notebook: false
 type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
-sidebar_position: 9
+sidebar_position: 10
 ---
 
 import Admonition from '@theme/Admonition';
@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation checks whether a specific collection exists.
 
 ```javascript
-hasCollection(data): *Promise*<*BoolResponse*>
+hasCollection(data): Promise<BoolResponse>
 ```
 
 ## Request Syntax{#request-syntax}

@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation grants a role to a user.
 
 ```javascript
-grantRole(data): *Promise<ResStatus>*
+grantRole(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation creates a partition in the target collection.
 
 ```javascript
-createPartition(data): *Promise*<*ResStatus*>
+createPartition(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

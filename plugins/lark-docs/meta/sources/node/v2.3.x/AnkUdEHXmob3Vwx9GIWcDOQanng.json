@@ -1,6 +1,6 @@
 {
   "created_time": "1708408119",
-  "modified_time": "1713177139",
+  "modified_time": "1713232913",
   "name": "dropRole()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "H1JWfZh74lkVhgdfGiKcQfsinPg",
@@ -84,55 +84,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "dropRole(data): ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Promise",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ResStatus",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ">",
+                "content": "dropRole(data): Promise<ResStatus>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

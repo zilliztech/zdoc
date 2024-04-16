@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation reassigns the alias of one collection to another.
 
 ```javascript
-alterAlias(data): *Promise*<*ResStatus*>
+alterAlias(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

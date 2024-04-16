@@ -17,7 +17,7 @@ import TabItem from '@theme/TabItem';
 This operation deletes entities by their IDs or with a boolean expression.
 
 ```javascript
-delete(data): *Promise*<*MutationResult*>
+delete(data): Promise<MutationResult>
 ```
 
 ## Request Syntax{#request-syntax}

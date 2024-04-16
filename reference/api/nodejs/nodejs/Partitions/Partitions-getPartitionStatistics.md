@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation displays the statistics collected on a specific partition.
 
 ```javascript
-getPartitionStatistics(data): *Promise*<*StatisticsResponse*>
+getPartitionStatistics(data): Promise<StatisticsResponse>
 ```
 
 ## Request Syntax{#request-syntax}

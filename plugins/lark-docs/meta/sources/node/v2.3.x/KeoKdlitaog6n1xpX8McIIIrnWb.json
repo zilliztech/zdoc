@@ -1,6 +1,6 @@
 {
   "created_time": "1708408737",
-  "modified_time": "1713177606",
+  "modified_time": "1713233644",
   "name": "listAliases()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",
@@ -103,23 +103,11 @@
             },
             {
               "text_run": {
-                "content": "(data): ",
+                "content": "(data): Promise<ResStatus>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Promise<ResStatus>",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }

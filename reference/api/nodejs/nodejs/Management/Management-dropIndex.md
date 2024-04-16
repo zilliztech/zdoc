@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation drops an index from a specific collection.
 
 ```javascript
-dropIndex(data): *Promise*<*ResStatus*>
+dropIndex(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation loads the data of a specific collection into memory.
 
 ```javascript
-loadCollection(data): *Promise*<*ResStatus*>
+loadCollection(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}
@@ -26,7 +26,7 @@ milvusClient.loadCollection({
     collection_name: string,
     refresh?: boolean,
     replica_number?: number,
-    resource_groups: string[],
+    resource_groups?: string[],
     timeout?: number
 })
 ```

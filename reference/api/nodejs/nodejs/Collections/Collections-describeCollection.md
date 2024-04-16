@@ -5,7 +5,7 @@ beta: false
 notebook: false
 type: docx
 token: TjqHdZqO1oSwwYxuny2cchWzn6S
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 import Admonition from '@theme/Admonition';
@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation lists detailed information about a specific collection.
 
 ```javascript
-describeCollection(data): *Promise*<*DescribeCollectionResponse*>
+describeCollection(data): Promise<DescribeCollectionResponse>
 ```
 
 ## Request Syntax{#request-syntax}

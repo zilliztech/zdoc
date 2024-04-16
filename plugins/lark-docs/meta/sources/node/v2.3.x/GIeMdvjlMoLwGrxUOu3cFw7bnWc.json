@@ -1,6 +1,6 @@
 {
   "created_time": "1708408211",
-  "modified_time": "1713177446",
+  "modified_time": "1713232939",
   "name": "listRoles()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "H1JWfZh74lkVhgdfGiKcQfsinPg",
@@ -111,55 +111,7 @@
             },
             {
               "text_run": {
-                "content": "): ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Promise",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "SelectRoleResponse",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ">",
+                "content": "): Promise<SelectRoleResponse>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -1,6 +1,6 @@
 {
   "created_time": "1708409465",
-  "modified_time": "1713177841",
+  "modified_time": "1713233904",
   "name": "upsert()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "XhBJfuQ6slBh8Tdj7BEc4Mp6n4b",
@@ -93,55 +93,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "upsert(data): ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Promise",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "MutationResult",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ">",
+                "content": "upsert(data): Promise<MutationResult>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

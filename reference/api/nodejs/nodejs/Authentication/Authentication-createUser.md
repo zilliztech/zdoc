@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation creates a user.
 
 ```javascript
-createUser(data): *Promise*<*ResStatus*>
+createUser(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

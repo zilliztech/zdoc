@@ -1,6 +1,6 @@
 {
   "created_time": "1708408055",
-  "modified_time": "1713177102",
+  "modified_time": "1713178212",
   "name": "createRole()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "H1JWfZh74lkVhgdfGiKcQfsinPg",
@@ -84,55 +84,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "createRole(data): ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Promise",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ResStatus",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ">",
+                "content": "createRole(data): Promise<ResStatus>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

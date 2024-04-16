@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation creates an alias for an existing collection.
 
 ```javascript
-createAlias(data): *Promise*<*ResStatus*>
+createAlias(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

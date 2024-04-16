@@ -16,90 +16,10 @@ import Admonition from '@theme/Admonition';
 This operation creates an index for a specific collection.
 
 ```javascript
-createIndex(data): *Promise*<*ResStatus*>
+createIndex(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}
-
-This method has the following alternatives.
-
-### With *CreateIndexReq*{#with-createindexreq}
-
-```javascript
-milvusClient.createIndex([
-    {
-       collection_name: string,
-       field_name: string,
-       index_name: string,
-       extra_params: CreateIndexParam,
-       timeout?: number
-     }
- ]);
-```
-
-**PARAMETERS:**
-
-- **collection_name** (*string*) -
-
-    **[REQUIRED]**
-
-    The name of an existing collection.
-
-- **field_name** (*string*) -
-
-    **[REQUIRED]**
-
-    The name of the field in which to create an index.
-
-- **index_name** (*string*) -
-
-    The name of the index to create.
-
-- **extra_params** (*CreateIndexParam*) -
-
-    - **index_type** (*string*) -
-
-        The type of the index to create.
-
-    - **metric_type** (*string*) -
-
-        The metric type used to measure vector distance.
-
-    - **params** (*KeyValueObj*) -
-
-        Other index-specific parameters in key-value pairs.
-
-- **timeout** (*number*) -
-
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
-
-**RETURNS** *Promise\<ResStatus>*
-
-This method returns a promise that resolves to a **ResStatus** object.
-
-```javascript
-{
-    code: number,
-    error_code: string | number,
-    reason: string
-}
-```
-
-**PARAMETERS:**
-
-- **code** (*number*) -
-
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
-
-- **error_code** (*string* | *number*) -
-
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
-
-- **reason** (*string*) - 
-
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
-
-### With CreateIndexSimpleReq{#with-createindexsimplereq}
 
 ```javascript
 milvusClient.createIndex([

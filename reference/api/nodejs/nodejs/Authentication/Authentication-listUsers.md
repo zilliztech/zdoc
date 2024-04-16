@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This is a method template.
 
 ```javascript
-listUsers(data): *Promise*<*ListCredUsersResponse*>
+listUsers(data): Promise<ListCredUsersResponse>
 ```
 
 ## Request Syntax{#request-syntax}

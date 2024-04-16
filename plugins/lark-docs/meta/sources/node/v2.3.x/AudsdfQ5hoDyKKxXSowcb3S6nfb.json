@@ -1,6 +1,6 @@
 {
   "created_time": "1708408429",
-  "modified_time": "1713177515",
+  "modified_time": "1713233028",
   "name": "createCollection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "WKkof79XQltPmgdgU18c2tLUnOd",
@@ -139,55 +139,7 @@
             },
             {
               "text_run": {
-                "content": ": ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Promise",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ResStatus",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ">",
+                "content": ": Promise<ResStatus>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

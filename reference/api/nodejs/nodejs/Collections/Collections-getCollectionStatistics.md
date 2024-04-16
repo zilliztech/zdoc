@@ -5,7 +5,7 @@ beta: false
 notebook: false
 type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
-sidebar_position: 8
+sidebar_position: 9
 ---
 
 import Admonition from '@theme/Admonition';
@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation lists the statistics collected on a specific collection.
 
 ```javascript
-getCollectionStatistics(data): *Promise*<*StatisticsResponse*>
+getCollectionStatistics(data): Promise<StatisticsResponse>
 ```
 
 ## Request Syntax{#request-syntax}

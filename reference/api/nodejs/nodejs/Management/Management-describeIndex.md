@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation describes a specific index.
 
 ```javascript
-describeIndex(data): *Promise*<*DescribeIndexResponse*>
+describeIndex(data): Promise<DescribeIndexResponse>
 ```
 
 ## Request Syntax{#request-syntax}

@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation lists all custom roles.
 
 ```javascript
-listRoles(data): *Promise*<*SelectRoleResponse*>
+listRoles(data): Promise<SelectRoleResponse>
 ```
 
 ## Request Syntax{#request-syntax}

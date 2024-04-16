@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation revokes the role assigned to a user.
 
 ```javascript
-revokeRole(data): *Promise<ResStatus>*
+revokeRole(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

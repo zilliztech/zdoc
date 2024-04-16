@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation conducts a scalar filtering with a specified boolean expression.
 
 ```javascript
-methodTemplate(data): *Promise<ResStatus>*
+query(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

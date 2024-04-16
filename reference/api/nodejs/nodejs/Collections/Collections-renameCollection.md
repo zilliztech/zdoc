@@ -5,7 +5,7 @@ beta: false
 notebook: false
 type: docx
 token: LSwVdMg4SorzZ5xSHHVcQeVDnfh
-sidebar_position: 13
+sidebar_position: 14
 ---
 
 import Admonition from '@theme/Admonition';
@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation renames an existing collection.
 
 ```javascript
-renameCollection(data): *Promise*<*ResStatus*>
+renameCollection(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

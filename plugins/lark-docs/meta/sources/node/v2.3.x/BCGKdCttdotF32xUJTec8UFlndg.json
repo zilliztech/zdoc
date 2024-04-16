@@ -1,6 +1,6 @@
 {
   "created_time": "1708408312",
-  "modified_time": "1713177190",
+  "modified_time": "1713232973",
   "name": "updatePassword()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "H1JWfZh74lkVhgdfGiKcQfsinPg",
@@ -86,23 +86,11 @@
           "elements": [
             {
               "text_run": {
-                "content": "updatePassword(data): ",
+                "content": "updatePassword(data): Promise<ResStatus>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Promise<ResStatus>",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }

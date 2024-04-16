@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation conducts a vector similarity search with an optional scalar filtering expression.
 
 ```javascript
-methodTemplate(data): *Promise<ResStatus>*
+search(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}

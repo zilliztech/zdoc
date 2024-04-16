@@ -16,7 +16,7 @@ import Admonition from '@theme/Admonition';
 This operation drops a specified partition from the current collection.
 
 ```javascript
-dropPartition(data): *Promise*<*ResStatus*>
+dropPartition(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}
