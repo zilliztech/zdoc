@@ -25,274 +25,78 @@ In the backend, there are three built-in role options:
 
 Explore [Cluster Built-in Roles](./user-roles) for details.
 
-## Before you start{#before-you-start}
+## List cluster roles and users{#list-cluster-roles-and-users}
 
-- You have created a cluster. For details, see [Create Cluster](./create-cluster).
+You can list all built-in roles and users in a cluster as follows:
 
-- You have installed a Milvus SDK applicable to your use case. For details, see [Install SDKs](./install-sdks).
-
-## Create a cluster user{#create-a-cluster-user}
-
-To create a cluster user, use the following code snippet:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
-import json, os, time
 from pymilvus import MilvusClient
 
-# 0. Connect to cluster
+CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+TOKEN = "YOUR_CLUSTER_TOKEN"
 
-CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Set your cluster endpoint
-TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
-
-client= MilvusClient(
+# 1. Set up a Milvus client
+client = MilvusClient(
     uri=CLUSTER_ENDPOINT,
-    token=TOKEN
+    token=TOKEN 
 )
 
-# 1. Create user
+# 2. List roles and users
+roles = client.list_roles()
 
-if not 'user1' in utility.list_usernames():
-    client.create_user(user_name='user1', password='P@ssw0rd!')
-```
+print(roles)
 
-</TabItem>
+# Output
+#
+# ["db_admin", "db_ro", "db_rw"]
 
-<TabItem value='javascript'>
-
-```javascript
-// 1. Connect to the cluster
-
-const client = new MilvusClient({address, token})
-
-// 2. Create user
-
-const users1 = await client.listUsers()
-
-if (!users1.usernames.includes("user1")) {
-    await client.createUser({
-        username: "user1",
-        password: "P@ssw0rd!",
-    })
-}
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-String clusterEndpoint = "YOUR_CLUSTER_ENDPOINT";
-String token = "YOUR_CLUSTER_TOKEN";
-
-// 1. Connect to Zilliz Cloud cluster
-
-ConnectParam connectParam = ConnectParam.newBuilder()
-    .withUri(clusterEndpoint)
-    .withToken(token)
-    .build();
-
-MilvusServiceClient client = new MilvusServiceClient(connectParam);
-
-System.out.println("Connected to Zilliz Cloud!");
-
-// Output:
-// Connected to Zilliz Cloud!
-
-// 2. Create a user
-
-CreateCredentialParam createCredentialParam = CreateCredentialParam.newBuilder()
-    .withUsername("user1")
-    .withPassword("P@ssw0rd!")
-    .build();
-
-R<RpcStatus> res = client.createCredential(createCredentialParam);
-
-if (res.getException() != null) {
-    System.err.println("Failed to create user!");
-    return;
-}
-
-System.out.println("User created!");
-
-// Output:
-// User created!
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-CLUSTER_ENDPOINT := "YOUR_CLUSTER_ENDPOINT"
-TOKEN := "YOUR_CLUSTER_TOKEN"
-USERNAME := "user1"
-PASSWORD1 := "P@ssw0rd!"
-PASSWORD2 := "P@ssw0rd!!"
-
-// 1. Connect to cluster
-
-connParams := client.Config{
-    Address: CLUSTER_ENDPOINT,
-    APIKey:  TOKEN,
-}
-
-conn, err := client.NewClient(context.Background(), connParams)
-
-if err != nil {
-    log.Fatal("Failed to connect to Zilliz Cloud:", err.Error())
-}
-
-// 2. Create a user
-
-err = conn.CreateCredential(
-    context.Background(), // context
-    USERNAME,             // username
-    PASSWORD1,            // password
-)
-
-if err != nil {
-    log.Fatal("Failed to create user:", err.Error())
-}
-```
-
-</TabItem>
-</Tabs>
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.</p>
-
-</Admonition>
-
-Having created a cluster user, you can now connect to the cluster using its username and password. See [Connect to Cluster](./connect-to-cluster) to explore further details.
-
-## Update a user credential{#update-a-user-credential}
-
-To update a user's password, use the code below:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
-<TabItem value='python'>
-
-```python
-# 2. Update a user credential
-
-client.update_password(
-    user_name='user1',
-    old_password='P@ssw0rd!',
-    new_password='P@ssw0rd!!'
-)
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// 3. Update a user credential
-
-await client.updateUser({
-        username: "user1",
-        oldPassword: "P@ssw0rd!",
-        newPassword: "P@ssw0rd!!",
-    })
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-// 3. Update a user credential
-
-UpdateCredentialParam updateCredentialParam = UpdateCredentialParam.newBuilder()
-    .withUsername("user1")
-    .withOldPassword("P@ssw0rd!")
-    .withNewPassword("P@ssw0rd!!")
-    .build();
-
-R<RpcStatus> updateCreRes = client.updateCredential(updateCredentialParam);
-
-if (updateCreRes.getException() != null) {
-    System.err.println("Failed to update user credential!");
-    return;
-}
-
-System.out.println("User credential updated!");
-
-// Output:
-// User credential updated!
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// 2. Update a user credential
-
-err = conn.UpdateCredential(
-    context.Background(), // context
-    USERNAME,             // username
-    PASSWORD1,            // old password
-    PASSWORD2,            // new password
-)
-
-if err != nil {
-    log.Fatal("Failed to update user credential:", err.Error())
-}
-```
-
-</TabItem>
-</Tabs>
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.</p>
-
-</Admonition>
-
-## List cluster users{#list-cluster-users}
-
-To list all cluster users:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
-<TabItem value='python'>
-
-```python
-# 3. List users
-
-users = client.list_users())
+users = client.list_users()
 
 print(users)
 
 # Output
 #
-# ["db_admin", "user1"]
+# ["db_admin"]
+```
 
-userInfo = []
+</TabItem>
 
-for user in users:
-    userInfo.append(client.describe_user(user_name=user))
+<TabItem value='java'>
 
-print(userInfo)
+```java
+String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-# Output
-#
-# [
-#     {
-#         "user": "db_admin",
-#         "roles": [
-#             "db_admin"
-#         ]
-#     },
-#     {
-#         "user": "user1",
-#         "roles": []
-#     }
-# ]
+// 1. Connect to Milvus server
+ConnectConfig connectConfig = ConnectConfig.builder()
+   .uri(CLUSTER_ENDPOINT)
+   .token(TOKEN)
+   .secure(true)
+   .build();
+
+MilvusClientV2 client = new MilvusClientV2(connectConfig); 
+
+// 2. List all users and roles
+List<String> roleNames = client.listRoles();
+
+System.out.println(roleNames);
+
+// Output:
+// [
+//     "db_admin",
+//     "db_ro",
+//     "db_rw"
+// ]
+
+List<String> userNames = client.listUsers();
+
+System.out.println(userNames);
+
+// Output:
+// ["db_admin"]
 ```
 
 </TabItem>
@@ -300,11 +104,28 @@ print(userInfo)
 <TabItem value='javascript'>
 
 ```javascript
-// 4. List users
+const { MilvusClient, DataType, sleep } = require("@zilliz/milvus2-sdk-node")
 
-const users = await client.listUsers()
+const address = "YOUR_CLUSTER_ENDPOINT"
+const token = "YOUR_CLUSTER_TOKEN"
 
-console.log(users.usernames)
+async function main() {
+// 1. Connect to the cluster
+const client = new MilvusClient({address, token})
+
+// 2. List roles and users
+var res = await client.listRoles()
+
+console.log(res.results.map(r => r.role.name))
+
+// Output
+// 
+// [ 'db_admin', 'db_ro', 'db_rw' ]
+// 
+
+res = await client.listUsers()
+
+console.log(res.usernames)
 
 // Output
 // 
@@ -313,25 +134,49 @@ console.log(users.usernames)
 ```
 
 </TabItem>
+</Tabs>
+
+## Create a cluster user{#create-a-cluster-user}
+
+To create a cluster user, use the following code snippet:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
+
+```python
+# 3. Create a user
+
+if 'user1' not in users:
+    client.create_user(
+        user_name="user1",
+        password="p@ssw0rd!"
+    )
+
+users = client.list_users()
+
+print(users)
+
+# Output
+#
+# ["db_admin", "user1"]
+```
+
+</TabItem>
 
 <TabItem value='java'>
 
 ```java
-// 4. List users
+// 3. Create a user
+CreateUserReq createUserReq = CreateUserReq.builder()
+   .userName("user1")
+   .password("p@ssw0rd!")
+   .build();
 
-ListCredUsersParam listCredUsersParam = ListCredUsersParam.newBuilder()
-    .build();
+client.createUser(createUserReq);
 
-R<ListCredUsersResponse> listRes = client.listCredUsers(listCredUsersParam);
+userNames = client.listUsers();
 
-if (listRes.getException() != null) {
-    System.err.println("Failed to list users!");
-    return;
-}
-
-ProtocolStringList usernames = listRes.getData().getUsernamesList();
-
-System.out.println(usernames);
+System.out.println(userNames);
 
 // Output:
 // [
@@ -342,42 +187,187 @@ System.out.println(usernames);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='javascript'>
 
-```go
-// 3. List users
+```javascript
+// 3. Create a user
 
-users1, err := conn.ListCredUsers(context.Background())
-
-if err != nil {
-    log.Fatal("Failed to list users:", err.Error())
+if (!res.usernames.includes("user1")) {
+    await client.createUser({
+        username: "user1",
+        password: "p@ssw0rd!"
+    })
 }
 
-fmt.Println("Users:", users1)
+res = await client.listUsers()
+
+console.log(res.usernames)
+
+// Output
+// 
+// [ 'db_admin', 'user1' ]
+// 
+```
+
+</TabItem>
+</Tabs>
+
+Having created a cluster user, you can now connect to the cluster using its username and password. See [Connect to Cluster](./connect-to-cluster) to explore further details.See [Authenticate User Access](https://milvus.io/docs/authenticate.md) and Enable [RBAC](https://milvus.io/docs/rbac.md) for details.
+
+## Update a user credential{#update-a-user-credential}
+
+To update a user's password, use the code below:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
+
+```python
+# 4. Update a user credentials
+
+client.update_password(
+    user_name="user1",
+    old_password="p@ssw0rd!",
+    new_password="p@ssw0rd123!"
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// 4. Update user password
+UpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()
+   .userName("user1")
+   .password("p@ssw0rd!")
+   .newPassword("p@ssw0rd123!")
+   .build();
+
+client.updatePassword(updatePasswordReq);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 4. Update a user credentials
+
+await client.updateUser({
+    username: "user1",
+    oldPassword: "p@ssw0rd!",
+    newPassword: "p@ssw0rd123!"
+})
+```
+
+</TabItem>
+</Tabs>
+
+## Describe a role{#describe-a-role}
+
+Before assigning a role to a user, you are advised to view the privileges that a role has. Zilliz Cloud has three preset roles, namely `db_ro`, `db_admin`, and `db_rw` with different privileges.
+
+The following code snippet lists the `db_ro` role in detail.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
+
+```python
+# 5. Describe the role
+res = client.describe_role(role_name="db_ro")
+
+print(res)
+
+# Output
+#
+# {
+#     "role": "db_ro",
+#     "privileges": [
+#         {
+#             "object_type": "Collection",
+#             "object_name": "*",
+#             "db_name": "default",
+#             "role_name": "db_ro",
+#             "privilege": "GetLoadState"
+#         },
+#         {
+#             "object_type": "Collection",
+#             "object_name": "*",
+#             "db_name": "default",
+#             "role_name": "db_ro",
+#             "privilege": "GetLoadingProgress"
+#         },
+#         {
+#             "object_type": "Collection",
+#             "object_name": "*",
+#             "db_name": "default",
+#             "role_name": "db_ro",
+#             "privilege": "HasPartition"
+#         },
+#         "(10 more items hidden)"
+#     ]
+# }
+
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// 5. Describe the role
+DescribeRoleReq describeRoleReq = DescribeRoleReq.builder()
+   .roleName("db_ro")
+   .build();
+
+DescribeRoleResp describeRoleResp = client.describeRole(describeRoleReq);
+
+System.out.println(JSONObject.toJSON(describeRoleResp));
 
 // Output:
-//
-// Users: [db_admin user1]
+// {"grantInfos": [
+//     {
+//         "dbName": "default",
+//         "objectName": "*",
+//         "grantor": "",
+//         "privilege": "GetLoadState",
+//         "objectType": "Collection"
+//     },
+//     {
+//         "dbName": "default",
+//         "objectName": "*",
+//         "grantor": "",
+//         "privilege": "GetLoadingProgress",
+//         "objectType": "Collection"
+//     },
+//     {
+//         "dbName": "default",
+//         "objectName": "*",
+//         "grantor": "",
+//         "privilege": "HasPartition",
+//         "objectType": "Collection"
+//     },
+//     "(10 elements are hidden)"
+// ]}
+```
 
-// Alternatively
+</TabItem>
 
-users2, err := conn.ListUsers(context.Background())
+<TabItem value='javascript'>
 
-if err != nil {
-    log.Fatal("Failed to list users:", err.Error())
-}
+```javascript
+// 5. Describe the role
 
-userList := make([]string, 0)
+var res = await client.describeRole({
+    roleName: "db_ro"
+})
 
-for _, user := range users2 {
-    userList = append(userList, user.Name)
-}
+console.log(res.results)
 
-fmt.Println("Users:", userList)
-
-// Output: 
-//
-// Users: [db_admin user1]
+// Output
+// 
+// [ { users: [], role: { name: 'db_ro' } } ]
+// 
 ```
 
 </TabItem>
@@ -387,90 +377,31 @@ fmt.Println("Users:", userList)
 
 To assign the `db_ro` role to `user1`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
-# 4. Assign role
-
-# Valid roles: "db_admin", "db_rw", "db_ro"
+# 6. Assign a role to a user
 
 client.grant_role(
     user_name="user1",
     role_name="db_ro"
 )
 
-# 5. Get users of a specific role
+# 7. Describe a user
 
-users = client.describe_role(role_name="db_ro")
+user_info = client.describe_user(
+    user_name="user1"
+)
 
-print(users)
-
-# Output
-#
-# ["user1"]
-
-# 6. List roles
-
-roles = client.list_roles()
-
-print(roles)
-
-roleInfo = []
-
-for role in roles:
-    roleInfo.append(client.describe_role(role_name="db_ro"))
-
-print(roleInfo)
+print(user_info)
 
 # Output
 #
-# [
-#     {
-#         "role": "db_admin",
-#         "users": [
-#             "db_admin"
-#         ]
-#     },
-#     {
-#         "role": "db_ro",
-#         "users": [
-#             "user1"
-#         ]
-#     },
-#     {
-#         "role": "db_rw",
-#         "users": []
-#     }
-# ]
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// 5. Assign role to user
-
-await client.addUserToRole({
-    username: "user1",
-    rolename: "db_ro",
-})
-
-// 6. List roles
-
-const roles = await client.listRoles()
-
-console.log(roles.results)
-
-// Output
-// 
-// [
-//   { users: [ [Object] ], role: { name: 'db_admin' } },
-//   { users: [], role: { name: 'db_ro' } },
-//   { users: [], role: { name: 'db_rw' } },
-// ]
-// 
+# {
+#     "user_name": "user1",
+#     "roles": "(\"db_ro\")"
+# }
 ```
 
 </TabItem>
@@ -478,140 +409,65 @@ console.log(roles.results)
 <TabItem value='java'>
 
 ```java
-// 5. Assign role to user
+// 6. Assign a role to a user
+GrantRoleReq grantRoleReq = GrantRoleReq.builder()
+   .userName("user1")
+   .roleName("db_ro")
+   .build();
 
-AddUserToRoleParam addUserToRoleParam = AddUserToRoleParam.newBuilder()
-    .withUserName("user1")
-    .withRoleName("db_ro")
-    .build();
+client.grantRole(grantRoleReq);
 
-R<RpcStatus> addRes = client.addUserToRole(addUserToRoleParam);
+// 7. Describe the user
+DescribeUserReq describeUserReq = DescribeUserReq.builder()
+   .userName("user1")
+   .build();
 
-if (addRes.getException() != null) {
-    System.err.println("Failed to assign role to user!");
-    return;
-}
+DescribeUserResp describeUserResp = client.describeUser(describeUserReq);
 
-System.out.println("Role assigned to user!");
-
-// Output:
-// Role assigned to user!
-
-// 6. Get users of a specific role
-
-SelectRoleParam selectRoleParam = SelectRoleParam.newBuilder()
-    .withRoleName("db_ro")
-    .withIncludeUserInfo(true)
-    .build();
-
-R<SelectRoleResponse> selectRoleRes = client.selectRole(selectRoleParam);
-
-if (selectRoleRes.getException() != null) {
-    System.err.println("Failed to list roles!");
-    return;
-}
-
-List<RoleResult> roles = selectRoleRes.getData().getResultsList();
-List<JSONObject> roleList = new ArrayList<>();
-
-for (RoleResult role : roles) {
-role.getAllFields().forEach((k, v) -> {
-    roleList.add(new JSONObject().fluentPut(k.getName(), v));
-});
-}
-
-System.out.println(roleList);
+System.out.println(JSONObject.toJSON(describeUserResp));
 
 // Output:
-// [
-//     {"role": {"name": "db_ro"}},
-//     {"users": [{"name": "user1"}]}
-// ]
-
-// 7. Get roles of a specific user
-SelectUserParam selectUserParam = SelectUserParam.newBuilder()
-    .withUserName("user1")
-    .withIncludeRoleInfo(true)
-    .build();
-
-R<SelectUserResponse> selectUserRes = client.selectUser(selectUserParam);
-
-if (selectUserRes.getException() != null) {
-    System.err.println("Failed to list roles!");
-    return;
-}
-
-List<UserResult> users = selectUserRes.getData().getResultsList();
-List<JSONObject> userList = new ArrayList<>();
-
-for (UserResult user : users) {
-user.getAllFields().forEach((k, v) -> {
-    userList.add(new JSONObject().fluentPut(k.getName(), v));
-});
-}
-
-System.out.println(userList);
-
-// Output:
-// [
-//     {"user": {"name": "user1"}},
-//     {"roles": [{"name": "db_ro"}]}
-// ]
+// {"roles": ["db_ro"]}
 ```
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='javascript'>
 
-```go
-// 4. Assign role
+```javascript
+// 6. Assign a role to a user
 
-rolename := "db_ro"
+await client.grantRole({
+    username: "user1",
+    roleName: "db_ro"
+})
 
-err = conn.AddUserRole(
-    context.Background(), // context
-    USERNAME,             // username
-    rolename,             // role
-)
+// 7. Describe a user
 
-if err != nil {
-    log.Fatal("Failed to assign role:", err.Error())
-}
+res = await client.describeUser({
+    username: "user1"
+})
 
-// 5. List roles
+console.log(res.results)
 
-roles, err := conn.ListRoles(
-    context.Background(), // context
-)
-
-if err != nil {
-    log.Fatal("Failed to list roles:", err.Error())
-}
-
-roleList := make([]interface{}, 0, 1)
-for _, role := range roles {
-    roleList = append(roleList, role.Name)
-}
-
-fmt.Println("Roles:", roleList)
-
-// Output: 
-//
-// Roles: [db_admin db_ro db_rw]
+// Output
+// 
+// [ { roles: [ [Object] ], user: { name: 'user1' } } ]
+// 
 ```
 
 </TabItem>
 </Tabs>
 
-## Remove a role from a user{#remove-a-role-from-a-user}
+## Revoke a role from a user{#revoke-a-role-from-a-user}
 
-To remove a role from a user:
+To revoke a role from a user:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
-# 7. Remove role from user
+# 8. Revoke a role from a user
 
 client.revoke_role(
     user_name="user1",
@@ -621,55 +477,29 @@ client.revoke_role(
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// 7. Remove role from user
-
-await client.removeUserFromRole({
-    username: "user1",
-    rolename: "db_ro",
-})
-```
-
-</TabItem>
-
 <TabItem value='java'>
 
 ```java
-// 8. Remove role from user
+// 8. Revoke a role from a user
+RevokeRoleReq revokeRoleReq = RevokeRoleReq.builder()
+   .userName("user1")
+   .roleName("db_ro")
+   .build();
 
-RemoveUserFromRoleParam removeUserFromRoleParam = RemoveUserFromRoleParam.newBuilder()
-    .withUserName("user1")
-    .withRoleName("db_ro")
-    .build();
-
-R<RpcStatus> removeRes = client.removeUserFromRole(removeUserFromRoleParam);
-
-if (removeRes.getException() != null) {
-    System.err.println("Failed to remove user from role!");
-    return;
-}
-
-System.out.println("User removed from role!");
+client.revokeRole(revokeRoleReq);
 ```
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='javascript'>
 
-```go
-// 6. Remove role from user
+```javascript
+// 8. Revoke a role from a user
 
-err = conn.RemoveUserRole(
-    context.Background(), // context
-    USERNAME,             // username
-    rolename,             // role
-)
-
-if err != nil {
-    log.Fatal("Failed to remove user from role:", err.Error())
-}
+await client.revokeRole({
+    username: "user1",
+    roleName: "db_ro"
+})
 ```
 
 </TabItem>
@@ -679,25 +509,15 @@ if err != nil {
 
 If a user is no longer needed, drop it as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
-# 8. Drop a user
+# 9. Drop a user
 
-client.drop_user(user_name="user1")
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// 8. Delete user
-
-await client.deleteUser({
-        username: "user1",
-    })
+client.drop_user(
+    user_name="user1"
+)
 ```
 
 </TabItem>
@@ -705,50 +525,35 @@ await client.deleteUser({
 <TabItem value='java'>
 
 ```java
-// 8. Delete user
+// 9. Drop the user
+DropUserReq dropUserReq = DropUserReq.builder()
+   .userName("user1")
+   .build();
 
-DeleteCredentialParam  deleteCredentialParam = DeleteCredentialParam.newBuilder()
-    .withUsername("user1")
-    .build();
+client.dropUser(dropUserReq);
 
-R<RpcStatus> deleteRes = client.deleteCredential(deleteCredentialParam);
+userNames = client.listUsers();
 
-if (deleteRes.getException() != null) {
-    System.err.println("Failed to delete user!");
-    return;
-}
-
-System.out.println("User deleted!");
+System.out.println(userNames);
 
 // Output:
-// User deleted!
+// ["db_admin"]
 ```
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='javascript'>
 
-```go
-// 7. Delete user
+```javascript
+// 9. Drop a user
 
-err = conn.DeleteCredential(
-    context.Background(), // context
-    USERNAME,             // username
-)
-
-if err != nil {
-    log.Fatal("Failed to delete user:", err.Error())
-}
+await client.dropUser({
+    username: "user1"
+})
 ```
 
 </TabItem>
 </Tabs>
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>The default user _<em>db</em>admin __cannot be dropped.</p>
-
-</Admonition>
 
 ## Related topics{#related-topics}
 
