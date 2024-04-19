@@ -228,6 +228,9 @@ section.row > article.margin-bottom--lg {
 
 a.menu__link {
   color: rgb(23,43,77) !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 a.menu__link.menu__link--active {
