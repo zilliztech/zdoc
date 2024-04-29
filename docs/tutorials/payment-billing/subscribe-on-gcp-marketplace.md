@@ -15,6 +15,12 @@ import Admonition from '@theme/Admonition';
 
 This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on GCP Marketplace.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>You can subscribe to our service in GCP Marketplace and choose among AWS, GCP, and Azure to <a href="./create-cluster">create</a> your Zilliz Cloud clusters.</p>
+
+</Admonition>
+
 ## Before you start{#before-you-start}
 
 - Ensure you have a [GCP account](https://cloud.google.com/apigee/docs/hybrid/v1.1/precog-gcpaccount).

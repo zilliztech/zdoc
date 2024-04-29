@@ -13,7 +13,13 @@ import Admonition from '@theme/Admonition';
 
 # Subscribe on AWS Marketplace
 
-This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on AWS Marketplace.
+This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on AWS Marketplace. 
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>You can subscribe to our service in AWS Marketplace and choose among AWS, GCP, and Azure to <a href="./create-cluster">create</a> your Zilliz Cloud clusters.</p>
+
+</Admonition>
 
 ## Before you start{#before-you-start}
 

@@ -5,7 +5,7 @@
   "node_token": "CPLrwghdWiSvGBkdeEecGjgLnSb",
   "node_type": "origin",
   "obj_create_time": "1689055655",
-  "obj_edit_time": "1708776922",
+  "obj_edit_time": "1714359042",
   "obj_token": "BVoCd10pyoJDsnx1L7dc16kqnQf",
   "obj_type": "docx",
   "origin_node_token": "CPLrwghdWiSvGBkdeEecGjgLnSb",
@@ -1769,6 +1769,16 @@
           "DI8fdTm9eoWurxxysVjcJuajnFc",
           "J2PtdN29ioLMpSxFpWzcTtxFntf",
           "MBz0d6uEQoVyrLxZB7OcAMAwnvh",
+          "GrKNdP5azoGeMFx7hCmcx79fnZc",
+          "FZ6wdLUKwoClUzxOXSdcXTO8nOK",
+          "ROvydHpYxoMj08x7PWJcyxMJnHc",
+          "El3jdqVuBo1WZYxla7scCeFSnMe",
+          "A5kqdtMSjo8K8Sxzyppcfz1BnXg",
+          "XgKKdaw54ow1anxtcVOcS0vDngh",
+          "NdiudxmdQoBJ6IxEHvlcA3BknYc",
+          "KOysdFhk9o7SQJxLlj8ccLtonDb",
+          "RUWXd73Z3oXTctxnWzQcWxqenXf",
+          "ZQuEdUpSRoWuLUxYHJQceENInQe",
           "VWajd1NQSo0iccxTe5LcNSvVnRh",
           "ZUDrduF5DoJ0qqxoEwRcT2PGnqg",
           "AwVPd6IVNoHOcDxGDGVcnmmznNh",
@@ -1788,6 +1798,16 @@
             "DI8fdTm9eoWurxxysVjcJuajnFc",
             "J2PtdN29ioLMpSxFpWzcTtxFntf",
             "MBz0d6uEQoVyrLxZB7OcAMAwnvh",
+            "GrKNdP5azoGeMFx7hCmcx79fnZc",
+            "FZ6wdLUKwoClUzxOXSdcXTO8nOK",
+            "ROvydHpYxoMj08x7PWJcyxMJnHc",
+            "El3jdqVuBo1WZYxla7scCeFSnMe",
+            "A5kqdtMSjo8K8Sxzyppcfz1BnXg",
+            "XgKKdaw54ow1anxtcVOcS0vDngh",
+            "NdiudxmdQoBJ6IxEHvlcA3BknYc",
+            "KOysdFhk9o7SQJxLlj8ccLtonDb",
+            "RUWXd73Z3oXTctxnWzQcWxqenXf",
+            "ZQuEdUpSRoWuLUxYHJQceENInQe",
             "VWajd1NQSo0iccxTe5LcNSvVnRh",
             "ZUDrduF5DoJ0qqxoEwRcT2PGnqg",
             "AwVPd6IVNoHOcDxGDGVcnmmznNh",
@@ -1863,9 +1883,49 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 3
+            "row_size": 5
           }
         }
       },
@@ -2282,6 +2342,346 @@
         }
       },
       {
+        "block_id": "GrKNdP5azoGeMFx7hCmcx79fnZc",
+        "block_type": 32,
+        "children": [
+          "W2nIdogWxoYvPrxPSWIcOpyInEh"
+        ],
+        "parent_id": "EuP3dvW9uoKuvKxzkgCcxFxQnXb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "W2nIdogWxoYvPrxPSWIcOpyInEh",
+        "block_type": 2,
+        "parent_id": "GrKNdP5azoGeMFx7hCmcx79fnZc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "gcp-us-east4",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FZ6wdLUKwoClUzxOXSdcXTO8nOK",
+        "block_type": 32,
+        "children": [
+          "OwFbd7AcUozYPqxPpjccRdKlnSX"
+        ],
+        "parent_id": "EuP3dvW9uoKuvKxzkgCcxFxQnXb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OwFbd7AcUozYPqxPpjccRdKlnSX",
+        "block_type": 2,
+        "parent_id": "FZ6wdLUKwoClUzxOXSdcXTO8nOK",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Virginia, USA",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ROvydHpYxoMj08x7PWJcyxMJnHc",
+        "block_type": 32,
+        "children": [
+          "USIzdornxookmfx7NSPcZBw1nwg"
+        ],
+        "parent_id": "EuP3dvW9uoKuvKxzkgCcxFxQnXb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "USIzdornxookmfx7NSPcZBw1nwg",
+        "block_type": 2,
+        "parent_id": "ROvydHpYxoMj08x7PWJcyxMJnHc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "No",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "El3jdqVuBo1WZYxla7scCeFSnMe",
+        "block_type": 32,
+        "children": [
+          "HsCJdLBkeoqNCnxbkpicCwdandh"
+        ],
+        "parent_id": "EuP3dvW9uoKuvKxzkgCcxFxQnXb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "HsCJdLBkeoqNCnxbkpicCwdandh",
+        "block_type": 2,
+        "parent_id": "El3jdqVuBo1WZYxla7scCeFSnMe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A5kqdtMSjo8K8Sxzyppcfz1BnXg",
+        "block_type": 32,
+        "children": [
+          "NcL5d00Frol0lgx3T9Rc1Oqonyg"
+        ],
+        "parent_id": "EuP3dvW9uoKuvKxzkgCcxFxQnXb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NcL5d00Frol0lgx3T9Rc1Oqonyg",
+        "block_type": 2,
+        "parent_id": "A5kqdtMSjo8K8Sxzyppcfz1BnXg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XgKKdaw54ow1anxtcVOcS0vDngh",
+        "block_type": 32,
+        "children": [
+          "IM5fdWrhboQIiMxTh0AcrbgXnNc"
+        ],
+        "parent_id": "EuP3dvW9uoKuvKxzkgCcxFxQnXb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "IM5fdWrhboQIiMxTh0AcrbgXnNc",
+        "block_type": 2,
+        "parent_id": "XgKKdaw54ow1anxtcVOcS0vDngh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "gcp-europe-west3",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NdiudxmdQoBJ6IxEHvlcA3BknYc",
+        "block_type": 32,
+        "children": [
+          "T4JmddEk5ofWJUxundKcWHjInqh"
+        ],
+        "parent_id": "EuP3dvW9uoKuvKxzkgCcxFxQnXb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "T4JmddEk5ofWJUxundKcWHjInqh",
+        "block_type": 2,
+        "parent_id": "NdiudxmdQoBJ6IxEHvlcA3BknYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Frankfurt, Germany",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KOysdFhk9o7SQJxLlj8ccLtonDb",
+        "block_type": 32,
+        "children": [
+          "GLGNduhQioFSDNxBXh9c12d5nZb"
+        ],
+        "parent_id": "EuP3dvW9uoKuvKxzkgCcxFxQnXb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "GLGNduhQioFSDNxBXh9c12d5nZb",
+        "block_type": 2,
+        "parent_id": "KOysdFhk9o7SQJxLlj8ccLtonDb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "No",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RUWXd73Z3oXTctxnWzQcWxqenXf",
+        "block_type": 32,
+        "children": [
+          "VAGHdJJV6oBTc9xJvoZcGlvan0d"
+        ],
+        "parent_id": "EuP3dvW9uoKuvKxzkgCcxFxQnXb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "VAGHdJJV6oBTc9xJvoZcGlvan0d",
+        "block_type": 2,
+        "parent_id": "RUWXd73Z3oXTctxnWzQcWxqenXf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZQuEdUpSRoWuLUxYHJQceENInQe",
+        "block_type": 32,
+        "children": [
+          "Tkbmd5F5doeVVjx6S4ocRhl9nGf"
+        ],
+        "parent_id": "EuP3dvW9uoKuvKxzkgCcxFxQnXb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Tkbmd5F5doeVVjx6S4ocRhl9nGf",
+        "block_type": 2,
+        "parent_id": "ZQuEdUpSRoWuLUxYHJQceENInQe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "VWajd1NQSo0iccxTe5LcNSvVnRh",
         "block_type": 32,
         "children": [
@@ -2366,7 +2766,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Yes",
+                "content": "No",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3308,6 +3708,6 @@
         "parent_id": "BVoCd10pyoJDsnx1L7dc16kqnQf"
       }
     ],
-    "counts": 130
+    "counts": 140
   }
 }
