@@ -24,18 +24,20 @@ This guide details the available ways for you to subscribe to our services on Zi
 
 ### Payment options{#payment-options}
 
-|  __Payment method__             |  __Description__                                                                                                                                                |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  Credits                        |  You earn credits upon registration or by participating in Zilliz Cloud events, etc. Credits can be used to cover the expenses of using Zilliz Cloud services.  |
-|  Credit card                    |  You receive a monthly invoice for your usage on Zilliz Cloud.                                                                                                  |
-|  AWS Marketplace subscription   |  You receive invoices for your Zilliz Cloud usage through the AWS Marketplace.                                                                                  |
-|  GCP Marketplace subscription   |  You receive invoices for your Zilliz Cloud usage through the GCP Marketplace.                                                                                  |
-|  Azure Marketplace subscription |  You receive invoices for your Zilliz Cloud usage through the Azure Marketplace.                                                                                |
-|  Advance Pay                    |  You prepay a sum of funds for Zilliz Cloud services.                                                                                                           |
+|  __Payment method__             |  __Description__                                                                                                                                                                                                          |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  Credits                        |  You earn credits upon registration or by participating in Zilliz Cloud events, etc. Credits can be used to cover the expenses of using Zilliz Cloud services.                                                            |
+|  Credit card                    |  You receive a monthly invoice for your usage on Zilliz Cloud.                                                                                                                                                            |
+|  AWS Marketplace subscription   |  You receive invoices for your Zilliz Cloud usage through the AWS Marketplace. <br/> You can subscribe to our service in AWS Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.    |
+|  GCP Marketplace subscription   |  You receive invoices for your Zilliz Cloud usage through the GCP Marketplace.<br/> You can subscribe to our service in GCP Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.     |
+|  Azure Marketplace subscription |  You receive invoices for your Zilliz Cloud usage through the Azure Marketplace.<br/> You can subscribe to our service in Azure Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters. |
+|  Advance Pay                    |  You prepay a sum of funds for Zilliz Cloud services.                                                                                                                                                                     |
+
+Credits and Advance Pay can be combined with either a credit card or a Marketplace subscription (AWS/GCP/Azure). However, it is not possible to set both a credit card and a Marketplace subscription simultaneously.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Credits and Advance Pay can be combined with either a credit card or a Marketplace subscription (AWS/GCP/Azure). However, it is not possible to set both a credit card and a Marketplace subscription simultaneously.</p>
+<p>The Marketplace subscription is only a payment method and does not affect the cloud service provider when creating a cluster. For example, even after subscribing through AWS Marketplace, you can still <a href="./create-cluster">create</a> clusters on GCP, Azure, or AWS.</p>
 
 </Admonition>
 
@@ -49,7 +51,7 @@ If multiple payment methods are in use, their priority is as follows:
 
 1. Credit card / AWS Marketplace subscription / GCP Marketplace subscription / Azure Marketplace subscription.
 
-__Example: __For a $500 unpaid bill, with $100 in credits and $200 in Advance Pay funds available, plus a linked credit card:
+__Example:__ For a $500 unpaid bill, with $100 in credits and $200 in Advance Pay funds available, plus a linked credit card:
 
 - The $100 credits are used first, reducing the bill to $400.
 

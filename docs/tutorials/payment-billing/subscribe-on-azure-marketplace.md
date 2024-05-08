@@ -15,6 +15,12 @@ import Admonition from '@theme/Admonition';
 
 This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>You can subscribe to our service in Azure Marketplace and choose among AWS, GCP, and Azure to <a href="./create-cluster">create</a> your Zilliz Cloud clusters.</p>
+
+</Admonition>
+
 ## Before you start{#before-you-start}
 
 - Ensure you have an [Azure Marketplace](https://learn.microsoft.com/en-us/marketplace/azure-marketplace-overview) account.
@@ -33,7 +39,7 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
     Familiarize yourself with the services and pricing.
 
-1. Switch to the__ Plans + Pricing __tab. Click __Get it now__.
+1. Switch to the __Plans + Pricing__ tab. Click __Get it now__.
 
     ![get_it_now_on_azure](/img/get_it_now_on_azure.png)
 

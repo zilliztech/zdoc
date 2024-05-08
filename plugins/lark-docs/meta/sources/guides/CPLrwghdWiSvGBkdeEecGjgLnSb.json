@@ -2358,7 +2358,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "us-east4",
+                "content": "gcp-us-east4",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2528,7 +2528,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "europe-west3",
+                "content": "gcp-europe-west3",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3908,6 +3908,6 @@
         "parent_id": "BVoCd10pyoJDsnx1L7dc16kqnQf"
       }
     ],
-    "counts": 160
+    "counts": 140
   }
 }

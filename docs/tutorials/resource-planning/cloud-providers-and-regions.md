@@ -34,10 +34,12 @@ For more information on cluster types, see [Select Cluster Plans](./select-zilli
 
 Both serverless and dedicated clusters can be deployed on GCP.
 
-|  __GCP Region__   |  __Location__ |  __Serverless Cluster__ |  __Dedicated Cluster (Standard)__ |  __Dedicated Cluster (Enterprise)__ |
-| ----------------- | ------------- | ----------------------- | --------------------------------- | ----------------------------------- |
-|  us-west1         |  Oregon, USA  |  Yes                    |  Yes                              |  Yes                                |
-|  asia-southeast-1 |  Singapore    |  Yes                    |  Yes                              |  Yes                                |
+|  __GCP Region__   |  __Location__       |  __Serverless Cluster__ |  __Dedicated Cluster (Standard)__ |  __Dedicated Cluster (Enterprise)__ |
+| ----------------- | ------------------- | ----------------------- | --------------------------------- | ----------------------------------- |
+|  us-west1         |  Oregon, USA        |  Yes                    |  Yes                              |  Yes                                |
+|  gcp-us-east4     |  Virginia, USA      |  No                     |  Yes                              |  Yes                                |
+|  gcp-europe-west3 |  Frankfurt, Germany |  No                     |  Yes                              |  Yes                                |
+|  asia-southeast-1 |  Singapore          |  No                     |  Yes                              |  Yes                                |
 
 For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
