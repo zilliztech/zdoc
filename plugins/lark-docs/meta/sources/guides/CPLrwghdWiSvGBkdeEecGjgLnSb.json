@@ -5,7 +5,7 @@
   "node_token": "CPLrwghdWiSvGBkdeEecGjgLnSb",
   "node_type": "origin",
   "obj_create_time": "1689055655",
-  "obj_edit_time": "1714359042",
+  "obj_edit_time": "1714381578",
   "obj_token": "BVoCd10pyoJDsnx1L7dc16kqnQf",
   "obj_type": "docx",
   "origin_node_token": "CPLrwghdWiSvGBkdeEecGjgLnSb",
@@ -2698,7 +2698,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "asia-southeast-1",
+                "content": "asia-southeast1",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2966,7 +2966,12 @@
           "Oa0UdfF6Io7aaVx28JycrMGbnET",
           "EqFYdQ6nLooSpwxTnxlcxscxn1e",
           "VHhNdC8uCoujRsx1bYXcUahlnKe",
-          "VnwGd94mToHf26xu8CqcznA6nRe"
+          "VnwGd94mToHf26xu8CqcznA6nRe",
+          "FyfWd15hho0FKdx5OlRcf6f0nsc",
+          "Uq47dAEY4oWtOXxg1NgcSq3PnBQ",
+          "TFemdcV7goLmoDxi6cvcL9XRnHe",
+          "KAYgdspZ8ofwXGxxbGLcIIqxncg",
+          "IFTddKY8uohFPuxaFqaciFvYn2e"
         ],
         "parent_id": "BVoCd10pyoJDsnx1L7dc16kqnQf",
         "table": {
@@ -2980,12 +2985,17 @@
             "Oa0UdfF6Io7aaVx28JycrMGbnET",
             "EqFYdQ6nLooSpwxTnxlcxscxn1e",
             "VHhNdC8uCoujRsx1bYXcUahlnKe",
-            "VnwGd94mToHf26xu8CqcznA6nRe"
+            "VnwGd94mToHf26xu8CqcznA6nRe",
+            "FyfWd15hho0FKdx5OlRcf6f0nsc",
+            "Uq47dAEY4oWtOXxg1NgcSq3PnBQ",
+            "TFemdcV7goLmoDxi6cvcL9XRnHe",
+            "KAYgdspZ8ofwXGxxbGLcIIqxncg",
+            "IFTddKY8uohFPuxaFqaciFvYn2e"
           ],
           "property": {
             "column_size": 5,
             "column_width": [
-              145,
+              159,
               145,
               145,
               145,
@@ -3031,9 +3041,29 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 2
+            "row_size": 3
           }
         }
       },
@@ -3236,7 +3266,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "east-us",
+                "content": "East US",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3368,6 +3398,176 @@
         "block_id": "ImtSdd9GYo1ENRxEExycTnFcnXe",
         "block_type": 2,
         "parent_id": "VnwGd94mToHf26xu8CqcznA6nRe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FyfWd15hho0FKdx5OlRcf6f0nsc",
+        "block_type": 32,
+        "children": [
+          "WHzNdwF1Vo1KnhxkDx1cwJUcnBc"
+        ],
+        "parent_id": "V2lEdh2sdoEG6YxKgOkcFvL8nth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "WHzNdwF1Vo1KnhxkDx1cwJUcnBc",
+        "block_type": 2,
+        "parent_id": "FyfWd15hho0FKdx5OlRcf6f0nsc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Germany West Central",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Uq47dAEY4oWtOXxg1NgcSq3PnBQ",
+        "block_type": 32,
+        "children": [
+          "Zuigdl5tzouTS2xrro3cXPiYnte"
+        ],
+        "parent_id": "V2lEdh2sdoEG6YxKgOkcFvL8nth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Zuigdl5tzouTS2xrro3cXPiYnte",
+        "block_type": 2,
+        "parent_id": "Uq47dAEY4oWtOXxg1NgcSq3PnBQ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Frankfurt, Germany",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TFemdcV7goLmoDxi6cvcL9XRnHe",
+        "block_type": 32,
+        "children": [
+          "PbG3dhxb5oaVcUx2zV3cqM6ZnLh"
+        ],
+        "parent_id": "V2lEdh2sdoEG6YxKgOkcFvL8nth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PbG3dhxb5oaVcUx2zV3cqM6ZnLh",
+        "block_type": 2,
+        "parent_id": "TFemdcV7goLmoDxi6cvcL9XRnHe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "No",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KAYgdspZ8ofwXGxxbGLcIIqxncg",
+        "block_type": 32,
+        "children": [
+          "OOpGdMxDqomwnQx6kqecZKd0nhI"
+        ],
+        "parent_id": "V2lEdh2sdoEG6YxKgOkcFvL8nth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OOpGdMxDqomwnQx6kqecZKd0nhI",
+        "block_type": 2,
+        "parent_id": "KAYgdspZ8ofwXGxxbGLcIIqxncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IFTddKY8uohFPuxaFqaciFvYn2e",
+        "block_type": 32,
+        "children": [
+          "WklUdQlCxo1NlYx9Is1cTAsOnUd"
+        ],
+        "parent_id": "V2lEdh2sdoEG6YxKgOkcFvL8nth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "WklUdQlCxo1NlYx9Is1cTAsOnUd",
+        "block_type": 2,
+        "parent_id": "IFTddKY8uohFPuxaFqaciFvYn2e",
         "text": {
           "elements": [
             {

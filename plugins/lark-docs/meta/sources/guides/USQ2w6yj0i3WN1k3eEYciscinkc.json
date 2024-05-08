@@ -5,7 +5,7 @@
   "node_token": "USQ2w6yj0i3WN1k3eEYciscinkc",
   "node_type": "origin",
   "obj_create_time": "1708764320",
-  "obj_edit_time": "1709804104",
+  "obj_edit_time": "1713428174",
   "obj_token": "SvJfdY9UPo4dCGxngZGckkJwnwg",
   "obj_type": "docx",
   "origin_node_token": "USQ2w6yj0i3WN1k3eEYciscinkc",
@@ -179,6 +179,9 @@
       {
         "block_id": "doxcnESyr96oTBeiIcZVMlrchth",
         "block_type": 2,
+        "comment_ids": [
+          "7359113847641653252"
+        ],
         "parent_id": "SvJfdY9UPo4dCGxngZGckkJwnwg",
         "text": {
           "elements": [
@@ -282,7 +285,36 @@
             },
             {
               "text_run": {
-                "content": "<include target=\"zilliz\">",
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "milvus",
+                "text_element_style": {
+                  "background_color": 5,
+                  "bold": false,
+                  "comment_ids": [
+                    "7359113847641653252"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
                 "text_element_style": {
                   "background_color": 5,
                   "bold": false,
@@ -1799,7 +1831,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.v2.client.ConnectConfig;\nimport io.milvus.v2.client.MilvusClientV2;\nimport io.milvus.v2.service.collection.request.GetLoadStateReq;\nimport io.milvus.v2.service.collection.request.CreateCollectionReq;\n\nString CLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\";\nString TOKEN = \"YOUR_CLUSTER_TOKEN\";\n\n// 1. Connect to Milvus server\nConnectConfig connectConfig = ConnectConfig.builder()\n    .uri(CLUSTER_ENDPOINT)\n    .token(TOKEN)\n    .build();\n\nMilvusClientV2 client = new MilvusClientV2(connectConfig);\n\n// 2. Create a collection in quick setup mode\nCreateCollectionReq quickSetupReq = CreateCollectionReq.builder()\n    .collectionName(\"quick_setup\")\n    .dimension(5)\n    .build();\n\nclient.createCollection(quickSetupReq);\n\nGetLoadStateReq quickSetupLoadStateReq = GetLoadStateReq.builder()\n    .collectionName(\"quick_setup\")\n    .build();\n\nBoolean res = client.getLoadState(quickSetupLoadStateReq);\n\nSystem.out.println(res);\n\n// Output:\n",
+                "content": "import io.milvus.v2.client.ConnectConfig;\nimport io.milvus.v2.client.MilvusClientV2;\nimport io.milvus.v2.service.collection.request.GetLoadStateReq;\nimport io.milvus.v2.service.collection.request.CreateCollectionReq;\n\nString CLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\";\nString TOKEN = \"YOUR_TOKEN\";\n\n// 1. Connect to Milvus server\nConnectConfig connectConfig = ConnectConfig.builder()\n    .uri(CLUSTER_ENDPOINT)\n    .token(TOKEN)\n    .build();\n\nMilvusClientV2 client = new MilvusClientV2(connectConfig);\n\n// 2. Create a collection in quick setup mode\nCreateCollectionReq quickSetupReq = CreateCollectionReq.builder()\n    .collectionName(\"quick_setup\")\n    .dimension(5)\n    .build();\n\nclient.createCollection(quickSetupReq);\n\n// Thread.sleep(5000);\n\nGetLoadStateReq quickSetupLoadStateReq = GetLoadStateReq.builder()\n    .collectionName(\"quick_setup\")\n    .build();\n\nBoolean res = client.getLoadState(quickSetupLoadStateReq);\n\nSystem.out.println(res);\n\n// Output:\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1836,7 +1868,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 1. Set up a Milvus Client\nclient = new MilvusClient({address, token});\n\n// 2. Create a collection in quick setup mode\nawait client.createCollection({\n    collection_name: \"quick_setup\",\n    dimension: 5,\n});  \n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateLoaded'\n// }\n",
+                "content": "// 1. Set up a Milvus Client\nclient = new MilvusClient({address, token});\n\n// 2. Create a collection in quick setup mode\nlet res = await client.createCollection({\n    collection_name: \"quick_setup\",\n    dimension: 5,\n});  \n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n// \n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res.state)\n\n// Output\n// \n// LoadStateLoaded\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2533,7 +2565,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.v2.common.DataType;\nimport io.milvus.v2.service.collection.request.CreateCollectionReq;\n\n// 3. Create a collection in customized setup mode\n\n// 3.1 Create schema\nCreateCollectionReq.CollectionSchema schema = client.createSchema(false, \"\");\n\n// 3.2 Add fields to schema\nschema.addPrimaryField(\"my_id\", DataType.Int64, true, false);\n",
+                "content": "import io.milvus.v2.common.DataType;\nimport io.milvus.v2.service.collection.request.CreateCollectionReq;\n\n// 3. Create a collection in customized setup mode\n\n// 3.1 Create schema\nCreateCollectionReq.CollectionSchema schema = client.createSchema();\n\n// 3.2 Add fields to schema\nschema.addField(AddFieldReq.builder()\n    .fieldName(\"my_id\")\n    .dataType(DataType.Int64).\n    isPrimaryKey(true)\n    .autoID(false)\n    .build());\n\nschema.addField(AddFieldReq.builder()\n    .fieldName(\"my_vector\")\n    .dataType(DataType.FloatVector)\n    .dimension(5)\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2545,7 +2577,7 @@
             },
             {
               "text_run": {
-                "content": "schema.addVectorField(\"my_vector\", DataType.FloatVector, 5);",
+                "content": "    .build());",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3150,7 +3182,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# 3.3. Prepare index parameters\nindex_params = client.create_index_params()\n\n# 3.4. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"IVF_FLAT\",\n    metric_type=\"IP\",\n    params={ \"nlist\": 128 }\n",
+                "content": "# 3.3. Prepare index parameters\nindex_params = client.prepare_index_params()\n\n# 3.4. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"IVF_FLAT\",\n    metric_type=\"IP\",\n    params={ \"nlist\": 128 }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3187,7 +3219,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.v2.common.IndexParam;\n\n// 3.3 Prepare index parameters\nIndexParam indexParamForIdField = IndexParam.builder()\n    .fieldName(\"my_id\")\n    .indexType(IndexParam.IndexType.STL_SORT)\n    .build();\n\nIndexParam indexParamForVectorField = IndexParam.builder()\n    .fieldName(\"my_vector\")\n    .indexType(IndexParam.IndexType.IVF_FLAT)\n    .metricType(IndexParam.MetricType.L2)\n    .build();\n\nList<IndexParam> indexParams = new ArrayList<>();\nindexParams.add(indexParamForIdField);\n",
+                "content": "import io.milvus.v2.common.IndexParam;\n\n// 3.3 Prepare index parameters\nIndexParam indexParamForIdField = IndexParam.builder()\n    .fieldName(\"my_id\")\n    .indexType(IndexParam.IndexType.STL_SORT)\n    .build();\n\nIndexParam indexParamForVectorField = IndexParam.builder()\n    .fieldName(\"my_vector\")\n    .indexType(IndexParam.IndexType.IVF_FLAT)\n    .metricType(IndexParam.MetricType.L2)\n    .extraParams(Map.of(\"nlist\", 1024))\n    .build();\n\nList<IndexParam> indexParams = new ArrayList<>();\nindexParams.add(indexParamForIdField);\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3416,7 +3448,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.v2.service.collection.request.CreateCollectionReq;\nimport io.milvus.v2.service.collection.request.GetLoadStateReq;\n\n// 3.4 Create a collection with schema and index parameters\nCreateCollectionReq customizedSetupReq1 = CreateCollectionReq.builder()\n    .collectionName(\"customized_setup_1\")\n    .collectionSchema(schema)\n    .indexParams(indexParams)\n    .build();\n\nclient.createCollection(customizedSetupReq1);\n\n// 3.5 Get load state of the collection\nGetLoadStateReq customSetupLoadStateReq1 = GetLoadStateReq.builder()\n    .collectionName(\"customized_setup_1\")\n    .build();\n\nres = client.getLoadState(customSetupLoadStateReq1);\n\nSystem.out.println(res);\n\n// Output:\n",
+                "content": "import io.milvus.v2.service.collection.request.CreateCollectionReq;\nimport io.milvus.v2.service.collection.request.GetLoadStateReq;\n\n// 3.4 Create a collection with schema and index parameters\nCreateCollectionReq customizedSetupReq1 = CreateCollectionReq.builder()\n    .collectionName(\"customized_setup_1\")\n    .collectionSchema(schema)\n    .indexParams(indexParams)\n    .build();\n\nclient.createCollection(customizedSetupReq1);\n\n// Thread.sleep(5000);\n\n// 3.5 Get load state of the collection\nGetLoadStateReq customSetupLoadStateReq1 = GetLoadStateReq.builder()\n    .collectionName(\"customized_setup_1\")\n    .build();\n\nres = client.getLoadState(customSetupLoadStateReq1);\n\nSystem.out.println(res);\n\n// Output:\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3453,7 +3485,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 3.3 Create a collection with fields and index parameters\nawait client.createCollection({\n    collection_name: \"customized_setup_1\",\n    fields: fields,\n    index_params: index_params,\n})\n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_1\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateLoaded'\n// }\n",
+                "content": "// 3.3 Create a collection with fields and index parameters\nres = await client.createCollection({\n    collection_name: \"customized_setup_1\",\n    fields: fields,\n    index_params: index_params,\n})\n\nconsole.log(res.error_code)  \n\n// Output\n// \n// Success\n// \n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_1\"\n})\n\nconsole.log(res.state)\n\n// Output\n// \n// LoadStateLoaded\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3613,7 +3645,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 3.6 Create a collection and index it separately\nCreateCollectionReq customizedSetupReq2 = CreateCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .collectionSchema(schema)\n    .build();\n\nclient.createCollection(customizedSetupReq2);\n\n// 3.7 Get load state of the collection\nGetLoadStateReq customSetupLoadStateReq2 = GetLoadStateReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nres = client.getLoadState(customSetupLoadStateReq2);\n\nSystem.out.println(res);\n\n// Output:\n",
+                "content": "// 3.6 Create a collection and index it separately\nCreateCollectionReq customizedSetupReq2 = CreateCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .collectionSchema(schema)\n    .build();\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3625,7 +3657,7 @@
             },
             {
               "text_run": {
-                "content": "// false",
+                "content": "client.createCollection(customizedSetupReq2);",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3650,7 +3682,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 3.4 Create a collection and index it seperately\nawait client.createCollection({\n    collection_name: \"customized_setup_2\",\n    fields: fields,\n})\n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateNotLoad'\n// }\n",
+                "content": "// 3.4 Create a collection and index it seperately\nres = await client.createCollection({\n    collection_name: \"customized_setup_2\",\n    fields: fields,\n})\n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n// \n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res.state)\n\n// Output\n// \n// LoadStateNotLoad\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3777,7 +3809,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "CreateIndexReq  createIndexReq = CreateIndexReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .indexParams(indexParams)\n    .build();\n\nclient.createIndex(createIndexReq);\n\n// Get load state of the collection\nGetLoadStateReq customSetupLoadStateReq2 = GetLoadStateReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nres = client.getLoadState(customSetupLoadStateReq2);\n\nSystem.out.println(res);\n\n// Output:\n",
+                "content": "CreateIndexReq  createIndexReq = CreateIndexReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .indexParams(indexParams)\n    .build();\n\nclient.createIndex(createIndexReq);\n\n// Thread.sleep(1000);\n\n// 3.7 Get load state of the collection\nGetLoadStateReq customSetupLoadStateReq2 = GetLoadStateReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nres = client.getLoadState(customSetupLoadStateReq2);\n\nSystem.out.println(res);\n\n// Output:\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3814,7 +3846,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 3.5 Create index\nres = await client.createIndex({\n    collection_name: \"customized_setup_2\",\n    field_name: \"my_vector\",\n    index_type: \"IVF_FLAT\",\n    metric_type: \"IP\",\n    params: { nlist: 1024}\n})\n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateNotLoad'\n// }\n",
+                "content": "// 3.5 Create index\nres = await client.createIndex({\n    collection_name: \"customized_setup_2\",\n    field_name: \"my_vector\",\n    index_type: \"IVF_FLAT\",\n    metric_type: \"IP\",\n    params: { nlist: 1024}\n})\n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res.state)\n\n// Output\n// \n// LoadStateNotLoad\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3901,7 +3933,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "# 5. View Collections\nres = client.describe_collection(\n    collection_name=\"customized_setup_2\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"collection_name\": \"customized_setup_2\",\n#     \"auto_id\": false,\n#     \"num_shards\": 1,\n#     \"description\": \"\",\n#     \"fields\": [\n#         {\n#             \"field_id\": 100,\n#             \"name\": \"my_id\",\n#             \"description\": \"\",\n#             \"type\": 5,\n#             \"params\": {},\n#             \"element_type\": 0,\n#             \"is_primary\": true\n#         },\n#         {\n#             \"field_id\": 101,\n#             \"name\": \"my_vector\",\n#             \"description\": \"\",\n#             \"type\": 101,\n#             \"params\": {\n#                 \"dim\": 5\n#             },\n#             \"element_type\": 0\n#         }\n#     ],\n#     \"aliases\": [],\n#     \"collection_id\": 448143479230158446,\n#     \"consistency_level\": 2,\n#     \"properties\": {},\n#     \"num_partitions\": 1,\n#     \"enable_dynamic_field\": true\n# }\n",
+                "content": "# 5. View Collections\nres = client.describe_collection(\n    collection_name=\"customized_setup_2\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"collection_name\": \"customized_setup_2\",\n#     \"auto_id\": false,\n#     \"num_shards\": 1,\n#     \"description\": \"\",\n#     \"fields\": [\n#         {\n#             \"field_id\": 100,\n#             \"name\": \"my_id\",\n#             \"description\": \"\",\n#             \"type\": 5,\n#             \"params\": {},\n#             \"element_type\": 0,\n#             \"is_primary\": true\n#         },\n#         {\n#             \"field_id\": 101,\n#             \"name\": \"my_vector\",\n#             \"description\": \"\",\n#             \"type\": 101,\n#             \"params\": {\n#                 \"dim\": 5\n#             },\n#             \"element_type\": 0\n#         }\n#     ],\n#     \"aliases\": [],\n#     \"collection_id\": 448143479230158446,\n#     \"consistency_level\": 2,\n#     \"properties\": {},\n#     \"num_partitions\": 1,\n#     \"enable_dynamic_field\": true\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3926,7 +3970,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.v2.service.collection.request.DescribeCollectionReq;\nimport io.milvus.v2.service.collection.response.DescribeCollectionResp;\n\n// 4. View collections\nDescribeCollectionReq describeCollectionReq = DescribeCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nDescribeCollectionResp describeCollectionRes = client.describeCollection(describeCollectionReq);\n\nSystem.out.println(JSONObject.toJSON(describeCollectionRes));\n\n// Output:\n// {\n//     \"createTime\": 448186568622211075,\n//     \"collectionSchema\": {\n//         \"fieldSchemaList\": [\n//             {\n//                 \"autoID\": false,\n//                 \"dataType\": \"Int64\",\n//                 \"name\": \"my_id\",\n//                 \"isPrimaryKey\": true,\n//                 \"maxLength\": 65535\n//             },\n//             {\n//                 \"autoID\": false,\n//                 \"dataType\": \"FloatVector\",\n//                 \"name\": \"my_vector\",\n//                 \"isPrimaryKey\": false,\n//                 \"dimension\": 5,\n//                 \"maxLength\": 65535\n//             }\n//         ],\n//         \"description\": \"\",\n//         \"enableDynamicField\": false\n//     },\n//     \"vectorFieldName\": [\"my_vector\"],\n//     \"autoID\": false,\n//     \"fieldNames\": [\n//         \"my_id\",\n//         \"my_vector\"\n//     ],\n//     \"description\": \"\",\n//     \"numOfPartitions\": 1,\n//     \"primaryFieldName\": \"my_id\",\n//     \"enableDynamicField\": false,\n//     \"collectionName\": \"customized_setup_2\"\n",
+                "content": "import io.milvus.v2.service.collection.request.DescribeCollectionReq;\nimport io.milvus.v2.service.collection.response.DescribeCollectionResp;\n\n// 4. View collections\nDescribeCollectionReq describeCollectionReq = DescribeCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nDescribeCollectionResp describeCollectionRes = client.describeCollection(describeCollectionReq);\n\nSystem.out.println(JSONObject.toJSON(describeCollectionRes));\n\n// Output:\n// {\n//     \"createTime\": 449005822816026627,\n//     \"collectionSchema\": {\"fieldSchemaList\": [\n//         {\n//             \"autoID\": false,\n//             \"dataType\": \"Int64\",\n//             \"name\": \"my_id\",\n//             \"description\": \"\",\n//             \"isPrimaryKey\": true,\n//             \"maxLength\": 65535,\n//             \"isPartitionKey\": false\n//         },\n//         {\n//             \"autoID\": false,\n//             \"dataType\": \"FloatVector\",\n//             \"name\": \"my_vector\",\n//             \"description\": \"\",\n//             \"isPrimaryKey\": false,\n//             \"dimension\": 5,\n//             \"maxLength\": 65535,\n//             \"isPartitionKey\": false\n//         }\n//     ]},\n//     \"vectorFieldName\": [\"my_vector\"],\n//     \"autoID\": false,\n//     \"fieldNames\": [\n//         \"my_id\",\n//         \"my_vector\"\n//     ],\n//     \"description\": \"\",\n//     \"numOfPartitions\": 1,\n//     \"primaryFieldName\": \"my_id\",\n//     \"enableDynamicField\": true,\n//     \"collectionName\": \"customized_setup_2\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3963,7 +4007,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 5. View Collections\nres = await client.describeCollection({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   virtual_channel_names: [ 'in01-0ed1e58b63f3f62-rootcoord-dml_0_448162378879067613v0' ],\n//   physical_channel_names: [ 'in01-0ed1e58b63f3f62-rootcoord-dml_0' ],\n//   aliases: [],\n//   start_positions: [],\n//   properties: [],\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   schema: {\n//     fields: [ [Object], [Object] ],\n//     properties: [],\n//     name: 'customized_setup_2',\n//     description: '',\n//     autoID: false,\n//     enable_dynamic_field: false\n//   },\n//   collectionID: '448162378879067613',\n//   created_timestamp: '448168465560502276',\n//   created_utc_timestamp: '1709627020113',\n//   shards_num: 1,\n//   consistency_level: 'Bounded',\n//   collection_name: 'customized_setup_2',\n//   db_name: 'default',\n//   num_partitions: '1'\n// }\n",
+                "content": "// 5. View Collections\nres = await client.describeCollection({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   virtual_channel_names: [ 'by-dev-rootcoord-dml_13_449007919953017716v0' ],\n//   physical_channel_names: [ 'by-dev-rootcoord-dml_13' ],\n//   aliases: [],\n//   start_positions: [],\n//   properties: [],\n//   status: {\n//     extra_info: {},\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   schema: {\n//     fields: [ [Object], [Object] ],\n//     properties: [],\n//     name: 'customized_setup_2',\n//     description: '',\n//     autoID: false,\n//     enable_dynamic_field: false\n//   },\n//   collectionID: '449007919953017716',\n//   created_timestamp: '449024569603784707',\n//   created_utc_timestamp: '1712892797866',\n//   shards_num: 1,\n//   consistency_level: 'Bounded',\n//   collection_name: 'customized_setup_2',\n//   db_name: 'default',\n//   num_partitions: '1'\n// }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4099,7 +4143,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 6. List all collection names\nres = await client.listCollections()\n\nconsole.log(res.collection_names)\n\n// Output:\n// [\n//     \"quick_setup\",\n//     \"customized_setup_2\",\n//     \"customized_setup_1\"\n// ]\n",
+                "content": "// 5. List all collection names\nListCollectionsResp listCollectionsRes = client.listCollections();\n\nSystem.out.println(listCollectionsRes.getCollectionNames());\n\n// Output:\n// [\n//     \"customized_setup_1\",\n//     \"quick_setup\",\n//     \"customized_setup_2\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ]",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4412,7 +4468,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.v2.service.collection.request.LoadCollectionReq;\n\n// 6. Load the collection\nLoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nclient.loadCollection(loadCollectionReq);\n\n// 7. Get load state of the collection\nGetLoadStateReq loadStateReq = GetLoadStateReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nres = client.getLoadState(loadStateReq);\n\nSystem.out.println(res);\n\n// Output:\n",
+                "content": "import io.milvus.v2.service.collection.request.LoadCollectionReq;\n\n// 6. Load the collection\nLoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nclient.loadCollection(loadCollectionReq);\n\n// Thread.sleep(5000);\n\n// 7. Get load state of the collection\nGetLoadStateReq loadStateReq = GetLoadStateReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nres = client.getLoadState(loadStateReq);\n\nSystem.out.println(res);\n\n// Output:\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4449,7 +4505,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 7. Load the collection\nawait client.loadCollection({\n    collection_name: \"customized_setup_2\"\n})\n\nawait sleep(3000)\n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateLoaded'\n// }\n",
+                "content": "// 7. Load the collection\nres = await client.loadCollection({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n// \n\nawait sleep(3000)\n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res.state)\n\n// Output\n// \n// LoadStateLoaded\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4548,7 +4604,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.v2.service.collection.request.ReleaseCollectionReq;\n\n// 8. Release the collection\nReleaseCollectionReq releaseCollectionReq = ReleaseCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nclient.releaseCollection(releaseCollectionReq);\n\nres = client.getLoadState(loadStateReq);\n\nSystem.out.println(res);\n\n// Output:\n",
+                "content": "import io.milvus.v2.service.collection.request.ReleaseCollectionReq;\n\n// 8. Release the collection\nReleaseCollectionReq releaseCollectionReq = ReleaseCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\nclient.releaseCollection(releaseCollectionReq);\n\n// Thread.sleep(1000);\n\nres = client.getLoadState(loadStateReq);\n\nSystem.out.println(res);\n\n// Output:\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4585,7 +4641,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 8. Release the collection\nawait client.releaseCollection({\n    collection_name: \"customized_setup_2\"\n})\n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateNotLoad'\n// }\n",
+                "content": "// 8. Release the collection\nres = await client.releaseCollection({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n// \n\nres = await client.getLoadState({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res.state)\n\n// Output\n// \n// LoadStateNotLoad\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4597,7 +4653,7 @@
             },
             {
               "text_run": {
-                "content": "//",
+                "content": "// ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4697,7 +4753,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# 9.1. Create aliases\nclient.create_alias(\n    collection_name=\"customized_setup_2\",\n    alias=\"bob\"\n)\n\nclient.create_alias(\n    collection_name=\"customized_setup_2\",\n    alias=\"alice\"\n",
+                "content": "# 9. Manage aliases\n# 9.1. Create aliases\nclient.create_alias(\n    collection_name=\"customized_setup_2\",\n    alias=\"bob\"\n)\n\nclient.create_alias(\n    collection_name=\"customized_setup_2\",\n    alias=\"alice\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4734,7 +4790,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.v2.service.utility.request.CreateAliasReq;\n\n// 9.1 Create alias\nCreateAliasReq createAliasReq = CreateAliasReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .alias(\"bob\")\n    .build();\n\nclient.createAlias(createAliasReq);\n\ncreateAliasReq = CreateAliasReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .alias(\"alice\")\n    .build();\n\n",
+                "content": "import io.milvus.v2.service.utility.request.CreateAliasReq;\n\n// 9. Manage aliases\n\n// 9.1 Create alias\nCreateAliasReq createAliasReq = CreateAliasReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .alias(\"bob\")\n    .build();\n\nclient.createAlias(createAliasReq);\n\ncreateAliasReq = CreateAliasReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .alias(\"alice\")\n    .build();\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4771,7 +4827,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 9.1 Create aliases\nawait client.createAlias({\n    collection_name: \"customized_setup_2\",\n    alias: \"bob\"\n})\n\nres = await client.createAlias({\n    collection_name: \"customized_setup_2\",\n    alias: \"alice\"\n",
+                "content": "// 9. Manage aliases\n// 9.1 Create aliases\nres = await client.createAlias({\n    collection_name: \"customized_setup_2\",\n    alias: \"bob\"\n})\n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n// \n\nres = await client.createAlias({\n    collection_name: \"customized_setup_2\",\n    alias: \"alice\"\n})\n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4783,7 +4839,7 @@
             },
             {
               "text_run": {
-                "content": "})",
+                "content": "// ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4907,7 +4963,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 9.2 List aliases\nres = await client.listAliases({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   aliases: [ 'bob', 'alice' ],\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   db_name: 'default',\n//   collection_name: 'customized_setup_2'\n// }\n",
+                "content": "// 9.2 List aliases\nres = await client.listAliases({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res.aliases)\n\n// Output\n// \n// [ 'bob', 'alice' ]\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5043,7 +5099,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 9.3 Describe aliases\nres = await client.describeAlias({\n    collection_name: \"customized_setup_2\",\n    alias: \"bob\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   db_name: 'default',\n//   alias: 'bob',\n//   collection: 'customized_setup_2'\n// }\n",
+                "content": "// 9.3 Describe aliases\nres = await client.describeAlias({\n    collection_name: \"customized_setup_2\",\n    alias: \"bob\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     extra_info: {},\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   db_name: 'default',\n//   alias: 'bob',\n//   collection: 'customized_setup_2'\n// }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5179,19 +5235,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 9.4 Reassign aliases to other collections\nawait client.alterAlias({\n    collection_name: \"customized_setup_1\",\n    alias: \"alice\"\n})\n\nres = await client.listAliases({\n    collection_name: \"customized_setup_1\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   aliases: [ 'alice' ],\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   db_name: 'default',\n//   collection_name: 'customized_setup_1'\n// }\n// \n\nres = await client.listAliases({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   aliases: [ 'bob' ],\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   db_name: 'default',\n//   collection_name: 'customized_setup_2'\n// }\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "// ",
+                "content": "// 9.4 Reassign aliases to other collections\nres = await client.alterAlias({\n    collection_name: \"customized_setup_1\",\n    alias: \"alice\"\n})\n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n// \n\nres = await client.listAliases({\n    collection_name: \"customized_setup_1\"\n})\n\nconsole.log(res.aliases)\n\n// Output\n// \n// [ 'alice' ]\n// \n\nres = await client.listAliases({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res.aliases)\n\n// Output\n// \n// [ 'bob' ]\n// \n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5315,7 +5359,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 9.5 Drop aliases\nawait client.dropAlias({\n    alias: \"bob\"\n})\n\nawait client.dropAlias({\n    alias: \"alice\"\n",
+                "content": "// 9.5 Drop aliases\nres = await client.dropAlias({\n    alias: \"bob\"\n})\n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n// \n\nres = await client.dropAlias({\n    alias: \"alice\"\n})\n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5327,7 +5371,7 @@
             },
             {
               "text_run": {
-                "content": "})",
+                "content": "// ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5439,7 +5483,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.v2.service.collection.request.DropCollectionReq;\n\n// 10. Drop collections\n\nDropCollectionReq dropQuickSetupParam = DropCollectionReq.builder()\n    .collectionName(\"quick_setup\")\n    .build();\n\nclient.dropCollection(dropQuickSetupParam);\n\nDropCollectionReq dropCustomizedSetupParam = DropCollectionReq.builder()\n    .collectionName(\"customized_setup_1\")\n    .build();\n\nclient.dropCollection(dropCustomizedSetupParam); \n\ndropCustomizedSetupParam = DropCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\n",
+                "content": "import io.milvus.v2.service.collection.request.DropCollectionReq;\n\n// 10. Drop collections\n\nDropCollectionReq dropQuickSetupParam = DropCollectionReq.builder()\n    .collectionName(\"quick_setup\")\n    .build();\n\nclient.dropCollection(dropQuickSetupParam);\n\nDropCollectionReq dropCustomizedSetupParam = DropCollectionReq.builder()\n    .collectionName(\"customized_setup_1\")\n    .build();\n\nclient.dropCollection(dropCustomizedSetupParam);\n\ndropCustomizedSetupParam = DropCollectionReq.builder()\n    .collectionName(\"customized_setup_2\")\n    .build();\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5451,7 +5495,7 @@
             },
             {
               "text_run": {
-                "content": "client.dropCollection(dropCustomizedSetupParam);  ",
+                "content": "client.dropCollection(dropCustomizedSetupParam);",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5476,7 +5520,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 10. Drop the collection\nawait client.dropCollection({\n    collection_name: \"customized_setup_2\"\n})\n\nawait client.dropCollection({\n    collection_name: \"customized_setup_1\"\n})\n\nawait client.dropCollection({\n    collection_name: \"quick_setup\"\n",
+                "content": "// 10. Drop the collection\nres = await client.dropCollection({\n    collection_name: \"customized_setup_2\"\n})\n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n// \n\nres = await client.dropCollection({\n    collection_name: \"customized_setup_1\"\n})\n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n// \n\nres = await client.dropCollection({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5488,7 +5532,7 @@
             },
             {
               "text_run": {
-                "content": "})",
+                "content": "// ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

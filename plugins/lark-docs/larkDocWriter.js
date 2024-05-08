@@ -6,12 +6,13 @@ const { URL } = require('node:url')
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
 const showdown = require('showdown')
-const { match } = require('node:assert')
+const _ = require('lodash')
 
 class larkDocWriter {
-    constructor(root_token, base_token, docSourceDir='plugins/lark-docs/meta/sources', imageDir='static/img', targets='zilliz.saas', skip_image_download=false) {
+    constructor(root_token, base_token, displayedSidebar, docSourceDir='plugins/lark-docs/meta/sources', imageDir='static/img', targets='zilliz.saas', skip_image_download=false) {
         this.root_token = root_token
         this.base_token = base_token
+        this.displayedSidebar = displayedSidebar
         this.docSourceDir = docSourceDir
         this.page_blocks = []
         this.blocks = []
@@ -150,7 +151,7 @@ class larkDocWriter {
             try {
                 type = type instanceof Array ? type.filter(t => Object.keys(page).includes(t))[0] : type
             } catch (error) {
-                throw new Error(`Cannot find ${type} in ${this.docSourceDir}/${file}`)
+                throw new Error(`1. Cannot find ${type} in ${this.docSourceDir}/${file}`)
             }
             
             return page[type] === value
@@ -159,7 +160,7 @@ class larkDocWriter {
         if (file.length > 0) {
             return JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file[0]}`, {encoding: 'utf-8', flag: 'r'}))
         } else {
-            throw new Error(`Cannot find ${value} in ${this.docSourceDir}`)
+            throw new Error(`2. Cannot find ${value} in ${this.docSourceDir}`)
         }
     }
 
@@ -340,7 +341,7 @@ class larkDocWriter {
             // Write FAQs root page
             let title = 'FAQs'
             let slug = 'faqs'
-            let front_matter = this.__front_matters(slug, null, null, source.node_type, source.node_token, 999)
+            let front_matter = this.__front_matters(slug, null, null, source.node_type, source.node_token, 999, this.displayedSidebar)
             const markdown = `${front_matter}\n\n# ${title}` + "\n\nimport DocCardList from '@theme/DocCardList';\n\n<DocCardList />"
             fs.writeFileSync(`${path}/${slug}.md`, markdown)
 
@@ -348,7 +349,7 @@ class larkDocWriter {
                 let title = sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
                 let short_description = sub_page.filter(line => line.length > 0)[1]
                 let slug = slugify(title, {lower: true, strict: true})
-                let front_matter = this.__front_matters(slug, null, null, source.node_type, source.node_token, index+1)
+                let front_matter = this.__front_matters(slug, null, null, source.node_type, source.node_token, index+1, this.displayedSidebar)
                 let links = []
 
                 sub_page = sub_page.map(line => {
@@ -371,20 +372,6 @@ class larkDocWriter {
             })
         }
     }
-
-    // __category_meta(path, label, position) {
-    //     const titles = JSON.parse(fs.readFileSync('plugins/lark-docs/meta/titles.json'))
-    //     const meta = JSON.stringify({
-    //         label,
-    //         position,
-    //         link: {
-    //             type: "generated-index",
-    //             title: label,
-    //             slug: titles[label] ? '/docs/' + titles[label] : (slugify(label, {lower: true, strict: true}), titles[label] = '/docs/' + slugify(label, {lower: true, strict: true}))
-    //         }
-    //     }, null, 4)
-    //     fs.writeFileSync(`${path}/_category_.json`, meta)
-    // }
 
     async __listed_docs() {
         // const app_id = this.__fetch_doc_source('node_token', this.root_token).children.slice(-1)[0].obj_token
@@ -447,50 +434,8 @@ class larkDocWriter {
         
     }
 
-    // __filter_content (markdown, targets) {
-    //     const regex = /<(include|exclude) target="(\b(\w+,)*\w+\b)">[\s\S]*?<\/\1>/g
-    //     targets = targets.split('.')
-    //     for (let target of targets) {
-    //         markdown = markdown.replace(regex, (match, tag, value) => {
-    //             value = value.split(',').map(item => item.trim())
-    //             if (tag == 'include' && value.includes(target)) {
-    //                 return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
-    //             }
-
-    //             if (tag == 'include' && !value.includes(target)) {
-    //                 if (targets.indexOf(target) === targets.length - 1) {
-    //                     return ""
-    //                 } else {
-    //                     return match
-    //                 }
-                    
-    //             }
-
-    //             if (tag == 'exclude' && value.includes(target)) {
-    //                 return ""
-    //             }
-    
-    //             if (tag == 'exclude' && !value.includes(target)) {
-    //                 if (targets.indexOf(target) === targets.length - 1) {
-    //                     return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
-    //                 } else {
-    //                     return match
-    //                 }
-    //             }
-    //         })
-    //     }
-
-    //     return markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
-    // }
-
     __filter_content (markdown, targets) {
         const matches = this.__match_filter_tags(markdown)
-        // if (matches.length > 0) {
-        //     fs.writeFileSync('test.md', markdown)
-        //     console.log(matches)
-        //     throw new Error("Filter tags are not supported in Lark docs")
-        // }
-
 
         if (matches.length > 0) {
             var preText = markdown.slice(0, matches[0].startIndex)
@@ -554,7 +499,7 @@ class larkDocWriter {
     }
 
     async __write_page({slug, beta, notebook, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
-        let front_matter = this.__front_matters(slug, beta, notebook, type, token, sidebar_position, sidebar_label, keywords)
+        let front_matter = this.__front_matters(slug, beta, notebook, type, token, sidebar_position, sidebar_label, keywords, this.displayedSidebar)
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.targets)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
@@ -583,13 +528,20 @@ class larkDocWriter {
         }
     }
 
-    __front_matters (slug, beta, notebook, type, token, sidebar_position=undefined, sidebar_label="", keywords="") {
+    __front_matters (slug, beta, notebook, type, token, sidebar_position=undefined, sidebar_label="", keywords="", displayed_sidebar=this.displayedSidebar) {
         if (sidebar_label !== "") {
             sidebar_label = `sidebar_label: ${sidebar_label}\n`
         }
 
         if (keywords !== "") {
             keywords = "keywords: \n  - " + keywords.split(',').map(item => item.trim()).join('\n  - ') + '\n'
+        }
+
+        if (displayed_sidebar === 'default') {
+            displayed_sidebar = ''
+        } else {
+            slug = `${displayed_sidebar.replace('Sidebar', '').trim()}/${slug}`
+            displayed_sidebar = `displayed_sidebar: ${displayed_sidebar}\n`
         }
 
         let front_matter = '---\n' + 
@@ -601,6 +553,7 @@ class larkDocWriter {
         `token: ${token}` + '\n' +
         `sidebar_position: ${sidebar_position}` + '\n' +
         keywords +
+        displayed_sidebar + '\n' +
         '---'
 
         return front_matter
@@ -657,6 +610,8 @@ class larkDocWriter {
                 markdown.push(idt + (await this.__iframe(block['iframe'])));
             } else if (this.block_types[block['block_type']-1] === 'table') {
                 markdown.push(await this.__table(block['table'], indent));
+            } else if (this.block_types[block['block_type']-1] === 'sheet') {
+                markdown.push(await this.__sheet(block['sheet'], indent));
             } else if (this.block_types[block['block_type']-1] === 'callout') {
                 markdown.push(await this.__callout(block, indent));
             } else if (block['block_type'] === 999 && block['children']) {
@@ -669,7 +624,47 @@ class larkDocWriter {
             }
         }
     
-        return markdown.join('\n\n').replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br>){2,}/g, '<br>').replace(/<br>/g, '<br/>');
+        return this.__mdx_patches(markdown.join('\n\n').replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br>){2,}/g, '<br>').replace(/<br>/g, '<br/>'));
+    }
+
+    __mdx_patches(content) {
+        var code_marks = [...content.matchAll(/`+/g)].map(match => { return { idx: match.index, match: match[0] } })
+
+        if (code_marks.length % 2 === 0) {
+            const code_pairs = code_marks.map((mark, i) => {
+                if (i % 2 === 0) {
+                    return { start: mark.idx + mark.match.length, end: code_marks[i+1].idx }
+                } else {
+                    return null
+                }
+            }).filter(mark => mark)
+        
+            const tags = [...content.matchAll(/[\{<]([^#]*?)[\}>]+/g)]
+        
+            tags.forEach((tag, i) => {
+                if (tag && tag[1].endsWith('/')) {
+                    tags[i] = null
+                }
+        
+                if (tag && !tag[1].split(' ')[0].startsWith('/')) {
+                    const end_tag_idx = tags.findIndex(t => t && t[1] === `/${tag[1].split(' ')[0]}`)
+                    if (end_tag_idx > i) {
+                        tags[i] = null
+                        tags[end_tag_idx] = null
+                    }
+                }
+            })
+        
+            const acorns = tags.filter(tag => tag).filter(acorn => !code_pairs.some(pair => pair.start < acorn.index && pair.end > acorn.index))
+        
+            acorns.forEach((acorn, i) => {
+                const c = acorn[0].match(/[\{<]/g).length - 1
+                const a = acorn[0].replace(/</g, '\\<').replace(/\{/g, '\\{')
+                content = content.slice(0, acorn.index + i) + a + content.slice(acorn.index + i + acorn[0].length + c)
+            })
+        }
+        
+        return content.replace(/\\\\/g, '\\')
     }
 
     async __page(page) {
@@ -753,7 +748,7 @@ class larkDocWriter {
         const valid_langs = ['Python', 'JavaScript', 'Java', 'Go', 'Bash']
         let lang = code.style.language ? this.code_langs[code['style']['language']] : 'plaintext'
         let elements = (await Promise.all(code['elements'].map( async x => {
-            return await this.__text_run(x, code['elements'])
+            return await this.__text_run(x, code['elements'], true)
         }))).join('') 
 
         if (valid_langs.includes(lang)) {
@@ -957,7 +952,6 @@ class larkDocWriter {
 
     async __table(table, indent) {
         const cells = table['cells'];
-        const properties = table['property'];
         const cell_blocks = cells.map(cell => {
             return this.__retrieve_block_by_id(cell).children
         });
@@ -965,25 +959,72 @@ class larkDocWriter {
             let blocks = cell.map(block => this.__retrieve_block_by_id(block));
             return (await this.__markdown(blocks, 1)).replace(/\n/g, '<br>');
         }));
-        const cell_lengths = cell_texts.map(cell => cell.length);
-        const cell_length_matrix = chunkArray(cell_lengths, properties['column_size']);
 
-        let rows = [];
-        let row_length_matrix = [];
-        if (properties['row_size'] * properties['column_size'] === cells.length) {
-            for (let i = 0; i < cell_texts.length; i += properties['column_size']) {
-                rows.push(cell_texts.slice(i, i + properties['column_size']));
-                row_length_matrix.push(cell_length_matrix[Math.floor(i / properties['column_size'])]);
+        const row_size = table['property']['row_size'];
+        const column_size = table['property']['column_size'];
+        const merge_info = table['property']['merge_info'];
+        
+        merge_info.map((merge, idx) => {
+            if (merge) {
+                for (var i = 1; i < merge.col_span; i++) {
+                    merge_info[idx+i] = null;
+                }
+    
+                for (var j = 1; j < merge.row_span; j++) {
+                    merge_info[idx+j*column_size] = null;
+                }
             }
+            return merge
+        })
 
-            const row_template = row_length_matrix.reduce((acc, curr) => acc.map((val, i) => Math.max(val, curr[i])));
-            const table_header_divider = row_template.map(val => '-'.repeat(val));
-            rows.splice(1, 0, table_header_divider);
-            rows = rows.map(row => this.__format_table_row(row, row_template)).join('\n');
+        var html = ' '.repeat(indent) + '<table>\n';
+        for (var i = 0; i < row_size; i++) {
+            if (i === 0) {
+                html += ' '.repeat(indent) +'   <th>\n';
+            } else {
+                html += ' '.repeat(indent) +'   <tr>\n';
+            }
+            for (var j = 0; j < column_size; j++) {
+                const cell_idx = i * column_size + j;
+                const merge = merge_info[cell_idx];
+                const cell_text = cell_texts[cell_idx];
+
+                if (merge) {
+                    const colspan = merge.colspan > 1 ? ` colspan="${merge.col_span}"` : "";
+                    const rowspan = merge.rowspan > 1 ? ` rowspan="${merge.row_span}"` : "";
+
+                    html += ` ${' '.repeat(indent)}    <td${colspan}${rowspan}>${cell_text.trim()}</td>\n`;
+                }
+            }
+            if (i === 0) {
+                html += ' '.repeat(indent) +'   </th>\n';
+            } else {
+                html += ' '.repeat(indent) +'   </tr>\n';
+            }
         }
+        html += ' '.repeat(indent) + '</table>\n';
 
-        return '\n' + ' '.repeat(indent) + rows.replace(/\n/g, '\n' + ' '.repeat(indent));
-    }  
+        return html;
+
+        // const cell_lengths = cell_texts.map(cell => cell.length);
+        // const cell_length_matrix = chunkArray(cell_lengths, properties['column_size']);
+
+        // let rows = [];
+        // let row_length_matrix = [];
+        // if (properties['row_size'] * properties['column_size'] === cells.length) {
+        //     for (let i = 0; i < cell_texts.length; i += properties['column_size']) {
+        //         rows.push(cell_texts.slice(i, i + properties['column_size']));
+        //         row_length_matrix.push(cell_length_matrix[Math.floor(i / properties['column_size'])]);
+        //     }
+
+        //     const row_template = row_length_matrix.reduce((acc, curr) => acc.map((val, i) => Math.max(val, curr[i])));
+        //     const table_header_divider = row_template.map(val => '-'.repeat(val));
+        //     rows.splice(1, 0, table_header_divider);
+        //     rows = rows.map(row => this.__format_table_row(row, row_template)).join('\n');
+        // }
+
+        // return '\n' + ' '.repeat(indent) + rows.replace(/\n/g, '\n' + ' '.repeat(indent));
+    }
     
     __format_table_row(row, temp) {
         for (let i = 0; i < temp.length; i++) {
@@ -995,6 +1036,42 @@ class larkDocWriter {
         return '| ' + row.join(' | ') + ' |';
     }
 
+    async __sheet(sheet, indent) {
+        const merges = sheet.meta.data.sheet.merges;
+        const values = sheet.values.data.valueRange.values;
+        var result = ' '.repeat(indent) + "<table>" + "\n";
+
+        console.log()
+
+        values.forEach((row, ridx) => {
+            result += ' '.repeat(indent) + '    ' + "<tr>" + "\n";
+            row.forEach((cell, cidx) => {
+                var colspan = "";
+                var rowspan = "";
+                if (merges) {
+                    const match = merges.filter(merge => merge.start_row_index === ridx && merge.start_column_index === cidx);
+                    if (match.length > 0) {
+                        colspan = `colspan="${match[0].end_column_index -match[0].start_column_index + 1}"`;
+                        rowspan = `rowspan="${match[0].end_row_index -match[0].start_row_index + 1}"`;
+                    }
+                }
+
+                cell = typeof cell === 'string' ? cell.replace(/\n/g, '<br/>') : typeof cell === 'number'? cell.toString() : cell
+
+                if (ridx === 0) {
+                    result += `${' '.repeat(indent) + '    '.repeat(2)}<th${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${cell}</th>\n`
+                } else {
+                    result += `${' '.repeat(indent) + '    '.repeat(2)}<td${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${cell}</td>\n`
+                }
+            })
+            result += ' '.repeat(indent) + '    ' + "</tr>" + "\n"
+        });
+
+        result += ' '.repeat(indent) + "</table>" + "\n";
+
+        return result;
+    }    
+
     __retrieve_block_by_id(block_id) {
         if (!this.page_blocks) {
             throw new Error('Page blocks not found');
@@ -1003,11 +1080,11 @@ class larkDocWriter {
         return this.page_blocks.find(x => x['block_id'] === block_id);
     }
 
-    async __text_run(element, elements) {
+    async __text_run(element, elements, asis=false) {
         let content = element['text_run']['content'];
         let style = element['text_run']['text_element_style'];
 
-        if (!content.match(/^\s+$/)) {
+        if (!content.match(/^\s+$/) && !asis) {
             if (style['inline_code']) {
                 content = this.__style_markdown(element, elements, 'inline_code', '`');
             } else {                
@@ -1026,8 +1103,8 @@ class larkDocWriter {
                 if ('link' in style) {
                     const url = await this.__convert_link(decodeURIComponent(style['link']['url']))
 
-                    var prefix = [...content.matchAll(/(^\_\_|^\_|^~~)/g)]
-                    var suffix = [...content.matchAll(/(\_\_$|\_$|~~$)/g)]
+                    var prefix = [...content.matchAll(/(^\*\*|^\*|^~~)/g)]
+                    var suffix = [...content.matchAll(/(\*\*$|\*$|~~$)/g)]
 
                     if (prefix.length > 0) {
                         prefix = prefix[0][0]

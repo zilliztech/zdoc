@@ -5,7 +5,7 @@
   "node_token": "HHXewT7wTiM1zqkySjHcMNX5n9b",
   "node_type": "origin",
   "obj_create_time": "1689062242",
-  "obj_edit_time": "1700320949",
+  "obj_edit_time": "1713755659",
   "obj_token": "KIVMdxQvdo3hrqxasb4cbGmwncs",
   "obj_type": "docx",
   "origin_node_token": "HHXewT7wTiM1zqkySjHcMNX5n9b",
@@ -388,7 +388,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Snapshots occur asynchronously and the time it takes to take one varies depending on the size of the cluster and the size of the CUs accommodating the cluster. For example, a single-collection cluster holding over 120 million records of 128-dimensional vectors on a 4-CU instance takes approximately 5 minutes to create a snapshot.",
+                "content": "Snapshots occur asynchronously and the time it takes to take varies depending on the size of the cluster and the size of the CUs accommodating the cluster. For example, a single-collection cluster holding over 120 million records of 128-dimensional vectors on a 4-CU instance takes approximately 5 minutes to create a snapshot.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

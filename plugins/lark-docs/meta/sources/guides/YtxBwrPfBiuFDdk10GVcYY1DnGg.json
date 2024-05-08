@@ -5,7 +5,7 @@
   "node_token": "YtxBwrPfBiuFDdk10GVcYY1DnGg",
   "node_type": "origin",
   "obj_create_time": "1698052024",
-  "obj_edit_time": "1705926342",
+  "obj_edit_time": "1712140341",
   "obj_token": "GJdCdQYjKodPgPxzs4lck9jQnoh",
   "obj_type": "docx",
   "origin_node_token": "YtxBwrPfBiuFDdk10GVcYY1DnGg",
@@ -64,7 +64,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "We are excited to announce the launch of Zilliz Cloud. With this release, we are introducing a range of enhancements and features.",
+                "content": "We are excited to announce the launch of Zilliz Cloud. With this release, we are introducing a range of enhancements and features, including increased flexibility with a New CU Size Option, the support for advance pay, and more AWS regions.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

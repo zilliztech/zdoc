@@ -5,7 +5,7 @@
   "node_token": "FreNwlcuIi8yhCkbZYkclJEknAh",
   "node_type": "origin",
   "obj_create_time": "1710916974",
-  "obj_edit_time": "1712025973",
+  "obj_edit_time": "1712053225",
   "obj_token": "JeoDd2855o8bv4xBK8nc3XmOnof",
   "obj_type": "docx",
   "origin_node_token": "FreNwlcuIi8yhCkbZYkclJEknAh",
@@ -183,7 +183,7 @@
           ],
           "style": {
             "align": 1,
-            "folded": true
+            "folded": false
           }
         },
         "parent_id": "JeoDd2855o8bv4xBK8nc3XmOnof"
@@ -378,7 +378,7 @@
             },
             {
               "text_run": {
-                "content": " from the navigation panel. Then switch to the",
+                "content": " from the navigation panel. Then switch to the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -390,7 +390,7 @@
             },
             {
               "text_run": {
-                "content": " Connectors ",
+                "content": "Connectors ",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,

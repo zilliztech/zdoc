@@ -1,6 +1,7 @@
 const fetch = require('node-fetch')
 const tokenFetcher = require('./larkTokenFetcher.js')
 const fs = require('fs')
+const _ = require('lodash')
 require('dotenv').config()
 
 const FEISHU_HOST = process.env.FEISHU_HOST
@@ -13,9 +14,10 @@ class larkDocScraper {
         this.base = base_app_id
         this.target_type = target_type
         this.doc_source_dir = doc_source_dir
+        this.processed_sheets = []
     }
 
-    async fetch(recursive=false, page_token=null) {
+    async fetch(recursive=false, page_token=null) { 
         if (!page_token) {
             page_token = this.root
         }
@@ -42,6 +44,25 @@ class larkDocScraper {
             }
         }
 
+        if (this.target_type == "onePager") {
+            let url = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/get_node?token=${page_token}`
+            let res = await fetch(url, {
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'Authorization': `Bearer ${this.token}`
+                }
+            })
+
+            let jres = await res.json()
+
+            if (jres.code == 0) {
+                this.docs = jres.data.node
+                await this.__fetch_blocks(this.docs)
+                fs.writeFileSync(`${this.doc_source_dir}/${page_token}.json`, JSON.stringify(this.docs, null, 2))
+                await this.__split_one_pager(this.docs)
+            }
+        }
+
         if (this.target_type == "drive") {
             if (page_token != null) {
                 var page = fs.readdirSync(this.doc_source_dir).filter(file => {
@@ -56,7 +77,7 @@ class larkDocScraper {
                     if (source.type === "docx") {
                         await this.__fetch_blocks(source)
                         fs.writeFileSync(`${this.doc_source_dir}/${page}`, JSON.stringify(source, null, 2))
-                        console.log(`Fetched ${page}`)
+                        console.log(`5. Fetched ${page}`)
                     }
 
                     if (source.type === "folder") {
@@ -116,6 +137,10 @@ class larkDocScraper {
             }
         })).json()).data.items
 
+        this.records = records
+
+        fs.writeFileSync(`records.json`, JSON.stringify(this.records, null, 2))
+
         const slugs = {}
         if (records.length > 0) {
             for (let record of records) {
@@ -128,6 +153,8 @@ class larkDocScraper {
         }
         
         this.slugs = slugs
+
+        fs.writeFileSync(`slugs.json`, JSON.stringify(this.slugs, null, 2))
     }
 
     async __slugify(token, title=null) {
@@ -136,7 +163,7 @@ class larkDocScraper {
         }
 
         var slug = this.slugs[token]
-
+         
         if (!slug) {
             const record = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
             if (record.length > 0) {
@@ -155,6 +182,95 @@ class larkDocScraper {
         }
 
         return slug
+    }
+
+    async __split_one_pager(node) {
+        if (!this.records) {
+            await this.__base()
+        }
+
+        const directChildren = []
+
+        const tokens = this.records.map(r => r.fields.Docs.link.split('#')[1]).sort((a, b) => node.blocks.items.findIndex(block => block.block_id == a) - node.blocks.items.findIndex(block => block.block_id == b))
+        const indexes = tokens.map(t => node.blocks.items.findIndex(b => b.block_id == t))
+
+        const pages = []
+        
+        for (let i = 1; i < indexes.length; i++) {
+            if (i === indexes.length - 1) {
+                pages.push(node.blocks.items.slice(indexes[i-1], indexes[i]))
+                pages.push(node.blocks.items.slice(indexes[i]))
+            } else {
+                pages.push(node.blocks.items.slice(indexes[i-1], indexes[i]))
+            }
+        }
+
+        if (pages.find(p => p.length === 0)) {
+            // fs.writeFileSync('tokens.json', JSON.stringify(tokens, null, 2))
+            // fs.writeFileSync('indexes.json', JSON.stringify(indexes, null, 2))
+            // fs.writeFileSync('pages.json', JSON.stringify(pages, null, 2))
+            throw new Error(`One pager has empty page ${tokens.filter((_, i) => i === pages.findIndex(p => p.length === 0))[0]}`)
+        }
+
+        for (let record of this.records) {
+            const source = _.cloneDeep(node)
+            source.node_token = source.obj_token = record.fields.Docs.link.split('#').pop()
+            source.parent_node_token = record.fields.Parent[0].text ? this.records.find(r => r.fields['Seq. ID'] == record.fields.Parent[0].text).fields.Docs.link.split('#').pop() : node.node_token
+            source.title = record.fields.Docs.text
+            source.slug = await this.__slugify(`${node.node_token}#${source.obj_token}`, source.title)
+
+            // blocks
+            source.blocks = { items: [], counts: 0 }
+            const blocks = pages.filter(p => record.fields.Docs.link.endsWith(p[0].block_id))
+            if (blocks.length > 0) {
+                source.blocks.counts = blocks[0].length
+                source.blocks.items = blocks[0]
+                source.blocks.items[0].block_type = 1
+                source.blocks.items[0].children = blocks[0].slice(1).filter(b => b.parent_id === node.obj_token).map(b => b.block_id)
+                source.blocks.items[0].parent_id = ""
+                const heading = Object.keys(source.blocks.items[0]).find(key => key.startsWith('heading'))
+                source.blocks.items[0].page = _.cloneDeep(source.blocks.items[0][heading])
+                delete source.blocks.items[0][heading]
+
+                source.blocks.items.slice(1).forEach(block => {
+                    if (block.parent_id === node.obj_token) {
+                        block.parent_id = source.blocks.items[0].block_id
+                    }
+                })
+            }
+            
+            // children
+            if (this.records.find(r => parseInt(r.fields.Parent[0].text) == record.fields['Seq. ID'])) {
+                source.has_child = true
+                source.children = []
+                const children = this.records.filter(r => r.fields.Parent[0].text == record.fields['Seq. ID'])
+                for (let child of children) {
+                    const child_source = _.cloneDeep(node)
+                    delete child_source.blocks
+                    child_source.node_token = child_source.obj_token = child.fields.Docs.link.split('#').pop()
+                    child_source.parent_node_token = source.node_token
+                    child_source.title = child.fields.Docs.text
+                    child_source.slug = await this.__slugify(`${node.node_token}#${child_source.obj_token}`, child_source.title)
+                    source.children.push(child_source)
+                }
+            }
+
+            if (source.parent_node_token == node.node_token) {
+                const cpSource = _.cloneDeep(source)
+                delete cpSource.blocks
+                delete cpSource.children
+                directChildren.push(cpSource)
+            }            
+
+            fs.writeFileSync(`${this.doc_source_dir}/${source.obj_token}.json`, JSON.stringify(source, null, 2))
+            console.log(`7. Fetched ${source.obj_token}.json`)
+        }
+
+        node.children = directChildren
+        node.has_child = true
+        fs.writeFileSync(`${this.doc_source_dir}/${node.origin_node_token}.json`, JSON.stringify(node, null, 2))
+        console.log(`3. Fetched ${node.origin_node_token}.json`)
+
     }
 
     async __fetch_wiki_children(node, recursive=false) {
@@ -213,7 +329,7 @@ class larkDocScraper {
                 }))
                 
                 fs.writeFileSync(`${this.doc_source_dir}/${node.origin_node_token}.json`, JSON.stringify(node, null, 2))
-                console.log(`Fetched ${node.origin_node_token}.json`)
+                console.log(`0. Fetched ${node.origin_node_token}.json`)
                 
                 if (recursive) {
                     await Promise.all(node.children.map(async child => {
@@ -221,19 +337,19 @@ class larkDocScraper {
                         await this.__fetch_blocks(child)
                         child.slug = await this.__slugify(child.node_token, child.title)
                         fs.writeFileSync(`${this.doc_source_dir}/${child.origin_node_token}.json`, JSON.stringify(child, null, 2))
-                        console.log(`Fetched ${child.origin_node_token}.json`)
+                        console.log(`1. Fetched ${child.origin_node_token}.json`)
                         delete child.children
                         delete child.blocks
                     }))
                 }
-            } else if (jres.code == 99991400) {
+            } else if (jres.status == 429) {
                 const timeout = res.headers['x-ogw-ratelimit-reset']
                 await this.__wait(timeout * 1000)
                 await this.__fetch_wiki_children(node, recursive)
             }
         } else {
             fs.writeFileSync(`${this.doc_source_dir}/${node.origin_node_token}.json`, JSON.stringify(node, null, 2))
-            console.log(`Fetched ${node.origin_node_token}.json`)
+            console.log(`2. Fetched ${node.origin_node_token}.json`)
         }
     }
 
@@ -270,7 +386,7 @@ class larkDocScraper {
             }
 
             fs.writeFileSync(`${this.doc_source_dir}/${folder_token}.json`, JSON.stringify(this.docs, null, 2))
-            console.log(`Fetched ${folder_token}.json`)
+            console.log(`3. Fetched ${folder_token}.json`)
 
             if (recursive) {
                 for (let child of this.docs.children) {
@@ -284,11 +400,11 @@ class larkDocScraper {
                         await this.__fetch_blocks(child)
                         child.slug = await this.__slugify(child.token, child.name)
                         fs.writeFileSync(`${this.doc_source_dir}/${child.token}.json`, JSON.stringify(child, null, 2))
-                        console.log(`Fetched ${child.token}.json`)
+                        console.log(`4. Fetched ${child.token}.json`)
                     }
                 }
             }
-        }  else if (jres.code == 99991400) {
+        }  else if (jres.status == 429) {
             const timeout = res.headers['x-ogw-ratelimit-reset']
             await this.__wait(timeout * 1000)
             await this.__fetch_drive_children(folder_token, page_token, recursive)
@@ -329,11 +445,67 @@ class larkDocScraper {
                 if (jres.data.has_more && jres.data.page_token) {
                     await this.__fetch_blocks(node, jres.data.page_token)
                 }
+
+                if (node.blocks.counts > 0) {
+                    for (let item of node.blocks.items) {
+                        if (Object.keys(item).includes('sheet')) {
+                            const token = item.sheet.token.split('_')[0]
+                            const title = item.sheet.token.split('_')[1]
+
+                            if (!this.processed_sheets.includes(item.sheet.token)) {
+                                item.sheet.meta = await this.__fetch_sheet_meta(token, title)
+                                item.sheet.values = await this.__fetch_sheet_values(token, title)
+                                console.log(`Fetched sheet ${item.sheet.token}`)
+                                this.processed_sheets.push(item.sheet.token)
+                            }
+                        }
+                    }
+                }
             } else if (jres.code == 99991400) {
                 const timeout = res.headers['x-ogw-ratelimit-reset']
                 await this.__wait(timeout * 1000)
                 await this.__fetch_blocks(node, page_token)
             }
+        }
+    }
+
+    async __fetch_sheet_meta(sheetToken, sheetTitle) {
+        const sheetMetaUrl = `${FEISHU_HOST}/open-apis/sheets/v3/spreadsheets/${sheetToken}/sheets/${sheetTitle}`
+
+        var res = await fetch(sheetMetaUrl, {
+            headers: {
+                'Authorization': `Bearer ${this.token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (res.status == 200) {
+            var sheetMetas = await res.json()
+            return sheetMetas
+        } else if (res.status == 429) {
+            const timeout = res.headers['x-ogw-ratelimit-reset']
+            await this.__wait(timeout * 1000)
+            await this.__fetch_sheet_meta(sheetToken, sheetTitle)
+        }
+    }
+
+    async __fetch_sheet_values(sheetToken, sheetTitle) {
+        const sheetDataUrl = `${FEISHU_HOST}/open-apis/sheets/v2/spreadsheets/${sheetToken}/values/${sheetTitle}?valueRenderOption=UnformattedValue`
+
+        var res = await fetch(sheetDataUrl, {
+            headers: {
+                'Authorization': `Bearer ${this.token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (res.status == 200) {
+            var sheetData = await res.json()
+            return sheetData
+        } else if (res.status == 429) {
+            const timeout = res.headers['x-ogw-ratelimit-reset']
+            await this.__wait(timeout * 1000)
+            await this.__fetch_sheet_values(sheetToken, sheetTitle)
         }
     }
 }

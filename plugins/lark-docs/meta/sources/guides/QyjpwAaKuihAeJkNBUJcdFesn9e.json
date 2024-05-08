@@ -5,7 +5,7 @@
   "node_token": "QyjpwAaKuihAeJkNBUJcdFesn9e",
   "node_type": "origin",
   "obj_create_time": "1704332748",
-  "obj_edit_time": "1711609177",
+  "obj_edit_time": "1713425979",
   "obj_token": "HRtvddLG2oWHM7x9FzUcQVkcnye",
   "obj_type": "docx",
   "origin_node_token": "QyjpwAaKuihAeJkNBUJcdFesn9e",
@@ -183,7 +183,7 @@
             },
             {
               "text_run": {
-                "content": ", a data processing tool in pymilvus, to prepare your data.",
+                "content": ", a data processing tool in pymilvus and Milvus' Java SDK, to prepare your data.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -245,7 +245,7 @@
             },
             {
               "text_run": {
-                "content": " in PyMilvus is a script designed to convert ",
+                "content": " is a script designed to convert ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1468,7 +1468,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import LocalBulkWriter, BulkFileType\n\nwriter = LocalBulkWriter(\n    schema=schema,\n    local_path='./tmp',\n    segment_size=1 * 1024 * 1024,\n    file_type=BulkFileType.NPY\n",
+                "content": "from pymilvus import LocalBulkWriter, BulkFileType\n\nwriter = LocalBulkWriter(\n    schema=schema,\n    local_path='./tmp',\n    segment_size=512 * 1024 * 1024, # 默认值\n    file_type=BulkFileType.NPY\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1987,7 +1987,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.bulkwriter.LocalBulkWriter;\nimport io.milvus.bulkwriter.LocalBulkWriterParam;\nimport io.milvus.bulkwriter.common.clientenum.BulkFileType;\n\nLocalBulkWriterParam bulkWriterParam = LocalBulkWriterParam.newBuilder()\n        .withCollectionSchema(collectionSchema)\n        .withLocalPath(\"./tmp\")\n        .withFileType(BulkFileType.PARQUET)\n        .withChunkSize(1 * 1024 * 1024)\n        .build();\n        \n",
+                "content": "import io.milvus.bulkwriter.LocalBulkWriter;\nimport io.milvus.bulkwriter.LocalBulkWriterParam;\nimport io.milvus.bulkwriter.common.clientenum.BulkFileType;\n\nLocalBulkWriterParam bulkWriterParam = LocalBulkWriterParam.newBuilder()\n        .withCollectionSchema(collectionSchema)\n        .withLocalPath(\"./tmp\")\n        .withFileType(BulkFileType.PARQUET)\n        .withChunkSize(512 * 1024 * 1024) // default value\n        .build();\n        \n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

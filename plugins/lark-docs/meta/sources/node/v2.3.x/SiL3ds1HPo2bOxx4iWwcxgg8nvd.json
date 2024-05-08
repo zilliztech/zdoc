@@ -33,9 +33,7 @@
           "EKbudc871oNPZ1xHyGGcxWKHnHg",
           "ZAsld2RuwoqJjGx9s0LcYA14nVd",
           "CTQkdlgIZoAdUpx0nXXcdZAanJh",
-          "BObSdmsIkohZa4xpWdvckQhrnBe",
-          "LEAHdeEDDojdYFxSTo3cOW0Ynoc",
-          "R4uNdmvcGoU6j3xXBzKc51TTnxf"
+          "BObSdmsIkohZa4xpWdvckQhrnBe"
         ],
         "page": {
           "elements": [
@@ -4378,86 +4376,9 @@
             "folded": false
           }
         }
-      },
-      {
-        "block_id": "LEAHdeEDDojdYFxSTo3cOW0Ynoc",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Class members",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "SiL3ds1HPo2bOxx4iWwcxgg8nvd"
-      },
-      {
-        "block_id": "R4uNdmvcGoU6j3xXBzKc51TTnxf",
-        "block_type": 2,
-        "parent_id": "SiL3ds1HPo2bOxx4iWwcxgg8nvd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Refer to ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "MilvusClient",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdrive%2Ffolder%2FVg1kfluyll0h7MdlUMaciXfEnZd"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " for a categorized list of class members.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
       }
     ],
-    "counts": 98
+    "counts": 96
   },
   "slug": "Client-MilvusClient"
 }

@@ -5,7 +5,7 @@
   "node_token": "KnnBwce9JifxvXkd070cvgUPnag",
   "node_type": "origin",
   "obj_create_time": "1702439304",
-  "obj_edit_time": "1711447506",
+  "obj_edit_time": "1713940207",
   "obj_token": "F3rPdjH5soDvywx6Ec9cgDKgnNf",
   "obj_type": "docx",
   "origin_node_token": "KnnBwce9JifxvXkd070cvgUPnag",
@@ -5203,34 +5203,7 @@
             },
             {
               "text_run": {
-                "content": " for monitoring and release unused indexes and collections. If a specified value is exceeded, consider ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "scaling up",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FPharwAysCiBzvgkuqqecmNzunQf%23doxcnxTxiGThSTNfYx7Rg9DH1qc"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
+                "content": " for monitoring storage usage.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

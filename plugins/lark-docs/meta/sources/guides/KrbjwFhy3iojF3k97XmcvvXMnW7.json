@@ -5,7 +5,7 @@
   "node_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
   "node_type": "origin",
   "obj_create_time": "1701223750",
-  "obj_edit_time": "1711681912",
+  "obj_edit_time": "1713151111",
   "obj_token": "GQVdd3C8ho6IDexgNBMcTdf1nGc",
   "obj_type": "docx",
   "origin_node_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
@@ -2345,7 +2345,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "curl --request POST \\\n     --url \"https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/createServerless\" \\\n     --header \"Authorization: Bearer ${API_KEY}\" \\\n     --header \"accept: application/json\" \\\n     --header \"content-type: application/json\" \\\n     --data-raw '{\n     \"clusterName\": \"cluster-starter\",\n     \"projectId\": \"8342669010291064832\"\n     }'\n     \n# Sample output:\n#{\n#    \"code\": 200,\n#    \"data\": {\n#        \"clusterId\": \"in03-36cab39b5ef7894\",\n#        \"username\": \"db_36cab39b5ef7894\",\n#        \"password\": \"Lb9.&N,9]Gd4pkp*\",\n#        \"prompt\": \"Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided.\"\n#    }\n",
+                "content": "curl --request POST \\\n     --url \"https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/createServerless\" \\\n     --header \"Authorization: Bearer ${API_KEY}\" \\\n     --header \"accept: application/json\" \\\n     --header \"content-type: application/json\" \\\n     --data-raw \"{\n     \\\"clusterName\\\": \\\"cluster-starter\\\",\n     \\\"projectId\\\": \\\"${PROJECT_ID}\\\"\n }\"\n     \n#   \"code\": 200,\n#   \"data\": {\n#       \"clusterId\": \"in03-XXXXXXXXXXXXXXX\",\n#       \"username\": \"db_XXXXXXXXXXXXXXX\",\n#       \"password\": \"XXXXXXXXXXXXXXXX\",\n#       \"prompt\": \"Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided.\"\n#   }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2357,7 +2357,7 @@
             },
             {
               "text_run": {
-                "content": "#}",
+                "content": "# }",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4427,7 +4427,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "curl --request POST \\\n     --url \"https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/create\" \\\n     --header \"Authorization: Bearer ${API_KEY}\" \\\n     --header \"accept: application/json\" \\\n     --header \"content-type: application/json\" \\\n     --data-raw '{\n     \"plan\": \"Standard\",\n     \"clusterName\": \"cluster-02\",\n     \"cuSize\": 1,\n     \"cuType\": \"Performance-optimized\",\n     \"projectId\": \"8342669010291064832\"\n     }'\n     \n# Sample output:\n# {\n#    \"code\": 200,\n#    \"data\": {\n#        \"clusterId\": \"in01-4d71039fd8754a4\",\n#        \"username\": \"db_admin\",\n#        \"password\": \"Wu5@|71UG)[5zB9n\",\n#        \"prompt\": \"Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided.\"\n#    }\n",
+                "content": "curl --request POST \\\n     --url \"https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/create\" \\\n     --header \"Authorization: Bearer ${API_KEY}\" \\\n     --header \"accept: application/json\" \\\n     --header \"content-type: application/json\" \\\n     --data-raw \"{\n     \\\"plan\\\": \\\"Standard\\\",\n     \\\"clusterName\\\": \\\"cluster-02\\\",\n     \\\"cuSize\\\": 1,\n     \\\"cuType\\\": \\\"Performance-optimized\\\",\n     \\\"projectId\\\": \\\"${PROJECT_ID}\\\"\n }\"\n     \n# {\n#   \"code\": 200,\n#   \"data\": {\n#       \"clusterId\": \"in01-XXXXXXXXXXXXXXX\",\n#       \"username\": \"db_admin\",\n#       \"password\": \"XXXXXXXXXXXXXXXX\",\n#       \"prompt\": \"Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided.\"\n#   }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4439,7 +4439,7 @@
             },
             {
               "text_run": {
-                "content": "#}",
+                "content": "# }",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -135,8 +135,6 @@ class larkUtils {
                 return `${b}</div>`
             })
 
-            // TODO: change image path to relative path
-
             // remove abundant line breaks
             content = content.replace(/\n{3,}/g, '\n\n')
 
@@ -146,6 +144,14 @@ class larkUtils {
         // rename folders
         if (outputDir.includes('reference')) {
             this.__rename_file_path(outputDir)
+        }
+
+        // remove index files
+        const folders = paths.filter(path => fs.statSync(`${outputDir}`).isDirectory())
+        for (const folder of folders) {
+            if (fs.existsSync(`${outputDir}/${folder}/${folder}.md`)) {
+                fs.rmSync(`${outputDir}/${folder}/${folder}.md`, {recursive: true, force: true})
+            }
         }
     }
 

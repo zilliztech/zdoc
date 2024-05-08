@@ -108,24 +108,6 @@
       "space_id": "7167193056431783939",
       "title": "Connectors",
       "slug": "connectors"
-    },
-    {
-      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
-      "has_child": true,
-      "node_create_time": "1710484973",
-      "node_token": "V5DNwjhUmimGnuksnkAcmch3n0c",
-      "node_type": "origin",
-      "obj_create_time": "1710484973",
-      "obj_edit_time": "1710486587",
-      "obj_token": "UHhqd9PcRo7auEx4ehNcbu5qn0g",
-      "obj_type": "docx",
-      "origin_node_token": "V5DNwjhUmimGnuksnkAcmch3n0c",
-      "origin_space_id": "7167193056431783939",
-      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
-      "parent_node_token": "RzBdwMKAxiiejDk9rWjc1Sv1nSf",
-      "space_id": "7167193056431783939",
-      "title": "Concepts",
-      "slug": "pipelines-concepts"
     }
   ]
 }

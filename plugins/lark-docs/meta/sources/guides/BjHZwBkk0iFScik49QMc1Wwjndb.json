@@ -5,7 +5,7 @@
   "node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
   "node_type": "origin",
   "obj_create_time": "1704332777",
-  "obj_edit_time": "1711706417",
+  "obj_edit_time": "1713425262",
   "obj_token": "TXlrdXzlPokEQ5xnA30c93SLnMc",
   "obj_type": "docx",
   "origin_node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
@@ -5589,7 +5589,7 @@
             },
             {
               "text_run": {
-                "content": ", # Use a bucket hosted in the same cloud as the target cluster",
+                "content": ", ",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -7849,7 +7849,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Before this step, ensure that the source data and target collection are hosted by the same cloud provider.",
+                "content": "Before this step, ensure that the prepared data has already been uploaded to the desired bucket.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

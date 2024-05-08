@@ -5,7 +5,7 @@
   "node_token": "EA2twSf5oiERMDkriKScU9GInc4",
   "node_type": "origin",
   "obj_create_time": "1689055409",
-  "obj_edit_time": "1711681557",
+  "obj_edit_time": "1713266553",
   "obj_token": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
   "obj_type": "docx",
   "origin_node_token": "EA2twSf5oiERMDkriKScU9GInc4",
@@ -39,6 +39,10 @@
           "Z4zxd93CoonJAOxujvYcDoMmnQc",
           "WnozdwHs1o9VAwxhsEtcCPyQncc",
           "AQGbdMXQloLQUhxkGfcc1cyan0e",
+          "WtRldRqfjo9x9zx8WEqc1CGUntf",
+          "EZSXd2DDiohMU0xeT6Scsc9bnuf",
+          "ZaRpdNHMAoQAXdxuLhxcUJhxnfh",
+          "DD2GdNValoimYXx1BWEc26S3nch",
           "WmL1dps23obzedxw2YKc5XsRnBf",
           "UL26dtOkzoMfFxxDRIdc5townpg"
         ],
@@ -783,7 +787,73 @@
           "elements": [
             {
               "text_run": {
-                "content": "# For index-building\n# On Milvus\nindex_params = {\n    # Another option is IP.\n    \"metric_type\": \"L2\", \n    # There are six more options available there.\n    \"index_type\": \"IVF_FLAT\",\n    # This varies with the specified index type.\n    \"params\": {\n        # This is the parameter required for IVF_FLAT to work.\n        \"nlist\": 1024\n    }\n}\n\n# On Zilliz Cloud\nindex_params = {\n    # Always set this to AUTOINDEX\n    \"index_type\": \"AUTOINDEX\", \n    # This is the only parameter you should think about.\n    \"metric_type\": \"L2\",\n    # Leave this empty for AUTOINDEX to work \n    \"params\": {} \n}\n\n# For searches\n# On Milvus\nsearch_params = {\n    # Set this to the metric type used to build the index\n    \"metric_type\": \"L2\", \n    # Applicable tuning parameters vary with the index type\n    \"params\": {\n        \"nprobe\": 10\n    }\n}\n\n# On Zilliz Cloud\nsearch_params = {\n    # The value remains the same as the metric type specified during index building.\n    \"metric_type\": \"L2\" \n",
+                "content": "# For index-building\n# On Milvus\nindex_params = {\n    # Another option is IP.\n    \"metric_type\": \"L2\", \n    # There are six more options available there.\n    \"index_type\": \"IVF_FLAT\",\n    # This varies with the specified index type.\n    \"params\": {\n        # This is the parameter required for IVF_FLAT to work.\n        \"nlist\": 1024\n    }\n}\n\n# On Zilliz Cloud\nindex_params = {\n    # Always set this to AUTOINDEX\n    \"index_type\": \"AUTOINDEX\", \n    # This is the only parameter you should think about.\n    \"metric_type\": \"L2\",\n    \"params\": {\n        \"nlist\": 1024\n    }\n}\n\n# For searches\n# On Milvus\nsearch_params = {\n    # Applicable tuning parameters vary with the index type\n    \"params\": {\n        \"nprobe\": 10\n    }\n}\n\n# On Zilliz Cloud\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "search_params = {",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7358420639650480131"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    # highlight-next-line\n    \"params\": { \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        \"level\": 1 # The default value",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " applies when left unspecified",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7358662284204228612"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -811,7 +881,333 @@
             "wrap": false
           }
         },
+        "comment_ids": [
+          "7358662284204228612",
+          "7358420639650480131"
+        ],
         "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e"
+      },
+      {
+        "block_id": "WtRldRqfjo9x9zx8WEqc1CGUntf",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "About the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "level",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e"
+      },
+      {
+        "block_id": "EZSXd2DDiohMU0xeT6Scsc9bnuf",
+        "block_type": 2,
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Tunning search performance requires adjusting different sets of parameters that vary with index types. For instance, when using HNSW, the parameter you should tune is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ef",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", whereas when using IVF, the parameter to adjust is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "nprobe",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". To reach a balance between an optimal recall rate and search performance, it is necessary to fine-tune these parameters specific to the type of index being used.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZaRpdNHMAoQAXdxuLhxcUJhxnfh",
+        "block_type": 2,
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud uses a unified parameter ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "level",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to simplify search parameter tuning instead of leaving you to work with the above-mentioned complex parameter sets. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DD2GdNValoimYXx1BWEc26S3nch",
+        "block_type": 2,
+        "comment_ids": [
+          "7358421268313669636"
+        ],
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Increasing the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "level",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameter will result in a higher recall rate, but may also lead to degraded search performance. The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ranges from ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". The default value results in a recall rate of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "90%",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7358421268313669636"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", which is typically sufficient for most use cases. However, if you require a higher recall rate, increase this value.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "WmL1dps23obzedxw2YKc5XsRnBf",
@@ -864,6 +1260,6 @@
         }
       }
     ],
-    "counts": 21
+    "counts": 25
   }
 }

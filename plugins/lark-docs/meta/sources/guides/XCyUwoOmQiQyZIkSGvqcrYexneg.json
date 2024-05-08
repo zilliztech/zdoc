@@ -5,7 +5,7 @@
   "node_token": "XCyUwoOmQiQyZIkSGvqcrYexneg",
   "node_type": "origin",
   "obj_create_time": "1708764329",
-  "obj_edit_time": "1710987686",
+  "obj_edit_time": "1712829107",
   "obj_token": "S8NKde85locY5nxOXW8cDwjwn8d",
   "obj_type": "docx",
   "origin_node_token": "XCyUwoOmQiQyZIkSGvqcrYexneg",
@@ -22,48 +22,50 @@
         "block_type": 1,
         "children": [
           "doxcnmwwTtfdb3AXYXnaZEKm1fe",
-          "doxcns4wzrHNp9rPW9Pdlipikvb",
-          "UAMDdKkKOoZiZQxwT1XcMt3zn6Z",
+          "B87sdfpRxoCO48xaTLmck6w4npq",
+          "YoMMd7S4ro9TRgxaeG7cGHz0nrd",
+          "QI5hdNuV0ohBItxSPEtcTH2GnBg",
+          "KOUydNfXzoRQzSxIOIdcx12Ynrb",
           "doxcn9BuUSHhqzurfuNLhFRTLLc",
-          "doxcniPJGydk0oYLHT0V0lZY9rd",
-          "doxcnKDYqxJKQASMusENfM8d2Hg",
-          "doxcnwreN4F9XsXJ0JdQFnCeI6c",
-          "doxcn07mrRfOir6BLx53IvWIUGb",
-          "doxcnK3vydpBqDcoh3bpiv5EY4b",
-          "doxcnQZaAPZBTOl3ZOAQ5Xk35gb",
-          "doxcn5DyzI9M8x4x9ipoIpOcVBZ",
-          "doxcnRIbkuO4lDRamrWGBKEkhAc",
-          "doxcntZpoGgfnXWB4smSajYE40c",
-          "doxcnCT6QZ45all7v2CAuycc5ib",
-          "doxcnC2mn3sZYBCTZoMGvPBDcxc",
-          "NoRldnWsdoXXM5xci0Yc2jIAnch",
-          "doxcnZQGo8o3s5syxz2sheyTpte",
-          "doxcnoYfYqNHaxecG0BlwHtsvPf",
-          "doxcniPmT3f7AN3Ibs2MyfXvrte",
-          "doxcnf2sZm58m1yZce2PqNBpskt",
-          "doxcnuzLrZg0ol98l04uolO2olf",
-          "doxcnTSZWiBpvsWv4QadZG2gwBb",
-          "doxcngIIJSP41JlstunMSaKwHfb",
-          "doxcnZYlo2HpueUf4xftR6d1n1b",
-          "doxcn7n6Tg5VzHTwumacYq3HmCf",
-          "doxcn0hwBbdYw1fvAR4LU0j24yb",
-          "doxcnVn9gob5cwbuRE3h8vkvJnf",
-          "doxcnL83j9zYlIod7PAPoLhA1Wh",
-          "doxcniAPKk28M3wItPAykoPyndB",
-          "doxcn0FIo2H1vTcShM6PEFjDOIg",
-          "doxcn3IHUnxG3GZV7rmx42Viupf",
-          "doxcnpJ2ykq2j1IX36Mno3Bwzce",
-          "doxcnzfcWFzVFE6rF5Vorvfd2Pc",
-          "doxcn8HnmMIxL9jHCG4TiYFMO7f",
-          "doxcnjPV8CYpAGNwhVqYGJFqNie",
-          "doxcnsSzhp1gDLPfOXGmctgoWch",
-          "doxcnDFEvzfttuiAWCQMjQdocEb",
-          "doxcn555oJAaLxZFBQLG9nD71Ed",
+          "ZopDdA2XDovc9BxNDH0cMr8znTf",
+          "EWffdRuxGoXPlbxDstFcn6MEnWg",
+          "AbwMdA0j2ove4RxbfnWcg2sWnUc",
+          "JX57d1JOloYS7lxLbPNcrJp0nqe",
+          "G7WLdfTbWohJ76xshrBcn2xQnug",
+          "O0ycdw7O3oB0dmxYSrQclw4BnHC",
+          "RO2Nd6edZoNzKmxCoS6cjYQZndb",
+          "IV4DdCq8iotiP2xNHnQcs9ddnWh",
+          "QAk9dWb6aoL4NKxxc7ic0vu3nE6",
+          "Pdo8dkCEjoKEAxxbQfBceoiCnZg",
+          "DWT2d1G5poVEGBxtSxzcrmzHnkb",
+          "TmBFdS7rjobNl1xIdCsc7JlEnNf",
+          "VPPVdykkWoGvj7xELmPcjqcFnfe",
+          "DVzYdIH94oblpyxWXAPcfKGunth",
+          "O7KTdCQTjoegvhxgkykciCLbnnd",
+          "OrqPdeLKyoA2N2xkO4Uc876Vnzg",
+          "Inc7dlAJ3owBFjx0v5qcdg2rnxf",
+          "RC5ndjblcoRM3Px6O4XcFa5wnvb",
+          "Yc8IdyV1sosp07xnsWocAmQMnme",
+          "KrBudrVfNo8K7bxkqhzcXmMunIc",
+          "XJGidPWXiomzP2xgxddcBNPUnLf",
+          "Pk9Cd9aNjoUH02xMrblcDD7OnEC",
+          "XKzYdvu0GolK42xdrR3cOETrnJc",
+          "PnETdzzGHo2FTdxWDD9cJCArnte",
+          "YD3ddsGtsoZmzTxQk3Uc8vNWnIc",
+          "T3QwdBYoLoisk1xPv7YcvAmfnth",
+          "WvVFdIAqjoPROHxKoA1cUF2DnAh",
+          "ZU0hdlikUo0bugxwAAZcZZuenus",
+          "JuRNdmEnRopUr8xpnYwcMe8znhc",
+          "Ddzvd4COIonNNPxAUtMc55MnnYe",
+          "NVn3dYMyXow22bxiTEUcoXyFnkZ",
+          "AjzDdYkUJoXpucxHHi5ccKgxn6d",
           "JeTMdaNVioOYncxQ9E3cAkEgnpf",
           "Al1yd42f5ovTodxL66NcAtzOnwg",
           "MeR1d7e1Vo3qmxxAkLOc1sIanRK",
           "WeRIdbsjzooKoRx0UJjcFiwOnKe",
-          "ZPHkdjUYro69RoxgvEOc7YO8nJP"
+          "ZPHkdjUYro69RoxgvEOc7YO8nJP",
+          "Yzc9dqIlTohlJ2xU50fcZvCdnOb",
+          "VNNqdQkPgoYHNGxOM8Ac5cZJn9c"
         ],
         "page": {
           "elements": [
@@ -94,43 +96,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Since",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " Milvus 2.4, we introduced multi-vector support and ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "a hybrid",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " search framework, which means users can bring in several vector fields (max to 10) into one collection. Different vector fields can represent different aspects, different embedding models or even different modalities of data characterizing the same entity, which greatly expands the richness of information.",
+                "content": "Since Milvus 2.4, we introduced multi-vector support and a hybrid search framework, which means users can bring in several vector fields (up to 10) into a single collection. Different vector fields can represent different aspects, different embedding models or even different modalities of data characterizing the same entity, which greatly expands the richness of information. This feature is particularly useful in comprehensive search scenarios, such as identifying the most similar person in a vector library based on various attributes like pictures, voice, fingerprints, etc.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -148,14 +114,14 @@
         }
       },
       {
-        "block_id": "doxcns4wzrHNp9rPW9Pdlipikvb",
+        "block_id": "B87sdfpRxoCO48xaTLmck6w4npq",
         "block_type": 2,
         "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Multi-vector search allows conducting a search that includes multiple vector fields within a single collection. This feature enables executing search requests over various vector fields and integrating the results using reranking strategies, including Reciprocal Rank Fusion (RRF) and Weighted Scoring. ",
+                "content": "A multi-vector search enables executing search requests over various vector fields and combines the results using reranking strategies, such as Reciprocal Rank Fusion (RRF) and Weighted Scoring. ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -173,14 +139,14 @@
         }
       },
       {
-        "block_id": "UAMDdKkKOoZiZQxwT1XcMt3zn6Z",
+        "block_id": "YoMMd7S4ro9TRgxaeG7cGHz0nrd",
         "block_type": 2,
         "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "It is mainly used in comprehensive search scenarios, such as finding the most similar person in the vector library based on multiple elements such as someone's picture, voice, fingerprint, etc.",
+                "content": "In this tutorial, you will learn how to:",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -196,16 +162,89 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "QI5hdNuV0ohBItxSPEtcTH2GnBg",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create multiple ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AnnSearchRequest",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " instances for similarity searches on different vector fields;",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "KOUydNfXzoRQzSxIOIdcx12Ynrb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Configure a reranking strategy to combine search results from multiple AnnSearchRequests;",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
       {
         "block_id": "doxcn9BuUSHhqzurfuNLhFRTLLc",
-        "block_type": 2,
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
-        "text": {
+        "block_type": 13,
+        "ordered": {
           "elements": [
             {
               "text_run": {
-                "content": "This guide provides a step-by-step explanation of how to execute ",
+                "content": "Use the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -217,10 +256,10 @@
             },
             {
               "text_run": {
-                "content": "multi-vector",
+                "content": "hybrid_search()",
                 "text_element_style": {
                   "bold": false,
-                  "inline_code": false,
+                  "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -229,31 +268,7 @@
             },
             {
               "text_run": {
-                "content": " search in Milvus and understand the reranking of results.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcniPJGydk0oYLHT0V0lZY9rd",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "API overview",
+                "content": " method to perform a multi-vector search.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -272,612 +287,24 @@
         "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
       {
-        "block_id": "doxcnKDYqxJKQASMusENfM8d2Hg",
-        "block_type": 2,
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "hybrid",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "_search",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " API is central to performing a multi-vector search. The following 2 key params represent two essential phases: multi-way recalls and a hybrid rerank.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnwreN4F9XsXJ0JdQFnCeI6c",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "reqs",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": This is a list of ANN search requests. Each search request is an ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ANNSearchRequest",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " object tied to a unique vector field and its search parameters.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcn07mrRfOir6BLx53IvWIUGb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "rerank",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": Specifies the reranking strategy. ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Options include ",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7343492948417527812"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "WeightedRanker",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7343492948417527812"
-                  ],
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " and ",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7343492948417527812"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "RRFRanker",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7343492948417527812"
-                  ],
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7343492948417527812"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
+        "block_id": "ZopDdA2XDovc9BxNDH0cMr8znTf",
+        "block_type": 34,
         "children": [
-          "doxcnCrMkWbMAzL4QQX4o7pvXT3",
-          "doxcnwJNMyxkP94Gl9x5TmtEKgf",
-          "X8rRdiHeLoVRh5xOMZTcVDy6nkh"
+          "PwfCdmwpRoTYrbxDJxScgnGNnFe",
+          "Nq8WdxfuRokImZx5uHXcadWWnvb"
         ],
-        "comment_ids": [
-          "7343492948417527812"
-        ],
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcnCrMkWbMAzL4QQX4o7pvXT3",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "WeightedRanker",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": The Average Weighted Scoring reranking strategy, which prioritizes vectors based on relevance, averaging their significance.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "doxcn07mrRfOir6BLx53IvWIUGb"
-      },
-      {
-        "block_id": "doxcnwJNMyxkP94Gl9x5TmtEKgf",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "RRFRanker",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": The RRF reranking strategy, which merges results from multiple searches, favoring items that consistently appear.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "doxcn07mrRfOir6BLx53IvWIUGb"
-      },
-      {
-        "block_id": "X8rRdiHeLoVRh5xOMZTcVDy6nkh",
-        "block_type": 2,
-        "parent_id": "doxcn07mrRfOir6BLx53IvWIUGb",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "More rerank models are coming soon to enhance our reranking capabilities",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ", such as Cohere ranking, BGE ranking, etc. ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Stay tuned!",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnK3vydpBqDcoh3bpiv5EY4b",
-        "block_type": 2,
         "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Example of ",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "a ",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "hybrid",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "_search",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " call",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ":",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
+        "quote_container": {}
       },
       {
-        "block_id": "doxcnQZaAPZBTOl3ZOAQ5Xk35gb",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "# Create a Collection instance\ncollection = Collection(name='{your_collection_name}') # Replace with the actual name of your collection\n\n",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7347610496738426883"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "# Perform ",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7347610496738426883"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "hybrid",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7347610496738426883"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " search with placeholder configs\n",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7347610496738426883"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "res = collection.",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7347610496738426883"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "hybrid",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7347610496738426883"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "_search(\n    reqs=[\n        AnnSearchRequest(\n            data=[['{your_text_query_vector}']],  # Replace with your text vector data\n            anns_field='{text_vector_field_name}',  # Textual data vector field\n            param={\"metric_type\": \"IP\", \"params\": {\"nprobe\": 10}}, # Search parameters\n            limit=2\n        ),\n        AnnSearchRequest(\n            data=[['{your_image_query_vector}']],  # Replace with your image vector data\n            anns_field='{image_vector_field_name}',  # Image data vector field\n            param={\"metric_type\": \"IP\", \"params\": {\"nprobe\": 10}}, # Search parameters\n            limit=2\n        )\n    ],\n    # Use WeightedRanker to combine results with specified weights\n    rerank=WeightedRanker(0.8, 0.2), # Assign weights of 0.8 to text search and 0.2 to image search\n    # Alternatively, use RRFRanker for reciprocal rank fusion reranking\n    # rerank=RRFRanker(),\n    limit=2\n",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7347610496738426883"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ")",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7347610496738426883"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "comment_ids": [
-          "7347610496738426883"
-        ],
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcn5DyzI9M8x4x9ipoIpOcVBZ",
+        "block_id": "PwfCdmwpRoTYrbxDJxScgnGNnFe",
         "block_type": 2,
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
+        "parent_id": "ZopDdA2XDovc9BxNDH0cMr8znTf",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Expected output",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ":",
+                "content": "📘 Notes",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -895,210 +322,14 @@
         }
       },
       {
-        "block_id": "doxcnRIbkuO4lDRamrWGBKEkhAc",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "[",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7343493154716041220"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "  \"['id: 2, distance: 0.4452269673347473, entity: {}', 'id: 1, distance: 0.0, entity: {}']\"",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7343493154716041220"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "]",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7343493154716041220"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "comment_ids": [
-          "7343493154716041220"
-        ],
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcntZpoGgfnXWB4smSajYE40c",
+        "block_id": "Nq8WdxfuRokImZx5uHXcadWWnvb",
         "block_type": 2,
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
+        "parent_id": "ZopDdA2XDovc9BxNDH0cMr8znTf",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Considerations",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ":",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnCT6QZ45all7v2CAuycc5ib",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "A collection must have multiple vector fields, each with its own index. ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcnC2mn3sZYBCTZoMGvPBDcxc",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Partially indexed or loaded vector fields in a collection will result in an error.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "NoRldnWsdoXXM5xci0Yc2jIAnch",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Currently, each AnnSearchRequest in a hybrid search can carry one query vector.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcnZQGo8o3s5syxz2sheyTpte",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Typically, each collection has a default allowance of up to 4 vector fields. However, you have the option to adjust the ",
+                "content": "The code snippets on this page use the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1110,49 +341,13 @@
             },
             {
               "text_run": {
-                "content": "proxy.maxVectorFieldNum",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " configuration to expand the maximum number of vector fields in a collection, with a maximum limit of 10 vector fields per collection.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " See ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Proxy-related Configurations",
+                "content": "PyMilvus ORM module",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fconfigure_proxy.md%23Proxy-related-Configurations"
+                    "url": "https%3A%2F%2Fmilvus.io%2Fapi-reference%2Fpymilvus%2Fv2.4.x%2FORM%2FConnections%2Fconnect.md"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -1161,7 +356,7 @@
             },
             {
               "text_run": {
-                "content": " for more",
+                "content": " to interact with Milvus. Code snippets with the new ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1173,7 +368,22 @@
             },
             {
               "text_run": {
-                "content": ".",
+                "content": "MilvusClient SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fapi-reference%2Fpymilvus%2Fv2.4.x%2FAbout.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " will be available soon.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1188,17 +398,16 @@
             "align": 1,
             "folded": false
           }
-        },
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+        }
       },
       {
-        "block_id": "doxcnoYfYqNHaxecG0BlwHtsvPf",
+        "block_id": "EWffdRuxGoXPlbxDstFcn6MEnWg",
         "block_type": 4,
         "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "Practical examples ",
+                "content": "Preparations",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1217,14 +426,39 @@
         "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
       {
-        "block_id": "doxcniPmT3f7AN3Ibs2MyfXvrte",
+        "block_id": "AbwMdA0j2ove4RxbfnWcg2sWnUc",
         "block_type": 2,
         "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Consider a collection named ",
+                "content": "Before starting a multi-vector search, ensure you have a collection with multiple vector fields.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JX57d1JOloYS7lxLbPNcrJp0nqe",
+        "block_type": 2,
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Below is an example of creating a collection named ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1248,7 +482,7 @@
             },
             {
               "text_run": {
-                "content": " with two vector fields: ",
+                "content": " with two vector fields, ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1296,7 +530,7 @@
             },
             {
               "text_run": {
-                "content": ".",
+                "content": ", and inserting random entities into it.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1314,112 +548,13 @@
         }
       },
       {
-        "block_id": "doxcnf2sZm58m1yZce2PqNBpskt",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "filmVector",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": Represents textual content of a film.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcnuzLrZg0ol98l04uolO2olf",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "posterVector",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": Converts visual features of a film's poster into vector format.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcnTSZWiBpvsWv4QadZG2gwBb",
-        "block_type": 2,
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Here is an example of creating and indexing the collection:",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcngIIJSP41JlstunMSaKwHfb",
+        "block_id": "G7WLdfTbWohJ76xshrBcn2xQnug",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "# Create schema\nfields = [\n    FieldSchema(name=\"film_id\", dtype=DataType.INT64, is_primary=True),\n    FieldSchema(name=\"filmVector\", dtype=DataType.FLOAT_VECTOR, dim=5),\n    FieldSchema(name=\"posterVector\", dtype=DataType.FLOAT_VECTOR, dim=5)]\n\nschema = CollectionSchema(fields=fields,enable_dynamic_field=False)\n\n# Create collection\ncollection = Collection(name=\"test_collection\", schema=schema)\n\n# Create index for each vector field\nindex_params = {\n    \"metric_type\": \"IP\",\n    \"index_type\": \"IVF_FLAT\",\n    \"params\": {\"nlist\": 128},\n}\n\ncollection.create_index(\"filmVector\", index_params)\ncollection.create_index(\"posterVector\", index_params)\n\ncollection.load()\nutility.loading_progress('test_collection')\n\n# Output:\n",
+                "content": "from pymilvus import connections, Collection, FieldSchema, CollectionSchema, DataType\nimport random\n\n# Connect to Milvus\nconnections.connect(\n    host=\"10.102.7.3\", # Replace with your Milvus server IP\n    port=\"19530\"\n)\n\n# Create schema\nfields = [\n    FieldSchema(name=\"film_id\", dtype=DataType.INT64, is_primary=True),\n    FieldSchema(name=\"filmVector\", dtype=DataType.FLOAT_VECTOR, dim=5), # Vector field for film vectors\n    FieldSchema(name=\"posterVector\", dtype=DataType.FLOAT_VECTOR, dim=5)] # Vector field for poster vectors\n\nschema = CollectionSchema(fields=fields,enable_dynamic_field=False)\n\n# Create collection\ncollection = Collection(name=\"test_collection\", schema=schema)\n\n# Create index for each vector field\nindex_params = {\n    \"metric_type\": \"L2\",\n    \"index_type\": \"IVF_FLAT\",\n    \"params\": {\"nlist\": 128},\n}\n\ncollection.create_index(\"filmVector\", index_params)\ncollection.create_index(\"posterVector\", index_params)\n\n# Generate random entities to insert\nentities = []\n\nfor _ in range(1000):\n    # generate random values for each field in the schema\n    film_id = random.randint(1, 1000)\n    film_vector = [ random.random() for _ in range(5) ]\n    poster_vector = [ random.random() for _ in range(5) ]\n\n    # creat a dictionary for each entity\n    entity = {\n        \"film_id\": film_id,\n        \"filmVector\": film_vector,\n        \"posterVector\": poster_vector\n    }\n\n    # add the entity to the list\n    entities.append(entity)\n    \n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1431,7 +566,7 @@
             },
             {
               "text_run": {
-                "content": "# {'loading_progress': '100%'}",
+                "content": "collection.insert(entities)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1450,829 +585,13 @@
         "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
       {
-        "block_id": "doxcnZYlo2HpueUf4xftR6d1n1b",
-        "block_type": 2,
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "To insert data into the collection, use the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "insert",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " method.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcn7n6Tg5VzHTwumacYq3HmCf",
-        "block_type": 2,
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Here is how to insert 5 rows of data:",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcn0hwBbdYw1fvAR4LU0j24yb",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "# Insert data\ndata = [\n    [1, 2, 3, 4, 5],\n    [\n        [0.8896863042430693, 0.370613100114602, 0.23779315077113428, 0.38227915951132996, 0.5997064603128835],\n        [0.5078114059712959, 0.3432028079630215, 0.8089418399592051, 0.474462050627378, 0.5856421849875101],\n        [0.2990413172901394, 0.9028391994278029, 0.34082510211853334, 0.4107540298194492, 0.47539164233358744],\n        [0.5832605600308075, 0.8511790894069673, 0.7112488464298848, 0.553514109969526, 0.15985473038541032],\n        [0.21188658802419225, 0.572143948100824, 0.4585998365439241, 0.565993613724163, 0.5862558542959135]\n    ],\n    [\n        [0.02550758562349764, 0.006085637357292062, 0.5325251250159071, 0.7676432650114147, 0.5521074424751443],\n        [0.19516017744052183, 0.22918923173953565, 0.9548363036811129, 0.5643725931032165, 0.5964664905051439],\n        [0.06260894301791908, 0.814777822276412, 0.8672567702540677, 0.1374189887611933, 0.9268283838873627],\n        [0.5364943790237713, 0.9962551093178361, 0.31902289153816554, 0.9924305856358849, 0.6287783946443399],\n        [0.7644141951092023, 0.8478868932552704, 0.5442341774477372, 0.8379655462947587, 0.5167658776852181]\n    ]\n]\n\ncollection.insert(data)\n\n# Output:\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "# (insert count: 5, delete count: 0, upsert count: 0, timestamp: 447370828842532866, success count: 5, err count: 0)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcnVn9gob5cwbuRE3h8vkvJnf",
-        "block_type": 2,
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Because Milvus executes searches over multiple vector fields, you need to create separate ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ANNSearchRequest",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " objects for each vector field:",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnL83j9zYlIod7PAPoLhA1Wh",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "# Create ANN search request for filmVector\nquery_filmVector = [[0.8896863042430693, 0.370613100114602, 0.23779315077113428, 0.38227915951132996, 0.5997064603128835]]\n\nsearch_param_1 = {\n    \"data\": query_filmVector, # Query vector\n    \"anns_field\": \"filmVector\", # Vector field name\n    \"param\": {\n        \"metric_type\": \"IP\",\n        \"params\": {\"nprobe\": 10}\n    },\n    \"limit\": 2\n}\nrequest_1 = AnnSearchRequest(**search_param_1)\n\n# Create ANN search request for posterVector\nquery_posterVector = [[0.02550758562349764, 0.006085637357292062, 0.5325251250159071, 0.7676432650114147, 0.5521074424751443]]\nsearch_param_2 = {\n    \"data\": query_posterVector, # Query vector\n    \"anns_field\": \"posterVector\", # Vector field name\n    \"param\": {\n        \"metric_type\": \"IP\",\n        \"params\": {\"nprobe\": 10}\n    },\n    \"limit\": 2\n}\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "request_2 = AnnSearchRequest(**search_param_2)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcniAPKk28M3wItPAykoPyndB",
-        "block_type": 2,
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Once ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "request_1",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " and ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "request_2",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " are created, implement ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "hybrid",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " search with reranking strategies: Weighted Scoring",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "and",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "RRF.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcn0FIo2H1vTcShM6PEFjDOIg",
-        "block_type": 5,
-        "heading3": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Use ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "w",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "eighted ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "s",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "coring",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcn3IHUnxG3GZV7rmx42Viupf",
-        "block_type": 2,
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "To use this strategy, set ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "rerank",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " to ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "WeightedRanker",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " and assign weights to each ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ANNSearchRequest",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnpJ2ykq2j1IX36Mno3Bwzce",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "# ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "hybrid",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " search with WeightedRanker\n\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "weighted_result = collection.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "hybrid",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "_search(\n    reqs=[request_1, request_2],\n    # Combine the results with weight 0.8 for request_1 and 0.2 for request_2\n    rerank=WeightedRanker(0.8, 0.2),\n    limit=2\n)\n\n# Print the results\nprint(weighted_result)\n\n# Output:\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "# [\"['id: 2, distance: 0.4452269673347473, entity: {}', 'id: 1, distance: 0.0, entity: {}']\"]",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcnzfcWFzVFE6rF5Vorvfd2Pc",
-        "block_type": 5,
-        "heading3": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Use RRF",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcn8HnmMIxL9jHCG4TiYFMO7f",
-        "block_type": 2,
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "For RRF reranking, set ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "rerank",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " to ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "RRFRanker",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ":",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnjPV8CYpAGNwhVqYGJFqNie",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "# ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "hybrid",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " search with RRFRanker\n\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "rrf_result = collection.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "hybrid",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "_search(\n    reqs=[request_1, request_2],\n    rerank=RRFRanker(),\n    limit=2\n)\n\n# Print the results\nprint(rrf_result)\n\n# Output:\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "# [\"['id: 1, distance: 0.032786883413791656, entity: {}', 'id: 2, distance: 0.032258063554763794, entity: {}']\"]",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
-      },
-      {
-        "block_id": "doxcnsSzhp1gDLPfOXGmctgoWch",
+        "block_id": "O0ycdw7O3oB0dmxYSrQclw4BnHC",
         "block_type": 4,
         "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "Hybrid",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " search parameters",
+                "content": "Step 1: Create Multiple AnnSearchRequest Instances",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2291,14 +610,14 @@
         "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
       {
-        "block_id": "doxcnDFEvzfttuiAWCQMjQdocEb",
+        "block_id": "RO2Nd6edZoNzKmxCoS6cjYQZndb",
         "block_type": 2,
         "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The following table outlines the parameters used in ",
+                "content": "A multi-vector search uses the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2310,263 +629,7 @@
             },
             {
               "text_run": {
-                "content": "a hybrid",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " search.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "block_type": 31,
-        "children": [
-          "doxcn8donH2SubrbBgRnNOy6QEb",
-          "doxcn3xi3kIka6CzeZDCZXgdld1",
-          "doxcnnvzyUX5tq1EjSjcHBQ293b",
-          "doxcnfAwAjUMa3gtI7rOsXXhtJe",
-          "doxcnOPUcY9GvrByYLhKCKqyHnf",
-          "doxcnvs9JgLbeExTRBq6SXrL7yb",
-          "doxcnwvglbQucBHVTGxaGxNFKwf",
-          "doxcnae2ZNJRU4hxA3LfhArLxvh",
-          "doxcn7Dgj4CIsy2HQfScMzRgMvX",
-          "doxcnS8W3wlaOz4bmic4g5eoe6g",
-          "doxcnPXOvBHCk9nL7mLwXadzXYJ",
-          "doxcnL7WDgVXn5l6LQfRnbFJ4cc",
-          "doxcn9LRWXqJVmCUbZDxdKu8Xle",
-          "doxcnKG2UwIufTDK1l4WhtZeybe",
-          "doxcniC7HgN9mLHdwmLxdAeGyYe",
-          "doxcnJ2byRXzPxjexP0wNf5Rhdh",
-          "doxcnR6hyzTTmLPGGDuT0ubfJGb",
-          "doxcn3niD2onnLvR49bC0IpHTed",
-          "doxcnTvUKRTPIlvtjRZIf94cYDp",
-          "doxcnm18xdP5rmk56V2coVtKQdb"
-        ],
-        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
-        "table": {
-          "cells": [
-            "doxcn8donH2SubrbBgRnNOy6QEb",
-            "doxcn3xi3kIka6CzeZDCZXgdld1",
-            "doxcnnvzyUX5tq1EjSjcHBQ293b",
-            "doxcnfAwAjUMa3gtI7rOsXXhtJe",
-            "doxcnOPUcY9GvrByYLhKCKqyHnf",
-            "doxcnvs9JgLbeExTRBq6SXrL7yb",
-            "doxcnwvglbQucBHVTGxaGxNFKwf",
-            "doxcnae2ZNJRU4hxA3LfhArLxvh",
-            "doxcn7Dgj4CIsy2HQfScMzRgMvX",
-            "doxcnS8W3wlaOz4bmic4g5eoe6g",
-            "doxcnPXOvBHCk9nL7mLwXadzXYJ",
-            "doxcnL7WDgVXn5l6LQfRnbFJ4cc",
-            "doxcn9LRWXqJVmCUbZDxdKu8Xle",
-            "doxcnKG2UwIufTDK1l4WhtZeybe",
-            "doxcniC7HgN9mLHdwmLxdAeGyYe",
-            "doxcnJ2byRXzPxjexP0wNf5Rhdh",
-            "doxcnR6hyzTTmLPGGDuT0ubfJGb",
-            "doxcn3niD2onnLvR49bC0IpHTed",
-            "doxcnTvUKRTPIlvtjRZIf94cYDp",
-            "doxcnm18xdP5rmk56V2coVtKQdb"
-          ],
-          "property": {
-            "column_size": 2,
-            "column_width": [
-              213,
-              474
-            ],
-            "header_row": true,
-            "merge_info": [
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              }
-            ],
-            "row_size": 10
-          }
-        }
-      },
-      {
-        "block_id": "doxcn8donH2SubrbBgRnNOy6QEb",
-        "block_type": 32,
-        "children": [
-          "doxcnAaqyji5lIczBzffSF9AJKw"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnAaqyji5lIczBzffSF9AJKw",
-        "block_type": 2,
-        "parent_id": "doxcn8donH2SubrbBgRnNOy6QEb",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Parameter",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcn3xi3kIka6CzeZDCZXgdld1",
-        "block_type": 32,
-        "children": [
-          "doxcnJWE4PSRP1mpLdQng2q3y0w"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnJWE4PSRP1mpLdQng2q3y0w",
-        "block_type": 2,
-        "parent_id": "doxcn3xi3kIka6CzeZDCZXgdld1",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Description",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnnvzyUX5tq1EjSjcHBQ293b",
-        "block_type": 32,
-        "children": [
-          "doxcnrFsDKc9ZrYNvZeSSUx8RJf"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnrFsDKc9ZrYNvZeSSUx8RJf",
-        "block_type": 2,
-        "parent_id": "doxcnnvzyUX5tq1EjSjcHBQ293b",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "reqs",
+                "content": "hybrid_search()",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -2575,6 +638,42 @@
                   "underline": false
                 }
               }
+            },
+            {
+              "text_run": {
+                "content": " API to perform multiple ANN search requests in a single call. Each ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AnnSearchRequest",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " represents a single search request on a specific vector field.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
             }
           ],
           "style": {
@@ -2584,23 +683,189 @@
         }
       },
       {
-        "block_id": "doxcnfAwAjUMa3gtI7rOsXXhtJe",
-        "block_type": 32,
-        "children": [
-          "doxcnrrsRZ0XChT3f4WH8lzfOqh"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnrrsRZ0XChT3f4WH8lzfOqh",
+        "block_id": "IV4DdCq8iotiP2xNHnQcs9ddnWh",
         "block_type": 2,
-        "parent_id": "doxcnfAwAjUMa3gtI7rOsXXhtJe",
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "A list of search requests, where each request is an ",
+                "content": "The following example creates two ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AnnSearchRequest",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " instances to perform individual similarity searches on two vector fields.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QAk9dWb6aoL4NKxxc7ic0vu3nE6",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import AnnSearchRequest\n\n# Create ANN search request 1 for filmVector\nquery_filmVector = [[0.8896863042430693, 0.370613100114602, 0.23779315077113428, 0.38227915951132996, 0.5997064603128835]]\n\nsearch_param_1 = {\n    \"data\": query_filmVector, # Query vector\n    \"anns_field\": \"filmVector\", # Vector field name\n    \"param\": {\n        \"metric_type\": \"L2\", # This parameter value must be identical to the one used in the collection schema\n        \"params\": {\"nprobe\": 10}\n    },\n    \"limit\": 2 # Number of search results to return in this AnnSearchRequest\n}\nrequest_1 = AnnSearchRequest(**search_param_1)\n\n# Create ANN search request 2 for posterVector\nquery_posterVector = [[0.02550758562349764, 0.006085637357292062, 0.5325251250159071, 0.7676432650114147, 0.5521074424751443]]\nsearch_param_2 = {\n    \"data\": query_posterVector, # Query vector\n    \"anns_field\": \"posterVector\", # Vector field name\n    \"param\": {\n        \"metric_type\": \"L2\", # This parameter value must be identical to the one used in the collection schema\n        \"params\": {\"nprobe\": 10}\n    },\n    \"limit\": 2 # Number of search results to return in this AnnSearchRequest\n}\nrequest_2 = AnnSearchRequest(**search_param_2)\n\n# Store these two requests as a list in `reqs`\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "reqs = [request_1, request_2]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "Pdo8dkCEjoKEAxxbQfBceoiCnZg",
+        "block_type": 2,
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameters:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DWT2d1G5poVEGBxtSxzcrmzHnkb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "AnnSearchRequest",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "object",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "FBKDdMkW7oyxVtxvQEPchiHlnOc"
+        ],
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "FBKDdMkW7oyxVtxvQEPchiHlnOc",
+        "block_type": 2,
+        "parent_id": "DWT2d1G5poVEGBxtSxzcrmzHnkb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A class representing an ANN search request. Each hybrid search can contain 1 to 1,024 ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2624,7 +889,7 @@
             },
             {
               "text_run": {
-                "content": " object. Each request corresponds to a different vector field and a different set of search parameters.",
+                "content": " objects at a time.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2642,23 +907,13 @@
         }
       },
       {
-        "block_id": "doxcnOPUcY9GvrByYLhKCKqyHnf",
-        "block_type": 32,
-        "children": [
-          "doxcnojmUuUVYy47dCtORqY3avd"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnojmUuUVYy47dCtORqY3avd",
-        "block_type": 2,
-        "parent_id": "doxcnOPUcY9GvrByYLhKCKqyHnf",
-        "text": {
+        "block_id": "TmBFdS7rjobNl1xIdCsc7JlEnNf",
+        "block_type": 12,
+        "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "reqs.ANNSearchRequest",
+                "content": "data",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -2667,32 +922,34 @@
                   "underline": false
                 }
               }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnvs9JgLbeExTRBq6SXrL7yb",
-        "block_type": 32,
-        "children": [
-          "doxcn2y4gBhm60jC3o0cgrrm36e"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcn2y4gBhm60jC3o0cgrrm36e",
-        "block_type": 2,
-        "parent_id": "doxcnvs9JgLbeExTRBq6SXrL7yb",
-        "text": {
-          "elements": [
+            },
             {
               "text_run": {
-                "content": "A class representing an ANN search request.",
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "list",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2707,33 +964,43 @@
             "align": 1,
             "folded": false
           }
-        }
-      },
-      {
-        "block_id": "doxcnwvglbQucBHVTGxaGxNFKwf",
-        "block_type": 32,
+        },
         "children": [
-          "doxcn1gB45ABeyz92w0WKjYnETc"
+          "IsZcdMOT9oN4IOxpSXjcRwD5nqc"
         ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
       {
-        "block_id": "doxcn1gB45ABeyz92w0WKjYnETc",
+        "block_id": "IsZcdMOT9oN4IOxpSXjcRwD5nqc",
         "block_type": 2,
         "comment_ids": [
-          "7347610848359776259"
+          "7356146413317308419"
         ],
-        "parent_id": "doxcnwvglbQucBHVTGxaGxNFKwf",
+        "parent_id": "TmBFdS7rjobNl1xIdCsc7JlEnNf",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "reqs.ANNSearchRequest.data",
+                "content": "The query vector to search in a singular ",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7347610848359776259"
+                    "7356146413317308419"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AnnSearchRequest",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7356146413317308419"
                   ],
                   "inline_code": true,
                   "italic": false,
@@ -2741,6 +1008,51 @@
                   "underline": false
                 }
               }
+            },
+            {
+              "text_run": {
+                "content": ". Currently, this parameter accepts a list containing only a single query vector, for example, ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7356146413317308419"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "[[0.5791814851218929, 0.5792985702614121, 0.8480776460143558, 0.16098005945243, 0.2842979317256803]]",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7356146413317308419"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". In the future, this parameter will be expanded to accept multiple query vectors.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7356146413317308419"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
             }
           ],
           "style": {
@@ -2750,23 +1062,25 @@
         }
       },
       {
-        "block_id": "doxcnae2ZNJRU4hxA3LfhArLxvh",
-        "block_type": 32,
-        "children": [
-          "doxcna40F83UeoP0BzhDVJefgwb"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcna40F83UeoP0BzhDVJefgwb",
-        "block_type": 2,
-        "parent_id": "doxcnae2ZNJRU4hxA3LfhArLxvh",
-        "text": {
+        "block_id": "VPPVdykkWoGvj7xELmPcjqcFnfe",
+        "block_type": 12,
+        "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "The query vector to search in the request.",
+                "content": "anns_field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2778,7 +1092,72 @@
             },
             {
               "text_run": {
-                "content": " This parameter accepts a list containing one element (or query vector).",
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Q7PPdVOIqoiJCGxGvyPc7kI9nXg"
+        ],
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "Q7PPdVOIqoiJCGxGvyPc7kI9nXg",
+        "block_type": 2,
+        "parent_id": "VPPVdykkWoGvj7xELmPcjqcFnfe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the vector field to use in a singular ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AnnSearchRequest",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2796,23 +1175,13 @@
         }
       },
       {
-        "block_id": "doxcn7Dgj4CIsy2HQfScMzRgMvX",
-        "block_type": 32,
-        "children": [
-          "doxcna12Ozi8UoDQIqUx9X8ImNd"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcna12Ozi8UoDQIqUx9X8ImNd",
-        "block_type": 2,
-        "parent_id": "doxcn7Dgj4CIsy2HQfScMzRgMvX",
-        "text": {
+        "block_id": "DVzYdIH94oblpyxWXAPcfKGunth",
+        "block_type": 12,
+        "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "reqs.ANNSearchRequest.anns_field",
+                "content": "param",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -2821,32 +1190,34 @@
                   "underline": false
                 }
               }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnS8W3wlaOz4bmic4g5eoe6g",
-        "block_type": 32,
-        "children": [
-          "doxcnvJsO0KgQ2UXHIvizfE7ljX"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnvJsO0KgQ2UXHIvizfE7ljX",
-        "block_type": 2,
-        "parent_id": "doxcnS8W3wlaOz4bmic4g5eoe6g",
-        "text": {
-          "elements": [
+            },
             {
               "text_run": {
-                "content": "The vector field to use in the request.",
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "dict",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2861,26 +1232,33 @@
             "align": 1,
             "folded": false
           }
-        }
-      },
-      {
-        "block_id": "doxcnPXOvBHCk9nL7mLwXadzXYJ",
-        "block_type": 32,
+        },
         "children": [
-          "doxcnN7M5yyWBsFBLnEqqE0caXh"
+          "LDkSddnJ1oyhhfxUNz9cpjksngn"
         ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
       {
-        "block_id": "doxcnN7M5yyWBsFBLnEqqE0caXh",
+        "block_id": "LDkSddnJ1oyhhfxUNz9cpjksngn",
         "block_type": 2,
-        "parent_id": "doxcnPXOvBHCk9nL7mLwXadzXYJ",
+        "parent_id": "DVzYdIH94oblpyxWXAPcfKGunth",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "reqs.ANNSearchRequest.param",
+                "content": "A dictionary of search parameters for a singular ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AnnSearchRequest",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -2889,32 +1267,10 @@
                   "underline": false
                 }
               }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnL7WDgVXn5l6LQfRnbFJ4cc",
-        "block_type": 32,
-        "children": [
-          "doxcn7NeB86zEvgjIx2wMepMAFf"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcn7NeB86zEvgjIx2wMepMAFf",
-        "block_type": 2,
-        "parent_id": "doxcnL7WDgVXn5l6LQfRnbFJ4cc",
-        "text": {
-          "elements": [
+            },
             {
               "text_run": {
-                "content": "A dictionary of search parameters for the request. For details, refer to ",
+                "content": ". These search parameters are identical to those for a single-vector search. For more information, refer to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2959,96 +1315,27 @@
         }
       },
       {
-        "block_id": "doxcn9LRWXqJVmCUbZDxdKu8Xle",
-        "block_type": 32,
-        "children": [
-          "doxcnmDZwWywFj5aCDy8WcPN9Tb"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnmDZwWywFj5aCDy8WcPN9Tb",
-        "block_type": 2,
-        "parent_id": "doxcn9LRWXqJVmCUbZDxdKu8Xle",
-        "text": {
+        "block_id": "O7KTdCQTjoegvhxgkykciCLbnnd",
+        "block_type": 12,
+        "bullet": {
           "elements": [
-            {
-              "text_run": {
-                "content": "reqs.ANNSearchRequest.limit",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnKG2UwIufTDK1l4WhtZeybe",
-        "block_type": 32,
-        "children": [
-          "doxcnXrmvlm6wJNzTrFJ0vkbpOe",
-          "B2PUd9M9HoqKHsx45JzcT2RenRd"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnXrmvlm6wJNzTrFJ0vkbpOe",
-        "block_type": 2,
-        "comment_ids": [
-          "7348430701680967684"
-        ],
-        "parent_id": "doxcnKG2UwIufTDK1l4WhtZeybe",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The maximum number of results to return in the request.",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7348430701680967684"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " When performing a hybrid search with multiple ANN search requests, the top results defined by ",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7348430701680967684"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
             {
               "text_run": {
                 "content": "limit",
                 "text_element_style": {
-                  "bold": true,
-                  "comment_ids": [
-                    "7348430701680967684"
-                  ],
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3058,35 +1345,19 @@
             },
             {
               "text_run": {
-                "content": " from each request will be combined and re-ranked before returning the final search results.",
+                "content": "int",
                 "text_element_style": {
                   "bold": false,
-                  "comment_ids": [
-                    "7348430701680967684"
-                  ],
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }
               }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "B2PUd9M9HoqKHsx45JzcT2RenRd",
-        "block_type": 2,
-        "parent_id": "doxcnKG2UwIufTDK1l4WhtZeybe",
-        "text": {
-          "elements": [
+            },
             {
               "text_run": {
-                "content": "",
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3101,26 +1372,34 @@
             "align": 1,
             "folded": false
           }
-        }
-      },
-      {
-        "block_id": "doxcniC7HgN9mLHdwmLxdAeGyYe",
-        "block_type": 32,
+        },
         "children": [
-          "doxcnjJkQWNxPut2wp5haM9KUog"
+          "VPrAdMjc1owCc2xRC4mcM6fentf",
+          "FVCZdlsmMocosMx2IZMcGFoOnzf"
         ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
       {
-        "block_id": "doxcnjJkQWNxPut2wp5haM9KUog",
+        "block_id": "VPrAdMjc1owCc2xRC4mcM6fentf",
         "block_type": 2,
-        "parent_id": "doxcniC7HgN9mLHdwmLxdAeGyYe",
+        "parent_id": "O7KTdCQTjoegvhxgkykciCLbnnd",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "reqs.ANNSearchRequest.expr",
+                "content": "The maximum number of search results to include in a single ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ANNSearchRequest",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -3129,32 +1408,10 @@
                   "underline": false
                 }
               }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnJ2byRXzPxjexP0wNf5Rhdh",
-        "block_type": 32,
-        "children": [
-          "doxcnozcd0Dbg3Coqsx4dxfFNVf"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnozcd0Dbg3Coqsx4dxfFNVf",
-        "block_type": 2,
-        "parent_id": "doxcnJ2byRXzPxjexP0wNf5Rhdh",
-        "text": {
-          "elements": [
+            },
             {
               "text_run": {
-                "content": "(Optional) The expression to filter the results.",
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3172,23 +1429,26 @@
         }
       },
       {
-        "block_id": "doxcnR6hyzTTmLPGGDuT0ubfJGb",
-        "block_type": 32,
-        "children": [
-          "doxcn6zPb3DzvsKZ3RlE7BRHegb"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcn6zPb3DzvsKZ3RlE7BRHegb",
+        "block_id": "FVCZdlsmMocosMx2IZMcGFoOnzf",
         "block_type": 2,
-        "parent_id": "doxcnR6hyzTTmLPGGDuT0ubfJGb",
+        "parent_id": "O7KTdCQTjoegvhxgkykciCLbnnd",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "rerank",
+                "content": "This parameter only affects the number of search results to return within an individual ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ANNSearchRequest",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -3197,6 +1457,66 @@
                   "underline": false
                 }
               }
+            },
+            {
+              "text_run": {
+                "content": ", and it does not decide the final results to return for a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "hybrid_search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " call. In a hybrid search, the final results are determined by combining and reranking the results from multiple ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ANNSearchRequest",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " instances.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
             }
           ],
           "style": {
@@ -3206,23 +1526,39 @@
         }
       },
       {
-        "block_id": "doxcn3niD2onnLvR49bC0IpHTed",
-        "block_type": 32,
-        "children": [
-          "doxcnXtU1ES2PXyxp2AQEoedPKg"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
+        "block_id": "OrqPdeLKyoA2N2xkO4Uc876Vnzg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Step 2: Configure a Reranking Strategy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
       {
-        "block_id": "doxcnXtU1ES2PXyxp2AQEoedPKg",
+        "block_id": "Inc7dlAJ3owBFjx0v5qcdg2rnxf",
         "block_type": 2,
-        "parent_id": "doxcn3niD2onnLvR49bC0IpHTed",
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The reranking strategy to use for ",
+                "content": "After creating ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3234,10 +1570,10 @@
             },
             {
               "text_run": {
-                "content": "hybrid",
+                "content": "AnnSearchRequest",
                 "text_element_style": {
                   "bold": false,
-                  "inline_code": false,
+                  "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -3246,7 +1582,7 @@
             },
             {
               "text_run": {
-                "content": " search. Valid values: ",
+                "content": " instances, configure a reranking strategy to combine and rerank the results. Currently, there are two options: ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3294,6 +1630,33 @@
             },
             {
               "text_run": {
+                "content": ". For more information about reranking strategies, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Reranking",
+                "token": "Y1IkwnLVtiCBzkkA3v8cc9aenCh",
+                "url": "https://zilliverse.feishu.cn/wiki/Y1IkwnLVtiCBzkkA3v8cc9aenCh"
+              }
+            },
+            {
+              "text_run": {
                 "content": ".",
                 "text_element_style": {
                   "bold": false,
@@ -3312,23 +1675,732 @@
         }
       },
       {
-        "block_id": "doxcnTvUKRTPIlvtjRZIf94cYDp",
-        "block_type": 32,
+        "block_id": "RC5ndjblcoRM3Px6O4XcFa5wnvb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use weighted scoring",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
         "children": [
-          "doxcncJefosDrTbz10zgJZNtJeg"
+          "WPjSdOd86o8PYIxVuSwc9FEmnBh",
+          "XQvHdpUIRovZxUxdE9dcldvrnIh",
+          "Ya2gdtG22o18nrx4A1xcrDV2nvF",
+          "B1fidj8d9oRoSNxLRTDco4u9nze",
+          "BuYFdIPiVojSe9xwt6ZcmL8an8c"
         ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
       {
-        "block_id": "doxcncJefosDrTbz10zgJZNtJeg",
+        "block_id": "WPjSdOd86o8PYIxVuSwc9FEmnBh",
         "block_type": 2,
-        "parent_id": "doxcnTvUKRTPIlvtjRZIf94cYDp",
+        "parent_id": "RC5ndjblcoRM3Px6O4XcFa5wnvb",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "limit",
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "WeightedRanker",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is used to assign importance to the results from each vector field search with specified weights. If you prioritize some vector fields over others, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "WeightedRanker(value1, value2, ..., valueN)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " can reflect this in the combined search results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XQvHdpUIRovZxUxdE9dcldvrnIh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import WeightedRanker\n# Use WeightedRanker to combine results with specified weights\n# Assign weights of 0.8 to text search and 0.2 to image search\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "rerank = WeightedRanker(0.8, 0.2)  ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "RC5ndjblcoRM3Px6O4XcFa5wnvb"
+      },
+      {
+        "block_id": "Ya2gdtG22o18nrx4A1xcrDV2nvF",
+        "block_type": 2,
+        "parent_id": "RC5ndjblcoRM3Px6O4XcFa5wnvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When using ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "WeightedRanker",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", note that:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "B1fidj8d9oRoSNxLRTDco4u9nze",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Each weight value ranges from 0 (least important) to 1 (most important), influencing the final aggregated score.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "RC5ndjblcoRM3Px6O4XcFa5wnvb"
+      },
+      {
+        "block_id": "BuYFdIPiVojSe9xwt6ZcmL8an8c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The total number of weight values provided in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "WeightedRanker",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " should equal the number of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AnnSearchRequest",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " instances you have created.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "RC5ndjblcoRM3Px6O4XcFa5wnvb"
+      },
+      {
+        "block_id": "Yc8IdyV1sosp07xnsWocAmQMnme",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use Reciprocal Rank Fusion (RFF)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "PySydbt0FoR4DwxEPmAcoFhkn3e"
+        ],
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "PySydbt0FoR4DwxEPmAcoFhkn3e",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Alternatively, use RRFRanker for reciprocal rank fusion reranking\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "rerank = RRFRanker()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Yc8IdyV1sosp07xnsWocAmQMnme"
+      },
+      {
+        "block_id": "KrBudrVfNo8K7bxkqhzcXmMunIc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Step 3: Perform a Hybrid Search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "XJGidPWXiomzP2xgxddcBNPUnLf",
+        "block_type": 2,
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "With the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AnnSearchRequest",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " instances and reranking strategy set, use the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "hybrid_search()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " method to perform the multi-vector search.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Pk9Cd9aNjoUH02xMrblcDD7OnEC",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Before conducting multi-vector search, load the collection into memory.\ncollection.load()\n\nres = collection.hybrid_search(\n    reqs, # List of AnnSearchRequests created in step 1\n    rerank, # Reranking strategy specified in step 2\n    limit=2 # Number of final search results to return\n)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(res)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "XKzYdvu0GolK42xdrR3cOETrnJc",
+        "block_type": 2,
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameters:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PnETdzzGHo2FTdxWDD9cJCArnte",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "reqs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "list",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "BMnmdv8c8oTtUfxSNgncn5Xhn0b"
+        ],
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "BMnmdv8c8oTtUfxSNgncn5Xhn0b",
+        "block_type": 2,
+        "parent_id": "PnETdzzGHo2FTdxWDD9cJCArnte",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of search requests, where each request is an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ANNSearchRequest",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " object. Each request can correspond to a different vector field and a different set of search parameters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YD3ddsGtsoZmzTxQk3Uc8vNWnIc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "rerank",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "object",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "CdtOdZ97Uo5zVZxC3LYcc4xrnY4",
+          "MEcqd3nB5o6kZIx3maucvC4Jnoc",
+          "HIhLdQeV0o3uCYxNKbDc0Vv0nMh",
+          "XVVGdgpm6o6o5nxgYajcA5ScnPg"
+        ],
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "CdtOdZ97Uo5zVZxC3LYcc4xrnY4",
+        "block_type": 2,
+        "parent_id": "YD3ddsGtsoZmzTxQk3Uc8vNWnIc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The reranking strategy to use for hybrid search. Possible values:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MEcqd3nB5o6kZIx3maucvC4Jnoc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "WeightedRanker(value1, value2, ..., valueN)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -3343,34 +2415,45 @@
             "align": 1,
             "folded": false
           }
-        }
+        },
+        "parent_id": "YD3ddsGtsoZmzTxQk3Uc8vNWnIc"
       },
       {
-        "block_id": "doxcnm18xdP5rmk56V2coVtKQdb",
-        "block_type": 32,
-        "children": [
-          "doxcnT3fOGqKq4qdV36XSS4PCLd"
-        ],
-        "parent_id": "doxcn555oJAaLxZFBQLG9nD71Ed",
-        "table_cell": {}
+        "block_id": "HIhLdQeV0o3uCYxNKbDc0Vv0nMh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RRFRanker()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YD3ddsGtsoZmzTxQk3Uc8vNWnIc"
       },
       {
-        "block_id": "doxcnT3fOGqKq4qdV36XSS4PCLd",
+        "block_id": "XVVGdgpm6o6o5nxgYajcA5ScnPg",
         "block_type": 2,
-        "comment_ids": [
-          "7348430785474822147"
-        ],
-        "parent_id": "doxcnm18xdP5rmk56V2coVtKQdb",
+        "parent_id": "YD3ddsGtsoZmzTxQk3Uc8vNWnIc",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The maximum number of results to return in the ",
+                "content": "For more information about reranking strategies, refer to ",
                 "text_element_style": {
                   "bold": false,
-                  "comment_ids": [
-                    "7348430785474822147"
-                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3379,28 +2462,25 @@
               }
             },
             {
-              "text_run": {
-                "content": "hybrid",
+              "mention_doc": {
+                "obj_type": 16,
                 "text_element_style": {
                   "bold": false,
-                  "comment_ids": [
-                    "7348430785474822147"
-                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
-                }
+                },
+                "title": "Reranking",
+                "token": "Y1IkwnLVtiCBzkkA3v8cc9aenCh",
+                "url": "https://zilliverse.feishu.cn/wiki/Y1IkwnLVtiCBzkkA3v8cc9aenCh"
               }
             },
             {
               "text_run": {
-                "content": " search.",
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
-                  "comment_ids": [
-                    "7348430785474822147"
-                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3414,6 +2494,320 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "T3QwdBYoLoisk1xPv7YcvAmfnth",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "int",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "SpC4dX8vCoO2xfx1QdxcqmzSnpd"
+        ],
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "SpC4dX8vCoO2xfx1QdxcqmzSnpd",
+        "block_type": 2,
+        "parent_id": "T3QwdBYoLoisk1xPv7YcvAmfnth",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The maximum number of final results to return in the hybrid search.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WvVFdIAqjoPROHxKoA1cUF2DnAh",
+        "block_type": 2,
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output is similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZU0hdlikUo0bugxwAAZcZZuenus",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[\"['id: 844, distance: 0.006047376897186041, entity: {}', 'id: 876, distance: 0.006422005593776703, entity: {}']\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "JuRNdmEnRopUr8xpnYwcMe8znhc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Limits",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "Ddzvd4COIonNNPxAUtMc55MnnYe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Typically, each collection has a default allowance of up to 4 vector fields. However, you have the option to adjust the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "proxy.maxVectorFieldNum",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " configuration to expand the maximum number of vector fields in a collection, with a maximum limit of 10 vector fields per collection. See ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Proxy-related Configurations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fconfigure_proxy.md%23Proxy-related-Configurations"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for more.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "NVn3dYMyXow22bxiTEUcoXyFnkZ",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Partially indexed or loaded vector fields in a collection will result in an error.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "AjzDdYkUJoXpucxHHi5ccKgxn6d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, each ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AnnSearchRequest",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in a hybrid search can carry one query vector.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
       },
       {
         "block_id": "JeTMdaNVioOYncxQ9E3cAkEgnpf",
@@ -3651,8 +3045,146 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "Yzc9dqIlTohlJ2xU50fcZvCdnOb",
+        "block_type": 13,
+        "children": [
+          "KkmGdmRzZoUwYvxiYsYcACoynbe"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Can I use the same vector field in multiple ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AnnSearchRequest",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " objects to perform hybrid searches?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d"
+      },
+      {
+        "block_id": "KkmGdmRzZoUwYvxiYsYcACoynbe",
+        "block_type": 2,
+        "comment_ids": [
+          "7356147269919932419"
+        ],
+        "parent_id": "Yzc9dqIlTohlJ2xU50fcZvCdnOb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Technically, it is possible to use the same vector field in multiple ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7356147269919932419"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AnnSearchRequest",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7356147269919932419"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " objects for hybrid searches. It is not necessary to have multiple vector fields for a hybrid search.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7356147269919932419"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VNNqdQkPgoYHNGxOM8Ac5cZJn9c",
+        "block_type": 2,
+        "parent_id": "S8NKde85locY5nxOXW8cDwjwn8d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       }
     ],
-    "counts": 92
+    "counts": 71
   }
 }

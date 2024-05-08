@@ -4,8 +4,8 @@ const larkDocWriter = require('./larkDocWriter');
 const Utils = require('./larkUtils');
 
 class larkDriveWriter extends larkDocWriter {
-    constructor(root_token, base_token, docSourceDir, imageDir, targets, skip_image_download=false, manual) {
-        super(root_token, base_token, docSourceDir, imageDir, targets, skip_image_download);
+    constructor(root_token, base_token, displayedSidebar, docSourceDir, imageDir, targets, skip_image_download=false, manual) {
+        super(root_token, base_token, displayedSidebar, docSourceDir, imageDir, targets, skip_image_download);
         this.manual = manual
         this.utils = new Utils();
     }
@@ -151,7 +151,7 @@ class larkDriveWriter extends larkDocWriter {
                     this.page_blocks = JSON.parse(fs.readFileSync(node_path.join(this.docSourceDir, `${pair}.json`), 'utf8')).blocks.items
                     page = this.page_blocks.filter(block => block.block_type == 1)[0] 
                 } else {
-                    const slug = `${this.manual}/${page_slug}`
+                    const slug = `${this.displayedSidebar.replace('Sidebar', '')}/${page_slug}`
 
                     var markdown = '---\n' +
                         'slug: /' + slug + '\n' +
@@ -160,7 +160,7 @@ class larkDriveWriter extends larkDocWriter {
                         'type: ' + page_type + '\n' +
                         'token: ' + page_token + '\n' +
                         'sidebar_position: ' + sidebar_position + '\n' +
-                        'displayed_sidebar: ' + this.manual + 'Sidebar\n' +
+                        'displayed_sidebar: ' + this.displayedSidebar + '\n' +
                         '---\n\n' +
                         '# ' + page_title + '\n\n' +
                         page_description + '\n\n' +
@@ -179,7 +179,7 @@ class larkDriveWriter extends larkDocWriter {
                 })
 
                 current_path = node_path.join(current_path, page_slug + '.md')
-                const slug = `${this.manual}/${page_slug}`
+                const slug = `${this.displayedSidebar.replace('Sidebar', '')}/${page_slug}`
 
                 var {front_matter, imports, markdown} = await this.__write_page({
                     slug: slug,
@@ -192,7 +192,7 @@ class larkDriveWriter extends larkDocWriter {
                 })
 
                 front_matter = front_matter.split('\n')
-                front_matter.splice(1, 0, `displayed_sidbar: ${this.manual}Sidebar`)
+                front_matter.splice(1, 0, `displayed_sidbar: this.displayedSidebar`)
                 front_matter = front_matter.join('\n')
 
                 fs.writeFileSync(current_path, front_matter + '\n\n' + imports + '\n\n' + markdown)

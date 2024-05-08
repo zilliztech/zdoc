@@ -5,7 +5,7 @@
   "node_token": "TVnkwXupUiX3zDkzYPWcxKP3nvg",
   "node_type": "origin",
   "obj_create_time": "1689062648",
-  "obj_edit_time": "1708422952",
+  "obj_edit_time": "1712645099",
   "obj_token": "Ugd9dlygComG36xn2rWcJADrn4b",
   "obj_type": "docx",
   "origin_node_token": "TVnkwXupUiX3zDkzYPWcxKP3nvg",
@@ -32,6 +32,7 @@
           "C7p3dkMGio9YyVxUqUccbh6bn5d",
           "CH7Xd3Xs2osQy1xqCbvc4W2InGb",
           "FIxldhb8FokBkFxBlf3cfsk0n9f",
+          "NYOwdwIo8o9PJDx1P3IcfrdYn3e",
           "AjuUdq8JjoZkkXxxPtgc1ywdnBg",
           "G9ladai1AoTkgBxAoLxc7hZ2nWh",
           "XOhGdCq1XocxDyxmBI4cxSbcnhd",
@@ -258,7 +259,36 @@
             },
             {
               "text_run": {
-                "content": " Taxes on the invoices are calculated based on the billing address you provide.",
+                "content": " Taxes on the invoices are calculated based on the billing address you provide. For companies that require to enter VAT or GST ID, please ",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "contact us",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "http%3A%2F%2Fsupport.zilliz.com"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "background_color": 3,
                   "bold": false,
@@ -767,7 +797,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Street Address ",
+                "content": "Street Address",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -959,6 +989,31 @@
             {
               "text_run": {
                 "content": " button will be activated, allowing you to save your credit card information and billing information.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NYOwdwIo8o9PJDx1P3IcfrdYn3e",
+        "block_type": 2,
+        "parent_id": "Ugd9dlygComG36xn2rWcJADrn4b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1569,7 +1624,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Street Address ",
+                "content": "Street Address",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -2359,6 +2414,6 @@
         "parent_id": "Ugd9dlygComG36xn2rWcJADrn4b"
       }
     ],
-    "counts": 67
+    "counts": 68
   }
 }

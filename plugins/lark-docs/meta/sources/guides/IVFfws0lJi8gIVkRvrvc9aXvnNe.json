@@ -5,7 +5,7 @@
   "node_token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
   "node_type": "origin",
   "obj_create_time": "1689055049",
-  "obj_edit_time": "1707032885",
+  "obj_edit_time": "1713151687",
   "obj_token": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
   "obj_type": "docx",
   "origin_node_token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
@@ -36,10 +36,9 @@
           "MAlrdEpsPo4YFnxsBCZcnbDrnvb",
           "Ykc0dbaLVoBnRlx5MnvcucwUn7b",
           "Rn9CdKNgcon688x26tQcpBIenAf",
-          "PeW5dKKvnoQHGQx5OxHcHi1unac",
           "ELM5dQ1DtoqEPKxIg1Jc7oaEnzb",
-          "BA26dLfUYoZ19Jx2RZbchkovnme",
-          "T1g7dS6Ydokc08xNeOtcRF14nOh"
+          "PeW5dKKvnoQHGQx5OxHcHi1unac",
+          "GwVIdaYqaoTmCOxwPi5cks2Hnvb"
         ],
         "page": {
           "elements": [
@@ -700,7 +699,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# Starter API\n# Connect using a MilvusClient object\n",
+                "content": "# Connect using a MilvusClient object\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -841,71 +840,10 @@
                   "underline": false
                 }
               }
-            },
-            {
-              "text_run": {
-                "content": "\n\n# =============\n# Advanced API\n\n# Connect with a connections object\nfrom pymilvus import connections\n\nconnections.connect(\n  alias='default', \n  #  Public endpoint obtained from Zilliz Cloud\n  uri=CLUSTER_ENDPOINT,\n  # <exclude target=\"paas\">API key or </exclude>a colon-separated cluster username and password\n  token=TOKEN, \n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ")",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
             }
           ],
           "style": {
             "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
-      },
-      {
-        "block_id": "PeW5dKKvnoQHGQx5OxHcHi1unac",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "const { MilvusClient } = require(\"@zilliz/milvus2-sdk-node\")\n\nconst address = \"YOUR_CLUSTER_ENDPOINT\"\nconst token = \"YOUR_CLUSTER_TOKEN\"\n\nasync function main () {\n\n    // Connect to the cluster\n    const client = new MilvusClient({address, token})\n    \n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "}",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 30,
             "wrap": false
           }
         },
@@ -918,7 +856,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.client.MilvusServiceClient;\nimport io.milvus.param.ConnectParam;\n\npublic final class QuickStartDemo {\n\n    public static void main(String[] args) {\n        String clusterEndpoint = \"YOUR_CLUSTER_ENDPOINT\";\n        String token = \"YOUR_CLUSTER_TOKEN\";\n\n        // 1. Connect to Zilliz Cloud\n\n        ConnectParam connectParam = ConnectParam.newBuilder()\n            .withUri(clusterEndpoint)\n            .withToken(token)\n            .build();   \n            \n        MilvusServiceClient client = new MilvusServiceClient(connectParam);\n\n        System.out.println(\"Connected to Zilliz Cloud!\");\n\n        // Output:\n        // Connected to Zilliz Cloud!\n        \n    }\n    \n }\n",
+                "content": "import io.milvus.v2.client.MilvusClientV2;\nimport io.milvus.v2.client.ConnectConfig;\n\nString CLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\";\nString TOKEN = \"YOUR_CLUSTER_TOKEN\";\n\n// 1. Connect to Milvus server\nConnectConfig connectConfig = ConnectConfig.builder()\n    .uri(CLUSTER_ENDPOINT)\n    .token(TOKEN)\n    .build();\n\nMilvusClientV2 client = new MilvusClientV2(connectConfig);\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -937,13 +875,13 @@
         "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
       },
       {
-        "block_id": "BA26dLfUYoZ19Jx2RZbchkovnme",
+        "block_id": "PeW5dKKvnoQHGQx5OxHcHi1unac",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "import \"github.com/milvus-io/milvus-sdk-go/v2/client\"\n\nfunc main() {\n    CLUSTER_ENDPOINT := \"YOUR_CLUSTER_ENDPOINT\"\n    TOKEN := \"YOUR_CLUSTER_TOKEN\"\n    COLLNAME := \"medium_articles_2020\"\n\n    // 1. Connect to cluster\n\n    connParams := client.Config{\n        Address: CLUSTER_ENDPOINT,\n        APIKey:  TOKEN,\n    }\n\n    conn, err := client.NewClient(context.Background(), connParams)\n\n    if err != nil {\n        log.Fatal(\"Failed to connect to Zilliz Cloud:\", err.Error())\n    }\n",
+                "content": "const { MilvusClient, DataType, sleep } = require(\"@zilliz/milvus2-sdk-node\")\n\nconst address = \"YOUR_CLUSTER_ENDPOINT\"\nconst token = \"YOUR_CLUSTER_TOKEN\"\n\n// 1. Connect to the cluster\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -955,7 +893,7 @@
             },
             {
               "text_run": {
-                "content": "}",
+                "content": "const client = new MilvusClient({address, token})",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -967,32 +905,21 @@
             }
           ],
           "style": {
-            "language": 22,
+            "language": 30,
             "wrap": false
           }
         },
         "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
       },
       {
-        "block_id": "T1g7dS6Ydokc08xNeOtcRF14nOh",
-        "block_type": 14,
-        "code": {
+        "block_id": "GwVIdaYqaoTmCOxwPi5cks2Hnvb",
+        "block_type": 2,
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
+        "text": {
           "elements": [
             {
               "text_run": {
-                "content": "# token=\"username:password\" or token=\"your-api-key\"\ncurl --request GET \\\\\n    --url \"${PUBLIC_ENDPOINT}/v1/vector/collections\" \\\\\n    --header \"Authorization: Bearer ${TOKEN}\" \\\\\n    --header 'accept: application/json' \\\\\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "    --header 'content-type: application/json'",
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1004,13 +931,12 @@
             }
           ],
           "style": {
-            "language": 7,
-            "wrap": false
+            "align": 1,
+            "folded": false
           }
-        },
-        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+        }
       }
     ],
-    "counts": 22
+    "counts": 21
   }
 }
