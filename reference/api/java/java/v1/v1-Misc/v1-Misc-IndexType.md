@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Misc-IndexType
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: YvosdUhmtokAqRxV8hdctSUznCv
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#YvosdUhmtokAqRxV8hdctSUznCv
 sidebar_position: 3
 displayed_sidebar: javaSidebar
 
@@ -22,11 +22,11 @@ public enum IndexType
 ```
 
 <table>
-   <th>
-     <td>**Type**</td>
-     <td>**Code**</td>
-     <td>**Description**</td>
-   </th>
+   <tr>
+     <th>**Type**</th>
+     <th>**Code**</th>
+     <th>**Description**</th>
+   </tr>
    <tr>
      <td>None</td>
      <td>0</td>

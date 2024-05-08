@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Alias-listAliases
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: DRkedF4ZKogAr8xf2fTcbv3rnfe
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#DRkedF4ZKogAr8xf2fTcbv3rnfe
 sidebar_position: 4
 displayed_sidebar: javaSidebar
 

@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-Authentication-describeUser
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: QCV6dOuKtoVyxDxPwXQczOclnxc
 sidebar_position: 4

@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Index-dropIndex
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: M6F4dplPOoPLzcxfMQhcXyIsnQh
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#M6F4dplPOoPLzcxfMQhcXyIsnQh
 sidebar_position: 2
 displayed_sidebar: javaSidebar
 

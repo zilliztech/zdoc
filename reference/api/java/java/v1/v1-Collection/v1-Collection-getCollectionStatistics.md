@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-getCollectionStatistics
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: OJl3dURMVoXJ20xPVa7c3HAunhf
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#OJl3dURMVoXJ20xPVa7c3HAunhf
 sidebar_position: 8
 displayed_sidebar: javaSidebar
 
@@ -84,12 +84,12 @@ GetCollStatResponseWrapper wrapper = new GetCollStatResponseWrapper(getStatRespo
 Methods of `GetCollStatResponseWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Parameters**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>getRowCount()<br/></td>
      <td>Gets the row count of a collection. Note that due to technical reasons, the deleted entities are not counted in the row count.</td>

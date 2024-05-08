@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Index-getIndexBuildingProgress
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: Nyr0dduGzo2U93xqMqRcBux9nJf
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#Nyr0dduGzo2U93xqMqRcBux9nJf
 sidebar_position: 5
 displayed_sidebar: javaSidebar
 

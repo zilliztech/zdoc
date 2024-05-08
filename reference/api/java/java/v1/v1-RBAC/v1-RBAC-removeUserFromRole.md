@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-RBAC-removeUserFromRole
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: BxKjdyAvpoUDDYxanhBcykrKncc
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#BxKjdyAvpoUDDYxanhBcykrKncc
 sidebar_position: 4
 displayed_sidebar: javaSidebar
 

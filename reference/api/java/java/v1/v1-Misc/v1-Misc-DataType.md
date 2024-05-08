@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Misc-DataType
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: MdMXdCNstouL1fxstYbcfzc9nTc
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#MdMXdCNstouL1fxstYbcfzc9nTc
 sidebar_position: 2
 displayed_sidebar: javaSidebar
 
@@ -22,11 +22,11 @@ public enum DataType
 ```
 
 <table>
-   <th>
-     <td>**Type**</td>
-     <td>**Code**</td>
-     <td>**Description**</td>
-   </th>
+   <tr>
+     <th>**Type**</th>
+     <th>**Code**</th>
+     <th>**Description**</th>
+   </tr>
    <tr>
      <td>None</td>
      <td>0</td>

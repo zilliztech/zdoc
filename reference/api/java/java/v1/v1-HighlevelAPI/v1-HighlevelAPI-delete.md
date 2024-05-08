@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-HighlevelAPI-delete
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: G46mdTMB4oIR4fxWz5kcZ9GhnKc
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#G46mdTMB4oIR4fxWz5kcZ9GhnKc
 sidebar_position: 4
 displayed_sidebar: javaSidebar
 

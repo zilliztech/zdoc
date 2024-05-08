@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-FieldSchema
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: A467dTwvJoLJClxXEZ5ctRlNnYf
 sidebar_position: 12

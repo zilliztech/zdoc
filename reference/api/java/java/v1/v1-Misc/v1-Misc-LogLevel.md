@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Misc-LogLevel
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: GqbrdhNhkooVlLxepyPcCB0unhg
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#GqbrdhNhkooVlLxepyPcCB0unhg
 sidebar_position: 6
 displayed_sidebar: javaSidebar
 
@@ -22,10 +22,10 @@ public enum LogLevel
 ```
 
 <table>
-   <th>
-     <td>**Type**</td>
-     <td>**Description**</td>
-   </th>
+   <tr>
+     <th>**Type**</th>
+     <th>**Description**</th>
+   </tr>
    <tr>
      <td>Debug</td>
      <td>Debug level, All the logs are visible.</td>

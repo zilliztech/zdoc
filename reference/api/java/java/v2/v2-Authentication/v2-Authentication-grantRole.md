@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-Authentication-grantRole
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: LKqbduwnVol3IAx053Pcp5rKnog
 sidebar_position: 8

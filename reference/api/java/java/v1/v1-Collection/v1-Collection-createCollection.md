@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-createCollection
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: BP2HdEqGKoCZgYx39WOcGbCvn5g
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#BP2HdEqGKoCZgYx39WOcGbCvn5g
 sidebar_position: 1
 displayed_sidebar: javaSidebar
 
@@ -96,11 +96,11 @@ FieldType ft = builder.build()
 Methods of `FieldType.Builder`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Parameters**</th>
+   </tr>
    <tr>
      <td>withName(String name)</td>
      <td>Sets the name of the field. The name cannot be empty or null.</td>

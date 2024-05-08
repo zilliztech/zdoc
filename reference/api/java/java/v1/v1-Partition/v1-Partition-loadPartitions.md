@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Partition-loadPartitions
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: UBPYdCwZDoNGybxZsXTc8lobnwd
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#UBPYdCwZDoNGybxZsXTc8lobnwd
 sidebar_position: 5
 displayed_sidebar: javaSidebar
 

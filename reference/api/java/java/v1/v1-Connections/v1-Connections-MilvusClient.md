@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Connections-MilvusClient
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: MJ3dd20ldo0ZUfxQV7mcDy1on7c
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#MJ3dd20ldo0ZUfxQV7mcDy1on7c
 sidebar_position: 1
 displayed_sidebar: javaSidebar
 
@@ -24,12 +24,12 @@ MilvusServiceClient(ConnectParam connectParam)
 Methods of MilvusClient for connection:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Parameters**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>withTimeout(long timeout, TimeUnit timeoutUnit)<br/></td>
      <td>Timeout setting for RPC call.<br/></td>

@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-Authentication-updatePassword
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: Fw4DdZmCxov8EBxnJlZceWton1e
 sidebar_position: 13

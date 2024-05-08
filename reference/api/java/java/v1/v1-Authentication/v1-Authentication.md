@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Authentication
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: KrlYdTCMAoJBoaxO5fecFF8Vnkf
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#KrlYdTCMAoJBoaxO5fecFF8Vnkf
 sidebar_position: 4
 displayed_sidebar: javaSidebar
 

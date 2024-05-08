@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-RBAC
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: N5UmdVnnKoK8SsxfIvaccNgZnPb
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#N5UmdVnnKoK8SsxfIvaccNgZnPb
 sidebar_position: 14
 displayed_sidebar: javaSidebar
 

@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Partition-showPartitions
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: IdiRd3KOxoQR7Jxs9P4clGjdnOh
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#IdiRd3KOxoQR7Jxs9P4clGjdnOh
 sidebar_position: 7
 displayed_sidebar: javaSidebar
 
@@ -85,12 +85,12 @@ ShowPartResponseWrapper wrapper = new ShowPartResponseWrapper(showPartitionsResp
 Methods of `ShowPartitionsResponse`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Parameters**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>getPartitionsInfo()<br/></td>
      <td>Return a list of PartitionInfo.</td>
@@ -112,11 +112,11 @@ A tool class to hold information of a partition.
 Methods of `ShowPartitionsResponse.PartitionInfo`
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>getIndexType()</td>
      <td>Get index type.</td>

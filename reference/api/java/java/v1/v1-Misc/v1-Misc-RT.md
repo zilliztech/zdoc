@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Misc-RT
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: An4sdhbC8oSxHZxQLzZcGfz1n4f
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#An4sdhbC8oSxHZxQLzZcGfz1n4f
 sidebar_position: 1
 displayed_sidebar: javaSidebar
 
@@ -28,11 +28,11 @@ R.Status is an enumeration of the status codes. Each R\<T> object holds an integ
 Note: Not all status codes are used, some of them are reserved.
 
 <table>
-   <th>
-     <td>**Status**</td>
-     <td>**Code**</td>
-     <td>**Description**</td>
-   </th>
+   <tr>
+     <th>**Status**</th>
+     <th>**Code**</th>
+     <th>**Description**</th>
+   </tr>
    <tr>
      <td>IllegalResponse</td>
      <td>-6</td>

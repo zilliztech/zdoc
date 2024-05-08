@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-insertAsync
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: FGntdToQEod74ZxBuS7cJ1gInjd
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#FGntdToQEod74ZxBuS7cJ1gInjd
 sidebar_position: 12
 displayed_sidebar: javaSidebar
 

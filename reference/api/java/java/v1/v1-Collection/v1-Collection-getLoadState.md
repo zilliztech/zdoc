@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-getLoadState
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: ONQ1diBeRoffA1xnWVMc9WiInDb
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#ONQ1diBeRoffA1xnWVMc9WiInDb
 sidebar_position: 20
 displayed_sidebar: javaSidebar
 

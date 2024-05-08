@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Partition-createPartition
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: Y5IOdcsfcoF5fnxaK8ZcnHlznpg
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#Y5IOdcsfcoF5fnxaK8ZcnHlznpg
 sidebar_position: 1
 displayed_sidebar: javaSidebar
 

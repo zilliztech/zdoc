@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-renameCollection
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: C617dmut8o2d4dxQj4dct7gkn5g
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#C617dmut8o2d4dxQj4dct7gkn5g
 sidebar_position: 6
 displayed_sidebar: javaSidebar
 

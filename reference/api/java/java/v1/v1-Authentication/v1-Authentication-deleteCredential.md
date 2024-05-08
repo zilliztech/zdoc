@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Authentication-deleteCredential
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: BImddM2M9oepyDxuwcEcXZvOnfe
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#BImddM2M9oepyDxuwcEcXZvOnfe
 sidebar_position: 3
 displayed_sidebar: javaSidebar
 

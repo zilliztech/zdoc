@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Authentication-createCredential
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: UqkRdXxUhoXGjSxCm9BcFNwPnod
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#UqkRdXxUhoXGjSxCm9BcFNwPnod
 sidebar_position: 1
 displayed_sidebar: javaSidebar
 

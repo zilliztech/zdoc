@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-showCollections
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: K1DldJyVaojBaHxesiLc2z9fnxf
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#K1DldJyVaojBaHxesiLc2z9fnxf
 sidebar_position: 9
 displayed_sidebar: javaSidebar
 
@@ -80,12 +80,12 @@ ShowCollResponseWrapper wrapper = new ShowCollResponseWrapper(showCollectionsRes
 Methods of `ShowCollResponseWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Parameters**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>getCollectionsInfo()<br/></td>
      <td>Returns a list of CollectionInfo objects. Each CollectionInfo represents a collection.</td>
@@ -107,11 +107,11 @@ A tool class to store a collection's information.
 Methods of `ShowCollResponseWrapper.CollectionInfo`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>getName()</td>
      <td>Gets the name of the collection.</td>

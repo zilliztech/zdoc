@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Index-createIndex
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: DITJd9ZMboinkqxpf9lcE6itnlh
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#DITJd9ZMboinkqxpf9lcE6itnlh
 sidebar_position: 1
 displayed_sidebar: javaSidebar
 

@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-flush
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: FY0mdKe4noioOGxPlCxcuIZKnve
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#FY0mdKe4noioOGxPlCxcuIZKnve
 sidebar_position: 10
 displayed_sidebar: javaSidebar
 

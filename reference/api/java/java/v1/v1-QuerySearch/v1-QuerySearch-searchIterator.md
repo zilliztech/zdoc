@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-QuerySearch-searchIterator
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: CaeGd0ApXo1nEOxr3rDcCGLengf
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#CaeGd0ApXo1nEOxr3rDcCGLengf
 sidebar_position: 7
 displayed_sidebar: javaSidebar
 
@@ -163,12 +163,12 @@ This method catches all the exceptions and returns an `R<SearchIterator>` object
 Methods of `SearchIterator`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Parameters**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>next()</td>
      <td>Return a batch of results.</td>

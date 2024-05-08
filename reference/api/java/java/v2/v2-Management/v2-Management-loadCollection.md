@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-Management-loadCollection
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: G9QJdgzrVoGLqwxxHo6cgzwfnEh
 sidebar_position: 7

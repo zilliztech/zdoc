@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-Partitions-loadPartitions
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: R8BCd0rePoAMjixwJo9ceziqnjf
 sidebar_position: 5

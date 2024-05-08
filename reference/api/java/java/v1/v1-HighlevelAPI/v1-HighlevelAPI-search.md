@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-HighlevelAPI-search
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: J7mOdolPjo1iByxIFZ3cjqYwntg
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#J7mOdolPjo1iByxIFZ3cjqYwntg
 sidebar_position: 7
 displayed_sidebar: javaSidebar
 

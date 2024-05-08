@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-Authentication-revokeRole
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: I3TpdzCiroOEgfxElmhcJvBfn2d
 sidebar_position: 12

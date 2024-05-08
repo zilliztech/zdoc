@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Partition-dropPartition
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: JAvtdqfVFonHDqxKvTrcYUqtnQc
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#JAvtdqfVFonHDqxKvTrcYUqtnQc
 sidebar_position: 2
 displayed_sidebar: javaSidebar
 

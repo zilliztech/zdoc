@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-releaseCollection
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: QwQ6dmpUcorF5vxyHipcR3uqnoh
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#QwQ6dmpUcorF5vxyHipcR3uqnoh
 sidebar_position: 4
 displayed_sidebar: javaSidebar
 

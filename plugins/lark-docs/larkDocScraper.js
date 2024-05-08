@@ -214,7 +214,8 @@ class larkDocScraper {
 
         for (let record of this.records) {
             const source = _.cloneDeep(node)
-            source.node_token = source.obj_token = record.fields.Docs.link.split('#').pop()
+            source.obj_token = record.fields.Docs.link.split('#').pop()
+            source.node_token = `${node.node_token}#${source.obj_token}`
             source.parent_node_token = record.fields.Parent[0].text ? this.records.find(r => r.fields['Seq. ID'] == record.fields.Parent[0].text).fields.Docs.link.split('#').pop() : node.node_token
             source.title = record.fields.Docs.text
             source.slug = await this.__slugify(`${node.node_token}#${source.obj_token}`, source.title)
@@ -247,7 +248,8 @@ class larkDocScraper {
                 for (let child of children) {
                     const child_source = _.cloneDeep(node)
                     delete child_source.blocks
-                    child_source.node_token = child_source.obj_token = child.fields.Docs.link.split('#').pop()
+                    child_source.obj_token = child.fields.Docs.link.split('#').pop()
+                    child_source.node_token = `${node.node_token}#${child_source.obj_token}`
                     child_source.parent_node_token = source.node_token
                     child_source.title = child.fields.Docs.text
                     child_source.slug = await this.__slugify(`${node.node_token}#${child_source.obj_token}`, child_source.title)

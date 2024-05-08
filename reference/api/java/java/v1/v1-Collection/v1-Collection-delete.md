@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-delete
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: FYKgd3lYvoJIdIxvgTccW30Kngf
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#FYKgd3lYvoJIdIxvgTccW30Kngf
 sidebar_position: 15
 displayed_sidebar: javaSidebar
 

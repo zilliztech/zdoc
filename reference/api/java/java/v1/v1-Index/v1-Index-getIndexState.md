@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Index-getIndexState
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: RtDpdfeTiog4anxHq5Xcdbzengg
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#RtDpdfeTiog4anxHq5Xcdbzengg
 sidebar_position: 4
 displayed_sidebar: javaSidebar
 

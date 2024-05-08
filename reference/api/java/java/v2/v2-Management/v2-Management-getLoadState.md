@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-Management-getLoadState
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: AzwPdR4pSoSSUAx5vsEc14x3nGf
 sidebar_position: 4

@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-RBAC-selectRole
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: AKADdJj4koIqW2xzNV7cEd5kn4d
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#AKADdJj4koIqW2xzNV7cEd5kn4d
 sidebar_position: 5
 displayed_sidebar: javaSidebar
 

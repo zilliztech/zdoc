@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-System-getVersion
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: QK1rdJJazo2ZqhxClzack6ucnDc
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#QK1rdJJazo2ZqhxClzack6ucnDc
 sidebar_position: 2
 displayed_sidebar: javaSidebar
 

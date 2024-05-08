@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Index-alterIndex
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: WHZldozs3oOL22x4UtWczEAPnbh
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#WHZldozs3oOL22x4UtWczEAPnbh
 sidebar_position: 6
 displayed_sidebar: javaSidebar
 

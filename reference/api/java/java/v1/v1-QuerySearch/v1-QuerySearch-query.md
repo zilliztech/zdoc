@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-QuerySearch-query
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: Rtw3dmldWoiOfIxtGRBcpwPynDc
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#Rtw3dmldWoiOfIxtGRBcpwPynDc
 sidebar_position: 1
 displayed_sidebar: javaSidebar
 
@@ -120,12 +120,12 @@ QueryResultsWrapper wrapper = new QueryResultsWrapper(queryResults);
 Methods of `QueryResultsWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Parameters**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>getFieldWrapper(String fieldName)<br/></td>
      <td>Return a FieldDataWrapper object by a field name. Throws `ParamException` if the field doesn't exist.</td>
@@ -153,11 +153,11 @@ A tool class to encapsulate column data returned by `query()` API.
 Methods of `FieldDataWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>isVectorField()<br/></td>
      <td>Tell the user if this field is a vector field or a scalar field.</td>
@@ -197,11 +197,11 @@ A tool class to hold the data of a single row in key-value format.
 Methods of `RowRecord`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>put(String keyName, Object obj)<br/></td>
      <td>For internal use. Set a key-value pair for the row.</td>

@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-insert
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: LSztdn2VAohrv3xksJocdjdynXd
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#LSztdn2VAohrv3xksJocdjdynXd
 sidebar_position: 11
 displayed_sidebar: javaSidebar
 
@@ -75,11 +75,11 @@ A tool class to hold a data field.
 Methods of `InsertParam.Field`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Parameters**</th>
+   </tr>
    <tr>
      <td>Field(String name, List\<?> values)<br/></td>
      <td>This class only provides a constructor to create a Field object.<br/></td>
@@ -109,11 +109,11 @@ MutationResultWrapper wrapper = new MutationResultWrapper(mutationResult);
 Methods of `MutationResultWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>getInsertCount()</td>
      <td>Gets the row count of the inserted entities.<br/></td>

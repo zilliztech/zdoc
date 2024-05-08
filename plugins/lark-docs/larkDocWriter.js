@@ -547,8 +547,8 @@ class larkDocWriter {
         let front_matter = '---\n' + 
         `slug: /${slug}` + '\n' +
         sidebar_label +
-        `beta: ${beta}` + '\n' +
-        `notebook: ${notebook}` + '\n' +
+        `beta: ${beta ? beta : 'FALSE'}` + '\n' +
+        `notebook: ${notebook ? notebook : 'FALSE'}` + '\n' +
         `type: ${type}` + '\n' +
         `token: ${token}` + '\n' +
         `sidebar_position: ${sidebar_position}` + '\n' +
@@ -979,11 +979,7 @@ class larkDocWriter {
 
         var html = ' '.repeat(indent) + '<table>\n';
         for (var i = 0; i < row_size; i++) {
-            if (i === 0) {
-                html += ' '.repeat(indent) +'   <th>\n';
-            } else {
-                html += ' '.repeat(indent) +'   <tr>\n';
-            }
+            html += ' '.repeat(indent) +'   <tr>\n';
             for (var j = 0; j < column_size; j++) {
                 const cell_idx = i * column_size + j;
                 const merge = merge_info[cell_idx];
@@ -992,48 +988,19 @@ class larkDocWriter {
                 if (merge) {
                     const colspan = merge.colspan > 1 ? ` colspan="${merge.col_span}"` : "";
                     const rowspan = merge.rowspan > 1 ? ` rowspan="${merge.row_span}"` : "";
+                    if (i === 0) {
+                        html += ` ${' '.repeat(indent)}    <th${colspan}${rowspan}>${cell_text.trim()}</th>\n`;
+                    } else {
 
-                    html += ` ${' '.repeat(indent)}    <td${colspan}${rowspan}>${cell_text.trim()}</td>\n`;
+                        html += ` ${' '.repeat(indent)}    <td${colspan}${rowspan}>${cell_text.trim()}</td>\n`;
+                    }
                 }
             }
-            if (i === 0) {
-                html += ' '.repeat(indent) +'   </th>\n';
-            } else {
-                html += ' '.repeat(indent) +'   </tr>\n';
-            }
+            html += ' '.repeat(indent) +'   </tr>\n';
         }
         html += ' '.repeat(indent) + '</table>\n';
 
         return html;
-
-        // const cell_lengths = cell_texts.map(cell => cell.length);
-        // const cell_length_matrix = chunkArray(cell_lengths, properties['column_size']);
-
-        // let rows = [];
-        // let row_length_matrix = [];
-        // if (properties['row_size'] * properties['column_size'] === cells.length) {
-        //     for (let i = 0; i < cell_texts.length; i += properties['column_size']) {
-        //         rows.push(cell_texts.slice(i, i + properties['column_size']));
-        //         row_length_matrix.push(cell_length_matrix[Math.floor(i / properties['column_size'])]);
-        //     }
-
-        //     const row_template = row_length_matrix.reduce((acc, curr) => acc.map((val, i) => Math.max(val, curr[i])));
-        //     const table_header_divider = row_template.map(val => '-'.repeat(val));
-        //     rows.splice(1, 0, table_header_divider);
-        //     rows = rows.map(row => this.__format_table_row(row, row_template)).join('\n');
-        // }
-
-        // return '\n' + ' '.repeat(indent) + rows.replace(/\n/g, '\n' + ' '.repeat(indent));
-    }
-    
-    __format_table_row(row, temp) {
-        for (let i = 0; i < temp.length; i++) {
-            if (row[i].length < temp[i]) {
-                row[i] += ' '.repeat(temp[i] - row[i].length);
-            }
-        }
-
-        return '| ' + row.join(' | ') + ' |';
     }
 
     async __sheet(sheet, indent) {
@@ -1271,14 +1238,6 @@ class larkDocWriter {
 
         return sdks
     }
-}
-
-function chunkArray(arr, size) {
-    let result = [];
-    for (let i = 0; i < arr.length; i += size) {
-        result.push(arr.slice(i, i + size));
-    }
-    return result;
 }
 
 module.exports = larkDocWriter

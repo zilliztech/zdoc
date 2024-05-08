@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-getLoadingProgress
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: FEPPdW1rEohYZLxEEo0cm3WOnoh
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#FEPPdW1rEohYZLxEEo0cm3WOnoh
 sidebar_position: 19
 displayed_sidebar: javaSidebar
 

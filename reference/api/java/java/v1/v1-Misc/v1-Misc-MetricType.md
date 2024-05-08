@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Misc-MetricType
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: DlwfdQZ94oJ4iKxxBY9c7spLnVF
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#DlwfdQZ94oJ4iKxxBY9c7spLnVF
 sidebar_position: 4
 displayed_sidebar: javaSidebar
 
@@ -22,10 +22,10 @@ public enum MetricType
 ```
 
 <table>
-   <th>
-     <td>**Type**</td>
-     <td>**Description**</td>
-   </th>
+   <tr>
+     <th>**Type**</th>
+     <th>**Description**</th>
+   </tr>
    <tr>
      <td>NONE</td>
      <td>For internal usage.</td>

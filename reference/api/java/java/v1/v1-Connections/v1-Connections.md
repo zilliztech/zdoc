@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Connections
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: CENZds3EDoNjh3xBoAZcbXWVnbb
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#CENZds3EDoNjh3xBoAZcbXWVnbb
 sidebar_position: 7
 displayed_sidebar: javaSidebar
 

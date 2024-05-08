@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-RBAC-addUserToRole
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: Fqz8d1jZpofjR4x6sARctkAFnzg
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#Fqz8d1jZpofjR4x6sARctkAFnzg
 sidebar_position: 3
 displayed_sidebar: javaSidebar
 

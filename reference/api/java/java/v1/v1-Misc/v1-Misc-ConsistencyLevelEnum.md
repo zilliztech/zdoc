@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Misc-ConsistencyLevelEnum
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: L7rWd3NvuonDAUxNVjTce9rAnXd
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#L7rWd3NvuonDAUxNVjTce9rAnXd
 sidebar_position: 5
 displayed_sidebar: javaSidebar
 
@@ -22,11 +22,11 @@ public enum ConsistencyLevelEnum
 ```
 
 <table>
-   <th>
-     <td>**Type**</td>
-     <td>**Code**</td>
-     <td>**Description**</td>
-   </th>
+   <tr>
+     <th>**Type**</th>
+     <th>**Code**</th>
+     <th>**Description**</th>
+   </tr>
    <tr>
      <td>STRONG</td>
      <td>0</td>

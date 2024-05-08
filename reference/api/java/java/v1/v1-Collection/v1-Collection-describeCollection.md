@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-describeCollection
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: L4XLdP8yyoKRuNxBM7ScYodznke
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#L4XLdP8yyoKRuNxBM7ScYodznke
 sidebar_position: 5
 displayed_sidebar: javaSidebar
 
@@ -75,12 +75,12 @@ DescCollResponseWrapper wrapper = new DescCollResponseWrapper(response);
 Methods of `DescCollResponseWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Parameters**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>getCollectionName()</td>
      <td>Get the name of the collection.</td>

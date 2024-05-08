@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-RBAC-selectGrantForRole
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: KCaSdcBzDoKKmRxwcxbcrlQYnle
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#KCaSdcBzDoKKmRxwcxbcrlQYnle
 sidebar_position: 9
 displayed_sidebar: javaSidebar
 

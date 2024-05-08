@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Alias-createAlias
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: MdbJddBe1osFqRxlhL0cLvtxnVh
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#MdbJddBe1osFqRxlhL0cLvtxnVh
 sidebar_position: 1
 displayed_sidebar: javaSidebar
 

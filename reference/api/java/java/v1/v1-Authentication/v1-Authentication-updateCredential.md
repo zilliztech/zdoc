@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Authentication-updateCredential
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: GqZldXhBwoOd1Vx1k36co7scnEL
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#GqZldXhBwoOd1Vx1k36co7scnEL
 sidebar_position: 2
 displayed_sidebar: javaSidebar
 

@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-Authentication-dropUser
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: TS6PdnezOou20RxtG64coUpVn2b
 sidebar_position: 6

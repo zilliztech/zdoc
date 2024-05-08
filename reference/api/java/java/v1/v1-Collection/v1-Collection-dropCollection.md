@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-dropCollection
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: E8vMdekAdobZ1Ex75CAcnhh9nwh
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#E8vMdekAdobZ1Ex75CAcnhh9nwh
 sidebar_position: 2
 displayed_sidebar: javaSidebar
 

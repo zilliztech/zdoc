@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-Vector-get
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: XeXxd6ylAoSZ05xkXEqcS84XnIc
 sidebar_position: 2

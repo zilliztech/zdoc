@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-System
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: RFdbdT22Uo8C1Gx41mFcNUSjnwb
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#RFdbdT22Uo8C1Gx41mFcNUSjnwb
 sidebar_position: 16
 displayed_sidebar: javaSidebar
 

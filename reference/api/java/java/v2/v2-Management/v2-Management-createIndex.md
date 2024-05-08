@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-Management-createIndex
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: LZQ9dbJxQoUhATxciEacmuF4nvh
 sidebar_position: 1

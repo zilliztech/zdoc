@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-QuerySearch-search
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: WggndVzAGoDW80xfaq3cY5MMnzd
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#WggndVzAGoDW80xfaq3cY5MMnzd
 sidebar_position: 3
 displayed_sidebar: javaSidebar
 

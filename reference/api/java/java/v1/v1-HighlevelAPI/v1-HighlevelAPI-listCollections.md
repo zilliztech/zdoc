@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-HighlevelAPI-listCollections
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: GYyPdMqeZoN3WYxf3OjcbyTsnVb
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#GYyPdMqeZoN3WYxf3OjcbyTsnVb
 sidebar_position: 2
 displayed_sidebar: javaSidebar
 

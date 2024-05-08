@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-Collections-dropCollection
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: KMYzdRhVjo5OqOxlB9acFeMgnOh
 sidebar_position: 11

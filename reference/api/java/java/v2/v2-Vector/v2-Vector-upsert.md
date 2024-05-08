@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-Vector-upsert
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: DGdZdLvmPoKuutxEJfnc2ww2nMh
 sidebar_position: 6

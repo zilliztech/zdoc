@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Partition-getPartitionStatistics
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: AfAjdyxETo9c4QxPIcJcOnbpnyf
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#AfAjdyxETo9c4QxPIcJcOnbpnyf
 sidebar_position: 3
 displayed_sidebar: javaSidebar
 
@@ -85,11 +85,11 @@ GetPartStatResponseWrapper wrapper = new GetPartStatResponseWrapper(partStatResp
 Methods of `GetPartStatResponseWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>getRowCount()</td>
      <td>Get the row count of a partition.<br/>Throw NumberFormatException if the row count string is illegal.</td>

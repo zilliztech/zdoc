@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: this.displayedSidebar
 slug: /java/java/v2-Client-MilvusClientV2
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 type: docx
 token: YmaYdEH00oj9DWx9N22cWfbonWb
 sidebar_position: 1

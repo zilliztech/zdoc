@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Authentication-listCredUsers
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: Th34dgQQaoByE8xLVv4cvUEInne
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#Th34dgQQaoByE8xLVv4cvUEInne
 sidebar_position: 4
 displayed_sidebar: javaSidebar
 

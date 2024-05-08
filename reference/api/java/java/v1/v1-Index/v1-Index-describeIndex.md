@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Index-describeIndex
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: NEewdHY5MoS1o1xsSeFcCeicnld
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#NEewdHY5MoS1o1xsSeFcCeicnld
 sidebar_position: 3
 displayed_sidebar: javaSidebar
 
@@ -80,12 +80,12 @@ DescIndexResponseWrapper wrapper = new DescIndexResponseWrapper(descIndexRespons
 Methods of `DescIndexResponseWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Parameters**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>getIndexDescriptions()<br/></td>
      <td>Get a list of all index descriptions. (Currently only return one index information)</td>
@@ -107,11 +107,11 @@ A tool class to describe an index.
 Methods of `DescIndexResponseWrapper.IndexDesc`
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th>**Method**</th>
+     <th>**Description**</th>
+     <th>**Returns**</th>
+   </tr>
    <tr>
      <td>getIndexType()</td>
      <td>Get index type.</td>

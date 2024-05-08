@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Partition-hasPartition
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: ZYUAdCGKhotNhHxxcNTcgbCTnI3
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#ZYUAdCGKhotNhHxxcNTcgbCTnI3
 sidebar_position: 4
 displayed_sidebar: javaSidebar
 

@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-HighlevelAPI-get
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: LfsTd6Zw5oxgDNxuIKacXhBrnTc
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#LfsTd6Zw5oxgDNxuIKacXhBrnTc
 sidebar_position: 5
 displayed_sidebar: javaSidebar
 

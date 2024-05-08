@@ -1,9 +1,9 @@
 ---
 slug: /java/v1-Collection-upsert
-beta: undefined
-notebook: undefined
+beta: FALSE
+notebook: FALSE
 type: origin
-token: HH6pdFJD3owq5BxjrsycVnw5nUf
+token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#HH6pdFJD3owq5BxjrsycVnw5nUf
 sidebar_position: 13
 displayed_sidebar: javaSidebar
 
