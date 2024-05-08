@@ -1,0 +1,68 @@
+---
+displayed_sidbar: this.displayedSidebar
+slug: /java/java/v2-Partitions-hasPartition
+beta: false
+notebook: false
+type: docx
+token: E00Tdat7lom0LcxpaeicTEZvnig
+sidebar_position: 3
+displayed_sidebar: javaSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# hasPartition()
+
+This operation checks whether the specified partition exists in the specified collection.
+
+```java
+public Boolean hasPartition(HasPartitionReq request)
+```
+
+## Request Syntax{#request-syntax}
+
+```java
+hasPartition(HasPartitionReq.builder()
+    .collectionName(String collectionName)
+    .partitionName(String partitionName)
+    .build()
+)
+```
+
+**BUILDER METHODS:**
+
+- `collectionName(String collectionName)`
+
+    The name of an existing collection.
+
+- `partitionName(String partitionName)`
+
+    The name of the partition to check.
+
+**RETURN TYPE:**
+
+*Boolean*
+
+**RETURNS:**
+
+A boolean value indicating whether the specified partition exists.
+
+**EXCEPTIONS:**
+
+- **MilvusClientExceptions**
+
+    This exception will be raised when any error occurs during this operation.
+
+## Example{#example}
+
+```java
+// check is partition "test_partition" exists in collection
+HasPartitionReq hasPartitionReq = HasPartitionReq.builder()
+        .collectionName("test")
+        .partitionName("test_partition")
+        .build();
+Boolean res = client.hasPartition(hasPartitionReq);
+```
+

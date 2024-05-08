@@ -5,7 +5,7 @@
   "node_token": "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
   "node_type": "origin",
   "obj_create_time": "1693363951",
-  "obj_edit_time": "1711936332",
+  "obj_edit_time": "1712741847",
   "obj_token": "LCR9dQcdKojgN1x9GSKcu8lJnch",
   "obj_type": "docx",
   "origin_node_token": "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
@@ -1076,14 +1076,20 @@
       {
         "block_id": "BO9cdJViVoXbq4xIrv7c8J7Pnqf",
         "block_type": 2,
+        "comment_ids": [
+          "7356166039018749955"
+        ],
         "parent_id": "LCR9dQcdKojgN1x9GSKcu8lJnch",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "During migration, you can select:",
+                "content": "During migration, select:",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7356166039018749955"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1108,6 +1114,9 @@
                 "content": "One ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7356166039018749955"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1120,6 +1129,9 @@
                 "content": "dense_vector",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7356166039018749955"
+                  ],
                   "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
@@ -1129,9 +1141,12 @@
             },
             {
               "text_run": {
-                "content": " field",
+                "content": " field. If no vector field is selected, data migration will fail.",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7356166039018749955"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1145,6 +1160,9 @@
             "folded": false
           }
         },
+        "comment_ids": [
+          "7356166039018749955"
+        ],
         "parent_id": "LCR9dQcdKojgN1x9GSKcu8lJnch"
       },
       {
@@ -1154,9 +1172,45 @@
           "elements": [
             {
               "text_run": {
-                "content": "Multiple other fields from the source index",
+                "content": "Multiple other fields from the source index. Make sure the index fields you select to migrate have not been excluded in Elasticsearch. Otherwise, data migration will fail. For more information, refer to ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7356166039018749955"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Elasticsearch documentation",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7356166039018749955"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.elastic.co%2Fguide%2Fen%2Felasticsearch%2Freference%2Fcurrent%2Fmapping-source-field.html%23include-exclude"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7356166039018749955"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1170,6 +1224,9 @@
             "folded": false
           }
         },
+        "comment_ids": [
+          "7356166039018749955"
+        ],
         "parent_id": "LCR9dQcdKojgN1x9GSKcu8lJnch"
       },
       {

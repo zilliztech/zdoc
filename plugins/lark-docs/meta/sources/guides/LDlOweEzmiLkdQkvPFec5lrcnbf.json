@@ -5,7 +5,7 @@
   "node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
   "node_type": "origin",
   "obj_create_time": "1689062622",
-  "obj_edit_time": "1710225971",
+  "obj_edit_time": "1714357820",
   "obj_token": "G0qudBnqjoxXb6xywOjcLtBhnTb",
   "obj_type": "docx",
   "origin_node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
@@ -22,6 +22,7 @@
         "block_type": 1,
         "children": [
           "OrgPdFyJtoV6OUxygewcBFMhnLc",
+          "FyLJdx90Vo3JDuxLGL9cpOm1nZD",
           "GLpWdIvavo9egNxQ3zlcDVzfnqc",
           "URWOdV2EjoRUmvxFfgbcUMXlnuc",
           "ZY3ld9mIqoWZtyxbgQGcyevwnfe",
@@ -110,8 +111,99 @@
           "elements": [
             {
               "text_run": {
-                "content": "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on AWS Marketplace.",
+                "content": "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on AWS Marketplace. ",
                 "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FyLJdx90Vo3JDuxLGL9cpOm1nZD",
+        "block_type": 34,
+        "children": [
+          "Z2pVdD9fQoCGs2xJL7IcXW9Xnpd",
+          "GIAHdvgSfo5uz5xPQQVc6zPenbf"
+        ],
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb",
+        "quote_container": {}
+      },
+      {
+        "block_id": "Z2pVdD9fQoCGs2xJL7IcXW9Xnpd",
+        "block_type": 2,
+        "parent_id": "FyLJdx90Vo3JDuxLGL9cpOm1nZD",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Note",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GIAHdvgSfo5uz5xPQQVc6zPenbf",
+        "block_type": 2,
+        "parent_id": "FyLJdx90Vo3JDuxLGL9cpOm1nZD",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can subscribe to our service in AWS Marketplace and choose among AWS, GCP, and Azure to ",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "create",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FKrbjwFhy3iojF3k97XmcvvXMnW7%3Fchunked%3Dfalse"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " your Zilliz Cloud clusters.",
+                "text_element_style": {
+                  "background_color": 3,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2287,6 +2379,6 @@
         "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
       }
     ],
-    "counts": 50
+    "counts": 53
   }
 }

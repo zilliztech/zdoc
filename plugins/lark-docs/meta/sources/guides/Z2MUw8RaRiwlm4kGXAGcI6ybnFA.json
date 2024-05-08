@@ -188,24 +188,6 @@
       "space_id": "7167193056431783939",
       "title": "Estimate Pipeline Usage",
       "slug": "estimate-pipelines-usage"
-    },
-    {
-      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
-      "has_child": true,
-      "node_create_time": "1706496271",
-      "node_token": "IjRMw4Zp6iiqDUkbGk9crGoan9e",
-      "node_type": "origin",
-      "obj_create_time": "1706496271",
-      "obj_edit_time": "1708758016",
-      "obj_token": "BJLvdek3Bo1ohkxL39hcPHsCnze",
-      "obj_type": "docx",
-      "origin_node_token": "IjRMw4Zp6iiqDUkbGk9crGoan9e",
-      "origin_space_id": "7167193056431783939",
-      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
-      "parent_node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
-      "space_id": "7167193056431783939",
-      "title": "Pipeline Integrations",
-      "slug": "pipeline-integrations"
     }
   ]
 }

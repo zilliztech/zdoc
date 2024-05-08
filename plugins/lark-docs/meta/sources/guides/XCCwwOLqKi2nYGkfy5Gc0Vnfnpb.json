@@ -5,7 +5,7 @@
   "node_token": "XCCwwOLqKi2nYGkfy5Gc0Vnfnpb",
   "node_type": "origin",
   "obj_create_time": "1708764325",
-  "obj_edit_time": "1711613781",
+  "obj_edit_time": "1713509964",
   "obj_token": "JWt0dxAUhoijWaxtaslcrorSnZg",
   "obj_type": "docx",
   "origin_node_token": "XCCwwOLqKi2nYGkfy5Gc0Vnfnpb",
@@ -224,7 +224,31 @@
             },
             {
               "text_run": {
-                "content": " index is used to speed up metafiltering by a specific non-vector field value, similar to a traditional database index. This guide will walk you through creating and configuring scalar indexes for fields such as integers, strings, etc.",
+                "content": " index is used to speed up meta",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "filtering by a specific non-vector field value, similar to a traditional database index. This guide will walk you through creating and configuring scalar indexes for fields such as integers, strings, etc.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -251,6 +275,7 @@
               "text_run": {
                 "content": "<include target=\"milvus\">",
                 "text_element_style": {
+                  "background_color": 5,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -387,6 +412,7 @@
               "text_run": {
                 "content": "</include>",
                 "text_element_style": {
+                  "background_color": 5,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -643,7 +669,55 @@
             },
             {
               "text_run": {
-                "content": "_index_params() # Prepare an empty IndexParams object, without having to specify any index parameters\n\nindex_params.add_index(\n    field_name=\"scalar_1\", # Name of the scalar field to be indexed\n",
+                "content": "_index_params() # Prepare an empty IndexParams object, without having to specify any index parameters\n\nindex_params.add_index(\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    field_name=\"scalar_1\", # Name of the scalar field to be indexed",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    # highlight-next-line",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -813,7 +887,7 @@
             },
             {
               "text_run": {
-                "content": "\n",
+                "content": "\n    // highlight-next-line\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1044,7 +1118,7 @@
             },
             {
               "text_run": {
-                "content": "\n",
+                "content": "\n    // highlight-next-line\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1784,10 +1858,14 @@
                   "background_color": 3,
                   "bold": false,
                   "comment_ids": [
-                    "7343745318967738371"
+                    "7343745318967738371",
+                    "7359468464794517507"
                   ],
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fscalar_index.md"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -1815,6 +1893,7 @@
           }
         },
         "comment_ids": [
+          "7359468464794517507",
           "7343745318967738371"
         ],
         "parent_id": "ZUbldPWh6oVpclxyOsdc5giQn4g"
@@ -2378,6 +2457,9 @@
                 "text_element_style": {
                   "background_color": 2,
                   "bold": false,
+                  "comment_ids": [
+                    "7353155112514748420"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2387,7 +2469,23 @@
             },
             {
               "text_run": {
-                "content": " // Type of index to be created",
+                "content": " ",
+                "text_element_style": {
+                  "background_color": 2,
+                  "bold": false,
+                  "comment_ids": [
+                    "7353155112514748420"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// Type of index to be created",
                 "text_element_style": {
                   "background_color": 2,
                   "bold": false,
@@ -2464,6 +2562,9 @@
             "wrap": false
           }
         },
+        "comment_ids": [
+          "7353155112514748420"
+        ],
         "parent_id": "JWt0dxAUhoijWaxtaslcrorSnZg"
       },
       {
@@ -2908,6 +3009,9 @@
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fscalar_index.md"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -3999,6 +4103,9 @@
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fscalar_index.md"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -4369,7 +4476,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "",
+                "content": "res = await client.listIndexes({\n    collection_name: 'test_scalar_index'\n})\n\nconsole.log(res.indexes)\n\n// Output:\n// [\n//     \"default_index\",\n//     \"inverted_index\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ]   ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

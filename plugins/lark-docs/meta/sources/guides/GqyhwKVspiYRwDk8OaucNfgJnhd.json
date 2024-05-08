@@ -5,7 +5,7 @@
   "node_token": "GqyhwKVspiYRwDk8OaucNfgJnhd",
   "node_type": "origin",
   "obj_create_time": "1698051774",
-  "obj_edit_time": "1705926382",
+  "obj_edit_time": "1712140420",
   "obj_token": "CnzddJbT2ogdLSx90bxc9fImnPf",
   "obj_type": "docx",
   "origin_node_token": "GqyhwKVspiYRwDk8OaucNfgJnhd",
@@ -71,7 +71,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience.",
+                "content": "We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience, including data migration across Zilliz Cloud clusters and from ElasticSearch, a brand-new ticket system going live, and enhanced data import capabilities.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

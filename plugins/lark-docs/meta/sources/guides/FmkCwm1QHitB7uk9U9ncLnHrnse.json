@@ -5,7 +5,7 @@
   "node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
   "node_type": "origin",
   "obj_create_time": "1689059641",
-  "obj_edit_time": "1711682275",
+  "obj_edit_time": "1714357812",
   "obj_token": "T1JedzGx9oVUcpxdjX7c6SmanqX",
   "obj_type": "docx",
   "origin_node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
@@ -26,7 +26,8 @@
           "CV4fdMVDKo1xtVxzUkicqkfTndf",
           "IuIjdQ7NloNSC9xXlX0chyW9nhb",
           "L8h8d3UZsomIjYxOMmucCBNTnpf",
-          "AWxPdRmjSoW0Q1xqWWscZAhFnSd",
+          "Q1fHdpDSBo5n5qxbuUhcAhAJnNe",
+          "ImMqdKoOgoI3TtxGrHOcEBv5nEh",
           "Mhl1d2LgAoxbbpx2VzncyYnMnMe",
           "JfpId5FmAoSW0YxPCavc42BJnGc",
           "Bqo3dgatMom1Ibxbv0Icq3Zwnjh",
@@ -618,7 +619,8 @@
         "block_id": "AzDCdidSYodDgDxveEpcHoatnuf",
         "block_type": 32,
         "children": [
-          "Q1R4d9hFPoJlixxxJrtcgsHWnFd"
+          "Q1R4d9hFPoJlixxxJrtcgsHWnFd",
+          "QzhVd7e6UoFcYLxDNo6cJgdXnbc"
         ],
         "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
         "table_cell": {}
@@ -655,7 +657,32 @@
             },
             {
               "text_run": {
-                "content": " Marketplace.",
+                "content": " Marketplace. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QzhVd7e6UoFcYLxDNo6cJgdXnbc",
+        "block_type": 2,
+        "parent_id": "AzDCdidSYodDgDxveEpcHoatnuf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can subscribe to our service in AWS Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -722,7 +749,8 @@
         "block_id": "FQcvdd507oBQ8FxCZwFctZmAnLb",
         "block_type": 32,
         "children": [
-          "IT5DdHZvJoUNiLxFJVjc7aDCnme"
+          "IT5DdHZvJoUNiLxFJVjc7aDCnme",
+          "RkIMdkya9oc791xrTytcITt1nob"
         ],
         "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
         "table_cell": {}
@@ -777,6 +805,31 @@
         }
       },
       {
+        "block_id": "RkIMdkya9oc791xrTytcITt1nob",
+        "block_type": 2,
+        "parent_id": "FQcvdd507oBQ8FxCZwFctZmAnLb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can subscribe to our service in GCP Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "SaJrdqEIqoj0NoxaUFvcx3mTnmg",
         "block_type": 32,
         "children": [
@@ -814,7 +867,8 @@
         "block_id": "HjrId8vnDo3ci9xJqwAcf5D4ncS",
         "block_type": 32,
         "children": [
-          "U9BJd5Y6zoIuXJxtnxYcKrpxnSd"
+          "U9BJd5Y6zoIuXJxtnxYcKrpxnSd",
+          "CdwZd8ufDoJ8ndxXLj4c3EzMnAh"
         ],
         "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
         "table_cell": {}
@@ -828,6 +882,31 @@
             {
               "text_run": {
                 "content": "You receive invoices for your Zilliz Cloud usage through the Azure Marketplace.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CdwZd8ufDoJ8ndxXLj4c3EzMnAh",
+        "block_type": 2,
+        "parent_id": "HjrId8vnDo3ci9xJqwAcf5D4ncS",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can subscribe to our service in Azure Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -913,44 +992,9 @@
         }
       },
       {
-        "block_id": "AWxPdRmjSoW0Q1xqWWscZAhFnSd",
-        "block_type": 34,
-        "children": [
-          "Q1fHdpDSBo5n5qxbuUhcAhAJnNe",
-          "DNjudnIYpoeZUixsh5Pce3Pen6b"
-        ],
-        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
-        "quote_container": {}
-      },
-      {
         "block_id": "Q1fHdpDSBo5n5qxbuUhcAhAJnNe",
         "block_type": 2,
-        "parent_id": "AWxPdRmjSoW0Q1xqWWscZAhFnSd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "📘 Note",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "DNjudnIYpoeZUixsh5Pce3Pen6b",
-        "block_type": 2,
-        "parent_id": "AWxPdRmjSoW0Q1xqWWscZAhFnSd",
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
         "text": {
           "elements": [
             {
@@ -981,6 +1025,97 @@
               "text_run": {
                 "content": "/GCP/Azure). However, it is not possible to set both a credit card and a Marketplace subscription simultaneously.",
                 "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ImMqdKoOgoI3TtxGrHOcEBv5nEh",
+        "block_type": 34,
+        "children": [
+          "KuPddYr1bo9pmAxCMmOcHCBmnhf",
+          "AOKpdNkhMo58DBxyxZecwTuWnbh"
+        ],
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
+        "quote_container": {}
+      },
+      {
+        "block_id": "KuPddYr1bo9pmAxCMmOcHCBmnhf",
+        "block_type": 2,
+        "parent_id": "ImMqdKoOgoI3TtxGrHOcEBv5nEh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Note",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AOKpdNkhMo58DBxyxZecwTuWnbh",
+        "block_type": 2,
+        "parent_id": "ImMqdKoOgoI3TtxGrHOcEBv5nEh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The Marketplace subscription is only a payment method and does not affect the cloud service provider when creating a cluster. For example, even after subscribing through AWS Marketplace, you can still ",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "create",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FKrbjwFhy3iojF3k97XmcvvXMnW7%3Fchunked%3Dfalse"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " clusters on GCP, Azure, or AWS.",
+                "text_element_style": {
+                  "background_color": 3,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -4334,7 +4469,7 @@
         }
       }
     ],
-    "counts": 175
+    "counts": 179
   },
   "children": [
     {
@@ -4344,7 +4479,7 @@
       "node_token": "TVnkwXupUiX3zDkzYPWcxKP3nvg",
       "node_type": "origin",
       "obj_create_time": "1689062648",
-      "obj_edit_time": "1708422952",
+      "obj_edit_time": "1712645099",
       "obj_token": "Ugd9dlygComG36xn2rWcJADrn4b",
       "obj_type": "docx",
       "origin_node_token": "TVnkwXupUiX3zDkzYPWcxKP3nvg",
@@ -4362,7 +4497,7 @@
       "node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
       "node_type": "origin",
       "obj_create_time": "1689062622",
-      "obj_edit_time": "1710225971",
+      "obj_edit_time": "1714357820",
       "obj_token": "G0qudBnqjoxXb6xywOjcLtBhnTb",
       "obj_type": "docx",
       "origin_node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
@@ -4380,7 +4515,7 @@
       "node_token": "MIqTw7iJ4iQAtVkYKiEc98a7nsh",
       "node_type": "origin",
       "obj_create_time": "1694744188",
-      "obj_edit_time": "1710225989",
+      "obj_edit_time": "1714357825",
       "obj_token": "HCCVdW5mEoMctyxgxPRc0hE3n5f",
       "obj_type": "docx",
       "origin_node_token": "MIqTw7iJ4iQAtVkYKiEc98a7nsh",
@@ -4398,7 +4533,7 @@
       "node_token": "LbFXwpruviFWWokwtkhcVmnhnFh",
       "node_type": "origin",
       "obj_create_time": "1709634160",
-      "obj_edit_time": "1710226003",
+      "obj_edit_time": "1714357830",
       "obj_token": "Sx56dqIsworbtgxeVDscO80nn3b",
       "obj_type": "docx",
       "origin_node_token": "LbFXwpruviFWWokwtkhcVmnhnFh",

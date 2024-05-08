@@ -5,7 +5,7 @@
   "node_token": "Qc0SwFomWiEXvMkDAH9cMAhlnIh",
   "node_type": "origin",
   "obj_create_time": "1708764325",
-  "obj_edit_time": "1709800938",
+  "obj_edit_time": "1713161441",
   "obj_token": "Gy4jdcTIpoSQapxLRoEcWNTdn9f",
   "obj_type": "docx",
   "origin_node_token": "Qc0SwFomWiEXvMkDAH9cMAhlnIh",
@@ -1071,7 +1071,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.v2.client.ConnectConfig;\nimport io.milvus.v2.client.MilvusClientV2;\nimport io.milvus.v2.common.DataType;\nimport io.milvus.v2.service.collection.request.CreateCollectionReq;\n\nString CLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\";\nString TOKEN = \"YOUR_CLUSTER_TOKEN\";\n\n// 1. Connect to Milvus server\nConnectConfig connectConfig = ConnectConfig.builder()\n    .uri(CLUSTER_ENDPOINT)\n    .token(TOKEN)\n    .build();\n\nMilvusClientV2 client = new MilvusClientV2(connectConfig);\n\n// 2. Create a collection\n\n// 2.1 Create schema\nCreateCollectionReq.CollectionSchema schema = client.createSchema(false, \"\");\n\n// 2.2 Add fields to schema\nschema.addPrimaryField(\"id\", DataType.Int64, true, false);\nschema.addVectorField(\"vector\", DataType.FloatVector, 5);\n\n// 2.3 Create a collection without schema and index parameters\nCreateCollectionReq customizedSetupReq = CreateCollectionReq.builder()\n    .collectionName(\"customized_setup\")\n    .collectionSchema(schema)\n    .build();\n\n",
+                "content": "import io.milvus.v2.client.ConnectConfig;\nimport io.milvus.v2.client.MilvusClientV2;\nimport io.milvus.v2.common.DataType;\nimport io.milvus.v2.service.collection.request.CreateCollectionReq;\n\nString CLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\";\nString TOKEN = \"YOUR_TOKEN\";\n\n// 1. Connect to Milvus server\nConnectConfig connectConfig = ConnectConfig.builder()\n    .uri(CLUSTER_ENDPOINT)\n    .token(TOKEN)\n    .build();\n\nMilvusClientV2 client = new MilvusClientV2(connectConfig);\n\n// 2. Create a collection\n\n// 2.1 Create schema\nCreateCollectionReq.CollectionSchema schema = client.createSchema();\n\n// 2.2 Add fields to schema\nschema.addField(AddFieldReq.builder().fieldName(\"id\").dataType(DataType.Int64).isPrimaryKey(true).autoID(false).build());\nschema.addField(AddFieldReq.builder().fieldName(\"vector\").dataType(DataType.FloatVector).dimension(5).build());\n\n// 3 Create a collection without schema and index parameters\nCreateCollectionReq customizedSetupReq = CreateCollectionReq.builder()\n.collectionName(\"customized_setup\")\n.collectionSchema(schema)\n.build();\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1108,7 +1108,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 1. Set up a Milvus Client\nclient = new MilvusClient({address, token});\n\n// 2. Define fields for the collection\nconst fields = [\n    {\n        name: \"id\",\n        data_type: DataType.Int64,\n        is_primary_key: true,\n        auto_id: false\n    },\n    {\n        name: \"vector\",\n        data_type: DataType.FloatVector,\n        dim: 5\n    },\n]\n\n// 3. Create a collection\nawait client.createCollection({\n    collection_name: \"customized_setup\",\n    fields: fields,\n",
+                "content": "// 1. Set up a Milvus Client\nclient = new MilvusClient({address, token});\n\n// 2. Define fields for the collection\nconst fields = [\n    {\n        name: \"id\",\n        data_type: DataType.Int64,\n        is_primary_key: true,\n        auto_id: false\n    },\n    {\n        name: \"vector\",\n        data_type: DataType.FloatVector,\n        dim: 5\n    },\n]\n\n// 3. Create a collection\nres = await client.createCollection({\n    collection_name: \"customized_setup\",\n    fields: fields,\n})\n\nconsole.log(res.error_code)  \n\n// Output\n// \n// Success\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1120,7 +1120,7 @@
             },
             {
               "text_run": {
-                "content": "})",
+                "content": "// ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1219,7 +1219,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# 4.1. Set up the index parameters\nindex_params = MilvusClient.prepare_index_params()\n\n# 4.2. Add an index on the vector field.\nindex_params.add_index(\n    field_name=\"vector\",\n    metric_type=\"COSINE\",\n    index_type=<include target=\"zilliz\">\"AUTOINDEX\"</include><include target=\"zilliz\">\"IVF_FLAT\"</include>,\n    index_name=\"vector_index\"\n)\n\n# 4.3. Create an index file\nclient.create_index(\n    collection_name=\"customized_setup\",\n    index_params=index_params\n",
+                "content": "# 4. Set up index\n# 4.1. Set up the index parameters\nindex_params = MilvusClient.prepare_index_params()\n\n# 4.2. Add an index on the vector field.\nindex_params.add_index(\n    field_name=\"vector\",\n    metric_type=\"COSINE\",\n    index_type=\"AUTOINDEX\",\n    index_name=\"vector_index\"\n)\n\n# 4.4. Create an index file\nclient.create_index(\n    collection_name=\"customized_setup\",\n    index_params=index_params\n)\n\n# 5. Describe index\nres = client.list_indexes(\n    collection_name=\"customized_setup\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1256,7 +1256,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.v2.common.IndexParam;\nimport io.milvus.v2.service.index.request.CreateIndexReq;\n\n// 4 Prepare index parameters\n\n// 4.1 Add an index for the vector field \"vector\"\nIndexParam indexParamForVectorField = IndexParam.builder()\n    .fieldName(\"vector\")\n    .indexName(\"vector_index\")\n    .indexType(IndexParam.IndexType.<include target=\"zilliz\">AUTOINDEX</include><include target=\"zilliz\">IVF_FLAT</include>)\n    .metricType(IndexParam.MetricType.COSINE)\n    .build();\n\nList<IndexParam> indexParams = new ArrayList<>();\nindexParams.add(indexParamForVectorField);\n\n// 4.3 Crate an index file\nCreateIndexReq createIndexReq = CreateIndexReq.builder()\n    .collectionName(\"customized_setup\")\n    .indexParams(indexParams)\n    .build();\n\n",
+                "content": "import io.milvus.v2.common.IndexParam;\nimport io.milvus.v2.service.index.request.CreateIndexReq;\n\n// 4 Prepare index parameters\n\n// 4.2 Add an index for the vector field \"vector\"\nIndexParam indexParamForVectorField = IndexParam.builder()\n    .fieldName(\"vector\")\n    .indexName(\"vector_index\")\n    .indexType(IndexParam.IndexType.AUTOINDEX)\n    .metricType(IndexParam.MetricType.COSINE)\n    .build();\n\nList<IndexParam> indexParams = new ArrayList<>();\nindexParams.add(indexParamForVectorField);\n\n// 4.3 Crate an index file\nCreateIndexReq createIndexReq = CreateIndexReq.builder()\n    .collectionName(\"customized_setup\")\n    .indexParams(indexParams)\n    .build();\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1293,7 +1293,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 4. Set up index for the collection\n// 4.1. Set up the index parameters\nawait client.createIndex({\n    collection_name: \"customized_setup\",\n    field_name: \"vector\",\n    index_type: <include target=\"zilliz\">\"AUTOINDEX\"</include><include target=\"zilliz\">\"IVF_FLAT\"</include>,\n    metric_type: \"COSINE\",   \n    index_name: \"vector_index\",\n    params: { nprobe: 10 }\n})\n\n// 4.2 Add an index on a scalar field.\nawait client.createIndex({\n    collection_name: \"customized_setup\",\n    field_name: \"id\",\n    index_name: \"primary_field_index\",\n    index_type: \"STL_SORT\"\n",
+                "content": "// 4. Set up index for the collection\n// 4.1. Set up the index parameters\nres = await client.createIndex({\n    collection_name: \"customized_setup\",\n    field_name: \"vector\",\n    index_type: \"AUTOINDEX\",\n    metric_type: \"COSINE\",   \n    index_name: \"vector_index\"\n})\n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1305,7 +1305,7 @@
             },
             {
               "text_run": {
-                "content": "})",
+                "content": "// ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1667,7 +1667,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# 5. Describe index\nres = client.list_indexes(\n    collection_name=\"customized_setup\"\n)\n\nprint(res)\n\n# Output\n#\n# [\n#     \"vector_index\",\n# ]\n\nres = client.describe_index(\n    collection_name=\"customized_setup\",\n    index_name=\"vector_index\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"index_type\": <include target=\"zilliz\">\"AUTOINDEX\"</include><include target=\"zilliz\">\"IVF_FLAT\"</include>,\n#     \"metric_type\": \"COSINE\",\n#     \"field_name\": \"vector\",\n#     \"index_name\": \"vector_index\"\n",
+                "content": "# 5. Describe index\nres = client.list_indexes(\n    collection_name=\"customized_setup\"\n)\n\nprint(res)\n\n# Output\n#\n# [\n#     \"vector_index\"\n# ]\n\nres = client.describe_index(\n    collection_name=\"customized_setup\",\n    index_name=\"vector_index\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"index_type\": \"AUTOINDEX\",\n#     \"metric_type\": \"COSINE\",\n#     \"field_name\": \"vector\",\n#     \"index_name\": \"vector_index\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1704,7 +1704,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import io.milvus.v2.service.index.request.DescribeIndexReq;\nimport io.milvus.v2.service.index.response.DescribeIndexResp;\n\n// 5. Describe index\n// 5.1 List the index names\nListIndexesReq listIndexesReq = ListIndexesReq.builder()\n    .collectionName(\"customized_setup\")\n    .build();\n\nList<String> indexNames = client.listIndexes(listIndexesReq);\n\nSystem.out.println(indexNames);\n\n// Output:\n// [\n//     \"vector_index\"\n// ]\n\n// 5.2 Describe an index\nDescribeIndexReq describeIndexReq = DescribeIndexReq.builder()\n    .collectionName(\"customized_setup\")\n    .indexName(\"vector_index\")\n    .build();\n\nDescribeIndexResp describeIndexResp = client.describeIndex(describeIndexReq);\n\nSystem.out.println(JSONObject.toJSON(describeIndexResp));\n\n// Output:\n// {\n//     \"metricType\": \"COSINE\",\n//     \"indexType\": <include target=\"zilliz\">\"AUTOINDEX\"</include><include target=\"zilliz\">\"IVF_FLAT\"</include>,\n//     \"fieldName\": \"vector\",\n//     \"indexName\": \"vector_index\"\n",
+                "content": "import io.milvus.v2.service.index.request.DescribeIndexReq;\nimport io.milvus.v2.service.index.response.DescribeIndexResp;\n\n// 5. Describe index\n// 5.1 List the index names\nListIndexesReq listIndexesReq = ListIndexesReq.builder()\n    .collectionName(\"customized_setup\")\n    .build();\n\nList<String> indexNames = client.listIndexes(listIndexesReq);\n\nSystem.out.println(indexNames);\n\n// Output:\n// [\n//     \"vector_index\"\n// ]\n\n// 5.2 Describe an index\nDescribeIndexReq describeIndexReq = DescribeIndexReq.builder()\n    .collectionName(\"customized_setup\")\n    .indexName(\"vector_index\")\n    .build();\n\nDescribeIndexResp describeIndexResp = client.describeIndex(describeIndexReq);\n\nSystem.out.println(JSONObject.toJSON(describeIndexResp));\n\n// Output:\n// {\n//     \"metricType\": \"COSINE\",\n//     \"indexType\": \"AUTOINDEX\",\n//     \"fieldName\": \"vector\",\n//     \"indexName\": \"vector_index\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1741,7 +1741,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 5. Describe the index\nres = await client.describeIndex({\n    collection_name: \"customized_setup\",\n    index_name: \"vector_index\"\n})\n\nconsole.log(JSON.stringify(res.index_descriptions, null, 2))\n\n// Output\n// \n// [\n//   {\n//     \"params\": [\n//       {\n//         \"key\": \"params\",\n//         \"value\": \"{\\\"nprobe\\\":10}\"\n//       },\n//       {\n//         \"key\": \"index_type\",\n//         \"value\": <include target=\"zilliz\">\"AUTOINDEX\"</include><include target=\"zilliz\">\"IVF_FLAT\"</include>\n//       },\n//       {\n//         \"key\": \"metric_type\",\n//         \"value\": \"COSINE\"\n//       }\n//     ],\n//     \"index_name\": \"vector_index\",\n//     \"indexID\": \"448162378879954423\",\n//     \"field_name\": \"vector\",\n//     \"indexed_rows\": \"0\",\n//     \"total_rows\": \"0\",\n//     \"state\": \"Finished\",\n//     \"index_state_fail_reason\": \"\",\n//     \"pending_index_rows\": \"0\"\n//   }\n// ]\n// \n",
+                "content": "// 5. Describe the index\nres = await client.describeIndex({\n    collection_name: \"customized_setup\",\n    index_name: \"vector_index\"\n})\n\nconsole.log(JSON.stringify(res.index_descriptions, null, 2))\n\n// Output\n// \n// [\n//   {\n//     \"params\": [\n//       {\n//         \"key\": \"index_type\",\n//         \"value\": \"AUTOINDEX\"\n//       },\n//       {\n//         \"key\": \"metric_type\",\n//         \"value\": \"COSINE\"\n//       }\n//     ],\n//     \"index_name\": \"vector_index\",\n//     \"indexID\": \"449007919953063141\",\n//     \"field_name\": \"vector\",\n//     \"indexed_rows\": \"0\",\n//     \"total_rows\": \"0\",\n//     \"state\": \"Finished\",\n//     \"index_state_fail_reason\": \"\",\n//     \"pending_index_rows\": \"0\"\n//   }\n// ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1878,7 +1890,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 6. Drop index\nDropIndexReq dropIndexReq = DropIndexReq.builder()\n    .collectionName(\"customized_setup\")\n    .indexName(\"vector_index\")\n    .build();\n\n",
+                "content": "// 6. Drop index\n\nDropIndexReq dropIndexReq = DropIndexReq.builder()\n    .collectionName(\"customized_setup\")\n    .indexName(\"vector_index\")\n    .build();\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1915,7 +1927,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 6. Drop the index\nawait client.dropIndex({\n    collection_name: \"customized_setup\",\n    index_name: \"vector_index\"\n",
+                "content": "// 6. Drop the index\nres = await client.dropIndex({\n    collection_name: \"customized_setup\",\n    index_name: \"vector_index\"\n})\n\nconsole.log(res.error_code)\n\n// Output\n// \n// Success\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1927,7 +1939,7 @@
             },
             {
               "text_run": {
-                "content": "})",
+                "content": "// ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

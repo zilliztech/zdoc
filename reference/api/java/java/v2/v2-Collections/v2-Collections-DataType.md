@@ -1,0 +1,69 @@
+---
+displayed_sidbar: this.displayedSidebar
+slug: /java/java/v2-Collections-DataType
+beta: false
+notebook: false
+type: docx
+token: P85rdatjZosvEfxCq7TcFRy0nBe
+sidebar_position: 7
+displayed_sidebar: javaSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# DataType
+
+This is an enumeration that provides the following constants.
+
+## Constants{#constants}
+
+- None(0)
+
+    Sets the data type to **NoneType**.
+
+- Bool(1)
+
+    Sets the data type to **Boolean**.
+
+- Int8(2)
+
+    Sets the data type to **Int8**.
+
+- Int16(3)
+
+    Sets the data type to **Int16**.
+
+- Int32(4)
+
+    Sets the data type to **Int32**.
+
+- Int64(5)
+
+    Sets the data type to **Int64**.
+
+- Float(10)
+
+    Sets the data type to **Float**.
+
+- Double(11)
+
+    Sets the data type to **Double**.
+
+- String(20)
+
+    Sets the data type to **String**.
+
+- VarChar(21)
+
+    Sets the data type to **VarChar**.
+
+- JSON(23)
+
+    Sets the data type to **JSON**.
+
+- FloatVector(101)
+
+    Sets the data type to **Float Vector**.
+

@@ -1,0 +1,130 @@
+---
+slug: /java/v1-Misc-IndexType
+beta: undefined
+notebook: undefined
+type: origin
+token: YvosdUhmtokAqRxV8hdctSUznCv
+sidebar_position: 3
+displayed_sidebar: javaSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# IndexType
+
+The enumeration for available index types.
+
+```java
+package io.milvus.param;
+public enum IndexType
+```
+
+<table>
+   <th>
+     <td>**Type**</td>
+     <td>**Code**</td>
+     <td>**Description**</td>
+   </th>
+   <tr>
+     <td>None</td>
+     <td>0</td>
+     <td>For internal usage.</td>
+   </tr>
+   <tr>
+     <td>FLAT<br/></td>
+     <td>1</td>
+     <td>Works for FloatVector/Float16Vector/BFloat16Vector type field.</td>
+   </tr>
+   <tr>
+     <td>IVF_FLAT</td>
+     <td>2</td>
+     <td>Works for FloatVector/Float16Vector/BFloat16Vector type field.</td>
+   </tr>
+   <tr>
+     <td>IVF_SQ8</td>
+     <td>3</td>
+     <td>Works for FloatVector/Float16Vector/BFloat16Vector type field.</td>
+   </tr>
+   <tr>
+     <td>IVF_PQ</td>
+     <td>4</td>
+     <td>Works for FloatVector/Float16Vector/BFloat16Vector type field.</td>
+   </tr>
+   <tr>
+     <td>HNSW</td>
+     <td>5</td>
+     <td>Works for FloatVector/Float16Vector/BFloat16Vector type field.</td>
+   </tr>
+   <tr>
+     <td>DISKANN<br/></td>
+     <td>10</td>
+     <td>Works for FloatVector/Float16Vector/BFloat16Vector type field.</td>
+   </tr>
+   <tr>
+     <td>AUTOINDEX</td>
+     <td>11</td>
+     <td>Works for FloatVector/Float16Vector/BFloat16Vector type field. The auto index parameters are defined in the milvus.yaml.</td>
+   </tr>
+   <tr>
+     <td>SCANN</td>
+     <td>12</td>
+     <td>Works for FloatVector/Float16Vector/BFloat16Vector type field.</td>
+   </tr>
+   <tr>
+     <td>GPU_IVF_FLAT</td>
+     <td>50</td>
+     <td>Only for FloatVector type field. Only works when the server is GPU mode.</td>
+   </tr>
+   <tr>
+     <td>GPU_IVF_PQ</td>
+     <td>51</td>
+     <td>Only for FloatVector type field. Only works when the server is GPU mode.</td>
+   </tr>
+   <tr>
+     <td>GPU_BRUTE_FORCE</td>
+     <td>52</td>
+     <td>Only for FloatVector type field. Only works when the server is GPU mode.</td>
+   </tr>
+   <tr>
+     <td>GPU_CAGRA</td>
+     <td>53</td>
+     <td>Only for FloatVector type field. Only works when the server is GPU mode.</td>
+   </tr>
+   <tr>
+     <td>BIN_FLAT</td>
+     <td>80</td>
+     <td>Only for BinaryVector type field.</td>
+   </tr>
+   <tr>
+     <td>BIN_IVF_FLAT</td>
+     <td>81</td>
+     <td>Only for BinaryVector type field.</td>
+   </tr>
+   <tr>
+     <td>TRIE</td>
+     <td>100</td>
+     <td>Only for VarChar type field.</td>
+   </tr>
+   <tr>
+     <td>STL_SORT</td>
+     <td>200</td>
+     <td>Only for numeric type field.</td>
+   </tr>
+   <tr>
+     <td>INVERTED</td>
+     <td>201</td>
+     <td>Works for all scalar fields except JSON type field.</td>
+   </tr>
+   <tr>
+     <td>SPARSE_INVERTED_INDEX</td>
+     <td>300</td>
+     <td>Only for SparseFloatVector type field.<br/></td>
+   </tr>
+   <tr>
+     <td>SPARSE_WAND</td>
+     <td>301</td>
+     <td>Only for SparseFloatVector type field.</td>
+   </tr>
+</table>

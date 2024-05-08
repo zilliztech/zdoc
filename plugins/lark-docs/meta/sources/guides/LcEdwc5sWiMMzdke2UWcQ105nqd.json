@@ -5,7 +5,7 @@
   "node_token": "LcEdwc5sWiMMzdke2UWcQ105nqd",
   "node_type": "origin",
   "obj_create_time": "1708764316",
-  "obj_edit_time": "1711432796",
+  "obj_edit_time": "1713491109",
   "obj_token": "KZmCd5PowoMnrzxdssKcbDPanqg",
   "obj_type": "docx",
   "origin_node_token": "LcEdwc5sWiMMzdke2UWcQ105nqd",
@@ -88,7 +88,8 @@
           "ZItfd1uLAoiybGxpPhUcnzU3ncf",
           "GN6nda9zCowsAcxcSRjcwqesneh",
           "AKkFd5XuwoMrhcx5wupcfcqRnGe",
-          "WJQadcor4ozRh5xUijHczt15nAx"
+          "WJQadcor4ozRh5xUijHczt15nAx",
+          "RbhFdW8J3oeysYxzU9NcZ5zNnYc"
         ],
         "page": {
           "elements": [
@@ -752,14 +753,32 @@
       {
         "block_id": "doxcnrxsLRezLS4021cGiuDbLWc",
         "block_type": 2,
+        "comment_ids": [
+          "7359154966600564740"
+        ],
         "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The code snippet below repurposes the existing code to establish a connection to a Zilliz Cloud cluster and create a collection and its index separately. Consequently, the collection remains unloaded.",
+                "content": "The code snippet below repurposes the existing code to establish a connection to a Zilliz Cloud cluster and create a collection ",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "in a quick-setup mode, indicating that the collection is loaded upon creation.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7359154966600564740"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -781,7 +800,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient, DataType\n\nCLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\"\nTOKEN = \"YOUR_CLUSTER_TOKEN\"\n\n# 1. Set up a Milvus client\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT,\n    token=TOKEN \n)\n\n# 2. Create a collection\nclient.create_collection(\n    collection_name=\"quick_setup\",\n    dimension=5,\n)\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\nCLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\"\nTOKEN = \"YOUR_CLUSTER_TOKEN\"\n\n# 1. Set up a Milvus client\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT,\n    token=TOKEN \n)\n\n# 2. Create a collection\nclient.create_collection(\n    collection_name=\"quick_setup\",\n    dimension=5,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -843,7 +874,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 1. Set up a Milvus Client\nclient = new MilvusClient({address, token});\n\n// 2. Create a collection in quick setup mode\nawait client.createCollection({\n    collection_name: \"quick_setup\",\n    dimension: 5,\n",
+                "content": "const address = \"YOUR_CLUSTER_ENDPOINT\"\nconst token = \"YOUR_CLUSTER_TOKEN\"\n\n// 1. Set up a Milvus Client\nclient = new MilvusClient({address, token});\n\n// 2. Create a collection in quick setup mode\nawait client.createCollection({\n    collection_name: \"quick_setup\",\n    dimension: 5,\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -855,7 +886,7 @@
             },
             {
               "text_run": {
-                "content": "}); ",
+                "content": "});  ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -886,6 +917,9 @@
       {
         "block_id": "doxcncuEuS9dBbVAb6ZVUfy48Pc",
         "block_type": 2,
+        "comment_ids": [
+          "7359154871158947843"
+        ],
         "parent_id": "doxcnHtucVdJUJ1gytN32ekqTqd",
         "text": {
           "elements": [
@@ -894,6 +928,9 @@
                 "content": " 📘 Notes",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7359154871158947843"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -911,6 +948,9 @@
       {
         "block_id": "doxcn1VPtAr1xg0s1rrQ3Ls9WOh",
         "block_type": 2,
+        "comment_ids": [
+          "7359154871158947843"
+        ],
         "parent_id": "doxcnHtucVdJUJ1gytN32ekqTqd",
         "text": {
           "elements": [
@@ -919,6 +959,9 @@
                 "content": "In the above code snippet, the index of the collection has been created along with the collection, indicating that the collection is loaded upon creation.",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7359154871158947843"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1027,7 +1070,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 3. List all partitions in the collection\nListPartitionsReq listPartitionsReq = ListPartitionsReq.builder()\n    .collectionName(\"quick_setup\")\n    .build();\n\nList<String> partitionNames = client.listPartitions(listPartitionsReq);\n\nSystem.out.println(partitionNames);\n\n// Output:\n",
+                "content": "import io.milvus.v2.service.partition.request.ListPartitionsReq;\n\n// 3. List all partitions in the collection\nListPartitionsReq listPartitionsReq = ListPartitionsReq.builder()\n    .collectionName(\"quick_setup\")\n    .build();\n\nList<String> partitionNames = client.listPartitions(listPartitionsReq);\n\nSystem.out.println(partitionNames);\n\n// Output:\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1064,7 +1107,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 3. List partitions\nres = await client.listPartitions({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   partition_names: [ '_default' ],\n//   partitionIDs: [ '448162378879033217' ],\n//   created_timestamps: [ '448166680294588419' ],\n//   created_utc_timestamps: [ '1709620209864' ],\n//   inMemory_percentages: [],\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   }\n// }\n",
+                "content": "// 3. List partitions\nres = await client.listPartitions({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res.partition_names)\n\n// Output\n// \n// [ '_default' ]\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1479,7 +1522,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 4. Create more partitions\nawait client.createPartition({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionA\"\n})\n\nawait client.createPartition({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionB\"\n})\n\nres = await client.listPartitions({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   partition_names: [ '_default', 'partitionA', 'partitionB' ],\n//   partitionIDs: [ '448162378879033217', '448162378879033248', '448162378879033252' ],\n//   created_timestamps: [ '448166680294588419', '448166681408700418', '448166681461129219' ],\n//   created_utc_timestamps: [ '1709620209864', '1709620214114', '1709620214314' ],\n//   inMemory_percentages: [],\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   }\n// }\n",
+                "content": "// 4. Create more partitions\nawait client.createPartition({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionA\"\n})\n\nawait client.createPartition({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionB\"\n})\n\nres = await client.listPartitions({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res.partition_names)\n\n// Output\n// \n// [ '_default', 'partitionA', 'partitionB' ]\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1833,7 +1876,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 5. Check whether a partition exists\nHasPartitionReq hasPartitionReq = HasPartitionReq.builder()\n    .collectionName(\"quick_setup\")\n    .partitionName(\"partitionA\")\n    .build();\n\nboolean exists = client.hasPartition(hasPartitionReq);\n\nSystem.out.println(exists);\n\n// Output:\n// true\n\nhasPartitionReq = HasPartitionReq.builder()\n    .collectionName(\"quick_setup\")\n    .partitionName(\"partitionC\")\n    .build();\n\nexists = client.hasPartition(hasPartitionReq);\n\nSystem.out.println(exists);\n\n// Output:\n",
+                "content": "import io.milvus.v2.service.partition.request.HasPartitionReq;\n\n// 5. Check whether a partition exists\nHasPartitionReq hasPartitionReq = HasPartitionReq.builder()\n    .collectionName(\"quick_setup\")\n    .partitionName(\"partitionA\")\n    .build();\n\nboolean exists = client.hasPartition(hasPartitionReq);\n\nSystem.out.println(exists);\n\n// Output:\n// true\n\nhasPartitionReq = HasPartitionReq.builder()\n    .collectionName(\"quick_setup\")\n    .partitionName(\"partitionC\")\n    .build();\n\nexists = client.hasPartition(hasPartitionReq);\n\nSystem.out.println(exists);\n\n// Output:\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1870,19 +1913,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 5. Check whether a partition exists\nres = await client.hasPartition({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionA\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   value: true\n// }\n// \n\nres = await client.hasPartition({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionC\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   value: false\n// }\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "// ",
+                "content": "// 5. Check whether a partition exists\nres = await client.hasPartition({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionA\"\n})\n\nconsole.log(res.value)\n\n// Output\n// \n// true\n// \n\nres = await client.hasPartition({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionC\"\n})\n\nconsole.log(res.value)\n\n// Output\n// \n// false\n// \n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2080,7 +2111,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "# Release the collection\nclient.release_collection(collection_name=\"quick_setup\")\n\n# Check the load status\nres = client.get_load_state(collection_name=\"quick_setup\")\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: Loaded>\"\n# }\n\nres = client.get_load_state(\n    collection_name=\"quick_setup\", \n    partition_name=\"partitionA\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: Loaded>\"\n# }\n\nres = client.get_load_state(\n    collection_name=\"quick_setup\", \n    partition_name=\"partitionB\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: NotLoad>\"\n# }\n",
+                "content": "# 6. Load a partition independantly\nclient.release_collection(collection_name=\"quick_setup\")\n\nres = client.get_load_state(collection_name=\"quick_setup\")\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: NotLoad>\"\n# }\n\nclient.load_partitions(\n    collection_name=\"quick_setup\",\n    partition_names=[\"partitionA\"]\n)\n\nres = client.get_load_state(collection_name=\"quick_setup\")\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: Loaded>\"\n# }\n\nres = client.get_load_state(collection_name=\"quick_setup\", partition_name=\"partitionA\")\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: Loaded>\"\n# }\n\nres = client.get_load_state(collection_name=\"quick_setup\", partition_name=\"partitionB\")\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: NotLoad>\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2142,7 +2185,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 6. Load a partition indenpendantly\nawait client.releaseCollection({\n    collection_name: \"quick_setup\"\n})\n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateNotLoad'\n// }\n// \n\nawait client.loadPartitions({\n    collection_name: \"quick_setup\",\n    partition_names: [\"partitionA\"]\n})\n\nawait sleep(3000)\n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateLoaded'\n// }\n// \n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionA\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateLoaded'\n// }\n// \n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionB\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateNotLoad'\n// }\n",
+                "content": "// 6. Load a partition indenpendantly\nawait client.releaseCollection({\n    collection_name: \"quick_setup\"\n})\n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res.state)\n\n// Output\n// \n// LoadStateNotLoad\n// \n\nawait client.loadPartitions({\n    collection_name: \"quick_setup\",\n    partition_names: [\"partitionA\"]\n})\n\nawait sleep(3000)\n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res.state)\n\n// Output\n// \n// LoadStateLoaded\n// \n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionA\"\n})\n\nconsole.log(res.state)\n\n// Output\n// \n// LoadStateLoaded\n// \n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionB\"\n})\n\nconsole.log(res.state)\n\n// Output\n// \n// LoadStateLoaded\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2647,7 +2690,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "await client.loadPartitions({\n    collection_name: \"quick_setup\",\n    partition_names: [\"partitionA\"]\n})\n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionA\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateLoaded'\n// }\n",
+                "content": "await client.loadPartitions({\n    collection_name: \"quick_setup\",\n    partition_names: [\"partitionA\"]\n})\n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionA\"\n})\n\nconsole.log(res.state)\n\n// Output\n// \n// LoadStateLoaded\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2659,7 +2702,7 @@
             },
             {
               "text_run": {
-                "content": "// ",
+                "content": "//",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2783,7 +2826,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "await client.loadPartitions({\n    collection_name: \"quick_setup\",\n    partition_names: [\"partitionA\", \"partitionB\"]\n})\n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionA\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateLoaded'\n// }\n// \n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionB\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateLoaded'\n// }\n",
+                "content": "await client.loadPartitions({\n    collection_name: \"quick_setup\",\n    partition_names: [\"partitionA\", \"partitionB\"]\n})\n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionA\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// LoadStateLoaded\n// \n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionB\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// LoadStateLoaded\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2841,6 +2884,9 @@
       {
         "block_id": "doxcnTTOKpG0rBGmi1Kao0tEEYf",
         "block_type": 2,
+        "comment_ids": [
+          "7359150690109161475"
+        ],
         "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
         "text": {
           "elements": [
@@ -2861,6 +2907,9 @@
                 "content": "release_collection",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7359150690109161475"
+                  ],
                   "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
@@ -2894,7 +2943,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# 7. Release a partition\nclient.release_partitions(\n    collection_name=\"quick_setup\",\n    partition_names=[\"partitionA\"]\n)\n\nres = client.get_load_state(\n    collection_name=\"quick_setup\", \n    partition_name=\"partitionA\"\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: NotLoad>\"\n# }\n",
+                "content": "# 7. Release a partition\nclient.release_partitions(\n    collection_name=\"quick_setup\",\n    partition_names=[\"partitionA\"]\n)\n\nres = client.get_load_state(collection_name=\"quick_setup\", partition_name=\"partitionA\")\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: NotLoad>\"\n# }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2956,7 +3005,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 7. Release a partition\nawait client.releasePartitions({\n    collection_name: \"quick_setup\",\n    partition_names: [\"partitionA\"]\n})\n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   },\n//   state: 'LoadStateNotLoad'\n// }\n",
+                "content": "// 7. Release a partition\nawait client.releasePartitions({\n    collection_name: \"quick_setup\",\n    partition_names: [\"partitionA\"]\n})\n\nres = await client.getLoadState({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res.state)\n\n// Output\n// \n// LoadStateNotLoad\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2994,7 +3043,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "To release multiple partitions at a time, do as follows:",
+                "content": "To release multiple or all partitions at a time, do as follows:",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3216,7 +3265,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// Drop a partition\nDropPartitionReq dropPartitionReq = DropPartitionReq.builder()\n    .collectionName(\"quick_setup\")\n    .partitionName(\"partitionB\")\n    .build();\n\nclient.dropPartition(dropPartitionReq);\n\nlistPartitionsReq = ListPartitionsReq.builder()\n    .collectionName(\"quick_setup\")\n    .build();\n\npartitionNames = client.listPartitions(listPartitionsReq);\n\nSystem.out.println(partitionNames);\n\n// Output:\n// [\n//     \"_default\",\n//     \"partitionA\"\n",
+                "content": "// 8. Drop a partition\nDropPartitionReq dropPartitionReq = DropPartitionReq.builder()\n    .collectionName(\"quick_setup\")\n    .partitionName(\"partitionB\")\n    .build();\n\nclient.dropPartition(dropPartitionReq);\n\nlistPartitionsReq = ListPartitionsReq.builder()\n    .collectionName(\"quick_setup\")\n    .build();\n\npartitionNames = client.listPartitions(listPartitionsReq);\n\nSystem.out.println(partitionNames);\n\n// Output:\n// [\n//     \"_default\",\n//     \"partitionA\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3253,7 +3302,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "// 8 Drop a partition\nawait client.dropPartition({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionB\"\n})\n\nres = await client.listPartitions({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res)\n\n// Output\n// \n// {\n//   partition_names: [ '_default', 'partitionA' ],\n//   partitionIDs: [ '448162378879033217', '448162378879033248' ],\n//   created_timestamps: [ '448166680294588419', '448166681408700418' ],\n//   created_utc_timestamps: [ '1709620209864', '1709620214114' ],\n//   inMemory_percentages: [],\n//   status: {\n//     error_code: 'Success',\n//     reason: '',\n//     code: 0,\n//     retriable: false,\n//     detail: ''\n//   }\n// }\n",
+                "content": "// 8 Drop a partition\nawait client.dropPartition({\n    collection_name: \"quick_setup\",\n    partition_name: \"partitionB\"\n})\n\nres = await client.listPartitions({\n    collection_name: \"quick_setup\"\n})\n\nconsole.log(res.partition_names)\n\n// Output\n// \n// [ '_default', 'partitionA' ]\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3346,8 +3395,33 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "RbhFdW8J3oeysYxzU9NcZ5zNnYc",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       }
     ],
-    "counts": 87
+    "counts": 88
   }
 }

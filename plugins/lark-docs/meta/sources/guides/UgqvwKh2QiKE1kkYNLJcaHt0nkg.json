@@ -5,7 +5,7 @@
   "node_token": "UgqvwKh2QiKE1kkYNLJcaHt0nkg",
   "node_type": "origin",
   "obj_create_time": "1689055813",
-  "obj_edit_time": "1711682131",
+  "obj_edit_time": "1713358771",
   "obj_token": "JZAsdh6Cpok9GIxpOo0caUnondg",
   "obj_type": "docx",
   "origin_node_token": "UgqvwKh2QiKE1kkYNLJcaHt0nkg",
@@ -1269,7 +1269,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "8 million",
+                "content": "7.5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " million",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1371,7 +1383,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "6 million",
+                "content": "4.5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " million",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1485,7 +1509,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "3 million",
+                "content": "2.25",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " million",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1600,7 +1636,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "2 million",
+                "content": "1.5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " million",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1739,7 +1787,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "1.5 million",
+                "content": "1.125",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " million",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3604,7 +3664,43 @@
             },
             {
               "text_run": {
-                "content": ": A single Performance-optimized CU accommodates 2 million 768-dimensional vectors. To store all 8 million vectors, you would need at least 4",
+                "content": ": A single Performance-optimized CU accommodates ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "1.5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " million 768-dimensional vectors. To store all 8 million vectors, you would need at least ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "6",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3748,7 +3844,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "In conclusion, for this scenario, the Performance-optimized CU is your best bet. A configuration of 3 replicas, with each replica consisting of 4 CUs, should serve you perfectly.",
+                "content": "In conclusion, for this scenario, the Performance-optimized CU is your best bet. A configuration of 3 replicas, with each replica consisting of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "6",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " CUs, should serve you perfectly.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

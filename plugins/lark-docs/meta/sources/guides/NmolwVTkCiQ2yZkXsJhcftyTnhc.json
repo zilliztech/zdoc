@@ -5,7 +5,7 @@
   "node_token": "NmolwVTkCiQ2yZkXsJhcftyTnhc",
   "node_type": "origin",
   "obj_create_time": "1710482009",
-  "obj_edit_time": "1710482641",
+  "obj_edit_time": "1712140260",
   "obj_token": "L9widKADsoF3ffxWHoPcNs9ln6d",
   "obj_type": "docx",
   "origin_node_token": "NmolwVTkCiQ2yZkXsJhcftyTnhc",
@@ -212,7 +212,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "openai/text-embedding-3-small ",
+                "content": "openai/text-embedding-3-small",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,

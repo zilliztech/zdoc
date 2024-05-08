@@ -5,7 +5,7 @@
   "node_token": "XzguwvYt9ipFpkkNdNzcgMnOnJe",
   "node_type": "origin",
   "obj_create_time": "1708764316",
-  "obj_edit_time": "1712117132",
+  "obj_edit_time": "1712458289",
   "obj_token": "GuQMddl0eovsTCxQUtTcv85fnWb",
   "obj_type": "docx",
   "origin_node_token": "XzguwvYt9ipFpkkNdNzcgMnOnJe",
@@ -556,7 +556,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "64 per CU, and <= 4096",
+                "content": "64 per CU, and \\<= 4096",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -808,7 +808,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "<= 4,096",
+                "content": "\\<= 4,096",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1041,7 +1041,7 @@
       "node_token": "USQ2w6yj0i3WN1k3eEYciscinkc",
       "node_type": "origin",
       "obj_create_time": "1708764320",
-      "obj_edit_time": "1712048524",
+      "obj_edit_time": "1713428174",
       "obj_token": "SvJfdY9UPo4dCGxngZGckkJwnwg",
       "obj_type": "docx",
       "origin_node_token": "USQ2w6yj0i3WN1k3eEYciscinkc",

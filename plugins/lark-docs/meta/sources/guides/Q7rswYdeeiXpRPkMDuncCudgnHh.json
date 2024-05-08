@@ -1,20 +1,20 @@
 {
   "creator": "ou_e55a208a81fc721928685fc3df9cb678",
-  "has_child": true,
+  "has_child": false,
   "node_create_time": "1710211843",
   "node_token": "Q7rswYdeeiXpRPkMDuncCudgnHh",
   "node_type": "origin",
   "obj_create_time": "1710211843",
-  "obj_edit_time": "1710761945",
+  "obj_edit_time": "1713175947",
   "obj_token": "P3NndTrduokSurxRCr6cZrpen4d",
   "obj_type": "docx",
   "origin_node_token": "Q7rswYdeeiXpRPkMDuncCudgnHh",
   "origin_space_id": "7314484612833640452",
   "owner": "ou_e55a208a81fc721928685fc3df9cb678",
-  "parent_node_token": "Hb5VwPWS0iTxFvkjCmdcQnwan9d",
+  "parent_node_token": "Wii4wxaVviUQVKkoYOhcAuFfnGd",
   "space_id": "7314484612833640452",
-  "title": "[Draft] Embeddings",
-  "slug": "embeddings",
+  "title": "Overview",
+  "slug": "milvus-cdc-overview",
   "blocks": {
     "items": [
       {
@@ -61,7 +61,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "[Draft] Embeddings",
+                "content": "Overview",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -759,6 +759,9 @@
           "CtNcd4Xl8oYuyfxlZvZcBKMInob",
           "C0nLdRHZoo401Oxsw4ZcudpKnLe",
           "IP8sdGKJMokxlbxykXacHqHunbh",
+          "EMcFdIwarokYvmx0B6ScuqobnVb",
+          "PfLQdXVVtoolbFxejB7cNPven7g",
+          "TRgNd2XRmonGgRxooF1cDiTynQy",
           "Zu3lduFJroOOhXx3dROcgOcnnQb",
           "HBNodenjpoPTcrxcR8qcLzFgnAb",
           "YTj1dpVvwoep86xfcjscbe3InRf",
@@ -781,6 +784,9 @@
             "CtNcd4Xl8oYuyfxlZvZcBKMInob",
             "C0nLdRHZoo401Oxsw4ZcudpKnLe",
             "IP8sdGKJMokxlbxykXacHqHunbh",
+            "EMcFdIwarokYvmx0B6ScuqobnVb",
+            "PfLQdXVVtoolbFxejB7cNPven7g",
+            "TRgNd2XRmonGgRxooF1cDiTynQy",
             "Zu3lduFJroOOhXx3dROcgOcnnQb",
             "HBNodenjpoPTcrxcR8qcLzFgnAb",
             "YTj1dpVvwoep86xfcjscbe3InRf",
@@ -871,9 +877,21 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 6
+            "row_size": 7
           }
         }
       },
@@ -1173,6 +1191,108 @@
             {
               "text_run": {
                 "content": "Open-sourced",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EMcFdIwarokYvmx0B6ScuqobnVb",
+        "block_type": 32,
+        "children": [
+          "CLwydIcBIoNuqcxj5NLcnVirn5c"
+        ],
+        "parent_id": "PwTldKUGNoe7bsxAdq5cdCJAncb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CLwydIcBIoNuqcxj5NLcnVirn5c",
+        "block_type": 2,
+        "parent_id": "EMcFdIwarokYvmx0B6ScuqobnVb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Voyage",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PfLQdXVVtoolbFxejB7cNPven7g",
+        "block_type": 32,
+        "children": [
+          "CUeBdM9cdoV7iBxtZgtcIALZnoe"
+        ],
+        "parent_id": "PwTldKUGNoe7bsxAdq5cdCJAncb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CUeBdM9cdoV7iBxtZgtcIALZnoe",
+        "block_type": 2,
+        "parent_id": "PfLQdXVVtoolbFxejB7cNPven7g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Dense",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TRgNd2XRmonGgRxooF1cDiTynQy",
+        "block_type": 32,
+        "children": [
+          "PvIydS9dWovgwOxBCFxcFpZDnac"
+        ],
+        "parent_id": "PwTldKUGNoe7bsxAdq5cdCJAncb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PvIydS9dWovgwOxBCFxcFpZDnac",
+        "block_type": 2,
+        "parent_id": "TRgNd2XRmonGgRxooF1cDiTynQy",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "API",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2905,98 +3025,6 @@
         }
       }
     ],
-    "counts": 69
-  },
-  "children": [
-    {
-      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
-      "has_child": false,
-      "node_create_time": "1710222167",
-      "node_token": "Tcpcw5gOOiN6kRkgoCVcAcqVnMc",
-      "node_type": "origin",
-      "obj_create_time": "1710222167",
-      "obj_edit_time": "1710322518",
-      "obj_token": "RBowdK4bEoEymvx8tc8cCxl6nc7",
-      "obj_type": "docx",
-      "origin_node_token": "Tcpcw5gOOiN6kRkgoCVcAcqVnMc",
-      "origin_space_id": "7314484612833640452",
-      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
-      "parent_node_token": "Q7rswYdeeiXpRPkMDuncCudgnHh",
-      "space_id": "7314484612833640452",
-      "title": "OpenAI",
-      "slug": "embed-with-openai"
-    },
-    {
-      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
-      "has_child": false,
-      "node_create_time": "1710222260",
-      "node_token": "IyOmwmPWYiLRcGkN2YmcME5PnHe",
-      "node_type": "origin",
-      "obj_create_time": "1710222260",
-      "obj_edit_time": "1710323257",
-      "obj_token": "Yc5CdEX6doXP99xYTBqcN0oenO1",
-      "obj_type": "docx",
-      "origin_node_token": "IyOmwmPWYiLRcGkN2YmcME5PnHe",
-      "origin_space_id": "7314484612833640452",
-      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
-      "parent_node_token": "Q7rswYdeeiXpRPkMDuncCudgnHh",
-      "space_id": "7314484612833640452",
-      "title": "Sentence Transformers",
-      "slug": "embed-with-sentence-transform"
-    },
-    {
-      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
-      "has_child": false,
-      "node_create_time": "1710222309",
-      "node_token": "XNP3wuEvdiVPogkLh2CcrkpqnAb",
-      "node_type": "origin",
-      "obj_create_time": "1710222309",
-      "obj_edit_time": "1710727398",
-      "obj_token": "NJl4dyZJeojrphxvHyocXsQXnwh",
-      "obj_type": "docx",
-      "origin_node_token": "XNP3wuEvdiVPogkLh2CcrkpqnAb",
-      "origin_space_id": "7314484612833640452",
-      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
-      "parent_node_token": "Q7rswYdeeiXpRPkMDuncCudgnHh",
-      "space_id": "7314484612833640452",
-      "title": "BGE M3",
-      "slug": "embed-with-bgm-m3"
-    },
-    {
-      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
-      "has_child": false,
-      "node_create_time": "1710222338",
-      "node_token": "Qf3MwlGHxiSy3qk4viGcQN9Nnbe",
-      "node_type": "origin",
-      "obj_create_time": "1710222338",
-      "obj_edit_time": "1710768088",
-      "obj_token": "E1IMdJ1J8oMuiMx7x9JcKapjnZd",
-      "obj_type": "docx",
-      "origin_node_token": "Qf3MwlGHxiSy3qk4viGcQN9Nnbe",
-      "origin_space_id": "7314484612833640452",
-      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
-      "parent_node_token": "Q7rswYdeeiXpRPkMDuncCudgnHh",
-      "space_id": "7314484612833640452",
-      "title": "BM25",
-      "slug": "embed-with-bm25"
-    },
-    {
-      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
-      "has_child": false,
-      "node_create_time": "1710222372",
-      "node_token": "WUUzwAQ2PivnZJkaBo1cGG4Hnxe",
-      "node_type": "origin",
-      "obj_create_time": "1710222372",
-      "obj_edit_time": "1710726710",
-      "obj_token": "S9rudNQJnoXN2Cxny3Tc1SMindb",
-      "obj_type": "docx",
-      "origin_node_token": "WUUzwAQ2PivnZJkaBo1cGG4Hnxe",
-      "origin_space_id": "7314484612833640452",
-      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
-      "parent_node_token": "Q7rswYdeeiXpRPkMDuncCudgnHh",
-      "space_id": "7314484612833640452",
-      "title": "SPLADE",
-      "slug": "embed-with-splade"
-    }
-  ]
+    "counts": 75
+  }
 }

@@ -99,6 +99,7 @@ const config = {
         root: 'OUWXw5c4gia34ZkQUcEcMFbWn6s',
         base: 'PnsobATKVayIDFs6hhQcChlGnje',
         sourceType: 'wiki',
+        displayedSidebar: 'default',
         docSourceDir: './plugins/lark-docs/meta/sources/guides',
         targets: {
           milvus: {
@@ -122,6 +123,7 @@ const config = {
         base: 'D1VabelmAansLwsNTvLc2Wxxn1g',
         sourceType: 'drive',
         version: 'v2.3.x',
+        displayedSidebar: 'pythonSidebar',
         docSourceDir: './plugins/lark-docs/meta/sources/python/v2.3.x',
         targets: {
           milvus: {
@@ -134,19 +136,40 @@ const config = {
           }
         }
       },
-      java: {
+      javaV1: {
+        root: 'D0cfwvTqMiyhSrkCUv4c1a2Fnjd',
+        base: 'A4ivb7y2XaIND9s93QZcvwykn0d',
+        // root: 'wikcnu8oU4VVbRFKKLjDH5aCIIh',
+        // base: 'XJ2RbEDgTakJ80sfUAPcLG4Tnug',
+        sourceType: 'onePager',
+        version: 'v2.3.x',
+        displayedSidebar: 'javaSidebar',
+        docSourceDir: './plugins/lark-docs/meta/sources/java/v2.3.x/v1',
+        targets: {
+          milvus: {
+            outputDir: 'milvus/reference/java/docs/v1',
+            imageDir: 'milvus/reference/java/images'
+          },
+          zilliz: {
+            outputDir: 'reference/api/java/java/v1',
+            imageDir: 'static/img',
+          }
+        }
+      },
+      javaV2: {
         root: 'GYfPfBbdglDhh5dzLH3cYaV1nDf',
         base: 'Bp72bJ9wEazV1SsA30lcsuJgnfe',
         sourceType: 'drive',
         version: 'v2.3.x',
-        docSourceDir: './plugins/lark-docs/meta/sources/java/v2.3.x',
+        displayedSidebar: 'javaSidebar',
+        docSourceDir: './plugins/lark-docs/meta/sources/java/v2.3.x/v2',
         targets: {
           milvus: {
-            outputDir: 'milvus/reference/java/docs',
+            outputDir: 'milvus/reference/java/docs/v2',
             imageDir: 'milvus/reference/java/images'
           },
           zilliz: {
-            outputDir: 'reference/api/java/java',
+            outputDir: 'reference/api/java/java/v2',
             imageDir: 'static/img',
           }
         }
@@ -156,6 +179,7 @@ const config = {
         base: 'DVVobtXQMamuLqsQij5c29nVn3c',
         sourceType: 'drive',
         version: 'v2.3.x',
+        displayedSidebar: 'nodeSidebar',
         docSourceDir: './plugins/lark-docs/meta/sources/node/v2.3.x',
         targets: {
           milvus: {

@@ -5,7 +5,7 @@
   "node_token": "LbFXwpruviFWWokwtkhcVmnhnFh",
   "node_type": "origin",
   "obj_create_time": "1709634160",
-  "obj_edit_time": "1710226003",
+  "obj_edit_time": "1714357830",
   "obj_token": "Sx56dqIsworbtgxeVDscO80nn3b",
   "obj_type": "docx",
   "origin_node_token": "LbFXwpruviFWWokwtkhcVmnhnFh",
@@ -22,6 +22,7 @@
         "block_type": 1,
         "children": [
           "En5cdUReRoD5WuxE2lsc5PwKnoe",
+          "YBRvdK26soLsw4x27HfcjDqbn5c",
           "TZnsdk9YAoU0sZx3HZ0cSsK5nch",
           "UJzgdGYSgobLdOxE1hJcGajintc",
           "Zabfd0EqCoBoKvxMQIZc7KEwnZd",
@@ -89,6 +90,97 @@
               "text_run": {
                 "content": "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace.",
                 "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YBRvdK26soLsw4x27HfcjDqbn5c",
+        "block_type": 34,
+        "children": [
+          "Mgaidp9x6oczNaxmceFcFslrn6d",
+          "I4UWdBhqOoqgNVx15pbcDYNvnwf"
+        ],
+        "parent_id": "Sx56dqIsworbtgxeVDscO80nn3b",
+        "quote_container": {}
+      },
+      {
+        "block_id": "Mgaidp9x6oczNaxmceFcFslrn6d",
+        "block_type": 2,
+        "parent_id": "YBRvdK26soLsw4x27HfcjDqbn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Note",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I4UWdBhqOoqgNVx15pbcDYNvnwf",
+        "block_type": 2,
+        "parent_id": "YBRvdK26soLsw4x27HfcjDqbn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can subscribe to our service in Azure Marketplace and choose among AWS, GCP, and Azure to ",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "create",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FKrbjwFhy3iojF3k97XmcvvXMnW7%3Fchunked%3Dfalse"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " your Zilliz Cloud clusters.",
+                "text_element_style": {
+                  "background_color": 3,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2212,6 +2304,6 @@
         }
       }
     ],
-    "counts": 58
+    "counts": 61
   }
 }
