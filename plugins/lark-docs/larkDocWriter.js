@@ -504,6 +504,7 @@ class larkDocWriter {
         markdown = this.__filter_content(markdown, this.targets)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
         markdown = markdown.replace(/^[\||\s][\s|\||<br\/>]*\|\n/gm, '')
+        markdown = this.__mdx_patches(markdown)
 
         let tabs = markdown.split('\n').filter(line => {
             return line.trim().startsWith("<Tab")
@@ -624,7 +625,7 @@ class larkDocWriter {
             }
         }
     
-        return this.__mdx_patches(markdown.join('\n\n').replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br>){2,}/g, '<br>').replace(/<br>/g, '<br/>'));
+        return markdown.join('\n\n').replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br>){2,}/g, '<br>').replace(/<br>/g, '<br/>');
     }
 
     __mdx_patches(content) {
@@ -639,15 +640,17 @@ class larkDocWriter {
                 }
             }).filter(mark => mark)
         
-            const tags = [...content.matchAll(/[\{<]([^#]*?)[\}>]+/g)]
+            const tags = [...content.matchAll(/<([^\n]*?)>+/g)]
+
+            // console.log(tags.map(tag => tag[0]))
         
             tags.forEach((tag, i) => {
                 if (tag && tag[1].endsWith('/')) {
                     tags[i] = null
                 }
         
-                if (tag && !tag[1].split(' ')[0].startsWith('/')) {
-                    const end_tag_idx = tags.findIndex(t => t && t[1] === `/${tag[1].split(' ')[0]}`)
+                if (tag && !tag[1].trim().split(' ')[0].startsWith('/')) {
+                    const end_tag_idx = tags.findIndex(t => t && t[1].endsWith(`/${tag[1].trim().split(' ')[0]}`))
                     if (end_tag_idx > i) {
                         tags[i] = null
                         tags[end_tag_idx] = null
@@ -656,15 +659,17 @@ class larkDocWriter {
             })
         
             const acorns = tags.filter(tag => tag).filter(acorn => !code_pairs.some(pair => pair.start < acorn.index && pair.end > acorn.index))
+
+            // console.log(acorns.map(acorn => acorn[0]))
         
             acorns.forEach((acorn, i) => {
-                const c = acorn[0].match(/[\{<]/g).length - 1
-                const a = acorn[0].replace(/</g, '\\<').replace(/\{/g, '\\{')
+                const c = acorn[0].match(/</g).length - 1
+                const a = acorn[0].replace(/</g, '\\<')
                 content = content.slice(0, acorn.index + i) + a + content.slice(acorn.index + i + acorn[0].length + c)
             })
         }
         
-        return content.replace(/\\\\/g, '\\')
+        return content.replace('"{', '"\\{').replace(/\\\\/g, '\\')
     }
 
     async __page(page) {
