@@ -861,25 +861,15 @@ class larkDocWriter {
         let lang = code.style.language ? this.code_langs[code.style.language] : 'plaintext'
         
         if ((!prev || (prev && this.block_types[prev['block_type']-1] !== 'code')) && next && this.block_types[next['block_type']-1] === 'code') {
-            
-            let label;
-            switch (lang) {
-                case 'JavaScript':
-                    label = 'NodeJS'
-                    break;
-                case 'Bash':
-                    label = 'RESTful'
-                    break;
-                default:
-                    label = lang
-                    break;
-            }
 
-            values.push({ label: label, value: lang.toLowerCase() });
+            values.push({ label: get_label(lang), value: lang.toLowerCase() });
+
+            has_next_code(next, this.block_types, this.code_langs);
             
             function has_next_code(next, block_types, code_langs) {
                 const next_lang = code_langs[next['code']['style']['language']];
-                values.push({ label: next_lang === 'JavaScript' ? 'NodeJS' : next_lang, value: next_lang.toLowerCase() });
+
+                values.push({ label: get_label(next_lang), value: next_lang.toLowerCase() });
                 try {
                     next = blocks[blocks.indexOf(next) + 1];
                 if (next && block_types[next['block_type']-1] === 'code') {
@@ -889,8 +879,23 @@ class larkDocWriter {
                 // do nothing
                 }
             }
-        
-            has_next_code(next, this.block_types, this.code_langs);
+
+            function get_label(lang) {
+                let label;
+                switch (lang) {
+                    case 'JavaScript':
+                        label = 'NodeJS'
+                        break;
+                    case 'Bash':
+                        label = 'cURL'
+                        break;
+                    default:
+                        label = lang
+                        break;
+                }
+
+                return label;
+            }    
         }
         
         return values;
