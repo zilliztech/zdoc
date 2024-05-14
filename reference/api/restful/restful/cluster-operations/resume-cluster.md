@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Resume a suspended cluster.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/{clusterId}/resume" />
+<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/{CLUSTER_ID}/resume" />
 
 ---
 
@@ -54,7 +54,7 @@ Success response:
 
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `clusterId`  | **string**(required)<br/>The ID of a cluster to which this operation applies.|
+    | `CLUSTER_ID`  | **string**(required)<br/>|
 
 ### Request Body
 
@@ -93,10 +93,11 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code` | integer  <br/>  |
-| `data` | object<br/> |
-| `data.clusterId` | string  <br/>The ID of a cluster.  |
-| `data.prompt` | string  <br/>The statement indicating that the current operation succeeds.  |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__ | integer  <br/>  |
+| __data__ | object<br/> |
+| __data.clusterId__ | string  <br/>The ID of a cluster.  |
+| __data.prompt__ | string  <br/>The statement indicating that the current operation succeeds.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors

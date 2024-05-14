@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 23
+sidebar_position: 15
 slug: /restful/drop-pipeline
 title: Drop Pipeline
 ---
@@ -97,7 +97,6 @@ Returns information of a specific pipeline just dropped.
         "type": "string",
         "description": "string",
         "status": "string",
-        "totalTokenUsage": "integer",
         "clusterID": "string",
         "collectionName": "string"
     }
@@ -119,17 +118,17 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code` | integer  <br/>  |
-| `data` | object<br/> |
-| `data.pipelineId` | integer  <br/>A pipeline ID.  |
-| `data.name` | string  <br/>Name of the pipeline.  |
-| `data.type` | string  <br/>Type of the pipeline. For an ingestion pipeline, the value should be `INGESTION`.  |
-| `data.description` | string  <br/>Description of the pipeline.  |
-| `data.status` | string  <br/>Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working.  |
-| `data.totalTokenUsage` | integer  <br/>Number of consumed tokens in this operation.  |
-| `functions` | object | object<br/>Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function. |
-| `data.clusterID` | string  <br/>The target cluster to which the pipeline applies.  |
-| `data.collectionName` | string  <br/>The target collection to which the pipeline applies.  |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__ | integer  <br/>  |
+| __data__ | object<br/> |
+| __data.pipelineId__ | integer  <br/>A pipeline ID.  |
+| __data.name__ | string  <br/>Name of the pipeline.  |
+| __data.type__ | string  <br/>Type of the pipeline. For an ingestion pipeline, the value should be `INGESTION`.  |
+| __data.description__ | string  <br/>Description of the pipeline.  |
+| __data.status__ | string  <br/>Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working.  |
+| __functions__ | object | object<br/>Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function. |
+| __data.clusterID__ | string  <br/>The target cluster to which the pipeline applies.  |
+| __data.collectionName__ | string  <br/>The target collection to which the pipeline applies.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors

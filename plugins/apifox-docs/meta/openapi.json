@@ -3797,13 +3797,13 @@
                             "type": "string",
                             "description": "An active pre-signed URL of one of your documents in a GCS or an AWS S3 bucket. You should replace `doc_url` with the field name you have defined when you create the pipeline. Supported file types are `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, and `.pptx`"
                           },
-                          "<scalar_field_name>": {
+                          "\\<scalar_field_name>": {
                             "type": "string"
                           }
                         },
                         "x-apifox-orders": [
                           "doc_url",
-                          "<scalar_field_name>"
+                          "\\<scalar_field_name>"
                         ],
                         "description": "Data ingestion parameters.",
                         "required": [
@@ -4002,19 +4002,19 @@
                                     "type": "string",
                                     "description": "Distance to the vector embedings of the specified query string."
                                   },
-                                  "<scalar_field_name>": {
+                                  "\\<scalar_field_name>": {
                                     "type": "string"
                                   }
                                 },
                                 "x-apifox-orders": [
                                   "id",
                                   "distance",
-                                  "<scalar_field_name>"
+                                  "\\<scalar_field_name>"
                                 ],
                                 "required": [
                                   "id",
                                   "distance",
-                                  "<scalar_field_name>"
+                                  "\\<scalar_field_name>"
                                 ],
                                 "x-apifox-ignore-properties": []
                               },
@@ -7258,19 +7258,19 @@
                       "type": "string",
                       "description": "Distance to the vector embedings of the specified query string."
                     },
-                    "<scalar_field_name>": {
+                    "\\<scalar_field_name>": {
                       "type": "string"
                     }
                   },
                   "x-apifox-orders": [
                     "id",
                     "distance",
-                    "<scalar_field_name>"
+                    "\\<scalar_field_name>"
                   ],
                   "required": [
                     "id",
                     "distance",
-                    "<scalar_field_name>"
+                    "\\<scalar_field_name>"
                   ],
                   "x-apifox-ignore-properties": []
                 },
@@ -7446,13 +7446,13 @@
                 "type": "string",
                 "description": "An active pre-signed URL of one of your documents in a GCS or an AWS S3 bucket. You should replace `doc_url` with the field name you have defined when you create the pipeline. Supported file types are `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, and `.pptx`"
               },
-              "<scalar_field_name>": {
+              "\\<scalar_field_name>": {
                 "type": "string"
               }
             },
             "x-apifox-orders": [
               "doc_url",
-              "<scalar_field_name>"
+              "\\<scalar_field_name>"
             ],
             "description": "Data ingestion parameters.",
             "required": [

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 26
+sidebar_position: 18
 slug: /restful/run-pipeline
 title: Run Pipeline
 ---
@@ -133,16 +133,16 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 {
     "data": {
         "doc_url": "string",
-        "\<scalar_field_name>": "string"
+        "\\<scalar_field_name>": "string"
     }
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `data` | object<br/>Data ingestion parameters. |
-| `data.doc_url` | string  <br/>An active pre-signed URL of one of your documents in a GCS or an AWS S3 bucket. You should replace `doc_url` with the field name you have defined when you create the pipeline. Supported file types are `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, and `.pptx`  |
-| `data.\<scalar_field_name>` | string  <br/>  |
+| __data__ | object<br/>Data ingestion parameters. |
+| __data.doc_url__ | string  <br/>An active pre-signed URL of one of your documents in a GCS or an AWS S3 bucket. You should replace `doc_url` with the field name you have defined when you create the pipeline. Supported file types are `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, and `.pptx`  |
+| __data.\<scalar_field_name>__ | string  <br/>  |
 
 ```json
 {
@@ -160,14 +160,14 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `data` | object<br/>Search data. |
-| `data.query_text` | string  <br/>A query text. Zilliz Cloud embeds it and use the generated vector embeddings to conduct a search in the target collection.  |
-| `params` | object<br/>Search parameters. |
-| `params.limit` | integer  <br/>Total number of records to return.  |
-| `params.offset` | integer  <br/>Total number of records to skip in the search results.  |
-| `params[].outputFields` | array<br/>A list of fields to output for each match in the search result. |
-| `params[].outputFields[]` | string  <br/>A valid output field and should be the one defined in the preserve functions.  |
-| `params.filter` | string  <br/>A boolean expression for Zilliz Cloud to filter records before actual searches.  |
+| __data__ | object<br/>Search data. |
+| __data.query_text__ | string  <br/>A query text. Zilliz Cloud embeds it and use the generated vector embeddings to conduct a search in the target collection.  |
+| __params__ | object<br/>Search parameters. |
+| __params.limit__ | integer  <br/>Total number of records to return.  |
+| __params.offset__ | integer  <br/>Total number of records to skip in the search results.  |
+| __params[].outputFields__ | array<br/>A list of fields to output for each match in the search result. |
+| __params[].outputFields[]__ | string  <br/>A valid output field and should be the one defined in the preserve functions.  |
+| __params.filter__ | string  <br/>A boolean expression for Zilliz Cloud to filter records before actual searches.  |
 
 ```json
 {
@@ -179,8 +179,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `data` | object<br/>Payload of the doc deletion request. |
-| `data.doc_name` | string  <br/>Name of the document to delete. Note that you can delete document by its name, and all the chunks of the document will be removed.  |
+| __data__ | object<br/>Payload of the doc deletion request. |
+| __data.doc_name__ | string  <br/>Name of the document to delete. Note that you can delete document by its name, and all the chunks of the document will be removed.  |
 
 ## Response
 
@@ -195,8 +195,7 @@ Returns the result of running a specific pipeline.
     "code": "integer",
     "data": {
         "num_chunks": "integer",
-        "doc_name": "string",
-        "token_usage": "integer"
+        "doc_name": "string"
     }
 }
 ```
@@ -216,11 +215,11 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code` | integer  <br/>  |
-| `data` | object<br/>Payload of the response. |
-| `data.num_chunks` | integer  <br/>Number of chunks generated.  |
-| `data.doc_name` | string  <br/>Name of the chunked document with the file extension.  |
-| `data.token_usage` | integer  <br/>Number of consumed tokens in this operation.  |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__ | integer  <br/>  |
+| __data__ | object<br/>Payload of the response. |
+| __data.num_chunks__ | integer  <br/>Number of chunks generated.  |
+| __data.doc_name__ | string  <br/>Name of the chunked document with the file extension.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors

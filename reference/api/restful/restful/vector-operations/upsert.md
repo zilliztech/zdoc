@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 21
+sidebar_position: 25
 slug: /restful/upsert
 title: Upsert
 ---
@@ -88,9 +88,9 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `dbName` | string  <br/>The name of the database.  |
-| `collectionName` | string  <br/>The name of the collection to which entities will be inserted.  |
-| `data` | object<br/>An entity object. Note that the keys in the entity should match the collection schema. |
+| __dbName__ | string  <br/>The name of the database.  |
+| __collectionName__ | string  <br/>The name of the collection to which entities will be inserted.  |
+| __data__ | object<br/>An entity object. Note that the keys in the entity should match the collection schema. |
 
 ```json
 {
@@ -105,11 +105,11 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `dbName` | string  <br/>The name of the database.  |
-| `collectionName` | string  <br/>The name of the collection to which entities will be inserted.  |
-| `partitionName` | string  <br/>The name of the partition to which this operation applies.  |
-| `data` | array<br/>An array of entity objects. Note that the keys in an entity object should match the collection schema |
-| `data[]` | object<br/> |
+| __dbName__ | string  <br/>The name of the database.  |
+| __collectionName__ | string  <br/>The name of the collection to which entities will be inserted.  |
+| __partitionName__ | string  <br/>The name of the partition to which this operation applies.  |
+| __data__ | array<br/>An array of entity objects. Note that the keys in an entity object should match the collection schema |
+| __data[]__ | object<br/> |
 
 ## Response
 
@@ -146,11 +146,12 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code` | integer  <br/>  |
-| `data` | object<br/> |
-| `data.upsertCount` | integer  <br/>The number of inserted entities.  |
-| `data[].upsertIds` | array<br/>An array of the IDs of inserted entities. |
-| `data[].upsertIds[]` | string  <br/>  |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__ | integer  <br/>  |
+| __data__ | object<br/> |
+| __data.upsertCount__ | integer  <br/>The number of inserted entities.  |
+| __data[].upsertIds__ | array<br/>An array of the IDs of inserted entities. |
+| __data[].upsertIds[]__ | string  <br/>  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors

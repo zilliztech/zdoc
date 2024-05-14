@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Modify the configuration of a specified cluster. Currently, you can use this API to change the size of the CU associated with your cluster.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/{clusterId}/modify" />
+<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/{CLUSTER_ID}/modify" />
 
 ---
 
@@ -56,7 +56,7 @@ Success response:
 
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `clusterId`  | **string**(required)<br/>The ID of a cluster to which this operation applies.|
+    | `CLUSTER_ID`  | **string**(required)<br/>|
 
 ### Request Body
 
@@ -68,7 +68,7 @@ Success response:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `cuSize` | integer  <br/>The size of the CU to be associated to your cluster after the configuration.  |
+| __cuSize__ | integer  <br/>The size of the CU to be associated to your cluster after the configuration.  |
 
 ## Response
 
@@ -103,9 +103,11 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `data` | object<br/> |
-| `data.clusterId` | string  <br/>The ID of a cluster.  |
-| `data.prompt` | string  <br/>The statement indicating that the current operation succeeds.  |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__ | integer  <br/>  |
+| __data__ | object<br/> |
+| __data.clusterId__ | string  <br/>The ID of a cluster.  |
+| __data.prompt__ | string  <br/>The statement indicating that the current operation succeeds.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 25
+sidebar_position: 17
 slug: /restful/list-pipelines
 title: List Pipelines
 ---
@@ -103,11 +103,7 @@ Possible response
 
 ### Parameters
 
-- Query parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `projectId`  | **integer**(required)<br/>ID of the project in which this operation is performed.|
+- No query parameters required
 
 - No path parameters required
 
@@ -147,9 +143,10 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code` | string  <br/>  |
-| `data` | array<br/> |
-| `data[]` | object<br/> |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__ | string  <br/>  |
+| __data__ | array<br/> |
+| __data[]__ | object<br/> |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors

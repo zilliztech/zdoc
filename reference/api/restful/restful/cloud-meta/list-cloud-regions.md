@@ -38,11 +38,11 @@ Success response:
 {
     "code": 200,
     "data": [
-       {
-          "apiBaseUrl": "https://api.gcp-us-west1.zillizcloud.com",
-          "cloudId": "gcp",
-          "regionId": "gcp-us-west1"
-       }
+        {
+            "cloudId": "gcp",
+            "domain": "*.api.gcp-us-west1.cloud-uat3.zilliz.com",
+            "regionId": "gcp-us-west1"
+        }
     ]
 }
 ```
@@ -79,7 +79,7 @@ Returns a list of all available regions that the specified cloud provider offers
         {
             "cloudId": "string",
             "regionId": "string",
-            "apiBaseUrl": "string"
+            "domain": "string"
         }
     ]
 }
@@ -100,12 +100,13 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code` | integer  <br/>  |
-| `data` | array<br/> |
-| `data[]` | object<br/> |
-| `data[].cloudId` | string  <br/>The ID of a cloud provider  |
-| `data[].regionId` | string  <br/>The ID of a cloud region  |
-| `data[].apiBaseUrl` | string  <br/>The base URL of an Zilliz Cloud open API endpiont  |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__ | integer  <br/>  |
+| __data__ | array<br/> |
+| __data[]__ | object<br/> |
+| __data[].cloudId__ | string  <br/>The ID of a cloud provider  |
+| __data[].regionId__ | string  <br/>The ID of a cloud region  |
+| __data[].domain__ | string  <br/>The base URL of an Zilliz Cloud open API endpiont  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors

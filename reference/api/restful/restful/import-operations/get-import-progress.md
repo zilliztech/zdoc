@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 19
+sidebar_position: 12
 slug: /restful/get-import-progress
 title: Get Import Progress
 ---
@@ -95,22 +95,23 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code` | integer  <br/>  |
-| `data` | object<br/> |
-| `data.fileName` | string  <br/>The path of the data file object in the object storage.  |
-| `data.fileSize` | integer (int64) <br/>The size of the data file object.  |
-| `data.readyPercentage` | number (float) <br/>The indicator of the import progress  |
-| `data.completeTime` | string  <br/>The time at which the import task completes. `null` indicates that the file import is going on.  |
-| `data.errorMessage` | string  <br/>The message that explains the reason for an import failure. `null` indicates that no error occurs.  |
-| `data.collectionName` | string  <br/>The target collection name of the import task.  |
-| `data.jobId` | string  <br/>The ID of an import task.  |
-| `data[].details` | array<br/>The import task details |
-| `data[].details[]` | object<br/> |
-| `data[].details[].fileName` | string  <br/>The path to a file being imported.  |
-| `data[].details[].fileSize` | integer (int64) <br/>The size of a file being imported.  |
-| `data[].details[].readyPercentage` | number (float) <br/>The import progress of a specific file.  |
-| `data[].details[].completeTime` | string  <br/>The time at which the import progress ends for a specific file. `null` indicates that the file import is going on.  |
-| `data[].details[].errorMessage` | string  <br/>The message that explains the reason for an import failure. `null` indicates that no error occurs.  |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__ | integer  <br/>  |
+| __data__ | object<br/> |
+| __data.fileName__ | string  <br/>The path of the data file object in the object storage.  |
+| __data.fileSize__ | integer (int64) <br/>The size of the data file object.  |
+| __data.readyPercentage__ | number (float) <br/>The indicator of the import progress  |
+| __data.completeTime__ | string  <br/>The time at which the import task completes. `null` indicates that the file import is going on.  |
+| __data.errorMessage__ | string  <br/>The message that explains the reason for an import failure. `null` indicates that no error occurs.  |
+| __data.collectionName__ | string  <br/>The target collection name of the import task.  |
+| __data.jobId__ | string  <br/>The ID of an import task.  |
+| __data[].details__ | array<br/>The import task details |
+| __data[].details[]__ | object<br/> |
+| __data[].details[].fileName__ | string  <br/>The path to a file being imported.  |
+| __data[].details[].fileSize__ | integer (int64) <br/>The size of a file being imported.  |
+| __data[].details[].readyPercentage__ | number (float) <br/>The import progress of a specific file.  |
+| __data[].details[].completeTime__ | string  <br/>The time at which the import progress ends for a specific file. `null` indicates that the file import is going on.  |
+| __data[].details[].errorMessage__ | string  <br/>The message that explains the reason for an import failure. `null` indicates that no error occurs.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors

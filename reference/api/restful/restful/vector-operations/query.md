@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 16
+sidebar_position: 27
 slug: /restful/query
 title: Query
 ---
@@ -75,15 +75,15 @@ When setting `outputFields` to `count(\*)`, you need to set `limit` to `0` to ge
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `dbName` | string  <br/>The name of the database.  |
-| `collectionName` | string  <br/>The name of the collection to which this operation applies.  |
-| `partitionNames` | array<br/>The name of the partitions to which this operation applies. |
-| `partitionNames[]` | string  <br/>PartitionName  |
-| `filter` | string  <br/>The filter used to find matches for the search.  |
-| `limit` | integer  <br/>The maximum number of entities to return.<br/>The sum of this value and that of `offset` should be less than **16384**.<br/>The value defaults to 100<br/>The value ranges from 1 to 100.  |
-| `offset` | integer  <br/>The number of entities to skip in the search results.<br/>The sum of this value and that of `limit` should be less than **16384**.<br/>The value is less than or equal to 16384.  |
-| `outputFields` | array<br/>An array of fields to return along with the search results. |
-| `outputFields[]` | string  <br/>  |
+| __dbName__ | string  <br/>The name of the database.  |
+| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
+| __partitionNames__ | array<br/>The name of the partitions to which this operation applies. |
+| __partitionNames[]__ | string  <br/>PartitionName  |
+| __filter__ | string  <br/>The filter used to find matches for the search.  |
+| __limit__ | integer  <br/>The maximum number of entities to return.<br/>The sum of this value and that of `offset` should be less than **16384**.<br/>The value defaults to 100<br/>The value ranges from 1 to 100.  |
+| __offset__ | integer  <br/>The number of entities to skip in the search results.<br/>The sum of this value and that of `limit` should be less than **16384**.<br/>The value is less than or equal to 16384.  |
+| __outputFields__ | array<br/>An array of fields to return along with the search results. |
+| __outputFields[]__ | string  <br/>  |
 
 ## Response
 
@@ -117,9 +117,10 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code` | integer  <br/>  |
-| `data` | array<br/> |
-| `data[]` | object<br/> |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__ | integer  <br/>  |
+| __data__ | array<br/> |
+| __data[]__ | object<br/> |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors

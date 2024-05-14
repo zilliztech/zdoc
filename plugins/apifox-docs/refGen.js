@@ -112,9 +112,7 @@ class refGen {
         fs.writeFileSync(`${this.options.target_path}/${page_parent}/${page_slug}.md`, t)
       }
     }
-  }
-
-  
+  }  
 
   make_groups() {
     const { specifications, target_path } = this.options

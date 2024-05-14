@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 3
+sidebar_position: 2
 slug: /restful/list-clusters
 title: List Clusters
 ---
@@ -55,7 +55,6 @@ Success response:
     |------------------|-------------------------------------------------------------------------------------------|
     | `pageSize`  | **integer**<br/>The number of records to return on each page.|
     | `current`  | **integer**<br/>The current page number.|
-    | `projectId`  | **string**<br/>ID of the project in which the clusters are to be listed.|
 
 - No path parameters required
 
@@ -65,7 +64,7 @@ No request body required
 
 ## Response
 
-Returns a list of your clusters. The results vary with the access permissions of the API key in use.
+Returns a list of your clusters.
 
 ### Response Bodies
 
@@ -80,7 +79,6 @@ Returns a list of your clusters. The results vary with the access permissions of
         "pageSize": "integer",
         "clusters": [
             {
-                "projectId": "string",
                 "clusterId": "string",
                 "clusterName": "string",
                 "description": "string",
@@ -112,24 +110,24 @@ The properties in the returned response are listed in the following table.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code` | integer  <br/>  |
-| `data` | object<br/> |
-| `data.count` | integer  <br/>The total number of clusters returned.  |
-| `data.currentPage` | integer  <br/>The current page in the results.  |
-| `data.pageSize` | integer  <br/>The number of clusters per page in the results.  |
-| `data[].clusters` | array<br/>An array of clusters in detail. |
-| `data[].clusters[]` | object<br/> |
-| `data[].clusters[].projectId` | string  <br/>The ID of the project to which the current cluster belongs.  |
-| `data[].clusters[].clusterId` | string  <br/>The ID of the cluster.  |
-| `data[].clusters[].clusterName` | string  <br/>The name of the cluster.  |
-| `data[].clusters[].description` | string  <br/>An optional description about the cluster.  |
-| `data[].clusters[].regionId` | string  <br/>The ID of the region where the cluster exists.  |
-| `data[].clusters[].clusterType` | string  <br/>The type of CU associated with the cluster. Possible values are **Performance-optimized** and **Capacity-optimized**.  |
-| `data[].clusters[].cuSize` | integer  <br/>The size of the CU associated with the cluster.  |
-| `data[].clusters[].status` | string  <br/>The current status of the cluster. Possible values are **INITIALIZING**, **RUNNING**, **SUSPENDING**, and **RESUMING**.  |
-| `data[].clusters[].connectAddress` | string  <br/>The public endpoint of the cluster. You can connect to the cluster using this endpoint from the public network.  |
-| `data[].clusters[].privateLinkAddress` | string  <br/>The private endpoint of the cluster. You can set up a private link to allow your VPS in the same cloud region to access your cluster.  |
-| `data[].clusters[].createTime` | string  <br/>The time at which the cluster has been created.  |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__ | integer  <br/>  |
+| __data__ | object<br/> |
+| __data.count__ | integer  <br/>The total number of clusters returned.  |
+| __data.currentPage__ | integer  <br/>The current page in the results.  |
+| __data.pageSize__ | integer  <br/>The number of clusters per page in the results.  |
+| __data[].clusters__ | array<br/>An array of clusters in detail. |
+| __data[].clusters[]__ | object<br/> |
+| __data[].clusters[].clusterId__ | string  <br/>The ID of the cluster.  |
+| __data[].clusters[].clusterName__ | string  <br/>The name of the cluster.  |
+| __data[].clusters[].description__ | string  <br/>An optional description about the cluster.  |
+| __data[].clusters[].regionId__ | string  <br/>The ID of the region where the cluster exists.  |
+| __data[].clusters[].clusterType__ | string  <br/>The type of CU associated with the cluster. Possible values are **Performance-optimized** and **Capacity-optimized**.  |
+| __data[].clusters[].cuSize__ | integer  <br/>The size of the CU associated with the cluster.  |
+| __data[].clusters[].status__ | string  <br/>The current status of the cluster. Possible values are **INITIALIZING**, **RUNNING**, **SUSPENDING**, and **RESUMING**.  |
+| __data[].clusters[].connectAddress__ | string  <br/>The public endpoint of the cluster. You can connect to the cluster using this endpoint from the public network.  |
+| __data[].clusters[].privateLinkAddress__ | string  <br/>The private endpoint of the cluster. You can set up a private link to allow your VPS in the same cloud region to access your cluster.  |
+| __data[].clusters[].createTime__ | string  <br/>The time at which the cluster has been created.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
