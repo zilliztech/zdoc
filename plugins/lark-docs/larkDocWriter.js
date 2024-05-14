@@ -341,7 +341,7 @@ class larkDocWriter {
             // Write FAQs root page
             let title = 'FAQs'
             let slug = 'faqs'
-            let front_matter = this.__front_matters(slug, null, null, source.node_type, source.node_token, 999, this.displayedSidebar)
+            let front_matter = this.__front_matters(slug, null, null, source.node_type, source.node_token, 999, "", "", this.displayedSidebar)
             const markdown = `${front_matter}\n\n# ${title}` + "\n\nimport DocCardList from '@theme/DocCardList';\n\n<DocCardList />"
             fs.writeFileSync(`${path}/${slug}.md`, markdown)
 
