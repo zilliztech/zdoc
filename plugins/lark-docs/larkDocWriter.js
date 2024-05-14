@@ -353,7 +353,7 @@ class larkDocWriter {
                 let title = sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
                 let short_description = sub_page.filter(line => line.length > 0)[1]
                 let slug = slugify(title, {lower: true, strict: true})
-                let front_matter = this.__front_matters(slug, null, null, source.node_type, source.node_token, index+1, this.displayedSidebar)
+                let front_matter = this.__front_matters(slug, null, null, source.node_type, source.node_token, index+1, "", "", this.displayedSidebar)
                 let links = []
 
                 sub_page = sub_page.map(line => {
