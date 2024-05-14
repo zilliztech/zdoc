@@ -10,12 +10,12 @@ MilvusServiceClient(ConnectParam connectParam)
 Methods of MilvusClient for connection:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
+   </tr>
    <tr>
      <td>withTimeout(long timeout, TimeUnit timeoutUnit)<br/></td>
      <td>Timeout setting for RPC call.<br/></td>
@@ -30,7 +30,7 @@ Methods of MilvusClient for connection:
    </tr>
    <tr>
      <td>close(long maxWaitSeconds)<br/></td>
-     <td>Disconnects from a Milvus server with a configurable timeout value. Call this method before the application terminates.<br/>This method throws an `InterruptedException` exception if it is interrupted.</td>
+     <td>Disconnects from a Milvus server with a configurable timeout value. Call this method before the application terminates.<br/>This method throws an <code>InterruptedException</code> exception if it is interrupted.</td>
      <td>maxWaitSeconds: The timeout period to wait for the RPC channel to close.</td>
      <td>N/A<br/></td>
    </tr>
@@ -42,7 +42,7 @@ Methods of MilvusClient for connection:
    </tr>
 </table>
 
-#### ConnectParam{#connectparam}
+## ConnectParam
 
 Use the `ConnectParam.Builder` to construct a `ConnectParam` object for the MilvusClient.
 
@@ -135,7 +135,7 @@ The `ConnectParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### RetryParam{#retryparam}
+## RetryParam
 
 Use the `RetryParam.Builder` to construct a RetryParam object for the `MilvusClient`.
 
@@ -188,7 +188,7 @@ The `RetryParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Example{#example}
+## Example
 
 - Without timeout setting for RPC call:
 

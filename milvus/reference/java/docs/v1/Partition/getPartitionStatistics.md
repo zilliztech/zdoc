@@ -6,7 +6,7 @@ MilvusClient interface. This method shows the statistical information of a parti
 R<GetPartitionStatisticsResponse> getPartitionStatistics(GetPartitionStatisticsParam requestParam);
 ```
 
-#### GetPartitionStatisticsParam{#getpartitionstatisticsparam}
+## GetPartitionStatisticsParam
 
 Use the `GetPartitionStatisticsParam.Builder` to construct a `GetPartitionStatisticsParam` object.
 
@@ -49,7 +49,7 @@ The `GetPartitionStatisticsParam.Builder.build()` can throw the following except
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<GetPartitionStatisticsResponse>` object.
 
@@ -59,7 +59,7 @@ This method catches all the exceptions and returns an `R<GetPartitionStatisticsR
 
 - If the API succeeds, it returns a valid `GetPartitionStatisticsResponse` held by the `R` template. You can use `GetPartStatResponseWrapper` to get statistics easily.
 
-#### GetPartStatResponseWrapper{#getpartstatresponsewrapper}
+## GetPartStatResponseWrapper
 
 A tool class to encapsulate the `GetPartitionStatisticsResponse`. 
 
@@ -71,11 +71,11 @@ GetPartStatResponseWrapper wrapper = new GetPartStatResponseWrapper(partStatResp
 Methods of `GetPartStatResponseWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Returns</strong></th>
+   </tr>
    <tr>
      <td>getRowCount()</td>
      <td>Get the row count of a partition.<br/>Throw NumberFormatException if the row count string is illegal.</td>
@@ -83,7 +83,7 @@ Methods of `GetPartStatResponseWrapper`:
    </tr>
 </table>
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

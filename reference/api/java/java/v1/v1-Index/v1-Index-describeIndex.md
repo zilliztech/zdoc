@@ -81,10 +81,10 @@ Methods of `DescIndexResponseWrapper`:
 
 <table>
    <tr>
-     <th>**Method**</th>
-     <th>**Description**</th>
-     <th>**Parameters**</th>
-     <th>**Returns**</th>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
    </tr>
    <tr>
      <td>getIndexDescriptions()<br/></td>
@@ -108,9 +108,9 @@ Methods of `DescIndexResponseWrapper.IndexDesc`
 
 <table>
    <tr>
-     <th>**Method**</th>
-     <th>**Description**</th>
-     <th>**Returns**</th>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Returns</strong></th>
    </tr>
    <tr>
      <td>getIndexType()</td>

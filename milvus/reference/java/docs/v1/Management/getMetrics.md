@@ -6,7 +6,7 @@ MilvusClient interface. This method returns the runtime metrics information of M
 R<GetMetricsResponse> getMetrics(GetMetricsParam requestParam);
 ```
 
-#### GetMetricsParam{#getmetricsparam}
+## GetMetricsParam
 
 Use the `GetMetricsParam.Builder` to construct a `GetMetricsParam` object.
 
@@ -39,7 +39,7 @@ The `GetMetricsParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<GetMetricsResponse>` object.
 
@@ -49,14 +49,14 @@ This method catches all the exceptions and returns an `R<GetMetricsResponse>` ob
 
 - If the API succeeds, it returns a valid `GetMetricsResponse` held by the `R` template.
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;
 import io.milvus.grpc.GetMetricsResponse;
 
 GetMetricsParam param = GetMetricsParam.newBuilder()
-        .withRequest("{\"metric_type\":\"system_info\"}")
+        .withRequest("\{\"metric_type\":\"system_info\"}")
         .build();
 R<GetMetricsResponse> response = client.getMetrics(param);
 if (response.getStatus() != R.Status.Success.getCode()) {

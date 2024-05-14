@@ -23,9 +23,9 @@ public enum DataType
 
 <table>
    <tr>
-     <th>**Type**</th>
-     <th>**Code**</th>
-     <th>**Description**</th>
+     <th><strong>Type</strong></th>
+     <th><strong>Code</strong></th>
+     <th><strong>Description</strong></th>
    </tr>
    <tr>
      <td>None</td>

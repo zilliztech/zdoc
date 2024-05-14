@@ -23,8 +23,8 @@ public enum MetricType
 
 <table>
    <tr>
-     <th>**Type**</th>
-     <th>**Description**</th>
+     <th><strong>Type</strong></th>
+     <th><strong>Description</strong></th>
    </tr>
    <tr>
      <td>NONE</td>

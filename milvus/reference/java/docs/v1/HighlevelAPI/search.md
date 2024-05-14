@@ -6,7 +6,7 @@ The MilvusClient interface. This method conducts an approximate nearest neighbor
 R<SearchResponse> search(SearchSimpleParam requestParam);
 ```
 
-#### SearchSimpleParam{#searchsimpleparam}
+## SearchSimpleParam
 
 Use the `SearchSimpleParam.Builder` to construct a `SearchSimpleParam` object.
 
@@ -35,13 +35,13 @@ Methods of `SearchSimpleParam.Builder`:
     </tr>
     <tr>
         <td>withFilter(String filter)</td>
-        <td>[object Object],[object Object],[object Object],[object Object],[object Object]</td>
+        <td></td>
         <td>filter: The expression to filter scalar fields</td>
     </tr>
     <tr>
         <td>withVectors(List\<?> vectors)</td>
         <td>Set the target vector. Up to 16384 vectors allowed.</td>
-        <td>vectors: <br/>- If target field type is float vector, List\< List\<Float>>is required;<br/>- If target field type is binary vector, List\<ByteBuffer> is required;</td>
+        <td>vectors: <br/>- If target field type is float vector, List\< List\<Float>gt; is required;<br/>- If target field type is binary vector, List\<ByteBuffer> is required;</td>
     </tr>
     <tr>
         <td>withOffset(Long offset)</td>
@@ -69,7 +69,7 @@ The `SearchSimpleParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<SearchResponse>` object.
 
@@ -79,7 +79,7 @@ This method catches all the exceptions and returns an `R<SearchResponse>` object
 
 - If the API succeeds, it returns a valid `SearchResponse` held by the `R` template.
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

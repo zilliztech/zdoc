@@ -144,7 +144,7 @@ class larkDocWriter {
         this.downloader = new Downloader({}, imageDir)
     }
 
-    __fetch_doc_source (type, value) {
+    __fetch_doc_source (type, value, slug="") {
         const file = fs.readdirSync(this.docSourceDir).filter(file => {
             const page = JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, {encoding: 'utf-8', flag: 'r'}))
             
@@ -158,7 +158,13 @@ class larkDocWriter {
         })
 
         if (file.length > 0) {
-            return JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file[0]}`, {encoding: 'utf-8', flag: 'r'}))
+            if (slug) {
+                return file.map(file => {
+                    return JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, {encoding: 'utf-8', flag: 'r'}))
+                }).filter(page => page.slug === slug)[0]
+            } else {
+                return JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file[0]}`, {encoding: 'utf-8', flag: 'r'}))
+            }
         } else {
             throw new Error(`2. Cannot find ${value} in ${this.docSourceDir}`)
         }
@@ -268,14 +274,12 @@ class larkDocWriter {
         let obj;
         let blocks;
         if (page_token) {
-            obj = this.__fetch_doc_source('node_token', page_token)
+            obj = this.__fetch_doc_source('node_token', page_token, page_slug)
             if (obj) {
                 blocks = obj.blocks.items
             }
-        } 
-        
-        if (page_title) {
-            obj = this.__fetch_doc_source('title', page_title)
+        } else if (page_title) {
+            obj = this.__fetch_doc_source('title', page_title, page_slug)
             if (obj) {
                 blocks = obj.blocks.items
             }
@@ -374,7 +378,6 @@ class larkDocWriter {
     }
 
     async __listed_docs() {
-        // const app_id = this.__fetch_doc_source('node_token', this.root_token).children.slice(-1)[0].obj_token
         const token = await this.tokenFetcher.token()
         let url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_token}/tables`
         const table_id = (await (await fetch(url, {
@@ -1020,8 +1023,6 @@ class larkDocWriter {
         const values = sheet.values.data.valueRange.values;
         var result = ' '.repeat(indent) + "<table>" + "\n";
 
-        console.log()
-
         values.forEach((row, ridx) => {
             result += ' '.repeat(indent) + '    ' + "<tr>" + "\n";
             row.forEach((cell, cidx) => {
@@ -1034,14 +1035,25 @@ class larkDocWriter {
                         rowspan = `rowspan="${match[0].end_row_index -match[0].start_row_index + 1}"`;
                     }
                 }
+                
+                if (typeof cell ==='string') {
+                    cell = cell.replace(/\n/g, '<br/>')
+                }
 
-                cell = typeof cell === 'string' ? cell.replace(/\n/g, '<br/>') : typeof cell === 'number'? cell.toString() : cell
-                cell = converter.makeHtml(cell)
+                if (typeof cell === 'object') {
+                    cell = this.__sheet_cell(cell)
+                } 
 
+                if (typeof cell === 'number') {
+                    cell = cell.toString()
+                }
+
+                cell = [...converter.makeHtml(cell.trim()).matchAll(/<p>(.*?)<\/p>/g)][0]
+                
                 if (ridx === 0) {
-                    result += `${' '.repeat(indent) + '    '.repeat(2)}<th${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${cell}</th>\n`
+                    result += `${' '.repeat(indent) + '    '.repeat(2)}<th${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${cell ? cell[1] : ""}</th>\n`
                 } else {
-                    result += `${' '.repeat(indent) + '    '.repeat(2)}<td${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${cell}</td>\n`
+                    result += `${' '.repeat(indent) + '    '.repeat(2)}<td${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${cell ? cell[1] : ""}</td>\n`
                 }
             })
             result += ' '.repeat(indent) + '    ' + "</tr>" + "\n"
@@ -1051,6 +1063,24 @@ class larkDocWriter {
 
         return result;
     }    
+
+    __sheet_cell(cell) {
+        if (cell instanceof Array) {
+            return cell.map(block => {
+                if (block['type'] === 'text') {
+                    return block['text']
+                }
+    
+                if (block['type'] === 'url') {
+                    return `<a href="${block['link']}">${block['text']}</a>`
+                }
+            }).join('')
+        } else {
+            console.log(cell)
+            return ''
+        }
+
+    }
 
     __retrieve_block_by_id(block_id) {
         if (!this.page_blocks) {

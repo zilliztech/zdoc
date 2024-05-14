@@ -6,7 +6,7 @@ MilvusClient interface. This method returns an iterator for you to iterate over 
 R<QueryIterator> queryIterator(QueryIteratorParam requestParam);
 ```
 
-#### QueryIteratorParam{#queryiteratorparam}
+## QueryIteratorParam
 
 Use the `QueryIteratorParam.Builder` to construct a `QueryIteratorParam` object.
 
@@ -45,7 +45,7 @@ Methods of `QueryIteratorParam.Builder`:
     </tr>
     <tr>
         <td>withOutFields(List\<String> outFields)</td>
-        <td>Specifies output scalar fields (Optional).<br/>If output fields are specified, the QueryResults returned by query() will contains the values of these fields. </td>
+        <td>Specifies output scalar fields (Optional).<br/>If output fields are specified, the QueryResults returned by query() will contains the values of these fields.</td>
         <td><br/>outFields: The name list of fields to be outputed.</td>
     </tr>
     <tr>
@@ -55,7 +55,7 @@ Methods of `QueryIteratorParam.Builder`:
     </tr>
     <tr>
         <td>withExpr(String expr)</td>
-        <td>[object Object],[object Object],[object Object]</td>
+        <td>Set the expression to query entities. For more information please refer to <a href="https://milvus.io/docs/v2.3.x/boolean.md">this doc</a>.</td>
         <td>expr: The expression to query</td>
     </tr>
     <tr>
@@ -89,7 +89,7 @@ The `QueryIteratorParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<QueryIterator>` object.
 
@@ -99,17 +99,17 @@ This method catches all the exceptions and returns an `R<QueryIterator>` object.
 
 - If the API succeeds, it returns a valid `QueryIterator` held by the `R` template.
 
-#### QueryIterator{#queryiterator}
+## QueryIterator
 
 Methods of `QueryIterator`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
+   </tr>
    <tr>
      <td>next()</td>
      <td>Return a batch of results.</td>
@@ -124,7 +124,7 @@ Methods of `QueryIterator`:
    </tr>
 </table>
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.dml.*;

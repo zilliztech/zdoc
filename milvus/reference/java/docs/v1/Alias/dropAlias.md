@@ -6,7 +6,7 @@ A MilvusClient interface. This method drops an alias for the specified collectio
 R<RpcStatus> dropAlias(DropAliasParam requestParam);
 ```
 
-#### DropAliasParam{#dropaliasparam}
+## DropAliasParam
 
 Use the `DropAliasParam.Builder` to construct a `DropAliasParam` object.
 
@@ -39,7 +39,7 @@ The `DropAliasParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
@@ -49,7 +49,7 @@ This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

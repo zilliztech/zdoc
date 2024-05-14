@@ -6,7 +6,7 @@ MilvusClient interface. This method returns detailed information of a compaction
 R<GetCompactionPlansResponse> getCompactionStateWithPlans(GetCompactionPlansParam requestParam)
 ```
 
-#### GetCompactionPlansParam{#getcompactionplansparam}
+## GetCompactionPlansParam
 
 Use the `GetCompactionPlansParam.Builder` to construct a `GetCompactionPlansParam` object.
 
@@ -39,7 +39,7 @@ The `GetCompactionPlansParam.Builder.build()` can throw the following exceptions
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<GetCompactionPlansResponse>` object.
 
@@ -49,7 +49,7 @@ This method catches all the exceptions and returns an `R<GetCompactionPlansRespo
 
 - If the API succeeds, it returns a valid `GetCompactionPlansResponse` held by the `R` template.
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

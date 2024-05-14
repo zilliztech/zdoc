@@ -8,10 +8,10 @@ public enum MetricType
 ```
 
 <table>
-   <th>
-     <td>**Type**</td>
-     <td>**Description**</td>
-   </th>
+   <tr>
+     <th><strong>Type</strong></th>
+     <th><strong>Description</strong></th>
+   </tr>
    <tr>
      <td>NONE</td>
      <td>For internal usage.</td>

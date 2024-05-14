@@ -161,7 +161,7 @@ class larkUtils {
 
         if (mods.length > 0) {
             const o = mods[0]
-            const n = o.split('/').map(part => part.includes('-') ? part.split('-')[1] : part).join('/');
+            const n = o.split('/').map(part => part.includes('-') ? part.split('-').slice(-1) : part).join('/');
             fs.renameSync(`${outputDir}/${o}`, `${outputDir}/${n}`, {recursive: true})
             this.__rename_file_path(outputDir)
         }

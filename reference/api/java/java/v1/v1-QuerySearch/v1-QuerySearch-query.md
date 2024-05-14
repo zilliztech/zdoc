@@ -59,7 +59,7 @@ Methods of `QueryParam.Builder`:
     </tr>
     <tr>
         <td>withOutFields(List\<String> outFields)</td>
-        <td>Specifies output scalar fields (Optional).<br/>If output fields are specified, the QueryResults returned by query() will contains the values of these fields. </td>
+        <td>Specifies output scalar fields (Optional).<br/>If output fields are specified, the QueryResults returned by query() will contains the values of these fields.</td>
         <td><br/>outFields: The name list of fields to be outputed.</td>
     </tr>
     <tr>
@@ -69,7 +69,7 @@ Methods of `QueryParam.Builder`:
     </tr>
     <tr>
         <td>withExpr(String expr)</td>
-        <td>[object Object],[object Object],[object Object],[object Object]</td>
+        <td></td>
         <td>expr: The expression to query</td>
     </tr>
     <tr>
@@ -121,14 +121,14 @@ Methods of `QueryResultsWrapper`:
 
 <table>
    <tr>
-     <th>**Method**</th>
-     <th>**Description**</th>
-     <th>**Parameters**</th>
-     <th>**Returns**</th>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
    </tr>
    <tr>
      <td>getFieldWrapper(String fieldName)<br/></td>
-     <td>Return a FieldDataWrapper object by a field name. Throws `ParamException` if the field doesn't exist.</td>
+     <td>Return a FieldDataWrapper object by a field name. Throws <code>ParamException</code> if the field doesn't exist.</td>
      <td>fieldName: A field name which is specified by the withOutFields() of QueryParam.</td>
      <td>FieldDataWrapper</td>
    </tr>
@@ -154,9 +154,9 @@ Methods of `FieldDataWrapper`:
 
 <table>
    <tr>
-     <th>**Method**</th>
-     <th>**Description**</th>
-     <th>**Returns**</th>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Returns</strong></th>
    </tr>
    <tr>
      <td>isVectorField()<br/></td>
@@ -186,7 +186,7 @@ Methods of `FieldDataWrapper`:
    <tr>
      <td>getFieldData()</td>
      <td>Returns the field data according to field type.<br/></td>
-     <td>- Return List\<List\<Float>>or FloatVector field.<br/> - Return List\<ByteBuffer> for BinaryVector/Float16Vector/BFloatVector field.<br/> - Return List\<SortedMap\<Long, Float>>or SparseFloatVector field.<br/> - Return List\<Long> for Int64 field.<br/> - Return List\<Integer> for Int32/Int16/Int8 field.<br/> - Return List\<Boolean> for Bool field.<br/> - Return List\<Float> for Float field.<br/> - Return List\<Double> for Double field.<br/> - Return List\<String> for Varchar field.<br/> - Return List\<ByteString> for JSON field.</td>
+     <td></td>
    </tr>
 </table>
 
@@ -198,9 +198,9 @@ Methods of `RowRecord`:
 
 <table>
    <tr>
-     <th>**Method**</th>
-     <th>**Description**</th>
-     <th>**Returns**</th>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Returns</strong></th>
    </tr>
    <tr>
      <td>put(String keyName, Object obj)<br/></td>

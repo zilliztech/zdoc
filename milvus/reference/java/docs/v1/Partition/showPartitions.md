@@ -6,7 +6,7 @@ MilvusClient interface. This method shows all partitions in the specified collec
 R<ShowPartitionsResponse> showPartitions(ShowPartitionsParam requestParam);
 ```
 
-#### ShowPartitionsParam{#showpartitionsparam}
+## ShowPartitionsParam
 
 Use the `ShowPartitionsParam.Builder` to construct a `ShowPartitionsParam` object.
 
@@ -49,7 +49,7 @@ The `ShowPartitionsParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<ShowPartitionsResponse>` object.
 
@@ -59,7 +59,7 @@ This method catches all the exceptions and returns an `R<ShowPartitionsResponse>
 
 - If the API succeeds, it returns a valid `ShowPartitionsResponse` held by the `R` template. You can use ShowPartResponseWrapper to get information easily.
 
-#### ShowPartResponseWrapper{#showpartresponsewrapper}
+## ShowPartResponseWrapper
 
 A tool class to encapsulate the `ShowPartitionsResponse`. 
 
@@ -71,12 +71,12 @@ ShowPartResponseWrapper wrapper = new ShowPartResponseWrapper(showPartitionsResp
 Methods of `ShowPartitionsResponse`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
+   </tr>
    <tr>
      <td>getPartitionsInfo()<br/></td>
      <td>Return a list of PartitionInfo.</td>
@@ -91,18 +91,18 @@ Methods of `ShowPartitionsResponse`:
    </tr>
 </table>
 
-#### PartitionInfo{#partitioninfo}
+## PartitionInfo
 
 A tool class to hold information of a partition.
 
 Methods of `ShowPartitionsResponse.PartitionInfo`
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Returns</strong></th>
+   </tr>
    <tr>
      <td>getIndexType()</td>
      <td>Get index type.</td>
@@ -120,7 +120,7 @@ Methods of `ShowPartitionsResponse.PartitionInfo`
    </tr>
 </table>
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

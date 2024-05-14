@@ -6,7 +6,7 @@ MilvusClient interface. This method drops a resource group by name.
 R<RpcStatus> dropResourceGroup(DropResourceGroupParam requestParam);
 ```
 
-#### DropResourceGroupParam{#dropresourcegroupparam}
+## DropResourceGroupParam
 
 Use the `DropResourceGroupParam.Builder` to construct a `DropResourceGroupParam` object.
 
@@ -39,7 +39,7 @@ The `DropResourceGroupParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
@@ -49,7 +49,7 @@ This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.DropResourceGroupParam;

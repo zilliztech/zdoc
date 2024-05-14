@@ -6,7 +6,7 @@ A MilvusClient interface. This method gets the information of persistent segment
 R<GetPersistentSegmentInfoResponse> getPersistentSegmentInfo(GetPersistentSegmentInfoParam requestParam);
 ```
 
-#### GetPersistentSegmentInfoParam{#getpersistentsegmentinfoparam}
+## GetPersistentSegmentInfoParam
 
 Use the `GetPersistentSegmentInfoParam.Builder` to construct a `GetPersistentSegmentInfoParam` object.
 
@@ -39,7 +39,7 @@ The `GetPersistentSegmentInfoParam.Builder.build()` can throw the following exce
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<GetPersistentSegmentInfoResponse>` object.
 
@@ -49,7 +49,7 @@ This method catches all the exceptions and returns an `R<GetPersistentSegmentInf
 
 - If the API succeeds, it returns a valid `GetPersistentSegmentInfoResponse` held by the `R` template. The `GetPersistentSegmentInfoResponse` object contains a list of `PersistentSegmentInfo`, and you can use `PersistentSegmentInfo.getState()` to get the state of the segment.
 
-#### SegmentState{#segmentstate}
+## SegmentState
 
 ```java
 package io.milvus.grpc;
@@ -57,11 +57,11 @@ public enum SegmentState
 ```
 
 <table>
-   <th>
-     <td>**Type**</td>
-     <td>**Code**</td>
-     <td>**Description**</td>
-   </th>
+   <tr>
+     <th><strong>Type</strong></th>
+     <th><strong>Code</strong></th>
+     <th><strong>Description</strong></th>
+   </tr>
    <tr>
      <td>SegmentStateNone</td>
      <td>0</td>
@@ -104,7 +104,7 @@ public enum SegmentState
    </tr>
 </table>
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

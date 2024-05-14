@@ -6,7 +6,7 @@ A MilvusClient interface. This method lists all the collections or gets the coll
 R<ShowCollectionsResponse> showCollections(ShowCollectionsParam requestParam);
 ```
 
-#### ShowCollectionsParam{#showcollectionsparam}
+## ShowCollectionsParam
 
 Use the `ShowCollectionsParam.Builder` to construct a `ShowCollectionsParam` object.
 
@@ -44,7 +44,7 @@ The `ShowCollectionsParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<ShowCollectionsResponse>` object.
 
@@ -54,7 +54,7 @@ This method catches all the exceptions and returns an `R<ShowCollectionsResponse
 
 - If the API succeeds, it returns a valid `ShowCollectionsResponse` held by the `R` template. You can use `ShowCollResponseWrapper` to get the information.
 
-#### ShowCollResponseWrapper{#showcollresponsewrapper}
+## ShowCollResponseWrapper
 
 A tool class to encapsulate the ShowCollectionsResponse. 
 
@@ -66,12 +66,12 @@ ShowCollResponseWrapper wrapper = new ShowCollResponseWrapper(showCollectionsRes
 Methods of `ShowCollResponseWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
+   </tr>
    <tr>
      <td>getCollectionsInfo()<br/></td>
      <td>Returns a list of CollectionInfo objects. Each CollectionInfo represents a collection.</td>
@@ -81,23 +81,23 @@ Methods of `ShowCollResponseWrapper`:
    <tr>
      <td>getCollectionInfoByName(String collectionName)</td>
      <td>Gets a CollectionInfo object by collection name.<br/></td>
-     <td>`collectionName`: The collection name.</td>
+     <td><code>collectionName</code>: The collection name.</td>
      <td>CollectionInfo</td>
    </tr>
 </table>
 
-#### CollectionInfo{#collectioninfo}
+## CollectionInfo
 
 A tool class to store a collection's information.
 
 Methods of `ShowCollResponseWrapper.CollectionInfo`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Returns</strong></th>
+   </tr>
    <tr>
      <td>getName()</td>
      <td>Gets the name of the collection.</td>
@@ -120,7 +120,7 @@ Methods of `ShowCollResponseWrapper.CollectionInfo`:
    </tr>
 </table>
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

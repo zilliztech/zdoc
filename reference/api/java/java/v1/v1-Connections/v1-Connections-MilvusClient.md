@@ -25,10 +25,10 @@ Methods of MilvusClient for connection:
 
 <table>
    <tr>
-     <th>**Method**</th>
-     <th>**Description**</th>
-     <th>**Parameters**</th>
-     <th>**Returns**</th>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
    </tr>
    <tr>
      <td>withTimeout(long timeout, TimeUnit timeoutUnit)<br/></td>
@@ -44,7 +44,7 @@ Methods of MilvusClient for connection:
    </tr>
    <tr>
      <td>close(long maxWaitSeconds)<br/></td>
-     <td>Disconnects from a Milvus server with a configurable timeout value. Call this method before the application terminates.<br/>This method throws an `InterruptedException` exception if it is interrupted.</td>
+     <td>Disconnects from a Milvus server with a configurable timeout value. Call this method before the application terminates.<br/>This method throws an <code>InterruptedException</code> exception if it is interrupted.</td>
      <td>maxWaitSeconds: The timeout period to wait for the RPC channel to close.</td>
      <td>N/A<br/></td>
    </tr>

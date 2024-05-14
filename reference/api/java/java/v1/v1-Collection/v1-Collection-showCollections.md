@@ -81,10 +81,10 @@ Methods of `ShowCollResponseWrapper`:
 
 <table>
    <tr>
-     <th>**Method**</th>
-     <th>**Description**</th>
-     <th>**Parameters**</th>
-     <th>**Returns**</th>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
    </tr>
    <tr>
      <td>getCollectionsInfo()<br/></td>
@@ -95,7 +95,7 @@ Methods of `ShowCollResponseWrapper`:
    <tr>
      <td>getCollectionInfoByName(String collectionName)</td>
      <td>Gets a CollectionInfo object by collection name.<br/></td>
-     <td>`collectionName`: The collection name.</td>
+     <td><code>collectionName</code>: The collection name.</td>
      <td>CollectionInfo</td>
    </tr>
 </table>
@@ -108,9 +108,9 @@ Methods of `ShowCollResponseWrapper.CollectionInfo`:
 
 <table>
    <tr>
-     <th>**Method**</th>
-     <th>**Description**</th>
-     <th>**Returns**</th>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Returns</strong></th>
    </tr>
    <tr>
      <td>getName()</td>

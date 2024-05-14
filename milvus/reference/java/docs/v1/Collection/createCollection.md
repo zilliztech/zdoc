@@ -6,7 +6,7 @@ A MilvusClient interface. This method creates a collection with the specified sc
 R<RpcStatus> createCollection(CreateCollectionParam requestParam);
 ```
 
-#### CreateCollectionParam{#createcollectionparam}
+## CreateCollectionParam
 
 Use the `CreateCollectionParam.Builder` to construct a `CreateCollectionParam` object.
 
@@ -69,7 +69,7 @@ The `CreateCollectionParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### FieldType{#fieldtype}
+## FieldType
 
 A tool class to represent a field's schema. Use `FieldType.Builder` to build a `FieldType` object.
 
@@ -82,11 +82,11 @@ FieldType ft = builder.build()
 Methods of `FieldType.Builder`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-   </th>
+   <tr>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+   </tr>
    <tr>
      <td>withName(String name)</td>
      <td>Sets the name of the field. The name cannot be empty or null.</td>
@@ -149,7 +149,7 @@ Methods of `FieldType.Builder`:
    </tr>
 </table>
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
@@ -159,7 +159,7 @@ This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

@@ -6,7 +6,7 @@ MilvusClient interface. This method shows the information of the specified index
 R<DescribeIndexResponse> describeIndex(DescribeIndexParam requestParam);
 ```
 
-#### DescribeIndexParam{#describeindexparam}
+## DescribeIndexParam
 
 Use the `DescribeIndexParam.Builder` to construct a `DescribeIndexParam` object.
 
@@ -44,7 +44,7 @@ The `DropIndexParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<DescribeIndexResponse>` object.
 
@@ -54,7 +54,7 @@ This method catches all the exceptions and returns an `R<DescribeIndexResponse>`
 
 - If the API succeeds, it returns a valid `DescribeIndexResponse` held by the `R` template. You can use `DescIndexResponseWrapper` to get index descriptions easily.
 
-#### DescIndexResponseWrapper{#descindexresponsewrapper}
+## DescIndexResponseWrapper
 
 A tool class to encapsulate the `DescribeIndexResponse`. 
 
@@ -66,12 +66,12 @@ DescIndexResponseWrapper wrapper = new DescIndexResponseWrapper(descIndexRespons
 Methods of `DescIndexResponseWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
+   </tr>
    <tr>
      <td>getIndexDescriptions()<br/></td>
      <td>Get a list of all index descriptions. (Currently only return one index information)</td>
@@ -86,18 +86,18 @@ Methods of `DescIndexResponseWrapper`:
    </tr>
 </table>
 
-#### IndexDesc{#indexdesc}
+## IndexDesc
 
 A tool class to describe an index.
 
 Methods of `DescIndexResponseWrapper.IndexDesc`
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Returns</strong></th>
+   </tr>
    <tr>
      <td>getIndexType()</td>
      <td>Get index type.</td>
@@ -115,7 +115,7 @@ Methods of `DescIndexResponseWrapper.IndexDesc`
    </tr>
 </table>
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

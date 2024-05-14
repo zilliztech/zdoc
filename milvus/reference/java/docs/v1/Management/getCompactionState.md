@@ -6,7 +6,7 @@ MilvusClient interface. This method returns the state of a compaction operation,
 R<GetCompactionStateResponse> getCompactionState(GetCompactionStateParam requestParam);
 ```
 
-#### GetCompactionStateParam{#getcompactionstateparam}
+## GetCompactionStateParam
 
 Use the `GetCompactionStateParam.Builder` to construct a `GetCompactionStateParam` object.
 
@@ -39,7 +39,7 @@ The `GetCompactionStateParam.Builder.build()` can throw the following exceptions
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<GetCompactionStateResponse>` object.
 
@@ -49,7 +49,7 @@ This method catches all the exceptions and returns an `R<GetCompactionStateRespo
 
 - If the API succeeds, it returns a valid `GetCompactionStateResponse` held by the `R` template.
 
-#### CompactionState{#compactionstate}
+## CompactionState
 
 Use the `getState()` of `GetCompactionStateResponse` to get the compaction state:
 
@@ -59,29 +59,29 @@ public enum CompactionState
 ```
 
 <table>
-   <th>
-     <td>**Type**</td>
-     <td>**Code**</td>
-     <td>**Description**</td>
-   </th>
    <tr>
-     <td>*UndefiedState*</td>
+     <th><strong>Type</strong></th>
+     <th><strong>Code</strong></th>
+     <th><strong>Description</strong></th>
+   </tr>
+   <tr>
+     <td><em>UndefiedState</em></td>
      <td>0</td>
      <td>For internal usage.</td>
    </tr>
    <tr>
-     <td>*Executing*</td>
+     <td><em>Executing</em></td>
      <td>1</td>
      <td>Compaction is in executing</td>
    </tr>
    <tr>
-     <td>*Completed*</td>
+     <td><em>Completed</em></td>
      <td>2</td>
      <td>Compaction is completed</td>
    </tr>
 </table>
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

@@ -97,9 +97,9 @@ Methods of `FieldType.Builder`:
 
 <table>
    <tr>
-     <th>**Method**</th>
-     <th>**Description**</th>
-     <th>**Parameters**</th>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
    </tr>
    <tr>
      <td>withName(String name)</td>

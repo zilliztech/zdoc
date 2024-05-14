@@ -85,10 +85,10 @@ Methods of `GetCollStatResponseWrapper`:
 
 <table>
    <tr>
-     <th>**Method**</th>
-     <th>**Description**</th>
-     <th>**Parameters**</th>
-     <th>**Returns**</th>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
    </tr>
    <tr>
      <td>getRowCount()<br/></td>

@@ -6,7 +6,7 @@ A MilvusClient interface. This method inserts new entities into a specified coll
 R<MutationResult> upsert(UpsertParam requestParam);
 ```
 
-#### UpsertParam{#upsertparam}
+## UpsertParam
 
 Use the `UpsertParam.Builder` to construct an `UpsertParam` object.
 
@@ -41,7 +41,7 @@ Methods of `UpsertParam.Builder`:
     <tr>
         <td>withRows(List\<JSONObject> rows)</td>
         <td>Sets the row-based data to be inserted. The row list cannot be empty.<br/>Note that if the withFields() is called, the rows by withRows() will be ignored.</td>
-        <td>rows: A list of JSONObject objects, each representing a row in key-value format.<br/>- Requires List\<Boolean> if the data type is Bool.<br/>- Requires List\<Long> if the data type is Int64.<br/>- Requires List\<Integer> or List\<Short> if the data type is Int8/Int16/Int32.<br/>- Value is List\<Float> if the data type is Float.<br/>- Value is List\<Double> if the data type is Double.<br/>- Value is List\<String> if the data type is Varchar.<br/>- Value is List\<List\<?>>if the data type is Array, the inner List type must be equal to the element type of the Array field.<br/>- Value is List\<List\<Float>> if the data type is FloatVector.<br/>- Value is List\<ByteBuffer>, if the data type is BinaryVector/Float16Vector/BFloat16Vector.<br/>- Value is List\<SortedMap\<Long, Float>>if the data type is SparseFloatVector.</td>
+        <td>rows: A list of JSONObject objects, each representing a row in key-value format.<br/>- Requires List\<Boolean> if the data type is Bool.<br/>- Requires List\<Long> if the data type is Int64.<br/>- Requires List\<Integer> or List\<Short> if the data type is Int8/Int16/Int32.<br/>- Value is List\<Float> if the data type is Float.<br/>- Value is List\<Double> if the data type is Double.<br/>- Value is List\<String> if the data type is Varchar.<br/>- Value is List\<List\<?>gt; if the data type is Array, the inner List type must be equal to the element type of the Array field.<br/>- Value is List\<List\<Float>gt;, if the data type is FloatVector.<br/>- Value is List\<ByteBuffer>, if the data type is BinaryVector/Float16Vector/BFloat16Vector.<br/>- Value is List\<SortedMap\<Long, Float>gt; if the data type is SparseFloatVector.</td>
     </tr>
     <tr>
         <td>build()</td>
@@ -54,7 +54,7 @@ The `UpsertParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 - If the API fails on the server side, it returns the error code and message from the server.
 
@@ -62,7 +62,7 @@ The `UpsertParam.Builder.build()` can throw the following exceptions:
 
 - If the API succeeds, it returns a valid `MutationResult` held by the `R` template. You can use `MutationResultWrapper` to get the returned information.
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

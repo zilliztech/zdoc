@@ -6,7 +6,7 @@ A MilvusClient interface. This method gets the state of loading collection progr
 R<GetLoadStateResponse> getLoadState(GetLoadStateParam requestParam);
 ```
 
-#### GetLoadStateParam{#getloadstateparam}
+## GetLoadStateParam
 
 Use the `GetLoadStateParam.Builder` to construct a GetLoadStateParam object.
 
@@ -49,7 +49,7 @@ The `GetLoadStateParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<GetLoadStateResponse>` object.
 
@@ -59,7 +59,7 @@ This method catches all the exceptions and returns an `R<GetLoadStateResponse>` 
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

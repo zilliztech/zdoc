@@ -6,7 +6,7 @@ A MilvusClient interface. This method loads the specified collection and all the
 R<RpcStatus> loadCollection(LoadCollectionParam requestParam);
 ```
 
-#### LoadCollectionParam{#loadcollectionparam}
+## LoadCollectionParam
 
 Use the `LoadCollectionParam.Builder` to construct a `LoadCollectionParam` object.
 
@@ -30,17 +30,17 @@ Methods of `LoadCollectionParam.Builder`:
     </tr>
     <tr>
         <td>withSyncLoad(Boolean syncLoad)</td>
-        <td>Enables sync mode when loading a collection. With sync mode enabled, the client keeps waiting until all segments of the collection are successfully loaded. If sync mode is disabled, the client returns instantly after `loadCollection()` is called.<br/>Sync mode is enabled by default.</td>
-        <td>syncLoad:A boolean value to indicate if sync mode is enabled. If the value is set to `True`, this means sync mode is enabled.</td>
+        <td>Enables sync mode when loading a collection. With sync mode enabled, the client keeps waiting until all segments of the collection are successfully loaded. If sync mode is disabled, the client returns instantly after <code>loadCollection()</code> is called.<br/>Sync mode is enabled by default.</td>
+        <td>syncLoad:A boolean value to indicate if sync mode is enabled. If the value is set to <code>True</code>, this means sync mode is enabled.</td>
     </tr>
     <tr>
         <td>withSyncLoadWaitingInterval(Long milliseconds)</td>
-        <td>Sets the waiting interval for sync mode. In sync mode, the client checks the collection load status at intervals. The value must be greater than zero, and cannot be greater than Constant.MAX_WAITING_LOADING_INTERVAL. The default value is 500 milliseconds</td>
-        <td>milliseconds: The time interval in milliseconds for checking the data load status. </td>
+        <td>Sets the waiting interval for sync mode. In sync mode, the client checks the collection load status at intervals. The value must be greater than zero, and cannot be greater than Constant.MAX<em>WAITING</em>LOADING_INTERVAL. The default value is 500 milliseconds</td>
+        <td>milliseconds: The time interval in milliseconds for checking the data load status.</td>
     </tr>
     <tr>
         <td>withSyncLoadWaitingTimeout(Long seconds)</td>
-        <td>Sets the timeout period for sync mode. The value must be greater than zero and cannot be greater than Constant.MAX_WAITING_LOADING_TIMEOUT. The default value is 60 seconds.</td>
+        <td>Sets the timeout period for sync mode. The value must be greater than zero and cannot be greater than Constant.MAX<em>WAITING</em>LOADING_TIMEOUT. The default value is 60 seconds.</td>
         <td>seconds: A during of time in seconds to wait till timeout.</td>
     </tr>
     <tr>
@@ -64,7 +64,7 @@ The `LoadCollectionParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
@@ -74,7 +74,7 @@ This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

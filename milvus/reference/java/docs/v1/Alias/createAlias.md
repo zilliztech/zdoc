@@ -6,7 +6,7 @@ A MilvusClient interface. This method creates an alias for a collection. Alias c
 R<RpcStatus> createAlias(CreateAliasParam requestParam);
 ```
 
-#### CreateAliasParam{#createaliasparam}
+## CreateAliasParam
 
 Use the `CreateAliasParam.Builder` to construct a `CreateAliasParam` object.
 
@@ -44,7 +44,7 @@ Methods of `CreateAliasParam.Builder`:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
@@ -54,7 +54,7 @@ This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

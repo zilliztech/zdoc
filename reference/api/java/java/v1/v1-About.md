@@ -43,6 +43,10 @@ Milvus Java SDK is an open-source project and its source code is hosted on [GitH
         <td>2.3.x</td>
         <td>2.3.6</td>
     </tr>
+    <tr>
+        <td>2.4.x</td>
+        <td>2.4.1</td>
+    </tr>
 </table>
 
 ## **Installation**{#installation}
@@ -55,22 +59,22 @@ You can use **[Apache Maven](https://maven.apache.org/install.html)** or **[Grad
  <dependency>
      <groupId>io.milvus</groupId>
      <artifactId>milvus-sdk-java</artifactId>
-     <version>2.3.6</version>
+     <version>2.4.1</version>
  </dependency>
 ```
 
 - Gradle/Groovy
 
 ```plaintext
-implementation 'io.milvus:milvus-sdk-java:2.3.6'
+implementation 'io.milvus:milvus-sdk-java:2.4.1'
 ```
 
 - Gradle/Kotlin
 
 ```sql
-implementation("io.milvus:milvus-sdk-java:2.3.6")
+implementation("io.milvus:milvus-sdk-java:2.4.1")
 ```
 
 ## **Contributing**{#contributing}
 
-We are committed to building a collaborative, exuberant open-source community for Milvus. Therefore, contributions to Milvus Java SDK are welcome from everyone. Refer to [Contributing Guideline](https://github.com/milvus-io/milvus-sdk-java/blob/master/CONTRIBUTING.md) before making contributions to this project. You can [file an issue](https://github.com/milvus-io/milvus-sdk-java/issues/new) if you need any assistance or want to propose your ideas.
+We are committed to building a collaborative, exuberant open-source community for Milvus. Therefore, contributions to Milvus Java SDK are welcome from everyone. Refer to [Contributing Guideline](https://github.com/milvus-io/milvus-sdk-java/blob/master/CONTRIBUTING.md) before making contributions to this project. You can [file an issue](https://github.com/milvus-io/milvus-sdk-java/issues/new) if you need any assistance or want to propose your ideas

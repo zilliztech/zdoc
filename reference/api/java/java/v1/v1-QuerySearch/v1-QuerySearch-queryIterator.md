@@ -59,7 +59,7 @@ Methods of `QueryIteratorParam.Builder`:
     </tr>
     <tr>
         <td>withOutFields(List\<String> outFields)</td>
-        <td>Specifies output scalar fields (Optional).<br/>If output fields are specified, the QueryResults returned by query() will contains the values of these fields. </td>
+        <td>Specifies output scalar fields (Optional).<br/>If output fields are specified, the QueryResults returned by query() will contains the values of these fields.</td>
         <td><br/>outFields: The name list of fields to be outputed.</td>
     </tr>
     <tr>
@@ -69,7 +69,7 @@ Methods of `QueryIteratorParam.Builder`:
     </tr>
     <tr>
         <td>withExpr(String expr)</td>
-        <td>[object Object],[object Object],[object Object]</td>
+        <td></td>
         <td>expr: The expression to query</td>
     </tr>
     <tr>
@@ -119,10 +119,10 @@ Methods of `QueryIterator`:
 
 <table>
    <tr>
-     <th>**Method**</th>
-     <th>**Description**</th>
-     <th>**Parameters**</th>
-     <th>**Returns**</th>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
    </tr>
    <tr>
      <td>next()</td>

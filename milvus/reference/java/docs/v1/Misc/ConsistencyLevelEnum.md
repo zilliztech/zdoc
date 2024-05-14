@@ -8,11 +8,11 @@ public enum ConsistencyLevelEnum
 ```
 
 <table>
-   <th>
-     <td>**Type**</td>
-     <td>**Code**</td>
-     <td>**Description**</td>
-   </th>
+   <tr>
+     <th><strong>Type</strong></th>
+     <th><strong>Code</strong></th>
+     <th><strong>Description</strong></th>
+   </tr>
    <tr>
      <td>STRONG</td>
      <td>0</td>

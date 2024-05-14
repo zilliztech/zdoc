@@ -50,7 +50,7 @@ Methods of `AlterAliasParam.Builder`:
     <tr>
         <td>build()</td>
         <td>Constructs a CreateAliasParam object.</td>
-        <td>null</td>
+        <td></td>
     </tr>
 </table>
 

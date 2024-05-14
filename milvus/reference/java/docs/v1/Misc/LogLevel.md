@@ -8,10 +8,10 @@ public enum LogLevel
 ```
 
 <table>
-   <th>
-     <td>**Type**</td>
-     <td>**Description**</td>
-   </th>
+   <tr>
+     <th><strong>Type</strong></th>
+     <th><strong>Description</strong></th>
+   </tr>
    <tr>
      <td>Debug</td>
      <td>Debug level, All the logs are visible.</td>

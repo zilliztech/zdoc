@@ -6,7 +6,7 @@ A MilvusClient interface. This method shows the details of a collection, e.g. na
 R<DescribeCollectionResponse> describeCollection(DescribeCollectionParam requestParam);
 ```
 
-#### DescribeCollectionParam{#describecollectionparam}
+## DescribeCollectionParam
 
 Use the `DescribeCollectionParam.Builder` to construct a `DescribeCollectionParam` object.
 
@@ -39,7 +39,7 @@ The `DescribeCollectionParam.Builder.build()` can throw the following exceptions
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<DescribeCollectionResponse>` object.
 
@@ -49,7 +49,7 @@ This method catches all the exceptions and returns an `R<DescribeCollectionRespo
 
 - If the API succeeds, it returns a valid `DescribeCollectionResponse` held by the `R` template. You can use `DescCollResponseWrapper` to get the information.
 
-#### DescCollResponseWrapper{#desccollresponsewrapper}
+## DescCollResponseWrapper
 
 A tool class to encapsulate the DescribeCollectionResponse. 
 
@@ -61,12 +61,12 @@ DescCollResponseWrapper wrapper = new DescCollResponseWrapper(response);
 Methods of `DescCollResponseWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
+   </tr>
    <tr>
      <td>getCollectionName()</td>
      <td>Get the name of the collection.</td>
@@ -129,7 +129,7 @@ Methods of `DescCollResponseWrapper`:
    </tr>
 </table>
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

@@ -12,7 +12,7 @@ A MilvusClient interface. This method shows the statistical information of the s
 R<GetCollectionStatisticsResponse> getCollectionStatistics(GetCollectionStatisticsParam requestParam);
 ```
 
-#### GetCollectionStatisticsParam{#getcollectionstatisticsparam}
+## GetCollectionStatisticsParam
 
 Use the `GetCollectionStatisticsParam.Builder` to construct a `GetCollectionStatisticsParam` object.
 
@@ -50,7 +50,7 @@ The `GetCollectionStatisticsParam.Builder.build()` can throw the following excep
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<GetCollectionStatisticsResponse>` object.
 
@@ -60,7 +60,7 @@ This method catches all the exceptions and returns an `R<GetCollectionStatistics
 
 - If the API succeeds, it returns a valid `GetCollectionStatisticsResponse` held by the `R` template. You can use `GetCollStatResponseWrapper` to get the information.
 
-#### GetCollStatResponseWrapper{#getcollstatresponsewrapper}
+## GetCollStatResponseWrapper
 
 A tool class to encapsulate the `GetCollectionStatisticsResponse`. 
 
@@ -72,12 +72,12 @@ GetCollStatResponseWrapper wrapper = new GetCollStatResponseWrapper(getStatRespo
 Methods of `GetCollStatResponseWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
+   </tr>
    <tr>
      <td>getRowCount()<br/></td>
      <td>Gets the row count of a collection. Note that due to technical reasons, the deleted entities are not counted in the row count.</td>
@@ -86,7 +86,7 @@ Methods of `GetCollStatResponseWrapper`:
    </tr>
 </table>
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.*;

@@ -6,7 +6,7 @@ A MilvusClient interface. This method gets the state of a bulkinsert task.
 <GetImportStateResponse> getBulkInsertState(GetBulkInsertStateParam requestParam);
 ```
 
-#### GetBulkInsertStateParam{#getbulkinsertstateparam}
+## GetBulkInsertStateParam
 
 Use the `GetBulkInsertStateParam.Builder` to construct a `GetBulkInsertStateParam` object.
 
@@ -39,7 +39,7 @@ The `GetBulkInsertStateParam.Builder.build()` can throw the following exceptions
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<GetImportStateResponse>` object.
 
@@ -49,7 +49,7 @@ This method catches all the exceptions and returns an `R<GetImportStateResponse>
 
 - If the API succeeds, it returns a valid `GetImportStateResponse` held by the `R` template which you can use the task state.
 
-#### GetBulkInsertStateWrapper{#getbulkinsertstatewrapper}
+## GetBulkInsertStateWrapper
 
 A tool class to encapsulate the GetImportStateResponse. 
 
@@ -61,12 +61,12 @@ GetBulkInsertStateWrapper wrapper = new GetBulkInsertStateWrapper(response);
 Methods of `GetBulkInsertStateWrapper`:
 
 <table>
-   <th>
-     <td>**Method**</td>
-     <td>**Description**</td>
-     <td>**Parameters**</td>
-     <td>**Returns**</td>
-   </th>
+   <tr>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
+   </tr>
    <tr>
      <td>getTaskID()</td>
      <td>Gets ID of the bulk import task.</td>
@@ -135,7 +135,7 @@ Methods of `GetBulkInsertStateWrapper`:
    </tr>
 </table>
 
-#### ImportState{#importstate}
+## ImportState
 
 ```java
 package io.milvus.grpc;
@@ -143,11 +143,11 @@ public enum ImportState
 ```
 
 <table>
-   <th>
-     <td>**State**</td>
-     <td>**Code**</td>
-     <td>**Description**</td>
-   </th>
+   <tr>
+     <th><strong>State</strong></th>
+     <th><strong>Code</strong></th>
+     <th><strong>Description</strong></th>
+   </tr>
    <tr>
      <td>Pending</td>
      <td>0</td>
@@ -156,7 +156,7 @@ public enum ImportState
    <tr>
      <td>Failed</td>
      <td>1</td>
-     <td>Task failed, use `getFailedReason()` to get the failed reason</td>
+     <td>Task failed, use <code>getFailedReason()</code> to get the failed reason</td>
    </tr>
    <tr>
      <td>Started</td>
@@ -180,7 +180,7 @@ public enum ImportState
    </tr>
 </table>
 
-#### Example{#example}
+## Example
 
 ```java
 import io.milvus.param.bulkinsert.*;

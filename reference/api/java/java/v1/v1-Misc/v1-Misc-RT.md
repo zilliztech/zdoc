@@ -29,9 +29,9 @@ Note: Not all status codes are used, some of them are reserved.
 
 <table>
    <tr>
-     <th>**Status**</th>
-     <th>**Code**</th>
-     <th>**Description**</th>
+     <th><strong>Status</strong></th>
+     <th><strong>Code</strong></th>
+     <th><strong>Description</strong></th>
    </tr>
    <tr>
      <td>IllegalResponse</td>
@@ -46,7 +46,7 @@ Note: Not all status codes are used, some of them are reserved.
    <tr>
      <td>VersionMismatch</td>
      <td>-4</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>Unknown</td>
@@ -61,7 +61,7 @@ Note: Not all status codes are used, some of them are reserved.
    <tr>
      <td>RpcError</td>
      <td>-1</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>Success</td>
@@ -76,17 +76,17 @@ Note: Not all status codes are used, some of them are reserved.
    <tr>
      <td>ConnectFailed</td>
      <td>2</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>PermissionDenied</td>
      <td>3</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>CollectionNotExists</td>
      <td>4</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>IllegalArgument</td>
@@ -96,42 +96,42 @@ Note: Not all status codes are used, some of them are reserved.
    <tr>
      <td>IllegalDimension</td>
      <td>7</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>IllegalIndexType</td>
      <td>8</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>IllegalCollectionName</td>
      <td>9</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>IllegalTOPK</td>
      <td>10</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>IllegalRowRecord</td>
      <td>11</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>IllegalVectorID</td>
      <td>12</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>IllegalSearchResult</td>
      <td>13</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>FileNotFound</td>
      <td>14</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>MetaFailed</td>
@@ -141,57 +141,57 @@ Note: Not all status codes are used, some of them are reserved.
    <tr>
      <td>CacheFailed</td>
      <td>16</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>CannotCreateFolder</td>
      <td>17</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>CannotCreateFile</td>
      <td>18</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>CannotDeleteFolder</td>
      <td>19</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>CannotDeleteFile</td>
      <td>20</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>BuildIndexError</td>
      <td>21</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>IllegalNLIST</td>
      <td>22</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>IllegalMetricType</td>
      <td>23</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>OutOfMemory</td>
      <td>24</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>IndexNotExist</td>
      <td>25</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
    <tr>
      <td>EmptyCollection</td>
      <td>26</td>
-     <td>**This error is reserved and not used for now.*</td>
+     <td>*<em>This error is reserved and not used for now.</em></td>
    </tr>
 </table>
 

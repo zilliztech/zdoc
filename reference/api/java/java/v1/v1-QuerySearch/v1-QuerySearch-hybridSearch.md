@@ -79,7 +79,7 @@ Methods of `HybridSearchParam.Builder`:
     </tr>
     <tr>
         <td>addSearchRequest(AnnSearchParam searchParam)</td>
-        <td>Adds a vector search request for a vector field. You can add </td>
+        <td>Adds a vector search request for a vector field. You can add</td>
         <td>searchParam: An AnnSearchParam object.</td>
     </tr>
     <tr>
@@ -119,7 +119,7 @@ Methods of `AnnSearchParam.Builder`:
     </tr>
     <tr>
         <td>withExpr(String expr)</td>
-        <td>[object Object],[object Object],[object Object],[object Object],[object Object]</td>
+        <td></td>
         <td>expr: The expression to filter scalar fields.</td>
     </tr>
     <tr>
@@ -139,11 +139,11 @@ Methods of `AnnSearchParam.Builder`:
     </tr>
     <tr>
         <td>withParams(String params)</td>
-        <td>Specifies the parameters of search in JSON format. The followings are valid keys of param:<br/>1. special parameters for index, such as "nprobe", "ef", "search_k"<br/>2. metric type with key "metric_type" and a string value such as "L2", "IP".<br/>3. offset for pagination with key "offset" and an integer value</td>
+        <td>Specifies the parameters of search in JSON format. The followings are valid keys of param:<br/>1. special parameters for index, such as "nprobe", "ef", "search<em>k"<br/>2. metric type with key "metric</em>type" and a string value such as "L2", "IP".<br/>3. offset for pagination with key "offset" and an integer value</td>
         <td>params: A JSON format string for extra parameters.</td>
     </tr>
     <tr>
-        <td>withFloatVectors(List\<List\<Float>>vectors)</td>
+        <td>withFloatVectors(List\<List\<Float>gt; vectors)</td>
         <td>Set the target vectors to search FloatVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</td>
         <td>vectors: The target vectors</td>
     </tr>
@@ -158,12 +158,12 @@ Methods of `AnnSearchParam.Builder`:
         <td>vectors: The target vectors</td>
     </tr>
     <tr>
-        <td>withBFloat16Vectors(List\<List\<Float>>vectors)</td>
+        <td>withBFloat16Vectors(List\<List\<Float>gt; vectors)</td>
         <td>Set the target vectors to search BFloat16Vector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</td>
         <td>vectors: The target vectors</td>
     </tr>
     <tr>
-        <td>withSparseFloatVectors(List\<SortedMap\<Long, Float>>vectors)</td>
+        <td>withSparseFloatVectors(List\<SortedMap\<Long, Float>gt; vectors)</td>
         <td>Set the target vectors to search SparseFloatVector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</td>
         <td>vectors: The target vectors</td>
     </tr>
@@ -195,7 +195,7 @@ Methods of `RRFRanker.Builder`:
     </tr>
     <tr>
         <td>withK(Integer k)</td>
-        <td>Sets k factor for RRF. Value cannot be negative. Default value is 60.<br/>score = 1 / (k + float32(rank_i+1))<br/>rank_i is the rank in each field<br/></td>
+        <td>Sets k factor for RRF. Value cannot be negative. Default value is 60.<br/>score = 1 / (k + float32(rank<em>i+1))<br/>rank</em>i is the rank in each field<br/></td>
         <td>k: The k factor value.</td>
     </tr>
     <tr>
@@ -226,7 +226,7 @@ Methods of `WeightedRanker.Builder`:
     </tr>
     <tr>
         <td>withWeights(List\<Float> weights)</td>
-        <td>Assign weights for each AnnSearchParam. The length of weights must be equal to number of AnnSearchParam.<br/>You can assign any float value for weight, the sum of weight values can exceed 1.<br/>The distance/similarity values of each field will be mapped into a range of [0,1],<br/>and score = sum(weights[i] * distance_i_in_[0,1]).<br/></td>
+        <td>Assign weights for each AnnSearchParam. The length of weights must be equal to number of AnnSearchParam.<br/>You can assign any float value for weight, the sum of weight values can exceed 1.<br/>The distance/similarity values of each field will be mapped into a range of [0,1],<br/>and score = sum(weights[i] * distance<em>i</em>in_[0,1]).<br/></td>
         <td>weights: The weight values.</td>
     </tr>
     <tr>
@@ -257,7 +257,7 @@ AnnSearchParam req1 = AnnSearchParam.newBuilder()
         .withVectorFieldName(FLOAT_VECTOR_FIELD)
         .withFloatVectors(floatVectors)
         .withMetricType(MetricType.IP)
-        .withParams("{\"nprobe\": 32}")
+        .withParams("\{\"nprobe\": 32}")
         .withTopK(10)
         .build();
 

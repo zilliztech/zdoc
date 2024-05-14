@@ -86,9 +86,9 @@ Methods of `GetPartStatResponseWrapper`:
 
 <table>
    <tr>
-     <th>**Method**</th>
-     <th>**Description**</th>
-     <th>**Returns**</th>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Returns</strong></th>
    </tr>
    <tr>
      <td>getRowCount()</td>

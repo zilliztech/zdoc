@@ -23,9 +23,9 @@ public enum IndexType
 
 <table>
    <tr>
-     <th>**Type**</th>
-     <th>**Code**</th>
-     <th>**Description**</th>
+     <th><strong>Type</strong></th>
+     <th><strong>Code</strong></th>
+     <th><strong>Description</strong></th>
    </tr>
    <tr>
      <td>None</td>
@@ -73,17 +73,17 @@ public enum IndexType
      <td>Works for FloatVector/Float16Vector/BFloat16Vector type field.</td>
    </tr>
    <tr>
-     <td>GPU_IVF_FLAT</td>
+     <td>GPU<em>IVF</em>FLAT</td>
      <td>50</td>
      <td>Only for FloatVector type field. Only works when the server is GPU mode.</td>
    </tr>
    <tr>
-     <td>GPU_IVF_PQ</td>
+     <td>GPU<em>IVF</em>PQ</td>
      <td>51</td>
      <td>Only for FloatVector type field. Only works when the server is GPU mode.</td>
    </tr>
    <tr>
-     <td>GPU_BRUTE_FORCE</td>
+     <td>GPU<em>BRUTE</em>FORCE</td>
      <td>52</td>
      <td>Only for FloatVector type field. Only works when the server is GPU mode.</td>
    </tr>
@@ -98,7 +98,7 @@ public enum IndexType
      <td>Only for BinaryVector type field.</td>
    </tr>
    <tr>
-     <td>BIN_IVF_FLAT</td>
+     <td>BIN<em>IVF</em>FLAT</td>
      <td>81</td>
      <td>Only for BinaryVector type field.</td>
    </tr>
@@ -118,7 +118,7 @@ public enum IndexType
      <td>Works for all scalar fields except JSON type field.</td>
    </tr>
    <tr>
-     <td>SPARSE_INVERTED_INDEX</td>
+     <td>SPARSE<em>INVERTED</em>INDEX</td>
      <td>300</td>
      <td>Only for SparseFloatVector type field.<br/></td>
    </tr>

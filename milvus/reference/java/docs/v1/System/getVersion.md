@@ -14,7 +14,7 @@ MilvusClient interface. This method gets the milvus kernel version.
 R<GetVersionResponse> getVersion();
 ```
 
-#### Returns{#returns}
+## Returns
 
 This method catches all the exceptions and returns an `R<CheckHealthResponse>` object.
 
@@ -24,7 +24,7 @@ This method catches all the exceptions and returns an `R<CheckHealthResponse>` o
 
 - If the API succeeds, it returns a valid `GetVersionResponse` held by the `R` template. You can use `GetVersionResponse` to get resource group information.
 
-#### Example{#example}
+## Example
 
 ```java
 

@@ -69,7 +69,7 @@ Methods of `SearchIteratorParam.Builder`:
     </tr>
     <tr>
         <td>withExpr(String expr)</td>
-        <td>[object Object],[object Object],[object Object],[object Object],[object Object]</td>
+        <td></td>
         <td>expr: The expression to filter scalar fields.</td>
     </tr>
     <tr>
@@ -90,10 +90,10 @@ Methods of `SearchIteratorParam.Builder`:
     <tr>
         <td>withVectors(List\<?> vectors)</td>
         <td>Set the target vectors. Up to 16384 vectors allowed.<br/>Note: this method works for FloatVector/BinaryVector/SparseFloatVector, but it doesn't work for Float16Vector/BFloat16Vector.<br/>It is recommended to use withFloatVectors/withBinaryVectors/withFloat16Vectors/withBFloat16Vectors/withSparseFloatVectors to input vectors expilicitly.</td>
-        <td>vectors: <br/>- If target field type is FloatVector, List\< List\<Float>>is required.<br/>- If target field type is BinaryVector, List\<ByteBuffer> is required.<br/>- If target field type is SparseFloatVector, List\<SortedMap[Long, Float]> is required.</td>
+        <td>vectors: <br/>- If target field type is FloatVector, List\< List\<Float>gt; is required.<br/>- If target field type is BinaryVector, List\<ByteBuffer> is required.<br/>- If target field type is SparseFloatVector, List\<SortedMap[Long, Float]> is required.</td>
     </tr>
     <tr>
-        <td>withFloatVectors(List\<List\<Float>>vectors)</td>
+        <td>withFloatVectors(List\<List\<Float>gt; vectors)</td>
         <td>Set the target vectors to search FloatVector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</td>
         <td>vectors: The target vectors</td>
     </tr>
@@ -108,12 +108,12 @@ Methods of `SearchIteratorParam.Builder`:
         <td>vectors: The target vectors</td>
     </tr>
     <tr>
-        <td>withBFloat16Vectors(List\<List\<Float>>vectors)</td>
+        <td>withBFloat16Vectors(List\<List\<Float>gt; vectors)</td>
         <td>Set the target vectors to search BFloat16Vector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</td>
         <td>vectors: The target vectors</td>
     </tr>
     <tr>
-        <td>withSparseFloatVectors(List\<SortedMap\<Long, Float>>vectors)</td>
+        <td>withSparseFloatVectors(List\<SortedMap\<Long, Float>gt; vectors)</td>
         <td>Set the target vectors to search SparseFloatVector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</td>
         <td>vectors: The target vectors</td>
     </tr>
@@ -124,7 +124,7 @@ Methods of `SearchIteratorParam.Builder`:
     </tr>
     <tr>
         <td>withParams(String params)</td>
-        <td>Specifies the parameters of search in JSON format. The followings are valid keys of param:<br/>1. special parameters for index, such as "nprobe", "ef", "search_k"<br/>2. metric type with key "metric_type" and a string value such as "L2", "IP".<br/>3. offset for pagination with key "offset" and an integer value</td>
+        <td>Specifies the parameters of search in JSON format. The followings are valid keys of param:<br/>1. special parameters for index, such as "nprobe", "ef", "search<em>k"<br/>2. metric type with key "metric</em>type" and a string value such as "L2", "IP".<br/>3. offset for pagination with key "offset" and an integer value</td>
         <td>params: A JSON format string for extra parameters.</td>
     </tr>
     <tr>
@@ -164,10 +164,10 @@ Methods of `SearchIterator`:
 
 <table>
    <tr>
-     <th>**Method**</th>
-     <th>**Description**</th>
-     <th>**Parameters**</th>
-     <th>**Returns**</th>
+     <th><strong>Method</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Parameters</strong></th>
+     <th><strong>Returns</strong></th>
    </tr>
    <tr>
      <td>next()</td>
