@@ -504,6 +504,7 @@ class larkDocWriter {
         markdown = this.__filter_content(markdown, this.targets)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
         markdown = markdown.replace(/^[\||\s][\s|\||<br\/>]*\|\n/gm, '')
+        markdown = markdown.replace(/\s*<tr>\n(\s*<td>(<br\/>)*<\/td>\n)*\s*<\/tr>/g, '')
         markdown = this.__mdx_patches(markdown)
 
         let tabs = markdown.split('\n').filter(line => {
@@ -961,6 +962,7 @@ class larkDocWriter {
     }
 
     async __table(table, indent) {
+        const converter = new showdown.Converter()
         const cells = table['cells'];
         const cell_blocks = cells.map(cell => {
             return this.__retrieve_block_by_id(cell).children
@@ -972,9 +974,9 @@ class larkDocWriter {
 
         const row_size = table['property']['row_size'];
         const column_size = table['property']['column_size'];
-        const merge_info = table['property']['merge_info'];
+        var merge_info = table['property']['merge_info'];
         
-        merge_info.map((merge, idx) => {
+        merge_info = merge_info.map((merge, idx) => {
             if (merge) {
                 for (var i = 1; i < merge.col_span; i++) {
                     merge_info[idx+i] = null;
@@ -985,7 +987,7 @@ class larkDocWriter {
                 }
             }
             return merge
-        })
+        })      
 
         var html = ' '.repeat(indent) + '<table>\n';
         for (var i = 0; i < row_size; i++) {
@@ -993,16 +995,15 @@ class larkDocWriter {
             for (var j = 0; j < column_size; j++) {
                 const cell_idx = i * column_size + j;
                 const merge = merge_info[cell_idx];
-                const cell_text = cell_texts[cell_idx];
 
                 if (merge) {
-                    const colspan = merge.colspan > 1 ? ` colspan="${merge.col_span}"` : "";
-                    const rowspan = merge.rowspan > 1 ? ` rowspan="${merge.row_span}"` : "";
+                    const cell_text = [...converter.makeHtml(cell_texts[cell_idx].trim()).matchAll(/<p>(.*?)<\/p>/g)][0];
+                    const colspan = merge.col_span > 1 ? ` colspan="${merge.col_span}"` : "";
+                    const rowspan = merge.row_span > 1 ? ` rowspan="${merge.row_span}"` : "";
                     if (i === 0) {
-                        html += ` ${' '.repeat(indent)}    <th${colspan}${rowspan}>${cell_text.trim()}</th>\n`;
+                        html += ` ${' '.repeat(indent)}    <th${colspan}${rowspan}>${cell_text ? cell_text[1] : ""}</th>\n`;
                     } else {
-
-                        html += ` ${' '.repeat(indent)}    <td${colspan}${rowspan}>${cell_text.trim()}</td>\n`;
+                        html += ` ${' '.repeat(indent)}    <td${colspan}${rowspan}>${cell_text ? cell_text[1] : ""}</td>\n`;
                     }
                 }
             }
@@ -1014,6 +1015,7 @@ class larkDocWriter {
     }
 
     async __sheet(sheet, indent) {
+        const converter = new showdown.Converter()
         const merges = sheet.meta.data.sheet.merges;
         const values = sheet.values.data.valueRange.values;
         var result = ' '.repeat(indent) + "<table>" + "\n";
@@ -1034,6 +1036,7 @@ class larkDocWriter {
                 }
 
                 cell = typeof cell === 'string' ? cell.replace(/\n/g, '<br/>') : typeof cell === 'number'? cell.toString() : cell
+                cell = converter.makeHtml(cell)
 
                 if (ridx === 0) {
                     result += `${' '.repeat(indent) + '    '.repeat(2)}<th${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${cell}</th>\n`
