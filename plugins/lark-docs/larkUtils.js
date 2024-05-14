@@ -146,8 +146,16 @@ class larkUtils {
             this.__rename_file_path(outputDir)
         }
 
+        // remove section labels
+        const mds = fs.readdirSync(outputDir, {recursive: true}).filter(path => path.endsWith('.md'))
+        for (const md of mds) {
+            var content = fs.readFileSync(`${outputDir}/${md}`, {encoding: 'utf-8', flag: 'r'})
+            content = content.replace(/\{#.*\}/g, '')
+            fs.writeFileSync(`${outputDir}/${md}`, content, {encoding: 'utf-8', flag: 'w'})
+        }
+
         // remove index files
-        const folders = paths.filter(path => fs.statSync(`${outputDir}`).isDirectory())
+        const folders = fs.readdirSync(outputDir, {recursive: true}).filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory())
         for (const folder of folders) {
             if (fs.existsSync(`${outputDir}/${folder}/${folder}.md`)) {
                 fs.rmSync(`${outputDir}/${folder}/${folder}.md`, {recursive: true, force: true})
