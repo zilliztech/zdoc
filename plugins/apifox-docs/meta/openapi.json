@@ -32,7 +32,7 @@
         "x-apifox-folder": "Cloud Meta",
         "x-apifox-status": "released",
         "deprecated": false,
-        "description": "Lists all cloud providers available on Zilliz Cloud.\n\n## Example\n\n```shell\nexport CLOUD_REGION=\"gcp-us-west1\"\nexport API_KEY=\"\"\n\ncurl --location --request GET \"https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clouds\" \\\n--header \"Authorization: Bearer ${API_KEY}\"\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": [\n        {\n            \"cloudId\": \"aws\",\n            \"description\": \"amazon aws\"\n        },\n        {\n            \"cloudId\": \"gcp\",\n            \"description\": \"GCP\"\n        },\n        {\n            \"cloudId\": \"azure\",\n            \"description\": \"azure\"\n        }\n    ]\n}\n```\n",
+        "description": "Lists all cloud providers available on Zilliz Cloud.",
         "tags": [
           "Cloud Meta"
         ],
@@ -133,7 +133,7 @@
         "x-apifox-folder": "Cloud Meta",
         "x-apifox-status": "released",
         "deprecated": false,
-        "description": "Lists all available cloud regions of a specific cloud provider.\n\n## Example\n\n```shell\nexport CLOUD_REGION=\"gcp-us-west1\"\nexport API_KEY=\"\"\n\ncurl --location --request GET \"https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/regions?cloudId=gcp\" \\\n--header \"Authorization: Bearer ${API_KEY}\"\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": [\n        {\n            \"cloudId\": \"gcp\",\n            \"domain\": \"*.api.gcp-us-west1.cloud-uat3.zilliz.com\",\n            \"regionId\": \"gcp-us-west1\"\n        }\n    ]\n}\n```",
+        "description": "Lists all available cloud regions of a specific cloud provider.",
         "tags": [
           "Cloud Meta"
         ],
@@ -239,7 +239,7 @@
         "x-apifox-folder": "Cluster Operations",
         "x-apifox-status": "released",
         "deprecated": false,
-        "description": "Lists all clusters in the specified cloud region.\n\n## Example\n\n```shell\nexport CLOUD_REGION=\"gcp-us-west1\"\nexport API_KEY=\"\"\n\ncurl --location --request GET \"https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters?pageSize=10&current=1\" \\\n--header \"Authorization: Bearer ${API_KEY}\"\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": {\n        \"count\": 1,\n        \"currentPage\": 1,\n        \"pageSize\": 10,\n        \"clusters\": [\n            {\n                \"clusterId\": \"inxx-xxxxxxxxxxxxxxx\",\n                \"clusterName\": \"Cluster-01\",\n                \"description\": \"\",\n                \"regionId\": \"gcp-us-west1\",\n                \"clusterType\": \"Cost-optimized\",\n                \"plan\": \"Free\",\n                \"cuSize\": 0,\n                \"status\": \"RUNNING\",\n                \"connectAddress\": \"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\",\n                \"privateLinkAddress\": \"\",\n                \"projectId\": \"proj-xxxxxxxxxxxxxxxxxxxxxx\",\n                \"createTime\": \"2024-04-01T06:42:31Z\"\n            }\n        ]\n    }\n}\n```",
+        "description": "Lists all clusters in the specified cloud region.",
         "tags": [
           "Cluster Operations"
         ],
@@ -418,7 +418,7 @@
         "x-apifox-folder": "Cluster Operations",
         "x-apifox-status": "released",
         "deprecated": false,
-        "description": "Creates a new cluster.\n\n## Example\n\n```shell\nexport CLOUD_REGION=\"gcp-us-west1\"\nexport API_KEY=\"\"\n\ncurl --location --request POST \"https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/create\" \\\n--header \"Authorization: Bearer ${API_KEY}\" \\\n--data-raw '{\n    \"cuSize\": 1,\n    \"clusterName\": \"Cluster-02\",\n    \"projectId\": \"proj-xxxxxxxxxxxxxxxxxxxxxx\",\n    \"plan\": \"Standard\",\n    \"cuType\": \"Performance-optimized\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": {\n        \"clusterId\": \"inxx-xxxxxxxxxxxxxxx\",\n        \"username\": \"db_admin\",\n        \"password\": \"xxxxxxxxxxxxxxxx\",\n        \"prompt\": \"Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided.\"\n    }\n}\n```",
+        "description": "Creates a new cluster.",
         "tags": [
           "Cluster Operations"
         ],
@@ -585,7 +585,7 @@
         "x-apifox-folder": "Cluster Operations",
         "x-apifox-status": "released",
         "deprecated": false,
-        "description": "Describe a cluster in detail.\n\n## Example\n\n```shell\nexport CLOUD_REGION=\"gcp-us-west1\"\nexport API_KEY=\"\"\n\ncurl --location --request GET \"https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/inxx-xxxxxxxxxxxxxxx\" \\\n--header \"Authorization: Bearer ${API_KEY}\"\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": {\n        \"clusterId\": \"inxx-xxxxxxxxxxxxxxx\",\n        \"clusterName\": \"Cluster-01\",\n        \"description\": \"\",\n        \"regionId\": \"gcp-us-west1\",\n        \"clusterType\": \"\",\n        \"plan\": \"Free\",\n        \"cuSize\": 0,\n        \"status\": \"DELETED\",\n        \"connectAddress\": \"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\",\n        \"privateLinkAddress\": \"\",\n        \"createTime\": \"2024-04-01T06:32:39Z\",\n        \"storageSize\": 0,\n        \"snapshotNumber\": 0,\n        \"createProgress\": 100,\n        \"projectId\": \"proj-xxxxxxxxxxxxxxxxxxxxxx\"\n    }\n}",
+        "description": "Describe a cluster in detail.",
         "tags": [
           "Cluster Operations"
         ],
@@ -793,7 +793,7 @@
         "x-apifox-folder": "Cluster Operations",
         "x-apifox-status": "released",
         "deprecated": false,
-        "description": "Deletes a cluster. This operation moves your cluster to the recycle bin. All clusters in the recycle bin are pending permanent deletion in 30 days.\n\n## Example\n\n```shell\n",
+        "description": "Deletes a cluster. This operation moves your cluster to the recycle bin. All clusters in the recycle bin are pending permanent deletion in 30 days.",
         "tags": [
           "Cluster Operations"
         ],
@@ -1378,7 +1378,7 @@
         "x-apifox-folder": "Cluster Operations",
         "x-apifox-status": "testing",
         "deprecated": false,
-        "description": "Lists all projects in the specified cloud region.\n\n## Example\n\n```shell\nexport CLOUD_REGION=\"gcp-us-west1\"\nexport API_KEY=\"\"\n\ncurl --location --request GET \"https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/projects\" \\\n--header \"Authorization: Bearer ${API_KEY}\"\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": [\n        {\n            \"createTimeMilli\": 1685006867000,\n            \"instanceCount\": 1,\n            \"projectId\": \"proj-xxxxxxxxxxxxxxxxxxxxxx\",\n            \"projectName\": \"Default Project\"\n        }\n    ]\n}\n```\n",
+        "description": "Lists all projects in the specified cloud region.",
         "tags": [
           "Cluster Operations"
         ],
@@ -4088,7 +4088,7 @@
         "x-apifox-folder": "Collection Operations",
         "x-apifox-status": "released",
         "deprecated": false,
-        "description": "Lists collections in a cluster.\n\n## Example\n\n```shell\nexport MILVUS_URI=\"localhost:19530\"\nexport TOKEN=\"root:Milvus\"\n\ncurl --location --request POST \"http://${MILVUS_URI}/v1/vector/collections?dbName=default\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": [\n        \"custom_setup_not_indexed\",\n        \"quick_setup\",\n        \"custom_setup_indexed\"\n    ]\n}\n```",
+        "description": "Lists collections in a cluster.",
         "tags": [
           "Collection Operations"
         ],
@@ -4248,7 +4248,7 @@
         "x-apifox-folder": "Collection Operations",
         "x-apifox-status": "released",
         "deprecated": false,
-        "description": "Describes the details of a collection.\n\n## Example\n\n```shell\nexport MILVUS_URI=\"localhost:19530\"\nexport TOKEN=\"root:Milvus\"\n\ncurl --location --request POST \"http://${MILVUS_URI}/v1/vector/collections/describe?collectionName=quick_setup&dbName=default\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": {\n        \"collectionName\": \"quick_setup\",\n        \"description\": \"\",\n        \"enableDynamicField\": true,\n        \"fields\": [\n            {\n                \"autoId\": false,\n                \"description\": \"\",\n                \"name\": \"id\",\n                \"partitionKey\": false,\n                \"primaryKey\": true,\n                \"type\": \"Int64\"\n            },\n            {\n                \"autoId\": false,\n                \"description\": \"\",\n                \"name\": \"vector\",\n                \"partitionKey\": false,\n                \"primaryKey\": false,\n                \"type\": \"FloatVector(5)\"\n            }\n        ],\n        \"indexes\": [\n            {\n                \"fieldName\": \"vector\",\n                \"indexName\": \"vector\",\n                \"metricType\": \"COSINE\"\n            }\n        ],\n        \"load\": \"LoadStateLoaded\",\n        \"shardsNum\": 1\n    }\n}\n```\n",
+        "description": "Describes the details of a collection.",
         "tags": [
           "Collection Operations"
         ],

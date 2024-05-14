@@ -58,11 +58,11 @@ Success response:
 {
     "code": 200,
     "data": [
-       {
-          "apiBaseUrl": "https://api.gcp-us-west1.zillizcloud.com",
-          "cloudId": "gcp",
-          "regionId": "gcp-us-west1"
-       }
+        {
+            "cloudId": "gcp",
+            "domain": "*.api.gcp-us-west1.cloud-uat3.zilliz.com",
+            "regionId": "gcp-us-west1"
+        }
     ]
 }
 ```
@@ -114,6 +114,7 @@ curl --request POST \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{
+    "plan": "Free",    
     "clusterName": "cluster-starter",
     "projectId": "proj-*********************"
     }'
