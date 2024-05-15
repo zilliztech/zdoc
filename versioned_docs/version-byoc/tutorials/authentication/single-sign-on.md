@@ -3,8 +3,8 @@ slug: /single-sign-on
 beta: TRUE
 notebook: FALSE
 type: origin
-token: WwEkw6QG2ixbfCkWENicYKBYn3g
-sidebar_position: 5
+token: V1ZdwbZNHin5x5kNUZEcJj2GnEd
+sidebar_position: 7
 
 ---
 
@@ -23,6 +23,3 @@ The SSO feature offered by Zilliz Cloud works at the organization level and requ
 
 </Admonition>
 
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />
