@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collection-create_index
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collection-create_index
+beta: FALSE
+notebook: FALSE
 type: docx
 token: J76vdPHNgoyp2wxAiTcceIVJnOe
 sidebar_position: 4
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,49 +33,49 @@ create_index(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __field_name__ (_string_) -
+- **field_name** (*string*) -
 
     The name of the field for which an index is to be created.
 
-- __index_params__ (_dict_) - 
+- **index_params** (*dict*) - 
 
     The parameters that apply to the index-building process.
 
-    - __index_type__ (string) -
+    - **index_type** (string) -
 
         The algorithm used to build the index.
 
-        You should always use __AUTOINDEX__ as the index type. Read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
+        You should always use **AUTOINDEX** as the index type. Read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
 
-    - __metric_type__ (_string_) - 
+    - **metric_type** (*string*) - 
 
         The similarity metric type used to build the index.
 
-        Possible values are __L2__, __IP__, and __COSINE__. Read [Similarity Metrics Explained](/docs/search-metrics-explained) to get more.
+        Possible values are **L2**, **IP**, and **COSINE**. Read [Similarity Metrics Explained](/docs/search-metrics-explained) to get more.
 
-    - __params__ (_dict_) -
+    - **params** (*dict*) -
 
         Index-building parameters corresponding to the selected index type.
 
         For details on applicable index-building parameters, refer to [AUTOINDEX Explained](/docs/autoindex-explained).
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_Status_
+*Status*
 
-__RETURNS:__
+**RETURNS:**
 
-A __Status__ object indicating whether this operation succeeds.
+A **Status** object indicating whether this operation succeeds.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

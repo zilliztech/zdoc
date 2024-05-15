@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/utility-alter_alias
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/utility-alter_alias
+beta: FALSE
+notebook: FALSE
 type: docx
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
 sidebar_position: 1
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,17 +40,17 @@ alter_alias(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name __(_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the target collection to reassign an alias to.
 
-- __alias __(_str_) -
+- **alias** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The alias of the collection. Note that the alias should exist beforehand.
 
@@ -70,27 +72,27 @@ __PARAMETERS:__
 
     </Admonition>
 
-- __using__ (_str_) - 
+- **using** (*str*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
  None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
 

@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Authentication-describe_user
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Authentication-describe_user
+beta: FALSE
+notebook: FALSE
 type: docx
 token: Wz3HdtvPCoEquvxFY7PcDHxcnEe
 sidebar_position: 4
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -24,25 +26,25 @@ describe_user(
 ) -> Dict
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __user_name__ (_str_) -
+- **user_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the user to describe.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_dict_
+*dict*
 
-__RETURNS:__
+**RETURNS:**
 
 A dictionary containing detailed information about the specified users.
 
@@ -53,21 +55,21 @@ A dictionary containing detailed information about the specified users.
 # }
 ```
 
-- __user_name__ (_str_) -
+- **user_name** (*str*) -
 
     The name of the specified users.
 
-- __roles__ (_tuple_) - 
+- **roles** (*tuple*) - 
 
     The roles granted to the specified user.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-- __BaseException__
+- **BaseException**
 
     This exception will be raised when this operation fails.
 

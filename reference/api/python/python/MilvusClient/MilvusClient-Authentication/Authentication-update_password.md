@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Authentication-update_password
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Authentication-update_password
+beta: FALSE
+notebook: FALSE
 type: docx
 token: WGDod7Qehou4GWx4Co2cJ34VnKb
 sidebar_position: 13
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -28,51 +30,51 @@ update_password(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __user_name__ (_str_) -
+- **user_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing user.
 
-- __old_password__ (_str_) -
+- **old_password** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The original password of the user.
 
-- __new_password__ (_str_) -
+- **new_password** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The new password of the user.
 
-- __reset_connection__ (_bool_) -
+- **reset_connection** (*bool*) -
 
     Whether to reset the connection using the new credentials.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-- __BaseException__
+- **BaseException**
 
     This exception will be raised when this operation fails.
 

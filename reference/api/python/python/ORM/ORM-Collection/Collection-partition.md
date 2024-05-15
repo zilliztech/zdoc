@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collection-partition
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collection-partition
+beta: FALSE
+notebook: FALSE
 type: docx
 token: SvCrdEJIdosGQYxQZhrc2OAXnpd
 sidebar_position: 21
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -23,25 +25,25 @@ partition(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __partition_name__ (_str_) -
+- **partition_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the partition to get.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_Partition _| _NoneType_
+*Partition* | *NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
-A __Partition__ object. If the current collection does not have a partition of the specified name, __None__ is returned.
+A **Partition** object. If the current collection does not have a partition of the specified name, **None** is returned.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

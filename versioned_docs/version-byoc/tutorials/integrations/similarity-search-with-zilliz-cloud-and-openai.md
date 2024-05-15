@@ -6,6 +6,7 @@ notebook: 80_integrations_openai.ipynb
 type: origin
 token: SeQxwhBEaimlzykxXLacoJuTnAb
 sidebar_position: 1
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -15,7 +16,7 @@ import Admonition from '@theme/Admonition';
 
 This page discusses integrating vector databases with OpenAI's embedding API.
 
-We will demonstrate how to use [OpenAI's Embedding API](https://beta.openai.com/docs/guides/embeddings) with our vector database to search for book titles. Many existing book search solutions, such as those used by public libraries, rely on keyword matching rather than a semantic understanding of the title's meaning. Using a trained model to represent the input data is known as _semantic search_ and can be applied to a variety of different text-based use cases, including anomaly detection and document search.
+We will demonstrate how to use [OpenAI's Embedding API](https://beta.openai.com/docs/guides/embeddings) with our vector database to search for book titles. Many existing book search solutions, such as those used by public libraries, rely on keyword matching rather than a semantic understanding of the title's meaning. Using a trained model to represent the input data is known as *semantic search* and can be applied to a variety of different text-based use cases, including anomaly detection and document search.
 
 ## Get started{#get-started}
 
@@ -41,7 +42,7 @@ def csv_load(file):
 
 With this, we're ready to move on to generating embeddings.
 
-## __Searching book titles__{#searching-book-titles}
+## **Searching book titles**{#searching-book-titles}
 
 Here we can find the main parameters that need to be modified for running with your own accounts. Beside each is a description of what it is.
 

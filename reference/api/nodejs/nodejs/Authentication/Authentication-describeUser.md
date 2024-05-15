@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Authentication-describeUser
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Authentication-describeUser
+beta: FALSE
+notebook: FALSE
 type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
 sidebar_position: 5
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -53,8 +55,8 @@ This method returns a promise that resolves to a **SelectUserResponse** object.
 
 ```javascript
 {
-    result: *UserResult[]*,
-    status: *ResStatus*
+    result: UserResult[],
+    status: ResStatus
 }
 ```
 

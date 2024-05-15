@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Vector-query
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Vector-query
+beta: FALSE
+notebook: FALSE
 type: docx
 token: AJ96d6Aguos3FAxWMDxcjzqpnSg
 sidebar_position: 4
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -25,7 +27,7 @@ query(data): Promise<ResStatus>
  milvusClient.query({
    collection_name: string,
    consistency_level?: ConsistencyLevelEnum,
-   filter: *string,*
+   filter: string,
    ids?: string[] | number[],
    limit?: number,
    offset?: number,

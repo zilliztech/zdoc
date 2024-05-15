@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Role-get_users
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Role-get_users
+beta: FALSE
+notebook: FALSE
 type: docx
 token: CCOhd671iog6rRxu8aOcaPncnLK
 sidebar_position: 4
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,15 +23,15 @@ This operation lists all users associated with the current role.
 get_users()
 ```
 
-__PARAMETERS__
+**PARAMETERS**
 
 N/A
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_tuple_
+*tuple*
 
-__RETURNS:__
+**RETURNS:**
 
 A tuple that contains the names of all users added to the current role.
 

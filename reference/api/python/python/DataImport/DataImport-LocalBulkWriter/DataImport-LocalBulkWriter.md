@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/DataImport-LocalBulkWriter
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/DataImport-LocalBulkWriter
 beta: false
 notebook: false
 type: folder
 token: SzykfW0E7lSK4sdsvhOcAhkan0b
 sidebar_position: 3
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -40,27 +42,27 @@ writer = LocalBulkWriter(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __schema__ (_[CollectionSchema](./ORM-CollectionSchema)_) -
+- **schema** (*[CollectionSchema](./ORM-CollectionSchema)*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The schema of a target collection to which the rewritten data is to be imported.
 
-- __local_path__ (_str_) -
+- **local_path** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The path to the directory that is to hold the rewritten data.
 
-- __segment_size__ (_int_) -
+- **segment_size** (*int*) -
 
     The maximum size of a file segment.
 
     While rewriting your raw data, Zilliz Cloud splits your raw data into segments.
 
-    The value defaults to __536,870,912__ in bytes, which is __512__ MB.
+    The value defaults to **536,870,912** in bytes, which is **512** MB.
 
     <Admonition type="info" icon="📘" title="How does BulkWriter segment my data?">
 
@@ -76,45 +78,45 @@ __PARAMETERS:__
 
     </Admonition>
 
-- __file_type__ (_[BulkFileType](./DataImport-BulkFileType)_) -
+- **file_type** (*[BulkFileType](./DataImport-BulkFileType)*) -
 
     The type of the output file.
 
-    The value defaults to __BulkFileType.NPY__. 
+    The value defaults to **BulkFileType.NPY**. 
 
-    Possible options are __BulkFileType.NPY__, __BulkFileType.JSON_RB__ and __BulkFileType.PARQUET__.
+    Possible options are **BulkFileType.NPY**, **BulkFileType.JSON_RB** and **BulkFileType.PARQUET**.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_LocalBulkWriter_
+*LocalBulkWriter*
 
-__RETURNS:__
+**RETURNS:**
 
-A __LocalBulkWriter__ object.
+A **LocalBulkWriter** object.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __SchemaNotReadyException__
+- **SchemaNotReadyException**
 
     This exception will be raised when the provided schema is invalid.
 
 ## Properties{#properties}
 
-- __uuid__ (_str_) -
+- **uuid** (*str*) -
 
     A randomly generated UUID, used to name the output file or directory, with JSON, Parquet, and NumPy formats supported.
 
-- __data_path__ (_pathlib.PosixPath_) -
+- **data_path** (*pathlib.PosixPath*) -
 
     The path to the output directory.
 
-- __batch_files__ (_str_) -
+- **batch_files** (*str*) -
 
     A list of the generated file names.
 
 ## Methods{#methods}
 
-The following are the methods of the __LocalBulkWriter__ class:
+The following are the methods of the **LocalBulkWriter** class:
 
 
 

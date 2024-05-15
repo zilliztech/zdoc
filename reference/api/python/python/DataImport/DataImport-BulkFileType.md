@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/DataImport-BulkFileType
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/DataImport-BulkFileType
+beta: FALSE
+notebook: FALSE
 type: docx
 token: CROadSmHNoV2CuxREnccTkaen0e
 sidebar_position: 1
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -17,14 +19,14 @@ This is an enumeration that provides the following constants.
 
 ## Constants{#constants}
 
-- __NPY__ = 1
-Sets the file type to __NumPy__ (_.npy_).
+- **NPY** = 1
+Sets the file type to **NumPy** (*.npy*).
 
-- __JSON_RB__ = 2
-Sets the file type to __JSON__ (_.json_).
+- **JSON_RB** = 2
+Sets the file type to **JSON** (*.json*).
 
-- __PARQUET__ = 3
-Sets the file type to [Parquet](https://parquet.apache.org/) (_.parquet_).
+- **PARQUET** = 3
+Sets the file type to [Parquet](https://parquet.apache.org/) (*.parquet*).
 
 ## Examples{#examples}
 

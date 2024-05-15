@@ -4,7 +4,8 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
-sidebar_position: 2
+sidebar_position: 3
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -16,7 +17,7 @@ Zilliz Cloud now officially supports the Bring-Your-Own-Cloud (BYOC) subscriptio
 
 ## Milvus Compatibility{#milvus-compatibility}
 
-This release is compatible with __Milvus 2.2.x__ and __Milvus 2.3.x (Beta)__.
+This release is compatible with **Milvus 2.2.x** and **Milvus 2.3.x (Beta)**.
 
 ## Bring Your Own Cloud{#bring-your-own-cloud}
 
@@ -30,11 +31,11 @@ Bring Your Own Cloud (BYOC) is a deployment model which sits somewhere between a
 
 ![NjzYboVmVoziKZxLu0vchbNunbh](/img/NjzYboVmVoziKZxLu0vchbNunbh.png)
 
-For more details of Zilliz Cloud BYOC, see _Ensuring Vector Data Security with Zilliz 'Bring Your Own Cloud' Option_.
+For more details of Zilliz Cloud BYOC, see *Ensuring Vector Data Security with Zilliz 'Bring Your Own Cloud' Option*.
 
 ## Data Import{#data-import}
 
-We are excited to announce support for the Parquet data format in our latest release. To enhance user experience, we've introduced the PyMilvus writer utility, a powerful tool designed to assist our users in effortlessly creating files in JSON or Parquet formats for seamless data import. Dive into the details and explore the new possibilities _[here](./data-import)_.
+We are excited to announce support for the Parquet data format in our latest release. To enhance user experience, we've introduced the PyMilvus writer utility, a powerful tool designed to assist our users in effortlessly creating files in JSON or Parquet formats for seamless data import. Dive into the details and explore the new possibilities *[here](./data-import)*.
 
 ## API Key{#api-key}
 
@@ -52,7 +53,7 @@ In the Operation Layer, Zilliz Cloud supports four types of roles, of which Orga
 
 - Project Member: Has read and write permissions to all clusters within the project, can view cluster details, and manage Collections and Indexes.
 
-In the Data Layer, Zilliz Cloud provides three built-in roles: Admin, Read-Only, and Read-Write, to control management, write, and read permissions of data. Zilliz Cloud allows users to create custom roles. These custom roles can define permissions for specific Collections, Partitions, or operations, ensuring the principle of minimal data permissions while using Zilliz Cloud. See the _documentations_ to learn the details.
+In the Data Layer, Zilliz Cloud provides three built-in roles: Admin, Read-Only, and Read-Write, to control management, write, and read permissions of data. Zilliz Cloud allows users to create custom roles. These custom roles can define permissions for specific Collections, Partitions, or operations, ensuring the principle of minimal data permissions while using Zilliz Cloud. See the *documentations* to learn the details.
 
 ## Metrics & Alert{#metrics-and-alert}
 

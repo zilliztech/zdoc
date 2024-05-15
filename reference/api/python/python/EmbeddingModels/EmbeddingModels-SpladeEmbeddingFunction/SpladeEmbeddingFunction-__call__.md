@@ -1,0 +1,74 @@
+---
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/SpladeEmbeddingFunction-__call__
+beta: FALSE
+notebook: FALSE
+type: docx
+token: LJqud2x3AojxV4xKONocTe4YnFb
+sidebar_position: 4
+displayed_sidebar: pythonSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# __call__()
+
+This operation in [SpladeEmbeddingFunction](./EmbeddingModels-SpladeEmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
+
+Unlike [encode_documents()](./SpladeEmbeddingFunction-encode_documents) or [encode_queries()](./SpladeEmbeddingFunction-encode_queries), which enable you to prepend **doc_instruction** or **query_instruction** and utilize **k_tokens_document** or **k_tokens_query** for result pruning, the **call**() method directly returns embeddings without offering the option to prepend instructions or prune results.
+
+## Request syntax{#request-syntax}
+
+```python
+# Instance created
+splade_ef = SpladeEmbeddingFunction()
+
+# __call__ method will be called
+splade_ef(
+    texts: List[str]
+) -> csr_array
+```
+
+**PARAMETERS:**
+
+- **texts** (*List[str]*)
+
+    A list of string values, where each string represents text that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.
+
+**RETURN TYPE:**
+
+*csr_array*
+
+**RETURNS:**
+
+Compressed sparse row matrices representing the document embeddings.
+
+**Exceptions:**
+
+- **ImportError**
+
+    This exception will be raised when the transformers library is not installed.
+
+## Examples{#examples}
+
+```python
+from pymilvus import model
+
+splade_ef = model.sparse.SpladeEmbeddingFunction(
+    model_name="naver/splade-cocondenser-selfdistil", 
+    device="cpu"
+)
+
+docs = [
+    "Artificial intelligence was founded as an academic discipline in 1956.",
+    "Alan Turing was the first person to conduct substantial research in AI.",
+    "Born in Maida Vale, London, Turing was raised in southern England.",
+]
+
+splade_ef(docs)
+
+# <3x30522 sparse array of type '<class 'numpy.float32'>'
+#   with 298 stored elements in Compressed Sparse Row format>
+```

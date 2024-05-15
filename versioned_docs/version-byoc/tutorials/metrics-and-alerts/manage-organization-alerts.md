@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: UPg7wiU71ioeELk8I8KcLDYqncb
 sidebar_position: 3
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 # Manage Organization Alerts
 
-Zilliz Cloud offers two types of alerts for resource monitoring: __Organization Alerts__ for license-related matters and __Project Alerts__ for operational performance of clusters in specific projects. For a quick reference, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
+Zilliz Cloud offers two types of alerts for resource monitoring: **Organization Alerts** for license-related matters and **Project Alerts** for operational performance of clusters in specific projects. For a quick reference, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
 
 This topic describes how to view and manage organization alerts.
 
@@ -20,44 +21,63 @@ This topic describes how to view and manage organization alerts.
 
  Below is a table outlining the default configuration for each organization alert.
 
-When an alert in an __ON__ status, the specified recipients will receive notifications once the conditions are met. You can [edit an alert](./manage-organization-alerts#edit-organization-alerts) to change its status.
+When an alert in an **ON** status, the specified recipients will receive notifications once the conditions are met. You can [edit an alert](./manage-organization-alerts#edit-organization-alerts) to change its status.
 
-|  Alert Target                  |  Unit |  Description                                                                |  Recommended Action                                                                                                                                                                                                                                                                                                                                                         |  Default Trigger Condition                                                                                                                                                                                       |
-| ------------------------------ | ----- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  License (Core Usage)<br/>  |  %    |  Monitor the percentage of used CPU cores against the total licensed cores. |  - __Below 70%__: Continue monitoring to ensure core usage stays within this range.<br/> - __70-99%__: Assess future needs and prepare to renew or upgrade the license.<br/> - __100% or above__: Renew or upgrade the license immediately to avoid operational disruptions.<br/> For details, refer to [License](./license).                                      |  - __WARNING__: Triggered when the count of used CPU cores reaches or exceeds 70% of the total.<br/> - __CRITICAL__: Triggered when the count of used CPU cores reaches or exceeds 100% of the total.<br/> |
-|  License (Validity Period)     |  Day  |  Track the remaining days of license validity.                              |  - __Above 60 days__: Continue monitoring to ensure more than 60 days of validity remain.<br/> - __60 days or below__: Start preparing to renew or upgrade the license.<br/> - __Expired__: Renew or upgrade the license immediately to avoid restrictions like the inability to create new clusters or scale up.<br/> For details, refer to [License](./license). |  - __WARNING__: Triggered when the license validity is 60 days or less.<br/> - __CRITICAL__: Triggered when the license expires.<br/>                                                                      |
+<table>
+   <tr>
+     <th>Alert Target</th>
+     <th>Unit</th>
+     <th>Description</th>
+     <th>Recommended Action</th>
+     <th>Default Trigger Condition</th>
+   </tr>
+   <tr>
+     <td>License (Core Usage)<br/></td>
+     <td>%</td>
+     <td>Monitor the percentage of used CPU cores against the total licensed cores.</td>
+     <td></td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>License (Validity Period)</td>
+     <td>Day</td>
+     <td>Track the remaining days of license validity.</td>
+     <td></td>
+     <td></td>
+   </tr>
+</table>
 
-__Permissions__:
+**Permissions**:
 
-- __View and configuration__: Available to organization owners only.
+- **View and configuration**: Available to organization owners only.
 
-- __Receiving notifications__: Available to any organization member if designated by the owner.
+- **Receiving notifications**: Available to any organization member if designated by the owner.
 
 For a detailed explanation of user roles, refer to [User Roles](./user-roles).
 
 ## View organization alerts{#view-organization-alerts}
 
-Navigate to the __Organization Alert__ page to view various license-related alerts.
+Navigate to the **Organization Alert** page to view various license-related alerts.
 
-__Components of an alert__:
+**Components of an alert**:
 
-- __Alert Target__: Preconfigured by Zilliz Cloud with trigger conditions and severity.
+- **Alert Target**: Preconfigured by Zilliz Cloud with trigger conditions and severity.
 
-- __Status__: Indicates if the alert is active (__ON__) or not. When an alert in an __ON__ status, the specified recipients will receive notifications once the conditions are met.
+- **Status**: Indicates if the alert is active (**ON**) or not. When an alert in an **ON** status, the specified recipients will receive notifications once the conditions are met.
 
-- __Condition__: Trigger conditions for the alert.
+- **Condition**: Trigger conditions for the alert.
 
-- __Severity Level__: Categorized as __WARNING__ or __CRITICAL__.
+- **Severity Level**: Categorized as **WARNING** or **CRITICAL**.
 
-- __Receiver__: Designated roles or email addresses for receiving notifications. You can also set up custom notification channels using webhooks. For more information, refer to [Manage Notification Channels](./manage-notification-channels).
+- **Receiver**: Designated roles or email addresses for receiving notifications. You can also set up custom notification channels using webhooks. For more information, refer to [Manage Notification Channels](./manage-notification-channels).
 
 ![byoc-view-organization-alerts](/byoc/byoc-view-organization-alerts.png)
 
 ## Edit organization alerts{#edit-organization-alerts}
 
-- __Customizations__: Modify alert conditions, update notification recipients, and change the active status.
+- **Customizations**: Modify alert conditions, update notification recipients, and change the active status.
 
-- __Restrictions__: Alert targets and severity level are fixed and cannot be changed.
+- **Restrictions**: Alert targets and severity level are fixed and cannot be changed.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -69,7 +89,7 @@ __Components of an alert__:
 
 ## Enable or disable an organization alert{#enable-or-disable-an-organization-alert}
 
-To quickly enable or disable an organization alert, select __Enable__ or __Disable__ from the __Actions__ column. 
+To quickly enable or disable an organization alert, select **Enable** or **Disable** from the **Actions** column. 
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -81,7 +101,7 @@ To quickly enable or disable an organization alert, select __Enable__ or __Disab
 
 ## View alert history{#view-alert-history}
 
-View triggered alerts on the __Alert History__ tab, with filters for alert target, severity level, and time range.
+View triggered alerts on the **Alert History** tab, with filters for alert target, severity level, and time range.
 
 ![byoc_view_alert_history](/byoc/byoc_view_alert_history.png)
 

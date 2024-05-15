@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Partitions-releasePartitions
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Partitions-releasePartitions
+beta: FALSE
+notebook: FALSE
 type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
 sidebar_position: 7
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';

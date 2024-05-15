@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Connections-list_connections
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Connections-list_connections
+beta: FALSE
+notebook: FALSE
 type: docx
 token: DyPldeRNXo4nMqxQeE0cMnd2nEf
 sidebar_position: 7
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,19 +23,19 @@ This operation returns a list of all connection names and handler objects.
 list_connections()
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
 None
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_List_
+*List*
 
-__RETURNS:__
+**RETURNS:**
 
 A list of all connection names and handler objects.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
 None
 

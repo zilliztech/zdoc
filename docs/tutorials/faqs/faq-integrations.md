@@ -1,10 +1,11 @@
 ---
 slug: /faq-integrations
-beta: null
-notebook: null
+beta: FALSE
+notebook: FALSE
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 14
+
 ---
 
 # FAQ: Integrations

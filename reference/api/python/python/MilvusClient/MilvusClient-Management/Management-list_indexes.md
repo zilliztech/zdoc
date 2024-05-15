@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Management-list_indexes
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Management-list_indexes
+beta: FALSE
+notebook: FALSE
 type: docx
 token: ZqmudJWyFonUKGxAxXncYrLZn2e
 sidebar_position: 6
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -25,29 +27,29 @@ list_indexes(
 ) -> List
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-- __field_name__ (_str_) -
+- **field_name** (*str*) -
 
     The name of a field. Leaving this unspecified make this operation list all indexes.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_List_
+*List*
 
-__RETURNS:__
+**RETURNS:**
 
 A list of index names.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

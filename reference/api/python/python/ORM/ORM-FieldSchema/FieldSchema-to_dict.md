@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/FieldSchema-to_dict
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/FieldSchema-to_dict
+beta: FALSE
+notebook: FALSE
 type: docx
 token: G1gsdGWwuoPOPrxJdABcfa76nUd
 sidebar_position: 3
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,21 +23,21 @@ This operation converts a FieldSchema object to a dictionary representation.
 to_dict()
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
 None
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_dict_
+*dict*
 
-__RETURNS:__
+**RETURNS:**
 
 The dictionary representation of the field schema.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

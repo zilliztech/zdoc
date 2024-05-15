@@ -1,10 +1,11 @@
 ---
 slug: /faq-payment-and-billing
-beta: null
-notebook: null
+beta: FALSE
+notebook: FALSE
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 13
+
 ---
 
 # FAQ: Payment & Billing

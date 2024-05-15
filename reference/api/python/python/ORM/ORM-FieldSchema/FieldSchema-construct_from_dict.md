@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/FieldSchema-construct_from_dict
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/FieldSchema-construct_from_dict
+beta: FALSE
+notebook: FALSE
 type: docx
 token: DCLUdOpVjohl8HxPUx1cGjokngf
 sidebar_position: 1
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -30,23 +32,23 @@ construct_from_dict(
 
 </Admonition>
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __raw__ (_dict_)
+- **raw** (*dict*)
 
     A dictionary containing the raw data to construct the field schema.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_FieldSchema_
+*FieldSchema*
 
-__RETURNS:__
+**RETURNS:**
 
 A FieldSchema object.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

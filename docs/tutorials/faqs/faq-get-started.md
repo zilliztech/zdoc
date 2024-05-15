@@ -1,10 +1,11 @@
 ---
 slug: /faq-get-started
-beta: null
-notebook: null
+beta: FALSE
+notebook: FALSE
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 1
+
 ---
 
 # FAQ: Get Started
@@ -50,7 +51,7 @@ In short, cloud service prices often vary across providers and regions. Several 
 
 ### What happens after the free trial?{#what-happens-after-the-free-trial}
 
-Once the free trial ends, you can still access your serverless clusters. However, all the data in your dedicated clusters will be moved to the Recycle Bin and will be retained there for 30 days. To safely recover your dedicated cluster data, you can subscribe to the standard or enterprise plan by providing a payment method.  If you have not completed the PoC during the trial period, you can also [contact us](https://support.zilliz.com/hc/en-us) to extend the trial period.
+Once the free trial ends, you can still access your free clusters. However, all the data in your serverless and dedicated clusters will be moved to the Recycle Bin and will be retained there for 30 days. To safely recover your cluster data, you can subscribe to the Serverless or Dedicated plan by providing a payment method. If you have not completed the PoC during the trial period, you can also [contact us](https://support.zilliz.com/hc/en-us) to extend the trial period.
 
 ### What is the pricing of Zilliz Cloud on Marketplaces?{#what-is-the-pricing-of-zilliz-cloud-on-marketplaces}
 

@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Management-refresh_load
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Management-refresh_load
+beta: FALSE
+notebook: FALSE
 type: docx
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 9
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -24,31 +26,31 @@ refresh_load(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the target collection of this operation.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
  None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

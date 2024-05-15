@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: CA04wUpF0id2sckrZjqcAOZGnnz
 sidebar_position: 2
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -26,7 +27,7 @@ Zilliz Cloud facilitates access control across three distinct scopes:
 
 Organizations serve as a means to group projects that share common objectives, such as encompassing all projects under a particular business unit.
 
-The __Default Organization__, operating with the BYOC license, will be labeled as __BYOC__ in the web console for clarity and ease of management.
+The **Default Organization**, operating with the BYOC license, will be labeled as **BYOC** in the web console for clarity and ease of management.
 
 In an organization, you can create several projects and manage organization-level resources, including [license](./license), [API keys](./manage-api-keys), [organization members](./organizations), [activities](./view-activities),  [organization settings](/docs/organization-settings), and [recycle bin](./use-recycle-bin).
 

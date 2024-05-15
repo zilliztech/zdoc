@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collections-list_aliases
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collections-list_aliases
+beta: FALSE
+notebook: FALSE
 type: docx
 token: Cpynd2OFJoIXhLx3dQNct7Wgn6f
 sidebar_position: 13
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -24,25 +26,25 @@ list_aliases(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name __(_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the collection whose aliases are to be listed.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation times out when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation times out when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_dict_
+*dict*
 
-__RETURNS:__
+**RETURNS:**
 
 A dictionary containing the list of aliases assigned to the specified collection.
 
@@ -56,17 +58,17 @@ A dictionary containing the list of aliases assigned to the specified collection
 }
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __aliases __(_list_) -
+- **aliases** (*list*) -
 
     A list of aliases assigned to the specified collection.
 
-- __collection_name __(_str_) -
+- **collection_name** (*str*) -
 
     The specified collection name.
 
-- __db_name__ (_str_) -
+- **db_name** (*str*) -
 
     The name of the database to which the specified collection belongs to.
 
@@ -76,13 +78,13 @@ __PARAMETERS:__
 
     </Admonition>
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-- __BaseException__
+- **BaseException**
 
     This exception will be raised when this operation fails.
 

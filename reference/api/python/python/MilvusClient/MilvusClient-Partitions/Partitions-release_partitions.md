@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Partitions-release_partitions
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Partitions-release_partitions
+beta: FALSE
+notebook: FALSE
 type: docx
 token: VblKdUEU4o4t31xcFiicIGtjn9g
 sidebar_position: 7
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -25,31 +27,31 @@ release_partitions(
 ) -> None
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name __(_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-- __partition_names__ (_str | list[str]_) -
+- **partition_names** (*str | list[str]*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A list of the names of the partitions to release.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
@@ -59,9 +61,9 @@ None
 
 </Admonition>
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

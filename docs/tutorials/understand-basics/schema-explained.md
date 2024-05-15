@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: TqMFwNyDbiY9qekBfPNcbpuvnib
 sidebar_position: 3
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -18,19 +19,19 @@ Defining a data schema is the process of creating a clear and organized data str
 
 In a Zilliz Cloud cluster, collections may have schemas that represent different data structures. It's essential to define the data schema properly to represent the structure of your dataset. To define a data schema, you need to consider the following components:
 
-- __Entity__
+- **Entity**
 
     An entity in a collection is similar to a row in a tabular database. Each property of an entity corresponds to a column in that tabular database. When determining the dataset to be inserted into a collection, identify the entities and the properties that are shared among them.
 
     For example, a book can be an entity in a collection, and its properties can include title, author, ISBN, and language.
 
-- __Data types__
+- **Data types**
 
     Each property of an entity has its own data type. Set an appropriate data type to define a property.
 
-    For instance, the data type for title should be __VarChar__.
+    For instance, the data type for title should be **VarChar**.
 
-- __Constraints on entity property values__
+- **Constraints on entity property values**
 
     Different data types may have their own constraints. For example, a vector field has a constraint on the number of dimensions, and a VarChar field has a constraint on the maximum number of characters.
 
@@ -38,9 +39,9 @@ The data schema for a collection is sometimes time-consuming, especially when th
 
 ### Dynamic data fields{#dynamic-data-fields}
 
-A collection can have one primary key field and one vector field. If you enable the dynamic field, you do not have to define the collection schema beforehand. All you have to do is provide a name for the collection and the number of dimensions for the vector field. Zilliz Cloud will then determine which fields and their values should be saved as key-value pairs in a reserved field called __$meta__ upon data insertions.
+A collection can have one primary key field and one vector field. If you enable the dynamic field, you do not have to define the collection schema beforehand. All you have to do is provide a name for the collection and the number of dimensions for the vector field. Zilliz Cloud will then determine which fields and their values should be saved as key-value pairs in a reserved field called **$meta** upon data insertions.
 
-For example, the following code snippet creates a collection named __medium_articles__ without providing the collection with a fixed schema.
+For example, the following code snippet creates a collection named **medium_articles** without providing the collection with a fixed schema.
 
 ```python
 # Connect using a MilvusClient object
@@ -63,7 +64,7 @@ client.create_collection(
 )
 ```
 
-When you insert an entity into the collection, Zilliz Cloud will parse the data and save the non-schema-defined fields as key-value pairs in the reserved field named __$meta__.
+When you insert an entity into the collection, Zilliz Cloud will parse the data and save the non-schema-defined fields as key-value pairs in the reserved field named **$meta**.
 
 ```python
 client.insert(

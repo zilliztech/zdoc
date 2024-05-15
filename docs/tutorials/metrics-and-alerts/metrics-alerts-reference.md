@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: KnnBwce9JifxvXkd070cvgUPnag
 sidebar_position: 1
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -16,39 +17,157 @@ In this reference, you can find descriptions of monitoring metrics for Zilliz Cl
 
 ## Cluster metrics{#cluster-metrics}
 
-The __Metrics__ tab in the Zilliz Cloud console presents various graphical representations.
+The **Metrics** tab in the Zilliz Cloud console presents various graphical representations.
 
 The table provides a description of each metric and the actions that you are advised to perform when the usage of your cluster resource exceeds a threshold.
 
-|  Metric Name                                                                              |  Unit                                                               |  Description                                                                                                                                                                                                                                                                                                                                                                                                                                                              |  Recommended Action                                                                                                                                                                                                                                                                                                                                                                                                    |
-| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  __Resources__                                                                            |                                                                     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|  CU Computation<br/>                                                                   |  %                                                                  |  A measure of the utilized computational power relative to the total computational capacity of the CU.                                                                                                                                                                                                                                                                                                                                                                    |  - __70%-80%__: Check service status and prepare for [scaling up](./manage-cluster#manage-and-configure-clusters).<br/> - __> 90%__: [Scale up](./manage-cluster#manage-and-configure-clusters) immediately to avoid service interruption.<br/>                                                                                                                                                                  |
-|  CU Capacity<br/>                                                                      |  %                                                                  |  A measure of the used capacity relative to the total capacity of the CU.                                                                                                                                                                                                                                                                                                                                                                                                 |  - __70%-80%__: Check service status and prepare for scaling up.<br/> - __> 90%__: [Scale up](./manage-cluster#manage-and-configure-clusters) immediately to avoid service interruption.<br/> - __100%__: When CU capacity reaches 100%, you will be unable to write data into the cluster. Please [scale up](./manage-cluster#manage-and-configure-clusters) immediately to avoid service interruption.<br/> |
-|  Storage                                                                                  |  GB                                                                 |  The total amount of persistent storage consumed by data and indexes. <br/>                                                                                                                                                                                                                                                                                                                                                                                            |  [Configure alerts](./manage-project-alerts) for monitoring and release unused indexes and collections. If a specified value is exceeded, consider [scaling up](./manage-cluster#manage-and-configure-clusters).                                                                                                                                                                                                       |
-|  __Performance__                                                                          |                                                                     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|  QPS/VPS (Read)                                                                           |  QPS/VPS                                                            |  __QPS__: The number of read requests (search and query) per second.<br/> __VPS__: The number of read requests (search) on vectors per second. VPS is not available for query requests as query operations do not involve vectors.                                                                                                                                                                                                                                     |  Refer to [benchmark](https://zilliz.com/vector-database-benchmark-tool) for system performance monitoring.<br/>                                                                                                                                                                                                                                                                                                    |
-|  QPS/VPS (Write)<br/>                                                                  |  QPS/VPS                                                            |  __QPS__: The number of write requests (insert, bulk insert, upsert, and delete) per second.<br/> __VPS__: The number of write requests (insert, bulk insert,upsert, and delete) on vectors per second.                                                                                                                                                                                                                                                                |  Refer to [benchmark](https://zilliz.com/vector-database-benchmark-tool) for system performance monitoring.<br/>                                                                                                                                                                                                                                                                                                    |
-|  Latency (Read)<br/>                                                                   |  ms                                                                 |  The time elapsed between a client sending a read request (search and query) to a server and the client receiving a response. <br/> Selecting __Average__ or __P99__ from the expanded dropdown menu on the right displays an average or P99 latency.                                                                                                                                                                                                                  |  -                                                                                                                                                                                                                                                                                                                                                                                                                     |
-|  Latency (Write)                                                                          |  ms                                                                 |  The time elapsed between a client sending a write request (insert, upsert, and delete) to a server and the client receiving a response. <br/> Selecting __Average__ or __P99__ from the expanded dropdown menu on the right displays an average or P99 latency.                                                                                                                                                                                                       |  -                                                                                                                                                                                                                                                                                                                                                                                                                     |
-|  Request Failure Rate (Read)                                                              |  %                                                                  |  The percentage of timeout read requests (search and query) in all read requests per second.                                                                                                                                                                                                                                                                                                                                                                              |  [Configure alerts](./manage-project-alerts) to monitor read request failure rate.                                                                                                                                                                                                                                                                                                                                     |
-|  Request Failure Rate (Write)                                                             |  %                                                                  |  The percentage of timeout write requests (insert, bulk insert, upsert, and delete) in all write requests per second.                                                                                                                                                                                                                                                                                                                                                     |  [Configure alerts](./manage-project-alerts) to monitor write request failure rate.                                                                                                                                                                                                                                                                                                                                    |
-|  __Data__                                                                                 |                                                                     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|  Collection Count                                                                         |  count                                                              |  The number of collections created in a cluster.                                                                                                                                                                                                                                                                                                                                                                                                                          |  -                                                                                                                                                                                                                                                                                                                                                                                                                     |
-|  Entity Count                                                                             |  count                                                              |  The number of entities created in a cluster.<br/> Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.                                                                                                                                                                                                                                                                               |  -                                                                                                                                                                                                                                                                                                                                                                                                                     |
-|  Loaded Entities                                                                          |  count                                                              |  The number of entities loaded (actively served) by a cluster.<br/> Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.                                                                                                                                                                                                                                                              |  -                                                                                                                                                                                                                                                                                                                                                                                                                     |
+<table>
+   <tr>
+     <th>Metric Name</th>
+     <th>Unit</th>
+     <th>Description</th>
+     <th>Recommended Action</th>
+   </tr>
+   <tr>
+     <td><strong>Resources</strong></td>
+     <td></td>
+     <td></td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>CU Computation<br/></td>
+     <td>%</td>
+     <td>A measure of the utilized computational power relative to the total computational capacity of the CU.</td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>CU Capacity<br/></td>
+     <td>%</td>
+     <td>A measure of the used capacity relative to the total capacity of the CU.</td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>Storage</td>
+     <td>GB</td>
+     <td>The total amount of persistent storage consumed by data and indexes. <br/></td>
+     <td><a href="./manage-project-alerts">Configure alerts</a> for monitoring storage usage.</td>
+   </tr>
+   <tr>
+     <td><strong>Performance</strong></td>
+     <td></td>
+     <td></td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>QPS/VPS (Read)</td>
+     <td>QPS/VPS</td>
+     <td><strong>QPS</strong>: The number of read requests (search and query) per second.<br/> <strong>VPS</strong>: The number of read requests (search) on vectors per second. VPS is not available for query requests as query operations do not involve vectors.</td>
+     <td>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.<br/></td>
+   </tr>
+   <tr>
+     <td>QPS/VPS (Write)<br/></td>
+     <td>QPS/VPS</td>
+     <td><strong>QPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) per second.<br/> <strong>VPS</strong>: The number of write requests (insert, bulk insert,upsert, and delete) on vectors per second.</td>
+     <td>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.<br/></td>
+   </tr>
+   <tr>
+     <td>Latency (Read)<br/></td>
+     <td>ms</td>
+     <td>The time elapsed between a client sending a read request (search and query) to a server and the client receiving a response. <br/> Selecting <strong>Average</strong> or <strong>P99</strong> from the expanded dropdown menu on the right displays an average or P99 latency.</td>
+     <td>-</td>
+   </tr>
+   <tr>
+     <td>Latency (Write)</td>
+     <td>ms</td>
+     <td>The time elapsed between a client sending a write request (insert, upsert, and delete) to a server and the client receiving a response. <br/> Selecting <strong>Average</strong> or <strong>P99</strong> from the expanded dropdown menu on the right displays an average or P99 latency.</td>
+     <td>-</td>
+   </tr>
+   <tr>
+     <td>Request Failure Rate (Read)</td>
+     <td>%</td>
+     <td>The percentage of timeout read requests (search and query) in all read requests per second.</td>
+     <td><a href="./manage-project-alerts">Configure alerts</a> to monitor read request failure rate.</td>
+   </tr>
+   <tr>
+     <td>Request Failure Rate (Write)</td>
+     <td>%</td>
+     <td>The percentage of timeout write requests (insert, bulk insert, upsert, and delete) in all write requests per second.</td>
+     <td><a href="./manage-project-alerts">Configure alerts</a> to monitor write request failure rate.</td>
+   </tr>
+   <tr>
+     <td><strong>Data</strong></td>
+     <td></td>
+     <td></td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>Collection Count</td>
+     <td>count</td>
+     <td>The number of collections created in a cluster.</td>
+     <td>-</td>
+   </tr>
+   <tr>
+     <td>Entity Count</td>
+     <td>count</td>
+     <td>The number of entities created in a cluster.<br/> Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.</td>
+     <td>-</td>
+   </tr>
+   <tr>
+     <td>Loaded Entities</td>
+     <td>count</td>
+     <td>The number of entities loaded (actively served) by a cluster.<br/> Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.</td>
+     <td>-</td>
+   </tr>
+</table>
 
 ## Organization alerts{#organization-alerts}
 
 Organization alerts keep you informed about billing-related issues such as expiring credit cards, the status of free credits, balance alerts for advance payments, and notifications regarding usage costs.
 
-|  Alert Target                    |  Unit         |  Description                                                                                                      |  Recommended Action                                                           |  Default Trigger Condition                                                                                                                         |
-| -------------------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  Expiration Date of Credit card  |  Day          |  Monitor the remaining days until the credit card's expiration to ensure uninterrupted service.                   |  Renew or update credit card information before the expiration date.<br/>  |  - __WARNING__: Trigger alerts within 30 days of card expiration.<br/> - __CRITICAL__: Trigger alerts within 7 days of card expiration.<br/> |
-|  Remaining Credits               |  $            |  Track the balance of free credits, alerting the user when it falls low to prompt a top-up.                       |  Top up credits to maintain account functionality.                            |  Trigger __WARNING__ alerts when the balance of free credits falls below $10.                                                                      |
-|  Credit Validity Period<br/>  |  Day<br/>  |  Monitor the remaining validity period of free credits, alerting the user to encourage usage or extension.        |  Extend the validity period or use the credits before they expire.            |  Trigger __WARNING__ alerts when the validity period of free credits reaches 0 days.                                                               |
-|  Advance Pay Balance             |  $            |  Monitor the advance pay balance, alerting the user when it falls low to prevent service disruption.              |  Add funds to the advance pay balance to avoid service interruption.          |  Trigger __CRITICAL__ alerts when the balance falls below $100.                                                                                    |
-|  Usage Amount                    |  $            |  Track the usage amount, informing the user when it exceeds a set threshold to suggest monitoring and management. |  Monitor and manage usage to stay within budget limits.                       |  Trigger __WARNING__ alerts when the amount of usage exceeds $100.                                                                                 |
+<table>
+   <tr>
+     <th>Alert Target</th>
+     <th>Unit</th>
+     <th>Description</th>
+     <th>Recommended Action</th>
+     <th>Default Trigger Condition</th>
+   </tr>
+   <tr>
+     <td>Expiration Date of Credit card</td>
+     <td>Day</td>
+     <td>Monitor the remaining days until the credit card's expiration to ensure uninterrupted service.</td>
+     <td>Renew or update credit card information before the expiration date.<br/></td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>Remaining Credits</td>
+     <td>$</td>
+     <td>Track the balance of free credits, alerting the user when it falls low to prompt a top-up.</td>
+     <td>Top up credits to maintain account functionality.</td>
+     <td>Trigger <strong>WARNING</strong> alerts when the balance of free credits falls below $10.</td>
+   </tr>
+   <tr>
+     <td>Credit Validity Period<br/></td>
+     <td>Day<br/></td>
+     <td>Monitor the remaining validity period of free credits, alerting the user to encourage usage or extension.</td>
+     <td>Extend the validity period or use the credits before they expire.</td>
+     <td>Trigger <strong>WARNING</strong> alerts when the validity period of free credits reaches 0 days.</td>
+   </tr>
+   <tr>
+     <td>Advance Pay Balance</td>
+     <td>$</td>
+     <td>Monitor the advance pay balance, alerting the user when it falls low to prevent service disruption.</td>
+     <td>Add funds to the advance pay balance to avoid service interruption.</td>
+     <td>Trigger <strong>CRITICAL</strong> alerts when the balance falls below $100.</td>
+   </tr>
+   <tr>
+     <td>Usage Amount</td>
+     <td>$</td>
+     <td>Track the usage amount, informing the user when it exceeds a set threshold to suggest monitoring and management.</td>
+     <td>Monitor and manage usage to stay within budget limits.</td>
+     <td>Trigger <strong>WARNING</strong> alerts when the amount of usage exceeds $100.</td>
+   </tr>
+</table>
 
 ## Project alerts{#project-alerts}
 
@@ -60,51 +179,174 @@ Zilliz Cloud predefines common alert targets to ensure that critical issues are 
 
 For more information about recommended actions, refer to [Cluster metrics](./metrics-alerts-reference#cluster-metrics).
 
-|  Alert Target            |  Unit |  Default Trigger Condition                                                                                                                                                                |
-| ------------------------ | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  CU Computation<br/>  |  %    |  - __WARNING__: Trigger alerts at >70% utilized computational power for 10+ minutes.<br/> - __CRITICAL__: Trigger alerts at >90% utilized computational power for 10+ minutes.<br/> |
-|  CU Capacity             |  %    |  - __WARNING__: Trigger alerts at >70% utilized CU capacity for 10+ minutes.<br/> - __CRITICAL__: Trigger alerts at >90% utilized CU capacity for 10+ minutes.<br/>                 |
-|  Search (QPS)            |  QPS  |  Trigger __WARNING__ alerts at >50 search operations per second for 10+ minutes.                                                                                                          |
-|  Query (QPS)             |  QPS  |  Trigger __WARNING__ alerts at >50 query operations per second for 10+ minutes.                                                                                                           |
-|  Search Latency (P99)    |  ms   |  Trigger __WARNING__ alerts at P99 latency >1,000ms for 10+ minutes.                                                                                                                      |
-|  Query Latency (P99)     |  ms   |  Trigger __WARNING__ alerts at P99 latency >1,000ms for 10+ minutes.                                                                                                                      |
+<table>
+   <tr>
+     <th>Alert Target</th>
+     <th>Unit</th>
+     <th>Default Trigger Condition</th>
+   </tr>
+   <tr>
+     <td>CU Computation<br/></td>
+     <td>%</td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>CU Capacity</td>
+     <td>%</td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>Search (QPS)</td>
+     <td>QPS</td>
+     <td>Trigger <strong>WARNING</strong> alerts at &gt;50 search operations per second for 10+ minutes.</td>
+   </tr>
+   <tr>
+     <td>Query (QPS)</td>
+     <td>QPS</td>
+     <td>Trigger <strong>WARNING</strong> alerts at &gt;50 query operations per second for 10+ minutes.</td>
+   </tr>
+   <tr>
+     <td>Search Latency (P99)</td>
+     <td>ms</td>
+     <td>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</td>
+   </tr>
+   <tr>
+     <td>Query Latency (P99)</td>
+     <td>ms</td>
+     <td>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</td>
+   </tr>
+</table>
 
 ### Custom alert targets{#custom-alert-targets}
 
 In addition to the predefined default project alerts , you can also configure custom alert targets as needed.
 
-|  Alert Target                           |  Description                                                                                                                       |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-|  __Resource__                           |                                                                                                                                    |
-|  Storage                                |  Monitor storage usage and send notifications if the usage exceeds a threshold for a certain duration.                             |
-|  __Performance (read/write)__           |                                                                                                                                    |
-|  Bulk Insert (QPS)<br/>              |  Monitor the rate of bulk insert operations and send notifications if the rate exceeds a threshold for a certain duration.         |
-|  Delete (QPS)<br/>                   |  Monitor the rate of delete operations and send notifications if the rate exceeds a threshold for a certain duration.              |
-|  Insert (QPS)                           |  Monitor the rate of insert operations and send notifications if the rate exceeds a threshold for a certain duration.              |
-|  Insert (VPS)<br/>                   |  Monitor the rate of vector insert operations and send notifications if the rate exceeds a threshold for a certain duration.       |
-|  Search (VPS)<br/>                   |  Monitor the rate of vector search operations and send notifications if the rate exceeds a threshold for a certain duration.       |
-|  Upsert (QPS)<br/>                   |  Monitor the rate of upsert operations and send notifications if the rate exceeds a threshold for a certain duration.              |
-|  Upsert (VPS)                           |  Monitor the rate of vector upsert operations and send notifications if the rate exceeds a threshold for a certain duration.       |
-|  __Performance (latency)__              |                                                                                                                                    |
-|  Delete Latency (Average)               |  Monitor the average latency for delete requests and send notifications if the latency exceeds a threshold for a certain duration. |
-|  Delete Latency (P99)                   |  Monitor the P99 latency for delete requests and send notifications if the latency exceeds a threshold for a certain duration.     |
-|  Insert Latency (Average)               |  Monitor the average latency for insert requests and send notifications if the latency exceeds a threshold for a certain duration. |
-|  Insert Latency (P99)                   |  Monitor the P99 latency for insert requests and send notifications if the latency exceeds a threshold for a certain duration.     |
-|  Query Latency (Average)                |  Monitor the average latency for query requests and send notifications if the latency exceeds a threshold for a certain duration.  |
-|  Search Request Latency (Average)       |  Monitor the average latency for search requests and send notifications if the latency exceeds a threshold for a certain duration. |
-|  Upsert Latency (Average)<br/>       |  Monitor the average latency for upsert requests and send notifications if the latency exceeds a threshold for a certain duration. |
-|  Upsert Latency (P99)<br/>           |  Monitor the P99 latency for upsert requests and send notifications if the latency exceeds a threshold for a certain duration.     |
-|  __Performance (request failure rate)__ |                                                                                                                                    |
-|  Bulk Insert Failure Rate               |  Monitor the failure rate of bulk insert requests and send notifications if the rate exceeds a threshold for a certain duration.   |
-|  Delete Failure Rate                    |  Monitor the failure rate of delete requests and send notifications if the rate exceeds a threshold for a certain duration.        |
-|  Insert Failure Rate                    |  Monitor the failure rate of insert requests and send notifications if the rate exceeds a threshold for a certain duration.        |
-|  Query Failure Rate                     |  Monitor the failure rate of query requests and send notifications if the rate exceeds a threshold for a certain duration.         |
-|  Search Failure Rate                    |  Monitor the failure rate of search requests and send notifications if the rate exceeds a threshold for a certain duration.        |
-|  Upsert Failure Rate                    |  Monitor the failure rate of upsert requests and send notifications if the rate exceeds a threshold for a certain duration.        |
-|  __Data__                               |                                                                                                                                    |
-|  Loaded Entities                        |  Monitor the number of loaded entities and send notifications if the count exceeds a threshold for a certain duration.             |
-|  Total Collections                      |  Monitor the number of total collections and send notifications if the count exceeds a threshold for a certain duration.           |
-|  Total Entities                         |  Monitor the number of total entities and send notifications if the count exceeds a threshold for a certain duration.              |
+<table>
+   <tr>
+     <th>Alert Target</th>
+     <th>Description</th>
+   </tr>
+   <tr>
+     <td><strong>Resource</strong></td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>Storage</td>
+     <td>Monitor storage usage and send notifications if the usage exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td><strong>Performance (read/write)</strong></td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>Bulk Insert (QPS)<br/></td>
+     <td>Monitor the rate of bulk insert operations and send notifications if the rate exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Delete (QPS)<br/></td>
+     <td>Monitor the rate of delete operations and send notifications if the rate exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Insert (QPS)</td>
+     <td>Monitor the rate of insert operations and send notifications if the rate exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Insert (VPS)<br/></td>
+     <td>Monitor the rate of vector insert operations and send notifications if the rate exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Search (VPS)<br/></td>
+     <td>Monitor the rate of vector search operations and send notifications if the rate exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Upsert (QPS)<br/></td>
+     <td>Monitor the rate of upsert operations and send notifications if the rate exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Upsert (VPS)</td>
+     <td>Monitor the rate of vector upsert operations and send notifications if the rate exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td><strong>Performance (latency)</strong></td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>Delete Latency (Average)</td>
+     <td>Monitor the average latency for delete requests and send notifications if the latency exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Delete Latency (P99)</td>
+     <td>Monitor the P99 latency for delete requests and send notifications if the latency exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Insert Latency (Average)</td>
+     <td>Monitor the average latency for insert requests and send notifications if the latency exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Insert Latency (P99)</td>
+     <td>Monitor the P99 latency for insert requests and send notifications if the latency exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Query Latency (Average)</td>
+     <td>Monitor the average latency for query requests and send notifications if the latency exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Search Request Latency (Average)</td>
+     <td>Monitor the average latency for search requests and send notifications if the latency exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Upsert Latency (Average)<br/></td>
+     <td>Monitor the average latency for upsert requests and send notifications if the latency exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Upsert Latency (P99)<br/></td>
+     <td>Monitor the P99 latency for upsert requests and send notifications if the latency exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td><strong>Performance (request failure rate)</strong></td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>Bulk Insert Failure Rate</td>
+     <td>Monitor the failure rate of bulk insert requests and send notifications if the rate exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Delete Failure Rate</td>
+     <td>Monitor the failure rate of delete requests and send notifications if the rate exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Insert Failure Rate</td>
+     <td>Monitor the failure rate of insert requests and send notifications if the rate exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Query Failure Rate</td>
+     <td>Monitor the failure rate of query requests and send notifications if the rate exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Search Failure Rate</td>
+     <td>Monitor the failure rate of search requests and send notifications if the rate exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Upsert Failure Rate</td>
+     <td>Monitor the failure rate of upsert requests and send notifications if the rate exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td><strong>Data</strong></td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>Loaded Entities</td>
+     <td>Monitor the number of loaded entities and send notifications if the count exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Total Collections</td>
+     <td>Monitor the number of total collections and send notifications if the count exceeds a threshold for a certain duration.</td>
+   </tr>
+   <tr>
+     <td>Total Entities</td>
+     <td>Monitor the number of total entities and send notifications if the count exceeds a threshold for a certain duration.</td>
+   </tr>
+</table>
 
 ## Related topics{#related-topics}
 

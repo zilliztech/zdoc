@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: KrbjwFhy3iojF3k97XmcvvXMnW7
 sidebar_position: 1
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -25,7 +26,7 @@ Ensure:
 
 ## Create a cluster{#create-a-cluster}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
@@ -33,33 +34,33 @@ Ensure:
 
 1. Enter the desired organization and project.
 
-1. Click __+ Create Cluster__.
+1. Click **+ Create Cluster**.
 
     ![create_cluster_01](/byoc/create_cluster_01.png)
 
-1. On the __Create New Cluster__ page, fill out the relevant parameters.
+1. On the **Create New Cluster** page, fill out the relevant parameters.
 
     ![cluster-cluster-byoc](/byoc/cluster-cluster-byoc.png)
 
-    - __Cluster Name__: Assign a unique identifier for your cluster.
+    - **Cluster Name**: Assign a unique identifier for your cluster.
 
-    - __Cloud Provider Settings__: Choose the cloud service provider and the specific region where your cluster will be deployed. With the BYOC license, only the AWS __us-west-2__ region is currently supported. To request more cloud regions, [contact us](https://zilliz.com/cloud-region-request?firstname=Li&lastname=Yun&company=zilliz&name=zilliz&email=leryn.li@zilliz.com&fullname=Li%20Yun&phone=--&country=China&requested_csp_provider=AWS).
+    - **Cloud Provider Settings**: Choose the cloud service provider and the specific region where your cluster will be deployed. With the BYOC license, only the AWS **us-west-2** region is currently supported. To request more cloud regions, [contact us](https://zilliz.com/cloud-region-request?firstname=Li&lastname=Yun&company=zilliz&name=zilliz&email=leryn.li@zilliz.com&fullname=Li%20Yun&phone=--&country=China&requested_csp_provider=AWS).
 
-    - __CU Settings__:
+    - **CU Settings**:
 
-        - __CU Type__: Select a CU Type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right CU](./cu-types-explained).
+        - **CU Type**: Select a CU Type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right CU](./cu-types-explained).
 
-        - __CU Size__: Select the total size of the cluster in terms of CUs.
+        - **CU Size**: Select the total size of the cluster in terms of CUs.
 
-        - __Topology__: A graphical representation showing the structure of your cluster. This includes the designation of roles and compute resources for various nodes:
+        - **Topology**: A graphical representation showing the structure of your cluster. This includes the designation of roles and compute resources for various nodes:
 
-            - __Proxy__: Stateless nodes that manage user connections and streamline service addresses with load balancers.
+            - **Proxy**: Stateless nodes that manage user connections and streamline service addresses with load balancers.
 
-            - __Query Node__: Responsible for hybrid vector and scalar searches and incremental data updates.
+            - **Query Node**: Responsible for hybrid vector and scalar searches and incremental data updates.
 
-            - __Coordinator__: The orchestration center, distributing tasks across worker nodes.
+            - **Coordinator**: The orchestration center, distributing tasks across worker nodes.
 
-            - __Data Node__: Handles data mutations and log-to-snapshot conversions for persistence.
+            - **Data Node**: Handles data mutations and log-to-snapshot conversions for persistence.
 
             <Admonition type="info" icon="📘" title="Notes">
 
@@ -67,9 +68,9 @@ Ensure:
 
             </Admonition>
 
-    - __Cloud Backup__: Decide whether to enable automatic cloud backup for safeguarding the data stored within your cluster, ensuring data persistence and recovery capabilities in case of failures.
+    - **Cloud Backup**: Decide whether to enable automatic cloud backup for safeguarding the data stored within your cluster, ensuring data persistence and recovery capabilities in case of failures.
 
-1. Click __Create Cluster__. You'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
+1. Click **Create Cluster**. You'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
 
 </TabItem>
 
@@ -81,28 +82,27 @@ The following `POST` request takes a request body and creates a cluster named `c
 
 ```bash
 curl --request POST \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/create" \
+     --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/create" \
      --header "Authorization: Bearer ${API_KEY}" \
      --header "accept: application/json" \
      --header "content-type: application/json" \
-     --data-raw '{
-     "plan": "Standard",
-     "clusterName": "cluster-02",
-     "cuSize": 1,
-     "cuType": "Performance-optimized",
-     "projectId": "8342669010291064832"
-     }'
+     --data-raw "\{
+     \"plan\": \"Standard\",
+     \"clusterName\": \"cluster-02\",
+     \"cuSize\": 1,
+     \"cuType\": \"Performance-optimized\",
+     \"projectId\": \"${PROJECT_ID}\"
+ }"
      
-# Sample output:
 # {
-#    "code": 200,
-#    "data": {
-#        "clusterId": "in01-4d71039fd8754a4",
-#        "username": "db_admin",
-#        "password": "Wu5@|71UG)[5zB9n",
-#        "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
-#    }
-#}
+#   "code": 200,
+#   "data": {
+#       "clusterId": "in01-XXXXXXXXXXXXXXX",
+#       "username": "db_admin",
+#       "password": "XXXXXXXXXXXXXXXX",
+#       "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
+#   }
+# }
 ```
 
 In the command above,
@@ -111,13 +111,13 @@ In the command above,
 
 - `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
 
-- `plan`: The plan tier of the Zilliz Cloud service you subscribe to. Valid values: __Standard__ and __Enterprise__.
+- `plan`: The plan tier of the Zilliz Cloud service you subscribe to. Valid values: **Standard** and **Enterprise**.
 
 - `clusterName`: The name of the cluster to create.
 
 - `cuSize`: The size of the CU used for the cluster. Value range: 1 to 256. By calling `Create Cluster`, you can create a cluster with up to 32 CUs. To create a cluster with more than 32 CUs, [contact us](https://zilliz.com/contact-sales).
 
-- `cuType`: The type of the CU used for the cluster. Valid values: __Performance-optimized and __Capacity-optimized__.
+- `cuType`: The type of the CU used for the cluster. Valid values: **Performance-optimized and **Capacity-optimized**.
 
 - `projectId`: The ID of the project in which you want to create a cluster. To list project IDs, call the `List Projects` operation.
 
@@ -127,4 +127,4 @@ In the command above,
 
 ## Verification{#verification}
 
-After you create the cluster, you can check its status on the cluster list page. A cluster in the __Running__ state indicates successful creation.
+After you create the cluster, you can check its status on the cluster list page. A cluster in the **Running** state indicates successful creation.

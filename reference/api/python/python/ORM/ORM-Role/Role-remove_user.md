@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Role-remove_user
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Role-remove_user
+beta: FALSE
+notebook: FALSE
 type: docx
 token: SlmSdaD7rocMJsxThNHcOtEknVd
 sidebar_position: 9
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -23,25 +25,25 @@ remove_user(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __username__ (_str_) -
+- **username** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the user to remove from a role.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
-_None_
+*None*
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

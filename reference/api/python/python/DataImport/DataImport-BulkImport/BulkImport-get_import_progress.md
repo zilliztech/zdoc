@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/BulkImport-get_import_progress
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/BulkImport-get_import_progress
+beta: FALSE
+notebook: FALSE
 type: docx
 token: MkWNdU1tvoqlBRxI05Rcu09cnEc
 sidebar_position: 2
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -26,11 +28,11 @@ pymilvus.get_import_progress(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __url__ (_string_) -
+- **url** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The endpoint URL of your Zilliz Cloud cluster. 
 
@@ -42,33 +44,33 @@ __PARAMETERS:__
 
     Replace `cloud-region` with the ID of the region that accommodates your cluster. You can get the cloud region ID from the endpoint URL of your cluster.
 
-- __api_key__ (_string_) -
+- **api_key** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.
 
-- __job_id__ (_string_) -
+- **job_id** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The ID of the bulk-import job of your interest. 
 
-    The __bulk_import()__ operation usually returns a job ID. You can also call __list-import-jobs()__ to get the IDs of all bulk-import jobs related to the specific cluster.
+    The **bulk_import()** operation usually returns a job ID. You can also call **list-import-jobs()** to get the IDs of all bulk-import jobs related to the specific cluster.
 
-- __cluster_id__ (_string_) -
+- **cluster_id** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The instance ID of the target cluster of this operation.
 
     You can get the instance ID of a cluster on its details page from the Zilliz Cloud console.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_dict_
+*dict*
 
-__RETURNS:__
+**RETURNS:**
 
 - Response syntax
 
@@ -98,61 +100,61 @@ __RETURNS:__
 
 - Response structure
 
-    - __collectionName__ (_string_) -
+    - **collectionName** (*string*) -
 
         The name of the target collection.
 
-    - __fileName__ (_string_) -
+    - **fileName** (*string*) -
 
         The name of the currently processed data file.
 
-    - __fileSize__ (_string_) -
+    - **fileSize** (*string*) -
 
         The size of the currently processed data file in bytes.
 
-    - __readyPercentage__ (_int_) -
+    - **readyPercentage** (*int*) -
 
         The progress of the current operation in floats. 
 
         The value ranges from `0` to `1`, and stays at `1` when this operation completes.
 
-    - __completeTime__ (_string_) -
+    - **completeTime** (*string*) -
 
         The time at which this operation is completed.
 
         The time is displayed in the format of `XXXX-XX-XXTXX:XX:XXZ`.
 
-    - __errorMessage__ (_string_ / _null_) -
+    - **errorMessage** (*string* / *null*) -
 
-        An error message explaining any errors during this operation. It should always be __null__ if no error occurs.
+        An error message explaining any errors during this operation. It should always be **null** if no error occurs.
 
-    - __jobId__ (_string_) -
+    - **jobId** (*string*) -
 
         The ID of the current bulk-import job of your interests.
 
-    - __details__ (_array_) -
+    - **details** (*array*) -
 
-        - __fileName__ (_string_) -
+        - **fileName** (*string*) -
 
             The name of a data file.
 
-        - __fileSize__ (_int_) -
+        - **fileSize** (*int*) -
 
             The size of this data file.
 
-        - __readyPercentage__ (_int_) -
+        - **readyPercentage** (*int*) -
 
             The bulk-import progress of this data file.
 
-        - __completeTime__ (_string_) -
+        - **completeTime** (*string*) -
 
             The time at which this data file has been imported.
 
-        - __errorMessage__ (_string_ / _null_) - 
+        - **errorMessage** (*string* / *null*) - 
 
-            An error message explaining any errors during this data file has been uploaded. It should always be __null__ if no error occurs.
+            An error message explaining any errors during this data file has been uploaded. It should always be **null** if no error occurs.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
 None
 
@@ -181,14 +183,14 @@ res = bulk_import(
 
 print(res.json())
 
-_# Output_
-_#_
-_# {_
-_#     "code": 200,_
-_#     "data": {_
-_#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a"_
-_#     }_
-_# }_
+# Output
+#
+# {
+#     "code": 200,
+#     "data": {
+#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a"
+#     }
+# }
 
 job_id = res.json()['data']['jobId']
 res = get_import_progress(
@@ -198,29 +200,29 @@ res = get_import_progress(
     cluster_id=CLUSTER_ID
 )
 
-_# Output_
-_#_
-_# {_
-_#     "code": 200,_
-_#     "data": {_
-_#         "collectionName": "medium_articles",_
-_#         "fileName": "folder/1/",_
-_#         "fileSize": 26571700,_
-_#         "readyPercentage": 1,_
-_#         "completeTime": "2023-10-28T06:51:49Z",_
-_#         "errorMessage": null,_
-_#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a",_
-_#         "details": [_
-_#             {_
-_#                 "fileName": "folder/1/",_
-_#                 "fileSize": 26571700,_
-_#                 "readyPercentage": 1,_
-_#                 "completeTime": "2023-10-28T06:51:49Z",_
-_#                 "errorMessage": null_
-_#             }_
-_#         ]_
-_#     }_
-_# }_
+# Output
+#
+# {
+#     "code": 200,
+#     "data": {
+#         "collectionName": "medium_articles",
+#         "fileName": "folder/1/",
+#         "fileSize": 26571700,
+#         "readyPercentage": 1,
+#         "completeTime": "2023-10-28T06:51:49Z",
+#         "errorMessage": null,
+#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a",
+#         "details": [
+#             {
+#                 "fileName": "folder/1/",
+#                 "fileSize": 26571700,
+#                 "readyPercentage": 1,
+#                 "completeTime": "2023-10-28T06:51:49Z",
+#                 "errorMessage": null
+#             }
+#         ]
+#     }
+# }
 ```
 
 For details, refer to [Import Data (SDK)](/docs/import-data-via-sdks) in our user guides.

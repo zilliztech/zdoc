@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Role-is_exist
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Role-is_exist
+beta: FALSE
+notebook: FALSE
 type: docx
 token: F8WOdIoz4okn5OxMEymcXNuRnkb
 sidebar_position: 6
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,21 +23,21 @@ This operation checks whether the current role exists.
 is_exist()
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
 N/A
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_bool_
+*bool*
 
-__RETURNS:__
+**RETURNS:**
 
 A boolean value indicating whether the current role exists or not
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-_None_
+*None*
 
 ## Examples{#examples}
 

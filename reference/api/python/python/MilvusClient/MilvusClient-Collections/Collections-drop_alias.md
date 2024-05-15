@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collections-drop_alias
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collections-drop_alias
+beta: FALSE
+notebook: FALSE
 type: docx
 token: FpWXdmIuforYz9xUCsqclyCXnLe
 sidebar_position: 8
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -24,37 +26,37 @@ drop_alias(
 ) -> None
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __alias __(_str_) -
+- **alias** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The alias of a collection. 
 
     Before this operation, ensure that the alias exists. Otherwise, exceptions will occur.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation, especially when you set `alias` to a non-existing alias.
 
-- __BaseException__
+- **BaseException**
 
     This exception will be raised when this operation fails.
 

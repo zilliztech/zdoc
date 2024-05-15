@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Connections-has_connection
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Connections-has_connection
+beta: FALSE
+notebook: FALSE
 type: docx
 token: XeZwdeK64oGD8rx9DA3ciqNinnh
 sidebar_position: 6
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,19 +23,19 @@ This operation checks if a connection with the given alias has already been esta
 has_connection(alias: str)
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __alias__ (_string_) -
+- **alias** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A connection alias.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_Boolean_
+*Boolean*
 
-__RETURNS:__
+**RETURNS:**
 
 A Boolean value indicating whether the connection exists.
 
@@ -44,9 +46,9 @@ A Boolean value indicating whether the connection exists.
 
 </Admonition>
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __ConnectionConfigException__
+- **ConnectionConfigException**
 
     This exception will be raised when the connection configuration is invalid.
 

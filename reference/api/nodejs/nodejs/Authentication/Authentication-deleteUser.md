@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Authentication-deleteUser
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Authentication-deleteUser
+beta: FALSE
+notebook: FALSE
 type: docx
 token: Cl5PdhU5jouHnrxyYXLcOQAZneb
 sidebar_position: 3
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';

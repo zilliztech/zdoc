@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/CollectionSchema-verify
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/CollectionSchema-verify
+beta: FALSE
+notebook: FALSE
 type: docx
 token: KSECdBDcUoIkL7xI4KOc29Ukn1g
 sidebar_position: 5
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,21 +23,21 @@ This operation performs final validation checks on the CollectionSchema to detec
 verify()
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
 None
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
 None
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Authentication-describeRole
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Authentication-describeRole
+beta: FALSE
+notebook: FALSE
 type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
 sidebar_position: 4
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -53,8 +55,8 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
 ```javascript
 {
-    results: *RoleResult[]*,
-    status:  *ResStatus*
+    results: RoleResult[],
+    status:  ResStatus
 }
 ```
 

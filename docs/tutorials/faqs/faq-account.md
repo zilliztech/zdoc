@@ -1,10 +1,11 @@
 ---
 slug: /faq-account
-beta: null
-notebook: null
+beta: FALSE
+notebook: FALSE
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 11
+
 ---
 
 # FAQ: Account
@@ -55,11 +56,11 @@ To unlock your account, you can choose one of the following methods.
 
 To unlink your Zilliz Cloud account from Google, please
 
-1. Go to __Account Settings__ on Zilliz Cloud and click the button to unlink from Google.
+1. Go to **Account Settings** on Zilliz Cloud and click the button to unlink from Google.
 
     ![faq-unlink-from-google-1](/img/faq-unlink-from-google-1.png)
 
-1. Click __Confirm__ to continue.
+1. Click **Confirm** to continue.
 
     ![faq-unlink-from-google-2](/img/faq-unlink-from-google-2.png)
 

@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Management-describe_index
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Management-describe_index
+beta: FALSE
+notebook: FALSE
 type: docx
 token: WhsHdyIgyoFlsQxNJt9cFCTxnDe
 sidebar_position: 3
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -25,33 +27,33 @@ describe_index(
 ) - Dict
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-    Setting this to a non-existing collection results in __MilvusException__.
+    Setting this to a non-existing collection results in **MilvusException**.
 
-- __index_name__ (_str_) -
+- **index_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the index to describe.
 
-    Setting this to a non-existing collection results in __MilvusException__.
+    Setting this to a non-existing collection results in **MilvusException**.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE: __
+**RETURN TYPE:** 
 
-_Dict_
+*Dict*
 
-__RETURNS:__
+**RETURNS:**
 
 A dictionary that contains the details of the specified index.
 
@@ -64,31 +66,31 @@ A dictionary that contains the details of the specified index.
 }
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __index_type__ (_str_) -
+- **index_type** (*str*) -
 
     The algorithm that is used to build the index. 
 
-    On Zilliz Cloud, the value is always __AUTOINDEX__. For details, refer to [AUTOINDEX Explained](/docs/autoindex-explained).
+    On Zilliz Cloud, the value is always **AUTOINDEX**. For details, refer to [AUTOINDEX Explained](/docs/autoindex-explained).
 
-- __metric_type__ (_str_) -
+- **metric_type** (*str*) -
 
-    The algorithm that is used to measure similarity between vectors. Possible values are __IP__, __L2__, and __COSINE__.
+    The algorithm that is used to measure similarity between vectors. Possible values are **IP**, **L2**, and **COSINE**.
 
     This is available only when the specified field is a vector field. 
 
-- __field_name__ (_str_) -
+- **field_name** (*str*) -
 
     The name of the field on which the index has been created.
 
-- __index_name__ (_str_) -
+- **index_name** (*str*) -
 
     The name of the created index.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

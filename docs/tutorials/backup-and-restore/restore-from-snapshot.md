@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: Dd6jwYIGiiz6HWkEPJqcpMA3n6g
 sidebar_position: 4
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,9 +13,9 @@ import Admonition from '@theme/Admonition';
 
 # Restore from Snapshot
 
-This guide walks you through how to restore from a listed snapshot. You can only restore the snapshots in the __AVAILABLE__ state.
+This guide walks you through how to restore from a listed snapshot. You can only restore the snapshots in the **AVAILABLE** state.
 
-To restore a snapshot, click __...__ in the __Actions__ column and select __Restore Cluster__.
+To restore a snapshot, click **...** in the **Actions** column and select **Restore Cluster**.
 
 Then you need to set certain attributes for the cluster to be restored from the snapshot.
 
@@ -28,9 +29,9 @@ While setting these attributes, note that:
 
 - You can rename the target cluster and reset its size and password.
 
-Once you click __Restore__ in __Restore Database__, Zilliz Cloud will start creating the target cluster with the specified attributes and then restore the collections in the snapshot to the target cluster.
+Once you click **Restore** in **Restore Database**, Zilliz Cloud will start creating the target cluster with the specified attributes and then restore the collections in the snapshot to the target cluster.
 
-After the status of the target cluster changes from __CREATING__ to __RESTORING__, a record appears in the __Restore History__ list of the source cluster.
+After the status of the target cluster changes from **CREATING** to **RESTORING**, a record appears in the **Restore History** list of the source cluster.
 
 ![restore_backups](/img/restore_backups.png)
 

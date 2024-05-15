@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Partition-load
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Partition-load
+beta: FALSE
+notebook: FALSE
 type: docx
 token: TWxddf6iboyM15xK4Kzc8ASknRb
 sidebar_position: 6
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -30,19 +32,19 @@ load(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __replica_number__ (_int_)
+- **replica_number** (*int*)
 
-    The number of replicas to load in the current partition. The default value is __1__, indicating that one replica in the current partition is loaded.
+    The number of replicas to load in the current partition. The default value is **1**, indicating that one replica in the current partition is loaded.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-- __kwargs__ - 
+- **kwargs** - 
 
-    - ___resource_groups__ (_list_) -
+    - **_resource_groups** (*list*) -
 
         A specific set of resource groups into which the current collection is to be loaded.
 
@@ -55,17 +57,17 @@ __PARAMETERS:__
 
         </Admonition>
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
-_None_
+*None*
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This arises when any error occurs during this operation.
 
