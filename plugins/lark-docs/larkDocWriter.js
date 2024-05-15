@@ -673,7 +673,7 @@ class larkDocWriter {
             })
         }
         
-        return content.replace('"{', '"\\{').replace(/\\\\/g, '\\')
+        return content.replace('"{', '"\\{').replace(/\\\\/g, '\\').replace("<=", "\\<=")
     }
 
     async __page(page) {

@@ -128,7 +128,7 @@ To ingest any data, you need to first create an ingestion pipeline and then run 
 
 1. Click **Create Ingestion Pipeline**.
 
-1. Continue creating a [Search pipeline ](./pipelines-user-guides)and a [Deletion pipeline](./pipelines-user-guides) that is auto-configured to be compatible with the just-created Ingestion pipeline. 
+1. Continue creating a Search pipeline and a Deletion pipeline that is auto-configured to be compatible with the just-created Ingestion pipeline. 
 
     ![auto-create-image-search-and-delete-pipelines](/img/auto-create-image-search-and-delete-pipelines.png)
 

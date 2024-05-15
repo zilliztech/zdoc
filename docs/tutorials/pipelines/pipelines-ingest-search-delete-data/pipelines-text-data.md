@@ -148,7 +148,7 @@ To ingest any data, you need to first create an ingestion pipeline and then run 
 
 1. Click **Create Ingestion Pipeline**.
 
-1. Continue creating a [Search pipeline ](./pipelines-user-guides)and a [Deletion pipeline](./pipelines-user-guides) that is auto-configured to be compatible with the just-created Ingestion pipeline. 
+1. Continue creating a Search pipeline and a Deletion pipeline that is auto-configured to be compatible with the just-created Ingestion pipeline. 
 
     ![ingestion-pipeline-created-successfully](/img/ingestion-pipeline-created-successfully.png)
 
@@ -361,7 +361,7 @@ The parameters in the above code are described as follows:
 
 - `text_list`: The text or text list to ingest.
 
-- `source` (optional): The metadata field to preserve. The input field name should be consistent with what you defined when [creating the Ingestion pipeline](./create-ingestion-pipelines) and adding the **PRESERVE** function. The value of this field should also follow the predefined field type.
+- `source` (optional): The metadata field to preserve. The input field name should be consistent with what you defined when creating the Ingestion pipeline and adding the **PRESERVE** function. The value of this field should also follow the predefined field type.
 
 Below is an example response.
 

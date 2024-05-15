@@ -65,7 +65,7 @@ Closely mimicking real-world production environments, VectorDBBench has set up d
 
 - You need to have a [registered Zilliz Cloud account](/docs/register-with-zilliz-cloud).
 
-- [Create at least one cluster](/docs/create-cluster). Zilliz Cloud provides [free](./free-trials) clusters for you to quickly get onboard and start exploring Zilliz Cloud vector database.
+- [Create at least one cluster](/docs/create-cluster). 
 
 - You need to have Python 3.11 or later installed.
 

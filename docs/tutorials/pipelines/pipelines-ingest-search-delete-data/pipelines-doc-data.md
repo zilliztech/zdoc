@@ -148,7 +148,7 @@ To ingest any data, you need to first create an ingestion pipeline and then run 
 
 1. Click **Create Ingestion Pipeline**.
 
-1. Continue creating a [Search pipeline ](./pipelines-user-guides)and a [Deletion pipeline](./pipelines-user-guides) that is auto-configured to be compatible with the just-created Ingestion pipeline. 
+1. Continue creating a Search pipeline and a Deletion pipeline that is auto-configured to be compatible with the just-created Ingestion pipeline. 
 
     ![auto-create-doc-search-and-delete-pipelines](/img/auto-create-doc-search-and-delete-pipelines.png)
 
@@ -419,7 +419,7 @@ You can either run ingestion pipeline with a file from an object storage or run 
 
     - `doc_url`: The URL of the document stored on an object storage. You should use a URL that is either not encoded or encoded in UTF-8. Ensure that the URL remains valid for at least one hour.
 
-    - `{YOUR_PRESERVED_FIELD}` (optional): The metadata field to preserve. The input field name should be consistent with what you defined when [creating the Ingestion pipeline](./create-ingestion-pipelines) and adding the **PRESERVE** function. The value of this field should also follow the predefined field type.
+    - `{YOUR_PRESERVED_FIELD}` (optional): The metadata field to preserve. The input field name should be consistent with what you defined when creating the Ingestion pipeline and adding the **PRESERVE** function. The value of this field should also follow the predefined field type.
 
     Below is an example response.
 
@@ -465,7 +465,7 @@ The parameters in the above code are described as follows:
 
 - `file`: The path to your local file. Supported file types include `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`.
 
-- `data` (optional): The metadata field to preserve. The input field name should be consistent with what you defined when [creating the Ingestion pipeline](./create-ingestion-pipelines) and adding the **PRESERVE** function. The value of this field should also follow the predefined field type.
+- `data` (optional): The metadata field to preserve. The input field name should be consistent with what you defined when creating the Ingestion pipeline and adding the **PRESERVE** function. The value of this field should also follow the predefined field type.
 
 Below is an example response.
 

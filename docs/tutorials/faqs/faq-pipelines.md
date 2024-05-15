@@ -83,4 +83,4 @@ Currently, Ingestion Pipelines support local files and files stored on AWS S3 an
 
 ### What document file formats are supported by Pipelines?{#what-document-file-formats-are-supported-by-pipelines}
 
-Supported file formats include `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`. When [running an Ingestion pipeline](./run-ingestion-pipelines), you can either upload a local file or use an S3 presigned URL or a GCS signed URL.
+Supported file formats include `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`. When running an Ingestion pipeline, you can either upload a local file or use an S3 presigned URL or a GCS signed URL.

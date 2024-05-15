@@ -107,7 +107,3 @@ client = MilvusClient(
 
 </Admonition>
 
-## Class members{#class-members}
-
-Refer to [MilvusClient](./MilvusClient) for a categorized list of class members.
-

@@ -35,7 +35,7 @@ Zilliz Cloud Pipelines consists of three specific pipelines: Ingestion, Search, 
 
 - **Deletion Pipeline** allows you to remove all chunks in a specified document from a Zilliz Cloud collection, offering you full control over your own data and releasing the storage capacity of your Zilliz collections.
 
-To learn more information, please refer to this [documentation](/docs/understanding-pipelines).
+To learn more information, please refer to this [documentation](./pipelines).
 
 ## RBAC and Credential Management in Your Clusters{#rbac-and-credential-management-in-your-clusters}
 

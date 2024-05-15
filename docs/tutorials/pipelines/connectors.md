@@ -17,7 +17,7 @@ The connector is an in-built tool that makes it easy to connect various data sou
 
 ## Understanding Connectors{#understanding-connectors}
 
-A connector is a tool for ingesting data to Zilliz Cloud from various data sources, including Object Storage, Kafka (coming soon) and more. Taking object storage connector as an example, a connector can monitor a diretory in object storage bucket and sync files such as PDFs and HTMLs to [Zilliz Cloud Pipelines](./understanding-pipelines), so that they can be converted to vector representation and stored in vector database for search. With ingestion and deletion pipelines, the files and their vector representation in Zilliz Cloud are kept in sync. Any addition or removal of files in the object storage will be mapped to the vector database collection.
+A connector is a tool for ingesting data to Zilliz Cloud from various data sources, including Object Storage, Kafka (coming soon) and more. Taking object storage connector as an example, a connector can monitor a diretory in object storage bucket and sync files such as PDFs and HTMLs to Zilliz Cloud Pipelines, so that they can be converted to vector representation and stored in vector database for search. With ingestion and deletion pipelines, the files and their vector representation in Zilliz Cloud are kept in sync. Any addition or removal of files in the object storage will be mapped to the vector database collection.
 
 ![connector-overview](/img/connector-overview.png)
 
@@ -47,7 +47,7 @@ Zilliz Cloud Pipelines provides flexible options when you create a connector. On
 
 - Ensure you have [created a collection](./manage-collections-console#create-collection).
 
-- Ensure the created collection has [an ingestion pipeline](./create-ingestion-pipelines) and [deletion pipeline(s)](./create-deletion-pipelines).
+- Ensure the created collection has an ingestion pipeline and deletion pipeline(s).
 
 ### Procedures{#procedures}
 
@@ -156,7 +156,7 @@ Managing connectors efficiently is integral to maintaining a smooth data integra
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>To activate a connector, ensure the target pipelines are configured. For more information, refer to step 3 in <a href="./create-connectors">Create Connector</a>.</p>
+<p>To activate a connector, ensure the target pipelines are configured. </p>
 
 </Admonition>
 
@@ -184,7 +184,7 @@ You can modify the following settings of a connector:
 
     - (For Google Cloud Storage) access key ID and secret access key
 
-- Auto scan schedule. For more information, refer to step 4 in [Create Connector](./create-connectors).
+- Auto scan schedule. For more information, refer to step 4 in [the procedure for creating connectors](./connectors#procedures).
 
 ![configure-connector](/img/configure-connector.png)
 

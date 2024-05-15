@@ -1796,12 +1796,12 @@ The parameter settings for `radius` and `range_filter` vary with the metric type
    <tr>
      <td><code>L2</code></td>
      <td>Smaller L2 distances indicate higher similarity.</td>
-     <td>To exclude the closest vectors from results, ensure that:<br/> <code>range_filter</code> \&lt;= distance \&lt; <code>radius</code></td>
+     <td>To exclude the closest vectors from results, ensure that:<br/> <code>range_filter</code> &lt;= distance &lt; <code>radius</code></td>
    </tr>
    <tr>
      <td><code>IP</code></td>
      <td>Larger IP distances indicate higher similarity.</td>
-     <td>To exclude the closest vectors from results, ensure that:<br/> <code>radius</code> \&lt; distance \&lt;= <code>range_filter</code></td>
+     <td>To exclude the closest vectors from results, ensure that:<br/> <code>radius</code> &lt; distance &lt;= <code>range_filter</code></td>
    </tr>
 </table>
 
