@@ -13,6 +13,8 @@ import Admonition from '@theme/Admonition';
 
 # Collection
 
+[Unsupported block type]
+
 
 
 import DocCardList from '@theme/DocCardList';
