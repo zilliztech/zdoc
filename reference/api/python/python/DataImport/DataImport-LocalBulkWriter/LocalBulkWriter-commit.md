@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/LocalBulkWriter-commit
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/LocalBulkWriter-commit
+beta: FALSE
+notebook: FALSE
 type: docx
 token: EtBDdoGaFo3bOExKxCHcKgpenib
 sidebar_position: 2
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -23,15 +25,15 @@ pymilvus.LocalBulkWriter.commit(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __kwargs__ -
+- **kwargs** -
 
-    - __call_back__ (function)
+    - **call_back** (function)
 
         A callback function to call after this operation is completed.
 
-        The value defaults to __None__, indicating no callback is there to call. Use this to add post-commit actions.
+        The value defaults to **None**, indicating no callback is there to call. Use this to add post-commit actions.
 
 ## Examples{#examples}
 

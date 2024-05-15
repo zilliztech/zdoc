@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Vector-search
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Vector-search
+beta: FALSE
+notebook: FALSE
 type: docx
 token: BIlNdgI2foFEaoxmn12cLO6Jndb
 sidebar_position: 5
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';

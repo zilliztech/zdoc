@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: Y8nwwbi0KiwtVZkMaSQcsPcwnkf
 sidebar_position: 2
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -28,9 +29,9 @@ Make sure the following steps are performed:
 
 To interact with your Elasticsearch cluster on Zilliz Cloud, establish a connection using either of the methods based on your deployment:
 
-- __Connect via Cloud ID__: applies to an Elasticsearch cluster that runs on Elastic Cloud. If this is the case, specify the cloud ID and API key of the Elasticsearch cluster.
+- **Connect via Cloud ID**: applies to an Elasticsearch cluster that runs on Elastic Cloud. If this is the case, specify the cloud ID and API key of the Elasticsearch cluster.
 
-- __Connect via URL__: applies to an Elasticsearch cluster that runs on premises. If this is the case, specify the cluster URL and a username and password credential.
+- **Connect via URL**: applies to an Elasticsearch cluster that runs on premises. If this is the case, specify the cluster URL and a username and password credential.
 
 [Connect to your cluster](https://www.elastic.co/guide/en/cloud-enterprise/current/ece-connect.html#ece-connect) and [Get API key information](https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-get-api-key.html) can guide you on obtaining the required information.
 
@@ -48,27 +49,27 @@ In Zilliz Cloud, collections are analogous to Elasticsearch indexes. To migrate:
 
 New collections are named `Collection_n` by default, where `n` is a unique numerical identifier.
 
-During migration, you can select:
+During migration, select:
 
-- One `dense_vector` field
+- One `dense_vector` field. If no vector field is selected, data migration will fail.
 
-- Multiple other fields from the source index
+- Multiple other fields from the source index. Make sure the index fields you select to migrate have not been excluded in Elasticsearch. Otherwise, data migration will fail. For more information, refer to [Elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-source-field.html#include-exclude).
 
 Considerations:
 
-- Elasticsearch's `dense_vector` field maps to `FloatVector` in Zilliz Cloud. Choose either __Euclidean (L2)__ or __Inner Product (IP)__ as the metric type for the `FloatVector` field.
+- Elasticsearch's `dense_vector` field maps to `FloatVector` in Zilliz Cloud. Choose either **Euclidean (L2)** or **Inner Product (IP)** as the metric type for the `FloatVector` field.
 
 - The vector data dimension is retained from the source index. Ensure the `dense_vector` field dimension is at least 32 for capacity-optimized CU type clusters to prevent migration errors. See [Select the Right CU](./cu-types-explained) for details.
 
 - See [Field mapping reference](./migrate-from-elasticsearch#field-mapping-reference) for details on field mappings.
 
-In the __Primary Key__ section, select a field as the primary key for the collection. You can select the metadata field `_id` or any other field from the source Elasticsearch index as the primary key. If you use `_id`, set its data type to either __Int64__ or __VarChar__.
+In the **Primary Key** section, select a field as the primary key for the collection. You can select the metadata field `_id` or any other field from the source Elasticsearch index as the primary key. If you use `_id`, set its data type to either **Int64** or **VarChar**.
 
-In the __Dynamic Schema__ section, decide if you want to enable dynamic schema for the collection. For more information, see [Enable Dynamic Field](./enable-dynamic-field).
+In the **Dynamic Schema** section, decide if you want to enable dynamic schema for the collection. For more information, see [Enable Dynamic Field](./enable-dynamic-field).
 
 ## Verify the migration results{#verify-the-migration-results}
 
-Once the migration status switches from __MIGRATING__ to __SUCCESSFUL__, the migration is complete.
+Once the migration status switches from **MIGRATING** to **SUCCESSFUL**, the migration is complete.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -82,16 +83,53 @@ Once the migration status switches from __MIGRATING__ to __SUCCESSFUL__, the mig
 
 Review the table below to understand how Elasticsearch field types map to Zilliz Cloud field types.
 
-|  __Elasticsearch Field Type__ |  __Zilliz Cloud Field Type__ |  __Description__                                                                         |
-| ----------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------- |
-|  dense_vector                 |  FloatVector                 |  Vector dimensions remain unchanged. Specify __L2__ or __IP__ as the metric type.        |
-|  keyword                      |  VarChar                     |  Set Max Length (1 to 65,535). Strings exceeding the limit can trigger migration errors. |
-|  text                         |  VarChar                     |  Set Max Length (1 to 65,535). Strings exceeding the limit can trigger migration errors. |
-|  long                         |  Int64                       |  -                                                                                       |
-|  integer                      |  Int32                       |  -                                                                                       |
-|  double                       |  Double                      |  -                                                                                       |
-|  float                        |  Float                       |  -                                                                                       |
-|  boolean                      |  Bool                        |  -                                                                                       |
+<table>
+   <tr>
+     <th><strong>Elasticsearch Field Type</strong></th>
+     <th><strong>Zilliz Cloud Field Type</strong></th>
+     <th><strong>Description</strong></th>
+   </tr>
+   <tr>
+     <td>dense_vector</td>
+     <td>FloatVector</td>
+     <td>Vector dimensions remain unchanged. Specify <strong>L2</strong> or <strong>IP</strong> as the metric type.</td>
+   </tr>
+   <tr>
+     <td>keyword</td>
+     <td>VarChar</td>
+     <td>Set Max Length (1 to 65,535). Strings exceeding the limit can trigger migration errors.</td>
+   </tr>
+   <tr>
+     <td>text</td>
+     <td>VarChar</td>
+     <td>Set Max Length (1 to 65,535). Strings exceeding the limit can trigger migration errors.</td>
+   </tr>
+   <tr>
+     <td>long</td>
+     <td>Int64</td>
+     <td>-</td>
+   </tr>
+   <tr>
+     <td>integer</td>
+     <td>Int32</td>
+     <td>-</td>
+   </tr>
+   <tr>
+     <td>double</td>
+     <td>Double</td>
+     <td>-</td>
+   </tr>
+   <tr>
+     <td>float</td>
+     <td>Float</td>
+     <td>-</td>
+   </tr>
+   <tr>
+     <td>boolean</td>
+     <td>Bool</td>
+     <td>-</td>
+   </tr>
+</table>
 
 ## Related topics{#related-topics}
 

@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collections-create_alias
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collections-create_alias
+beta: FALSE
+notebook: FALSE
 type: docx
 token: Kqlodu0AWoefKvxczcxc1c36nlf
 sidebar_position: 2
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -25,17 +27,17 @@ create_alias(
 ) -> None
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name __(_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the collection to create an alias for.
 
-- __alias __(_str_) -
+- **alias** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The alias of the collection. Before this operation, ensure that the alias does not already exist. If it does, exceptions will occur.
 
@@ -57,25 +59,25 @@ __PARAMETERS:__
 
     </Admonition>
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation, especially when you set `alias` to an existing alias.
 
-- __BaseException__
+- **BaseException**
 
     This exception will be raised when this operation fails.
 

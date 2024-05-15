@@ -69,7 +69,7 @@ Methods of `QueryParam.Builder`:
     </tr>
     <tr>
         <td>withExpr(String expr)</td>
-        <td></td>
+        <td>Set the expression to query entities. For more information please refer to <a href="https://milvus.io/docs/boolean.md">this doc</a>.</td>
         <td>expr: The expression to query</td>
     </tr>
     <tr>

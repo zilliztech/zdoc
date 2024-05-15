@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Role-list_grant
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Role-list_grant
+beta: FALSE
+notebook: FALSE
 type: docx
 token: JXNXdQuwhoYmZQxSohNcdxtwnzh
 sidebar_position: 7
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -25,35 +27,35 @@ list_grant(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __object__ (_str_)
+- **object** (*str*)
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The type of the object to grant the privilege.
 
     The value is case-sensitive. For details, refer to Users & Roles.
 
-- __object_name__ (_str_)
+- **object_name** (*str*)
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
-    The name of a target object of the type specified in __object__.
+    The name of a target object of the type specified in **object**.
 
     It can be a collection name, a user name, or a wild card (*).
 
-- __db_name__ (_str_)
+- **db_name** (*str*)
 
     The name of a database the object belongs to. If left unspecified, the default database applies.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_GrantInfo_
+*GrantInfo*
 
-__RETURNS:__
+**RETURNS:**
 
-A __GrantInfo__ object that contains a list of __GrantItem__ objects.
+A **GrantInfo** object that contains a list of **GrantItem** objects.
 
 ```python
 ├── GrantInfo
@@ -67,35 +69,35 @@ A __GrantInfo__ object that contains a list of __GrantItem__ objects.
 │           └── db_name
 ```
 
-A __GrantItem__ object contains the following fields:
+A **GrantItem** object contains the following fields:
 
-- __object__ (_str_)
+- **object** (*str*)
 
     The type of the object to which the privilege belongs.
 
-- __object_name__ (_str_)
+- **object_name** (*str*)
 
     The name of the object to which the role is granted the specified privilege.
 
-- __role_name__ (_str_)
+- **role_name** (*str*)
 
     The name of the role to check.
 
-- __grantor_name__ (_str_）
+- **grantor_name** (*str*）
 
     The name of the user who granted a specific role to a user.
 
-- __privilege__ (_str_)
+- **privilege** (*str*)
 
     The privilege that is granted to the role.
 
-- __db_name__ (str)
+- **db_name** (str)
 
     The name of the database in which this operation has been executed.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

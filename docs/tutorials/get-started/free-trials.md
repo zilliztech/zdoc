@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: LMfdwRwKIiJtywkwbHVcGnOFnRf
 sidebar_position: 4
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,78 +13,140 @@ import Admonition from '@theme/Admonition';
 
 # Free Trials
 
-Zilliz Cloud offers three subscription plans: __Starter__, __Standard__, and __Enterprise__. 
+Zilliz Cloud offers four subscription plans: **Free**, **Serverless**, **Dedicated (Standard)**, and **Dedicated (Enterprise)**. 
 
-## Starter plan{#starter-plan}
+## Free plan{#free-plan}
 
-This plan is ideal for hobbyists or developers keen on experimenting with Zilliz Cloud. 
+This plan is ideal for learning, experimenting, and prototyping.
 
-- __Features__
+- **Features**
 
-    A serverless cluster on GCP.
+    A cluster on GCP.
 
-- __Cost__
+- **Cost**
 
     Free. No credit card required.
 
-- __Configuration__
+- **Configuration**
 
     Minimal setup required.
 
-- __Free Trial__
+- **Free Trial**
 
-    Yes. You can create up to two collections, with each holding roughly 500,000 768-dimensional vectors.
+    Yes. You can create up to two collections, with each holding roughly 0.5 million 768-dimensional vectors.
 
-- __Recommended user cases__
+- **Recommended user cases**
 
-    Opt for this if you're new to vector databases or aiming to quickly develop an AI application.
+    Opt for this if you're new to vector databases or aiming to quickly develop a prototype.
 
-## Standard plan{#standard-plan}
+## Serverless plan{#serverless-plan}
 
-This plan is tailored for small to mid-sized teams with moderate workloads.
+This plan is designed for serverless applications with variable or sporadic query volumes.
 
-- __Features__
+- **Features**
 
-    A dedicated cluster on both AWS and GCP. Ideal for processing large-scale data.
+    A serverless cluster on GCP that auto-scales to meet your workload.
 
-- __Cost__
+- **Cost**
+
+    Charged based on the read and write workload you run, with a starting bonus of $100 free credits for new users.
+
+- **Configuration**
+
+    Minimal configuration available.
+
+- **Free Trial**
+
+    Yes. You can create up to 1 Serverless cluster without adding a payment method.
+
+- **Recommended user cases**
+
+    Opt for this if you're aiming to develop a serverless application while saving costs. 
+
+## Dedicated (Standard) plan{#dedicated-standard-plan}
+
+This plan is tailored for applications in dev with customizable workload management. 
+
+- **Features**
+
+    A dedicated cluster on AWS, GCP, and Azure. Ideal for building applications in dev environment.
+
+- **Cost**
 
     Charged based on usage, with a starting bonus of $100 free credits for new users.
 
-- __Free Trial__
+- **Free Trial**
 
-    Yes. A 30-day trial is provided. If you associate an AWS Marketplace account with Zilliz Cloud, you'll receive an additional $100 in free credits. Moreover, adding a payment method extends the validity of these credits to a year.
+    Yes. A 30-day trial is provided. If you associate a [Marketplace](./payment-billing#payment-options) account with Zilliz Cloud, you'll receive an additional $100 in free credits. Moreover, adding a payment method extends the validity of these credits to a year.
 
-- __Recommended use cases__
+- **Recommended use cases**
 
-    Suitable for larger-scale Proof of Concept (PoC) projects. If the provided 4 CUs aren't adequate, [reach out to us](https://zilliz.com/contact-sales) for a larger cluster or more credits.
+    Suitable for applications in dev. If the provided 32 CUs aren't adequate, [reach out to us](https://zilliz.com/contact-sales) for a larger cluster or more credits.
 
-## Enterprise plan{#enterprise-plan}
+## Dedicated (Enterprise) plan{#dedicated-enterprise-plan}
 
-This plan is crafted for large-scale organizations demanding dedicated clusters with enhanced features, robust security, and round-the-clock support.
+This plan is crafted for production applications with customizable workload management, enhanced features, robust security, and round-the-clock support.
 
-- __Features__
+- **Features**
 
     Advanced functionalities with 24/7/365 support.
 
-- __Availability__
+- **Availability**
 
-    On both AWS and GCP.
+    On AWS, GCP, and Azure.
 
-- __Cost__
+- **Cost**
 
     Check our [pricing page](https://zilliz.com/pricing).
 
+- **Free Trial**
+
+    No. 
+
+- **Recommended use cases**
+
+    Ideal for production applications that require more security controls, monitors and support SLAs. If the provided 256 CUs aren't adequate, [reach out to us](https://zilliz.com/contact-sales) for a larger cluster or more credits.
+
 ## Free trial comparison{#free-trial-comparison}
 
-|  __Item__         |  __Starter__ |  __Standard__                |
-| ----------------- | ------------ | ---------------------------- |
-|  Cluster type     |  Serverless  |  Dedicated                   |
-|  Cost             |  Free        |  Deducted from free credits  |
-|  Trial Duration   |  Permanent   |  30 days                     |
-|  Use Case         |  Quick start |  PoC                         |
-|  Max. collections |  2           |  Self-provisioned            |
-|  CUs              |  Shared      |  4 CUs for self-provisioning |
+<table>
+   <tr>
+     <th><strong>Item</strong></th>
+     <th><strong>Free</strong></th>
+     <th><strong>Serverless</strong></th>
+     <th><strong>Dedicated (Standard)</strong></th>
+   </tr>
+   <tr>
+     <td>Cost</td>
+     <td>Free</td>
+     <td>Free for a limited time</td>
+     <td>Deducted from free credits</td>
+   </tr>
+   <tr>
+     <td>Trial Duration</td>
+     <td>Permanent</td>
+     <td>30 days</td>
+     <td>30 days</td>
+   </tr>
+   <tr>
+     <td>Use Case</td>
+     <td>Quick start</td>
+     <td>Serverless applications</td>
+     <td>Applications in dev</td>
+   </tr>
+   <tr>
+     <td>Max. collections</td>
+     <td>2</td>
+     <td>10</td>
+     <td>Self-provisioned</td>
+   </tr>
+   <tr>
+     <td>CUs</td>
+     <td>Shared</td>
+     <td>Auto-scale</td>
+     <td>24 CUs for self-provisioning</td>
+   </tr>
+</table>
 
 For detailed guidelines on cluster creation, refer to our [Create Cluster](./create-cluster) section.
 

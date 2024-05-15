@@ -1,0 +1,20 @@
+---
+slug: /data-import-export
+beta: FALSE
+notebook: FALSE
+type: origin
+token: Oh3VwT15Yi03bRkOtoXcZpurnWe
+sidebar_position: 6
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# Import & Export
+
+This chapter covers the common procedures for you to import data into and export data from Zilliz Cloud clusters.
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

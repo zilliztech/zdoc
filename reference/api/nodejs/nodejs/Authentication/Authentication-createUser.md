@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Authentication-createUser
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Authentication-createUser
+beta: FALSE
+notebook: FALSE
 type: docx
 token: JNZxdKEX3ohBl2xud7Wckhq7nVh
 sidebar_position: 2
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';

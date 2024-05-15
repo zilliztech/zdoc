@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Authentication-list_users
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Authentication-list_users
+beta: FALSE
+notebook: FALSE
 type: docx
 token: EZ2YdBHoDoRTlxx91tscffm1nSb
 sidebar_position: 10
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -23,29 +25,29 @@ list_users(
 ) -> List
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_list_
+*list*
 
-__RETURNS:__
+**RETURNS:**
 
 A list of user names.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-- __BaseException__
+- **BaseException**
 
     This exception will be raised when this operation fails.
 

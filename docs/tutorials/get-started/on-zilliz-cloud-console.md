@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: JRdOwTnJUiCdCMkw3ZBcBO5Dnke
 sidebar_position: 7
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,6 +22,10 @@ Once you have set up a cluster on Zilliz Cloud, this is the Zilliz Cloud console
 ![console_overview](/img/console_overview.png)
 
 ## Cluster details{#cluster-details}
+
+### Free cluster details{#free-cluster-details}
+
+![free_cluster_details](/img/free_cluster_details.png)
 
 ### Serverless cluster details{#serverless-cluster-details}
 

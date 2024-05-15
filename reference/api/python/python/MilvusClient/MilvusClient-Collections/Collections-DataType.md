@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collections-DataType
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collections-DataType
+beta: FALSE
+notebook: FALSE
 type: docx
 token: JiN3dU8zwoPdgBxxpw6c0JkUnze
 sidebar_position: 5
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -18,47 +20,47 @@ This is an enumeration that provides the following constants.
 ## Constants{#constants}
 
 - NONE = 0
-Sets the data type to __NoneType__.
+Sets the data type to **NoneType**.
 
 - BOOL = 1
-Sets the data type to __Boolean__.
+Sets the data type to **Boolean**.
 
 - INT8 = 2
-Sets the data type to __Int8__.
+Sets the data type to **Int8**.
 
 - INT16 = 3
-Sets the data type to __Int16__.
+Sets the data type to **Int16**.
 
 - INT32 = 4
-Sets the data type to __Int32__.
+Sets the data type to **Int32**.
 
 - INT64 = 5
-Sets the data type to __Int64__.
+Sets the data type to **Int64**.
 
 - FLOAT = 10
-Sets the data type to __Float__.
+Sets the data type to **Float**.
 
 - DOUBLE = 11
-Sets the data type to __Double__.
+Sets the data type to **Double**.
 
 - STRING = 20
-Sets the data type to __String__.
+Sets the data type to **String**.
 
 - VARCHAR = 21
-Sets the data type to __Varchar__.
+Sets the data type to **Varchar**.
 
 - ARRAY = 22
-Sets the data type to __Array__.
+Sets the data type to **Array**.
 
 - JSON = 23
-Sets the data type to __JSON__.
+Sets the data type to **JSON**.
 
 - BINARY_VECTOR = 100
-Sets the data type to __Binary Vector__.
+Sets the data type to **Binary Vector**.
 
 - FLOAT_VECTOR = 101
-Sets the data type to __Float Vector__.
+Sets the data type to **Float Vector**.
 
 - UNKNOWN = 999
-Sets the data type to __Unknown__.
+Sets the data type to **Unknown**.
 

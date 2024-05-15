@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/BulkImport-list_import_jobs
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/BulkImport-list_import_jobs
+beta: FALSE
+notebook: FALSE
 type: docx
 token: P0vxdEVBPoTNKLxkKIzcznlYnNc
 sidebar_position: 3
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -28,11 +30,11 @@ list_import_jobs(
 ) -> requests.Response
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __url__ (_string_) -
+- **url** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The endpoint URL of your Zilliz Cloud cluster. 
 
@@ -44,9 +46,9 @@ __PARAMETERS:__
 
     Replace `cloud-region` with the ID of the region that accommodates your cluster. You can get the cloud region ID from the endpoint URL of your cluster.
 
-- __api_key__ (_string_) -
+- **api_key** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     Possible values are:
 
@@ -54,33 +56,33 @@ __PARAMETERS:__
 
     - A pair of username and password of the target cluster joined by a colon(:).
 
-- __cluster_id__ (_string_) -
+- **cluster_id** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The instance ID of the target cluster of this operation.
 
     You can get the instance ID of a cluster on its details page from the Zilliz Cloud console.
 
-- __page_size__ (_int_) -
+- **page_size** (*int*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The maximum number of bulk-import jobs returned per call.
 
-- __current_page__ (_int_) -
+- **current_page** (*int*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The specific page in the returned list of bulk-import jobs. 
 
     You can use this to offset certain records in combination with `page_size`.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_dict_
+*dict*
 
-__RETURNS:__
+**RETURNS:**
 
 - Response syntax
 
@@ -104,47 +106,47 @@ __RETURNS:__
 
 - Response structure
 
-    - __tasks__ (_array_)
+    - **tasks** (*array*)
 
-        - __collectionName__ (_string_)
+        - **collectionName** (*string*)
 
             The name of the target collection of this bulk-import job.
 
-        - __jobId__ (_string_)
+        - **jobId** (*string*)
 
             The ID of this bulk-import job.
 
-        - __state__ (_string_)
+        - **state** (*string*)
 
             The state of this bulk-import job. Possible values are as follows:
 
-            - __ImportPending__
+            - **ImportPending**
 
-            - __ImportFailed__
+            - **ImportFailed**
 
-            - __ImportStarted__
+            - **ImportStarted**
 
-            - __ImportPersisted__
+            - **ImportPersisted**
 
-            - __ImportFlushed__
+            - **ImportFlushed**
 
-            - __ImportCompleted__
+            - **ImportCompleted**
 
-            - __ImportFailedAndCleaned__
+            - **ImportFailedAndCleaned**
 
-    - __count__ (_int_)
+    - **count** (*int*)
 
         The number of bulk-import jobs in the tasks list.
 
-    - __currentPage__ (_int_)
+    - **currentPage** (*int*)
 
         The maximum number of records in the tasks list.
 
-    - __pageSize__ (_int_)  
+    - **pageSize** (*int*)  
 
         The current page of the tasks list.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
 None
 

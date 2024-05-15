@@ -6,6 +6,7 @@ notebook: FALSE
 type: origin
 token: CmR5wFcybi3iMokOJBxcXDQcntg
 sidebar_position: 1
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -19,39 +20,39 @@ This guide provides step-by-step instructions for creating and managing collecti
 
 Zilliz Cloud offers three methods to create a collection, each catering to different needs:
 
-- __[Use Your Own Data](./manage-collections-console#method-1-use-your-own-data)__: Ideal for users who desire full control. You'll have the autonomy to define the schema and the index parameters according to your dataset and specific needs.
+- **[Use Your Own Data](./manage-collections-console#method-1-use-your-own-data)**: Ideal for users who desire full control. You'll have the autonomy to define the schema and the index parameters according to your dataset and specific needs.
 
-- __[Use Example Data](./manage-collections-console#method-2-use-example-data)__: Ideal for users who are new to Zilliz Cloud seeking a quick setup. Zilliz Cloud offers a sample collection with a schema matching the [example dataset](./example-dataset). This method is hassle-free, but it does not allow configuration modifications.
+- **[Use Example Data](./manage-collections-console#method-2-use-example-data)**: Ideal for users who are new to Zilliz Cloud seeking a quick setup. Zilliz Cloud offers a sample collection with a schema matching the [example dataset](./example-dataset). This method is hassle-free, but it does not allow configuration modifications.
 
-- __[Copy Existing Collection](./manage-collections-console#method-3-copy-existing-collection)__: Suitable for duplicating existing collections, saving time and effort in setup.
+- **[Copy Existing Collection](./manage-collections-console#method-3-copy-existing-collection)**: Suitable for duplicating existing collections, saving time and effort in setup.
 
 ### Method 1: Use your own data{#method-1-use-your-own-data}
 
 For complete control over your collection, follow these steps.
 
-1. On the __Create Collection__ page, define the schema of your collection.
+1. On the **Create Collection** page, define the schema of your collection.
 
-    - __Auto ID__: Automatically generates unique IDs for the primary key, without the need to manually assign or manage them during data insertion.
+    - **Auto ID**: Automatically generates unique IDs for the primary key, without the need to manually assign or manage them during data insertion.
 
-    - __Primary key field__: Available types are __Int64__ or __VarChar__. Not required if __Auto ID__ is enabled.
+    - **Primary key field**: Available types are **Int64** or **VarChar**. Not required if **Auto ID** is enabled.
 
-    - __Vector field__: Dimension for vector embeddings. Defaults to __AUTOINDEX__ with metrics such as __Cosine__, __IP__, or __L2__. For details, refer to [Similarity Metrics Explained](./search-metrics-explained) and [AUTOINDEX Explained](./autoindex-explained).
+    - **Vector field**: Dimension for vector embeddings. Defaults to **AUTOINDEX** with metrics such as **Cosine**, **IP**, or **L2**. For details, refer to [Similarity Metrics Explained](./search-metrics-explained) and [AUTOINDEX Explained](./autoindex-explained).
 
-    - __Additional fields__: Click __+ Field__ below __Schema Preview__ to add more scalar fields. For details, refer to [Schema Explained](./schema-explained).
+    - **Additional fields**: Click **+ Field** below **Schema Preview** to add more scalar fields. For details, refer to [Schema Explained](./schema-explained).
 
-1. (Optional) In __Advanced Settings__, consider dynamic fields and partition keys for advanced configurations.
+1. (Optional) In **Advanced Settings**, consider dynamic fields and partition keys for advanced configurations.
 
-    - __Dynamic Field__: Allow the insertion of new fields beyond the predefined schema. For more information, refer to [Schema Explained](./schema-explained).
+    - **Dynamic Field**: Allow the insertion of new fields beyond the predefined schema. For more information, refer to [Schema Explained](./schema-explained).
 
-    - __Partition Key__: Improve query efficiency by grouping data into partitions. For more information, refer to [Use Partition Key](./use-partition-key).
+    - **Partition Key**: Improve query efficiency by grouping data into partitions. For more information, refer to [Use Partition Key](./use-partition-key).
 
-1. Click __Create Collection__. Then, you can [insert data](./insert-update-delete) into your collection.
+1. Click **Create Collection**. Then, you can [insert data](./insert-update-delete) into your collection.
 
 ![create_custom_collection](/img/create_custom_collection.png)
 
 ### Method 2: Use example data{#method-2-use-example-data}
 
-Select __Create Sample Collection__ from the __Actions__ menu, review the preset collection, and confirm creation.
+Select **Create Sample Collection** from the **Actions** menu, review the preset collection, and confirm creation.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -63,7 +64,7 @@ Select __Create Sample Collection__ from the __Actions__ menu, review the preset
 
 ### Method 3: Copy existing collection{#method-3-copy-existing-collection}
 
-Choose __Copy Collection__ from the __Actions__ menu, set the new collection's name and description, and create.
+Choose **Copy Collection** from the **Actions** menu, set the new collection's name and description, and create.
 
 ![copy_collection](/img/copy_collection.png)
 
@@ -93,11 +94,32 @@ Dropping a collection is a permanent action used when a collection is no longer 
 
 ## Collection limits{#collection-limits}
 
-For a serverless cluster, you can create up to two collections. For a dedicated cluster, the number of collections you can create varies with the CU that your cluster uses.
+For a free cluster, you can create up to two collections. 
 
-|                                      |  Maximum number of collections |
-| ------------------------------------ | ------------------------------ |
-|  Serverless cluster                  |  __2__                         |
-|  Dedicated cluster (8 CUs and less)  |  __32__                        |
-|  Dedicated cluster (More than 8 CUs) |  __256__                       |
+For a serverless cluster, you can create up to ten collections.
+
+For a dedicated cluster, the number of collections you can create varies with the CU that your cluster uses.
+
+<table>
+   <tr>
+     <th></th>
+     <th>Maximum number of collections</th>
+   </tr>
+   <tr>
+     <td>Free cluster</td>
+     <td><strong>2</strong></td>
+   </tr>
+   <tr>
+     <td>Serverless cluster</td>
+     <td><strong>10</strong></td>
+   </tr>
+   <tr>
+     <td>Dedicated cluster (8 CUs and less)</td>
+     <td><strong>32</strong></td>
+   </tr>
+   <tr>
+     <td>Dedicated cluster (More than 8 CUs)</td>
+     <td><strong>256</strong></td>
+   </tr>
+</table>
 

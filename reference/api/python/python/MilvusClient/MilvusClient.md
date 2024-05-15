@@ -4,7 +4,7 @@ beta: false
 notebook: false
 type: folder
 token: ICGwfi8ZClVQLHdLn9Hc3oeFn1d
-sidebar_position: 2
+sidebar_position: 3
 displayed_sidebar: pythonSidebar
 ---
 

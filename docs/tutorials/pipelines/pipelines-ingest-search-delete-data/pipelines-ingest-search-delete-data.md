@@ -1,0 +1,22 @@
+---
+slug: /pipelines-ingest-search-delete-data
+beta: FALSE
+notebook: FALSE
+type: origin
+token: ZSPVwfZyTilSfKkuVxWcCG58nzb
+sidebar_position: 2
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# Ingest, Search, and Delete Data
+
+Learn how to ingest, search, and delete various formats of unstructured data (eg. Images, texts, docs, etc.) with Zilliz Cloud Pipelines. Currently, three data formats are supported.
+
+
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

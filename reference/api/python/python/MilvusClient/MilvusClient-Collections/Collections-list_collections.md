@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collections-list_collections
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collections-list_collections
+beta: FALSE
+notebook: FALSE
 type: docx
 token: BHyidrVcyoPwxexHLrnceOSAnRe
 sidebar_position: 14
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,27 +23,27 @@ This operation lists all existing collections.
 list_collections(**kwargs) -> Name
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __kwargs__ -
+- **kwargs** -
 
-    - __timeout__ (_float_ | _None_) -
+    - **timeout** (*float* | *None*) -
 
         The timeout duration for this operation. 
 
-        Setting this to __None__ indicates that this operation timeouts when any response returns or error occurs.
+        Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_list_
+*list*
 
-__RETURNS:__
+**RETURNS:**
 
 A list of collection names.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

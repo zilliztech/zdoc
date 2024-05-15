@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: DOcRwUYLPi1C5bkiTq8c5dEQnP9
 sidebar_position: 1
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,5 +35,5 @@ The initial retrieval with Approximate Nearest Neighbor (ANN) vector search alon
 
 If a reranker is deemed necessary for your use case, you can choose to [enable it in your Search pipeline](./create-search-pipelines):
 
-![add-function-to-search-pipeline](/img/add-function-to-search-pipeline.png)
+![add-search-doc-function](/img/add-search-doc-function.png)
 

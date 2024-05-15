@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/utility-list_users
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/utility-list_users
+beta: FALSE
+notebook: FALSE
 type: docx
 token: MtF2dkZcso4XduxM194cUaiinqb
 sidebar_position: 30
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -25,31 +27,31 @@ list_users(
 )
 ```
 
-__PARAMETERS__
+**PARAMETERS**
 
-- __include_role_info__ (_bool_) - 
+- **include_role_info** (*bool*) - 
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     Whether Zilliz Cloud lists the roles granted to the specified user.
 
-- __using__ (_string_) - 
+- **using** (*string*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_UserInfo_
+*UserInfo*
 
-__RETURNS:__
+**RETURNS:**
 
-A __UserInfo__ object that contains contains the user information.
+A **UserInfo** object that contains contains the user information.
 
 ```python
 ├── UserInfo
@@ -59,19 +61,19 @@ A __UserInfo__ object that contains contains the user information.
 │           ├── roles
 ```
 
-A __UserItem__ object contains the following fields:
+A **UserItem** object contains the following fields:
 
-- __username__ (_str_)
+- **username** (*str*)
 
     The name of the user.
 
-- __roles__ (_str_)
+- **roles** (*str*)
 
     The roles assigned to the user.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

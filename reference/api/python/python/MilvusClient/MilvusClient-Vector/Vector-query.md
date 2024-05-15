@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Vector-query
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Vector-query
+beta: FALSE
+notebook: FALSE
 type: docx
 token: LkmSddW2NolgitxLhy9cx22Dnpe
 sidebar_position: 4
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -27,27 +29,27 @@ query(
 ) -> List[dict]
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-- __filter__ (_str_) -
+- **filter** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A scalar filtering condition to filter matching entities. 
 
     You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
-- __output_fields__ (_list[str]_ | _None_) -
+- **output_fields** (*list[str]* | *None*) -
 
     A list of field names to include in each entity in return.
 
-    The value defaults to __None__.
+    The value defaults to **None**.
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -58,17 +60,17 @@ __PARAMETERS:__
 
     </Admonition>
 
-- __timeout__ (_float_ | _None_) -
+- **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-- __kwargs__ -
+- **kwargs** -
 
-    - __consistency_level__ (_str_ | _int_) -
+    - **consistency_level** (*str* | *int*) -
 
         The consistency level of the target collection.
 
-        The value defaults to the one specified when you create the current collection, with options of __Strong __(__0__), __Bounded __(__1__), __Session __(__2__), and __Eventually __(__3__).
+        The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
 
         <Admonition type="info" icon="📘" title="What is the consistency level?">
 
@@ -78,7 +80,7 @@ __PARAMETERS:__
 
         </Admonition>
 
-    - __guarantee_timestamp__ (_int_) -
+    - **guarantee_timestamp** (*int*) -
 
         A valid timestamp. 
 
@@ -90,11 +92,11 @@ __PARAMETERS:__
 
         </Admonition>
 
-    - __graceful_time__ (_int_) -
+    - **graceful_time** (*int*) -
 
         A period of time in seconds.
 
-        The value defaults to __5__. If this parameter is set,  calculates the guarantee timestamp by subtracting this from the current timestamp.
+        The value defaults to **5**. If this parameter is set,  calculates the guarantee timestamp by subtracting this from the current timestamp.
 
         <Admonition type="info" icon="📘" title="Notes">
 
@@ -102,7 +104,7 @@ __PARAMETERS:__
 
         </Admonition>
 
-    - __offset__ (_int_) -
+    - **offset** (*int*) -
 
         The number of records to skip in the query result. 
 
@@ -110,7 +112,7 @@ __PARAMETERS:__
 
         The sum of this value and `limit` should be less than 16,384. 
 
-    - __limit__ (_int_) -
+    - **limit** (*int*) -
 
         The number of records to return in the query result.
 
@@ -118,11 +120,11 @@ __PARAMETERS:__
 
         The sum of this value and `offset` should be less than 16,384. 
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_list[dict]_
+*list[dict]*
 
-__RETURNS:__
+**RETURNS:**
 
 A list of dictionaries with each dictionary representing a queried entity.
 
@@ -132,13 +134,13 @@ A list of dictionaries with each dictionary representing a queried entity.
 
 </Admonition>
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-- __DataTypeNotMatchException__
+- **DataTypeNotMatchException**
 
     This exception will be raised when a parameter value doesn't match the required data type.
 

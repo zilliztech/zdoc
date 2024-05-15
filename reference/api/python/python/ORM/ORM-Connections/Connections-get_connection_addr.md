@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Connections-get_connection_addr
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Connections-get_connection_addr
+beta: FALSE
+notebook: FALSE
 type: docx
 token: H2zBdRHVtovNQGxvb0xcwpSKnBd
 sidebar_position: 5
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,25 +23,25 @@ This operation retrieves the configuration of the specified connection by alias.
 get_connection_addr(alias: str)
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __alias__ (_string_) -
+- **alias** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A connection alias.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_Dictionary_
+*Dictionary*
 
-__RETURNS:__
+**RETURNS:**
 
 A dictionary containing the connection configuration.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __ConnectionConfigException__
+- **ConnectionConfigException**
 
     This exception will be raised when the connection configuration is invalid.
 

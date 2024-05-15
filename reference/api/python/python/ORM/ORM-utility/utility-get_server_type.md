@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/utility-get_server_type
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/utility-get_server_type
+beta: FALSE
+notebook: FALSE
 type: docx
 token: UOIddRBUXotHvyx4Yyocer0mnId
 sidebar_position: 15
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -23,30 +25,30 @@ get_server_type(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __using__ (_str_) - 
+- **using** (*str*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_str_
+*str*
 
-__RETURNS:__
+**RETURNS:**
 The server type. Possible values are as follows:
 
-- __zilliz__
+- **zilliz**
 
     Indicates that the current server is a Zilliz Cloud cluster.
 
-- __milvus__
+- **milvus**
 
     Indicates that the current server is a Milvus instance.
 
-__EXAMPLE:__
+**EXAMPLE:**
 
 ```python
 from pymilvus import connections, utility

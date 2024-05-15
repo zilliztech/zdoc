@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: KfI3wa2ZCiEJyzkkvKSc5FennId
 sidebar_position: 2
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -36,7 +37,7 @@ In most cases, people describe an object in terms of its attributes, including s
 
 Among all the fields in a collection, the primary key is one of the most special, because the values stored in this field are unique throughout the entire collection. Each primary key maps to a different record in the collection.
 
-In the collection shown in Figure 1, the __id__ field is the primary key. The first ID __0__ maps to the article titled _The Mortality Rate of Coronavirus is Not Important_, and will not be used in any other records in this collection.
+In the collection shown in Figure 1, the **id** field is the primary key. The first ID **0** maps to the article titled *The Mortality Rate of Coronavirus is Not Important*, and will not be used in any other records in this collection.
 
 ### Schema{#schema}
 
@@ -72,7 +73,7 @@ Zilliz Cloud provides three types of CUs, each of which have its own application
 
 ### Index{#index}
 
-Unlike Milvus instances, Zilliz Cloud clusters only support the __AUTOINDEX__ algorithm for indexing. This algorithm is optimized for the three types of computing units (CUs) supported by Zilliz Cloud. For more information, see [AUTOINDEX Explained](./autoindex-explained).
+Unlike Milvus instances, Zilliz Cloud clusters only support the **AUTOINDEX** algorithm for indexing. This algorithm is optimized for the three types of computing units (CUs) supported by Zilliz Cloud. For more information, see [AUTOINDEX Explained](./autoindex-explained).
 
 ## Partitions{#partitions}
 
@@ -86,6 +87,6 @@ For more information, see [Manage Partitions](./manage-partitions).
 
 Entities in a collection are data records sharing the same set of fields, like a book in a library or a gene in a genome. As to an entity, the data stored in each field forms the entity.
 
-By specifying a query vector, search metrics, and optional filtering conditions, you can conduct vector searches among the entities in a collection. For example, if you search with the keyword "Interesting Python demo", any article whose title implies such semantic meaning will be returned as a relevant result. During this process, the search is actually conducted on the vector field __title_vector__ to retrieve the top K nearest results. For details on vector searches, see [Search, Query & Get](./search-query-get).
+By specifying a query vector, search metrics, and optional filtering conditions, you can conduct vector searches among the entities in a collection. For example, if you search with the keyword "Interesting Python demo", any article whose title implies such semantic meaning will be returned as a relevant result. During this process, the search is actually conducted on the vector field **title_vector** to retrieve the top K nearest results. For details on vector searches, see [Search, Query & Get](./search-query-get).
 
 You can add as many entities to a collection as you want. However, the size that an entity takes grows along with the increase of the dimensions of the vectors in the entity, reversely affecting the performance of searches within the collection. Therefore, plan your collection wisely on Zilliz Cloud by referring to [Schema Explained](./schema-explained).

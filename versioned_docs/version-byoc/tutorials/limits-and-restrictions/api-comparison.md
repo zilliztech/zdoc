@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: DAk8w3GCJiuUTTkms6IcMtnAnMf
 sidebar_position: 2
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -18,73 +19,470 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 
 ## Scenario-specific privileges{#scenario-specific-privileges}
 
-The table below provides a comparison of API availability across various service tiers. Note that the availability of the API for the [Bring Your Own Cloud (BYOC)](/docs/byoc/start-with-byoc) solution is consistent with that of the __Standard and Enterprise__ tiers.
+The table below provides a comparison of API availability across various service tiers. Note that the availability of the API for the [Bring Your Own Cloud (BYOC)](/docs/byoc/start-with-byoc) solution is consistent with that of the **Standard and Enterprise** tiers.
 
-|                                   |  __API__                       |  __Ops on GUI__ |  __Starter tier__ |  __Standard & Enterprise tiers__ |
-| --------------------------------- | ------------------------------ | --------------- | ----------------- | -------------------------------- |
-|  Alias                            |  alterAlias()                  |  ✘              |  ✘                |  ✔︎                              |
-|                                   |  createAlias()                 |  ✘              |  ✘                |  ✔︎                              |
-|                                   |  dropAlias()                   |  ✘              |  ✘                |  ✔︎                              |
-|                                   |  describeAlias()               |  ✘              |  ✘                |  ✔︎                              |
-|                                   |  listAliases()                 |  ✘              |  ✘                |  ✔︎                              |
-|  Authentication                   |  createCredential()            |  ✔︎             |  ✘                |  ✔︎                              |
-|                                   |  deleteCredential()            |  ✔︎             |  ✘                |  ✔︎                              |
-|                                   |  listCredUsers()               |  ✔︎             |  ✘                |  ✔︎                              |
-|                                   |  updateCredential()            |  ✔︎             |  ✘                |  ✔︎                              |
-|  BulkInsert                       |  bulkInsert()                  |  ✔︎             |  ✘                |  ✘                               |
-|                                   |  getBulkInsertState()          |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  listBulkInsertTasks()         |  ✔︎             |  ✔︎               |  ✔︎                              |
-|  Collection                       |  getCollectionStatistics()     |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  createCollection()            |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  describeCollection()          |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  dropCollection()              |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  alterCollection()             |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  getLoadingProgress()          |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  getPersistentSgementInfo()    |  ✘              |  ✘                |  ✘                               |
-|                                   |  getQuerySegmentInfo()         |  ✘              |  ✘                |  ✘                               |
-|                                   |  getReplicas()                 |  ✘              |  ✘                |  ✘                               |
-|                                   |  insert()                      |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  loadCollection()              |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  releaseCollection()           |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  showCollections()             |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  getLoadState()                |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  renameCollection()            |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  upsert()                      |  ✘              |  ✔︎               |  ✔︎                              |
-|  Database                         |  ListDatabases                 |  ✘              |  ✘                |  ✘                               |
-|                                   |  DropDatabase                  |  ✘              |  ✘                |  ✘                               |
-|                                   |  CreateDatabase                |  ✘              |  ✘                |  ✘                               |
-|  Index                            |  createIndex()                 |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  describeIndex()               |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  dropIndex()                   |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  getIndexBuildProgress()       |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  getIndexState()               |  ✔︎             |  ✔︎               |  ✔︎                              |
-|  Management                       |  getCompactionState()          |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  getCompactionStateWithPlan()  |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  getFlushState()               |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  getMetrics()                  |  ✘              |  ✘                |  ✘                               |
-|                                   |  loadBalance()                 |  ✘              |  ✘                |  ✘                               |
-|                                   |  manualCompact()               |  ✘              |  ✘                |  ✔︎                              |
-|  Partition                        |  createPartition()             |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  dropPartition()               |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  getPartitionStatistics()      |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  hasPartiotion()               |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  loadPartitions()              |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  releasePartitions()           |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  showPartitions()              |  ✘              |  ✔︎               |  ✔︎                              |
-|  Search & Query                   |  search()                      |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  query()                       |  ✘              |  ✔︎               |  ✔︎                              |
-|  Role-based access control (RBAC) |  addUserToRole()               |  ✔︎             |  ✘<br/>        |  ✔︎<br/>                      |
-|                                   |  createRole()                  |  ✘              |  ✘                |  ✘                               |
-|                                   |  dropRole()                    |  ✘              |  ✘                |  ✘                               |
-|                                   |  grantRolePrivilege()          |  ✘              |  ✘                |  ✘                               |
-|                                   |  removeUserFromRole()          |  ✔︎             |  ✘                |  ✔︎                              |
-|                                   |  revokeRolePrivilege()         |  ✘              |  ✘                |  ✘                               |
-|                                   |  selectGrantForRole()          |  ✘              |  ✘                |  ✔︎                              |
-|                                   |  selectGrantForRoleAndObject() |  ✘              |  ✘                |  ✔︎                              |
-|                                   |  selectRole()                  |  ✘              |  ✘                |  ✔︎                              |
-|                                   |  selectUser()                  |  ✘              |  ✘                |  ✔︎                              |
-|  System                           |  getVersion()                  |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  checkHealth()                 |  ✘              |  ✔︎               |  ✔︎                              |
+<table>
+   <tr>
+     <th><strong>Category</strong></th>
+     <th><strong>API</strong></th>
+     <th><strong>Console</strong></th>
+     <th><strong>Free</strong></th>
+     <th><strong>Serverless</strong></th>
+     <th><strong>Dedicated</strong></th>
+   </tr>
+   <tr>
+     <td rowspan="5">Alias</td>
+     <td>alterAlias()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>createAlias()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>dropAlias()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>describeAlias()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>listAliases()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td rowspan="4">Authentication<br/></td>
+     <td>createCredential()</td>
+     <td>✔︎</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>deleteCredential()</td>
+     <td>✔︎</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>listCredUsers()</td>
+     <td>✔︎</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>updateCredential()</td>
+     <td>✔︎</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td rowspan="3">BulkInsert</td>
+     <td>bulkInsert()</td>
+     <td>✔︎</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+   </tr>
+   <tr>
+     <td>getBulkInsertState()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>listBulkInsertTasks()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td rowspan="16">Collection</td>
+     <td>getCollectionStatistics()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>createCollection()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>describeCollection()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>dropCollection()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>alterCollection()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>getLoadingProgress()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>getPersistentSgementInfo()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+   </tr>
+   <tr>
+     <td>getQuerySegmentInfo()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+   </tr>
+   <tr>
+     <td>getReplicas()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+   </tr>
+   <tr>
+     <td>insert()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>loadCollection()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>releaseCollection()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>showCollections()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>getLoadState()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>renameCollection()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>upsert()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td rowspan="3">Database</td>
+     <td>ListDatabases</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+   </tr>
+   <tr>
+     <td>DropDatabase</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+   </tr>
+   <tr>
+     <td>CreateDatabase</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+   </tr>
+   <tr>
+     <td rowspan="5">Index</td>
+     <td>createIndex()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>describeIndex()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>dropIndex()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>getIndexBuildProgress()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>getIndexState()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td rowspan="6">Management</td>
+     <td>getCompactionState()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>getCompactionStateWithPlan()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>getFlushState()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>getMetrics()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+   </tr>
+   <tr>
+     <td>loadBalance()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+   </tr>
+   <tr>
+     <td>manualCompact()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td rowspan="7">Partition</td>
+     <td>createPartition()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>dropPartition()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>getPartitionStatistics()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>hasPartiotion()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>loadPartitions()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>releasePartitions()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>showPartitions()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td rowspan="2">Search &amp; Query</td>
+     <td>search()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>query()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td rowspan="10">Role-based access control (RBAC)</td>
+     <td>addUserToRole()</td>
+     <td>✔︎</td>
+     <td>✘<br/></td>
+     <td>✘<br/></td>
+     <td>✔︎<br/></td>
+   </tr>
+   <tr>
+     <td>createRole()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+   </tr>
+   <tr>
+     <td>dropRole()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+   </tr>
+   <tr>
+     <td>grantRolePrivilege()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+   </tr>
+   <tr>
+     <td>removeUserFromRole()</td>
+     <td>✔︎</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>revokeRolePrivilege()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+   </tr>
+   <tr>
+     <td>selectGrantForRole()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>selectGrantForRoleAndObject()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>selectRole()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>selectUser()</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✘</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td rowspan="2">System</td>
+     <td>getVersion()</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+   <tr>
+     <td>checkHealth()</td>
+     <td>✘</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+     <td>✔︎</td>
+   </tr>
+</table>
 
 ## Related topics{#related-topics}
 

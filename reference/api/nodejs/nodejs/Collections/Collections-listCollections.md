@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Collections-listCollections
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Collections-listCollections
+beta: FALSE
+notebook: FALSE
 type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 13
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';

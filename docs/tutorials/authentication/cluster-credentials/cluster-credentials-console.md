@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: Ha8jwqxnniC8mDkXM4RcN4SFnKf
 sidebar_position: 1
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,7 +53,7 @@ To edit the role of a cluster user, you must be an [Organization Owner](./resour
 
 ## Reset the password of a cluster user{#reset-the-password-of-a-cluster-user}
 
-To reset the password of a cluster user, navigate to the cluster details page and access the __Users__ tab.
+To reset the password of a cluster user, navigate to the cluster details page and access the **Users** tab.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -68,7 +69,7 @@ To drop a cluster user, you must be an [Organization Owner](./resource-hierarchy
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The default user _<em>db</em>admin __cannot be dropped.</p>
+<p>The default user <strong>db_admin</strong> cannot be dropped.</p>
 
 </Admonition>
 

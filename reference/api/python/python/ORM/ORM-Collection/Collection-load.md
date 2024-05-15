@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collection-load
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collection-load
+beta: FALSE
+notebook: FALSE
 type: docx
 token: HQDndiGwloWKIexgPCUcEZGenOh
 sidebar_position: 20
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +33,13 @@ load(
 
 </Admonition>
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __partition_names__ (_list(str)_ | _None_) - 
+- **partition_names** (*list(str)* | *None*) - 
 
     The partitions of the current collection to load. If left unspecified, all partitions are to be loaded.
 
-- __replica_number__ (_int_) -
+- **replica_number** (*int*) -
 
     The number of replicas to create. The value defaults to 1 and ranges from 1 to the number of query nodes available. Setting this to `1` indicates that segments in the current collection or any specified partitions are to be loaded onto one query node.
 
@@ -48,13 +50,13 @@ __PARAMETERS:__
 
     </Admonition>
 
-- __timeout__ (_float _|_ None_)  -
+- **timeout** (*float* | *None*)  -
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-- __kwargs__ - 
+- **kwargs** - 
 
-    - ___resource_groups__ (_list_) -
+    - **_resource_groups** (*list*) -
 
         A specific set of resource groups into which the current collection is to be loaded.
 
@@ -67,17 +69,17 @@ __PARAMETERS:__
 
         </Admonition>
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
-_None_
+*None*
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception is to be raised when any error occurs during this operation.
 

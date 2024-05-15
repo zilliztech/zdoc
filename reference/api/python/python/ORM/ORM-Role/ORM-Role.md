@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/ORM-Role
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/ORM-Role
 beta: false
 notebook: false
 type: folder
 token: O8YAfe5P0lZ0TZdUOqNcDHEunCe
 sidebar_position: 7
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -13,7 +15,7 @@ import Admonition from '@theme/Admonition';
 
 # Role
 
-A __Role__ instance represents a role with specific privileges to access your .
+A **Role** instance represents a role with specific privileges to access your .
 
 ```python
 class pymilvus.Role
@@ -36,31 +38,31 @@ Role(
 
 </Admonition>
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __name__ (_string_) - 
+- **name** (*string*) - 
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the role to create.
 
-- __using__ (_string_) - 
+- **using** (*string*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_Role_
+*Role*
 
-__RETURNS:__
+**RETURNS:**
 
 A role object.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

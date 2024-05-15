@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collection-query_iterator
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collection-query_iterator
+beta: FALSE
+notebook: FALSE
 type: docx
 token: LffbdiHhzoHe08xivF9ccmoen5d
 sidebar_position: 23
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -28,53 +30,53 @@ query_iterator(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __batch_size__ (_int_)
+- **batch_size** (*int*)
 
     The number of entities to return each time you call `next()` on the current iterator.
 
-    The value defaults to __1000__. Set it to a proper value to control the number of entities to return per iteration.
+    The value defaults to **1000**. Set it to a proper value to control the number of entities to return per iteration.
 
-- __limit__ (_int_)
+- **limit** (*int*)
 
     The total number of entities to return.
 
-    The value defaults to __-1__, indicating all matching entities will be in return.
+    The value defaults to **-1**, indicating all matching entities will be in return.
 
-- __expr__ (_str_)
+- **expr** (*str*)
 
     A scalar filtering condition to filter matching entities.
 
-    The value defaults to __None__, indicating that scalar filtering is ignored. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md).
+    The value defaults to **None**, indicating that scalar filtering is ignored. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md).
 
-- __output_fields__ (_list_)
+- **output_fields** (*list*)
 
     A list of field names to include in each entity in return.
 
-    The value defaults to __None__. If left unspecified, only the primary field is included.
+    The value defaults to **None**. If left unspecified, only the primary field is included.
 
-- __partition_names__ (_list_)
+- **partition_names** (*list*)
 
     A list of partition names.
 
-    The value defaults to __None__. If specified, only the specified partitions are involved in queries.
+    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
 
-- __timeout__ (_float_)  
+- **timeout** (*float*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_QueryIterator_
+*QueryIterator*
 
-__RETURNS:__
+**RETURNS:**
 
-A __QueryIterator__ for you to iterate over the query result.
+A **QueryIterator** for you to iterate over the query result.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

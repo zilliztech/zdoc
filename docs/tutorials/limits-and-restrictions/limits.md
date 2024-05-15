@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
 sidebar_position: 1
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -18,37 +19,93 @@ This page provides information about limits on the Zilliz Cloud platform. [Submi
 
 The following table lists the limits on the maximum number of organizations and projects allowed for a single user.
 
-|  __Item__                                      |  __Max number__                              |  __Remarks__                                                                                             |
-| ---------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-|  Organization |  1<br/>  |  Each user can create only one organization.<br/>                    |
-|  Organization member                           |  100                                         |  An organization can hold up to 100 members. A user can belong to multiple organizations.                |
-|  Project                                       |  10                                          |  Each user can create 10 projects.                                                                       |
-|  Project Member                                |  100                                         |  A project can hold up to 100 members. A user can belong to multiple projects within their organization. |
+<table>
+   <tr>
+     <th><strong>Item</strong></th>
+     <th><strong>Max number</strong></th>
+     <th><strong>Remarks</strong></th>
+   </tr>
+   <tr>
+     <td>Organization</td>
+     <td>1<br/></td>
+     <td>Each user can create only one organization.<br/></td>
+   </tr>
+   <tr>
+     <td>Organization member</td>
+     <td>100</td>
+     <td>An organization can hold up to 100 members. A user can belong to multiple organizations.</td>
+   </tr>
+   <tr>
+     <td>Project</td>
+     <td>10</td>
+     <td>Each user can create 10 projects.</td>
+   </tr>
+   <tr>
+     <td>Project Member</td>
+     <td>100</td>
+     <td>A project can hold up to 100 members. A user can belong to multiple projects within their organization.</td>
+   </tr>
+</table>
 
 ## Clusters & CUs{#clusters-and-cus}
 
 The maximum number of clusters and CUs varies with your payment method and subscription plan.
 
-- __Without a valid payment method__
+- **Without a valid payment method**
 
-    |  __Subscription Plan__ |  __Max number__ |  __Remarks__                                                                                                                                  |
-    | ---------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-    |  Serverless Cluster    |  1              |  Only 1 cluster is available for the Free Serverless cluster plan. You can drop an existing cluster and replace it with a new one if requird. |
-    |  Standard Cluster      |  1<br/>      |  The Trial Standard Cluster plan offers only 1 cluster. If you would like additional clusters, please provide payment.                        |
-    |  Enterprise Cluster    |  0              |                                                                                                                                               |
+    <table>
+       <tr>
+         <th><strong>Subscription Plan</strong></th>
+         <th><strong>Max number</strong></th>
+         <th><strong>Remarks</strong></th>
+       </tr>
+       <tr>
+         <td>Free</td>
+         <td>1</td>
+         <td>Only 1 cluster is available for the Free cluster plan. You can drop an existing cluster and replace it with a new one if required.</td>
+       </tr>
+       <tr>
+         <td>Serverless</td>
+         <td>1</td>
+         <td>The trial Serverless cluster plan offers only 1 cluster. If you would like additional clusters, please provide payment.</td>
+       </tr>
+       <tr>
+         <td>Dedicated (Standard)</td>
+         <td>1<br/></td>
+         <td>The trial Dedicated (Standard) cluster plan offers only 1 cluster. If you would like additional clusters, please provide payment.</td>
+       </tr>
+       <tr>
+         <td>Dedicated (Enterprise)</td>
+         <td>0</td>
+         <td></td>
+       </tr>
+    </table>
 
-- __With a valid payment method__
+- **With a valid payment method**
 
-    |  __Subscription Plan__ |  __Limits__ |  __Remarks__                                                                                                                 |
-    | ---------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------- |
-    |  Standard Cluster      |  128 CUs    |  On the console, you can create up to 128 compute units (CUs) across all Standard Clusters or 32 CUs for a single cluster.   |
-    |  Enterprise Cluster    |  128 CUs    |  On the console, you can create up to 128 compute units (CUs) across all Enterprise Clusters or 32 CUs for a single cluster. |
+    <table>
+       <tr>
+         <th><strong>Subscription Plan</strong></th>
+         <th><strong>Limits</strong></th>
+         <th><strong>Remarks</strong></th>
+       </tr>
+       <tr>
+         <td>Dedicated (Standard)</td>
+         <td>128 CUs</td>
+         <td>On the console, you can create up to 128 compute units (CUs) across all Dedicated (Standard) Clusters or 24 CUs for a single cluster.</td>
+       </tr>
+       <tr>
+         <td>Dedicated (Enterprise)</td>
+         <td>128 CUs</td>
+         <td>On the console, you can create up to 128 compute units (CUs) across all Dedicated (Enterprise) Clusters or 32 CUs for a single cluster.</td>
+       </tr>
+    </table>
 
 You are welcome to [contact us](https://support.zilliz.com/hc/en-us) 
 
 - If one of your clusters needs more than 32 CUs or,
 
-- If all your Enterprise Clusters require more than 128 CUs.
+- If all your Dedicated (Enterprise) Clusters require more than 128 CUs.
 
 ## Pipelines{#pipelines}
 
@@ -56,56 +113,152 @@ You are welcome to [contact us](https://support.zilliz.com/hc/en-us)
 
 The following table lists the limits on different types of pipelines you can create in a project.
 
-|  __Pipeline Type__  |  __Max. Number (Per Project)__ |
-| ------------------- | ------------------------------ |
-|  Ingestion Pipeline |  10                            |
-|  Deletion Pipeline  |  10                            |
-|  Search Pipeline    |  10                            |
+<table>
+   <tr>
+     <th><strong>Pipeline Type</strong></th>
+     <th><strong>Max. Number (Per Project)</strong></th>
+   </tr>
+   <tr>
+     <td>Ingestion Pipeline</td>
+     <td>10</td>
+   </tr>
+   <tr>
+     <td>Deletion Pipeline</td>
+     <td>10</td>
+   </tr>
+   <tr>
+     <td>Search Pipeline</td>
+     <td>10</td>
+   </tr>
+</table>
 
 ### Ingestion{#ingestion}
 
 The following table lists the limits on customized chunk size supported in each embedding model.
 
-|  __Embedding Model__           |  __Chunk Size Range (Tokens）__ |
-| ------------------------------ | ------------------------------ |
-|  zilliz/bge-base-en-v1.5       |  20-500                        |
-|  zilliz/bge-base-zh-v1.5       |  20-500                        |
-|  voyageai/voyage-2             |  20-3,000                      |
-|  voyageai/voyage-code-2        |  20-12,000                     |
-|  voyageai/voyage-large-2       |  20-12,000                     |
-|  openai/text-embedding-3-small |  250-8,191                     |
-|  openai/text-embedding-3-large |  250-8,191                     |
+<table>
+   <tr>
+     <th><strong>Embedding Model</strong></th>
+     <th><strong>Chunk Size Range (Tokens）</strong></th>
+   </tr>
+   <tr>
+     <td>zilliz/bge-base-en-v1.5</td>
+     <td>20-500</td>
+   </tr>
+   <tr>
+     <td>zilliz/bge-base-zh-v1.5</td>
+     <td>20-500</td>
+   </tr>
+   <tr>
+     <td>voyageai/voyage-2</td>
+     <td>20-3,000</td>
+   </tr>
+   <tr>
+     <td>voyageai/voyage-code-2</td>
+     <td>20-12,000</td>
+   </tr>
+   <tr>
+     <td>voyageai/voyage-large-2</td>
+     <td>20-12,000</td>
+   </tr>
+   <tr>
+     <td>openai/text-embedding-3-small</td>
+     <td>250-8,191</td>
+   </tr>
+   <tr>
+     <td>openai/text-embedding-3-large</td>
+     <td>250-8,191</td>
+   </tr>
+</table>
 
 The following table lists the limits on metadata fields generated by a PRESERVE function in an Ingestion Pipeline.
 
-|                                    |  __Max. Number__ |
-| ---------------------------------- | ---------------- |
-|  Number of metadata fields         |  5               |
-|  The max_length of a VARCHAR field |  4,000           |
+<table>
+   <tr>
+     <th></th>
+     <th><strong>Max. Number</strong></th>
+   </tr>
+   <tr>
+     <td>Number of metadata fields</td>
+     <td>50</td>
+   </tr>
+   <tr>
+     <td>The max_length of a VARCHAR field</td>
+     <td>4,000</td>
+   </tr>
+</table>
 
 The following table lists the limits on the number of chunks that are allowed to be ingested each time.
 
-|  __Embedding Model__           |  __Max. Chunks/Ingestion__ |
-| ------------------------------ | -------------------------- |
-|  zilliz/bge-base-en-v1.5       |  3,500                     |
-|  voyageai/voyage-2             |  6,000                     |
-|  voyageai/voyage-code-2        |  6,000                     |
-|  openai/text-embedding-3-small |  6,000                     |
-|  openai/text-embedding-large   |  6,000                     |
-|  zilliz/bge-base-zh-v1.5       |  3,500                     |
+<table>
+   <tr>
+     <th><strong>Embedding Model</strong></th>
+     <th><strong>Max. Chunks/Ingestion</strong></th>
+   </tr>
+   <tr>
+     <td>zilliz/bge-base-en-v1.5</td>
+     <td>3,500</td>
+   </tr>
+   <tr>
+     <td>voyageai/voyage-2</td>
+     <td>6,000</td>
+   </tr>
+   <tr>
+     <td>voyageai/voyage-code-2</td>
+     <td>6,000</td>
+   </tr>
+   <tr>
+     <td>openai/text-embedding-3-small</td>
+     <td>6,000</td>
+   </tr>
+   <tr>
+     <td>openai/text-embedding-large</td>
+     <td>6,000</td>
+   </tr>
+   <tr>
+     <td>zilliz/bge-base-zh-v1.5</td>
+     <td>3,500</td>
+   </tr>
+</table>
 
 ### Token usage{#token-usage}
 
 The following table lists the limits on token usage.
 
-|  __Pipeline Type__                |  __Embedding Model__                                           |  __Max. Token Usage__ |
-| --------------------------------- | -------------------------------------------------------------- | --------------------- |
-|  Ingestion Pipeline               |  openai/text-embedding-3-small & openai/text-embedding-3-large |  80,000,000           |
-|                                   |  Others                                                        |  100,000,000          |
-|  Search Pipeline                  |  openai/text-embedding-3-small & openai/text-embedding-3-large |  30,000,000           |
-|                                   |  Others                                                        |  20,000,000           |
-|  All Pipelines in an Organization |  openai/text-embedding-3-small & openai/text-embedding-3-large |  150,000,000          |
-|                                   |  Others                                                        |  200,000,000          |
+<table>
+   <tr>
+     <th><strong>Pipeline Type</strong></th>
+     <th><strong>Embedding Model</strong></th>
+     <th><strong>Max. Token Usage</strong></th>
+   </tr>
+   <tr>
+     <td rowspan="2">Ingestion Pipeline</td>
+     <td>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</td>
+     <td>80,000,000</td>
+   </tr>
+   <tr>
+     <td>Others</td>
+     <td>100,000,000</td>
+   </tr>
+   <tr>
+     <td rowspan="2">Search Pipeline</td>
+     <td>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</td>
+     <td>30,000,000</td>
+   </tr>
+   <tr>
+     <td>Others</td>
+     <td>20,000,000</td>
+   </tr>
+   <tr>
+     <td rowspan="2">All Pipelines in an Organization</td>
+     <td>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</td>
+     <td>150,000,000</td>
+   </tr>
+   <tr>
+     <td>Others</td>
+     <td>200,000,000</td>
+   </tr>
+</table>
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -115,17 +268,45 @@ The following table lists the limits on token usage.
 
 ## Collections{#collections}
 
-|  __Cluster Type__                                    |  __Max Number__                              |  __Remarks__                                                                                                               |
-| ---------------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-|  Serverless cluster |  2<br/>  |  You can create up to 2 serverless collections.                                           |
-|  Dedicated cluster<br/>                           |  64 per CU, and \<= 4096                      |  You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster. |
+<table>
+   <tr>
+     <th><strong>Cluster Plan</strong></th>
+     <th><strong>Max Number</strong></th>
+     <th><strong>Remarks</strong></th>
+   </tr>
+   <tr>
+     <td>Free cluster</td>
+     <td>2<br/></td>
+     <td>You can create up to 2 collections.</td>
+   </tr>
+   <tr>
+     <td>Serverless cluster</td>
+     <td>10</td>
+     <td>You can create up to 10 collections.</td>
+   </tr>
+   <tr>
+     <td>Dedicated cluster<br/></td>
+     <td>64 per CU, and \&lt;= 4096</td>
+     <td>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</td>
+   </tr>
+</table>
 
 In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following table lists the limits on the general capacity of a cluster.
 
-|  __Number of CUs__ |  __General Capacity__   |
-| ------------------ | ----------------------- |
-|  1-8 CUs           |  \<= 4,096               |
-|  12 CUs and more   |  \<= 512 x Number of CUs |
+<table>
+   <tr>
+     <th><strong>Number of CUs</strong></th>
+     <th><strong>General Capacity</strong></th>
+   </tr>
+   <tr>
+     <td>1-8 CUs</td>
+     <td>\&lt;= 4,096</td>
+   </tr>
+   <tr>
+     <td>12 CUs and more</td>
+     <td>\&lt;= 512 x Number of CUs</td>
+   </tr>
+</table>
 
 The consumed capacity should be less than the general capacity available.
 
@@ -152,23 +333,54 @@ The consumed capacity should be less than the general capacity available.
 
 </Admonition>
 
-Additionally, the rate limit for creating collections is __1__ collection/s per cluster.
+Additionally, the rate limit for creating collections is **1** collection/s per cluster.
 
 ### Partitions{#partitions}
 
-|  __Cluster Type__                                    |  __Max number (Per collection)__              |  __Remarks__                                                                                                 |
-| ---------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-|  Serverless cluster |  64<br/>  |  You can create up to 64 partitions per collection in a serverless cluster. |
-|  Dedicated cluster<br/>                           |  4,096                                        |  You can create up to 4,096 partitions per collection in a dedicated cluster.                                |
+<table>
+   <tr>
+     <th><strong>Cluster Type</strong></th>
+     <th><strong>Max number (Per collection)</strong></th>
+     <th><strong>Remarks</strong></th>
+   </tr>
+   <tr>
+     <td>Free cluster</td>
+     <td>64<br/></td>
+     <td>You can create up to 64 partitions per collection in a free cluster.</td>
+   </tr>
+   <tr>
+     <td>Serverless cluster</td>
+     <td>64<br/></td>
+     <td>You can create up to 64 partitions per collection in a serverless cluster.</td>
+   </tr>
+   <tr>
+     <td>Dedicated cluster<br/></td>
+     <td>4,096</td>
+     <td>You can create up to 4,096 partitions per collection in a dedicated cluster.</td>
+   </tr>
+</table>
 
-When calculating the consumed and general capacity, refer to the notes in [Collections](./limits#collections). Additionally, the rate limit for creating partitions is __1__ partition/s per cluster.
+When calculating the consumed and general capacity, refer to the notes in [Collections](./limits#collections). Additionally, the rate limit for creating partitions is **1** partition/s per cluster.
 
 ### Fields{#fields}
 
-|  __Item__                     |  __Max Number__ |  __Remarks__                                            |
-| ----------------------------- | --------------- | ------------------------------------------------------- |
-|  Fields per collection        |  64             |  N/A                                                    |
-|  Vector fields per collection |  1              |  The support for multiple vector fields is coming soon. |
+<table>
+   <tr>
+     <th><strong>Item</strong></th>
+     <th><strong>Max Number</strong></th>
+     <th><strong>Remarks</strong></th>
+   </tr>
+   <tr>
+     <td>Fields per collection</td>
+     <td>64</td>
+     <td>N/A</td>
+   </tr>
+   <tr>
+     <td>Vector fields per collection</td>
+     <td>1</td>
+     <td>The support for multiple vector fields is coming soon.</td>
+   </tr>
+</table>
 
 Other limits on fields:
 
@@ -178,7 +390,7 @@ Other limits on fields:
 
 ### Dimensions{#dimensions}
 
-The maximum number of dimensions of a vector field is __32,768__.
+The maximum number of dimensions of a vector field is **32,768**.
 
 ## Operations{#operations}
 
@@ -186,54 +398,121 @@ This section focuses on the rate limit for common data operations in Zilliz Clou
 
 ### Insert{#insert}
 
-Each insert request/response should be no greater than __64__ MB.
+Each insert request/response should be no greater than **64** MB.
 
 The rate limit that applies varies with the cluster types and the number of CUs in use. The following table lists the rate limits for insert operations.
 
-|                                                      |  Insert rate limits                               |
-| ---------------------------------------------------- | ------------------------------------------------- |
-|  Serverless cluster |  2 MB/s<br/>  |
-|  Dedicated cluster 1 CU and 2 CUs                    |  4 MB/s                                           |
-|  Dedicated cluster 4 - 8 CUs                         |  6 MB/s                                           |
-|  Dedicated cluster 12 - 20 CUs                       |  8 MB/s                                           |
-|  Dedicated cluster >= 24 CUs                         |  12 MB/s                                          |
+<table>
+   <tr>
+     <th></th>
+     <th>Insert rate limits</th>
+   </tr>
+   <tr>
+     <td>Free cluster</td>
+     <td>2 MB/s<br/></td>
+   </tr>
+   <tr>
+     <td>Serverless cluster</td>
+     <td>100 MB/s<br/></td>
+   </tr>
+   <tr>
+     <td>Dedicated cluster 1 CU and 2 CUs</td>
+     <td>4 MB/s</td>
+   </tr>
+   <tr>
+     <td>Dedicated cluster 4 - 8 CUs</td>
+     <td>6 MB/s</td>
+   </tr>
+   <tr>
+     <td>Dedicated cluster 12 - 20 CUs</td>
+     <td>8 MB/s</td>
+   </tr>
+   <tr>
+     <td>Dedicated cluster &gt;= 24 CUs</td>
+     <td>12 MB/s</td>
+   </tr>
+</table>
 
 When inserting data, include all schema-defined fields. Exclude the primary key if the collection has AutoID enabled.
 
-To make inserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to __Strong__. Read [Consistency Level](./consistency-level) for more.
+To make inserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to **Strong**. Read [Consistency Level](./consistency-level) for more.
 
 ### Upsert{#upsert}
 
-Each upsert request/response should be no greater than __64__ MB.
+Each upsert request/response should be no greater than **64** MB.
 
 The rate limit that applies varies with the cluster types and the number of CUs in use. The following table lists the rate limits for upsert operations.
 
-|                                                      |  Insert rate limits                      |
-| ---------------------------------------------------- | ---------------------------------------- |
-|  Serverless cluster |  2 MB/s |
-|  Dedicated cluster 1 CU and 2 CUs                    |  4 MB/s                                  |
-|  Dedicated cluster 4 - 8 CUs                         |  6 MB/s                                  |
-|  Dedicated cluster 12 - 20 CUs                       |  8 MB/s                                  |
-|  Dedicated cluster >= 24 CUs                         |  12 MB/s                                 |
+<table>
+   <tr>
+     <th></th>
+     <th>Insert rate limits</th>
+   </tr>
+   <tr>
+     <td>Free cluster</td>
+     <td>2 MB/s</td>
+   </tr>
+   <tr>
+     <td>Serverless cluster</td>
+     <td>100 MB/s</td>
+   </tr>
+   <tr>
+     <td>Dedicated cluster 1 CU and 2 CUs</td>
+     <td>4 MB/s</td>
+   </tr>
+   <tr>
+     <td>Dedicated cluster 4 - 8 CUs</td>
+     <td>6 MB/s</td>
+   </tr>
+   <tr>
+     <td>Dedicated cluster 12 - 20 CUs</td>
+     <td>8 MB/s</td>
+   </tr>
+   <tr>
+     <td>Dedicated cluster &gt;= 24 CUs</td>
+     <td>12 MB/s</td>
+   </tr>
+</table>
 
 When upserting data, include all schema-defined fields. 
 
-To make upserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to __Strong__. Read [Consistency Level](./consistency-level) for more.
+To make upserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to **Strong**. Read [Consistency Level](./consistency-level) for more.
 
 ### Index{#index}
 
 Index types vary with field types. The following table lists the indexable field types and the corresponding index types.
 
-|  __Field Type__ |  __Index Type__ |  __Metric Type__    |
-| --------------- | --------------- | ------------------- |
-|  Vector Field   |  AUTOINDEX      |  L2, IP, and COSINE |
-|  VarChar Field  |  TRIE           |  N/A                |
-|  Int8/16/32/64  |  STL_SORT       |  N/A                |
-|  Float32/64     |  STL_SORT       |  N/A                |
+<table>
+   <tr>
+     <th><strong>Field Type</strong></th>
+     <th><strong>Index Type</strong></th>
+     <th><strong>Metric Type</strong></th>
+   </tr>
+   <tr>
+     <td>Vector Field</td>
+     <td>AUTOINDEX</td>
+     <td>L2, IP, and COSINE</td>
+   </tr>
+   <tr>
+     <td>VarChar Field</td>
+     <td>TRIE</td>
+     <td>N/A</td>
+   </tr>
+   <tr>
+     <td>Int8/16/32/64</td>
+     <td>STL_SORT</td>
+     <td>N/A</td>
+   </tr>
+   <tr>
+     <td>Float32/64</td>
+     <td>STL_SORT</td>
+     <td>N/A</td>
+   </tr>
+</table>
 
 ### Flush{#flush}
 
-The rate limit for flush requests is __1__ req/s per cluster.
+The rate limit for flush requests is **1** req/s per cluster.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -243,7 +522,7 @@ The rate limit for flush requests is __1__ req/s per cluster.
 
 ### Load{#load}
 
-The rate limit for load requests is __1__ req/s per cluster.
+The rate limit for load requests is **1** req/s per cluster.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -253,27 +532,31 @@ The rate limit for load requests is __1__ req/s per cluster.
 
 ### Search{#search}
 
-Each search request/response should be no greater than __64__ MB.
+Each search request/response should be no greater than **64** MB.
 
-Each search request carries no more than__ 16,384__ query vectors (usually known as __nq__).
+Each search request carries no more than **16,384** query vectors (usually known as **nq**).
 
-Each search response carries no more than 16,384 entities in return (usually known as __topK__).
+Each search response carries no more than 16,384 entities in return (usually known as **topK**).
 
 ### Query{#query}
 
-Each query request/response should be no greater than __64__ MB.
+Each query request/response should be no greater than **64** MB.
 
-Each query response carries no more than 16,384 entities in return (usually known as __topK__).
+Each query response carries no more than 16,384 entities in return (usually known as **topK**).
 
 ### Delete{#delete}
 
-Each delete request/response should be no greater than __64__ MB.
+Each delete request/response should be no greater than **64** MB.
 
-The rate limit for delete requests is __0.5__ MB/s per cluster.
+The rate limit for delete requests is **0.5** MB/s per cluster.
 
 ### Drop{#drop}
 
-The rate limit for drop requests is __1__ req/s per cluster.
+The rate limit for drop requests is **1** req/s per cluster.
+
+### Data import{#data-import}
+
+You can have up to **10** running or pending import jobs in a collection.
 
 ## CU Capacity{#cu-capacity}
 
@@ -281,11 +564,28 @@ Read [Select the Right CU](./cu-types-explained) for more.
 
 ## Data Import on Console{#data-import-on-console}
 
-|  File Type      |  Local upload |  Sync from S3/GCS/Other OSS                                                                  |
-| --------------- | ------------- | -------------------------------------------------------------------------------------------- |
-|  JSON           |  1 GB         |  1 GB                                                                                        |
-|  Numpy<br/>  |  Not support  |  The maximum size of the folder is 100 GB and the maximum size of each subdirectory is 15 GB |
-|  Parquet        |  Not support  |  10GB                                                                                        |
+<table>
+   <tr>
+     <th>File Type</th>
+     <th>Local upload</th>
+     <th>Sync from S3/GCS/Other OSS</th>
+   </tr>
+   <tr>
+     <td>JSON</td>
+     <td>1 GB</td>
+     <td>1 GB</td>
+   </tr>
+   <tr>
+     <td>Numpy<br/></td>
+     <td>Not support</td>
+     <td>The maximum size of the folder is 100 GB and the maximum size of each subdirectory is 15 GB</td>
+   </tr>
+   <tr>
+     <td>Parquet</td>
+     <td>Not support</td>
+     <td>10GB</td>
+   </tr>
+</table>
 
 For details, refer to [Prepare Source Data](./prepare-source-data).
 

@@ -4,7 +4,8 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: BcXMwUYQ3iD7mEkWKFhcU5PUnB5
-sidebar_position: 8
+sidebar_position: 9
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -16,7 +17,7 @@ The release of Zilliz Cloud sets a new standard in vector database management. I
 
 ## Milvus Compatibility{#milvus-compatibility}
 
-This release is compatible with __Milvus 2.1.x__.
+This release is compatible with **Milvus 2.1.x**.
 
 ## Zilliz Cloud Serverless Vector Database Service Launch{#zilliz-cloud-serverless-vector-database-service-launch}
 

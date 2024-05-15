@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collection-compact
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collection-compact
+beta: FALSE
+notebook: FALSE
 type: docx
 token: BHx6dnSmPoaqHAxKCvncbuk9nWb
 sidebar_position: 2
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -23,23 +25,23 @@ compact(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation times out when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation times out when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

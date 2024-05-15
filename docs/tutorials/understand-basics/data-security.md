@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: SIhBwKFJri4u2CkyD3ucnO7an3g
 sidebar_position: 7
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -50,7 +51,7 @@ For details, see [User Roles](./user-roles).
 
 For Internet connections, Zilliz Cloud uses the HTTPS protocol and provides a whitelist feature to enable IP filtering.
 
-Once you add specific CIDR blocks to the whitelist of a cluster, only IP addresses in the specified range can access the cluster. To completely prevent Internet access, you can add __127.0.0.1/32__ to the cluster whitelist.
+Once you add specific CIDR blocks to the whitelist of a cluster, only IP addresses in the specified range can access the cluster. To completely prevent Internet access, you can add **127.0.0.1/32** to the cluster whitelist.
 
 For details, see [Set up Whitelist](./setup-whitelist).
 

@@ -4,7 +4,8 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: GqyhwKVspiYRwDk8OaucNfgJnhd
-sidebar_position: 6
+sidebar_position: 7
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,11 +13,11 @@ import Admonition from '@theme/Admonition';
 
 # Release Notes (Sept 13, 2023)
 
-We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience.
+We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience, including data migration across Zilliz Cloud clusters and from ElasticSearch, a brand-new ticket system going live, and enhanced data import capabilities.
 
 ## Milvus Compatibility{#milvus-compatibility}
 
-This release is compatible with __Milvus 2.2.x__.
+This release is compatible with **Milvus 2.2.x**.
 
 ## Overview{#overview}
 

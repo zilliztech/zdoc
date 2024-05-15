@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collections-get_collection_stats
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collections-get_collection_stats
+beta: FALSE
+notebook: FALSE
 type: docx
 token: VVyNdx038oECxNxMQavc9vssnoh
 sidebar_position: 10
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -24,25 +26,25 @@ get_collection_stats(
 ) -> Dict
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of a collection.
 
-- __timeout__ (_float_ | _None_) -
+- **timeout** (*float* | *None*) -
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response returns or error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_dict_
+*dict*
 
-__RETURNS:__
+**RETURNS:**
 
 A dictionary containing collected statistics on the specified collection.
 
@@ -52,16 +54,16 @@ A dictionary containing collected statistics on the specified collection.
 }
 ```
 
-<Admonition type="info" icon="📘" title="__Why doesn't the row count match the number of entities inserted?__">
+<Admonition type="info" icon="📘" title="**Why doesn't the row count match the number of entities inserted?**">
 
 <p>The data that you insert will go through a process before it is finally saved: Initially, it will flow in as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store the data in streams until the segment reaches its upper limit and becomes sealed.</p>
 <p>However, it's important to note that the row count displayed may not match the number of records that were inserted because data in streams is not taken into account.</p>
 
 </Admonition>
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

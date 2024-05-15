@@ -4,7 +4,8 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: MocQwCCItiHYEbkkJtOcROPTnod
-sidebar_position: 4
+sidebar_position: 5
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -16,7 +17,7 @@ We're pleased to announce the launch of our AWS Frankfurt region in the EU. Acco
 
 ## Milvus Compatibility{#milvus-compatibility}
 
-This release is compatible with __Milvus 2.2.x__ and __Milvus 2.3.x (Beta)__.
+This release is compatible with **Milvus 2.2.x** and **Milvus 2.3.x (Beta)**.
 
 ## New AWS Region: Frankfurt (aws-eu-central-1) - Now Live{#new-aws-region-frankfurt-aws-eu-central-1-now-live}
 
@@ -26,31 +27,31 @@ We're delighted to unveil our new AWS Frankfurt region, designed to better cater
 
 Explore the future with our latest beta features, available for dedicated clusters. Upgrade now to experience these enhancements:
 
-- _Range Search_
+- *Range Search*
 
     Redefine your queries with [Range Search](./single-vector-search#range-search), enabling you to set a radius for your searches. Unlike traditional ANN Search, Range Search ensures the inclusion of all vectors within the specified radius, providing a more comprehensive view.
 
-- _Upsert_
+- *Upsert*
 
     Seamlessly manage dynamic datasets with [Upsert](./insert-update-delete#upsert-entities), a fusion of 'update' and 'insert'. Enjoy increased efficiency for datasets where changes are frequent.
 
-- _Cosine Metric Type_
+- *Cosine Metric Type*
 
     Experience advanced vector search with [Cosine](./search-metrics-explained#cosine-similarity), [Inner Product](./search-metrics-explained#inner-product-ip), and [Euclidean Distance](./search-metrics-explained#euclidean-distance-l2) support. Cosine metric eliminates the need for prior vector normalization, streamlining your search process.
 
-- _Access Control_
+- *Access Control*
 
     Securely access dedicated clusters and serverless instances with [API Key](./manage-api-keys) or [username password authentication](./cluster-credentials-console).
 
-- _Return Raw Vectors_
+- *Return Raw Vectors*
 
     Specify vector fields in your [search parameters](./single-vector-search#search-parameters) to receive them as part of your search results.
 
-- _JSON_CONTAINS Filter_
+- *JSON_CONTAINS Filter*
 
     Refine searches further with the [JSON_CONTAINS operator](./use-json-fields#advanced-operators), allowing you to specify filtering conditions based on JSON field values.
 
-- _Entity Count_
+- *Entity Count*
 
     Get a quick overview of [the total number of entities within loaded collections](./get-and-scalar-query#advanced-operators) for better data management.
 
@@ -58,23 +59,23 @@ Explore the future with our latest beta features, available for dedicated cluste
 
 We've also implemented several enhancements to improve your overall experience:
 
-- _New Role for RBAC_
+- *New Role for RBAC*
 
     Grant [Project Member Role](./resource-hierarchy) to project collaborators for more streamlined collaboration.
 
-- _Billing Optimizations_
+- *Billing Optimizations*
 
     Enjoy more efficient billing management with streamlined processes.
 
-- _Advanced [Pricing Calculator](https://zilliz.com/pricing#calculator)_
+- *Advanced [Pricing Calculator](https://zilliz.com/pricing#calculator)*
 
     Get comprehensive estimations that combine primary keys, vector fields, and string fields for a more accurate pricing overview.
 
-- _Self-Service Account Deletion_
+- *Self-Service Account Deletion*
 
     Easily [delete your own accounts](./email-accounts#delete-your-account) or [organizations](./delete-your-organization) for greater control over your profile.
 
-- _Stability Enhancements_
+- *Stability Enhancements*
 
     We've addressed known issues to enhance the reliability of our service.
 

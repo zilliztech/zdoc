@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Management-describeIndex
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Management-describeIndex
+beta: FALSE
+notebook: FALSE
 type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 2
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Management-prepare_index_params
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Management-prepare_index_params
+beta: FALSE
+notebook: FALSE
 type: docx
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
 sidebar_position: 8
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -27,30 +29,30 @@ This operation prepares index parameters to build indexes for a specific collect
 pymilvus.MilvusClient.prepare_index_params() -> IndexParams
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
 N/A
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_IndexParams_
+*IndexParams*
 
-__RETURNS:__
+**RETURNS:**
 
-An __IndexParams__ contains a list of __IndexParam__ objects.
+An **IndexParams** contains a list of **IndexParam** objects.
 
-- __IndexParams__
+- **IndexParams**
 
-    A list of __IndexParam__ objects.
+    A list of **IndexParam** objects.
 
     ```python
     ├── IndexParams 
     │       └── add_index()
     ```
 
-    It offers the __[add_index()](./Management-add_index)__ method to add indexes to the list.
+    It offers the **[add_index()](./Management-add_index)** method to add indexes to the list.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
 None
 

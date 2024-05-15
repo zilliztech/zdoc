@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/DataImport-RemoteBulkWriter
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/DataImport-RemoteBulkWriter
 beta: false
 notebook: false
 type: folder
 token: Yhy1fHTMnlLKvydKzsIcnfPdnmb
 sidebar_position: 4
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -13,7 +15,7 @@ import Admonition from '@theme/Admonition';
 
 # RemoteBulkWriter
 
-A __RemoteBulkWriter__ instance writes your raw data in a format that Zilliz Cloud understands into an AWS-S3-compatible bucket.
+A **RemoteBulkWriter** instance writes your raw data in a format that Zilliz Cloud understands into an AWS-S3-compatible bucket.
 
 ```python
 class pymilvus.RemoteBulkWriter
@@ -21,7 +23,7 @@ class pymilvus.RemoteBulkWriter
 
 ## Constructor{#constructor}
 
-Constructs a __RemoteBulkWriter__ object with a set of parameters, such as __schema__, __remote_path__, __connect_param__ etc.
+Constructs a **RemoteBulkWriter** object with a set of parameters, such as **schema**, **remote_path**, **connect_param** etc.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -41,25 +43,25 @@ writer = RemoteBulkWriter(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __schema__ (_[CollectionSchema](./ORM-CollectionSchema)_) -
+- **schema** (*[CollectionSchema](./ORM-CollectionSchema)*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The schema of a target collection to which the rewritten data is to be imported.
 
-- __remote_path__ (_str_) -
+- **remote_path** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The path to the directory that is to hold the rewritten data.
 
-- __connect_param__ (_[ConnectParam](./RemoteBulkWriter-S3ConnectParam)_) -
+- **connect_param** (*[ConnectParam](./RemoteBulkWriter-S3ConnectParam)*) -
 
     The parameters used to connect to a remote bucket.
 
-- __segment_size__ (_int_) -
+- **segment_size** (*int*) -
 
     The maximum size of a file segment.
 
@@ -81,33 +83,33 @@ __PARAMETERS:__
 
     </Admonition>
 
-- __file_type__ (_BulkFileType_) -
+- **file_type** (*BulkFileType*) -
 
     The type of the output file.
 
-    The value defaults to __BulkFileType.NPY__. 
+    The value defaults to **BulkFileType.NPY**. 
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_RemoteBulkWriter_
+*RemoteBulkWriter*
 
-__RETURNS:__
+**RETURNS:**
 
-A __RemoteBulkWriter__ object.
+A **RemoteBulkWriter** object.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __SchemaNotReadyException__
+- **SchemaNotReadyException**
 
     This exception will be raised when the provided schema is invalid.
 
 ## Properties{#properties}
 
-- __data_path__ (_pathlib.PosixPath_) -
+- **data_path** (*pathlib.PosixPath*) -
 
     The path to the output directory.
 
-- __batch_files__ (_str_) -
+- **batch_files** (*str*) -
 
     A list of the generated file names.
 

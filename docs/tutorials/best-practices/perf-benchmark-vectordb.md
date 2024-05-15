@@ -6,6 +6,7 @@ notebook: FALSE
 type: origin
 token: Za3QwAcfjiSSvxk8UzUcTPmfnmb
 sidebar_position: 1
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -27,19 +28,44 @@ Closely mimicking real-world production environments, VectorDBBench has set up d
 
 ## Benchmark metrics{#benchmark-metrics}
 
-|  __Metric__                  |  __Description__                                                                                                                                                                                                                                                                                                                  |  __Test Scenario__        |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-|  Max_load_count              |  The capacity of a vector database. VectorDBBench will keep inserting vector data into the vector database until the database fails or reject the insertion request over 10 times and keep a record of the maximum number of inserted entities.<br/> Higher Max_load_count values indicate better vector database performance. |  Insertion                |
-|  QPS                         |  The capability of a vector database to handle concurrent queries per second. VectorDBBench uses top-100 searches in multiple times and selects the highest QPS value as the final result.<br/> Higher QPS values indicate better vector database performance.                                                                 |  Search & filtered search |
-|  Recall                      |  The measure of search accuracy by comparing search results with ground truth.<br/> Higher recall values indicate better vector database performance.                                                                                                                                                                          |  Search & filtered search |
-|  Load_duration               |  The time it takes for Zilliz Cloud to complete the process of inserting entities and building indexes.<br/> Lower Load_duration values indicate better vector database performance.                                                                                                                                           |  Search & filtered search |
-|  Serial_latancy_p99<br/>  |  The time that 99% of queries take to complete. VectorDBBench records the search latency of each top-100 searches and uses the 99th percentile average as the final result.<br/> Lower Serial_latancy_p99 values indicate better vector database performance.                                                                  |  Search & filtered search |
+<table>
+   <tr>
+     <th><strong>Metric</strong></th>
+     <th><strong>Description</strong></th>
+     <th><strong>Test Scenario</strong></th>
+   </tr>
+   <tr>
+     <td>Max<em>load</em>count</td>
+     <td>The capacity of a vector database. VectorDBBench will keep inserting vector data into the vector database until the database fails or reject the insertion request over 10 times and keep a record of the maximum number of inserted entities.<br/> Higher Max<em>load</em>count values indicate better vector database performance.</td>
+     <td>Insertion</td>
+   </tr>
+   <tr>
+     <td>QPS</td>
+     <td>The capability of a vector database to handle concurrent queries per second. VectorDBBench uses top-100 searches in multiple times and selects the highest QPS value as the final result.<br/> Higher QPS values indicate better vector database performance.</td>
+     <td>Search &amp; filtered search</td>
+   </tr>
+   <tr>
+     <td>Recall</td>
+     <td>The measure of search accuracy by comparing search results with ground truth.<br/> Higher recall values indicate better vector database performance.</td>
+     <td>Search &amp; filtered search</td>
+   </tr>
+   <tr>
+     <td>Load_duration</td>
+     <td>The time it takes for Zilliz Cloud to complete the process of inserting entities and building indexes.<br/> Lower Load_duration values indicate better vector database performance.</td>
+     <td>Search &amp; filtered search</td>
+   </tr>
+   <tr>
+     <td>Serial<em>latancy</em>p99<br/></td>
+     <td>The time that 99% of queries take to complete. VectorDBBench records the search latency of each top-100 searches and uses the 99th percentile average as the final result.<br/> Lower Serial<em>latancy</em>p99 values indicate better vector database performance.</td>
+     <td>Search &amp; filtered search</td>
+   </tr>
+</table>
 
 ## Prerequisites{#prerequisites}
 
 - You need to have a [registered Zilliz Cloud account](/docs/register-with-zilliz-cloud).
 
-- [Create at least one cluster](/docs/create-cluster). Zilliz Cloud provides free serverless clusters for you to quickly get onboard and start exploring Zilliz Cloud vector database.
+- [Create at least one cluster](/docs/create-cluster). Zilliz Cloud provides [free](./free-trials) clusters for you to quickly get onboard and start exploring Zilliz Cloud vector database.
 
 - You need to have Python 3.11 or later installed.
 
@@ -61,7 +87,7 @@ Below is an example output. You will obtain a local URL in the output. Use it to
 
 ```python
 
-      👋 __Welcome to Streamlit!__
+      👋 Welcome to Streamlit!
 
       If you’d like to receive helpful onboarding emails, news, offers, promotions,
       and the occasional swag, please enter your email address below. Otherwise,
@@ -81,15 +107,15 @@ Below is an example output. You will obtain a local URL in the output. Use it to
     [browser]
     gatherUsageStats = false
 
-__  You can now view your Streamlit app in your browser.__
+  You can now view your Streamlit app in your browser.
 
-  Local URL: __http://localhost:8501__
-  Network URL: __http://172.16.20.46:8501__
+  Local URL: http://localhost:8501
+  Network URL: http://172.16.20.46:8501
 ```
 
 On the homepage, you can see some pre-defined testing datasets provided by VectorDBBench and use them for a quick performance benchmarking.
 
-Scroll down the webpage to the bottom and click __Run Your Test > __to configure your own benchmarking test.
+Scroll down the webpage to the bottom and click **Run Your Test >** to configure your own benchmarking test.
 
 ![AATGbLxqwo32yexKYzPcdYVTnph](/img/AATGbLxqwo32yexKYzPcdYVTnph.png)
 
@@ -97,13 +123,13 @@ Scroll down the webpage to the bottom and click __Run Your Test > __to configure
 
 ### View benchmarking results{#view-benchmarking-results}
 
-Click __Results __to view and analyze benchmarking results. Below are some example results.
+Click **Results** to view and analyze benchmarking results. Below are some example results.
 
 ![LWa7bJGzOo9qKJx0ZNicjLXjnJh](/img/LWa7bJGzOo9qKJx0ZNicjLXjnJh.png)
 
 ![DJBibk5puoOLxYxxnH3chlxcnAd](/img/DJBibk5puoOLxYxxnH3chlxcnAd.png)
 
-Optionally, you can set up the __DB Filter__ and __Case Filter__ in the left navigation pane to compare the benchmarking results of pre-defined vector databases and cases.
+Optionally, you can set up the **DB Filter** and **Case Filter** in the left navigation pane to compare the benchmarking results of pre-defined vector databases and cases.
 
 <Admonition type="info" icon="📘" title="Notes">
 

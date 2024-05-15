@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: ARpTwYXlIi7ZLtkEHx5ciUK6nuc
 sidebar_position: 5
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -30,7 +31,7 @@ Currently, Zilliz Cloud offers four main types of notification channels:
 
 - [Webhook](./manage-notification-channels#webhook): Integrate with custom services or applications using a valid webhook URL.
 
-You can access the management page of notification channels in the __Edit Alert__ or __Create Alert__ dialog box in the Zilliz Cloud console.
+You can access the management page of notification channels in the **Edit Alert** or **Create Alert** dialog box in the Zilliz Cloud console.
 
 ![manage-alert-channel](/img/manage-alert-channel.png)
 
@@ -38,9 +39,9 @@ You can access the management page of notification channels in the __Edit Alert_
 
 To set up email notifications,
 
-1. In the [Zilliz Cloud console](https://cloud.zilliz.com/signup), navigate to the __Alert Settings__ tab on the organization or project alert page.
+1. In the [Zilliz Cloud console](https://cloud.zilliz.com/signup), navigate to the **Alert Settings** tab on the organization or project alert page.
 
-1. To modify an existing alert, select __Edit__ from the __Actions__ column next to the desired alert target. To create a new alert, click __+ Alert__ in the upper-right corner.
+1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -48,7 +49,7 @@ To set up email notifications,
 
     </Admonition>
 
-1. In the __Send To__ field of the dialog box, select user roles or email addresses of individual users to receive alert notifications.
+1. In the **Send To** field of the dialog box, select user roles or email addresses of individual users to receive alert notifications.
 
 For more information, refer to [Manage Organization Alerts](./manage-organization-alerts) or [Manage Project Alerts](./manage-project-alerts).
 
@@ -62,9 +63,9 @@ To integrate with a PagerDuty service,
 
 1. In the [Zilliz Cloud console](https://cloud.zilliz.com/signup), configure the PagerDuty notification channel.
 
-    1. Navigate to the __Alert Settings__ tab on the organization or project alert page.
+    1. Navigate to the **Alert Settings** tab on the organization or project alert page.
 
-    1. To modify an existing alert, select __Edit__ from the __Actions__ column next to the desired alert target. To create a new alert, click __+ Alert__ in the upper-right corner.
+    1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
 
         <Admonition type="info" icon="📘" title="Notes">
 
@@ -72,7 +73,7 @@ To integrate with a PagerDuty service,
 
         </Admonition>
 
-    1. In the dialog box that appears, click __+ Channel__ in the __Send To__ field and choose __PagerDuty__ from the dropdown list.
+    1. In the dialog box that appears, click **+ Channel** in the **Send To** field and choose **PagerDuty** from the dropdown list.
 
     1. Enter the PagerDuty integration key obtained and select the service region hosting your PagerDuty account. For more information on PagerDuty service regions, refer to [Service Regions](https://support.pagerduty.com/docs/service-regions).
 
@@ -82,13 +83,13 @@ To set up Slack integration,
 
 1. [Create a webhook](https://api.slack.com/messaging/webhooks#getting_started) in the Slack UI.
 
-1. In the __Webhook URL__ section, obtain the webhook URL. The URL will be in the format: `https://hooks.slack.com/services/xxxxxxxxxxxx/xxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx`.
+1. In the **Webhook URL** section, obtain the webhook URL. The URL will be in the format: `https://hooks.slack.com/services/xxxxxxxxxxxx/xxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx`.
 
 1. In the [Zilliz Cloud console](https://cloud.zilliz.com/signup), configure the Slack notification channel.
 
-    1. Navigate to the __Alert Settings__ tab on the organization or project alert page.
+    1. Navigate to the **Alert Settings** tab on the organization or project alert page.
 
-    1. To modify an existing alert, select __Edit__ from the __Actions__ column next to the desired alert target. To create a new alert, click __+ Alert__ in the upper-right corner.
+    1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
 
         <Admonition type="info" icon="📘" title="Notes">
 
@@ -96,21 +97,21 @@ To set up Slack integration,
 
         </Admonition>
 
-    1. In the dialog box that appears, click __+ Channel__ in the __Send To__ field and choose __Slack__ from the dropdown list.
+    1. In the dialog box that appears, click **+ Channel** in the **Send To** field and choose **Slack** from the dropdown list.
 
     1. Enter the webhook URL obtained.
 
 ### Webhook{#webhook}
 
-The __Webhook__ option offered by Zilliz Cloud allows you to set up a custom notification channel.
+The **Webhook** option offered by Zilliz Cloud allows you to set up a custom notification channel.
 
 1. Obtain the webhook URL of your service.
 
 1. In the [Zilliz Cloud console](https://cloud.zilliz.com/signup), configure the Webhook notification channel.
 
-    1. Navigate to the __Alert Settings__ tab on the organization or project alert page.
+    1. Navigate to the **Alert Settings** tab on the organization or project alert page.
 
-    1. To modify an existing alert, select __Edit__ from the __Actions__ column next to the desired alert target. To create a new alert, click __+ Alert__ in the upper-right corner.
+    1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
 
         <Admonition type="info" icon="📘" title="Notes">
 
@@ -118,9 +119,21 @@ The __Webhook__ option offered by Zilliz Cloud allows you to set up a custom not
 
         </Admonition>
 
-    1. In the dialog box that appears, click __+ Channel__ in the __Send To__ field and choose __Webhook__ from the dropdown list.
+    1. In the dialog box that appears, click **+ Channel** in the **Send To** field and choose **Webhook** from the dropdown list.
 
     1. Enter the webhook URL of your service.
+
+Example webhook notification:
+
+```python
+{
+  "orgId": "org-elqqyqjnsdfvcxmpjugfmj",
+  "projectId": "proj-a641f9272ca1c5005760e4",
+  "summary": "New Zilliz Cloud Alert for your cluster Cluster-01 (in01-ffbab4a57bdd0bb). CU Computation >= 0 % for 10 minutes.",
+  "level": "WARNING",
+  "timestamp": "2024-03-22T07:11:00Z"
+}
+```
 
 ## Test connectivity{#test-connectivity}
 

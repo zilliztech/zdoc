@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collections-rename_collection
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collections-rename_collection
+beta: FALSE
+notebook: FALSE
 type: docx
 token: IeiIdJ71Pox2OjxMiOzczUTenud
 sidebar_position: 15
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -25,41 +27,41 @@ rename_collection(
 ) -> None
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __old_name__ (_str_) -
+- **old_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-    Setting this to a non-existing collection results in a __MilvusException__.
+    Setting this to a non-existing collection results in a **MilvusException**.
 
-- __new_name__ (_str_) -
+- **new_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the target collection after this operation.
 
-    Setting this to the value of __old_name__ results in a __MilvusException__.
+    Setting this to the value of **old_name** results in a **MilvusException**.
 
-- __timeout__ (_float_ | _None_) -
+- **timeout** (*float* | *None*) -
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
