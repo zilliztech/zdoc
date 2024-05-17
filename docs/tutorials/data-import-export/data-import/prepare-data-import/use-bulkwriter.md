@@ -614,15 +614,15 @@ Possible folder structures are as follows:
        </tr>
        <tr>
          <td><strong>JSON</strong></td>
-         <td></td>
+         <td><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></td>
        </tr>
        <tr>
          <td><strong>Parquet</strong></td>
-         <td></td>
+         <td><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</code></td>
        </tr>
        <tr>
          <td><strong>NumPy</strong></td>
-         <td></td>
+         <td><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></td>
        </tr>
     </table>
 
@@ -667,15 +667,15 @@ Possible folder structures are as follows:
        </tr>
        <tr>
          <td><strong>JSON</strong></td>
-         <td></td>
+         <td><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></td>
        </tr>
        <tr>
          <td><strong>Parquet</strong></td>
-         <td></td>
+         <td><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></td>
        </tr>
        <tr>
          <td><strong>NumPy</strong></td>
-         <td></td>
+         <td><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></td>
        </tr>
     </table>
 
