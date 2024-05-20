@@ -48,14 +48,14 @@ For Apache Maven, append the following to the **pom.xml** dependencies:
 <dependency>
   <groupId>io.milvus</groupId>
   <artifactId>milvus-sdk-java</artifactId>
-  <version>2.3.5</version>
+  <version>2.4.0</version>
 </dependency>
 ```
 
 - For Gradle/Grails, run the following
 
 ```shell
-compile 'io.milvus:milvus-sdk-java:2.3.5'
+compile 'io.milvus:milvus-sdk-java:2.4.0'
 ```
 
 </TabItem>
@@ -86,6 +86,8 @@ schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
 schema.add_field(field_name="vector", datatype=DataType.FLOAT_VECTOR, dim=768)
 schema.add_field(field_name="scalar_1", datatype=DataType.VARCHAR, max_length=512)
 schema.add_field(field_name="scalar_2", datatype=DataType.INT64)
+
+schema.verify()
 ```
 
 </TabItem>
@@ -147,13 +149,15 @@ There are two types of **BulkWriter**s available.
     <TabItem value='python'>
 
     ```python
-    from pymilvus import LocalBulkWriter, BulkFileType
+    from pymilvus.bulk_writer import LocalBulkWriter, BulkFileType
+    # Use `from pymilvus import LocalBulkWriter, BulkFileType` 
+    # when you use pymilvus earlier than 2.4.2 
     
     writer = LocalBulkWriter(
         schema=schema,
-        local_path='./tmp',
-        segment_size=512 * 1024 * 1024, # 默认值
-        file_type=BulkFileType.NPY
+        local_path='.',
+        segment_size=512 * 1024 * 1024, # Default value
+        file_type=BulkFileType.PARQUET
     )
     ```
 
@@ -185,14 +189,14 @@ There are two types of **BulkWriter**s available.
     import io.milvus.bulkwriter.LocalBulkWriterParam;
     import io.milvus.bulkwriter.common.clientenum.BulkFileType;
     
-    LocalBulkWriterParam bulkWriterParam = LocalBulkWriterParam.newBuilder()
-            .withCollectionSchema(collectionSchema)
-            .withLocalPath("./tmp")
-            .withFileType(BulkFileType.PARQUET)
-            .withChunkSize(512 * 1024 * 1024) // default value
-            .build();
-            
-    LocalBulkWriter localBulkWriter = new LocalBulkWriter(bulkWriterParam)
+    LocalBulkWriterParam localBulkWriterParam = LocalBulkWriterParam.newBuilder()
+        .withCollectionSchema(schema)
+        .withLocalPath(".")
+        .withChunkSize(512 * 1024 * 1024)
+        .withFileType(BulkFileType.PARQUET)
+        .build();
+    
+    LocalBulkWriter localBulkWriter = new LocalBulkWriter(localBulkWriterParam);
     ```
 
     When creating a **LocalBulkWriter**, you should: 
@@ -228,6 +232,8 @@ There are two types of **BulkWriter**s available.
     ```python
     
     from pymilvus import RemoteBulkWriter
+    # Use `from pymilvus import RemoteBulkWriter` 
+    # when you use pymilvus earlier than 2.4.2 
     
     # Third-party constants
     ACCESS_KEY="YOUR_ACCESS_KEY"
@@ -327,6 +333,8 @@ There are two types of **BulkWriter**s available.
 
     ```python
     from pymilvus import BulkFileType
+    # Use `from pymilvus import BulkFileType` 
+    # when you use pymilvus earlier than 2.4.2 
     
     writer = RemoteBulkWriter(
         schema=schema,
@@ -387,7 +395,7 @@ for i in range(10000):
         "id": i, 
         "vector":[random.uniform(-1, 1) for _ in range(768)]
         "scalar_1": generate_random_str(random.randint(1, 20)),
-        "scalar_2": random.randint(100),
+        "scalar_2": random.randint(0，100),
     })
     
 writer.commit()
@@ -485,9 +493,9 @@ for i in range(10000):
         "id": i, 
         "vector":[random.uniform(-1, 1) for _ in range(768)],
         "scalar_1": generate_random_string(),
-        "scalar_2": random.randint(100),
+        "scalar_2": random.randint(0， 100),
         "dynamic_field_1": random.choice([True, False]),
-        "dynamic_field_2": random.randint(100)
+        "dynamic_field_2": random.randint(0, 100)
     })
     
 writer.commit()
@@ -513,9 +521,9 @@ for (int i=0; i<10000; i++) {
     row.put("id", Long.valueOf(i));
     row.put("vector", generateFloatVectors(768);
     row.put("scalar_1", generateString(10);
-    row.put("scalar_2", rand.nextInt(100));
+    row.put("scalar_2", rand.nextInt(0, 100));
     row.put("dynamic_field_1", rand.nextBoolean());
-    row.put("dynamic_field_1", rand.nextInt(100));
+    row.put("dynamic_field_2", rand.nextInt(100));
     remoteBulkWriter.appendRow(row);
 }
 
