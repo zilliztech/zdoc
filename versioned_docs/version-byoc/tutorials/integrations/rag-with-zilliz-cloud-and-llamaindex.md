@@ -6,6 +6,7 @@ notebook: FALSE
 type: origin
 token: MejAw3lkkiA6uhkxcAqcMxOSnEb
 sidebar_position: 6
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,7 +22,7 @@ The RAG system combines a retrieval system with a generative model to generate n
 
 ## Before you begin{#before-you-begin}
 
-Code snippets on this page require __pymilvus__ and __llamaindex__ libraries. You can install them using the following commands:
+Code snippets on this page require **pymilvus** and **llamaindex** libraries. You can install them using the following commands:
 
 ```shell
 python3 -m pip install --upgrade pymilvus llamaindex openai
@@ -44,7 +45,7 @@ mkdir -p 'data/paul_graham/'
 wget 'https://raw.githubusercontent.com/run-llama/llama_index/main/docs/examples/data/paul_graham/paul_graham_essay.txt' -O 'data/paul_graham/paul_graham_essay.txt'
 ```
 
-The example data is a single essay from Paul Graham titled _What I Worked On_. Before you can use it for the RAG system, you need to make it accessible to LLamaIndex.
+The example data is a single essay from Paul Graham titled *What I Worked On*. Before you can use it for the RAG system, you need to make it accessible to LLamaIndex.
 
 ```python
 from llamaindex import SimpleDirectoryReader

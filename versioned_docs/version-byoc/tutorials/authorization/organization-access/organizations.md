@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: BX8nwr7eHiZY3CkHnuYcGCj1n4e
 sidebar_position: 1
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,7 +21,7 @@ This guide will walk you through the steps of managing organizations.
 
 After logging into the [Zilliz Cloud console](https://cloud.zilliz.com/login), you'll land on the page listing the organizations you're part of. You can check out and enter these organizations.
 
-For a quick view of all the organizations you've joined, just click __All Organizations__ in the top left corner.
+For a quick view of all the organizations you've joined, just click **All Organizations** in the top left corner.
 
 ![view-organizations](/byoc/view-organizations.png)
 

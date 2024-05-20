@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collections-drop_collection
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collections-drop_collection
+beta: FALSE
+notebook: FALSE
 type: docx
 token: QNB4d2q2ZorIApxpnzqczW2HnL7
 sidebar_position: 9
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,11 +23,11 @@ This operation drops a collection.
 drop_collection(collection_name: str) -> None
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 

@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/utility-flush_all
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/utility-flush_all
+beta: FALSE
+notebook: FALSE
 type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -25,27 +27,27 @@ flush_all(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __using__ (_str_) - 
+- **using** (*str*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
 N/A
 

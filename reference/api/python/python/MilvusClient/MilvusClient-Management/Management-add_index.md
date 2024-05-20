@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Management-add_index
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Management-add_index
+beta: FALSE
+notebook: FALSE
 type: docx
 token: ZplAdphtooqHJkxo8GCcOFecngd
 sidebar_position: 1
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -27,41 +29,41 @@ IndexParams.add_index(
 ) -> None
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __field_name__ (_str_) -
+- **field_name** (*str*) -
 
     The name of the target file to apply this object applies.
 
-- __index_name__ (_str_) -
+- **index_name** (*str*) -
 
     The name of the index file generated after this object has been applied.
 
-- __index_type__ (_str_) -
+- **index_type** (*str*) -
 
     The name of the algorithm used to arrange data in the specific field. 
 
-- __metric_type__ (_str_) -
+- **metric_type** (*str*) -
 
-    The algorithm that is used to measure similarity between vectors. Possible values are __IP__, __L2__, and __COSINE__.
+    The algorithm that is used to measure similarity between vectors. Possible values are **IP**, **L2**, and **COSINE**.
 
     This is available only when the specified field is a vector field. 
 
-- __params__ (_dict_) -
+- **params** (*dict*) -
 
     The fine-tuning parameters for the specified index type. For details on possible keys and value ranges, refer to  [In-memory Index](https://milvus.io/docs/index.md).
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

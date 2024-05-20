@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Client-MilvusClient
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Client-MilvusClient
+beta: FALSE
+notebook: FALSE
 type: docx
 token: TUrSdmskuoGdFRxFT75c6xhinzc
 sidebar_position: 2
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -13,7 +15,7 @@ import Admonition from '@theme/Admonition';
 
 # MilvusClient
 
-A __MilvusClient__ instance represents a Python client that connects to a specific Zilliz Cloud cluster.
+A **MilvusClient** instance represents a Python client that connects to a specific Zilliz Cloud cluster.
 
 ```python
 pymilvus.MilvusClient
@@ -40,9 +42,9 @@ MilvusClient(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __uri__ (_string_) -
+- **uri** (*string*) -
 
     The URI of the Zilliz Cloud cluster. For example:
 
@@ -52,23 +54,23 @@ __PARAMETERS:__
 
     For details on finding information on the Zilliz Cloud console, refer to [On Zilliz Cloud Console](/docs/on-zilliz-cloud-console).
 
-- __user__ (_string_) -
+- **user** (*string*) -
 
     A valid username used to connect to the specified Zilliz Cloud cluster.
 
-    This should be used along with __password__.
+    This should be used along with **password**.
 
-- __password__ (_string_) -
+- **password** (*string*) -
 
     A valid password used to connect to the specified Zilliz Cloud cluster.
 
-    This should be used along with __user__.
+    This should be used along with **user**.
 
-- __token__ (_string_) -
+- **token** (*string*) -
 
     A valid access token to access the specified Zilliz Cloud cluster. 
 
-    This can be used as a recommended alternative to setting __user__ and __password__ separately.
+    This can be used as a recommended alternative to setting **user** and **password** separately.
 
     When setting this field, notice that:
 
@@ -78,11 +80,11 @@ __PARAMETERS:__
 
     - A pair of [username and password ](/docs/cluster-credentials-console)used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
 ## Examples{#examples}
 
@@ -104,8 +106,4 @@ client = MilvusClient(
 </ul>
 
 </Admonition>
-
-## Class members{#class-members}
-
-Refer to [MilvusClient](./MilvusClient) for a categorized list of class members.
 

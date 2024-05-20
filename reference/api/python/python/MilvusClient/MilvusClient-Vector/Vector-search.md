@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Vector-search
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Vector-search
+beta: FALSE
+notebook: FALSE
 type: docx
 token: D74JdcitKobd7cxNdDdcGAz6nuf
 sidebar_position: 5
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,27 +33,27 @@ search(
 ) -> List[dict]
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-- __data__ (_List[list], list]_) -
+- **data** (*List[list], list]*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A list of vector embeddings.
 
     Zilliz Cloud searches for the most similar vector embeddings to the specified ones.
 
-- __anns_field__ (_str_) -
+- **anns_field** (*str*) -
 
     The name of the target vector field of the current search.
 
-- __filter__ (_str_) -
+- **filter** (*str*) -
 
     A scalar filtering condition to filter matching entities. 
 
@@ -59,61 +61,61 @@ __PARAMETERS:__
 
     You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
-- __limit__ (_int_) -
+- **limit** (*int*) -
 
     The total number of entities to return.
 
-    You can use this parameter in combination with __offset__ in __param__ to enable pagination.
+    You can use this parameter in combination with **offset** in **param** to enable pagination.
 
-    The sum of this value and __offset__ in __param__ should be less than 16,384. 
+    The sum of this value and **offset** in **param** should be less than 16,384. 
 
-- __output_fields__ (l_ist[str]_) -
+- **output_fields** (l*ist[str]*) -
 
     A list of field names to include in each entity in return.
 
-    The value defaults to __None__. If left unspecified, only the primary field is included.
+    The value defaults to **None**. If left unspecified, only the primary field is included.
 
-- __search_params__ (_dict_) -
+- **search_params** (*dict*) -
 
     The parameter settings specific to this operation.
 
-    - __metric_type__ (_str_) -
+    - **metric_type** (*str*) -
 
         The metric type applied to this operation. This should be the same as the one used when you index the vector field specified above. 
 
-        Possible values are __L2__, __IP__, and __COSINE__.
+        Possible values are **L2**, **IP**, and **COSINE**.
 
-    - __params__ (dict) -
+    - **params** (dict) -
 
         Additional parameters
 
-        - __radius__ (float) -
+        - **radius** (float) -
 
-            Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of __range_filter__. Otherwise, this value should be lower than that of __range_filter__. 
+            Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
 
-        - __range_filter__  (float) -  
+        - **range_filter**  (float) -  
 
-            Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of __radius__. Otherwise, this value should be lower than that of __radius__. 
+            Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**. 
 
-        - __group_by_field__ (_str_)
+        - **group_by_field** (*str*)
 
             Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
 
     For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
 
-- __timeout__ (_float_ | _None_) -
+- **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-- __partition_names__ (_list_) -
+- **partition_names** (*list*) -
 
     A list of partition names.
 
-    The value defaults to __None__. If specified, only the specified partitions are involved in queries.
+    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
 
-- __kwargs__ -
+- **kwargs** -
 
-    - __offset__ (int) -
+    - **offset** (int) -
 
         The number of records to skip in the search result. 
 
@@ -121,22 +123,22 @@ __PARAMETERS:__
 
         The sum of this value and `limit` should be less than 16,384. 
 
-    - __round_decimal__ (int) -
+    - **round_decimal** (int) -
 
         The number of decimal places that Zilliz Cloud rounds the calculated distances to.
 
-        The value defaults to __-1__, indicating that Zilliz Cloud skips rounding the calculated distances and returns the raw value.
+        The value defaults to **-1**, indicating that Zilliz Cloud skips rounding the calculated distances and returns the raw value.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_list[dict]_
+*list[dict]*
 
-__RETURNS:__
+**RETURNS:**
 A list of dictionaries that contains the searched entities with specified output fields.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Authentication-updatePassword
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Authentication-updatePassword
+beta: FALSE
+notebook: FALSE
 type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 13
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';

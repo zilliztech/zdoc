@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: KHAMwm0HUiU6qdkH2LOcu0FFnug
 sidebar_position: 4
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -16,7 +17,7 @@ Authentication serves as a gateway to verify one's identity during the login pro
 
 ### Enable MFA{#enable-mfa}
 
-1. Go to your __Profile__ and choose __Account Settings__.
+1. Go to your **Profile** and choose **Account Settings**.
 
 1. Activate the Multi-Factor Authentication toggle.
 
@@ -37,13 +38,13 @@ Authentication serves as a gateway to verify one's identity during the login pro
 
 ### Disable MFA{#disable-mfa}
 
-1. Go to your __Profile__ and choose __Account Settings__.
+1. Go to your **Profile** and choose **Account Settings**.
 
 1. Deactivate the Multi-Factor Authentication toggle.
 
-1. In the dialog box, click __Disable__ to confirm your action.
+1. In the dialog box, click **Disable** to confirm your action.
 
-1. Verify your identity by entering the verification code sent to your email address. Click __Disable__.
+1. Verify your identity by entering the verification code sent to your email address. Click **Disable**.
 
 1. A prompt will appear notifying you that MFA is successfully disabled.
 

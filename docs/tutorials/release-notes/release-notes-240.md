@@ -4,7 +4,8 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: A5lpwIZcZiTLqakdt6rcCmPcnEe
-sidebar_position: 3
+sidebar_position: 4
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -16,7 +17,7 @@ Now Zilliz Cloud services are available on Azure, starting with the East US regi
 
 ## Milvus Compatibility{#milvus-compatibility}
 
-This release is compatible with __Milvus 2.2.x__ and __Milvus 2.3.x (Beta)__.
+This release is compatible with **Milvus 2.2.x** and **Milvus 2.3.x (Beta)**.
 
 ## Zilliz Cloud on Azure{#zilliz-cloud-on-azure}
 
@@ -28,13 +29,13 @@ Today, we are thrilled to introduce Zilliz Cloud Pipelines (Beta), a new additio
 
 Zilliz Cloud Pipelines consists of three specific pipelines: Ingestion, Search, and Deletion.
 
-- __Ingestion pipeline__ is the workhorse that processes unstructured data, transforming it into searchable vector embeddings and ingesting them into Zilliz Vector Database for storage and retrieval.
+- **Ingestion pipeline** is the workhorse that processes unstructured data, transforming it into searchable vector embeddings and ingesting them into Zilliz Vector Database for storage and retrieval.
 
-- __Search pipelines__ facilitate semantic search by converting a query string into vector embeddings and sending them into Zilliz Cloud for retrieving the top-K most similar vectors.
+- **Search pipelines** facilitate semantic search by converting a query string into vector embeddings and sending them into Zilliz Cloud for retrieving the top-K most similar vectors.
 
-- __Deletion Pipeline__ allows you to remove all chunks in a specified document from a Zilliz Cloud collection, offering you full control over your own data and releasing the storage capacity of your Zilliz collections.
+- **Deletion Pipeline** allows you to remove all chunks in a specified document from a Zilliz Cloud collection, offering you full control over your own data and releasing the storage capacity of your Zilliz collections.
 
-To learn more information, please refer to this [documentation](/docs/understanding-pipelines).
+To learn more information, please refer to this [documentation](./pipelines).
 
 ## RBAC and Credential Management in Your Clusters{#rbac-and-credential-management-in-your-clusters}
 

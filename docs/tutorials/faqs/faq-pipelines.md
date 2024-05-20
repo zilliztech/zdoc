@@ -1,15 +1,16 @@
 ---
 slug: /faq-pipelines
-beta: null
-notebook: null
+beta: FALSE
+notebook: FALSE
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 5
+
 ---
 
 # FAQ: Pipelines
 
-__How can Zilliz Cloud Pipelines enhance my semantic search capabilities?__
+**How can Zilliz Cloud Pipelines enhance my semantic search capabilities?**
 
 ## Contents
 
@@ -36,7 +37,7 @@ Zilliz Cloud Pipeline is available on all tiers as long as you have created a cl
 
 The text doc ingestion and search pipelines support various embedding models.
 
-- __For English:__
+- **For English:**
 
     - zilliz/bge-base-en-v1.5
 
@@ -62,7 +63,7 @@ The text doc ingestion and search pipelines support various embedding models.
 
         Hosted by OpenAI. This is OpenAI's best performing model. Compared to `text-embedding-ada-002`, the MTEB score has increased from 61.0% to 64.6%.
 
-- __For Chinese:__
+- **For Chinese:**
 
     - zilliz/bge-base-zh-v1.5 
 
@@ -82,4 +83,4 @@ Currently, Ingestion Pipelines support local files and files stored on AWS S3 an
 
 ### What document file formats are supported by Pipelines?{#what-document-file-formats-are-supported-by-pipelines}
 
-Supported file formats include `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`. When [running an Ingestion pipeline](./run-ingestion-pipelines), you can either upload a local file or use an S3 presigned URL or a GCS signed URL.
+Supported file formats include `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`. When running an Ingestion pipeline, you can either upload a local file or use an S3 presigned URL or a GCS signed URL.

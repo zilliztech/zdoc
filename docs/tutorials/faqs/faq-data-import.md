@@ -1,10 +1,11 @@
 ---
 slug: /faq-data-import
-beta: null
-notebook: null
+beta: FALSE
+notebook: FALSE
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 4
+
 ---
 
 # FAQ: Data Import
@@ -29,7 +30,7 @@ Yes. But currently, you can only bulk insert data into the vector databases by u
 
 To solve this problem, please follow the steps below.
 
-1. Upgrade to the latest version of Milvus NodeJS SDK which supports __channelOptions__.
+1. Upgrade to the latest version of Milvus NodeJS SDK which supports **channelOptions**.
 
 1. Add channelOptions manually.
 

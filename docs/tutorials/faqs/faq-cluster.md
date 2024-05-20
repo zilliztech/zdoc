@@ -1,10 +1,11 @@
 ---
 slug: /faq-cluster
-beta: null
-notebook: null
+beta: FALSE
+notebook: FALSE
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 2
+
 ---
 
 # FAQ: Cluster
@@ -13,13 +14,13 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 ## Contents
 
-- [What is the capacity of a serverless cluster?](#what-is-the-capacity-of-a-serverless-cluster)
+- [What is the capacity of a free cluster?](#what-is-the-capacity-of-a-free-cluster)
 - [What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?](#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources)
 - [Can I change the CU type after my dedicated cluster is created?](#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created)
 - [Can I change the cloud region of my cluster after it is created?](#can-i-change-the-cloud-region-of-my-cluster-after-it-is-created)
 - [How can I scale down my cluster CU size?](#how-can-i-scale-down-my-cluster-cu-size)
-- [Can I deploy a serverless cluster on AWS?](#can-i-deploy-a-serverless-cluster-on-aws)
-- [Do serverless clusters in the starter plan support customized schema?](#do-serverless-clusters-in-the-starter-plan-support-customized-schema)
+- [Can I deploy a free cluster on AWS?](#can-i-deploy-a-free-cluster-on-aws)
+- [Do clusters in the Free plan support customized schema?](#do-clusters-in-the-free-plan-support-customized-schema)
 - [How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?](#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud)
 - [Why can’t I connect to the cluster after the cluster is created?](#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created)
 - [What can I do if I cannot connect to Zilliz Cloud with Node.js SDK?](#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk)
@@ -31,19 +32,21 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 
 
-### What is the capacity of a serverless cluster?{#what-is-the-capacity-of-a-serverless-cluster}
+### What is the capacity of a free cluster?{#what-is-the-capacity-of-a-free-cluster}
 
-Generally, a serverless cluster can handle 1 million 768-dimensional vectors. However, the actual capacity depends on your schema. 
+Generally, a free cluster can handle 1 million 768-dimensional vectors. However, the actual capacity depends on your schema. 
 
-If your data exceeds the maximum capacity of a serverless cluster, please [upgrade](./select-zilliz-cloud-service-plans#select-a-cluster-plan) to Standard or Enterprise plan and [migrate your data ](./migrate-between-clusters#from-serverless-to-dedicated-cluster)to a dedicated cluster. For more information about the capacity of a dedicated cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
+If your data exceeds the maximum capacity of a free cluster, please [upgrade](./select-zilliz-cloud-service-plans#select-a-cluster-plan) to Serverless or Dedicated plan to create a new cluster and [migrate your data](./migrate-between-clusters#from-dedicated-cluster-to-serverless-cluster) there. For more information about the capacity of a  cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
 
 ### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
 
-When inserting or upserting data, you will receive this error because your data exceeds the cluster CU capacity. To address this issue, you can follow the instructions below.
+When inserting or upserting data, you will receive this error because your data exceeds the cluster CU capacity. A free cluster can handle 1 million 768-dimensional vectors. The capacity of a dedicated cluster depends on its [CU type and CU size](./cu-types-explained#assess-capacity).
 
-- If you are using a serverless cluster, please [migrate to a dedicated cluster](./migrate-between-clusters#from-serverless-to-dedicated-cluster) as it can handle more data.
+To address this issue, you can follow the instructions below.
 
-- If you are using a dedicated cluster, please [scale up your cluster](./manage-cluster#manage-and-configure-clusters) by increasing the CU size.
+- If you are using a free cluster, please upgrade to Serverless or Dedicated plan.
+
+- If you are using a Dedicated cluster, please [scale up your cluster](./manage-cluster#manage-and-configure-clusters) by increasing the CU size.
 
 ### Can I change the CU type after my dedicated cluster is created?{#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created}
 
@@ -67,13 +70,13 @@ If you need to scale down your cluster CU size, please create a new cluster with
 
 If you require assistance when scaling down the CU size, please[ submit a request](https://support.zilliz.com/hc/en-us).
 
-### Can I deploy a serverless cluster on AWS?{#can-i-deploy-a-serverless-cluster-on-aws}
+### Can I deploy a free cluster on AWS?{#can-i-deploy-a-free-cluster-on-aws}
 
-No. Currently, Zilliz Cloud only supports deploying a serverless cluster on GCP. If you need to deploy a cluster on AWS, please choose the Standard or Enterprise plan.
+No. Currently, Zilliz Cloud only supports deploying a free cluster on GCP. If you need to deploy a cluster on AWS, please choose the Dedicated (Standard) or Dedicated (Enterprise) plan.
 
-### Do serverless clusters in the starter plan support customized schema?{#do-serverless-clusters-in-the-starter-plan-support-customized-schema}
+### Do clusters in the Free plan support customized schema?{#do-clusters-in-the-free-plan-support-customized-schema}
 
-No. The free serverless clusters do not support customized schema. However, dynamic schema is enabled by default, meaning you can always insert data with fields that are not pre-defined. Refer to [Enable Dynamic Field](./enable-dynamic-field) for more details about dynamic schema.
+No. The free clusters do not support customized schema. However, dynamic schema is enabled by default, meaning you can always insert data with fields that are not pre-defined. Refer to [Enable Dynamic Field](./enable-dynamic-field) for more details about dynamic schema.
 
 ### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 
@@ -115,7 +118,7 @@ You can identify the problem by following these steps:
 
 1. Check if the IP address of your connection is included in the IP white list.
 
-1. Test the connectivity of the port by running __telnet in01-(uuid).(region).vectordb.zillizcloud.com 19530__. If the issue remains unsolved after all above steps are tried, please[ submit a request](https://support.zilliz.com/hc/en-us).
+1. Test the connectivity of the port by running **telnet in01-(uuid).(region).vectordb.zillizcloud.com 19530**. If the issue remains unsolved after all above steps are tried, please[ submit a request](https://support.zilliz.com/hc/en-us).
 
 ### What can I do if I cannot connect to Zilliz Cloud with Node.js SDK?{#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk}
 
@@ -131,7 +134,7 @@ If you fail to connect to Zilliz Cloud with the Node.js SDK, please try the foll
 
 ### What happens to my inactive clusters?{#what-happens-to-my-inactive-clusters}
 
-Your serverless clusters are automatically suspended with notice after 7 days of inactivity. You can always resume the clusters when necessary. However, your dedicated clusters will not be automatically suspended due to prolonged inactivity. To save costs, we advise you to manually suspend your dedicated clusters.
+Your free clusters are automatically suspended with notice after 7 days of inactivity. You can always resume the clusters when necessary. However, your dedicated clusters will not be automatically suspended due to prolonged inactivity. To save costs, we advise you to manually suspend your dedicated clusters.
 
 ### Will I be charged if I suspend my cluster?{#will-i-be-charged-if-i-suspend-my-cluster}
 

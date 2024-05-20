@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Vector-delete
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Vector-delete
+beta: FALSE
+notebook: FALSE
 type: docx
 token: DWLXdSCYnoPT4ExktRKceEqLnAd
 sidebar_position: 1
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -27,41 +29,41 @@ delete(
 ) -> dict
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-- __ids__ (_list_ | _str_ | _int_) -
+- **ids** (*list* | *str* | *int*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A specific entity ID or a list of entity IDs.
 
-    The value defaults to __None__, indicating that a scalar filtering condition applies. Setting both __ids__ and __filter__ results in a __ParamError__ exception.
+    The value defaults to **None**, indicating that a scalar filtering condition applies. Setting both **ids** and **filter** results in a **ParamError** exception.
 
-- __timeout__ (_float_ | _None_) -
+- **timeout** (*float* | *None*) -
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-- __filter__ (_str_) -
+- **filter** (*str*) -
 
     A scalar filtering condition to filter matching entities. 
 
-    The value defaults to an empty string, indicating that no condition applies. Setting both __ids__ and __filter__ results in a __ParamError__ exception.
+    The value defaults to an empty string, indicating that no condition applies. Setting both **ids** and **filter** results in a **ParamError** exception.
 
     You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_dict_
+*dict*
 
-__RETURNS:__
+**RETURNS:**
 
 A dictionary contains the number of deleted entities.
 
@@ -71,17 +73,17 @@ A dictionary contains the number of deleted entities.
 }
 ```
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-- __ParamError__
+- **ParamError**
 
-    This exception will be raised when both __ids__ and __filter__ are specified.
+    This exception will be raised when both **ids** and **filter** are specified.
 
-- __DataTypeNotMatchException__
+- **DataTypeNotMatchException**
 
     This exception will be raised when a parameter value doesn't match the required data type.
 

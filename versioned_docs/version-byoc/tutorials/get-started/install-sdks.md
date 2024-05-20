@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: J274wT61xiEM4fkYeL8cMb4Pnbd
 sidebar_position: 5
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -50,7 +51,7 @@ python -m pip list | grep pymilvus
 
 ## Install Node.js SDK{#install-nodejs-sdk}
 
-For Milvus's Node.js SDK, employ __npm__ or __yarn__. Access its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-node).
+For Milvus's Node.js SDK, employ **npm** or **yarn**. Access its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-node).
 
 <Admonition type="info" icon="📘" title="Notes">
 

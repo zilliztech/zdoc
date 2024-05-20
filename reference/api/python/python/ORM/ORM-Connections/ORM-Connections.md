@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/ORM-Connections
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/ORM-Connections
 beta: false
 notebook: false
 type: folder
 token: Jy4gf9SrBlUSnpdXg2VcTuwhn4g
 sidebar_position: 3
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -13,7 +15,7 @@ import Admonition from '@theme/Admonition';
 
 # Connections
 
-A __Connections__ instance represents a pool of connections to your Zilliz Cloud clusters.
+A **Connections** instance represents a pool of connections to your Zilliz Cloud clusters.
 
 ```python
 class pymilvus.Connections

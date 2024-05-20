@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Connections-add_connection
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Connections-add_connection
+beta: FALSE
+notebook: FALSE
 type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -25,45 +27,45 @@ add_connection(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __kwargs__ - 
+- **kwargs** - 
 
-    When passing keyword arguments, the name of each argument will serve as a connection alias in the __connect()__ method.
+    When passing keyword arguments, the name of each argument will serve as a connection alias in the **connect()** method.
 
     The argument value should be a dictionary with one or more of these fields:
 
-    - __address__ (_string_) -
+    - **address** (*string*) -
 
-        The actual address to connect. Example address: __localhost:19530__.
+        The actual address to connect. Example address: **localhost:19530**.
 
-    - __uri__ (_string_) -
+    - **uri** (*string*) -
 
-        The URI of the Zilliz Cloud cluster. For example: __https://in01-*****************.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540__.
+        The URI of the Zilliz Cloud cluster. For example: **https://in01-*****************.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540**.
 
-    - __host__ (_string_) -
+    - **host** (*string*) -
 
-        The host of the Zilliz Cloud cluster. The value defaults to __localhost__, and PyMilvus will fill in the default host if only __port__ is provided.
+        The host of the Zilliz Cloud cluster. The value defaults to **localhost**, and PyMilvus will fill in the default host if only **port** is provided.
 
-    - __port__ (_string | int_) -
+    - **port** (*string | int*) -
 
-        The port that Zilliz Cloud cluster listens to. The value defaults to __19530__, and PyMilvus will fill in the default port if only __host__ is provided.
+        The port that Zilliz Cloud cluster listens to. The value defaults to **19530**, and PyMilvus will fill in the default port if only **host** is provided.
 
-    - __user__ (_string_) -
+    - **user** (*string*) -
 
         A valid username used to connect to the specified Zilliz Cloud cluster.
 
-        This should be used along with __password__.
+        This should be used along with **password**.
 
-    - __password__ (_string_) -
+    - **password** (*string*) -
 
         A valid password used to connect to the specified Zilliz Cloud cluster.
 
-        This should be used along with __user__.
+        This should be used along with **user**.
 
-    - __token__ (string) -
+    - **token** (string) -
 
-        A valid access token to access the specified Zilliz Cloud cluster. This can be used as an alternative to setting __user__ and __password__ separately.
+        A valid access token to access the specified Zilliz Cloud cluster. This can be used as an alternative to setting **user** and **password** separately.
 
         When setting this field, notice that:
 
@@ -95,17 +97,17 @@ __PARAMETERS:__
 
 </Admonition>
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
 None
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __ConnectionConfigException__
+- **ConnectionConfigException**
 
     This exception will be raised when the connection configuration is invalid.
 

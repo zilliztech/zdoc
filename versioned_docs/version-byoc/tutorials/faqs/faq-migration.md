@@ -1,10 +1,11 @@
 ---
 slug: /faq-migration
-beta: null
-notebook: null
+beta: FALSE
+notebook: FALSE
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 5
+
 ---
 
 # FAQ: Migration
@@ -13,14 +14,14 @@ This topic lists the possible issues that you may encounter while you migrate da
 
 ## Contents
 
-
+- [How to migrate data from Elasticsearch to Zilliz Cloud?](#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud)
 
 ## FAQs
 
 
 
 
-__How to migrate data from Elasticsearch to Zilliz Cloud?__
+### How to migrate data from Elasticsearch to Zilliz Cloud?{#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud}
 
 You can follow the steps below to import data from Elasticsearch to Zilliz Cloud.
 

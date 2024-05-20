@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Role-list_grants
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Role-list_grants
+beta: FALSE
+notebook: FALSE
 type: docx
 token: YRoGdgQmWoIEaJx84ICcHTILnMe
 sidebar_position: 8
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -23,21 +25,21 @@ list_grants(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __db_name__ (_str_)
+- **db_name** (*str*)
 
     The name of a database in which Zilliz Cloud carries out this operation.
 
     If the specified database does not exist, an empty result returns.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_GrantInfo_
+*GrantInfo*
 
-__RETURNS:__
+**RETURNS:**
 
-A __GrantInfo__ object that contains a list of __GrantItem__ objects.
+A **GrantInfo** object that contains a list of **GrantItem** objects.
 
 ```python
 ├── GrantInfo
@@ -51,11 +53,11 @@ A __GrantInfo__ object that contains a list of __GrantItem__ objects.
 │           └── db_name
 ```
 
-The __GrantItem__ objects contains the following fields:
+The **GrantItem** objects contains the following fields:
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

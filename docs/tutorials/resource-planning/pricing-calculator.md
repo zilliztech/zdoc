@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: N985w1llIi7z1SkhTH5cAoKcnKb
 sidebar_position: 5
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -18,55 +19,75 @@ The [Zilliz Cloud Pricing Calculator](https://zilliz.com/pricing#estimate_your_c
 
 ### Number of entities{#number-of-entities}
 
-- __Definition__: Entities are data objects stored and processed in Zilliz Cloud.
+- **Definition**: Entities are data objects stored and processed in Zilliz Cloud.
 
-- __Adjustment Range__: From 0 to 10 billion entities.
+- **Adjustment Range**: From 0 to 10 billion entities.
 
-- __Measurement__: Storage is metered in blocks of 1 million for accuracy and efficient management.
+- **Measurement**: Storage is metered in blocks of 1 million for accuracy and efficient management.
 
 ### Vector dimension{#vector-dimension}
 
-- __Functionality__: Indicates the number of elements in your vector data.
+- **Functionality**: Indicates the number of elements in your vector data.
 
-- __Adjustment Range__: From 32 to 32,768 dimensions.
+- **Adjustment Range**: From 32 to 32,768 dimensions.
 
 ### Scalar fields{#scalar-fields}
 
-- __Functionality__: Adds scalar fields of your data for a more precise pricing estimate.
+- **Functionality**: Adds scalar fields of your data for a more precise pricing estimate.
 
-- __Details__: Choose data types for the primary key and other fields.
+- **Details**: Choose data types for the primary key and other fields.
+
+### Read per Month{#read-per-month}
+
+- **Definition**: The volume of data involved in read operations per month. Read operations include search and query.
+
+- **Adjustment Range**: From 0 to 10 billion entities.
+
+### Write per Month{#write-per-month}
+
+- **Definition**: The volume of data involved in write operations per month. Write operations include insert, upsert, bulk insert, and delete.
+
+- **Adjustment Range**: From 0 to 10 billion entities.
 
 ## Pricing variables{#pricing-variables}
 
+### Pricing plan{#pricing-plan}
+
+- **Serverless**: Designed for serverless applications with variable or sporadic query volumes.
+
+- **Dedicated-Standard Plan**: Ideal for POC and development environment.
+
+- **Dedicated-Enterprise Plan**: Ideal for mission-critical use cases in production that needs advanced capabilities, high availability, security, and continuous support.
+
+Explore further details under [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
+
 ### CU type{#cu-type}
 
-- __Performance-optimized CU__: High throughput and low latency for performance-critical scenarios.
+- **Performance-optimized CU**: High throughput and low latency for performance-critical scenarios.
 
-- __Capacity-optimized CU__: Ideal for large data volumes, with five times the storage capacity of performance-optimized CUs.
+- **Capacity-optimized CU**: Ideal for large data volumes, with five times the storage capacity of performance-optimized CUs.
 
 Explore further details under [Select the Right CU](./cu-types-explained).
 
 ### Cloud provider{#cloud-provider}
 
-- __Options__: Amazon Web Services (AWS), Google Cloud Platform (GCP), Microsoft Azure.
+- **Options**: Amazon Web Services (AWS), Google Cloud Platform (GCP), Microsoft Azure.
 
 ### Cloud region{#cloud-region}
 
-- __Options__: Choose from a range of cloud regions based on your provider, addressing different geographic and infrastructural needs.
+- **Options**: Choose from a range of cloud regions based on your provider, addressing different geographic and infrastructural needs.
 
 Explore further details under [Cloud Providers & Regions](./cloud-providers-and-regions).
 
-### Pricing plan{#pricing-plan}
+## Pricing Unit{#pricing-unit}
 
-- __Standard Plan__: A dedicated cluster for small to mid-sized teams handling complex workloads.
+Serverless plan clusters are charged by the number of vCUs consumed. vCU stands for virtual compute unit, and is used to measure the resources consumed by read operations (such as search and query) and write operations (such as insert, upsert, bulk insert, and delete). The data volume written or read will be converted from GB to vCUs. 
 
-- __Enterprise Plan__: Designed for larger organizations needing advanced capabilities, high availability, security, and continuous support.
-
-Explore further details under [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
+Dedicated plan clusters are charged by the number of CUs consumed. A compute unit (CU) is a group of hardware resources for serving your indexes and search requests. You can simply consider a CU as a fully-managed physical node for deploying search service.
 
 ## Considerations{#considerations}
 
-When the estimated CU size is less than 8, the increment increase of CU size is 2CUs, which means the CU sizes will increase in the sequence of 1, 2, 4, 6, 8 CUs. When the estimated CU size is greater than 8, the increment increase becomes 4 CUs, meaning the sequence of CU sizes will be 8, 12, 16, 20, 24, 28, 32, and so on.
+For dedicated plans, when the estimated CU size is less than 8, the increment increase of CU size is 2CUs, which means the CU sizes will increase in the sequence of 1, 2, 4, 6, 8 CUs. When the estimated CU size is greater than 8, the increment increase becomes 4 CUs, meaning the sequence of CU sizes will be 8, 12, 16, 20, 24, 28, 32, and so on.
 
 Our calculator is designed to estimate costs for clusters up to 256 [CUs](./cu-types-explained). If your needs surpass this, feel free to [contact us](https://zilliz.com/contact-sales) for a tailored pricing breakdown.
 

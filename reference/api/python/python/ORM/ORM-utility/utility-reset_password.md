@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/utility-reset_password
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/utility-reset_password
+beta: FALSE
+notebook: FALSE
 type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -17,7 +19,7 @@ This operation resets the password for a specific user.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This operation differs from _<em>update</em>password() __in that this operation also resets the current connection using the newly set credentials.</p>
+<p>This operation differs from <strong>update_password()</strong> in that this operation also resets the current connection using the newly set credentials.</p>
 
 </Admonition>
 
@@ -33,51 +35,51 @@ reset_password(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __user__ (_str_) - 
+- **user** (*str*) - 
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The specific user whose password is to be reset.
 
-- __old_password__ (_str_) - 
+- **old_password** (*str*) - 
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The original password for the specified user.
 
-    Setting this to an incorrect password results in a __MilvusException__.
+    Setting this to an incorrect password results in a **MilvusException**.
 
-- __new_password__ (_str_) - 
+- **new_password** (*str*) - 
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The new password for the specified user. 
 
     The password must be a string of 8 to 64 characters and must include at least three of the following character types: uppercase letters, lowercase letters, numbers, and special characters.
 
-- __using__ (_string_) - 
+- **using** (*string*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

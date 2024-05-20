@@ -5,7 +5,8 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: K8hFwmeBQiCSO4ktT9ScD9zMnua
-sidebar_position: 5
+sidebar_position: 6
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -28,7 +29,7 @@ Currently, you can only [contact us](https://zilliz.com/contact-sales) to add fu
 
 ## View Advance Pay history{#view-advance-pay-history}
 
-To view your bank transfer history, click Billing on the top navigation bar or on the left navigation pane. Then click History under the Advance Pay section. On the __Bank Transfer History__ page, you can view all the details of all past transfers, including the time when you made the transfer, the amount of funds you added, etc.
+To view your bank transfer history, click Billing on the top navigation bar or on the left navigation pane. Then click History under the Advance Pay section. On the **Bank Transfer History** page, you can view all the details of all past transfers, including the time when you made the transfer, the amount of funds you added, etc.
 
 ![add-fund-en](/img/add-fund-en.png)
 

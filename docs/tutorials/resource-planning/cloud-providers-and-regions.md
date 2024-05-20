@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
 sidebar_position: 7
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,26 +21,105 @@ Zilliz Cloud provides clusters across various regions on Amazon Web Services (AW
 
 Zilliz Cloud supports deploying dedicated clusters on AWS.
 
-|  __AWS Region__ |  __Location__     |  __Serverless Cluster__ |  __Dedicated Cluster (Standard)__ |  __Dedicated Cluster (Enterprise)__ |
-| --------------- | ----------------- | ----------------------- | --------------------------------- | ----------------------------------- |
-|  us-east-1      |  N. Virginia, USA |  No                     |  Yes                              |  Yes                                |
-|  us-east-2      |  Ohio, USA        |  No                     |  Yes                              |  Yes                                |
-|  us-west-2      |  Oregon, USA      |  No                     |  Yes                              |  Yes                                |
-|  ap-southeast-2 |  Singapore        |  No                     |  Yes                              |  Yes                                |
-|  eu-central-1   |  Frankfurt        |  No                     |  Yes                              |  Yes                                |
+<table>
+   <tr>
+     <th><strong>AWS Region</strong></th>
+     <th><strong>Location</strong></th>
+     <th><strong>Free Cluster</strong></th>
+     <th><strong>Serverless Cluster</strong></th>
+     <th><strong>Dedicated Cluster (Standard)</strong></th>
+     <th><strong>Dedicated Cluster (Enterprise)</strong></th>
+   </tr>
+   <tr>
+     <td>us-east-1</td>
+     <td>N. Virginia, USA</td>
+     <td>No</td>
+     <td>No</td>
+     <td>Yes</td>
+     <td>Yes</td>
+   </tr>
+   <tr>
+     <td>us-east-2</td>
+     <td>Ohio, USA</td>
+     <td>No</td>
+     <td>No</td>
+     <td>Yes</td>
+     <td>Yes</td>
+   </tr>
+   <tr>
+     <td>us-west-2</td>
+     <td>Oregon, USA</td>
+     <td>No</td>
+     <td>No</td>
+     <td>Yes</td>
+     <td>Yes</td>
+   </tr>
+   <tr>
+     <td>ap-southeast-2</td>
+     <td>Singapore</td>
+     <td>No</td>
+     <td>No</td>
+     <td>Yes</td>
+     <td>Yes</td>
+   </tr>
+   <tr>
+     <td>eu-central-1</td>
+     <td>Frankfurt</td>
+     <td>No</td>
+     <td>No</td>
+     <td>Yes</td>
+     <td>Yes</td>
+   </tr>
+</table>
 
 For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
 ## GCP{#gcp}
 
-Both serverless and dedicated clusters can be deployed on GCP.
+Free, serverless, and dedicated clusters can be deployed on GCP.
 
-|  __GCP Region__   |  __Location__       |  __Serverless Cluster__ |  __Dedicated Cluster (Standard)__ |  __Dedicated Cluster (Enterprise)__ |
-| ----------------- | ------------------- | ----------------------- | --------------------------------- | ----------------------------------- |
-|  us-west1         |  Oregon, USA        |  Yes                    |  Yes                              |  Yes                                |
-|  gcp-us-east4     |  Virginia, USA      |  No                     |  Yes                              |  Yes                                |
-|  gcp-europe-west3 |  Frankfurt, Germany |  No                     |  Yes                              |  Yes                                |
-|  asia-southeast-1 |  Singapore          |  No                     |  Yes                              |  Yes                                |
+<table>
+   <tr>
+     <th><strong>GCP Region</strong></th>
+     <th><strong>Location</strong></th>
+     <th><strong>Free Cluster</strong></th>
+     <th><strong>Serverless Cluster</strong></th>
+     <th><strong>Dedicated Cluster (Standard)</strong></th>
+     <th><strong>Dedicated Cluster (Enterprise)</strong></th>
+   </tr>
+   <tr>
+     <td>us-west1</td>
+     <td>Oregon, USA</td>
+     <td>Yes</td>
+     <td>Yes</td>
+     <td>Yes</td>
+     <td>Yes</td>
+   </tr>
+   <tr>
+     <td>us-east4</td>
+     <td>Virginia, USA</td>
+     <td>No</td>
+     <td>No</td>
+     <td>Yes</td>
+     <td>Yes</td>
+   </tr>
+   <tr>
+     <td>europe-west3</td>
+     <td>Frankfurt, Germany</td>
+     <td>No</td>
+     <td>No</td>
+     <td>Yes</td>
+     <td>Yes</td>
+   </tr>
+   <tr>
+     <td>asia-southeast1</td>
+     <td>Singapore</td>
+     <td>No</td>
+     <td>No</td>
+     <td>Yes</td>
+     <td>Yes</td>
+   </tr>
+</table>
 
 For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
@@ -47,11 +127,34 @@ For more information on cluster types, see [Select Cluster Plans](./select-zilli
 
 Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
 
-|  __Azure Region__ |  __Location__  |  __Serverless Cluster__ |  __Dedicated Cluster (Standard)__ |  __Dedicated Cluster (Enterprise)__ |
-| ----------------- | -------------- | ----------------------- | --------------------------------- | ----------------------------------- |
-|  east-us          |  Virginia, USA |  No                     |  Yes                              |  Yes                                |
+<table>
+   <tr>
+     <th><strong>Azure Region</strong></th>
+     <th><strong>Location</strong></th>
+     <th><strong>Free Cluster</strong></th>
+     <th><strong>Serverless Cluster</strong></th>
+     <th><strong>Dedicated Cluster (Standard)</strong></th>
+     <th><strong>Dedicated Cluster (Enterprise)</strong></th>
+   </tr>
+   <tr>
+     <td>East US</td>
+     <td>Virginia, USA</td>
+     <td>No</td>
+     <td>No</td>
+     <td>Yes</td>
+     <td>Yes</td>
+   </tr>
+   <tr>
+     <td>Germany West Central</td>
+     <td>Frankfurt, Germany</td>
+     <td>No</td>
+     <td>No</td>
+     <td>Yes</td>
+     <td>Yes</td>
+   </tr>
+</table>
 
-For more information on cluster types, see [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
+For more information on cluster plans, see [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
 
 Currently, all clusters running on Microsoft Azure support Beta version features, such as the [cosine metric type](./search-metrics-explained#cosine-similarity), [range search](./single-vector-search#range-search), [advanced expressions](./get-and-scalar-query#use-advanced-operators), and [upsert operations](./insert-update-delete#upsert-entities).
 

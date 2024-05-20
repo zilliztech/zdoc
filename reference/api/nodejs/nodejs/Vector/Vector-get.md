@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Vector-get
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Vector-get
+beta: FALSE
+notebook: FALSE
 type: docx
 token: IbxXdvdZlonJk9xnlk2cZlIinCh
 sidebar_position: 2
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';

@@ -3,8 +3,9 @@ slug: /pipelines
 beta: FALSE
 notebook: FALSE
 type: origin
-token: RzBdwMKAxiiejDk9rWjc1Sv1nSf
-sidebar_position: 7
+token: MILwwIfk3iMFsAk7ZGzcExHjn3b
+sidebar_position: 8
+
 ---
 
 import Admonition from '@theme/Admonition';

@@ -4,7 +4,8 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: YtxBwrPfBiuFDdk10GVcYY1DnGg
-sidebar_position: 5
+sidebar_position: 6
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,11 +13,11 @@ import Admonition from '@theme/Admonition';
 
 # Release Notes (Sept 27, 2023)
 
-We are excited to announce the launch of Zilliz Cloud. With this release, we are introducing a range of enhancements and features.
+We are excited to announce the launch of Zilliz Cloud. With this release, we are introducing a range of enhancements and features, including increased flexibility with a New CU Size Option, the support for advance pay, and more AWS regions.
 
 ## Milvus Compatibility{#milvus-compatibility}
 
-This release is compatible with __Milvus 2.2.x__.
+This release is compatible with **Milvus 2.2.x**.
 
 ## Cluster Enhancements - Increased Flexibility with a New CU Size Option{#cluster-enhancements-increased-flexibility-with-a-new-cu-size-option}
 

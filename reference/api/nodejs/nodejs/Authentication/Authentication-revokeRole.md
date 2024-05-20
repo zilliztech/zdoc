@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Authentication-revokeRole
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Authentication-revokeRole
+beta: FALSE
+notebook: FALSE
 type: docx
 token: W7XJdZDHnoFECDxCYoMcrZqrnnd
 sidebar_position: 12
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';

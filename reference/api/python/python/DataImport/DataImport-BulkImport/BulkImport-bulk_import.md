@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/BulkImport-bulk_import
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/BulkImport-bulk_import
+beta: FALSE
+notebook: FALSE
 type: docx
 token: S9dyd4UwhoqOPux411KcbafDnde
 sidebar_position: 1
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -30,11 +32,11 @@ bulk_import(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __url__ (_string_) -
+- **url** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The endpoint URL of your Zilliz Cloud cluster. 
 
@@ -46,15 +48,15 @@ __PARAMETERS:__
 
     Replace `cloud-region` with the ID of the region that accommodates your cluster. You can get the cloud region ID from the endpoint URL of your cluster.
 
-- __api_key__ (_string_) -
+- **api_key** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.
 
-- __object_url__ (_string_) -
+- **object_url** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The URL of your data files in one of your block storage buckets. The following are some examples of some renowned block storage services:
 
@@ -66,37 +68,37 @@ __PARAMETERS:__
     s3://{bucket-name}/{object-path}/
     ```
 
-- __access_key__ (_string_) -
+- **access_key** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The access key that is used to authenticate access to your data files.
 
-- __secret_key__ (_string_) -
+- **secret_key** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The secret key that is used to authenticate access to your data files.
 
-- __cluster_id__ (_string_) -
+- **cluster_id** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The instance ID of the target cluster of this operation.
 
     You can get the instance ID of a cluster on its details page from the Zilliz Cloud console.
 
-- __collection_name__ (_string_) -
+- **collection_name** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of a collection in the target cluster of this operation.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_dict_
+*dict*
 
-__RETURNS:__
+**RETURNS:**
 
 - Response syntax
 
@@ -111,11 +113,11 @@ __RETURNS:__
 
 - Response structure
 
-    - __jobId__ (_string_) -
+    - **jobId** (*string*) -
 
         If present, indicates that a bulk-import job has been created successfully and is currently running.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
 None
 
@@ -144,14 +146,14 @@ res = bulk_import(
 
 print(res.json())
 
-_# Output_
-_#_
-_# {_
-_#     "code": 200,_
-_#     "data": {_
-_#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a"_
-_#     }_
-_# }_
+# Output
+#
+# {
+#     "code": 200,
+#     "data": {
+#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a"
+#     }
+# }
 ```
 
 For details, refer to [Import Data (SDK)](/docs/import-data-via-sdks) in our user guides.

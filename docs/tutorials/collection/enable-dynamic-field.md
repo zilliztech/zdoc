@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: DzxkwMyxzifAFxkXZiqcErjtnke
 sidebar_position: 6
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -17,141 +18,75 @@ This page explains how to use the dynamic field in a collection for flexible dat
 
 ## Overview{#overview}
 
-Schema design is crucial for Zilliz Cloud cluster data processing. Before inserting entities into a collection, clarify the schema design and ensure that all data entities inserted afterward match the schema. However, this puts limits on collections, making them similar to tables in relational databases.
+Zilliz Cloud allows you to define the schema of a collection by setting the name and the data type of each specific field so that you can create indexes in these fields for improved search performance.
 
-Dynamic schema enables users to insert entities with new fields into a collection without modifying the existing schema. This means that users can insert data without knowing the full schema of a collection and can include fields that are not yet defined.
+Once a field is defined, you need to include this field when you insert data. What if some fields are not always present in all your data entries? This is where the dynamic field comes in.
 
-Dynamic schema also provides flexibility in data processing, enabling users to store and retrieve complex data structures in their collections. This includes nested data, arrays, and other complex data types.
+The dynamic field in a collection is a reserved JSON field named **$meta**. It can hold non-schema-defined fields and their values as key-value pairs. Using the dynamic field, you can search and query both schema-defined fields and any non-schema-defined fields they may have.
 
 ## Enable dynamic field{#enable-dynamic-field}
 
-To create a collection using a dynamic schema, set `enable_dynamic_field` to `True` when defining the data model. Afterward, all undefined fields and their values in the data entities inserted afterward will be treated as pre-defined fields. We prefer to use the term "dynamic fields" to refer to these key-value pairs.
+When defining a schema for a collection, you can set `enable_dynamic_field` to `True` to enable the reserved dynamic field, indicating that any non-schema-defined fields and their values inserted later on will be saved as key-value pairs in the reserved dynamic field.
 
-With these dynamic fields, you can ask Zilliz Cloud to output dynamic fields in search/query results and include them in search and query filter expressions just as they are already defined in the collection schema.
+The following snippet creates a collection with two schema-defined fields, namely `id` and `vector`, and enables the dynamic field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
-import json, os, time
-from pymilvus import MilvusClient, DataType
+import random, time
+from pymilvus import connections, MilvusClient, DataType
 
-CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Set your cluster endpoint
-TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
-COLLECTION_NAME="medium_articles_2020" # Set your collection name
-DATASET_PATH="{}/../medium_articles_2020_dpr.json".format(os.path.dirname(__file__)) # Set your dataset path
+CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+TOKEN = "YOUR_CLUSTER_TOKEN"
 
-# 1. Connect to cluster
+# 1. Set up a Milvus client
 client = MilvusClient(
     uri=CLUSTER_ENDPOINT,
-    token=TOKEN
+    token=TOKEN 
 )
 
-# 2. Define collection schema
+# 2. Create a collection
 schema = MilvusClient.create_schema(
-    auto_id=True,
-    enable_dynamic_field=True
+    auto_id=False,
+    # highlight-next-line
+    enable_dynamic_field=True,
 )
 
 schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
-schema.add_field(field_name="title", datatype=DataType.VARCHAR, max_length=512)
-schema.add_field(field_name="title_vector", datatype=DataType.FLOAT_VECTOR, dim=768)
+schema.add_field(field_name="vector", datatype=DataType.FLOAT_VECTOR, dim=5)
 
-# 3. Define index parameters
 index_params = MilvusClient.prepare_index_params()
 
 index_params.add_index(
-    field_name="title_vector",
-    index_type="AUTOINDEX",
-    metric_type="L2"
+    field_name="id",
+    index_type="STL_SORT"
 )
 
-# 4. Create a collection
+index_params.add_index(
+    field_name="vector",
+    index_type="IVF_FLAT",
+    metric_type="L2",
+    params={"nlist": 1024}
+)
+
 client.create_collection(
-    collection_name=COLLECTION_NAME,
+    collection_name="test_collection",
     schema=schema,
     index_params=index_params
 )
-```
 
-</TabItem>
+res = client.get_load_state(
+    collection_name="test_collection"
+)
 
-<TabItem value='javascript'>
+print(res)
 
-```javascript
-const fs = require("fs")
-const { MilvusClient, DataType, sleep } = require("@zilliz/milvus2-sdk-node")
-
-const address = "YOUR_CLUSTER_ENDPOINT"
-const token = "YOUR_CLUSTER_TOKEN"
-const collectionName = "medium_articles_2020"
-const data_file = `./medium_articles_2020_dpr.json`
-
-async function main() {
-    // 1. Connect to cluster
-    const client = new MilvusClient({address, token})
-    
-    // 2. Define fields
-    fields = [
-        {
-            name: "id",
-            data_type: DataType.Int64,
-            is_primary_key: true,
-            auto_id: true
-        },
-        {
-            name: "title",
-            data_type: DataType.VarChar,
-            max_length: 512
-        },
-        {
-            name: "title_vector",
-            data_type: DataType.FloatVector,
-            dim: 768
-        },
-    ]
-    
-    // 3. Create collection
-    res = await client.createCollection({
-        collection_name: collectionName,
-        fields: fields,
-        enable_dynamic_field: true
-    })
-
-    console.log(res)
-
-    // Output
-    // 
-    // { error_code: 'Success', reason: '', code: 0 }
-    // 
-
-    // 4. Create index
-    res = await client.createIndex({
-        collection_name: collectionName,
-        field_name: "title_vector",
-        index_type: "IVF_FLAT",
-        metric_type: "L2",
-        params: {
-            nlist: 1024
-        }
-    })
-
-    console.log(res)
-
-    // Output
-    // 
-    // { error_code: 'Success', reason: '', code: 0 }
-    // 
-
-    res = await client.loadCollection({
-        collection_name: collectionName
-    })
-
-    console.log(res)    
-
-    // Output
-    // 
-    // { error_code: 'Success', reason: '', code: 0 }
+# Output
+#
+# {
+#     "state": "<LoadState: Loaded>"
+# }
 ```
 
 </TabItem>
@@ -159,244 +94,144 @@ async function main() {
 <TabItem value='java'>
 
 ```java
-package com.zilliz.docs;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.GetLoadStateReq;
 
-import io.milvus.client.*;
-import io.milvus.param.*;
-import io.milvus.param.collection.FieldType;
-import io.milvus.param.index.CreateIndexParam;
-import io.milvus.param.collection.CreateCollectionParam;
-import io.milvus.param.collection.DropCollectionParam;
-import io.milvus.grpc.DataType;
-import io.milvus.param.dml.InsertParam;
-import io.milvus.grpc.MutationResult;
-import io.milvus.response.MutationResultWrapper;
-import io.milvus.param.dml.SearchParam;
-import io.milvus.grpc.SearchResults;
-import io.milvus.response.SearchResultsWrapper;
-import io.milvus.param.collection.LoadCollectionParam;
+String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+// 1. Connect to Milvus server
+ConnectConfig connectConfig = ConnectConfig.builder()
+    .uri(CLUSTER_ENDPOINT)
+    .token(TOKEN)
+    .build();
 
-import java.util.List;
-import java.util.ArrayList;
-import java.nio.file.Files;
-import java.nio.file.Path;
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-/**
- * Hello world!
- */
-public final class EnableDynamicSchemaDemo {
-    private EnableDynamicSchemaDemo() {
-    }
+// 2. Create a collection in customized setup mode
 
-    /**
-     * Says hello to the world.
-     * @param args The arguments of the program.
-     */
-    public static void main(String[] args) {
-        String clusterEndpoint = "YOUR_CLUSTER_ENDPOINT";
-        String token = "YOUR_CLUSTER_TOKEN";
-        String collectionName = "medium_articles";
-        String data_file = System.getProperty("user.dir") + "/medium_articles_2020_dpr.json";
+// 2.1 Create schema
+CreateCollectionReq.CollectionSchema schema = client.createSchema();
 
-        // 1. Connect to Zilliz Cloud cluster
-        ConnectParam connectParam = ConnectParam.newBuilder()
-            .withUri(clusterEndpoint)
-            .withToken(token)
-            .build();
+// 2.2 Add fields to schema
+schema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(true).autoID(false).build());
+schema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(5).build());
 
-        MilvusServiceClient client = new MilvusServiceClient(connectParam);
+// 2.3 Prepare index parameters
+IndexParam indexParamForIdField = IndexParam.builder()
+    .fieldName("id")
+    .indexType(IndexParam.IndexType.STL_SORT)
+    .build();
 
-        System.out.println("Connected to Zilliz Cloud!");
+IndexParam indexParamForVectorField = IndexParam.builder()
+    .fieldName("vector")
+    .indexType(IndexParam.IndexType.IVF_FLAT)
+    .metricType(IndexParam.MetricType.IP)
+    .extraParams(Map.of("nlist", 1024))
+    .build();
 
-        // Output:
-        // Connected to Zilliz Cloud!
+List<IndexParam> indexParams = new ArrayList<>();
+indexParams.add(indexParamForIdField);
+indexParams.add(indexParamForVectorField);
 
-        // 2. Define fields
+// 2.4 Create a collection with schema and index parameters
+CreateCollectionReq customizedSetupReq = CreateCollectionReq.builder()
+    .collectionName("customized_setup")
+    .collectionSchema(schema)
+    .indexParams(indexParams)
+    // highlight-next-line
+    .enableDynamicField(true)
+    .build();
 
-        FieldType id = FieldType.newBuilder()
-            .withName("id")
-            .withDataType(DataType.Int64)
-            .withPrimaryKey(true)
-            .withAutoID(true)
-            .build();
+client.createCollection(customizedSetupReq);
 
-        FieldType title = FieldType.newBuilder()
-            .withName("title")
-            .withDataType(DataType.VarChar)
-            .withMaxLength(512)
-            .build();
+Thread.sleep(5000);
 
-        FieldType title_vector = FieldType.newBuilder()
-            .withName("title_vector")
-            .withDataType(DataType.FloatVector)
-            .withDimension(768)
-            .build();
+// 2.5 Get load state of the collection
+GetLoadStateReq customSetupLoadStateReq1 = GetLoadStateReq.builder()
+    .collectionName("customized_setup")
+    .build();
 
-        // 3. Create collection
+boolean res = client.getLoadState(customSetupLoadStateReq1);
 
-        CreateCollectionParam createCollectionParam = CreateCollectionParam.newBuilder()
-            .withCollectionName(collectionName)
-            .withDescription("Schema of Medium articles")
-            .addFieldType(id)
-            .addFieldType(title)
-            .addFieldType(title_vector)
-            // Enable dynamic schema
-            .withEnableDynamicField(true)
-            .build();
+System.out.println(res);
 
-        R<RpcStatus> collection = client.createCollection(createCollectionParam);
-
-        if (collection.getException() != null) {
-            System.err.println("Failed to create collection: " + collection.getException().getMessage());
-            return;
-        }
-
-        System.out.println("Collection created!");
-
-        // Output:
-        // Collection created!
-
-        // 4. Create index
-
-        CreateIndexParam createIndexParam = CreateIndexParam.newBuilder()
-            .withCollectionName(collectionName)
-            .withFieldName("title_vector")
-            .withIndexName("title_vector_index")
-            .withIndexType(IndexType.AUTOINDEX)
-            .withMetricType(MetricType.L2)
-            .build();
-
-        R<RpcStatus> res = client.createIndex(createIndexParam);
-
-        if (res.getException() != null) {
-            System.err.println("Failed to create index: " + res.getException().getMessage());
-            return;
-        }
-
-        System.out.println("Index created!");
-
-        // Output:
-        // Index created!
-
-        // 5. Load collection
-
-        LoadCollectionParam loadCollectionParam = LoadCollectionParam.newBuilder()
-            .withCollectionName(collectionName)
-            .build();
-
-        R<RpcStatus> loadCollectionRes = client.loadCollection(loadCollectionParam);
-
-        if (loadCollectionRes.getException() != null) {
-            System.err.println("Failed to load collection: " + loadCollectionRes.getException().getMessage());
-            return;
-        }
-
-        System.out.println("Collection loaded!");
-
-        // Output:
-        // Collection loaded!
+// Output:
+// true
 ```
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='javascript'>
 
-```go
-import "github.com/milvus-io/milvus-sdk-go/v2/entity"
+```javascript
+const { MilvusClient, DataType, sleep } = require("@zilliz/milvus2-sdk-node")
 
-// You should include the following in the main function
+const address = "YOUR_CLUSTER_ENDPOINT"
+const token = "YOUR_CLUSTER_TOKEN"
 
-// 1. Connect to cluster
+async function main() {
+// 1. Set up a Milvus Client
+client = new MilvusClient({address, token}); 
 
-connParams := client.Config{
-    Address: CLUSTER_ENDPOINT,
-    APIKey:  TOKEN,
-}
-
-conn, err := client.NewClient(context.Background(), connParams)
-
-if err != nil {
-    log.Fatal("Failed to connect to Zilliz Cloud:", err.Error())
-}
-
-// 2. Create collection
-
-// Define fields
-id := entity.NewField().
-    WithName("id").
-    WithDataType(entity.FieldTypeInt64).
-    WithIsPrimaryKey(true)
-
-title := entity.NewField().
-    WithName("title").
-    WithDataType(entity.FieldTypeVarChar).
-    WithMaxLength(512)
-
-title_vector := entity.NewField().
-    WithName("title_vector").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(768)
-
-// Define schema
-schema := &entity.Schema{
-    CollectionName: COLLNAME,
-    AutoID:         true,
-    Fields: []*entity.Field{
-        id,
-        title,
-        title_vector,
+// 2. Create a collection
+// 2.1 Define fields
+const fields = [
+    {
+        name: "id",
+        data_type: DataType.Int64,
+        is_primary_key: true,
+        auto_id: false
     },
-    EnableDynamicField: true,
-}
+    {
+        name: "vector",
+        data_type: DataType.FloatVector,
+        dim: 5
+    },
+]
 
-err = conn.CreateCollection(context.Background(), schema, 2)
+// 2.2 Prepare index parameters
+const index_params = [{
+    field_name: "id",
+    index_type: "STL_SORT"
+},{
+    field_name: "vector",
+    index_type: "IVF_FLAT",
+    metric_type: "IP",
+    params: { nlist: 1024}
+}]
 
-if err != nil {
-    log.Fatal("Failed to create collection:", err.Error())
-}
+// 2.3 Create a collection with fields and index parameters
+res = await client.createCollection({
+    collection_name: "test_collection",
+    fields: fields, 
+    index_params: index_params,
+    // highlight-next-line
+    enable_dynamic_field: true
+})
 
-// 3. Create index for cluster
-index, err := entity.NewIndexAUTOINDEX(entity.MetricType("L2"))
+console.log(res.error_code)
 
-if err != nil {
-    log.Fatal("Failed to prepare the index:", err.Error())
-}
+// Output
+// 
+// Success
+// 
 
-fmt.Println(index.Name())
+res = await client.getLoadState({
+    collection_name: "test_collection",
+})  
 
-// Output: 
-//
-// AUTOINDEX
+console.log(res.state)
 
-err = conn.CreateIndex(context.Background(), COLLNAME, "title_vector", index, false)
-
-if err != nil {
-    log.Fatal("Failed to create the index:", err.Error())
-}
-
-// 4. Load collection
-loadCollErr := conn.LoadCollection(context.Background(), COLLNAME, false)
-
-if loadCollErr != nil {
-    log.Fatal("Failed to load collection:", loadCollErr.Error())
-}
-
-// 5. Get load progress
-progress, err := conn.GetLoadingProgress(context.Background(), COLLNAME, nil)
-
-if err != nil {
-    log.Fatal("Failed to get loading progress:", err.Error())
-}
-
-fmt.Println("Loading progress:", progress)
-
-// Output: 
-//
-// Loading progress: 100
+// Output
+// 
+// LoadStateLoaded
+// 
 ```
 
 </TabItem>
@@ -404,59 +239,31 @@ fmt.Println("Loading progress:", progress)
 
 ## Insert dynamic data{#insert-dynamic-data}
 
-Once the collection is created, you can start inserting data, including the dynamic data into the collection.
+Once the collection is created with the dynamic field enabled, you can start inserting data, including any non-schema-defined fields and their values.
 
 ### Prepare data{#prepare-data}
 
-Now we need to prepare a piece of applicable data out of the [Example Dataset](./example-dataset).
+In this section, you need to prepare some randomly generated data for the insertion later on.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
-# 6. Prepare data
-with open(DATASET_PATH) as f:
-    data = json.load(f)
-    list_of_rows = data['rows']
+colors = ["green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"]
+data = []
 
-    data_rows = []
-    for row in list_of_rows:
-        # Remove the id field because the primary key has auto_id enabled.
-        del row['id']
-        # Other keys except the title and title_vector fields in the row 
-        # will be treated as dynamic fields.
-        data_rows.append(row)
-```
+for i in range(1000):
+    current_color = random.choice(colors)
+    current_tag = random.randint(1000, 9999)
+    data.append({
+        "id": i,
+        "vector": [ random.uniform(-1, 1) for _ in range(5) ],
+        "color": current_color,
+        "tag": current_tag,
+        "color_tag": f"\{current_color}_{str(current_tag)}"
+    })
 
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// You should include the following in the async function declaration
-
-// 5. prepare data
-const data = JSON.parse(fs.readFileSync(data_file, {encoding: "utf-8"}))
-
-// read rows
-const rows = data["rows"]
-const row = rows[0]
-
-console.log(Object.keys(row))
-
-// Output
-// 
-// [
-//   'id',
-//   'title',
-//   'title_vector',
-//   'link',
-//   'reading_time',
-//   'publication',
-//   'claps',
-//   'responses'
-// ]
-// 
+print(data[0])
 ```
 
 </TabItem>
@@ -464,120 +271,104 @@ console.log(Object.keys(row))
 <TabItem value='java'>
 
 ```java
-// You should include the following in the main function
+List<String> colors = Arrays.asList("green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey");
+List<JSONObject> data = new ArrayList<>();
 
-// 5. prepare data
-String content;
-
-// read a local file
-Path file = Path.of(data_file);
-try {
-    content = Files.readString(file);
-} catch (Exception e) {
-    System.err.println("Failed to read file: " + e.getMessage());
-    return;
+for (int i=0; i<1000; i++) {
+    Random rand = new Random();
+    String current_color = colors.get(rand.nextInt(colors.size()-1));
+    int current_tag = rand.nextInt(8999) + 1000;
+    JSONObject row = new JSONObject();
+    row.put("id", Long.valueOf(i));
+    row.put("vector", Arrays.asList(rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat()));
+    row.put("color", current_color);
+    row.put("tag", current_tag);
+    row.put("color_tag", current_color + "_" + String.valueOf(rand.nextInt(8999) + 1000));
+    data.add(row);
 }
 
-System.out.println("Successfully read file");
-
-// Output:
-// Successfully read file
+System.out.println(JSONObject.toJSON(data.get(0)));
 ```
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='javascript'>
 
-```go
-// You should include the following in the main function
+```javascript
+const colors = ["green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"]
+var data = []
 
-// 6. Read the dataset
-file, err := os.ReadFile(DATA_FILE)
-if err != nil {
-    log.Fatal("Failed to read file:", err.Error())
+for (let i = 0; i < 1000; i++) {
+    const current_color = colors[Math.floor(Math.random() * colors.length)]
+    const current_tag = Math.floor(Math.random() * 8999 + 1000)
+    data.push({
+        id: i,
+        vector: [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()],
+        color: current_color,
+        tag: current_tag,
+        color_tag: `${current_color}_${current_tag}`
+    })
 }
 
-var data Dataset
-
-if err := json.Unmarshal(file, &data); err != nil {
-    log.Fatal(err.Error())
-}
-
-fmt.Println("Dataset loaded, row number: ", len(data.Rows))
-
-// Output: 
-//
-// Dataset loaded, row number:  5979
+console.log(data[0])
 ```
 
 </TabItem>
 </Tabs>
 
+You can view the structure of the generated data by checking its first entry.
+
+```json
+{
+    id: 0,
+    vector: [
+        0.1275656405044483,
+        0.47417858592773277,
+        0.13858264437643286,
+        0.2390904907020377,
+        0.8447862593689635
+    ],
+    color: 'blue',
+    tag: 2064,
+    color_tag: 'blue_2064'
+}
+```
+
 ### Insert data{#insert-data}
 
 Then you can safely insert the data into the collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
-# 7. Insert data
 res = client.insert(
-    collection_name=COLLECTION_NAME,
-    data=data_rows,
+    collection_name="test_collection",
+    data=data,
 )
+
+print(res)
 
 # Output
 #
 # {
-#     "insert_count": 5979
+#     "insert_count": 1000,
+#     "ids": [
+#         0,
+#         1,
+#         2,
+#         3,
+#         4,
+#         5,
+#         6,
+#         7,
+#         8,
+#         9,
+#         "(990 more items hidden)"
+#     ]
 # }
 
-time.sleep(5000)
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// You should include the following in the async function declaration
-
-// 6. insert data
-res = await client.insert({
-    collection_name: collectionName,
-    data: rows
-})
-
-console.log(res)
-
-// Output
-// 
-// {
-//   succ_index: [
-//      0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11,
-//     12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
-//     24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
-//     36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
-//     48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
-//     60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71,
-//     72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,
-//     84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95,
-//     96, 97, 98, 99,
-//     ... 5879 more items
-//   ],
-//   err_index: [],
-//   status: { error_code: 'Success', reason: '', code: 0 },
-//   IDs: { int_id: { data: [Array] }, id_field: 'int_id' },
-//   acknowledged: false,
-//   insert_cnt: '5979',
-//   delete_cnt: '0',
-//   upsert_cnt: '0',
-//   timestamp: '445316728739856387'
-// }
-// 
-
-await sleep(5000)
+time.sleep(5)
 ```
 
 </TabItem>
@@ -585,76 +376,40 @@ await sleep(5000)
 <TabItem value='java'>
 
 ```java
-// You should include the following in the main function
-
-// Load dataset
-JSONObject dataset = JSON.parseObject(content);
-
-// Insert your data in rows, all the fields not pre-defined in the schema 
-// are recognized as pre-defined schema
-List<JSONObject> rows = getRows(dataset.getJSONArray("rows"), 1000);
-
-InsertParam insertParam = InsertParam.newBuilder()
-    .withCollectionName(collectionName)
-    .withRows(rows)
+// 3.1 Insert data into the collection
+InsertReq insertReq = InsertReq.builder()
+    .collectionName("customized_setup")
+    .data(data)
     .build();
 
-R<MutationResult> insertResponse = client.insert(insertParam);
+InsertResp insertResp = client.insert(insertReq);
 
-if (insertResponse.getStatus() != R.Status.Success.getCode()) {
-    System.err.println(insertResponse.getMessage());
-}
-
-MutationResultWrapper mutationResultWrapper = new MutationResultWrapper(insertResponse.getData());
-
-System.out.println("Successfully insert entities: " + mutationResultWrapper.getInsertCount());  
+System.out.println(JSONObject.toJSON(insertResp));
 
 // Output:
-// Successfully insert entities: 1000
+// {"insertCnt": 1000}
 
-// wait for a while
-try {
-    // pause execution for 5 seconds
-    Thread.sleep(5000);
-} catch (InterruptedException e) {
-    // handle the exception
-    Thread.currentThread().interrupt();
-} 
+Thread.sleep(5000);
 ```
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='javascript'>
 
-```go
-// You should include the following in the main function
+```javascript
+res = await client.insert({
+    collection_name: "test_collection",
+    data: data,
+})
 
-// 6. Insert data
-fmt.Println("Start inserting ...")
+console.log(res.insert_cnt)
 
-// Output: 
-//
-// Start inserting ...
+// Output
+// 
+// 1000
+// 
 
-rows := make([]interface{}, 0, 1)
-
-for i := 0; i < len(data.Rows); i++ {
-    rows = append(rows, data.Rows[i])
-}
-
-col, err := conn.InsertRows(context.Background(), COLLNAME, "", rows)
-
-if err != nil {
-    log.Fatal("Failed to insert rows:", err.Error())
-}
-
-fmt.Println("Inserted entities: ", col.Len())
-
-// Output: 
-//
-// Inserted entities:  5979
-
-time.Sleep(5 * time.Second)
+await sleep(5000)
 ```
 
 </TabItem>
@@ -664,51 +419,49 @@ time.Sleep(5 * time.Second)
 
 If you have created the collection with the dynamic field enabled and inserted non-schema-defined fields, you can use these fields in the filter expression of a search or a query as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
-# 8. Search data
+# 4. Search with dynamic fields
+query_vectors = [[0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]]
+
 res = client.search(
-    collection_name=COLLECTION_NAME,
-    data=[data_rows[0]['title_vector']],
-    filter='claps > 30 and reading_time < 10',
-    limit=3,
-    output_fields=["title", "reading_time", "claps"],
-    search_params={"metric_type": "L2", "params": {}}
+    collection_name="test_collection",
+    data=query_vectors,
+    filter="color in [\"red\", \"green\"]",
+    search_params={"metric_type": "L2", "params": {"nprobe": 10}},
+    limit=3
 )
 
-print(result)
+print(res)
 
 # Output
 #
 # [
 #     [
 #         {
-#             "id": 443943328732915404,
-#             "distance": 0.36103835701942444,
+#             "id": 863,
+#             "distance": 0.188413605093956,
 #             "entity": {
-#                 "title": "The Hidden Side Effect of the Coronavirus",
-#                 "reading_time": 8,
-#                 "claps": 83
+#                 "id": 863,
+#                 "color_tag": "red_2371"
 #             }
 #         },
 #         {
-#             "id": 443943328732915438,
-#             "distance": 0.37674015760421753,
+#             "id": 799,
+#             "distance": 0.29188022017478943,
 #             "entity": {
-#                 "title": "Why The Coronavirus Mortality Rate is Misleading",
-#                 "reading_time": 9,
-#                 "claps": 2900
+#                 "id": 799,
+#                 "color_tag": "red_2235"
 #             }
 #         },
 #         {
-#             "id": 443943328732913238,
-#             "distance": 0.4162980318069458,
+#             "id": 564,
+#             "distance": 0.3492690920829773,
 #             "entity": {
-#                 "title": "Coronavirus shows what ethical Amazon could look like",
-#                 "reading_time": 4,
-#                 "claps": 51
+#                 "id": 564,
+#                 "color_tag": "red_9186"
 #             }
 #         }
 #     ]
@@ -717,272 +470,79 @@ print(result)
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-res = await client.search({
-    collection_name: collectionName,
-    vector: rows[0].title_vector,
-    limit: 3,
-    filter: "claps > 30 and reading_time < 10",
-    output_fields: ["title", "link"]
-});
-
-console.log(res);
-
-// Output
-// 
-// {
-//   status: { error_code: 'Success', reason: '', code: 0 },
-//   results: [
-//     {
-//       score: 0.36103832721710205,
-//       id: '5607',
-//       link: 'https://medium.com/swlh/the-hidden-side-effect-of-the-coronavirus-b6a7a5ee9586',
-//       title: 'The Hidden Side Effect of the Coronavirus'
-//     },
-//     {
-//       score: 0.37674015760421753,
-//       id: '5641',
-//       link: 'https://towardsdatascience.com/why-the-coronavirus-mortality-rate-is-misleading-cc63f571b6a6',
-//       title: 'Why The Coronavirus Mortality Rate is Misleading'
-//     },
-//     {
-//       score: 0.416297972202301,
-//       id: '3441',
-//       link: 'https://medium.com/swlh/coronavirus-shows-what-ethical-amazon-could-look-like-7c80baf2c663',
-//       title: 'Coronavirus shows what ethical Amazon could look like'
-//     }
-//   ]
-// }
-// 
-
-// 7. Get collection info
-
-res = await client.describeCollection({
-    collection_name: collectionName
-})
-
-console.log(res);
-
-// Output
-// 
-// {
-//   virtual_channel_names: [ 'by-dev-rootcoord-dml_11_445311585782773304v0' ],
-//   physical_channel_names: [ 'by-dev-rootcoord-dml_11' ],
-//   aliases: [],
-//   start_positions: [],
-//   properties: [],
-//   status: { error_code: 'Success', reason: '', code: 0 },
-//   schema: {
-//     fields: [ [Object], [Object], [Object] ],
-//     name: 'medium_articles_2020',
-//     description: '',
-//     autoID: false,
-//     enable_dynamic_field: true
-//   },
-//   collectionID: '445311585782773304',
-//   created_timestamp: '445316708672733190',
-//   created_utc_timestamp: '1698748430911',
-//   shards_num: 1,
-//   consistency_level: 'Bounded',
-//   collection_name: 'medium_articles_2020',
-//   db_name: 'default',
-//   num_partitions: '1'
-// }
-// 
-```
-
-</TabItem>
-
 <TabItem value='java'>
 
 ```java
-// prepare query vector
+// 4. Search with non-schema-defined fields
+List<List<Float>> queryVectors = Arrays.asList(Arrays.asList(0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f));
 
-List<List<Float>> queryVectors = new ArrayList<>();
-List<Float> queryVector1 = rows.get(0).getJSONArray("title_vector").toJavaList(Float.class);
-queryVectors.add(queryVector1);
-
-List<String> outputFields = new ArrayList<>();
-outputFields.add("title");
-// The following two fields are dynamic fields.
-outputFields.add("claps");
-outputFields.add("reading_time");
-
-// Search vectors in a collection
-
-SearchParam searchParam = SearchParam.newBuilder()
-    .withCollectionName(collectionName)
-    .withVectorFieldName("title_vector")
-    .withVectors(queryVectors)
-    .withTopK(5)   
-    .withMetricType(MetricType.L2)  
-    .withParams("{\"nprobe\":10,\"offset\":2, \"limit\":3}")
-    .withOutFields(outputFields)
-    .withExpr("$meta[\"claps\"] > 30 and reading_time < 10")
+SearchReq searchReq = SearchReq.builder()
+    .collectionName("customized_setup")
+    .data(queryVectors)
+    .filter("$meta[\"color\"] in [\"red\", \"green\"]")
+    .outputFields(List.of("id", "color_tag"))
+    .topK(3)
     .build();
 
-R<SearchResults> response = client.search(searchParam);
+SearchResp searchResp = client.search(searchReq);
 
-SearchResultsWrapper wrapper = new SearchResultsWrapper(response.getData().getResults());
-
-List<List<JSONObject>> results = new ArrayList<>();
-
-for (int i = 0; i < queryVectors.size(); ++i) {
-    List<SearchResultsWrapper.IDScore> scores = wrapper.getIDScore(i);
-    List<JSONObject> entities = new ArrayList<>();
-    for (int j = 0; j < scores.size(); ++j) {
-        SearchResultsWrapper.IDScore score = scores.get(j);
-        JSONObject entity = new JSONObject();
-        entity.put("id", score.getLongID());
-        entity.put("distance", score.getScore());
-        entity.put("title", scores.get(j).get("title"));
-        // The following are dynamic fields.
-        entity.put("claps", scores.get(j).get("claps"));
-        entity.put("reading_time", scores.get(j).get("reading_time"));
-        entities.add(entity);
-    }
-    
-    results.add(entities);
-}
-
-System.out.println(results);
+System.out.println(JSONObject.toJSON(searchResp));
 
 // Output:
-// [[
+// {"searchResults": [[
 //     {
-//         "reading_time": 6,
-//         "distance": 0.494843,
-//         "id": 445297206350523266,
-//         "title": "How bad will the Coronavirus Outbreak get? \u2014 Predicting the outbreak figures",
-//         "claps": 1100
+//         "distance": 1.3159835,
+//         "id": 979,
+//         "entity": {
+//             "color_tag": "red_7155",
+//             "id": 979
+//         }
 //     },
 //     {
-//         "reading_time": 7,
-//         "distance": 0.50522643,
-//         "id": 445297206350523757,
-//         "title": "What Does Coronavirus Mean For Your Startup?",
-//         "claps": 111
+//         "distance": 1.0744804,
+//         "id": 44,
+//         "entity": {
+//             "color_tag": "green_8006",
+//             "id": 44
+//         }
 //     },
 //     {
-//         "reading_time": 4,
-//         "distance": 0.50953895,
-//         "id": 445297206350524005,
-//         "title": "The Definitive Guide to Leading Remote Work Teams During Coronavirus",
-//         "claps": 753
-//     },
-//     {
-//         "reading_time": 6,
-//         "distance": 0.53836524,
-//         "id": 445297206350523435,
-//         "title": "The Relocation Problem of Field-Calibrated Low-Cost Air Quality Monitoring Systems",
-//         "claps": 51
-//     },
-//     {
-//         "reading_time": 7,
-//         "distance": 0.57358503,
-//         "id": 445297206350523356,
-//         "title": "The Funeral Industry is a Killer",
-//         "claps": 407
+//         "distance": 1.0060014,
+//         "id": 617,
+//         "entity": {
+//             "color_tag": "red_4056",
+//             "id": 617
+//         }
 //     }
-// ]]
-
+// ]]}
 ```
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='javascript'>
 
-```go
-// 8. Search
-fmt.Println("Start searching ...")
+```javascript
+// 4. Search with non-schema-defined fields
+const query_vectors = [[0.1, 0.2, 0.3, 0.4, 0.5]]
 
-// Output: 
-//
-// Start searching ...
+res = await client.search({
+    collection_name: "test_collection",
+    data: query_vectors,
+    filter: "color in [\"red\", \"green\"]",
+    output_fields: ["color_tag"],
+    limit: 3
+})
 
-vectors := []entity.Vector{}
+console.log(res.results)
 
-for _, row := range data.Rows[:1] {
-    vector := make(entity.FloatVector, 0, 768)
-    vector = append(vector, row.TitleVector...)
-    vectors = append(vectors, vector)
-}
-
-sp, _ := entity.NewIndexAUTOINDEXSearchParam(1)
-
-limit := client.WithLimit(10)
-offset := client.WithOffset(0)
-topK := 5
-outputFields := []string{"id", "title", "claps", "reading_time"}
-
-res, err := conn.Search(
-    context.Background(),               // context
-    COLLNAME,                           // collectionName
-    []string{},                         // partitionNames
-    "claps > 30 and reading_time < 10", // expr
-    outputFields,                       // outputFields
-    vectors,                            // vectors
-    "title_vector",                     // vectorField
-    entity.MetricType("L2"),            // metricType
-    topK,                               // topK
-    sp,                                 // sp
-    limit,                              // opts
-    offset,                             // opts
-)
-
-if err != nil {
-    log.Fatal("Failed to insert rows:", err.Error())
-}
-
-fmt.Println(resultsToJSON(res))
-
-// Output: 
+// Output
+// 
 // [
-//  {
-//      "counts": 5,
-//      "distances": [
-//          0.36103836,
-//          0.37674016,
-//          0.41629803,
-//          0.4360938,
-//          0.48886314
-//      ],
-//      "rows": [
-//          {
-//              "claps": 83,
-//              "id": 5607,
-//              "reading_time": 8,
-//              "title": "The Hidden Side Effect of the Coronavirus"
-//          },
-//          {
-//              "claps": 2900,
-//              "id": 5641,
-//              "reading_time": 9,
-//              "title": "Why The Coronavirus Mortality Rate is Misleading"
-//          },
-//          {
-//              "claps": 51,
-//              "id": 3441,
-//              "reading_time": 4,
-//              "title": "Coronavirus shows what ethical Amazon could look like"
-//          },
-//          {
-//              "claps": 65,
-//              "id": 938,
-//              "reading_time": 6,
-//              "title": "Mortality Rate As an Indicator of an Epidemic Outbreak"
-//          },
-//          {
-//              "claps": 255,
-//              "id": 4275,
-//              "reading_time": 9,
-//              "title": "How Can AI Help Fight Coronavirus?"
-//          }
-//      ]
-//  }
+//   { score: 1.2284551858901978, id: '301', color_tag: 'red_1270' },
+//   { score: 1.2195171117782593, id: '205', color_tag: 'red_2780' },
+//   { score: 1.2055039405822754, id: '487', color_tag: 'red_6653' }
 // ]
+// 
 ```
 
 </TabItem>
@@ -990,13 +550,13 @@ fmt.Println(resultsToJSON(res))
 
 ## Recaps{#recaps}
 
-It is worth noting that __claps__ and __reading_time__ are not present when you define the schema, but this does not prevent you from using them in the filter expression and including them in the output fields if the data entities inserted have these fields, just like you normally do in the past.
+It is worth noting that **color**, **tag**, and **color_tag** are not present when you define the collection schema, but you can use them as schema-defined fields when you conduct searches and queries.
 
-If the key of a dynamic field contains characters other than digits, letters, and underscores (e.g. plus signs, asterisks, or dollar signs), you need to include the key within __$meta[]__ as shown in the following code snippet when using it in a boolean expression or including it in the output fields.
+If the name of a non-schema-defined field contains characters other than digits, letters, and underscores, such as plus signs (+), asterisks (*), or dollar signs ($), you have to include the key within **$meta[]** as shown in the following code snippet when using it in a boolean expression or including it in the output fields.
 
 ```python
 ... 
-expr='$meta["#key"] in ["a", "b", "c"]', 
-output_fields='$meta["#key"]'  
+filter='$meta["$key"] in ["a", "b", "c"]', 
+output_fields='$meta["$key"]'  
 ...
 ```

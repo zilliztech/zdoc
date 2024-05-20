@@ -1,10 +1,11 @@
 ---
 slug: /faq-collection
-beta: null
-notebook: null
+beta: FALSE
+notebook: FALSE
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 3
+
 ---
 
 # FAQ: Collection
@@ -30,7 +31,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 ### How many collections are allowed in a single cluster?{#how-many-collections-are-allowed-in-a-single-cluster}
 
-A serverless cluster can have up to 2 collections.  If you have reached the upper limit and need to create more collections, please [migrate to a dedicated cluster](./migrate-between-clusters#from-serverless-to-dedicated-cluster).
+A free cluster can have up to 2 collections.  If you have reached the upper limit and need to create more collections, please [migrate to a dedicated cluster](./migrate-between-clusters#from-dedicated-cluster-to-serverless-cluster).
 
 The number of collections allowed in a dedicated cluster varies with the cluster CU size. For clusters with 8 CUs or less, you can create a maximum of 32 collections. For clusters with more than 8 CUs,  you can create a maximum of 256 collections. For more information about the limits, please see [Zilliz Cloud Limits](./limits).
 
@@ -44,7 +45,7 @@ If you have reached the maximum number of collections allowed in a cluster, you 
 
 ### How can I know if dynamic schema is enabled for my collection?{#how-can-i-know-if-dynamic-schema-is-enabled-for-my-collection}
 
-You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the __Schema__ tab. You can see if dynamic schema is enabled or not in the upper right corner. For more details, see [Enable Dynamic Field](./enable-dynamic-field).
+You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the **Schema** tab. You can see if dynamic schema is enabled or not in the upper right corner. For more details, see [Enable Dynamic Field](./enable-dynamic-field).
 
 ![faq_dynamic_schema_enabled](/img/faq_dynamic_schema_enabled.png)
 
@@ -56,17 +57,17 @@ No. Once you have enabled/disabled dynamic schema when creating a collection, yo
 
 Zilliz Cloud supports 3 types of metrics.
 
-1. __Euclidean (L2)__ measures the distance between two vectors in a plane. The smaller the result, the more similar the two vectors are.
+1. **Euclidean (L2)** measures the distance between two vectors in a plane. The smaller the result, the more similar the two vectors are.
 
-1. __Inner Product (IP)__ multiplies two vectors. The more positive the result, the more similar the two vectors are.
+1. **Inner Product (IP)** multiplies two vectors. The more positive the result, the more similar the two vectors are.
 
-1. _[Beta]_ __Cosine__ measures the cosine value of the angle between two vectors.
+1. *[Beta]* **Cosine** measures the cosine value of the angle between two vectors.
 
 Note that the cosine metric type is still in Beta version. If you need to choose this metric type, you need to upgrade your cluster to Beta version first.
 
 ### How to set the TTL (time to live) property of a created collection?{#how-to-set-the-ttl-time-to-live-property-of-a-created-collection}
 
-You can set the TTL of a collection with our PyMilvus SDK by providing the value of the parameter __collection.ttl.seconds__.
+You can set the TTL of a collection with our PyMilvus SDK by providing the value of the parameter **collection.ttl.seconds**.
 
 The following example sets the TTL to 1800 seconds.
 

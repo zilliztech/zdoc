@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/CollectionSchema-add_field
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/CollectionSchema-add_field
+beta: FALSE
+notebook: FALSE
 type: docx
 token: TG3Rd9aM5offvFxKy2CcKXn9nWc
 sidebar_position: 1
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -24,57 +26,57 @@ add_field(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __field_name__ (_string_) - 
+- **field_name** (*string*) - 
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the field.
 
-- __datatype__ (_[DataType](./Collections-DataType)_) - 
+- **datatype** (*[DataType](./Collections-DataType)*) - 
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The data type of the field.
 
     You can choose from the following options when selecting a data type for different fields:
 
-    - Primary key field: Use __DataType.INT64__ or __DataType.VARCHAR__.
+    - Primary key field: Use **DataType.INT64** or **DataType.VARCHAR**.
 
     - Scalar fields: Choose from a variety of options, including 
 
-        - __DataType.BOOL__,
+        - **DataType.BOOL**,
 
-        - __DataType.INT8__,
+        - **DataType.INT8**,
 
-        - __DataType.INT16__,
+        - **DataType.INT16**,
 
-        - __DataType.INT32__,
+        - **DataType.INT32**,
 
-        - __DataType.INT64__,
+        - **DataType.INT64**,
 
-        - __DataType.FLOAT__,
+        - **DataType.FLOAT**,
 
-        - __DataType.DOUBLE__,
+        - **DataType.DOUBLE**,
 
-        - __DataType.BINARY_VECTOR,__
+        - **DataType.BINARY_VECTOR,**
 
-        - __DataType.FLOAT_VECTOR,__
+        - **DataType.FLOAT_VECTOR,**
 
-        - __DataType.FLOAT16_VECTOR,__
+        - **DataType.FLOAT16_VECTOR,**
 
-        - __DataType.BFLOAT16_VECTOR,
+        - **DataType.BFLOAT16_VECTOR,
 
-        - __DataType.VARCHAR__,
+        - **DataType.VARCHAR**,
 
-        - __DataType.JSON__, and
+        - **DataType.JSON**, and
 
-        - __DataType.ARRAY__.
+        - **DataType.ARRAY**.
 
-    - Vector fields: Use __DataType.FLOAT_VECTOR__.
+    - Vector fields: Use **DataType.FLOAT_VECTOR**.
 
-- __is_primary__ (_bool_) -
+- **is_primary** (*bool*) -
 
     Whether the current field is the primary field in a collection.
 
@@ -87,31 +89,31 @@ __PARAMETERS:__
 
     </Admonition>
 
-- __max_length__ (_int_) -
+- **max_length** (*int*) -
 
     The maximum length of the field value.
 
-    This is mandatory for a __DataType.VARCHAR__ field.
+    This is mandatory for a **DataType.VARCHAR** field.
 
-- __element_type__ (_str_) -
+- **element_type** (*str*) -
 
     The data type of the elements in the field value.
 
-    This is mandatory for a __DataType.Array__ field.
+    This is mandatory for a **DataType.Array** field.
 
-- __max_capacity__ (_int_) -
+- **max_capacity** (*int*) -
 
     The number of elements in an Array field value.
 
-    This is mandatory for a __DataType.Array__ field.
+    This is mandatory for a **DataType.Array** field.
 
-- __dim__ (_int_) -
+- **dim** (*int*) -
 
     The dimension of the vector embeddings.
 
-    This is mandatory for a __DataType.FLOAT_VECTOR__ field field.
+    This is mandatory for a **DataType.FLOAT_VECTOR** field field.
 
-- __is_partition_key__ (_bool_) -
+- **is_partition_key** (*bool*) -
 
     Whether the current field serves as the partition key. Each collection can have one partition key.
 
@@ -123,17 +125,17 @@ __PARAMETERS:__
 
     </Admonition>
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_[CollectionSchema](./ORM-CollectionSchema)_
+*[CollectionSchema](./ORM-CollectionSchema)*
 
-__RETURNS:__
+**RETURNS:**
 
-A __CollectionSchema__ object contains the fields that have been added to the schema.
+A **CollectionSchema** object contains the fields that have been added to the schema.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

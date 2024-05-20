@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: Tr5lwpgrCiETZzkaFSYcBTDjnlz
 sidebar_position: 6
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -22,9 +23,9 @@ To restore a cluster in the recycle bin, you need to [add a payment method](/doc
 
 1. Navigate to the organization the dropped cluster belongs to.
 
-1. Access the __Recycle Bin__ via the left navigation menu or the top navigation icon.
+1. Access the **Recycle Bin** via the left navigation menu or the top navigation icon.
 
-1. Locate the cluster to restore. From the __Actions__ dropdown, select __Restore Cluster__.
+1. Locate the cluster to restore. From the **Actions** dropdown, select **Restore Cluster**.
 
 1. Configure the restored cluster.
 
@@ -34,7 +35,7 @@ To restore a cluster in the recycle bin, you need to [add a payment method](/doc
 
     1. You can rename the cluster and reset its size and password for connection.
 
-1. Click __Restore__. Zilliz Cloud will start creating the cluster with the specified attributes and restore your data to the created cluster.
+1. Click **Restore**. Zilliz Cloud will start creating the cluster with the specified attributes and restore your data to the created cluster.
 
 <Admonition type="info" icon="📘" title="Notes">
 

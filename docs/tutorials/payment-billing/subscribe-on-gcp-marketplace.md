@@ -5,7 +5,8 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: MIqTw7iJ4iQAtVkYKiEc98a7nsh
-sidebar_position: 3
+sidebar_position: 4
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -33,29 +34,29 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://console.cloud.google.com/marketplace) and start subscribing to Zilliz Cloud as follows:
 
-1. Search for __Zilliz Cloud__ in the search box, or click [here](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1) to view Zilliz Cloud on GCP.
+1. Search for **Zilliz Cloud** in the search box, or click [here](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1) to view Zilliz Cloud on GCP.
 
     ![search_for_zilliz_on_gcp](/img/search_for_zilliz_on_gcp.png)
 
-1. Click __Zilliz Cloud__.
+1. Click **Zilliz Cloud**.
 
     Familiarize yourself with the services and pricing.
 
-1. Select the project for subscription and click __Subscribe__. 
+1. Select the project for subscription and click **Subscribe**. 
 
     ![click_subscribe_on_gcp](/img/click_subscribe_on_gcp.png)
 
-1. On the __New Zilliz Cloud subscription__ page, complete the following steps:
+1. On the **New Zilliz Cloud subscription** page, complete the following steps:
 
-    1. Select your billing account from the dropdown in the __Purchase details__ section.
+    1. Select your billing account from the dropdown in the **Purchase details** section.
 
-    1. Review and accept the __Terms__.
+    1. Review and accept the **Terms**.
 
-    1. Click __Subscribe__.
+    1. Click **Subscribe**.
 
     ![new_zilliz_cloud_subscription_on_gcp](/img/new_zilliz_cloud_subscription_on_gcp.png)
 
-1. In the pop-up window, click __SIGN UP WITH ZILLIZ__.
+1. In the pop-up window, click **SIGN UP WITH ZILLIZ**.
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -75,7 +76,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
     ![gcp_link_subscription_with_account](/img/gcp_link_subscription_with_account.png)
 
-1. Go to __Billing__ to ensure your GCP Marketplace subscription is set as your payment method.
+1. Go to **Billing** to ensure your GCP Marketplace subscription is set as your payment method.
 
 ## Update GCP Marketplace subscription{#update-gcp-marketplace-subscription}
 

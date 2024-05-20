@@ -5,7 +5,8 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: PBEbwjRu9iyyaFkZnuzcINHCnke
-sidebar_position: 6
+sidebar_position: 7
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,15 +22,34 @@ Please note that access to view invoices is restricted to organization owners.
 
 ## View invoices{#view-invoices}
 
-To view your billing records, navigate to __Billing__ in the left sidebar and select the __Invoices__ tab. Within Zilliz Cloud, there are five possible billing statuses, each representing a different state of your payment. The table below outlines these statuses:
+To view your billing records, navigate to **Billing** in the left sidebar and select the **Invoices** tab. Within Zilliz Cloud, there are five possible billing statuses, each representing a different state of your payment. The table below outlines these statuses:
 
-|  __Status__   |  __Definition__                                                                                                                                                               |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  __Paid__     |  Payment has been completed with no outstanding amounts.                                                                                                                      |
-|  __Free__     |  All amounts due are paid with credits.                                                                                                                                       |
-|  __Overdue__  |  The invoice is billed but not paid within the due timeframe.                                                                                                                 |
-|  __Unbilled__ |  Transactions that occur after the billing cycle but before the statement is generated. These amounts are not immediately due but will be included in the next billing cycle. |
-|  __Unpaid__   |  The invoice is billed and is within the due timeframe.                                                                                                                       |
+<table>
+   <tr>
+     <th><strong>Status</strong></th>
+     <th><strong>Definition</strong></th>
+   </tr>
+   <tr>
+     <td><strong>Paid</strong></td>
+     <td>Payment has been completed with no outstanding amounts.</td>
+   </tr>
+   <tr>
+     <td><strong>Free</strong></td>
+     <td>All amounts due are paid with credits.</td>
+   </tr>
+   <tr>
+     <td><strong>Overdue</strong></td>
+     <td>The invoice is billed but not paid within the due timeframe.</td>
+   </tr>
+   <tr>
+     <td><strong>Unbilled</strong></td>
+     <td>Transactions that occur after the billing cycle but before the statement is generated. These amounts are not immediately due but will be included in the next billing cycle.</td>
+   </tr>
+   <tr>
+     <td><strong>Unpaid</strong></td>
+     <td>The invoice is billed and is within the due timeframe.</td>
+   </tr>
+</table>
 
 ![view-invoices](/img/view-invoices.png)
 
@@ -39,7 +59,7 @@ To view specific details for an invoice, click on the respective billing period 
 
 ## View payment method{#view-payment-method}
 
-On the __Billing Overview__ page, you can view your current payment method, check remaining credits, and see your Advance Pay balance.
+On the **Billing Overview** page, you can view your current payment method, check remaining credits, and see your Advance Pay balance.
 
 ![payment-method-en](/img/payment-method-en.png)
 

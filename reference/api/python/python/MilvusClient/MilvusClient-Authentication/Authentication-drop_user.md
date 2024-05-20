@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Authentication-drop_user
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Authentication-drop_user
+beta: FALSE
+notebook: FALSE
 type: docx
 token: WtyZdeFKMoSv5exaYRxcPLCSndg
 sidebar_position: 6
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -24,35 +26,35 @@ drop_user(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __user_name__ (_str_) -
+- **user_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the user to drop.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-- __BaseException__
+- **BaseException**
 
     This exception will be raised when this operation fails.
 

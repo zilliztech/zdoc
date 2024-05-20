@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collections-create_schema
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collections-create_schema
+beta: FALSE
+notebook: FALSE
 type: docx
 token: RxU7dBjGlop0e1xZShYcZ4qCnnh
 sidebar_position: 4
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -27,21 +29,21 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
 </Admonition>
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __kwargs__ -
+- **kwargs** -
 
-    - __auto_id__ (_bool_)
+    - **auto_id** (*bool*)
 
         Whether allows the primary field to automatically increment.
 
-        Setting this to __True__ makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
+        Setting this to **True** makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
 
-    - __enable_dynamic_field__ (_bool_)
+    - **enable_dynamic_field** (*bool*)
 
         Whether allows Zilliz Cloud saves the values of undefined fields in a dynamic field if the data being inserted into the target collection includes fields that are not defined in the collection's schema.
 
-        When you set this to __True__,  and Zilliz Cloud will create a field called __$meta__ to store any undefined fields and their values from the data that is inserted.
+        When you set this to **True**,  and Zilliz Cloud will create a field called **$meta** to store any undefined fields and their values from the data that is inserted.
 
         <Admonition type="info" icon="📘" title="What is a dynamic field?">
 
@@ -49,11 +51,11 @@ __PARAMETERS:__
 
         </Admonition>
 
-    - __primary_field__ (_str_)
+    - **primary_field** (*str*)
 
         The name of the primary field.
 
-    - __partition_key_field__ (_str_)
+    - **partition_key_field** (*str*)
 
         The name of the field that serves as the partition key.
 
@@ -66,17 +68,17 @@ __PARAMETERS:__
 
         </Admonition>
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_[CollectionSchema](./ORM-CollectionSchema)_
+*[CollectionSchema](./ORM-CollectionSchema)*
 
-__RETURNS:__
+**RETURNS:**
 
-A __[CollectionSchema](./ORM-CollectionSchema)__ object.
+A **[CollectionSchema](./ORM-CollectionSchema)** object.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

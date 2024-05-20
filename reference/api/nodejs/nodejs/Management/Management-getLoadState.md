@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Management-getLoadState
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Management-getLoadState
+beta: FALSE
+notebook: FALSE
 type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
 sidebar_position: 4
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -51,7 +53,7 @@ This method returns a promise that resolves to a GetLoadStateResponse object.
 
 ```javascript
 {
-    state: LoadState*,*
+    state: LoadState,
     status: object
 }
 ```

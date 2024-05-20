@@ -6,6 +6,7 @@ notebook: FALSE
 type: origin
 token: UgqvwKh2QiKE1kkYNLJcaHt0nkg
 sidebar_position: 4
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -17,12 +18,28 @@ Selecting the right Compute Unit (CU) is a crucial step when creating a cluster 
 
 ## Understand CU types{#understand-cu-types}
 
-Zilliz Cloud offers these CU types: __Performance-optimized and __Capacity-optimized__.
+Zilliz Cloud offers these CU types: **Performance-optimized** and **Capacity-optimized**.
 
-|  CU Type                   |  Latency |  Throughput |  Capacity |
-| -------------------------- | -------- | ----------- | --------- |
-|  __Performance-optimized__ |  Low     |  High       |  Low      |
-|  __Capacity-optimized__    |  Medium  |  Medium     |  High     |
+<table>
+   <tr>
+     <th>CU Type</th>
+     <th>Latency</th>
+     <th>Throughput</th>
+     <th>Capacity</th>
+   </tr>
+   <tr>
+     <td><strong>Performance-optimized</strong></td>
+     <td>Low</td>
+     <td>High</td>
+     <td>Low</td>
+   </tr>
+   <tr>
+     <td><strong>Capacity-optimized</strong></td>
+     <td>Medium</td>
+     <td>Medium</td>
+     <td>High</td>
+   </tr>
+</table>
 
 ### Performance-optimized CU{#performance-optimized-cu}
 
@@ -44,13 +61,38 @@ Factor in data volume, performance expectations, and budgets while selecting the
 
 The table below illustrates the load capacity for each CU type, taking into account the vector dimensions and the total vector count.
 
-|  Vector Dimensions |  Performance-optimized (Max. Vectors per CU) |  Capacity-optimized (Max. Vectors per CU) |
-| ------------------ | -------------------------------------------- | ----------------------------------------- |
-|  128               |  8 million                                   |  25 million                               |
-|  256               |  6 million                                   |  15 million                               |
-|  512               |  3 million                                   |  7.5 million                              |
-|  768               |  2 million<br/>                           |  5 million                                |
-|  1024              |  1.5 million                                 |  3.75 million                             |
+<table>
+   <tr>
+     <th>Vector Dimensions</th>
+     <th>Performance-optimized (Max. Vectors per CU)</th>
+     <th>Capacity-optimized (Max. Vectors per CU)</th>
+   </tr>
+   <tr>
+     <td>128</td>
+     <td>7.5 million</td>
+     <td>25 million</td>
+   </tr>
+   <tr>
+     <td>256</td>
+     <td>4.5 million</td>
+     <td>15 million</td>
+   </tr>
+   <tr>
+     <td>512</td>
+     <td>2.25 million</td>
+     <td>7.5 million</td>
+   </tr>
+   <tr>
+     <td>768</td>
+     <td>1.5 million<br/></td>
+     <td>5 million</td>
+   </tr>
+   <tr>
+     <td>1024</td>
+     <td>1.125 million</td>
+     <td>3.75 million</td>
+   </tr>
+</table>
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -64,21 +106,63 @@ Performance metrics, notably latency and queries per second (QPS), are vital. Th
 
 The following table shows the test result of how each CU type performs in terms of QPS.
 
-|  top_k |  QPS for Performance-optimized CU (768-dim 1M vectors)<br/>  |  QPS for Capacity-optimized CU (768-dim 5M vectors) |
-| ------ | --------------------------------------------------------------- | --------------------------------------------------- |
-|  10    |  520                                                            |  100                                                |
-|  100   |  440                                                            |  80                                                 |
-|  250   |  270                                                            |  60                                                 |
-|  1000  |  150                                                            |  40                                                 |
+<table>
+   <tr>
+     <th>top_k</th>
+     <th>QPS for Performance-optimized CU (768-dim 1M vectors)<br/></th>
+     <th>QPS for Capacity-optimized CU (768-dim 5M vectors)</th>
+   </tr>
+   <tr>
+     <td>10</td>
+     <td>520</td>
+     <td>100</td>
+   </tr>
+   <tr>
+     <td>100</td>
+     <td>440</td>
+     <td>80</td>
+   </tr>
+   <tr>
+     <td>250</td>
+     <td>270</td>
+     <td>60</td>
+   </tr>
+   <tr>
+     <td>1000</td>
+     <td>150</td>
+     <td>40</td>
+   </tr>
+</table>
 
 The following table shows the test result of how each CU type performs in terms of latency.
 
-|  top_k<br/>  |  Latency of Performance-optimized CU (768-dim 1M vectors)<br/>  |  Latency of Capacity-optimized CU (768-dim 5M vectors)<br/>  |
-| --------------- | ------------------------------------------------------------------ | --------------------------------------------------------------- |
-|  10             |  < 10 ms                                                           |  < 50 ms<br/>                                                |
-|  100            |  < 10 ms                                                           |  < 50 ms                                                        |
-|  250            |  < 10 ms                                                           |  < 50 ms                                                        |
-|  1000           |  10 - 20 ms                                                        |  50 - 100 ms                                                    |
+<table>
+   <tr>
+     <th>top_k<br/></th>
+     <th>Latency of Performance-optimized CU (768-dim 1M vectors)<br/></th>
+     <th>Latency of Capacity-optimized CU (768-dim 5M vectors)<br/></th>
+   </tr>
+   <tr>
+     <td>10</td>
+     <td>&lt; 10 ms</td>
+     <td>< 50 ms<br/></td>
+   </tr>
+   <tr>
+     <td>100</td>
+     <td>&lt; 10 ms</td>
+     <td>&lt; 50 ms</td>
+   </tr>
+   <tr>
+     <td>250</td>
+     <td>&lt; 10 ms</td>
+     <td>&lt; 50 ms</td>
+   </tr>
+   <tr>
+     <td>1000</td>
+     <td>10 - 20 ms</td>
+     <td>50 - 100 ms</td>
+   </tr>
+</table>
 
 ## Scenario breakdown{#scenario-breakdown}
 
@@ -86,13 +170,13 @@ Suppose you are building an image recommendation application with a library of 8
 
 To select the right CU for this requirement, follow these steps:
 
-1. __Evaluate Latency__: The Performance-optimized CU is the only type that meets the 30-millisecond latency requirement.
+1. **Evaluate Latency**: The Performance-optimized CU is the only type that meets the 30-millisecond latency requirement.
 
-1. __Assess Capacity__: A single Performance-optimized CU accommodates 2 million 768-dimensional vectors. To store all 8 million vectors, you would need at least 4 CUs.
+1. **Assess Capacity**: A single Performance-optimized CU accommodates 1.5 million 768-dimensional vectors. To store all 8 million vectors, you would need at least 6 CUs.
 
-1. __Check Throughput__: With a `top-k` setting of 100, the Performance-optimized CU can achieve a QPS of 440. To sustain a consistent 1,000 QPS, you would need to triple the number of replicas.
+1. **Check Throughput**: With a `top-k` setting of 100, the Performance-optimized CU can achieve a QPS of 440. To sustain a consistent 1,000 QPS, you would need to triple the number of replicas.
 
-In conclusion, for this scenario, the Performance-optimized CU is your best bet. A configuration of 3 replicas, with each replica consisting of 4 CUs, should serve you perfectly.
+In conclusion, for this scenario, the Performance-optimized CU is your best bet. A configuration of 3 replicas, with each replica consisting of 6 CUs, should serve you perfectly.
 
 ## Related topics{#related-topics}
 

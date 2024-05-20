@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Collection-create_partition
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Collection-create_partition
+beta: FALSE
+notebook: FALSE
 type: docx
 token: Sh7HdgJOIoJipXx5AoNcicjMnyd
 sidebar_position: 5
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -24,29 +26,29 @@ create_partition(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __partition_name__ (_string_)
+- **partition_name** (*string*)
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the partition to create.
 
-- __description__ (_string_)
+- **description** (*string*)
 
     The description of this partition.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_Partition_
+*Partition*
 
-__RETURNS:__
+**RETURNS:**
 
 A partition object.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

@@ -4,7 +4,8 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: FmkCwm1QHitB7uk9U9ncLnHrnse
-sidebar_position: 15
+sidebar_position: 16
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -24,14 +25,36 @@ This guide details the available ways for you to subscribe to our services on Zi
 
 ### Payment options{#payment-options}
 
-|  __Payment method__             |  __Description__                                                                                                                                                                                                          |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  Credits                        |  You earn credits upon registration or by participating in Zilliz Cloud events, etc. Credits can be used to cover the expenses of using Zilliz Cloud services.                                                            |
-|  Credit card                    |  You receive a monthly invoice for your usage on Zilliz Cloud.                                                                                                                                                            |
-|  AWS Marketplace subscription   |  You receive invoices for your Zilliz Cloud usage through the AWS Marketplace. <br/> You can subscribe to our service in AWS Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.    |
-|  GCP Marketplace subscription   |  You receive invoices for your Zilliz Cloud usage through the GCP Marketplace.<br/> You can subscribe to our service in GCP Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.     |
-|  Azure Marketplace subscription |  You receive invoices for your Zilliz Cloud usage through the Azure Marketplace.<br/> You can subscribe to our service in Azure Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters. |
-|  Advance Pay                    |  You prepay a sum of funds for Zilliz Cloud services.                                                                                                                                                                     |
+<table>
+   <tr>
+     <th><strong>Payment method</strong></th>
+     <th><strong>Description</strong></th>
+   </tr>
+   <tr>
+     <td>Credits</td>
+     <td>You earn credits upon registration or by participating in Zilliz Cloud events, etc. Credits can be used to cover the expenses of using Zilliz Cloud services.</td>
+   </tr>
+   <tr>
+     <td>Credit card</td>
+     <td>You receive a monthly invoice for your usage on Zilliz Cloud.</td>
+   </tr>
+   <tr>
+     <td>AWS Marketplace subscription</td>
+     <td>You receive invoices for your Zilliz Cloud usage through the AWS Marketplace. <br/> You can subscribe to our service in AWS Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.</td>
+   </tr>
+   <tr>
+     <td>GCP Marketplace subscription</td>
+     <td>You receive invoices for your Zilliz Cloud usage through the GCP Marketplace.<br/> You can subscribe to our service in GCP Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.</td>
+   </tr>
+   <tr>
+     <td>Azure Marketplace subscription</td>
+     <td>You receive invoices for your Zilliz Cloud usage through the Azure Marketplace.<br/> You can subscribe to our service in Azure Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.</td>
+   </tr>
+   <tr>
+     <td>Advance Pay</td>
+     <td>You prepay a sum of funds for Zilliz Cloud services.</td>
+   </tr>
+</table>
 
 Credits and Advance Pay can be combined with either a credit card or a Marketplace subscription (AWS/GCP/Azure). However, it is not possible to set both a credit card and a Marketplace subscription simultaneously.
 
@@ -51,7 +74,7 @@ If multiple payment methods are in use, their priority is as follows:
 
 1. Credit card / AWS Marketplace subscription / GCP Marketplace subscription / Azure Marketplace subscription.
 
-__Example:__ For a $500 unpaid bill, with $100 in credits and $200 in Advance Pay funds available, plus a linked credit card:
+**Example:** For a $500 unpaid bill, with $100 in credits and $200 in Advance Pay funds available, plus a linked credit card:
 
 - The $100 credits are used first, reducing the bill to $400.
 
@@ -89,39 +112,119 @@ You can subscribe to Zilliz Cloud services on [AWS](./subscribe-on-aws-marketpla
 
 - Zilliz Cloud Standard Plan
 
-    |  __Unit/Count__                                        |  __Cost per unit or count__ |
-    | ------------------------------------------------------ | --------------------------- |
-    |  1 AWS performance-optimized CU per hour as one unit   |  $0.159                     |
-    |  1 AWS capacity-optimized CU per hour as one unit      |  $0.159                     |
-    |  1 GB for storage on AWS per month as one unit         |  $0.025                     |
-    |  1 GB for backup service on AWS as one unit            |  $0.025                     |
-    |  1 GCP performance-optimized CU per hour as one unit   |  $0.137                     |
-    |  1 GCP capacity-optimized CU per hour as one unit      |  $0.137                     |
-    |  1 GB for storage on GCP per month as one unit         |  $0.02                      |
-    |  1 GB for backup service on GCP as one unit            |  $0.02                      |
-    |  1 Azure performance-optimized CU per hour as one unit |  $0.159                     |
-    |  1 Azure capacity-optimized CU per hour as one unit    |  $0.159                     |
-    |  1 GB for storage on Azure per month as one unit       |  $0.025                     |
-    |  1 GB for backup service on Azure as one unit          |  $0.025                     |
+    <table>
+       <tr>
+         <th><strong>Unit/Count</strong></th>
+         <th><strong>Cost per unit or count</strong></th>
+       </tr>
+       <tr>
+         <td>1 AWS performance-optimized CU per hour as one unit</td>
+         <td>$0.159</td>
+       </tr>
+       <tr>
+         <td>1 AWS capacity-optimized CU per hour as one unit</td>
+         <td>$0.159</td>
+       </tr>
+       <tr>
+         <td>1 GB for storage on AWS per month as one unit</td>
+         <td>$0.025</td>
+       </tr>
+       <tr>
+         <td>1 GB for backup service on AWS as one unit</td>
+         <td>$0.025</td>
+       </tr>
+       <tr>
+         <td>1 GCP performance-optimized CU per hour as one unit</td>
+         <td>$0.137</td>
+       </tr>
+       <tr>
+         <td>1 GCP capacity-optimized CU per hour as one unit</td>
+         <td>$0.137</td>
+       </tr>
+       <tr>
+         <td>1 GB for storage on GCP per month as one unit</td>
+         <td>$0.02</td>
+       </tr>
+       <tr>
+         <td>1 GB for backup service on GCP as one unit</td>
+         <td>$0.02</td>
+       </tr>
+       <tr>
+         <td>1 Azure performance-optimized CU per hour as one unit</td>
+         <td>$0.159</td>
+       </tr>
+       <tr>
+         <td>1 Azure capacity-optimized CU per hour as one unit</td>
+         <td>$0.159</td>
+       </tr>
+       <tr>
+         <td>1 GB for storage on Azure per month as one unit</td>
+         <td>$0.025</td>
+       </tr>
+       <tr>
+         <td>1 GB for backup service on Azure as one unit</td>
+         <td>$0.025</td>
+       </tr>
+    </table>
 
 - Zilliz Cloud Enterprise Plan
 
-    |  __Unit/Count__                                        |  __Cost per unit or count__ |
-    | ------------------------------------------------------ | --------------------------- |
-    |  1 AWS performance-optimized CU per hour as one unit   |  $0.248                     |
-    |  1 AWS capacity-optimized CU per hour as one unit      |  $0.248                     |
-    |  1 GB for storage on AWS per month as one unit         |  $0.025                     |
-    |  1 GB for backup service on AWS as one unit            |  $0.025                     |
-    |  1 GCP performance-optimized CU per hour as one unit   |  $0.215                     |
-    |  1 GCP capacity-optimized CU per hour as one unit      |  $0.215                     |
-    |  1 GB for storage on GCP per month as one unit         |  $0.02                      |
-    |  1 GB for backup service on GCP as one unit            |  $0.02                      |
-    |  1 Azure performance-optimized CU per hour as one unit |  $0.248                     |
-    |  1 Azure capacity-optimized CU per hour as one unit    |  $0.248                     |
-    |  1 GB for storage on Azure per month as one unit       |  $0.025                     |
-    |  1 GB for backup service on Azure as one unit          |  $0.025                     |
+    <table>
+       <tr>
+         <th><strong>Unit/Count</strong></th>
+         <th><strong>Cost per unit or count</strong></th>
+       </tr>
+       <tr>
+         <td>1 AWS performance-optimized CU per hour as one unit</td>
+         <td>$0.248</td>
+       </tr>
+       <tr>
+         <td>1 AWS capacity-optimized CU per hour as one unit</td>
+         <td>$0.248</td>
+       </tr>
+       <tr>
+         <td>1 GB for storage on AWS per month as one unit</td>
+         <td>$0.025</td>
+       </tr>
+       <tr>
+         <td>1 GB for backup service on AWS as one unit</td>
+         <td>$0.025</td>
+       </tr>
+       <tr>
+         <td>1 GCP performance-optimized CU per hour as one unit</td>
+         <td>$0.215</td>
+       </tr>
+       <tr>
+         <td>1 GCP capacity-optimized CU per hour as one unit</td>
+         <td>$0.215</td>
+       </tr>
+       <tr>
+         <td>1 GB for storage on GCP per month as one unit</td>
+         <td>$0.02</td>
+       </tr>
+       <tr>
+         <td>1 GB for backup service on GCP as one unit</td>
+         <td>$0.02</td>
+       </tr>
+       <tr>
+         <td>1 Azure performance-optimized CU per hour as one unit</td>
+         <td>$0.248</td>
+       </tr>
+       <tr>
+         <td>1 Azure capacity-optimized CU per hour as one unit</td>
+         <td>$0.248</td>
+       </tr>
+       <tr>
+         <td>1 GB for storage on Azure per month as one unit</td>
+         <td>$0.025</td>
+       </tr>
+       <tr>
+         <td>1 GB for backup service on Azure as one unit</td>
+         <td>$0.025</td>
+       </tr>
+    </table>
 
-Using the above table, if you have deployed a Zilliz Cloud cluster in the __Standard Plan__ with one performance-optimized CU on AWS, you will be charged via your Marketplace subscription 159 units per hour, that is $0.159/hour.
+Using the above table, if you have deployed a Zilliz Cloud cluster in the **Standard Plan** with one performance-optimized CU on AWS, you will be charged via your Marketplace subscription 159 units per hour, that is $0.159/hour.
 
 ## Related topics{#related-topics}
 

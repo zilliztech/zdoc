@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/RemoteBulkWriter-append_row
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/RemoteBulkWriter-append_row
+beta: FALSE
+notebook: FALSE
 type: docx
 token: F1MFdP8VvoMu17x4Vg9cH6ztnqb
 sidebar_position: 1
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -23,13 +25,13 @@ append_row(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __row__ (_dict_) -
+- **row** (*dict*) -
 
     A dictionary representing an entity to be appended.
 
-    The keys and their values in the dictionary should match the schema referenced in the current __LocalBulkWriter__.
+    The keys and their values in the dictionary should match the schema referenced in the current **LocalBulkWriter**.
 
 ## Examples{#examples}
 

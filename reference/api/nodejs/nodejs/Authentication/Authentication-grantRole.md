@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
-slug: /node/Authentication-grantRole
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /node/node/Authentication-grantRole
+beta: FALSE
+notebook: FALSE
 type: docx
 token: LPJsdEnvwo6apcxjhZgc3rpDnuc
 sidebar_position: 8
+displayed_sidebar: nodeSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';

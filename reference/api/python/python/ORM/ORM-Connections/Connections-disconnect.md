@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Connections-disconnect
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Connections-disconnect
+beta: FALSE
+notebook: FALSE
 type: docx
 token: IpSBdcabbosobvxQkAEcv6CvnJd
 sidebar_position: 4
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,25 +23,25 @@ This operation disconnects the client from the specified connection.
 disconnect(alias: str)
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __alias__ (_string_) -
+- **alias** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A connection alias.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
 None
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __ConnectionConfigException__
+- **ConnectionConfigException**
 
     This exception will be raised when the connection configuration is invalid.
 

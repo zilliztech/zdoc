@@ -5,6 +5,7 @@ notebook: FALSE
 type: origin
 token: FCgWwFVtQiUy9GkDlQNcA0xZnPa
 sidebar_position: 6
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -64,16 +65,53 @@ The acquired dataset is in JSON format, with a structure resembling:
 
 Each record in the dataset possesses eight attributes. Familiarize yourself with this structure as it will guide you when establishing the schema for your collection.
 
-|  __Field Name__ |  __Type__     |  __Attributes__  |
-| --------------- | ------------- | ---------------- |
-|  id             |  INT64        |  N/A             |
-|  title_vector   |  FLOAT_VECTOR |  Dimension: 768  |
-|  title          |  VARCHAR      |  Max length: 512 |
-|  link           |  VARCHAR      |  Max length: 512 |
-|  reading_time   |  INT64        |  N/A             |
-|  publication    |  VARCHAR      |  Max length: 512 |
-|  claps          |  INT64        |  N/A             |
-|  responses      |  INT64        |  N/A             |
+<table>
+   <tr>
+     <th><strong>Field Name</strong></th>
+     <th><strong>Type</strong></th>
+     <th><strong>Attributes</strong></th>
+   </tr>
+   <tr>
+     <td>id</td>
+     <td>INT64</td>
+     <td>N/A</td>
+   </tr>
+   <tr>
+     <td>title_vector</td>
+     <td>FLOAT_VECTOR</td>
+     <td>Dimension: 768</td>
+   </tr>
+   <tr>
+     <td>title</td>
+     <td>VARCHAR</td>
+     <td>Max length: 512</td>
+   </tr>
+   <tr>
+     <td>link</td>
+     <td>VARCHAR</td>
+     <td>Max length: 512</td>
+   </tr>
+   <tr>
+     <td>reading_time</td>
+     <td>INT64</td>
+     <td>N/A</td>
+   </tr>
+   <tr>
+     <td>publication</td>
+     <td>VARCHAR</td>
+     <td>Max length: 512</td>
+   </tr>
+   <tr>
+     <td>claps</td>
+     <td>INT64</td>
+     <td>N/A</td>
+   </tr>
+   <tr>
+     <td>responses</td>
+     <td>INT64</td>
+     <td>N/A</td>
+   </tr>
+</table>
 
 ## Related topics{#related-topics}
 

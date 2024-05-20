@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Partitions-get_partition_stats
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Partitions-get_partition_stats
+beta: FALSE
+notebook: FALSE
 type: docx
 token: Jjbsd2I8doQ9pBxBp57ckRdZnZd
 sidebar_position: 3
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -25,31 +27,31 @@ get_partition_stats(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name __(_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-- __partition_name__ (_str_) -
+- **partition_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing partition.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_dict_
+*dict*
 
-__RETURNS:__
+**RETURNS:**
 
 A dictionary that contains the row count in the specified partition.
 
@@ -59,16 +61,16 @@ A dictionary that contains the row count in the specified partition.
 }
 ```
 
-<Admonition type="info" icon="📘" title="__Why doesn't the row count match the number of entities inserted?__">
+<Admonition type="info" icon="📘" title="**Why doesn't the row count match the number of entities inserted?**">
 
 <p>The data that you insert will go through a process before it is finally saved. Initially, it will flow in as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store the data in streams until the segment reaches its upper limit and becomes sealed.</p>
 <p>However, it's important to note that the row count displayed may not match the number of records that were inserted because data in streams is not taken into account.</p>
 
 </Admonition>
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 

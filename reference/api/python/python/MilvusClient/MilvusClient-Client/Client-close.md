@@ -1,11 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-slug: /python/Client-close
-beta: false
-notebook: false
+displayed_sidbar: this.displayedSidebar
+slug: /python/python/Client-close
+beta: FALSE
+notebook: FALSE
 type: docx
 token: CWZGd48FJoFHXYx40NMcTd2FnKc
 sidebar_position: 1
+displayed_sidebar: pythonSidebar
+
 ---
 
 import Admonition from '@theme/Admonition';
@@ -21,19 +23,19 @@ This operation closes the current Milvus client.
 close() -> None
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
 None
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__Exceptions:__
+**Exceptions:**
 
 None
 
