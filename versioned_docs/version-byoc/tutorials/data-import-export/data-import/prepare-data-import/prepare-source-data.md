@@ -54,6 +54,8 @@ schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
 schema.add_field(field_name="vector", datatype=DataType.FLOAT_VECTOR, dim=768)
 schema.add_field(field_name="scalar_1", datatype=DataType.VARCHAR, max_length=512)
 schema.add_field(field_name="scalar_2", datatype=DataType.INT64)
+
+schema.verify()
 ```
 
 </TabItem>
@@ -121,7 +123,7 @@ A valid JSON file has a root key named **rows**, the corresponding value of whic
    </tr>
    <tr>
      <td><strong>Maximum file size per import</strong></td>
-     <td>Free cluster: 512 MB<br/> Serverless and Dedicated cluster:<br/> - Total file size: 100 GB<br/> - Individual file size: 10 GB<br/></td>
+     <td>Free cluster: 512 MB in total<br/> Serverless and Dedicated cluster:<br/> - Individual file size: 10 GB<br/> - Total file size: 100 GB<br/></td>
    </tr>
    <tr>
      <td><strong>Applicable data file locations</strong></td>
@@ -156,7 +158,7 @@ You can either rebuild your data on your own by referring to [Prepare the data f
    </tr>
    <tr>
      <td><strong>Maximum file size per import</strong></td>
-     <td></td>
+     <td>Free cluster: 512 MB in total<br/> Serverless &amp; Dedicated cluster<br/> - Individual file size: 10 GB<br/> - Total file size: 100 GB<br/></td>
    </tr>
    <tr>
      <td><strong>Applicable data file locations</strong></td>
@@ -195,7 +197,7 @@ A valid set of NumPy files should be named after the fields in the schema of the
    </tr>
    <tr>
      <td><strong>Maximum file size per import</strong><br/></td>
-     <td></td>
+     <td>Free cluster: 512 MB in total<br/> Serverless &amp; Dedicated cluster:<br/> - Total file size in each first-level subfolder: 10 GB<br/> - Total file size: 100 GB<br/></td>
    </tr>
    <tr>
      <td><strong>Applicable data file locations</strong></td>
