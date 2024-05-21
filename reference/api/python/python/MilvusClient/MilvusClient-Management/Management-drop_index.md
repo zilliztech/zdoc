@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/Management-drop_index
 beta: FALSE
 notebook: FALSE

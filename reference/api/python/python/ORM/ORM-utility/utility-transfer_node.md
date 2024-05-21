@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/utility-transfer_node
 beta: FALSE
 notebook: FALSE

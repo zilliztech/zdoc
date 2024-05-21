@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/utility-list_collections
 beta: FALSE
 notebook: FALSE

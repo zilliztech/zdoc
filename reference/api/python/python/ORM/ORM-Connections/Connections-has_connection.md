@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/Connections-has_connection
 beta: FALSE
 notebook: FALSE

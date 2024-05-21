@@ -1,6 +1,7 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/CrossEncoderRerankFunction-__call__
+sidebar_label: __call__()
 beta: FALSE
 notebook: FALSE
 type: docx
@@ -13,7 +14,7 @@ displayed_sidebar: pythonSidebar
 import Admonition from '@theme/Admonition';
 
 
-# __call__()
+# \_\_call\_\_()
 
 This operation in [CrossEncoderRerankFunction](./Rerankers-CrossEncoderRerankFunction) takes in a query and document strings and returns a list of `RerankResult` objects with the top k documents ranked by score.
 

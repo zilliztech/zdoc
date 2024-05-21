@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/utility-get_query_segment_info
 beta: FALSE
 notebook: FALSE

@@ -1,6 +1,7 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/OpenAIEmbeddingFunction-__call__
+sidebar_label: __call__()
 beta: FALSE
 notebook: FALSE
 type: docx
@@ -13,11 +14,11 @@ displayed_sidebar: pythonSidebar
 import Admonition from '@theme/Admonition';
 
 
-# __call__()
+# \_\_call\_\_()
 
 This operation in [OpenAIEmbeddingFunction](./EmbeddingModels-OpenAIEmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
 
-The **__call__()** method of OpenAIEmbeddingFunction shares the same functionality as [encode_documents()](./OpenAIEmbeddingFunction-encode_documents) and [encode_queries()](./OpenAIEmbeddingFunction-encode_queries).
+The **\_\_call\_\_()** method of OpenAIEmbeddingFunction shares the same functionality as [encode_documents()](./OpenAIEmbeddingFunction-encode_documents) and [encode_queries()](./OpenAIEmbeddingFunction-encode_queries).
 
 ## Request syntax{#request-syntax}
 

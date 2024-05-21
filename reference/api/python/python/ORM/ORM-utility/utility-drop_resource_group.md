@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/utility-drop_resource_group
 beta: FALSE
 notebook: FALSE

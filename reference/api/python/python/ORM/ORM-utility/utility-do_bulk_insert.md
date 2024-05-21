@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/utility-do_bulk_insert
 beta: FALSE
 notebook: FALSE

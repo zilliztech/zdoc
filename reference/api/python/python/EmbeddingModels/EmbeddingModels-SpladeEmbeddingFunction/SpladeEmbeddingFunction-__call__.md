@@ -1,6 +1,7 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/SpladeEmbeddingFunction-__call__
+sidebar_label: __call__()
 beta: FALSE
 notebook: FALSE
 type: docx
@@ -13,11 +14,11 @@ displayed_sidebar: pythonSidebar
 import Admonition from '@theme/Admonition';
 
 
-# __call__()
+# \_\_call\_\_()
 
 This operation in [SpladeEmbeddingFunction](./EmbeddingModels-SpladeEmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
 
-Unlike [encode_documents()](./SpladeEmbeddingFunction-encode_documents) or [encode_queries()](./SpladeEmbeddingFunction-encode_queries), which enable you to prepend **doc_instruction** or **query_instruction** and utilize **k_tokens_document** or **k_tokens_query** for result pruning, the **call**() method directly returns embeddings without offering the option to prepend instructions or prune results.
+Unlike [encode_documents()](./SpladeEmbeddingFunction-encode_documents) or [encode_queries()](./SpladeEmbeddingFunction-encode_queries), which enable you to prepend **doc_instruction** or **query_instruction** and utilize **k_tokens_document** or **k_tokens_query** for result pruning, the **\_\_call\_\_()** method directly returns embeddings without offering the option to prepend instructions or prune results.
 
 ## Request syntax{#request-syntax}
 

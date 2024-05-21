@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/Collection-construct_from_dataframe
 beta: FALSE
 notebook: FALSE

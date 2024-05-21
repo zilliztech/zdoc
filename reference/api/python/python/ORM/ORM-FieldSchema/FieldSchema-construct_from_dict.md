@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/FieldSchema-construct_from_dict
 beta: FALSE
 notebook: FALSE

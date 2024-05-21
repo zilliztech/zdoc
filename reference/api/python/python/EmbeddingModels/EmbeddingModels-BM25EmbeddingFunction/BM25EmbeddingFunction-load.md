@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/BM25EmbeddingFunction-load
 beta: FALSE
 notebook: FALSE

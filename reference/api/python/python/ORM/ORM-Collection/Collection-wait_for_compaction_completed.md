@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/Collection-wait_for_compaction_completed
 beta: FALSE
 notebook: FALSE

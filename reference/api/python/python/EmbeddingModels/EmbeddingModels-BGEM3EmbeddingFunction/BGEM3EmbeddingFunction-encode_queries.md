@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/BGEM3EmbeddingFunction-encode_queries
 beta: FALSE
 notebook: FALSE

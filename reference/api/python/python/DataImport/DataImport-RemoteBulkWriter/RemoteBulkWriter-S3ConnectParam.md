@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/RemoteBulkWriter-S3ConnectParam
 beta: FALSE
 notebook: FALSE

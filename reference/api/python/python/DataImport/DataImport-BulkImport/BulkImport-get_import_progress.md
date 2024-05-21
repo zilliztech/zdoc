@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: pythonSidebar
 slug: /python/python/BulkImport-get_import_progress
 beta: FALSE
 notebook: FALSE
