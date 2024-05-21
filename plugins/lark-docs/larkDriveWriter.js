@@ -192,7 +192,7 @@ class larkDriveWriter extends larkDocWriter {
                 })
 
                 front_matter = front_matter.split('\n')
-                front_matter.splice(1, 0, `displayed_sidbar: this.displayedSidebar`)
+                front_matter.splice(1, 0, `displayed_sidbar: ${this.displayedSidebar}`)
                 front_matter = front_matter.join('\n')
 
                 fs.writeFileSync(current_path, front_matter + '\n\n' + imports + '\n\n' + markdown)

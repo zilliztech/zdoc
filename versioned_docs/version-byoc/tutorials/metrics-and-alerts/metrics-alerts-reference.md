@@ -43,7 +43,7 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td>CU Capacity<br/></td>
      <td>%</td>
-     <td>A measure of the used capacity relative to the total capacity of the CU.<br/> This also applies to free clusters.<br/></td>
+     <td>A measure of the used capacity relative to the total capacity of the CU.<br/> <br/></td>
      <td></td>
    </tr>
    <tr>
@@ -90,6 +90,12 @@ The table provides a description of each metric and the actions that you are adv
      <td>%</td>
      <td>The percentage of timeout write requests (insert, bulk insert, upsert, and delete) in all write requests per second.</td>
      <td><a href="./manage-project-alerts">Configure alerts</a> to monitor write request failure rate.</td>
+   </tr>
+   <tr>
+     <td>Slow Query Count<br/></td>
+     <td>count/s</td>
+     <td>The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries.<br/> This metric type is available only for <a href="./select-zilliz-cloud-service-plans#bring-your-own-cloud-byoc">BYOC</a> clusters or clusters of the <a href="/docs/select-zilliz-cloud-service-plans?_highlight=enterprise#enterprise-plan">Enterprise</a> edition.</td>
+     <td>Identify problematic queries and tune performance by adjusting cluster configuration as necessary.<br/></td>
    </tr>
    <tr>
      <td colspan="4"><strong>Data</strong></td>
