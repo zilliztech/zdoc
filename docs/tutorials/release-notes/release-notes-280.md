@@ -4,7 +4,7 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: EL8jwqHsPikz2okhYzXcuLscnhf
-sidebar_position: 1
+sidebar_position: 0
 
 ---
 
@@ -17,7 +17,7 @@ This update to Zilliz Cloud introduces the Serverless plan in BETA. It is design
 
 ### Milvus Compatibility{#milvus-compatibility}
 
-**Free** and **Serverless** clusters in this release are compatible with **Milvus 2.4.x**, and **Dedicated** clusters in this release are compatible with **Milvus 2.3.x**.
+This release is compatible with **Milvus 2.3.x**.
 
 ## Serverless Beta{#serverless-beta}
 
