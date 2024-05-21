@@ -2,7 +2,7 @@
 
 This operation returns the load progress of a specific collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 loading_progress(
@@ -13,51 +13,51 @@ loading_progress(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of a collection.
 
-- __partition_names__ (_list[str]_) -
+- **partition_names** (*list[str]*) -
 
     A list of partition names.
 
-    If any partition names are specified, releasing any of these partitions results in the return of a __NotLoad__ state.
+    If any partition names are specified, releasing any of these partitions results in the return of a **NotLoad** state.
 
-- __using__ (_string_) - 
+- **using** (*string*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_dict_
+*dict*
 
-__RETURNS:__
+**RETURNS:**
 
 A dictionary that contains information about the index_building progress.
 
 The dictionary has the following keys:
 
-- __loading_progress__ (_str_)
+- **loading_progress** (*str*)
 
     The load progress of the specified collection.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import (
@@ -106,17 +106,17 @@ utility.loading_progress(
 ) # {loading_progress: '100%' }
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `loading_progress()`:
 
-- [Partition](./ORM-Partition)
+- [Partition](../Partition/Partition.md)
 
-- [load()](./Collection-load)
+- [load()](../Collection/load.md)
 
-- [release()](./Collection-release)
+- [release()](../Collection/release.md)
 
-- [load_state()](./utility-load_state)
+- [load_state()](load_state.md)
 
-- [wait_for_loading_complete()](./utility-wait_for_loading_complete)
+- [wait_for_loading_complete()](wait_for_loading_complete.md)
 

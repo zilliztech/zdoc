@@ -29,10 +29,10 @@ The table provides a description of each metric and the actions that you are adv
      <th>Recommended Action</th>
    </tr>
    <tr>
-     <td><strong>Resources</strong></td>
-     <td></td>
-     <td></td>
-     <td></td>
+     <td colspan="4"></td>
+   </tr>
+   <tr>
+     <td colspan="4"><strong>Resources</strong></td>
    </tr>
    <tr>
      <td>CU Computation<br/></td>
@@ -43,7 +43,7 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td>CU Capacity<br/></td>
      <td>%</td>
-     <td>A measure of the used capacity relative to the total capacity of the CU.</td>
+     <td>A measure of the used capacity relative to the total capacity of the CU.<br/> This also applies to free clusters.<br/></td>
      <td></td>
    </tr>
    <tr>
@@ -53,10 +53,7 @@ The table provides a description of each metric and the actions that you are adv
      <td><a href="./manage-project-alerts">Configure alerts</a> for monitoring storage usage.</td>
    </tr>
    <tr>
-     <td><strong>Performance</strong></td>
-     <td></td>
-     <td></td>
-     <td></td>
+     <td colspan="4"><strong>Performance</strong></td>
    </tr>
    <tr>
      <td>QPS/VPS (Read)</td>
@@ -67,7 +64,7 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td>QPS/VPS (Write)<br/></td>
      <td>QPS/VPS</td>
-     <td><strong>QPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) per second.<br/> <strong>VPS</strong>: The number of write requests (insert, bulk insert,upsert, and delete) on vectors per second.</td>
+     <td><strong>QPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) per second.<br/> <strong>VPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) on vectors per second.</td>
      <td>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.<br/></td>
    </tr>
    <tr>
@@ -95,10 +92,7 @@ The table provides a description of each metric and the actions that you are adv
      <td><a href="./manage-project-alerts">Configure alerts</a> to monitor write request failure rate.</td>
    </tr>
    <tr>
-     <td><strong>Data</strong></td>
-     <td></td>
-     <td></td>
-     <td></td>
+     <td colspan="4"><strong>Data</strong></td>
    </tr>
    <tr>
      <td>Collection Count</td>

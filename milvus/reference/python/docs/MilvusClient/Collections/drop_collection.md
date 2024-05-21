@@ -2,21 +2,21 @@
 
 This operation drops a collection.
 
-## Request syntax{#request-syntax}
+## Request syntax
 
 ```python
 drop_collection(collection_name: str) -> None
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import MilvusClient
@@ -47,23 +47,23 @@ res = client.list_collections()
 # []
 ```
 
-## Related methods{#related-methods}
+## Related methods
 
-- [create_collection()](./Collections-create_collection)
+- [create_collection()](create_collection.md)
 
-- [create_schema()](./Collections-create_schema)
+- [create_schema()](create_schema.md)
 
-- [describe_collection()](./Collections-describe_collection)
+- [describe_collection()](describe_collection.md)
 
-- [get_collection_stats()](./Collections-get_collection_stats)
+- [get_collection_stats()](get_collection_stats.md)
 
-- [has_collection()](./Collections-has_collection)
+- [has_collection()](has_collection.md)
 
-- [list_collections()](./Collections-list_collections)
+- [list_collections()](list_collections.md)
 
-- [rename_collection()](./Collections-rename_collection)
+- [rename_collection()](rename_collection.md)
 
-- [IndexType](./Collections-IndexType)
+- [IndexType](IndexType.md)
 
-- [DataType](./Collections-DataType)
+- [DataType](DataType.md)
 

@@ -2,7 +2,7 @@
 
 This operation gets the specified partition in the current collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 partition(
@@ -10,29 +10,29 @@ partition(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __partition_name__ (_str_) -
+- **partition_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the partition to get.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_Partition _| _NoneType_
+*Partition* | *NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
-A __Partition__ object. If the current collection does not have a partition of the specified name, __None__ is returned.
+A **Partition** object. If the current collection does not have a partition of the specified name, **None** is returned.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -52,17 +52,17 @@ collection = Collection(
 partition = collection.partition(partition_name="test_partition")
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `partition()`:
 
-- [Collection](./ORM-Collection)
+- [Collection](Collection.md)
 
-- [Partition](./ORM-Partition)
+- [Partition](../Partition/Partition.md)
 
-- [create_partition()](./Collection-create_partition)
+- [create_partition()](create_partition.md)
 
-- [drop_partition()](./Collection-drop_partition)
+- [drop_partition()](drop_partition.md)
 
-- [has_partition()](./Collection-has_partition)
+- [has_partition()](has_partition.md)
 

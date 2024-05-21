@@ -644,7 +644,7 @@ class larkDocWriter {
                 }
             }).filter(mark => mark)
         
-            const tags = [...content.matchAll(/<([^\n]*?)>+/g)]
+            const tags = [...content.matchAll(/<([^\n]*?)>+?/g)]
 
             // console.log(tags.map(tag => tag[0]))
         
@@ -673,7 +673,7 @@ class larkDocWriter {
             })
         }
         
-        return content.replace('"{', '"\\{').replace(/\\\\/g, '\\').replace("<=", "\\<=")
+        return content.replace('"{', '"\\{').replace(/\\\\/g, '\\')
     }
 
     async __page(page) {

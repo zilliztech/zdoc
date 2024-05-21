@@ -2,7 +2,7 @@
 
 This operation releases the data of the current collection from memory.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 release(
@@ -10,13 +10,13 @@ release(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -39,17 +39,17 @@ collection.load()
 collection.release()
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `release()`:
 
-- [Partition](./ORM-Partition)
+- [Partition](../Partition/Partition.md)
 
-- [load()](./Collection-load)
+- [load()](load.md)
 
-- [load_state()](./utility-load_state)
+- [load_state()](../utility/load_state.md)
 
-- [loading_progress()](./utility-loading_progress)
+- [loading_progress()](../utility/loading_progress.md)
 
-- [wait_for_loading_complete()](./utility-wait_for_loading_complete)
+- [wait_for_loading_complete()](../utility/wait_for_loading_complete.md)
 

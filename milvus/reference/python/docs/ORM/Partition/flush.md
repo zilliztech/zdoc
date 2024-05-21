@@ -2,7 +2,7 @@
 
 This operation seals all segments in the partition. Any insertions after this operation will generate a new segment.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 flush(
@@ -20,27 +20,27 @@ flush(
 
 </div>
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
-_None_
+*None*
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -83,17 +83,17 @@ partition.flush()
 partition.num_entities # 5
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `flush()`:
 
-- [delete()](./Partition-delete)
+- [delete()](delete.md)
 
-- [insert()](./Partition-insert)
+- [insert()](insert.md)
 
-- [query()](./Partition-query)
+- [query()](query.md)
 
-- [search()](./Partition-search)
+- [search()](search.md)
 
-- [upsert()](./Partition-upsert)
+- [upsert()](upsert.md)
 

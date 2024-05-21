@@ -10,7 +10,7 @@ displayed_sidebar: pythonSidebar
 
 # MilvusClient
 
-undefined
+An easy-to-use alternative to the legacy PyMilvus SDK.
 
 import DocCardList from '@theme/DocCardList';
 

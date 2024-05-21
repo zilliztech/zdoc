@@ -2,7 +2,7 @@
 
 This operation gets the specified index of the current collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 index(
@@ -10,37 +10,37 @@ index(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __kwargs - __
+- **kwargs -** 
 
     Additional keyword arguments.
 
-    - __index_name__ (_str_) -
+    - **index_name** (*str*) -
 
         The name of the index. If no index is specified, the default index name is used.
 
         A default index name is in the following format: `_default_idx_{field_id}`.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_Index_
+*Index*
 
-__RETURNS:__
+**RETURNS:**
 
 An Index object of the current collection.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __IndexNotExistException__
+- **IndexNotExistException**
 
     This exception will be raised when the specified index does not exist.
 
-- __AmbiguousIndexName__
+- **AmbiguousIndexName**
 
     This exception will be raised when multiple indexes exist but no index name has been specified. 
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -92,19 +92,19 @@ collection.index(index_name="_default_idex_101")
 # <pymilvus.orm.index.Index at 0x1205b8690>
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `index()`
 
-- [create_index()](./Collection-create_index)
+- [create_index()](create_index.md)
 
-- [drop_index()](./Collection-drop_index)
+- [drop_index()](drop_index.md)
 
-- [has_index()](./Collection-has_index)
+- [has_index()](has_index.md)
 
-- [index_building_progress()](./utility-index_building_progress)
+- [index_building_progress()](../utility/index_building_progress.md)
 
-- [wait_for_index_building_complete()](./utility-wait_for_index_building_complete)
+- [wait_for_index_building_complete()](../utility/wait_for_index_building_complete.md)
 
-- [list_indexes()](./utility-list_indexes)
+- [list_indexes()](../utility/list_indexes.md)
 

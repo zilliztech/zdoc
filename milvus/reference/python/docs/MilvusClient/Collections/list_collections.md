@@ -2,37 +2,37 @@
 
 This operation lists all existing collections.
 
-## Request syntax{#request-syntax}
+## Request syntax
 
 ```python
 list_collections(**kwargs) -> Name
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __kwargs__ -
+- **kwargs** -
 
-    - __timeout__ (_float_ | _None_) -
+    - **timeout** (*float* | *None*) -
 
         The timeout duration for this operation. 
 
-        Setting this to __None__ indicates that this operation timeouts when any response returns or error occurs.
+        Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_list_
+*list*
 
-__RETURNS:__
+**RETURNS:**
 
 A list of collection names.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import MilvusClient
@@ -52,23 +52,23 @@ client.list_collections()
 # ['test_collection']
 ```
 
-## Related methods{#related-methods}
+## Related methods
 
-- [create_collection()](./Collections-create_collection)
+- [create_collection()](create_collection.md)
 
-- [create_schema()](./Collections-create_schema)
+- [create_schema()](create_schema.md)
 
-- [describe_collection()](./Collections-describe_collection)
+- [describe_collection()](describe_collection.md)
 
-- [drop_collection()](./Collections-drop_collection)
+- [drop_collection()](drop_collection.md)
 
-- [get_collection_stats()](./Collections-get_collection_stats)
+- [get_collection_stats()](get_collection_stats.md)
 
-- [has_collection()](./Collections-has_collection)
+- [has_collection()](has_collection.md)
 
-- [rename_collection()](./Collections-rename_collection)
+- [rename_collection()](rename_collection.md)
 
-- [IndexType](./Collections-IndexType)
+- [IndexType](IndexType.md)
 
-- [DataType](./Collections-DataType)
+- [DataType](DataType.md)
 

@@ -2,7 +2,7 @@
 
 This operation seals all segments.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 flush_all(
@@ -12,31 +12,31 @@ flush_all(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __using__ (_str_) - 
+- **using** (*str*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
 N/A
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import (
@@ -70,19 +70,19 @@ future = utility.flush_all(_async=True)
 future.done() # flush_all finished
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to the `flush_all()` method:
 
-- [drop_collection()](./utility-drop_collection)
+- [drop_collection()](drop_collection.md)
 
-- [get_query_segment_info()](./utility-get_query_segment_info)
+- [get_query_segment_info()](get_query_segment_info.md)
 
-- [has_collection()](./utility-has_collection)
+- [has_collection()](has_collection.md)
 
-- [has_partition()](./utility-has_partition)
+- [has_partition()](has_partition.md)
 
-- [list_collections()](./utility-list_collections)
+- [list_collections()](list_collections.md)
 
-- [rename_collection()](./utility-rename_collection)
+- [rename_collection()](rename_collection.md)
 

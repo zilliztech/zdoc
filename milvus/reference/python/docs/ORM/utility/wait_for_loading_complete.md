@@ -2,7 +2,7 @@
 
 This operation blocks the current process until the specified collection has been loaded.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 wait_for_loading_complete(
@@ -13,40 +13,40 @@ wait_for_loading_complete(
 )
 ```
 
-__PARAMETERS:__
-__collection_name__ (_str_) -
+**PARAMETERS:**
+**collection_name** (*str*) -
 
-- __partition_names__ (_list[str]_) -
+- **partition_names** (*list[str]*) -
 
     A list of partition names.
 
     If any partition names are specified, this operation blocks the current progress until the specified partitions have been loaded.
 
-- __using__ (_string_) - 
+- **using** (*string*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import connections, utility
@@ -69,17 +69,17 @@ utility.wait_for_loading_complete(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `wait_for_loading_complete()`:
 
-- [Partition](./ORM-Partition)
+- [Partition](../Partition/Partition.md)
 
-- [load()](./Collection-load)
+- [load()](../Collection/load.md)
 
-- [release()](./Collection-release)
+- [release()](../Collection/release.md)
 
-- [load_state()](./utility-load_state)
+- [load_state()](load_state.md)
 
-- [loading_progress()](./utility-loading_progress)
+- [loading_progress()](loading_progress.md)
 

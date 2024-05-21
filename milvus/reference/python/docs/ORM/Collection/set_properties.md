@@ -2,7 +2,7 @@
 
 This operation sets properties for the collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 set_properties(
@@ -12,29 +12,29 @@ set_properties(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
 - properties (dict) -
 
     A set of collection properties in the form of a dictionary. Currently, you can set the following properties:
 
-    - __collection.ttl.seconds__
+    - **collection.ttl.seconds**
 
         Once this property is set, data in the current collection expires in the specified time. Expired data in the collection will be cleaned up and will not be involved in searches or queries.
 
-- __timeout__ (_float_)  -
+- **timeout** (*float*)  -
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -58,15 +58,15 @@ collection.set_properties(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `insert()`:
 
-- [describe()](./Collection-describe)
+- [describe()](describe.md)
 
-- [drop()](./Collection-drop)
+- [drop()](drop.md)
 
-- [flush()](./Collection-flush)
+- [flush()](flush.md)
 
-- [get_replicas()](./Collection-get_replicas)
+- [get_replicas()](get_replicas.md)
 

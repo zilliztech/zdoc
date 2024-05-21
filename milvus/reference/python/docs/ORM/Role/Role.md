@@ -1,12 +1,12 @@
 # Role
 
-A __Role__ instance represents a role with specific privileges to access your Milvus instanceZilliz Cloud clusters.
+A **Role** instance represents a role with specific privileges to access your Milvus instanceZilliz Cloud clusters.
 
 ```python
 class pymilvus.Role
 ```
 
-## Constructor{#constructor}
+## Constructor
 
 Constructs a role by name and other parameters.
 
@@ -25,35 +25,35 @@ Role(
 
 </div>
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __name__ (_string_) - 
+- **name** (*string*) - 
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the role to create.
 
-- __using__ (_string_) - 
+- **using** (*string*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_Role_
+*Role*
 
-__RETURNS:__
+**RETURNS:**
 
 A role object.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Role
@@ -64,7 +64,7 @@ role = Role(
 )
 ```
 
-## Methods{#methods}
+## Methods
 
 The following are the methods of the `Role` class:
 

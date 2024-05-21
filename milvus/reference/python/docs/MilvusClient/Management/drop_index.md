@@ -2,7 +2,7 @@
 
 This operation drops an index from a specific collection.
 
-## Request syntax{#request-syntax}
+## Request syntax
 
 ```python
 create_index(
@@ -13,39 +13,39 @@ create_index(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-- __index_name__ (str) -
+- **index_name** (str) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the index to drop.
 
-- __timeout__ (_float_ | _None_) -
+- **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import MilvusClient, DataType
@@ -144,15 +144,15 @@ client.drop_index(
 )
 ```
 
-## Related methods{#related-methods}
+## Related methods
 
-- [add_index()](./Management-add_index)
+- [add_index()](add_index.md)
 
-- [create_index()](./Management-create_index)
+- [create_index()](create_index.md)
 
-- [describe_index()](./Management-describe_index)
+- [describe_index()](describe_index.md)
 
-- [list_indexes()](./Management-list_indexes)
+- [list_indexes()](list_indexes.md)
 
-- [prepare_index_params()](./Management-prepare_index_params)
+- [prepare_index_params()](prepare_index_params.md)
 

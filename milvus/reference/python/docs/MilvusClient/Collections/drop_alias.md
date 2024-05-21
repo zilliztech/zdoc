@@ -2,7 +2,7 @@
 
 This operation drops a specified collection alias. 
 
-## Request syntax{#request-syntax}
+## Request syntax
 
 ```python
 drop_alias(
@@ -11,41 +11,41 @@ drop_alias(
 ) -> None
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __alias __(_str_) -
+- **alias** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The alias of a collection. 
 
     Before this operation, ensure that the alias exists. Otherwise, exceptions will occur.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation, especially when you set `alias` to a non-existing alias.
 
-- __BaseException__
+- **BaseException**
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example
 
 ```python
 from pymilvus import MilvusClient
@@ -66,13 +66,13 @@ client.create_alias(collection_name="test_collection", alias="test")
 client.drop_alias(alias="test")
 ```
 
-## Related methods{#related-methods}
+## Related methods
 
-- [alter_alias()](./Collections-alter_alias)
+- [alter_alias()](alter_alias.md)
 
-- [create_alias()](./Collections-create_alias)
+- [create_alias()](create_alias.md)
 
-- [describe_alias()](./Collections-describe_alias)
+- [describe_alias()](describe_alias.md)
 
-- [list_aliases()](./Collections-list_aliases)
+- [list_aliases()](list_aliases.md)
 

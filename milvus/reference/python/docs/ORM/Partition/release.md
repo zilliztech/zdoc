@@ -2,7 +2,7 @@
 
 This operation releases the data of the current partition from memory.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 release(
@@ -10,27 +10,27 @@ release(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
-_None_
+*None*
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This arises when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -56,13 +56,13 @@ partition.load()
 partition.release()
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `release()`:
 
-- [drop()](./Partition-drop)
+- [drop()](drop.md)
 
-- [get_replicas()](./Partition-get_replicas)
+- [get_replicas()](get_replicas.md)
 
-- [load()](./Partition-load)
+- [load()](load.md)
 

@@ -2,7 +2,7 @@
 
 This operation creates a new user with a corresponding password.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 create_user(
@@ -24,47 +24,47 @@ utility.create_user(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __user__ (_string_) - 
+- **user** (*string*) - 
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the new user to create. The value should start with a letter and can only contain underline, letters and numbers.
 
-- __password__ (_string_) - 
+- **password** (*string*) - 
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The corresponding password to the new user to create. 
 
     The password must be a string of 8 to 64 characters and must include at least three of the following character types: uppercase letters, lowercase letters, numbers, and special characters.
 
-- __using__ (_string_) - 
+- **using** (*string*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import connections, utility
@@ -76,23 +76,23 @@ connections.connect()
 user = utility.create_user(user="admin", password="123456")
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `create_user()`
 
-- [Role](./ORM-Role)
+- [Role](../Role/Role.md)
 
-- [delete_user()](./utility-delete_user)
+- [delete_user()](delete_user.md)
 
-- [list_roles()](./utility-list_roles)
+- [list_roles()](list_roles.md)
 
-- [list_user()](./utility-list_user)
+- [list_user()](list_user.md)
 
-- [list_users()](./utility-list_users)
+- [list_users()](list_users.md)
 
-- [list_usernames()](./utility-list_usernames)
+- [list_usernames()](list_usernames.md)
 
-- [reset_password()](./utility-reset_password)
+- [reset_password()](reset_password.md)
 
-- [update_password()](./utility-update_password)
+- [update_password()](update_password.md)
 

@@ -2,31 +2,31 @@
 
 This operation converts a FieldSchema object to a dictionary representation.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 to_dict()
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
 None
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_dict_
+*dict*
 
-__RETURNS:__
+**RETURNS:**
 
 The dictionary representation of the field schema.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import CollectionSchema, FieldSchema, DataType
@@ -56,9 +56,9 @@ print(vector_dict)
 # {'name': 'vector', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 768}}
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `to_dict()`:
 
-- [construct_from_dict()](./FieldSchema-construct_from_dict)
+- [construct_from_dict()](construct_from_dict.md)
 

@@ -2,7 +2,7 @@
 
 This operation converts a hybrid timestamp to a UNIX epoch timestamp
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 hybridts_to_unixtime(
@@ -10,24 +10,24 @@ hybridts_to_unixtime(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __hybridts__ (_int_) -
+- **hybridts** (*int*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A hybrid timestamp.
 
-    A hybrid timestamp is a non-negative integer ranging from __0__ to __18446744073709551615__.
+    A hybrid timestamp is a non-negative integer ranging from **0** to **18446744073709551615**.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_float_
+*float*
 
-__RETURNS:__
+**RETURNS:**
 A UNIX epoch time, which is an integer that represents the time elapsed since January 1, 1970 (midnight UTC/GMT) in seconds.
 
-## __Examples__{#examples}
+## **Examples**
 
 ```python
 import time
@@ -46,15 +46,15 @@ epoch2 = utility.hybridts_to_unixtime(ts)
 assert epoch1 == epoch2
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `hybridts_to_unixtime()`:
 
-- [mkts_from_datetime()](./utility-mkts_from_datetime)
+- [mkts_from_datetime()](mkts_from_datetime.md)
 
-- [hybridts_to_datetime()](./utility-hybridts_to_datetime)
+- [hybridts_to_datetime()](hybridts_to_datetime.md)
 
-- [mkts_from_hybridts()](./utility-mkts_from_hybridts)
+- [mkts_from_hybridts()](mkts_from_hybridts.md)
 
-- [mkts_from_unixtime()](./utility-mkts_from_unixtime)
+- [mkts_from_unixtime()](mkts_from_unixtime.md)
 

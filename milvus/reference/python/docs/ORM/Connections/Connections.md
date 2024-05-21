@@ -1,12 +1,12 @@
 # Connections
 
-A __Connections__ instance represents a pool of connections to your Milvus instances.
+A **Connections** instance represents a pool of connections to your Milvus instances.
 
 ```python
 class pymilvus.Connections
 ```
 
-## Constructor{#constructor}
+## Constructor
 
 Constructs a singleton instance to manage all connections. 
 
@@ -18,7 +18,7 @@ Constructs a singleton instance to manage all connections.
 
 </div>
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import connections    
@@ -30,7 +30,7 @@ connections.connect(
 )  
 ```
 
-## Methods{#methods}
+## Methods
 
 The following are the methods of the `connections` singleton instance:
 

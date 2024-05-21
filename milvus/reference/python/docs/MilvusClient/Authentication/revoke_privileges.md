@@ -2,7 +2,7 @@
 
 This operation revokes a privilege already assigned to a role.
 
-## Request syntax{#request-syntax}
+## Request syntax
 
 ```python
 revoke_privilege(
@@ -15,69 +15,69 @@ revoke_privilege(
 ) -> None
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __role_name__ (_str_) -
+- **role_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the role to revoke privileges from.
 
-- __object_type__ (_str_) -
+- **object_type** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The type of the privilege object to assign. 
 
-    Possible values are __Global__, __Collection__, and __User__.
+    Possible values are **Global**, **Collection**, and **User**.
 
-- __privilege__ (_str_) -
+- **privilege** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the privilege to assign. 
 
-    For details, refer to the __Privilege name__ column in the table on page [Users and Roles](https://milvus.io/docs/users_and_roles.md).
+    For details, refer to the **Privilege name** column in the table on page [Users and Roles](https://milvus.io/docs/users_and_roles.md).
 
-- __object_name__ (_str_) - 
+- **object_name** (*str*) - 
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the API to assign. 
 
     You can either use the wildcard (*) to include all applicable APIs in the specified privilege or fill in a specific API. For details, refer to the Relevant API column in the table on page [Users and Roles](https://milvus.io/docs/users_and_roles.md).
 
-- __db_name__ (_str_) -
+- **db_name** (*str*) -
 
     The name of a database. 
 
     This parameter is optional. Setting this parameter restricts the privilege revocation within the specified database.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-- __BaseException__
+- **BaseException**
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example
 
 ```python
 from pymilvus import MilvusClient
@@ -116,19 +116,19 @@ client.revoke_privilege(
 )
 ```
 
-## Related methods{#related-methods}
+## Related methods
 
-- [create_role()](./Authentication-create_role)
+- [create_role()](create_role.md)
 
-- [describe_role()](./Authentication-describe_role)
+- [describe_role()](describe_role.md)
 
-- [drop_role()](./Authentication-drop_role)
+- [drop_role()](drop_role.md)
 
-- [grant_privilege()](./Authentication-grant_privilege)
+- [grant_privilege()](grant_privilege.md)
 
-- [grant_role()](./Authentication-grant_role)
+- [grant_role()](grant_role.md)
 
-- [list_roles()](./Authentication-list_roles)
+- [list_roles()](list_roles.md)
 
-- [revoke_role()](./Authentication-revoke_role)
+- [revoke_role()](revoke_role.md)
 

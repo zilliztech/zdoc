@@ -2,7 +2,7 @@
 
 This operation grants a role to a user.
 
-## Request syntax{#request-syntax}
+## Request syntax
 
 ```python
 grant_role(
@@ -12,45 +12,45 @@ grant_role(
 ) -> None
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __user_name__ (_str_) -
+- **user_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing user.
 
-- __role_name__ (_str_) -
+- **role_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the role to assign.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-- __BaseException__
+- **BaseException**
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example
 
 ```python
 from pymilvus import MilvusClient
@@ -71,19 +71,19 @@ client.create_user(user_name="user_1", password="P@ssw0rd")
 client.grant_role(user_name="user_1", role_name="read_only")
 ```
 
-## Related methods{#related-methods}
+## Related methods
 
-- [create_role()](./Authentication-create_role)
+- [create_role()](create_role.md)
 
-- [describe_role()](./Authentication-describe_role)
+- [describe_role()](describe_role.md)
 
-- [drop_role()](./Authentication-drop_role)
+- [drop_role()](drop_role.md)
 
-- [grant_privilege()](./Authentication-grant_privilege)
+- [grant_privilege()](grant_privilege.md)
 
-- [list_roles()](./Authentication-list_roles)
+- [list_roles()](list_roles.md)
 
-- [revoke_privileges()](./Authentication-revoke_privileges)
+- [revoke_privileges()](revoke_privileges.md)
 
-- [revoke_role()](./Authentication-revoke_role)
+- [revoke_role()](revoke_role.md)
 

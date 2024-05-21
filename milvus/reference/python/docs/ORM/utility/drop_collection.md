@@ -2,7 +2,7 @@
 
 This operation drops a specific collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 drop_collection(
@@ -12,37 +12,37 @@ drop_collection(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of a collection to delete.
 
-- __timeout__ (_float_)  
+- **timeout** (*float*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-- __using__ (_str_) - 
+- **using** (*str*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
 N/A
 
-### Examples{#examples}
+### Examples
 
 ```python
 from pymilvus import connections, utility
@@ -56,19 +56,19 @@ utility.drop_collection(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to the `drop_collection()` method:
 
-- [flush_all()](./utility-flush_all)
+- [flush_all()](flush_all.md)
 
-- [get_query_segment_info()](./utility-get_query_segment_info)
+- [get_query_segment_info()](get_query_segment_info.md)
 
-- [has_collection()](./utility-has_collection)
+- [has_collection()](has_collection.md)
 
-- [has_partition()](./utility-has_partition)
+- [has_partition()](has_partition.md)
 
-- [list_collections()](./utility-list_collections)
+- [list_collections()](list_collections.md)
 
-- [rename_collection()](./utility-rename_collection)
+- [rename_collection()](rename_collection.md)
 

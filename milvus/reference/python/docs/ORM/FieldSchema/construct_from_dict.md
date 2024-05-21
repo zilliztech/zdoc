@@ -2,7 +2,7 @@
 
 This operation constructs a FieldSchema object from a dictionary representation.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 construct_from_dict(
@@ -19,27 +19,27 @@ construct_from_dict(
 
 </div>
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __raw__ (_dict_)
+- **raw** (*dict*)
 
     A dictionary containing the raw data to construct the field schema.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_FieldSchema_
+*FieldSchema*
 
-__RETURNS:__
+**RETURNS:**
 
 A FieldSchema object.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import FieldSchema, DataType  
@@ -60,9 +60,9 @@ print(field)
 # {'name': 'primary_key', 'description': 'test_field_schema', 'type': <DataType.INT64: 5>}
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `construct_from_dict()`:
 
-- [to_dict()](./FieldSchema-to_dict)
+- [to_dict()](to_dict.md)
 

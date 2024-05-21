@@ -101,6 +101,12 @@ search(
 
             Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
 
+        - **level** (*int*)
+
+            Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
+
+            The value defaults to **1**, and ranges from **1** to **5**. Increasing the value results in a higher recall rate with degraded search performance.
+
     For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
 
 - **timeout** (*float* | *None*) -

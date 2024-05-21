@@ -2,7 +2,7 @@
 
 This operation lists the names of all existing users.
 
-## Request syntax{#request-syntax}
+## Request syntax
 
 ```python
 list_users(
@@ -10,33 +10,33 @@ list_users(
 ) -> List
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_list_
+*list*
 
-__RETURNS:__
+**RETURNS:**
 
 A list of user names.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-- __BaseException__
+- **BaseException**
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example
 
 ```python
 from pymilvus import MilvusClient
@@ -56,13 +56,13 @@ client.list_users()
 # ['root', 'user_1']
 ```
 
-## Related methods{#related-methods}
+## Related methods
 
-- [create_user()](./Authentication-create_user)
+- [create_user()](create_user.md)
 
-- [describe_user()](./Authentication-describe_user)
+- [describe_user()](describe_user.md)
 
-- [drop_user()](./Authentication-drop_user)
+- [drop_user()](drop_user.md)
 
-- [update_password()](./Authentication-update_password)
+- [update_password()](update_password.md)
 

@@ -2,29 +2,29 @@
 
 This operation checks whether the current role exists.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 is_exist()
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
 N/A
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_bool_
+*bool*
 
-__RETURNS:__
+**RETURNS:**
 
 A boolean value indicating whether the current role exists or not
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-_None_
+*None*
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Role, utility
@@ -36,25 +36,25 @@ role = Role(name="test")
 role.is_exist()
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `is_exist()`:
 
-- [add_user()](./Role-add_user)
+- [add_user()](add_user.md)
 
-- [create()](./Role-create)
+- [create()](create.md)
 
-- [drop()](./Role-drop)
+- [drop()](drop.md)
 
-- [get_users()](./Role-get_users)
+- [get_users()](get_users.md)
 
-- [grant()](./Role-grant)
+- [grant()](grant.md)
 
-- [list_grant()](./Role-list_grant)
+- [list_grant()](list_grant.md)
 
-- [list_grants()](./Role-list_grants)
+- [list_grants()](list_grants.md)
 
-- [remove_user()](./Role-remove_user)
+- [remove_user()](remove_user.md)
 
-- [revoke()](./Role-revoke)
+- [revoke()](revoke.md)
 

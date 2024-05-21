@@ -2,7 +2,7 @@
 
 This operation converts a hybrid timestamp to a Python's datetime object.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 hybridts_to_datetime(
@@ -11,26 +11,26 @@ hybridts_to_datetime(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __hybridts__ (_int_) -
+- **hybridts** (*int*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A hybrid timestamp.
 
-- __tz__ (_datetime.timezone_) -
+- **tz** (*datetime.timezone*) -
 
-    A __datetime.timezone__ object.
+    A **datetime.timezone** object.
 
-__RETURNS:__
-A __datetime.datetime__ object.
+**RETURNS:**
+A **datetime.datetime** object.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
 N/A
 
-__EXAMPLE:__
+**EXAMPLE:**
 
 ```python
 import time
@@ -43,15 +43,15 @@ ts = utility.mkts_from_unixtime(epoch_t)
 d = utility.hybridts_to_datetime(ts)
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `hybridts_to_datetime()`:
 
-- [mkts_from_datetime()](./utility-mkts_from_datetime)
+- [mkts_from_datetime()](mkts_from_datetime.md)
 
-- [hybridts_to_unixtime()](./utility-hybridts_to_unixtime)
+- [hybridts_to_unixtime()](hybridts_to_unixtime.md)
 
-- [mkts_from_hybridts()](./utility-mkts_from_hybridts)
+- [mkts_from_hybridts()](mkts_from_hybridts.md)
 
-- [mkts_from_unixtime()](./utility-mkts_from_unixtime)
+- [mkts_from_unixtime()](mkts_from_unixtime.md)
 

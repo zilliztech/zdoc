@@ -2,7 +2,7 @@
 
 This operation creates a partition in the target collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 create_partition(
@@ -11,33 +11,33 @@ create_partition(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __partition_name__ (_string_)
+- **partition_name** (*string*)
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the partition to create.
 
-- __description__ (_string_)
+- **description** (*string*)
 
     The description of this partition.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_Partition_
+*Partition*
 
-__RETURNS:__
+**RETURNS:**
 
 A partition object.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -60,17 +60,17 @@ partition = collection.create_partition(partition_name="test_partition")
 # {"name":"test_partition","collection_name":"test_collection","description":""}
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `create_partition()`:
 
-- [Collection](./ORM-Collection)
+- [Collection](Collection.md)
 
-- [Partition](./ORM-Partition)
+- [Partition](../Partition/Partition.md)
 
-- [partition()](./Collection-partition)
+- [partition()](partition.md)
 
-- [drop_partition()](./Collection-drop_partition)
+- [drop_partition()](drop_partition.md)
 
-- [has_partition()](./Collection-has_partition)
+- [has_partition()](has_partition.md)
 

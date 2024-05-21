@@ -1,5 +1,5 @@
 const fs = require('node:fs')
-const path = require('node:path')
+const node_path = require('node:path')
 
 class larkUtils {
     constructor() {
@@ -135,6 +135,18 @@ class larkUtils {
                 return `${b}</div>`
             })
 
+            // remove section labels
+            content = content.replace(/\{#.*\}/g, '')
+
+            // replace links
+            matches = [... content.matchAll(/\[(.*?)\]\((.*?)\)/g)]
+            matches.forEach(match => {
+                const label = match[1]
+                const path = match[2]
+                var link = path.startsWith('http') ? path : this.__convert_link(file, label, path, outputDir)
+                content = content.replace(match[0], `[${label}](${link})`)
+            })
+
             // remove abundant line breaks
             content = content.replace(/\n{3,}/g, '\n\n')
 
@@ -146,14 +158,6 @@ class larkUtils {
             this.__rename_file_path(outputDir)
         }
 
-        // remove section labels
-        const mds = fs.readdirSync(outputDir, {recursive: true}).filter(path => path.endsWith('.md'))
-        for (const md of mds) {
-            var content = fs.readFileSync(`${outputDir}/${md}`, {encoding: 'utf-8', flag: 'r'})
-            content = content.replace(/\{#.*\}/g, '')
-            fs.writeFileSync(`${outputDir}/${md}`, content, {encoding: 'utf-8', flag: 'w'})
-        }
-
         // remove index files
         const folders = fs.readdirSync(outputDir, {recursive: true}).filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory())
         for (const folder of folders) {
@@ -161,6 +165,40 @@ class larkUtils {
                 fs.rmSync(`${outputDir}/${folder}/${folder}.md`, {recursive: true, force: true})
             }
         }
+    }
+
+    __convert_link(file, label, path, outputDir) {
+        const folders = fs.readdirSync(outputDir, {recursive: true}).filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory())
+
+        var parent = path.slice(2, path.lastIndexOf('-'))
+        var section = path.indexOf("#") > -1 ? path.slice(path.lastIndexOf("#") + 1) : ""
+        var rel_path = ''
+
+        var folder = folders.find(folder => folder.endsWith(parent))
+          
+        if (folder) {
+            var current = `${outputDir}/${file}`
+            var target = `${outputDir}/${folder}/${path.slice(2).replace(`#${section}`, '')}`
+
+            if (fs.existsSync(target) && fs.statSync(target).isDirectory()) {
+                target = `${target}/${path.slice(2).replace(`#${section}`, '')}.md`
+            } else if (fs.statSync(`${target}.md`)) {
+                target = `${target}.md`
+            } else {
+                throw new Error(`Cannot find ${path} in ${outputDir}`)
+            }
+
+            rel_path = node_path.relative(node_path.dirname(node_path.resolve(current)), node_path.dirname(node_path.resolve(target)))
+            rel_path = rel_path ? rel_path + '/' + node_path.basename(target) : node_path.basename(target)
+
+            rel_path = rel_path.split('/').map(part => part.includes('-') ? part.split('-').slice(-1) : part).join('/');
+        }
+
+        if (section) {
+            rel_path += '#' + section
+        }
+
+        return rel_path
     }
 
     __rename_file_path(outputDir) {

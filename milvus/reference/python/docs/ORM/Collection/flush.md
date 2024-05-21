@@ -2,7 +2,7 @@
 
 This operation seals all segments in the collection. Any insertions after this operation will generate a new segment.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 flush(
@@ -20,29 +20,29 @@ flush(
 
 </div>
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __PARAMETERS:__
+- **PARAMETERS:**
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -79,15 +79,15 @@ collection.flush()
 collection.num_entities # 5
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `flush()`:
 
-- [describe()](./Collection-describe)
+- [describe()](describe.md)
 
-- [drop()](./Collection-drop)
+- [drop()](drop.md)
 
-- [get_replicas()](./Collection-get_replicas)
+- [get_replicas()](get_replicas.md)
 
-- [set_properties()](./Collection-set_properties)
+- [set_properties()](set_properties.md)
 

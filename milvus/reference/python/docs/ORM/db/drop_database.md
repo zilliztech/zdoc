@@ -2,7 +2,7 @@
 
 This operation drops a database using the provided database name.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 drop_database(
@@ -12,35 +12,35 @@ drop_database(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __db_name__ (_string_) -
+- **db_name** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     Name of the database to be dropped.
 
-- __using__ (_string_) -
+- **using** (*string*) -
 
-    Alias of the connection. Defaults to __default__.
+    Alias of the connection. Defaults to **default**.
 
-- __timeout__ (_float _|_ None_)
+- **timeout** (*float* | *None*)
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
-
-None
-
-__RETURNS:__
+**RETURN TYPE:**
 
 None
 
-__EXCEPTIONS:__
+**RETURNS:**
 
 None
 
-## Examples{#examples}
+**EXCEPTIONS:**
+
+None
+
+## Examples
 
 ```python
 from pymilvus import connections, db
@@ -53,13 +53,13 @@ conn = connections.connect(
 db.drop_database(db_name="test")
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `drop_database()`:
 
-- [create_database()](./db-create_database)
+- [create_database()](create_database.md)
 
-- [list_database()](./db-list_database)
+- [list_database()](list_database.md)
 
-- [using_database()](./db-using_database)
+- [using_database()](using_database.md)
 

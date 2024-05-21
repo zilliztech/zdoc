@@ -2,7 +2,7 @@
 
 This operation releases the partitions in a specified collection from memory.
 
-## Request syntax{#request-syntax}
+## Request syntax
 
 ```python
 release_partitions(
@@ -12,31 +12,31 @@ release_partitions(
 ) -> None
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name __(_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-- __partition_names__ (_str | list[str]_) -
+- **partition_names** (*str | list[str]*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A list of the names of the partitions to release.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
@@ -48,13 +48,13 @@ None
 
 </div>
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example
 
 ```python
 from pymilvus import MilvusClient
@@ -115,17 +115,17 @@ res = client.get_load_state(
 # {'state': <LoadState: Loaded>}
 ```
 
-## Related methods{#related-methods}
+## Related methods
 
-- [create_partition()](./Partitions-create_partition)
+- [create_partition()](create_partition.md)
 
-- [drop_partition()](./Partitions-drop_partition)
+- [drop_partition()](drop_partition.md)
 
-- [get_partition_stats()](./Partitions-get_partition_stats)
+- [get_partition_stats()](get_partition_stats.md)
 
-- [has_partition()](./Partitions-has_partition)
+- [has_partition()](has_partition.md)
 
-- [list_partitions()](./Partitions-list_partitions)
+- [list_partitions()](list_partitions.md)
 
-- [load_partitions()](./Partitions-load_partitions)
+- [load_partitions()](load_partitions.md)
 

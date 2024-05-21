@@ -2,7 +2,7 @@
 
 This operation checks whether the specified partition exists in the current collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 has_partition(
@@ -11,31 +11,31 @@ has_partition(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __partition_name__ (_str_) -
+- **partition_name** (*str*) -
 
     The name of the partition to drop.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_bool_
+*bool*
 
-__RETURNS:__
+**RETURNS:**
 
 A boolean value indicating whether the current collection has the specified partition or not
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -64,17 +64,17 @@ collection.drop_partition("test_partition")
 collection.has_partition("test_partition") # False
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `has_collection()`:
 
-- [Collection](./ORM-Collection)
+- [Collection](Collection.md)
 
-- [Partition](./ORM-Partition)
+- [Partition](../Partition/Partition.md)
 
-- [create_partition()](./Collection-create_partition)
+- [create_partition()](create_partition.md)
 
-- [partition()](./Collection-partition)
+- [partition()](partition.md)
 
-- [drop_partition()](./Collection-drop_partition)
+- [drop_partition()](drop_partition.md)
 

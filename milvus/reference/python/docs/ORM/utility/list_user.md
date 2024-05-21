@@ -2,7 +2,7 @@
 
 This operation lists the information of a specific user.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 list_user(
@@ -13,37 +13,37 @@ list_user(
 )
 ```
 
-__PARAMETERS__
+**PARAMETERS**
 
-- __username__ (_string_) - 
+- **username** (*string*) - 
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the user to list.
 
-- __include_role_info__ (_bool_) - 
+- **include_role_info** (*bool*) - 
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     Whether Milvus lists the roles granted to the specified user.
 
-- __using__ (_string_) - 
+- **using** (*string*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_UserInfo_
+*UserInfo*
 
-__RETURNS:__
+**RETURNS:**
 
-A __UserInfo__ object that contains contains the user information.
+A **UserInfo** object that contains contains the user information.
 
 ```python
 ├── UserInfo
@@ -53,23 +53,23 @@ A __UserInfo__ object that contains contains the user information.
 │           ├── roles
 ```
 
-A __UserItem__ object contains the following fields:
+A **UserItem** object contains the following fields:
 
-- __username__ (_str_)
+- **username** (*str*)
 
     The name of the user.
 
-- __roles__ (_str_)
+- **roles** (*str*)
 
     The roles assigned to the user.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import connections, Role, utility
@@ -88,23 +88,23 @@ users = utility.list_user(
 # - UserItem: <username:admin>, <roles:('admin',)>
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `list_user()`:
 
-- [Role](./ORM-Role)
+- [Role](../Role/Role.md)
 
-- [create_user()](./utility-create_user)
+- [create_user()](create_user.md)
 
-- [delete_user()](./utility-delete_user)
+- [delete_user()](delete_user.md)
 
-- [list_roles()](./utility-list_roles)
+- [list_roles()](list_roles.md)
 
-- [list_users()](./utility-list_users)
+- [list_users()](list_users.md)
 
-- [list_usernames()](./utility-list_usernames)
+- [list_usernames()](list_usernames.md)
 
-- [reset_password()](./utility-reset_password)
+- [reset_password()](reset_password.md)
 
-- [update_password()](./utility-update_password)
+- [update_password()](update_password.md)
 

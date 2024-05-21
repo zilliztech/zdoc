@@ -2,7 +2,7 @@
 
 This operation displays the statistics collected on a specific partition.
 
-## Request syntax{#request-syntax}
+## Request syntax
 
 ```python
 get_partition_stats(
@@ -12,31 +12,31 @@ get_partition_stats(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name __(_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-- __partition_name__ (_str_) -
+- **partition_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing partition.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_dict_
+*dict*
 
-__RETURNS:__
+**RETURNS:**
 
 A dictionary that contains the row count in the specified partition.
 
@@ -48,20 +48,20 @@ A dictionary that contains the row count in the specified partition.
 
 <div class="admonition note">
 
-<p><b>__why doesn't the row count match the number of entities inserted?__</b></p>
+<p><b>**why doesn't the row count match the number of entities inserted?**</b></p>
 
 <p>The data that you insert will go through a process before it is finally saved. Initially, it will flow in as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store the data in streams until the segment reaches its upper limit and becomes sealed.</p>
 <p>However, it's important to note that the row count displayed may not match the number of records that were inserted because data in streams is not taken into account.</p>
 
 </div>
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example
 
 ```python
 from pymilvus import MilvusClient
@@ -110,17 +110,17 @@ client.get_partition_stats(
 
 ```
 
-## Related methods{#related-methods}
+## Related methods
 
-- [create_partition()](./Partitions-create_partition)
+- [create_partition()](create_partition.md)
 
-- [drop_partition()](./Partitions-drop_partition)
+- [drop_partition()](drop_partition.md)
 
-- [has_partition()](./Partitions-has_partition)
+- [has_partition()](has_partition.md)
 
-- [list_partitions()](./Partitions-list_partitions)
+- [list_partitions()](list_partitions.md)
 
-- [load_partitions()](./Partitions-load_partitions)
+- [load_partitions()](load_partitions.md)
 
-- [release_partitions()](./Partitions-release_partitions)
+- [release_partitions()](release_partitions.md)
 

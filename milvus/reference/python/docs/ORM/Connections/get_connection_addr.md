@@ -2,35 +2,35 @@
 
 This operation retrieves the configuration of the specified connection by alias.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 get_connection_addr(alias: str)
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __alias__ (_string_) -
+- **alias** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A connection alias.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_Dictionary_
+*Dictionary*
 
-__RETURNS:__
+**RETURNS:**
 
 A dictionary containing the connection configuration.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __ConnectionConfigException__
+- **ConnectionConfigException**
 
     This exception will be raised when the connection configuration is invalid.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import connections
@@ -41,19 +41,19 @@ connections.get_connection_addr(alias="default")
 # {'address': 'localhost:19530', 'user': ''}
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `get_connection_addr()`:
 
-- [add_connection()](./Connections-add_connection)
+- [add_connection()](add_connection.md)
 
-- [connect()](./Connections-connect)
+- [connect()](connect.md)
 
-- [disconnect()](./Connections-disconnect)
+- [disconnect()](disconnect.md)
 
-- [has_connection()](./Connections-has_connection)
+- [has_connection()](has_connection.md)
 
-- [list_connections()](./Connections-list_connections)
+- [list_connections()](list_connections.md)
 
-- [remove_connection()](./Connections-remove_connection)
+- [remove_connection()](remove_connection.md)
 

@@ -2,7 +2,7 @@
 
 This operation gets specific entities by their IDs.
 
-## Request syntax{#request-syntax}
+## Request syntax
 
 ```python
 get(
@@ -14,51 +14,51 @@ get(
 ) -> List[dict]
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-- __ids__ (_list_ | _str_ | _int_) -
+- **ids** (*list* | *str* | *int*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A specific entity ID or a list of entity IDs.
 
-- __output_fields__ (_list[str]_ | _None_) -
+- **output_fields** (*list[str]* | *None*) -
 
     A list of field names to include in each entity in return.
 
-    The value defaults to __None__. If left unspecified, all fields are selected as the output fields.
+    The value defaults to **None**. If left unspecified, all fields are selected as the output fields.
 
-- __timeout__ (_float_ | _None_) -
+- **timeout** (*float* | *None*) -
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_list[dict]_
+*list[dict]*
 
-__RETURNS:__
+**RETURNS:**
 
 A list of dictionaries with each dictionary representing a queried entity.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-- __DataTypeNotMatchException__
+- **DataTypeNotMatchException**
 
     This exception will be raised when a parameter value doesn't match the required data type.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import MilvusClient
@@ -132,15 +132,15 @@ res = client.get(
 # ]
 ```
 
-## Related methods{#related-methods}
+## Related methods
 
-- [delete()](./Vector-delete)
+- [delete()](delete.md)
 
-- [insert()](./Vector-insert)
+- [insert()](insert.md)
 
-- [query()](./Vector-query)
+- [query()](query.md)
 
-- [search()](./Vector-search)
+- [search()](search.md)
 
-- [upsert()](./Vector-upsert)
+- [upsert()](upsert.md)
 

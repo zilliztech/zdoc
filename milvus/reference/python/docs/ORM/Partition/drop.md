@@ -2,7 +2,7 @@
 
 This operation drops the current partition. 
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 drop(
@@ -10,27 +10,27 @@ drop(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
-_None_
+*None*
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This arises when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -56,13 +56,13 @@ partition = Partition(
 partition.drop()
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `drop()`:
 
-- [get_replicas()](./Partition-get_replicas)
+- [get_replicas()](get_replicas.md)
 
-- [load()](./Partition-load)
+- [load()](load.md)
 
-- [release()](./Partition-release)
+- [release()](release.md)
 

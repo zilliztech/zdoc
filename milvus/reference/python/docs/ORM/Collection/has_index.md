@@ -2,33 +2,33 @@
 
 This operation checks whether the current collection has a built index.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 has_index(timeout: float | None)
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_bool_
+*bool*
 
-__RETURNS:__
+**RETURNS:**
 
 A boolean value indicating whether the current collection has a built index or not.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -70,19 +70,19 @@ collection.drop_index()
 collection.has_index() # False
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `has_index()`:
 
-- [create_index()](./Collection-create_index)
+- [create_index()](create_index.md)
 
-- [drop_index()](./Collection-drop_index)
+- [drop_index()](drop_index.md)
 
-- [index()](./Collection-index)
+- [index()](index.md)
 
-- [index_building_progress()](./utility-index_building_progress)
+- [index_building_progress()](../utility/index_building_progress.md)
 
-- [wait_for_index_building_complete()](./utility-wait_for_index_building_complete)
+- [wait_for_index_building_complete()](../utility/wait_for_index_building_complete.md)
 
-- [list_indexes()](./utility-list_indexes)
+- [list_indexes()](../utility/list_indexes.md)
 

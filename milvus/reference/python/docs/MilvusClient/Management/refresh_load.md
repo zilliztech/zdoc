@@ -2,7 +2,7 @@
 
 This operation loads the unloaded data of a loaded collection into memory.
 
-## Request syntax{#request-syntax}
+## Request syntax
 
 ```python
 refresh_load(
@@ -11,35 +11,35 @@ refresh_load(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of the target collection of this operation.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
  None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example
 
 ```python
 from pymilvus import MilvusClient
@@ -62,11 +62,11 @@ client.refresh_load(
 )
 ```
 
-## Related methods{#related-methods}
+## Related methods
 
-- [get_load_state()](./Management-get_load_state)
+- [get_load_state()](get_load_state.md)
 
-- [load_collection()](./Management-load_collection)
+- [load_collection()](load_collection.md)
 
-- [release_collection()](./Management-release_collection)
+- [release_collection()](release_collection.md)
 

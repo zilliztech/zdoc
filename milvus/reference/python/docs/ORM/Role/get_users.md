@@ -2,25 +2,25 @@
 
 This operation lists all users associated with the current role.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 get_users()
 ```
 
-__PARAMETERS__
+**PARAMETERS**
 
 N/A
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_tuple_
+*tuple*
 
-__RETURNS:__
+**RETURNS:**
 
 A tuple that contains the names of all users added to the current role.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Role
@@ -32,25 +32,25 @@ role = Role(name="admin")
 users = role.get_users() # (admin, )
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `get_users()`:
 
-- [add_user()](./Role-add_user)
+- [add_user()](add_user.md)
 
-- [create()](./Role-create)
+- [create()](create.md)
 
-- [drop()](./Role-drop)
+- [drop()](drop.md)
 
-- [grant()](./Role-grant)
+- [grant()](grant.md)
 
-- [is_exist()](./Role-is_exist)
+- [is_exist()](is_exist.md)
 
-- [list_grant()](./Role-list_grant)
+- [list_grant()](list_grant.md)
 
-- [list_grants()](./Role-list_grants)
+- [list_grants()](list_grants.md)
 
-- [remove_user()](./Role-remove_user)
+- [remove_user()](remove_user.md)
 
-- [revoke()](./Role-revoke)
+- [revoke()](revoke.md)
 

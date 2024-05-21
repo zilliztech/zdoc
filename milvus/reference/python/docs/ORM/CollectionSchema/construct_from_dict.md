@@ -1,8 +1,8 @@
 # construct_from_dict()
 
-This operation constructs a __CollectionSchema__ object from a dictionary representation.
+This operation constructs a **CollectionSchema** object from a dictionary representation.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 construct_from_dict(
@@ -10,27 +10,27 @@ construct_from_dict(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __raw__ (_dict_)
+- **raw** (*dict*)
 
     A dictionary containing the raw data to construct the collection schema.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_CollectionSchema_
+*CollectionSchema*
 
-__RETURNS:__
+**RETURNS:**
 
-A __CollectionSchema__ object.
+A **CollectionSchema** object.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import DataType, FieldSchema, CollectionSchema
@@ -65,17 +65,17 @@ print(schema)
 # {'auto_id': False, 'description': '', 'fields': [{'name': 'id', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': False}, {'name': 'vector', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 768}}]}
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `construct_from_dict()`:
 
-- [FieldSchema](./ORM-FieldSchema)
+- [FieldSchema](../FieldSchema/FieldSchema.md)
 
-- [DataType](./Collections-DataType)
+- [DataType](../../MilvusClient/Collections/DataType.md)
 
-- [add_field()](./CollectionSchema-add_field)
+- [add_field()](add_field.md)
 
-- [to_dict()](./CollectionSchema-to_dict)
+- [to_dict()](to_dict.md)
 
-- [verify()](./CollectionSchema-verify)
+- [verify()](verify.md)
 

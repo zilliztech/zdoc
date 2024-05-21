@@ -2,35 +2,35 @@
 
 This operation removes the connection from the registry by the given alias and disconnects if connected.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 remove_connection(alias: str)
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __alias__ (_string_) -
+- **alias** (*string*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     A connection alias
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_NoneType_
+*NoneType*
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __ConnectionConfigException__
+- **ConnectionConfigException**
 
     This exception will be raised when the connection configuration is invalid.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import connections
@@ -38,19 +38,19 @@ from pymilvus import connections
 connections.remove_connection(alias="default")
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `remove_connection()`:
 
-- [add_connection()](./Connections-add_connection)
+- [add_connection()](add_connection.md)
 
-- [connect()](./Connections-connect)
+- [connect()](connect.md)
 
-- [disconnect()](./Connections-disconnect)
+- [disconnect()](disconnect.md)
 
-- [get_connection_addr()](./Connections-get_connection_addr)
+- [get_connection_addr()](get_connection_addr.md)
 
-- [has_connection()](./Connections-has_connection)
+- [has_connection()](has_connection.md)
 
-- [list_connections()](./Connections-list_connections)
+- [list_connections()](list_connections.md)
 

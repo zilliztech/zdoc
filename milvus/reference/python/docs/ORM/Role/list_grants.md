@@ -2,7 +2,7 @@
 
 This operation lists all privileges granted to the current role.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 list_grants(
@@ -10,21 +10,21 @@ list_grants(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __db_name__ (_str_)
+- **db_name** (*str*)
 
     The name of a database in which Milvus carries out this operation.
 
     If the specified database does not exist, an empty result returns.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_GrantInfo_
+*GrantInfo*
 
-__RETURNS:__
+**RETURNS:**
 
-A __GrantInfo__ object that contains a list of __GrantItem__ objects.
+A **GrantInfo** object that contains a list of **GrantItem** objects.
 
 ```python
 ├── GrantInfo
@@ -38,15 +38,15 @@ A __GrantInfo__ object that contains a list of __GrantItem__ objects.
 │           └── db_name
 ```
 
-The __GrantItem__ objects contains the following fields:
+The **GrantItem** objects contains the following fields:
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import Role
@@ -60,25 +60,25 @@ res = list_grants(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `get_replicas()`:
 
-- [add_user()](./Role-add_user)
+- [add_user()](add_user.md)
 
-- [create()](./Role-create)
+- [create()](create.md)
 
-- [drop()](./Role-drop)
+- [drop()](drop.md)
 
-- [get_users()](./Role-get_users)
+- [get_users()](get_users.md)
 
-- [grant()](./Role-grant)
+- [grant()](grant.md)
 
-- [is_exist()](./Role-is_exist)
+- [is_exist()](is_exist.md)
 
-- [list_grant()](./Role-list_grant)
+- [list_grant()](list_grant.md)
 
-- [remove_user()](./Role-remove_user)
+- [remove_user()](remove_user.md)
 
-- [revoke()](./Role-revoke)
+- [revoke()](revoke.md)
 

@@ -2,7 +2,7 @@
 
 This operation inserts data into a specific collection.
 
-## Request syntax{#request-syntax}
+## Request syntax
 
 ```python
 insert(
@@ -13,23 +13,23 @@ insert(
 ) -> List[Union[str, int]]
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-- __data__ (_dict_ | _list[dict]_) -
+- **data** (*dict* | *list[dict]*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The data to insert into the current collection.
 
     The data to insert should be a dictionary that matches the schema of the current collection or a list of such dictionaries. 
 
-    The following code assumes that the schema of the current collection has two fields named __id__ and __vector__. The former is the primary field and the latter is a field to hold 5-dimensional vector embeddings.
+    The following code assumes that the schema of the current collection has two fields named **id** and **vector**. The former is the primary field and the latter is a field to hold 5-dimensional vector embeddings.
 
     ```python
     # A dictionary, or
@@ -69,23 +69,23 @@ __PARAMETERS:__
     ]
     ```
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-- __partition_name__ (_string _|_ None_) -
+- **partition_name** (*string* | *None*) -
 
     The name of a partition in the current collection. 
 
     If specified, the data is to be inserted into the specified partition.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_dict_
+*dict*
 
-__RETURNS:__
+**RETURNS:**
 
 A dictionary contains information about the number of inserted entities.
 
@@ -93,13 +93,13 @@ A dictionary contains information about the number of inserted entities.
 {'insert_count': 0}
 ```
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import MilvusClient
@@ -160,15 +160,15 @@ res = client.insert(
 # {'insert_count': 2}
 ```
 
-## Related methods{#related-methods}
+## Related methods
 
-- [delete()](./Vector-delete)
+- [delete()](delete.md)
 
-- [get()](./Vector-get)
+- [get()](get.md)
 
-- [query()](./Vector-query)
+- [query()](query.md)
 
-- [search()](./Vector-search)
+- [search()](search.md)
 
-- [upsert()](./Vector-upsert)
+- [upsert()](upsert.md)
 

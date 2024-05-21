@@ -2,7 +2,7 @@
 
 This operation gets information about the sealed and growing segments in the query cluster.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 get_query_segment_info(
@@ -12,37 +12,37 @@ get_query_segment_info(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of an existing collection.
 
-- __using__ (_str_) - 
+- **using** (*str*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-- __timeout__ (_float _|_ None_)  
+- **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_list_
+*list*
 
-__RETURNS:__
+**RETURNS:**
 
-A list of __QuerySegmentInfo__ objects, each reporting the status of a segment.
+A list of **QuerySegmentInfo** objects, each reporting the status of a segment.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
 N/A
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import connections, Collection, utility
@@ -66,17 +66,17 @@ print(res)
 # nodeIds: 3
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
-- [drop_collection()](./utility-drop_collection)
+- [drop_collection()](drop_collection.md)
 
-- [flush_all()](./utility-flush_all)
+- [flush_all()](flush_all.md)
 
-- [has_collection()](./utility-has_collection)
+- [has_collection()](has_collection.md)
 
-- [has_partition()](./utility-has_partition)
+- [has_partition()](has_partition.md)
 
-- [list_collections()](./utility-list_collections)
+- [list_collections()](list_collections.md)
 
-- [rename_collection()](./utility-rename_collection)
+- [rename_collection()](rename_collection.md)
 

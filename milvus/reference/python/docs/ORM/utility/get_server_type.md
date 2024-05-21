@@ -2,7 +2,7 @@
 
 This operation checks the type of the Milvus instance.
 
-## Request syntax{#request-syntax}
+## Request syntax
 
 ```python
 get_server_type(
@@ -10,30 +10,30 @@ get_server_type(
 )
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __using__ (_str_) - 
+- **using** (*str*) - 
 
     The alias of the employed connection.
 
-    The default value is __default__, indicating that this operation employs the default connection.
+    The default value is **default**, indicating that this operation employs the default connection.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_str_
+*str*
 
-__RETURNS:__
+**RETURNS:**
 The server type. Possible values are as follows:
 
-- __zilliz__
+- **zilliz**
 
     Indicates that the current server is a Zilliz Cloud cluster.
 
-- __milvus__
+- **milvus**
 
     Indicates that the current server is a Milvus instance.
 
-__EXAMPLE:__
+**EXAMPLE:**
 
 ```python
 from pymilvus import connections, utility
@@ -45,9 +45,9 @@ connections.connect()
 server_type = utility.get_server_type()
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `get_server_type()`:
 
-- [get_server_version()](./utility-get_server_version)
+- [get_server_version()](get_server_version.md)
 

@@ -2,31 +2,31 @@
 
 This operation performs final validation checks on the CollectionSchema to detect any obvious problems.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 verify()
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
 None
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
 None
 
-__RETURNS:__
+**RETURNS:**
 
 None
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import CollectionSchema, FieldSchema, DataType  
@@ -54,17 +54,17 @@ schema = CollectionSchema(
 schema.verify()
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `verify()`:
 
-- [FieldSchema](./ORM-FieldSchema)
+- [FieldSchema](../FieldSchema/FieldSchema.md)
 
-- [DataType](./Collections-DataType)
+- [DataType](../../MilvusClient/Collections/DataType.md)
 
-- [add_field()](./CollectionSchema-add_field)
+- [add_field()](add_field.md)
 
-- [construct_from_dict()](./CollectionSchema-construct_from_dict)
+- [construct_from_dict()](construct_from_dict.md)
 
-- [to_dict()](./CollectionSchema-to_dict)
+- [to_dict()](to_dict.md)
 

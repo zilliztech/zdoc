@@ -2,29 +2,29 @@
 
 This operation returns a list of all connection names and handler objects.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 list_connections()
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
 None
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_List_
+*List*
 
-__RETURNS:__
+**RETURNS:**
 
 A list of all connection names and handler objects.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
 None
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import connections
@@ -39,19 +39,19 @@ connections.list_connections()
 # [('default', <pymilvus.client.grpc_handler.GrpcHandler at 0x13743b967>)]
 ```
 
-## Related operations{#related-operations}
+## Related operations
 
 The following operations are related to `list_connections()`:
 
-- [add_connection()](./Connections-add_connection)
+- [add_connection()](add_connection.md)
 
-- [connect()](./Connections-connect)
+- [connect()](connect.md)
 
-- [disconnect()](./Connections-disconnect)
+- [disconnect()](disconnect.md)
 
-- [get_connection_addr()](./Connections-get_connection_addr)
+- [get_connection_addr()](get_connection_addr.md)
 
-- [has_connection()](./Connections-has_connection)
+- [has_connection()](has_connection.md)
 
-- [remove_connection()](./Connections-remove_connection)
+- [remove_connection()](remove_connection.md)
 

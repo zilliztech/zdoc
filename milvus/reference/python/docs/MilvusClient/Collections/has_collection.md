@@ -2,7 +2,7 @@
 
 This operation checks whether a specific collection exists.
 
-## Request Syntax{#request-syntax}
+## Request Syntax
 
 ```python
 has_collection(
@@ -11,35 +11,35 @@ has_collection(
 ) -> Bool
 ```
 
-__PARAMETERS:__
+**PARAMETERS:**
 
-- __collection_name__ (_str_) -
+- **collection_name** (*str*) -
 
-    __[REQUIRED]__
+    **[REQUIRED]**
 
     The name of a collection.
 
-- __timeout__ (_float_ | _None_) -
+- **timeout** (*float* | *None*) -
 
     The timeout duration for this operation. 
 
-    Setting this to __None__ indicates that this operation timeouts when any response returns or error occurs.
+    Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-__RETURN TYPE:__
+**RETURN TYPE:**
 
-_bool_
+*bool*
 
-__RETURNS:__
+**RETURNS:**
 
 A boolean value indicating whether the specified collection exists.
 
-__EXCEPTIONS:__
+**EXCEPTIONS:**
 
-- __MilvusException__
+- **MilvusException**
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples
 
 ```python
 from pymilvus import MilvusClient
@@ -64,23 +64,23 @@ client.has_collection(collection_name="test_collection_2")
 # False
 ```
 
-## Related methods{#related-methods}
+## Related methods
 
-- [create_collection()](./Collections-create_collection)
+- [create_collection()](create_collection.md)
 
-- [create_schema()](./Collections-create_schema)
+- [create_schema()](create_schema.md)
 
-- [describe_collection()](./Collections-describe_collection)
+- [describe_collection()](describe_collection.md)
 
-- [drop_collection()](./Collections-drop_collection)
+- [drop_collection()](drop_collection.md)
 
-- [get_collection_stats()](./Collections-get_collection_stats)
+- [get_collection_stats()](get_collection_stats.md)
 
-- [list_collections()](./Collections-list_collections)
+- [list_collections()](list_collections.md)
 
-- [rename_collection()](./Collections-rename_collection)
+- [rename_collection()](rename_collection.md)
 
-- [IndexType](./Collections-IndexType)
+- [IndexType](IndexType.md)
 
-- [DataType](./Collections-DataType)
+- [DataType](DataType.md)
 

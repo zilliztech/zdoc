@@ -60,13 +60,13 @@ add_field(
 
         - **DataType.DOUBLE**,
 
-        - **DataType.BINARY_VECTOR,**
+        - **DataType.BINARY_VECTOR**,
 
-        - **DataType.FLOAT_VECTOR,**
+        - **DataType.FLOAT_VECTOR**,
 
-        - **DataType.FLOAT16_VECTOR,**
+        - **DataType.FLOAT16_VECTOR**,
 
-        - **DataType.BFLOAT16_VECTOR,
+        - **DataType.BFLOAT16_VECTOR**,
 
         - **DataType.VARCHAR**,
 
