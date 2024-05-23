@@ -38,13 +38,13 @@ The table provides a description of each metric and the actions that you are adv
      <td>CU Computation<br/></td>
      <td>%</td>
      <td>A measure of the utilized computational power relative to the total computational capacity of the CU.</td>
-     <td></td>
+     <td><strong>70%-80%</strong>: Check service status and prepare for <a href="./manage-cluster#manage-and-configure-clusters">scaling up</a>.<br/> <strong>> 90%</strong>: <a href="./manage-cluster#manage-and-configure-clusters">Scale up</a> immediately to avoid service interruption.</td>
    </tr>
    <tr>
      <td>CU Capacity<br/></td>
      <td>%</td>
      <td>A measure of the used capacity relative to the total capacity of the CU.<br/> <br/></td>
-     <td></td>
+     <td><strong>70%-80%</strong>: Check service status and prepare for scaling up.<br/> <strong>> 90%</strong>: <a href="./manage-cluster#manage-and-configure-clusters">Scale up</a> immediately to avoid service interruption.<br/> <strong>100%</strong>: When CU capacity reaches 100%, you will be unable to write data into the cluster. Please <a href="./manage-cluster#manage-and-configure-clusters">scale up</a> immediately to avoid service interruption.</td>
    </tr>
    <tr>
      <td>Storage</td>
@@ -64,7 +64,7 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td>QPS/VPS (Write)<br/></td>
      <td>QPS/VPS</td>
-     <td><strong>QPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) per second.<br/> <strong>VPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) on vectors per second.</td>
+     <td><strong>QPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) per second.<br/> <strong>VPS</strong>: The number of write requests (insert, upsert, and delete) on vectors per second.</td>
      <td>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.<br/></td>
    </tr>
    <tr>
@@ -94,7 +94,7 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td>Slow Query Count<br/></td>
      <td>count/s</td>
-     <td>The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries.<br/> This metric type is available only for <a href="./select-zilliz-cloud-service-plans#bring-your-own-cloud-byoc">BYOC</a> clusters or clusters of the <a href="/docs/select-zilliz-cloud-service-plans?_highlight=enterprise#enterprise-plan">Enterprise</a> edition.</td>
+     <td>The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries.<br/> This metric type is available only for <a href="./select-zilliz-cloud-service-plans#bring-your-own-cloud-byoc">BYOC</a> clusters or clusters of the <a href="/docs/select-zilliz-cloud-service-plans?_highlight=enterprise#enterprise-plan">Enterprise</a> edition. For more information on cluster types, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</td>
      <td>Identify problematic queries and tune performance by adjusting cluster configuration as necessary.<br/></td>
    </tr>
    <tr>
@@ -109,13 +109,13 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td>Entity Count</td>
      <td>count</td>
-     <td>The number of entities created in a cluster.<br/> Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.</td>
+     <td>The number of entities inserted into a cluster.<br/> Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.</td>
      <td>-</td>
    </tr>
    <tr>
      <td>Loaded Entities</td>
      <td>count</td>
-     <td>The number of entities loaded (actively served) by a cluster.<br/> Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.</td>
+     <td>The number of entities loaded (actively served) by a cluster.<br/> Selecting a specific collection from the expanded dropdown menu on the right displays the number of loaded entities at the collection level.<br/> This metric type is available only for <a href="./select-zilliz-cloud-service-plans#bring-your-own-cloud-byoc">BYOC</a> clusters or dedicated clusters. For more information on cluster types, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</td>
      <td>-</td>
    </tr>
 </table>
@@ -137,7 +137,7 @@ Organization alerts keep you informed about billing-related issues such as expir
      <td>Day</td>
      <td>Monitor the remaining days until the credit card's expiration to ensure uninterrupted service.</td>
      <td>Renew or update credit card information before the expiration date.<br/></td>
-     <td></td>
+     <td><strong>WARNING</strong>: Trigger alerts within 30 days of card expiration.<br/> <strong>CRITICAL</strong>: Trigger alerts within 7 days of card expiration.</td>
    </tr>
    <tr>
      <td>Remaining Credits</td>
@@ -173,6 +173,8 @@ Organization alerts keep you informed about billing-related issues such as expir
 
 Project alerts focus on the operational aspects of your clusters, including notifications on the CU usage, QPS thresholds, latency issues, and request anomalies, ensuring you maintain optimal cluster performance.
 
+For each project alert target, the trigger condition includes a threshold value and a duration value that must be met for the alert to be triggered. The condition can be set to one of the following operators: >, >=, &lt;, &lt;=, =. The threshold value can be a numeric value, such as a number for metrics like query latency, query QPS, search QPS, CU Capacity, and CU Computation. The duration specifies how long the threshold must be exceeded, which is set to a minimum of 1 minute and a maximum of 30 minutes.
+
 ### Default alert targets{#default-alert-targets}
 
 Zilliz Cloud predefines common alert targets to ensure that critical issues are quickly identified and addressed with the appropriate actions.
@@ -188,12 +190,12 @@ For more information about recommended actions, refer to [Cluster metrics](./met
    <tr>
      <td>CU Computation<br/></td>
      <td>%</td>
-     <td></td>
+     <td><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes.<br/> <strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</td>
    </tr>
    <tr>
      <td>CU Capacity</td>
      <td>%</td>
-     <td></td>
+     <td><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized CU capacity for 10+ minutes.<br/> <strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized CU capacity for 10+ minutes.</td>
    </tr>
    <tr>
      <td>Search (QPS)</td>

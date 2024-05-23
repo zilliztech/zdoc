@@ -674,6 +674,8 @@ class larkDocWriter {
         }
         
         return content.replace('"{', '"\\{').replace(/\\\\/g, '\\')
+            .replace('<=', '&lt;=')
+            .replace('<,', '&lt;,');
     }
 
     async __page(page) {
