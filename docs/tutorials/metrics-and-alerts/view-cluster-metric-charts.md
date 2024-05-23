@@ -85,13 +85,13 @@ To view metric charts for resource usage, select the **Metrics** tab and refer t
 
     - 100%: When the used CU capacity hits 100%, Zilliz Cloud disables data writing and triggers SDK errors. To restore normal functionality, [scale out](./manage-cluster) your cluster immediately.
 
-- **Storage Use**: Shows total persistent storage consumed, calculated in GB/s over a selected period.
+- **Storage**: Shows total persistent storage consumed by data and indexes, calculated in GB over a selected period.
 
 ![view_metric_charts_resources](/img/view_metric_charts_resources.png)
 
 ### Performance{#performance}
 
-To view metric charts for performance, select the **Metrics** tab and refer to the **Performance** area. These charts provide a snapshot of cluster performance, including QPS, VPS, latency, and request .
+To view metric charts for performance, select the **Metrics** tab and refer to the **Performance** area. These charts provide a snapshot of cluster performance, including QPS, VPS, latency, and request.
 
 - **QPS/VPS (Read)**
 
@@ -103,15 +103,17 @@ To view metric charts for performance, select the **Metrics** tab and refer to t
 
     - **QPS**: The number of write requests (insert, bulk insert, upset, and delete) per second.
 
-    - **VPS**: The number of write requests (insert, bulk insert,upset, and delete) on vectors per second.
+    - **VPS**: The number of write requests (insert, upset, and delete) on vectors per second.
 
-- **Latency (Read)**: The time elapsed between a client sending a read request (search and query request) to a server and the client receiving a response. It includes an average latency and a P99 latency.
+- **Latency (Read)**: The time elapsed between a client sending a read request (search and query) to a server and the client receiving a response. It includes an average latency and a P99 latency.
 
-- **Latency (Write)**: The time elapsed between a client sending a write request (insert and upsert request) to a server and the client receiving a response. It includes an average latency and a P99 latency.
+- **Latency (Write)**: The time elapsed between a client sending a write request (insert, upsert, and delete) to a server and the client receiving a response. It includes an average latency and a P99 latency.
 
-- **Request Failure Rate (Read)**: The percentage of timeout read requests in all requests per second.
+- **Request Failure Rate (Read)**: The percentage of timeout read requests (search and query) in all read requests per second.
 
-- **Request Failure Rate (Write)**: The percentage of timeout write requests in all requests per second.
+- **Request Failure Rate (Write)**: The percentage of timeout write requests (insert, bulk insert, upsert, and delete) in all write requests per second.
+
+- **Slow Query Count**: The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries. This metric type is available only for [BYOC](./select-zilliz-cloud-service-plans#bring-your-own-cloud-byoc) clusters or clusters of the [Enterprise](/docs/select-zilliz-cloud-service-plans?_highlight=enterprise#enterprise-plan) edition.
 
 ![view_metric_charts_performance](/img/view_metric_charts_performance.png)
 
@@ -121,9 +123,9 @@ To view metric charts for business data, select the **Metrics** tab and refer to
 
 - **Collection Count**: The count of collections created in the cluster.
 
-- **Entity Count**: The count of entities inserted into the cluster.
+- **Entity Count**: The count of entities inserted into a cluster. Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.
 
-- **Loaded Entities**: The count of entities loaded in the cluster.
+- **Loaded Entities**: The number of entities loaded (actively served) by a cluster. Selecting a specific collection from the expanded dropdown menu on the right displays the number of loaded entities at the collection level.
 
 ![view_metric_charts_entity](/img/view_metric_charts_entity.png)
 

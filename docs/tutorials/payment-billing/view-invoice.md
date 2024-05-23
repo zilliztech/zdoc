@@ -16,6 +16,12 @@ import Admonition from '@theme/Admonition';
 
 The total cost for using Zilliz Cloud services is determined by several components: compute, storage, backup, and migration costs. To help you monitor and manage your expenditures, you can access detailed invoices for both current and past billing cycles.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>If you subscribe on Marketplace, you will receive invoices for your Zilliz Cloud usage through the Marketplace. </p>
+
+</Admonition>
+
 Please note that access to view invoices is restricted to organization owners.
 
 ![billing_breakdown](/img/billing_breakdown.png)
