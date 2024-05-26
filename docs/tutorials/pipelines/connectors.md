@@ -47,7 +47,13 @@ Zilliz Cloud Pipelines provides flexible options when you create a connector. On
 
 - Ensure you have [created a collection](./manage-collections-console#create-collection).
 
-- Ensure the created collection has an ingestion pipeline and deletion pipeline(s).
+- Ensure the created collection has a doc ingestion pipeline and deletion pipeline(s).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Currently, Zilliz Cloud Connector only supports processing doc data.</p>
+
+</Admonition>
 
 ### Procedures{#procedures}
 

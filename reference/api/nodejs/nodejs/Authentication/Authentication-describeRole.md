@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: nodeSidebar
 slug: /node/node/Authentication-describeRole
 beta: FALSE
 notebook: FALSE

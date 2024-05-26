@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: nodeSidebar
 slug: /node/node/Partitions-hasPartition
 beta: FALSE
 notebook: FALSE

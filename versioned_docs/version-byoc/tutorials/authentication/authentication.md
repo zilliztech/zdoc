@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 # Authentication
 
-Learn more about the management of email accounts, API keys, cluster credentials, and multi-factor authentication (MFA) measures.
+Learn more about the management of email accounts, cluster credentials, and multi-factor authentication (MFA) measures.
 
 import DocCardList from '@theme/DocCardList';
 
