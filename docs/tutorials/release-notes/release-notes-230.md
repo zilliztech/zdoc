@@ -4,7 +4,7 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: MocQwCCItiHYEbkkJtOcROPTnod
-sidebar_position: 5
+sidebar_position: 6
 
 ---
 
@@ -73,7 +73,7 @@ We've also implemented several enhancements to improve your overall experience:
 
 - *Self-Service Account Deletion*
 
-    Easily [delete your own accounts](./email-accounts#delete-your-account) or [organizations](./delete-your-organization) for greater control over your profile.
+    Easily [delete your own accounts](./email-accounts#close-your-account) or [organizations](./delete-your-organization) for greater control over your profile.
 
 - *Stability Enhancements*
 

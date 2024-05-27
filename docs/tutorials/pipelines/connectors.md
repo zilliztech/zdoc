@@ -17,7 +17,7 @@ The connector is an in-built tool that makes it easy to connect various data sou
 
 ## Understanding Connectors{#understanding-connectors}
 
-A connector is a tool for ingesting data to Zilliz Cloud from various data sources, including Object Storage, Kafka (coming soon) and more. Taking object storage connector as an example, a connector can monitor a diretory in object storage bucket and sync files such as PDFs and HTMLs to Zilliz Cloud Pipelines, so that they can be converted to vector representation and stored in vector database for search. With ingestion and deletion pipelines, the files and their vector representation in Zilliz Cloud are kept in sync. Any addition or removal of files in the object storage will be mapped to the vector database collection.
+A connector is a tool for ingesting data to Zilliz Cloud from various data sources, including Object Storage, Kafka (coming soon) and more. Taking object storage connector as an example, a connector can monitor a directory in object storage bucket and sync files such as PDFs and HTMLs to Zilliz Cloud Pipelines, so that they can be converted to vector representation and stored in vector database for search. With ingestion and deletion pipelines, the files and their vector representation in Zilliz Cloud are kept in sync. Any addition or removal of files in the object storage will be mapped to the vector database collection.
 
 ![connector-overview](/img/connector-overview.png)
 
@@ -25,19 +25,19 @@ A connector is a tool for ingesting data to Zilliz Cloud from various data sourc
 
 1. **Real-time Data Ingestion**
 
-Effortlessly ingest and index data in real-time, guaranteeing that the freshest content is instantly accessible for all search inquiries.
+    Effortlessly ingest and index data in real-time, guaranteeing that the freshest content is instantly accessible for all search inquiries.
 
 1. **Scalable and Adaptive**
 
-Easily scale up your data ingestion pipeline with zero DevOps hassle. The adaptive connectors seamlessly handle fluctuating traffic loads, ensuring smooth scalability.
+    Easily scale up your data ingestion pipeline with zero DevOps hassle. The adaptive connectors seamlessly handle fluctuating traffic loads, ensuring smooth scalability.
 
 1. **Search Index Kept in Sync With Heterogeneous Sources**
 
-Automatically sync the addition and deletion of documents to the search index. Moreover, fuse all common types of data source (coming soon).
+    Automatically sync the addition and deletion of documents to the search index. Moreover, fuse all common types of data source (coming soon).
 
 1. **Observability**
 
-Gain insight into your dataflow with detailed logging, ensuring transparency and detecting any anomalies that may arise.
+    Gain insight into your dataflow with detailed logging, ensuring transparency and detecting any anomalies that may arise.
 
 ## Create Connector{#create-connector}
 
@@ -47,7 +47,13 @@ Zilliz Cloud Pipelines provides flexible options when you create a connector. On
 
 - Ensure you have [created a collection](./manage-collections-console#create-collection).
 
-- Ensure the created collection has an ingestion pipeline and deletion pipeline(s).
+- Ensure the created collection has a doc ingestion pipeline and deletion pipeline(s).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Currently, Zilliz Cloud Connector only supports processing doc data.</p>
+
+</Admonition>
 
 ### Procedures{#procedures}
 

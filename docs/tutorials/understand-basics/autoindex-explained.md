@@ -45,7 +45,7 @@ The process of building an index involves sorting out the entities in a collecti
 
 Indexing a floating vector on Zilliz Cloud is not an obstacle. Simply set the index type to `AUTOINDEX` and choose the metric type for Zilliz Cloud to determine the most suitable configurations for the index-building and search processes. The metric type determines how the distances between vectors are measured and is the only thing you need to consider.
 
-The difference between the index-building and search settings on Milvus and Zilliz Cloud are shown below:
+The differences between the index-building settings on Milvus and Zilliz Cloud are shown below:
 
 ```python
 # For index-building
@@ -72,7 +72,11 @@ index_params = {
         "nlist": 1024
     }
 }
+```
 
+The differences between the search parameter settings are as follows:
+
+```python
 # For searches
 # On Milvus
 search_params = {

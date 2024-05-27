@@ -5,7 +5,7 @@ beta: false
 notebook: false
 type: folder
 token: FqAOfnQW5lXhmZdJvS7clWKZnIb
-sidebar_position: 4
+sidebar_position: 5
 displayed_sidebar: pythonSidebar
 
 ---
@@ -16,6 +16,10 @@ import Admonition from '@theme/Admonition';
 # VoyageRerankFunction
 
 **VoyageRerankFunction** is a class in [milvus_model](https://github.com/milvus-io/milvus-model) that takes a query and document as input and directly returns a similarity score instead of embeddings. This functionality uses the underlying Voyage reranking model.
+
+```python
+pymilvus.model.reranker.VoyageRerankFunction
+```
 
 ## Constructor{#constructor}
 

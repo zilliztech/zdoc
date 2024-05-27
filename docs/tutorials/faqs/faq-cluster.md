@@ -66,9 +66,9 @@ Yes. To change the cloud region of your cluster, you need to follow the steps be
 
 ### How can I scale down my cluster CU size?{#how-can-i-scale-down-my-cluster-cu-size}
 
-If you need to scale down your cluster CU size, please create a new cluster with the desired CU size first. Then, [migrate](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster) the data in your exsisting cluster to the new cluster.
+Yes. To scale down your cluster's CU size, go to the **Summary** section in the [Zilliz Cloud console](https://cloud.zilliz.com/signup) and click **Scale** next to the CU **Size**. This will open the scaling page where you can increase or decrease the CU size. Before scaling down your cluster, make sure the CU size can accommodate your data volume and workload capacity.
 
-If you require assistance when scaling down the CU size, please[ submit a request](https://support.zilliz.com/hc/en-us).
+For more information, refer to [Scale cluster](./manage-cluster#manage-and-configure-clusters).
 
 ### Can I deploy a free cluster on AWS?{#can-i-deploy-a-free-cluster-on-aws}
 

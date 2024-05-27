@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: nodeSidebar
 slug: /node/node/Collections-dropAlias
 beta: FALSE
 notebook: FALSE
@@ -76,9 +76,9 @@ This method returns a promise that resolves to a **ResStatus** object.
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);
- const resStatus = await milvusClient.dropAlias({
+const resStatus = await milvusClient.dropAlias({
    alias: 'my_collection_alias',
    collection_name: 'my_collection',
- });
+});
 ```
 

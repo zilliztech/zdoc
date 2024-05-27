@@ -25,10 +25,6 @@ Once you have set up a cluster on Zilliz Cloud, this is the Zilliz Cloud console
 
 ![byoc_cluster](/byoc/byoc_cluster.png)
 
-## API keys{#api-keys}
-
-![byoc-api-keys](/byoc/byoc-api-keys.png)
-
 ## Project IDs{#project-ids}
 
 ![byoc_project_ids](/byoc/byoc_project_ids.png)

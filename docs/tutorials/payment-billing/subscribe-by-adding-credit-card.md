@@ -19,8 +19,7 @@ This guide provides comprehensive instructions on how to add a payment credit ca
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p><strong>Accepted Credit Cards:</strong> Zilliz Cloud currently accepts credit cards issued in the United States (USA), China, Hong Kong SAR, Macau SAR, Taiwan, and Canada. If your credit card is from a different country or region, please consider <a href="./subscribe-on-aws-marketplace">subscribing through Marketplaces</a>.</p></li>
-<li><p><strong>Taxation:</strong> Taxes on the invoices are calculated based on the billing address you provide. For companies that require to enter VAT or GST ID, please <a href="http://support.zilliz.com">contact us</a>.</p></li>
+<li><strong>Taxation:</strong> Taxes on the invoices are calculated based on the billing address you provide. For companies that require to enter VAT or GST ID, please <a href="http://support.zilliz.com">contact us</a>.</li>
 </ul>
 
 </Admonition>

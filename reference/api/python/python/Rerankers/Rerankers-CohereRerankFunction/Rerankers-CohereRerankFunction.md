@@ -17,6 +17,10 @@ import Admonition from '@theme/Admonition';
 
 **CohereRerankFunction** is a class in [milvus_model](https://github.com/milvus-io/milvus-model) that takes a query and document as input and directly returns a similarity score instead of embeddings. This functionality uses the underlying Cohere reranking model.
 
+```python
+pymilvus.model.reranker.CohereRerankFunction
+```
+
 ## Constructor{#constructor}
 
 Constructs a CohereRerankFunction for common use cases.

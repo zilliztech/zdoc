@@ -109,7 +109,7 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
 
 - Choice of two types of [CUs](./cu-types-explained): Capacity-optimized and Performance-optimized.
 
-- Supports up to 24 CUs, maxing at 30 million 768-dimensional vectors.
+- Supports up to 32 CUs.
 
 ### Dedicated (Enterprise) plan{#dedicated-enterprise-plan}
 
@@ -117,7 +117,7 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
 
 - Choice of two types of [CUs](./cu-types-explained): Capacity-optimized and Performance-optimized.
 
-- Supports up to 32 CUs per cluster, with scalability options to thousands.
+- Supports up to 256 CUs per cluster, with scalability options to thousands.
 
 - Premium features like disaster recovery across multiple availability zones, private links, and automatic backup.
 
@@ -137,7 +137,7 @@ Visit the [Pricing Page](https://zilliz.com/pricing) or reach out to [support@zi
 
 - **Serverless**: Each cluster can accommodate up to 10 collections.
 
-- **Dedicated-Standard** & **Dedicated-Enterprise**: Scalability of CUs and collections is defined by the selected plan, with max capacities of 30 million and 300 million 768-dimensional vectors, respectively.
+- **Dedicated-Standard** & **Dedicated-Enterprise**: Scalability of CUs and collections is defined by the selected plan.
 
 - **Bring Your Own Cloud (BYOC)**: Exclusive to users requiring 128 CUs or more, offering enhanced security and compliance features via private VPC deployment.
 

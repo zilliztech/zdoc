@@ -55,7 +55,7 @@ os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 URI = 'YOUR_CLUSTER_ENDPOINT'
 
 # 5. Set up the token for your Zilliz Cloud cluster.
-# You can either use an API key or a set of cluster username and password joined by a colon.
+# You can either use a set of cluster username and password joined by a colon.
 TOKEN = 'YOUR_CLUSTER_TOKEN'
 ```
 
