@@ -35,10 +35,6 @@ Once you have set up a cluster on Zilliz Cloud, this is the Zilliz Cloud console
 
 ![dedicated_cluster](/img/dedicated_cluster.png)
 
-## API keys{#api-keys}
-
-![api-keys](/img/api-keys.png)
-
 ## Project IDs{#project-ids}
 
 ![project_ids](/img/project_ids.png)

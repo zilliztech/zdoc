@@ -144,7 +144,7 @@ This plan is crafted for production applications with customizable workload mana
      <td>CUs</td>
      <td>Shared</td>
      <td>Auto-scale</td>
-     <td>24 CUs for self-provisioning</td>
+     <td>32 CUs for self-provisioning</td>
    </tr>
 </table>
 

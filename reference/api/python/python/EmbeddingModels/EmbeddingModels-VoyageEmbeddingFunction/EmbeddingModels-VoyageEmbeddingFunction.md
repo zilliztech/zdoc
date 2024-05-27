@@ -5,7 +5,7 @@ beta: false
 notebook: false
 type: folder
 token: UaedfEts7lWlFEdq2WNcVAczn6d
-sidebar_position: 6
+sidebar_position: 8
 displayed_sidebar: pythonSidebar
 
 ---
@@ -43,7 +43,7 @@ VoyageEmbeddingFunction(
 
     The API key for accessing the Voyage API. For information on how to create an API key, refer to [API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation).
 
-- ****kwargs**
+- **kwargs**
 
     Allows additional keyword arguments to be passed to the model initialization. For more information, refer to [Python API](https://docs.voyageai.com/docs/embeddings#python-api).
 
