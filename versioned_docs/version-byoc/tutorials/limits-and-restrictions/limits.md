@@ -89,7 +89,7 @@ The consumed capacity should be less than the general capacity available.
 <li><strong>Calculating the general capacity of a cluster</strong></li>
 </ul>
 <p>The general capacity can be determined using the following formula:</p>
-<p><strong>\<= 512 x Number of CUs</strong></p>
+<p><strong>&lt;= 512 x Number of CUs</strong></p>
 <p>For instance, </p>
 <ul>
 <li><p>In a cluster of <strong>2</strong> CUs, you can create a maximum of <strong>128</strong> collections with a general capacity of <strong>1,024</strong>.</p></li>

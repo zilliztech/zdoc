@@ -174,7 +174,7 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 
 - **Scale-up cluster**
 
-    In the **Summary** section, click **Scale** right to the CU **Size** to open the **Scale Cluster** dialog box. You can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. You can scale the size of a cluster up to 24 CUs in the dialog box. Contact us if you need a larger CU.
+    In the **Summary** section, click **Scale** right to the CU **Size** to open the **Scale Cluster** dialog box. You can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. You can scale the size of a cluster up to 256 CUs in the dialog box. Contact us if you need a larger CU.
 
     For details on CU types and how to select an appropriate one, refer to [Select the Right CU](./cu-types-explained).
 
@@ -188,13 +188,11 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 
 - **Scale down cluster**
 
-    To scale down the cluster CU size, please create a new cluster with the desired CU size first. 
-
-    Then, migrate the data from your exsisting cluster to the new cluster. For details, refer to [Migrate Between Clusters](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster).
+    To scale down the cluster CU size, please navigate to the overview page of the target cluster and click **Scale** next to the CU size. Select the desired CU size in the dialog window. 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Please use the <a href="https://zilliz.com/pricing#calculator">CU calculator</a> to estimate the minimum CU size needed for your data. Otherwise, data migration may fail.</p>
+    <p>Please use the <a href="https://zilliz.com/pricing#calculator">CU calculator</a> to estimate the minimum CU size needed for your data. Otherwise, scaling may fail.</p>
 
     </Admonition>
 

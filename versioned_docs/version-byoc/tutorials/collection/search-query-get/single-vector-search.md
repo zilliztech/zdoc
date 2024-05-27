@@ -1283,7 +1283,7 @@ The output is similar to the following:
 </TabItem>
 </Tabs>
 
-The data in `partition_1` differs from that in `partition_2`. Therefore, the search results will be constrained to the specified partition, reflecting the unique characteristics and data distribution of that subset.
+The data in `red` differs from that in `blue`. Therefore, the search results will be constrained to the specified partition, reflecting the unique characteristics and data distribution of that subset.
 
 ### Search with output fields{#search-with-output-fields}
 

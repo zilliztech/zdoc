@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: javaSidebar
 slug: /java/java/v2-Collections-describeCollection
 beta: FALSE
 notebook: FALSE
