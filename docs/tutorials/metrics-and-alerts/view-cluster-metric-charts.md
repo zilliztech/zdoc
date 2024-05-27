@@ -109,7 +109,7 @@ To view metric charts for performance, select the **Metrics** tab and refer to t
 
 - **Request Failure Rate (Write)**: The percentage of timeout write requests (insert, bulk insert, upsert, and delete) in all write requests per second.
 
-- **Slow Query Count**: The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries. This metric type is available only for [BYOC](./select-zilliz-cloud-service-plans#bring-your-own-cloud-byoc) clusters or clusters of the [Enterprise](/docs/select-zilliz-cloud-service-plans?_highlight=enterprise#enterprise-plan) edition.
+- **Slow Query Count**: The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries. This metric type is available only for [BYOC](./select-zilliz-cloud-service-plans#bring-your-own-cloud-byoc) clusters or clusters of the [Enterprise](./select-zilliz-cloud-service-plans#dedicated-enterprise-plan) edition.
 
 ![view_metric_charts_performance](/img/view_metric_charts_performance.png)
 

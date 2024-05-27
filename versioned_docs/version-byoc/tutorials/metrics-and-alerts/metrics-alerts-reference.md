@@ -29,7 +29,43 @@ The table provides a description of each metric and the actions that you are adv
      <th>Recommended Action</th>
    </tr>
    <tr>
-     <td colspan="4"></td>
+     <td colspan="4"><strong>Pod Resources</strong></td>
+   </tr>
+   <tr>
+     <td>CPU Usage<br/></td>
+     <td>Core</td>
+     <td><br/> The number of CPU cores used by pods.<br/> <br/></td>
+     <td><br/> Regularly monitor and log resource usage to identify trends and potential bottlenecks.<br/> </td>
+   </tr>
+   <tr>
+     <td><br/> CPU Usage Rate for Limit<br/> </td>
+     <td><br/> %<br/> </td>
+     <td><br/> The percentage of the pod CPU usage in the value of limit.<br/> <br/></td>
+     <td><br/> Monitor the workload and consider optimizing resource usage or increasing the CPU limit if the usage trend continues to rise.<br/> <br/></td>
+   </tr>
+   <tr>
+     <td><br/> Memory Usage<br/> </td>
+     <td><br/> MB<br/> </td>
+     <td><br/> The memory usage of containers in the pod (with cache excluded).<br/> </td>
+     <td><br/> Regularly monitor and log resource usage to identify trends and potential bottlenecks.<br/> <br/></td>
+   </tr>
+   <tr>
+     <td><br/> Memory Usage Rate for Limit<br/> <br/></td>
+     <td><br/> %<br/> </td>
+     <td><br/> The percentage of the pod memory usage in the value of limit.<br/> <br/></td>
+     <td><br/> Monitor the memory usage and identify any potential memory leaks or inefficient memory usage in the application.<br/> <br/></td>
+   </tr>
+   <tr>
+     <td>Network Inbound Flow<br/></td>
+     <td><br/> Mbps<br/> </td>
+     <td><br/> The network inbound flow of pod.<br/> <br/></td>
+     <td><br/> Track and analyze the amount of data being received from external sources, helping you monitor network performance and identify potential network congestion or bandwidth issues.<br/> </td>
+   </tr>
+   <tr>
+     <td>Network Outbound Flow</td>
+     <td><br/> Mbps<br/> </td>
+     <td><br/> The network outbound flow of pod.<br/> <br/></td>
+     <td><br/> Track and analyze the amount of data being sent to external sources, helping you monitor network performance and identify potential network congestion or bandwidth issues.<br/> <br/></td>
    </tr>
    <tr>
      <td colspan="4"><strong>Resources</strong></td>

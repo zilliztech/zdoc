@@ -57,6 +57,24 @@ The **Metrics** tab allows for two types of window sizes.
 
 Zilliz Cloud offers metric charts for monitoring cluster performance from various aspects.  For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
 
+### Pod resources{#pod-resources}
+
+To effectively track pod resource consumption, select the **Metrics** tab and refer to the **Pod Resources** area. Here, you'll find succinct graphs that display CPU, storage, and network usage for each pod.
+
+- **CPU Usage**: The CPU usage of pods.
+
+- **CPU Usage Rate for Limit**: The percentage of the pod CPU usage in the value of limit.
+
+- **Memory Usage**: The memory usage of containers in the pod (with cache excluded).
+
+- **Memory Usage Rate for Limit**: The percentage of the pod memory usage in the value of limit.
+
+- **Network Inbound Flow**: The network inbound flow of pod.
+
+- **Network Outbound Flow**: The network outbound flow of pod.
+
+![MWoDbnsw0ouYwBxj4hycOjC2n5e](/byoc/MWoDbnsw0ouYwBxj4hycOjC2n5e.png)
+
 ### Resources{#resources}
 
 To view metric charts for resource usage, select the **Metrics** tab and refer to the **Resources** area. These charts provide a snapshot of the cluster's resource usage, including computation, capacity, and storage.
@@ -103,7 +121,7 @@ To view metric charts for performance, select the **Metrics** tab and refer to t
 
 - **Request Failure Rate (Write)**: The percentage of timeout write requests (insert, bulk insert, upsert, and delete) in all write requests per second.
 
-- **Slow Query Count**: The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries. This metric type is available only for [BYOC](./select-zilliz-cloud-service-plans#bring-your-own-cloud-byoc) clusters or clusters of the [Enterprise](/docs/select-zilliz-cloud-service-plans?_highlight=enterprise#enterprise-plan) edition.
+- **Slow Query Count**: The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries.
 
 ![byoc_view_metric_charts_performance](/byoc/byoc_view_metric_charts_performance.png)
 
