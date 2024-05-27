@@ -35,15 +35,15 @@ When an alert in an **ON** status, the specified recipients will receive notific
      <td>License (Core Usage)<br/></td>
      <td>%</td>
      <td>Monitor the percentage of used CPU cores against the total licensed cores.</td>
-     <td></td>
-     <td></td>
+     <td><strong>Below 70%</strong>: Continue monitoring to ensure core usage stays within this range. <br/> <strong>70-99%</strong>: Assess future needs and prepare to renew or upgrade the license.<br/> <strong>100% or above</strong>: Renew or upgrade the license immediately to avoid operational disruptions.<br/> For details, refer to <a href="./license">License</a>.</td>
+     <td><strong>WARNING</strong>: Triggered when the count of used CPU cores reaches or exceeds 70% of the total.<br/> <strong>CRITICAL</strong>: Triggered when the count of used CPU cores reaches or exceeds 100% of the total.</td>
    </tr>
    <tr>
      <td>License (Validity Period)</td>
      <td>Day</td>
      <td>Track the remaining days of license validity.</td>
-     <td></td>
-     <td></td>
+     <td><strong>Above 60 days</strong>: Continue monitoring to ensure more than 60 days of validity remain. <br/> <strong>60 days or below</strong>: Start preparing to renew or upgrade the license. <br/> <strong>Expired</strong>: Renew or upgrade the license immediately to avoid restrictions like the inability to create new clusters or scale up.<br/> For details, refer to <a href="./license">License</a>.</td>
+     <td><strong>WARNING</strong>: Triggered when the license validity is 60 days or less.<br/> <strong>CRITICAL</strong>: Triggered when the license expires.</td>
    </tr>
 </table>
 
