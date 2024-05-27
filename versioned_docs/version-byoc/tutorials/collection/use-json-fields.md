@@ -1514,88 +1514,6 @@ Zilliz Cloud provides a set of advanced filters for scalar filtering in JSON fie
     <TabItem value='java'>
 
     ```java
-    res = await client.search({
-        collection_name: "test_collection",
-        data: query_vectors,
-        filter: 'JSON_CONTAINS_ANY(color["coord"], [4, 5])',
-        output_fields: ["color", "id"],
-        limit: 3
-    })
-    
-    console.log(JSON.stringify(res.results, null, 4))
-    
-    // Output
-    // 
-    // [
-    //     {
-    //         "score": 1.9083369970321655,
-    //         "id": "453",
-    //         "color": {
-    //             "label": "brown",
-    //             "tag": 8788,
-    //             "coord": [
-    //                 21,
-    //                 18,
-    //                 5
-    //             ],
-    //             "ref": [
-    //                 [
-    //                     "pink",
-    //                     "black",
-    //                     "brown"
-    //                 ]
-    //             ]
-    //         }
-    //     },
-    //     {
-    //         "score": 1.8944344520568848,
-    //         "id": "792",
-    //         "color": {
-    //             "label": "purple",
-    //             "tag": 8161,
-    //             "coord": [
-    //                 4,
-    //                 38,
-    //                 5
-    //             ],
-    //             "ref": [
-    //                 [
-    //                     "red",
-    //                     "white",
-    //                     "grey"
-    //                 ]
-    //             ]
-    //         }
-    //     },
-    //     {
-    //         "score": 1.8615753650665283,
-    //         "id": "272",
-    //         "color": {
-    //             "label": "grey",
-    //             "tag": 3400,
-    //             "coord": [
-    //                 5,
-    //                 1,
-    //                 32
-    //             ],
-    //             "ref": [
-    //                 [
-    //                     "purple",
-    //                     "green",
-    //                     "white"
-    //                 ]
-    //             ]
-    //         }
-    //     }
-    // ]
-    // 
-    ```
-
-    </TabItem>
-
-    <TabItem value='javascript'>
-
-    ```javascript
     searchReq = SearchReq.builder()
         .collectionName("test_collection")
         .data(query_vectors)
@@ -1714,6 +1632,88 @@ Zilliz Cloud provides a set of advanced filters for scalar filtering in JSON fie
     ```
 
     </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    res = await client.search({
+        collection_name: "test_collection",
+        data: query_vectors,
+        filter: 'JSON_CONTAINS_ANY(color["coord"], [4, 5])',
+        output_fields: ["color", "id"],
+        limit: 3
+    })
+    
+    console.log(JSON.stringify(res.results, null, 4))
+    
+    // Output
+    // 
+    // [
+    //     {
+    //         "score": 1.9083369970321655,
+    //         "id": "453",
+    //         "color": {
+    //             "label": "brown",
+    //             "tag": 8788,
+    //             "coord": [
+    //                 21,
+    //                 18,
+    //                 5
+    //             ],
+    //             "ref": [
+    //                 [
+    //                     "pink",
+    //                     "black",
+    //                     "brown"
+    //                 ]
+    //             ]
+    //         }
+    //     },
+    //     {
+    //         "score": 1.8944344520568848,
+    //         "id": "792",
+    //         "color": {
+    //             "label": "purple",
+    //             "tag": 8161,
+    //             "coord": [
+    //                 4,
+    //                 38,
+    //                 5
+    //             ],
+    //             "ref": [
+    //                 [
+    //                     "red",
+    //                     "white",
+    //                     "grey"
+    //                 ]
+    //             ]
+    //         }
+    //     },
+    //     {
+    //         "score": 1.8615753650665283,
+    //         "id": "272",
+    //         "color": {
+    //             "label": "grey",
+    //             "tag": 3400,
+    //             "coord": [
+    //                 5,
+    //                 1,
+    //                 32
+    //             ],
+    //             "ref": [
+    //                 [
+    //                     "purple",
+    //                     "green",
+    //                     "white"
+    //                 ]
+    //             ]
+    //         }
+    //     }
+    // ]
+    // 
+    ```
+
+    </TabItem>
     </Tabs>
 
 ## Reference on JSON filters{#reference-on-json-filters}
@@ -1765,7 +1765,7 @@ The following table assumes that the value of a JSON field named `json_key` has 
      <td>This expression evaluates to true if<br/> - <code>json_field</code> does not have a key named <code>A</code>.<br/> - <code>json_field</code> has a key named <code>A</code> but <code>json_field["A"]</code> is not an array.<br/> - <code>json_field["A"]</code> is an empty array.<br/> - <code>json_field["A"]</code> is an array but the first element is not <code>abc</code>.<br/></td>
    </tr>
    <tr>
-     <td><strong>\<=</strong></td>
+     <td><strong>\&lt;=</strong></td>
      <td><code>'json_field["A"] &lt;= 5'</code></td>
      <td>This expression evaluates to true if the value of <code>json_field["A"]</code> is less than or equal to <code>5</code>.</td>
    </tr>

@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: this.displayedSidebar
+displayed_sidbar: nodeSidebar
 slug: /node/node/Client-MilvusClient
 beta: FALSE
 notebook: FALSE

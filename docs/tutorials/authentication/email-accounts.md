@@ -15,25 +15,33 @@ import Admonition from '@theme/Admonition';
 
 Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account.
 
-## Modify your account information{#modify-your-account-information}
+## Modify your profile information{#modify-your-profile-information}
 
 1. Go to your **Profile** and click **Account Settings**.
 
-1. Click the pencil icon next to the Account section to edit the following account information:
+1. You can edit the following account information:
 
-    - First Name and Last Name
+    - Name
 
     - Company
 
     - Country
 
+![modify_account_info](/img/modify_account_info.png)
+
+## Update account email address{#update-account-email-address}
+
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Direct modification of the account's email address is not available. If you need to change your email, refer to our guide in <a href="/docs/faq-account">FAQs</a>.</p>
+<p>Updating the email address will not affect the receiver of billing invoices and alerts. Please update these information manually if necessary.</p>
 
 </Admonition>
 
-![modify_account_info](/img/modify_account_info.png)
+## Change account password{#change-account-password}
+
+## Enable and disable MFA{#enable-and-disable-mfa}
+
+Refer to [MFA](./multi-factor-auth)for more information.
 
 ## Switch login method{#switch-login-method}
 
@@ -83,11 +91,11 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 1. Your login method is now set to your work email and the new password.
 
-## Delete your account{#delete-your-account}
+## Close your account{#close-your-account}
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-<p>Deleting your account is irreversible. Exercise caution and ensure all necessary preparations are made before proceeding with this action.</p>
+<p>Once the account is closed, you cannot use it to log into Zilliz Cloud. If you change your mind and need to reopen the account, please create a support ticket at the <a href="https://support.zilliz.com/hc/en-us">Zilliz Cloud Support Portal</a>. After 30 days, all data in this account will be cleaned.</p>
 
 </Admonition>
 

@@ -53,7 +53,7 @@ Here we can find the main arguments that need to be modified for running with yo
 COLLECTION_NAME = 'movies_db'  # Collection name
 DIMENSION = 384  # Embeddings size
 URI = 'YOUR_CLUSTER_ENDPOINT'  # Endpoint URI obtained from Zilliz Cloud
-TOKEN = 'YOUR_CLUSTER_TOKEN'  # API key or a colon-separated cluster username and password
+TOKEN = 'YOUR_CLUSTER_TOKEN'  # a colon-separated cluster username and password
 
 # Inference Arguments
 BATCH_SIZE = 128

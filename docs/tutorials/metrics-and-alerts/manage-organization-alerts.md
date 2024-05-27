@@ -42,7 +42,7 @@ When an alert in an **ON** status, the specified recipients will receive notific
      <td>Day</td>
      <td>Monitor the remaining days until the credit card's expiration to ensure uninterrupted service.</td>
      <td>Renew or update credit card information before the expiration date.<br/></td>
-     <td></td>
+     <td><strong>WARNING</strong>: Trigger alerts within 30 days of card expiration.<br/> <strong>CRITICAL</strong>: Trigger alerts within 7 days of card expiration.</td>
    </tr>
    <tr>
      <td>Remaining Credits</td>

@@ -1635,7 +1635,7 @@ A **boolean expression** is always **a string comprising field names joined by o
      <td>Modulus</td>
    </tr>
    <tr>
-     <td><strong>\<, ></strong></td>
+     <td><strong>\&lt;, ></strong></td>
      <td>Less than, greater than</td>
    </tr>
    <tr>
@@ -1643,7 +1643,7 @@ A **boolean expression** is always **a string comprising field names joined by o
      <td>Equal to, not equal to</td>
    </tr>
    <tr>
-     <td><strong>\<=, >=</strong></td>
+     <td><strong>\&lt;=, >=</strong></td>
      <td>Less than or equal to, greater than or equal to</td>
    </tr>
    <tr>
