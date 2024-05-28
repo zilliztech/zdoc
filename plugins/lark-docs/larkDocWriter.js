@@ -1002,13 +1002,12 @@ class larkDocWriter {
                 const merge = merge_info[cell_idx];
 
                 if (merge) {
-                    const cell_text = [...converter.makeHtml(cell_texts[cell_idx].trim()).matchAll(/<p>(.*?)<\/p>/g)][0];
                     const colspan = merge.col_span > 1 ? ` colspan="${merge.col_span}"` : "";
                     const rowspan = merge.row_span > 1 ? ` rowspan="${merge.row_span}"` : "";
                     if (i === 0) {
-                        html += ` ${' '.repeat(indent)}    <th${colspan}${rowspan}>${cell_text ? cell_text[1] : ""}</th>\n`;
+                        html += ` ${' '.repeat(indent)}    <th${colspan}${rowspan}>${converter.makeHtml(cell_texts[cell_idx].trim())}</th>\n`;
                     } else {
-                        html += ` ${' '.repeat(indent)}    <td${colspan}${rowspan}>${cell_text ? cell_text[1] : ""}</td>\n`;
+                        html += ` ${' '.repeat(indent)}    <td${colspan}${rowspan}>${converter.makeHtml(cell_texts[cell_idx].trim())}</td>\n`;
                     }
                 }
             }
@@ -1049,13 +1048,11 @@ class larkDocWriter {
                 if (typeof cell === 'number') {
                     cell = cell.toString()
                 }
-
-                cell = [...converter.makeHtml(cell.trim()).matchAll(/<p>(.*?)<\/p>/g)][0]
                 
                 if (ridx === 0) {
-                    result += `${' '.repeat(indent) + '    '.repeat(2)}<th${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${cell ? cell[1] : ""}</th>\n`
+                    result += `${' '.repeat(indent) + '    '.repeat(2)}<th${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${converter.makeHtml(cell.trim())}</th>\n`
                 } else {
-                    result += `${' '.repeat(indent) + '    '.repeat(2)}<td${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${cell ? cell[1] : ""}</td>\n`
+                    result += `${' '.repeat(indent) + '    '.repeat(2)}<td${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${converter.makeHtml(cell.trim())}</td>\n`
                 }
             })
             result += ' '.repeat(indent) + '    ' + "</tr>" + "\n"
