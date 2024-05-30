@@ -19,14 +19,24 @@ Learn about how to manipulate collections on the Zilliz Cloud console or via SDK
 
 <table>
    <tr>
-     <th><strong>Cluster Type</strong></th>
-     <th><strong>Max Number</strong></th>
-     <th><strong>Remarks</strong></th>
+     <th><p><strong>Cluster Type</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td>Dedicated cluster<br/></td>
-     <td>64 per CU, and \&lt;= 4096</td>
-     <td>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</td>
+     <td><p></p></td>
+     <td><p><br/></p></td>
+     <td><p></p></td>
+   </tr>
+   <tr>
+     <td><p></p></td>
+     <td><p><br/></p></td>
+     <td><p></p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster<br/></p></td>
+     <td><p>64 per CU, and \&lt;= 4096</p></td>
+     <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
    </tr>
 </table>
 
@@ -34,16 +44,16 @@ In addition to the limits on the number of collections per cluster, Zilliz Cloud
 
 <table>
    <tr>
-     <th><strong>Number of CUs</strong></th>
-     <th><strong>General Capacity</strong></th>
+     <th><p><strong>Number of CUs</strong></p></th>
+     <th><p><strong>General Capacity</strong></p></th>
    </tr>
    <tr>
-     <td>1-8 CUs</td>
-     <td>\&lt;= 4,096</td>
+     <td><p>1-8 CUs</p></td>
+     <td><p>\&lt;= 4,096</p></td>
    </tr>
    <tr>
-     <td>12+ CUs</td>
-     <td>Min(512 x Number of CUs, 65536)</td>
+     <td><p>12+ CUs</p></td>
+     <td><p>Min(512 x Number of CUs, 65536)</p></td>
    </tr>
 </table>
 

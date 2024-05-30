@@ -31,46 +31,46 @@ When an alert in an **ON** status, the specified recipients will receive notific
 
 <table>
    <tr>
-     <th>Alert Target</th>
-     <th>Unit</th>
-     <th>Description</th>
-     <th>Recommended Action</th>
-     <th>Default Trigger Condition</th>
+     <th><p>Alert Target</p></th>
+     <th><p>Unit</p></th>
+     <th><p>Description</p></th>
+     <th><p>Recommended Action</p></th>
+     <th><p>Default Trigger Condition</p></th>
    </tr>
    <tr>
-     <td>Expiration Date of Credit card</td>
-     <td>Day</td>
-     <td>Monitor the remaining days until the credit card's expiration to ensure uninterrupted service.</td>
-     <td>Renew or update credit card information before the expiration date.<br/></td>
-     <td><strong>WARNING</strong>: Trigger alerts within 30 days of card expiration.<br/> <strong>CRITICAL</strong>: Trigger alerts within 7 days of card expiration.</td>
+     <td><p>Expiration Date of Credit card</p></td>
+     <td><p>Day</p></td>
+     <td><p>Monitor the remaining days until the credit card's expiration to ensure uninterrupted service.</p></td>
+     <td><p>Renew or update credit card information before the expiration date.<br/></p></td>
+     <td><p><strong>WARNING</strong>: Trigger alerts within 30 days of card expiration.<br/> <strong>CRITICAL</strong>: Trigger alerts within 7 days of card expiration.</p></td>
    </tr>
    <tr>
-     <td>Remaining Credits</td>
-     <td>$</td>
-     <td>Track the balance of free credits, alerting the user when it falls low to prompt a top-up.</td>
-     <td>Top up credits to maintain account functionality.</td>
-     <td>Trigger <strong>WARNING</strong> alerts when the balance of free credits falls below $10.</td>
+     <td><p>Remaining Credits</p></td>
+     <td><p>$</p></td>
+     <td><p>Track the balance of free credits, alerting the user when it falls low to prompt a top-up.</p></td>
+     <td><p>Top up credits to maintain account functionality.</p></td>
+     <td><p>Trigger <strong>WARNING</strong> alerts when the balance of free credits falls below $10.</p></td>
    </tr>
    <tr>
-     <td>Credit Validity Period<br/></td>
-     <td>Day<br/></td>
-     <td>Monitor the remaining validity period of free credits, alerting the user to encourage usage or extension.</td>
-     <td>Extend the validity period or use the credits before they expire.</td>
-     <td>Trigger <strong>WARNING</strong> alerts when the validity period of free credits reaches 0 days.</td>
+     <td><p>Credit Validity Period<br/></p></td>
+     <td><p>Day<br/></p></td>
+     <td><p>Monitor the remaining validity period of free credits, alerting the user to encourage usage or extension.</p></td>
+     <td><p>Extend the validity period or use the credits before they expire.</p></td>
+     <td><p>Trigger <strong>WARNING</strong> alerts when the validity period of free credits reaches 0 days.</p></td>
    </tr>
    <tr>
-     <td>Advance Pay Balance</td>
-     <td>$</td>
-     <td>Monitor the advance pay balance, alerting the user when it falls low to prevent service disruption.</td>
-     <td>Add funds to the advance pay balance to avoid service interruption.</td>
-     <td>Trigger <strong>CRITICAL</strong> alerts when the balance falls below $100.</td>
+     <td><p>Advance Pay Balance</p></td>
+     <td><p>$</p></td>
+     <td><p>Monitor the advance pay balance, alerting the user when it falls low to prevent service disruption.</p></td>
+     <td><p>Add funds to the advance pay balance to avoid service interruption.</p></td>
+     <td><p>Trigger <strong>CRITICAL</strong> alerts when the balance falls below $100.</p></td>
    </tr>
    <tr>
-     <td>Usage Amount</td>
-     <td>$</td>
-     <td>Track the usage amount, informing the user when it exceeds a set threshold to suggest monitoring and management.</td>
-     <td>Monitor and manage usage to stay within budget limits.</td>
-     <td>Trigger <strong>WARNING</strong> alerts when the amount of usage exceeds $100.</td>
+     <td><p>Usage Amount</p></td>
+     <td><p>$</p></td>
+     <td><p>Track the usage amount, informing the user when it exceeds a set threshold to suggest monitoring and management.</p></td>
+     <td><p>Monitor and manage usage to stay within budget limits.</p></td>
+     <td><p>Trigger <strong>WARNING</strong> alerts when the amount of usage exceeds $100.</p></td>
    </tr>
 </table>
 

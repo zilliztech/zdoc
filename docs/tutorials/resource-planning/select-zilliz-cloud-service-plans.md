@@ -22,124 +22,98 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
 
 <table>
    <tr>
-     <th>Feature</th>
-     <th>Starter</th>
-     <th>Serverless</th>
-     <th>Dedicated-Standard</th>
-     <th>Dedicated-Enterprise</th>
-     <th>Bring Your Own Cloud (BYOC)</th>
+     <th><p>Feature</p></th>
+     <th><p>Starter<br/></p></th>
+     <th><p>Serverless<br/></p></th>
+     <th><p>Dedicated-Standard<br/></p></th>
+     <th><p>Dedicated-Enterprise<br/></p></th>
+     <th><p>Bring Your Own Cloud (BYOC)<br/></p></th>
    </tr>
    <tr>
-     <td><strong>Pricing</strong></td>
-     <td>Free</td>
-     <td>Customizable (Free for a limited time)</td>
-     <td>Customizable</td>
-     <td>Customizable</td>
-     <td>Customizable</td>
+     <td><p>Plan Description</p></td>
+     <td><p>For learning, experimenting, and prototyping; easy migration to different plans for production.</p></td>
+     <td><p>Designed for serverless applications with variable or infrequent traffic. Minimal configuration required.</p></td>
+     <td><p>Suitable for applications in dev with customizable workload management. Advanced configuration options.</p></td>
+     <td><p>Ideal for production applications with customizable workload management. Provides more security controls, monitors and support SLAs.</p></td>
+     <td><p>For production applications with strict data security or compliance requirements. Most advanced configuration controls.</p></td>
    </tr>
    <tr>
-     <td><strong>Cloud Provider & Region</strong></td>
-     <td>GCP Exclusive</td>
-     <td>GCP Exclusive</td>
-     <td>AWS, GCP, Azure</td>
-     <td>AWS, GCP, Azure</td>
-     <td>User's VPC</td>
+     <td><p><strong>Pricing</strong></p></td>
+     <td><p>Free</p></td>
+     <td><p><a href="https://zilliz.com/pricing">View Pricing</a></p></td>
+     <td><p><a href="https://zilliz.com/pricing">View Pricing</a><br/></p></td>
+     <td><p><a href="https://zilliz.com/pricing">View Pricing</a></p></td>
+     <td><p><a href="https://zilliz.com/contact-sales">Contact Sales</a></p></td>
    </tr>
    <tr>
-     <td><strong>CU Size Options</strong><br/></td>
-     <td>Single CU<br/></td>
-     <td>Auto-scale</td>
-     <td></td>
-     <td></td>
-     <td>Customizable<br/></td>
+     <td><p><strong>Cloud Provider & Region</strong></p></td>
+     <td><p>GCP Exclusive</p></td>
+     <td><p>GCP Exclusive</p></td>
+     <td><p>AWS, GCP, Azure</p></td>
+     <td><p>AWS, GCP, Azure</p></td>
+     <td><p>User's VPC</p></td>
    </tr>
    <tr>
-     <td><strong>Max. Collections</strong></td>
-     <td>2</td>
-     <td>10 per cluster</td>
-     <td>Customizable</td>
-     <td>Customizable</td>
-     <td>Customizable</td>
+     <td><p><strong>CU Size Options</strong><br/></p></td>
+     <td><p>Single CU<br/></p></td>
+     <td><p>Auto-scale</p></td>
+     <td><ul>
+<li>Up to 32 CUs. (You can directly create cluster of 32 CUs or less on the web UI. For larger CU sizes, please <a href="https://zilliz.com/contact-sales">contact sales</a>.<br/> - Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32.<br/></li>
+</ul></td>
+     <td><ul>
+<li>Up to 256 CUs.(You can directly create cluster of 256 CUs or less on the web UI. For larger CU sizes, please <a href="https://zilliz.com/contact-sales">contact sales</a>.<br/> - Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32,…,64, 72, 80, 88,…,256 <em>(Notes: When CU size is greater than 8, the increment increase becomes 4 CUs. When CU size is greater than 64, the increment increase becomes 8CUs)</em><br/></li>
+</ul></td>
+     <td><p>Customizable<br/></p></td>
    </tr>
    <tr>
-     <td><strong>Private Link</strong></td>
-     <td>Not Available</td>
-     <td>Not Available</td>
-     <td>Not Available</td>
-     <td>Available</td>
-     <td>Available</td>
+     <td><p><strong>CU Type Options</strong><br/></p></td>
+     <td><p>N/A</p></td>
+     <td><p>N/A<br/></p></td>
+     <td><p>2 Options:<br/> - Performance-optimized CU, or<br/> - Capacity-optimized CU<br/></p></td>
+     <td><p>2 Options:<br/> - Performance-optimized CU, or<br/> - Capacity-optimized CU<br/></p></td>
+     <td><p>2 Options<br/> - Performance-optimized CU, or<br/> - Capacity-optimized CU<br/></p></td>
    </tr>
    <tr>
-     <td><strong>Cloud Backup</strong></td>
-     <td>Not Available</td>
-     <td>Available</td>
-     <td>Available</td>
-     <td>Available</td>
-     <td>Available</td>
+     <td><p><strong>Max. Clusters</strong></p></td>
+     <td><p>1 Cluster</p></td>
+     <td><p>Customizable</p></td>
+     <td><p>Customizable</p></td>
+     <td><p>Customizable</p></td>
+     <td><p>Customizable</p></td>
    </tr>
    <tr>
-     <td><strong>Migration</strong></td>
-     <td>Not Available</td>
-     <td>Available</td>
-     <td>Available</td>
-     <td>Available</td>
-     <td>Available</td>
+     <td><p><strong>Max. Collections</strong></p></td>
+     <td><p>2 Collections, each maxing at 0.5 million 768-dimensional vectors.</p></td>
+     <td><p>10 Collections per cluster.</p></td>
+     <td><p>Customizable</p></td>
+     <td><p>Customizable<br/></p></td>
+     <td><p>Customizable</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>Private Link</strong></p></td>
+     <td><p>Not Available</p></td>
+     <td><p>Not Available</p></td>
+     <td><p>Not Available</p></td>
+     <td><p>Available</p></td>
+     <td><p>Available</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>Cloud Backup</strong></p></td>
+     <td><p>Not Available</p></td>
+     <td><p>Not Available</p></td>
+     <td><p>Available</p></td>
+     <td><p>Available</p></td>
+     <td><p>Available</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>Migration</strong></p></td>
+     <td><p>Not Available</p></td>
+     <td><p>Available</p></td>
+     <td><p>Available</p></td>
+     <td><p>Available</p></td>
+     <td><p>Available</p></td>
    </tr>
 </table>
-
-### Free plan{#free-plan}
-
-- Ideal for learning, experimenting, and prototype; easy migration to plans for production.
-
-- Supports up to two collections, each maxing at 0.5 million 768-dimensional vectors.
-
-- Free cluster with dynamic resource provisioning.
-
-### Serverless plan{#serverless-plan}
-
-- Designed for serverless applications with variable or sporadic query volumes. Minimal configuration available.
-
-- Auto-scale to meet your workload.
-
-- Supports up to 10 collections per cluster.
-
-### Dedicated (Standard) plan{#dedicated-standard-plan}
-
-- Suitable for applications in dev with customizable workload management. Advanced configuration options.
-
-- Choice of two types of [CUs](./cu-types-explained): Capacity-optimized and Performance-optimized.
-
-- Supports up to 32 CUs.
-
-### Dedicated (Enterprise) plan{#dedicated-enterprise-plan}
-
-- Ideal for production applications with customizable workload management. Provides  more security controls, monitors and support SLAs.
-
-- Choice of two types of [CUs](./cu-types-explained): Capacity-optimized and Performance-optimized.
-
-- Supports up to 256 CUs per cluster, with scalability options to thousands.
-
-- Premium features like disaster recovery across multiple availability zones, private links, and automatic backup.
-
-### **Bring Your Own Cloud (BYOC)**{#bring-your-own-cloud-byoc}
-
-- Deployment within your proprietary VPC.
-
-- Ideal for heightened security, compliance requirements, or tailored customizations.
-
-- Available for users operating on a scale of 128 CUs or more.
-
-Visit the [Pricing Page](https://zilliz.com/pricing) or reach out to [support@zilliz.com](mailto:support@zilliz.com) for more details.
-
-## Plan limitations{#plan-limitations}
-
-- **Free**: Limited to one cluster per user on GCP, accommodating up to two collections with basic settings.
-
-- **Serverless**: Each cluster can accommodate up to 10 collections.
-
-- **Dedicated-Standard** & **Dedicated-Enterprise**: Scalability of CUs and collections is defined by the selected plan.
-
-- **Bring Your Own Cloud (BYOC)**: Exclusive to users requiring 128 CUs or more, offering enhanced security and compliance features via private VPC deployment.
 
 ## Related topics{#related-topics}
 

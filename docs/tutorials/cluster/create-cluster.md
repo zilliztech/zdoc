@@ -50,16 +50,16 @@ Ensure:
 
     <table>
        <tr>
-         <th><strong>Parameter</strong></th>
-         <th><strong>Description</strong></th>
+         <th><p><strong>Parameter</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
        </tr>
        <tr>
-         <td><strong>Cluster Name</strong></td>
-         <td>Name of the cluster.</td>
+         <td><p><strong>Cluster Name</strong></p></td>
+         <td><p>Name of the cluster.</p></td>
        </tr>
        <tr>
-         <td><strong>Cloud Provider & Region</strong></td>
-         <td>The cluster's location and the cloud provider it is hosted on. At present, our free clusters are available on Google Cloud Platform (GCP). For more information, see <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</td>
+         <td><p><strong>Cloud Provider & Region</strong></p></td>
+         <td><p>The cluster's location and the cloud provider it is hosted on. At present, our free clusters are available on Google Cloud Platform (GCP). For more information, see <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
        </tr>
     </table>
 
@@ -131,16 +131,16 @@ In the command above,
 
     <table>
        <tr>
-         <th><strong>Parameter</strong></th>
-         <th><strong>Description</strong></th>
+         <th><p><strong>Parameter</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
        </tr>
        <tr>
-         <td><strong>Cluster Name</strong></td>
-         <td>Name of the cluster.</td>
+         <td><p><strong>Cluster Name</strong></p></td>
+         <td><p>Name of the cluster.</p></td>
        </tr>
        <tr>
-         <td><strong>Cloud Provider & Region</strong></td>
-         <td>The cluster's location and the cloud provider it is hosted on. At present, our serverless clusters are available on Google Cloud Platform (GCP). For more information, see <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</td>
+         <td><p><strong>Cloud Provider & Region</strong></p></td>
+         <td><p>The cluster's location and the cloud provider it is hosted on. At present, our serverless clusters are available on Google Cloud Platform (GCP). For more information, see <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
        </tr>
     </table>
 

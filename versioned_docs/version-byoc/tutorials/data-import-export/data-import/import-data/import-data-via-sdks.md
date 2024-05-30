@@ -2,7 +2,7 @@
 slug: /import-data-via-sdks
 sidebar_label: SDKs
 beta: FALSE
-notebook: 05_use_local-bulk-writer.ipynb,06_use_remote-bulk-writer.ipynb,07_use_bulk_import.ipynb
+notebook: FALSE
 type: origin
 token: MvgAwL4HIiuRRJkH0FwcJhxSnld
 sidebar_position: 3
@@ -339,6 +339,7 @@ Once your data and collection are ready, you can start the import process as fol
 
 ```python
 from pymilvus import bulk_import
+# Use `from pymilvus.bulk
 
 # Bulk-import your data from the prepared data files
 
@@ -348,7 +349,7 @@ res = bulk_import(
     object_url=OBJECT_URL,
     access_key=ACCESS_KEY,
     secret_key=SECRET_KEY,
-    cluster_id=CLUSTER_ID,
+    cluster_id=CLUSTER_ID, # Zilliz Cloud Cluster ID, as `in01-xxxxxxxxxxxxxxx`
     collection_name=COLLECTION_NAME
 )
 
@@ -374,7 +375,7 @@ import io.milvus.bulkwriter.response.BulkImportResponse;
 BulkImportResponse bulkImportResponse = CloudImport.bulkImport(
     CLUSTER_ENDPOINT,
     API_KEY,
-    CLUSTER_ID,
+    CLUSTER_ID, // Zilliz Cloud Cluster ID, as `in01-xxxxxxxxxxxxxxx`
     COLLECTION_NAME,
     OBJECT_URL,
     ACCESS_KEY,
@@ -413,7 +414,7 @@ res = get_import_progress(
     url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
     api_key=API_KEY,
     job_id=job_id,
-    cluster_id=CLUSTER_ID
+    cluster_id=CLUSTER_ID # Zilliz Cloud Cluster ID, as `in01-xxxxxxxxxxxxxxx`
 )
 
 # check the bulk-import progress
@@ -467,7 +468,7 @@ while (true) {
     GetImportProgressResponse getImportProgressResponse = CloudImport.getImportProgress(
         CLUSTER_ENDPOINT,
         API_KEY,
-        CLUSTER_ID,
+        CLUSTER_ID, // Zilliz Cloud Cluster ID, as `in01-xxxxxxxxxxxxxxx`
         jobId
     );
 
@@ -505,7 +506,7 @@ from pymilvus import list_import_jobs
 res = list_import_jobs(
     url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
     api_key=API_KEY,
-    cluster_id=CLUSTER_ID,
+    cluster_id=CLUSTER_ID, # Zilliz Cloud Cluster ID, as `in01-xxxxxxxxxxxxxxx`
     page_size=10,
     current_page=1,
 )
@@ -544,7 +545,7 @@ print(res.json())
 ListImportJobsResponse listImportJobsResponse = CloudImport.listImportJobs(
     CLUSTER_ENDPOINT,
     API_KEY,
-    CLUSTER_ID,
+    CLUSTER_ID, // Zilliz Cloud Cluster ID, as `in01-xxxxxxxxxxxxxxx`
     10,
     1
 );

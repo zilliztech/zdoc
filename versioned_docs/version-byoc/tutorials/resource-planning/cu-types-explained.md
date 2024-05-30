@@ -22,22 +22,22 @@ Zilliz Cloud offers these CU types: **Performance-optimized** and **Capacity-opt
 
 <table>
    <tr>
-     <th>CU Type</th>
-     <th>Latency</th>
-     <th>Throughput</th>
-     <th>Capacity</th>
+     <th><p>CU Type</p></th>
+     <th><p>Latency</p></th>
+     <th><p>Throughput</p></th>
+     <th><p>Capacity</p></th>
    </tr>
    <tr>
-     <td><strong>Performance-optimized</strong></td>
-     <td>Low</td>
-     <td>High</td>
-     <td>Low</td>
+     <td><p><strong>Performance-optimized</strong></p></td>
+     <td><p>Low</p></td>
+     <td><p>High</p></td>
+     <td><p>Low</p></td>
    </tr>
    <tr>
-     <td><strong>Capacity-optimized</strong></td>
-     <td>Medium</td>
-     <td>Medium</td>
-     <td>High</td>
+     <td><p><strong>Capacity-optimized</strong></p></td>
+     <td><p>Medium</p></td>
+     <td><p>Medium</p></td>
+     <td><p>High</p></td>
    </tr>
 </table>
 
@@ -63,34 +63,34 @@ The table below illustrates the load capacity for each CU type, taking into acco
 
 <table>
    <tr>
-     <th>Vector Dimensions</th>
-     <th>Performance-optimized (Max. Vectors per CU)</th>
-     <th>Capacity-optimized (Max. Vectors per CU)</th>
+     <th><p>Vector Dimensions</p></th>
+     <th><p>Performance-optimized (Max. Vectors per CU)</p></th>
+     <th><p>Capacity-optimized (Max. Vectors per CU)</p></th>
    </tr>
    <tr>
-     <td>128</td>
-     <td>7.5 million</td>
-     <td>25 million</td>
+     <td><p>128</p></td>
+     <td><p>7.5 million</p></td>
+     <td><p>25 million</p></td>
    </tr>
    <tr>
-     <td>256</td>
-     <td>4.5 million</td>
-     <td>15 million</td>
+     <td><p>256</p></td>
+     <td><p>4.5 million</p></td>
+     <td><p>15 million</p></td>
    </tr>
    <tr>
-     <td>512</td>
-     <td>2.25 million</td>
-     <td>7.5 million</td>
+     <td><p>512</p></td>
+     <td><p>2.25 million</p></td>
+     <td><p>7.5 million</p></td>
    </tr>
    <tr>
-     <td>768</td>
-     <td>1.5 million<br/></td>
-     <td>5 million</td>
+     <td><p>768</p></td>
+     <td><p>1.5 million<br/></p></td>
+     <td><p>5 million</p></td>
    </tr>
    <tr>
-     <td>1024</td>
-     <td>1.125 million</td>
-     <td>3.75 million</td>
+     <td><p>1024</p></td>
+     <td><p>1.125 million</p></td>
+     <td><p>3.75 million</p></td>
    </tr>
 </table>
 
@@ -108,29 +108,29 @@ The following table shows the test result of how each CU type performs in terms 
 
 <table>
    <tr>
-     <th>top_k</th>
-     <th>QPS for Performance-optimized CU (768-dim 1M vectors)<br/></th>
-     <th>QPS for Capacity-optimized CU (768-dim 5M vectors)</th>
+     <th><p>top_k</p></th>
+     <th><p>QPS for Performance-optimized CU (768-dim 1M vectors)<br/></p></th>
+     <th><p>QPS for Capacity-optimized CU (768-dim 5M vectors)</p></th>
    </tr>
    <tr>
-     <td>10</td>
-     <td>520</td>
-     <td>100</td>
+     <td><p>10</p></td>
+     <td><p>520</p></td>
+     <td><p>100</p></td>
    </tr>
    <tr>
-     <td>100</td>
-     <td>440</td>
-     <td>80</td>
+     <td><p>100</p></td>
+     <td><p>440</p></td>
+     <td><p>80</p></td>
    </tr>
    <tr>
-     <td>250</td>
-     <td>270</td>
-     <td>60</td>
+     <td><p>250</p></td>
+     <td><p>270</p></td>
+     <td><p>60</p></td>
    </tr>
    <tr>
-     <td>1000</td>
-     <td>150</td>
-     <td>40</td>
+     <td><p>1000</p></td>
+     <td><p>150</p></td>
+     <td><p>40</p></td>
    </tr>
 </table>
 
@@ -138,29 +138,29 @@ The following table shows the test result of how each CU type performs in terms 
 
 <table>
    <tr>
-     <th>top_k<br/></th>
-     <th>Latency of Performance-optimized CU (768-dim 1M vectors)<br/></th>
-     <th>Latency of Capacity-optimized CU (768-dim 5M vectors)<br/></th>
+     <th><p>top_k<br/></p></th>
+     <th><p>Latency of Performance-optimized CU (768-dim 1M vectors)<br/></p></th>
+     <th><p>Latency of Capacity-optimized CU (768-dim 5M vectors)<br/></p></th>
    </tr>
    <tr>
-     <td>10</td>
-     <td>&lt; 10 ms</td>
-     <td>< 50 ms<br/></td>
+     <td><p>10</p></td>
+     <td><p>&lt; 10 ms</p></td>
+     <td><p>< 50 ms<br/></p></td>
    </tr>
    <tr>
-     <td>100</td>
-     <td>&lt; 10 ms</td>
-     <td>&lt; 50 ms</td>
+     <td><p>100</p></td>
+     <td><p>&lt; 10 ms</p></td>
+     <td><p>&lt; 50 ms</p></td>
    </tr>
    <tr>
-     <td>250</td>
-     <td>&lt; 10 ms</td>
-     <td>&lt; 50 ms</td>
+     <td><p>250</p></td>
+     <td><p>&lt; 10 ms</p></td>
+     <td><p>&lt; 50 ms</p></td>
    </tr>
    <tr>
-     <td>1000</td>
-     <td>10 - 20 ms</td>
-     <td>50 - 100 ms</td>
+     <td><p>1000</p></td>
+     <td><p>10 - 20 ms</p></td>
+     <td><p>50 - 100 ms</p></td>
    </tr>
 </table>
 

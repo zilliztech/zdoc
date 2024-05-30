@@ -48,24 +48,24 @@ To ingest any data, you need to first create an ingestion pipeline and then run 
 
     <table>
        <tr>
-         <th><strong>Parameters</strong></th>
-         <th><strong>Description</strong></th>
+         <th><p><strong>Parameters</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
        </tr>
        <tr>
-         <td>Target Cluster</td>
-         <td>The cluster where a new collection will be automatically created with this Ingestion pipeline. Currently, this can only be a cluster deployed on GCP us-west1.</td>
+         <td><p>Target Cluster</p></td>
+         <td><p>The cluster where a new collection will be automatically created with this Ingestion pipeline. Currently, this can only be a cluster deployed on GCP us-west1.</p></td>
        </tr>
        <tr>
-         <td>Collection Name</td>
-         <td>The name of the auto-created collection.</td>
+         <td><p>Collection Name</p></td>
+         <td><p>The name of the auto-created collection.</p></td>
        </tr>
        <tr>
-         <td>Pipeline Name</td>
-         <td>Name of the new Ingestion pipeline. It should only contain lowercase letters, numbers, and underscores.</td>
+         <td><p>Pipeline Name</p></td>
+         <td><p>Name of the new Ingestion pipeline. It should only contain lowercase letters, numbers, and underscores.</p></td>
        </tr>
        <tr>
-         <td>Description (Optional)</td>
-         <td>The description of the new Ingestion pipeline.</td>
+         <td><p>Description (Optional)</p></td>
+         <td><p>The description of the new Ingestion pipeline.</p></td>
        </tr>
     </table>
 
@@ -81,16 +81,16 @@ To ingest any data, you need to first create an ingestion pipeline and then run 
 
         <table>
            <tr>
-             <th><strong>Embedding Model</strong></th>
-             <th><strong>Description</strong></th>
+             <th><p><strong>Embedding Model</strong></p></th>
+             <th><p><strong>Description</strong></p></th>
            </tr>
            <tr>
-             <td>zilliz/vit-base-patch16-224</td>
-             <td>The Vision Transformer (ViT) is a transformer encoder model (BERT-like) open-sourced by Google. The model is pretrained on a large collection of images to embed the semantic of image content to a vector space. The model is hosted on Zilliz Cloud to provide the best latency.</td>
+             <td><p>zilliz/vit-base-patch16-224</p></td>
+             <td><p>The Vision Transformer (ViT) is a transformer encoder model (BERT-like) open-sourced by Google. The model is pretrained on a large collection of images to embed the semantic of image content to a vector space. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
            </tr>
            <tr>
-             <td>zilliz/clip-vit-base-patch16</td>
-             <td>A multi-modal model released by OpenAI. This vision model and its pairing text model are capable of embedding images and texts into the same vector space, enabling semantic search between visual and textual information. The model is hosted on Zilliz Cloud to provide the best latency.</td>
+             <td><p>zilliz/clip-vit-base-patch16</p></td>
+             <td><p>A multi-modal model released by OpenAI. This vision model and its pairing text model are capable of embedding images and texts into the same vector space, enabling semantic search between visual and textual information. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
            </tr>
         </table>
 
@@ -195,16 +195,16 @@ The parameters in the above code are described as follows:
 
         <table>
            <tr>
-             <th><strong>Embedding Model</strong></th>
-             <th><strong>Description</strong></th>
+             <th><p><strong>Embedding Model</strong></p></th>
+             <th><p><strong>Description</strong></p></th>
            </tr>
            <tr>
-             <td>zilliz/vit-base-patch16-224</td>
-             <td>The Vision Transformer (ViT) is a transformer encoder model (BERT-like) open-sourced by Google. The model is pretrained on a large collection of images to embed the semantic of image content to a vector space. The model is hosted on Zilliz Cloud to provide the best latency.</td>
+             <td><p>zilliz/vit-base-patch16-224</p></td>
+             <td><p>The Vision Transformer (ViT) is a transformer encoder model (BERT-like) open-sourced by Google. The model is pretrained on a large collection of images to embed the semantic of image content to a vector space. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
            </tr>
            <tr>
-             <td>zilliz/clip-vit-base-patch16</td>
-             <td>A multi-modal model released by OpenAI. This vision model and its pairing text model are capable of embedding images and texts into the same vector space, enabling semantic search between visual and textual information. The model is hosted on Zilliz Cloud to provide the best latency.</td>
+             <td><p>zilliz/clip-vit-base-patch16</p></td>
+             <td><p>A multi-modal model released by OpenAI. This vision model and its pairing text model are capable of embedding images and texts into the same vector space, enabling semantic search between visual and textual information. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
            </tr>
         </table>
 
@@ -259,9 +259,9 @@ This collection contains three fields:  two output fields of the **INDEX_IMAGE**
 
 <table>
    <tr>
-     <th>image_id<br/> (Data Type: Int64)</th>
-     <th>embedding<br/> (Data type: FLOAT_VECTOR)</th>
-     <th>image_title<br/> (Data type: VarChar)</th>
+     <th><p>image_id<br/> (Data Type: Int64)</p></th>
+     <th><p>embedding<br/> (Data type: FLOAT_VECTOR)</p></th>
+     <th><p>image_title<br/> (Data type: VarChar)</p></th>
    </tr>
 </table>
 
@@ -354,16 +354,16 @@ To search any data, you need to first create a search pipeline and then run it. 
 
     <table>
        <tr>
-         <th><strong>Parameters</strong></th>
-         <th><strong>Description</strong></th>
+         <th><p><strong>Parameters</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
        </tr>
        <tr>
-         <td>Pipeline Name</td>
-         <td>The name of the new Search pipeline. It should only contain lowercase letters, numbers, and underscores only.</td>
+         <td><p>Pipeline Name</p></td>
+         <td><p>The name of the new Search pipeline. It should only contain lowercase letters, numbers, and underscores only.</p></td>
        </tr>
        <tr>
-         <td>Description (Optional)</td>
-         <td>The description of the new Search pipeline.</td>
+         <td><p>Description (Optional)</p></td>
+         <td><p>The description of the new Search pipeline.</p></td>
        </tr>
     </table>
 
@@ -580,16 +580,16 @@ To delete any data, you need to first create a deletion pipeline and then run it
 
     <table>
        <tr>
-         <th><strong>Parameters</strong></th>
-         <th><strong>Description</strong></th>
+         <th><p><strong>Parameters</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
        </tr>
        <tr>
-         <td>Pipeline Name</td>
-         <td>The name of the new Deletion pipeline. It should only contain lowercase letters, numbers, and underscores.</td>
+         <td><p>Pipeline Name</p></td>
+         <td><p>The name of the new Deletion pipeline. It should only contain lowercase letters, numbers, and underscores.</p></td>
        </tr>
        <tr>
-         <td>Description (Optional)</td>
-         <td>The description of the new Deletion pipeline.</td>
+         <td><p>Description (Optional)</p></td>
+         <td><p>The description of the new Deletion pipeline.</p></td>
        </tr>
     </table>
 

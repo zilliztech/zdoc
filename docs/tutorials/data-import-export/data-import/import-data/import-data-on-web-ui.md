@@ -71,20 +71,20 @@ The following table lists applicable remote bucket URIs and some quick examples 
 
     <table>
        <tr>
-         <th><strong>URI Style</strong></th>
-         <th><strong>URI Format</strong></th>
+         <th><p><strong>URI Style</strong></p></th>
+         <th><p><strong>URI Format</strong></p></th>
        </tr>
        <tr>
-         <td><strong>AWS S3 URI</strong></td>
-         <td><code>s3://bucket-name/object-name</code></td>
+         <td><p><strong>AWS S3 URI</strong></p></td>
+         <td><p><code>s3://bucket-name/object-name</code></p></td>
        </tr>
        <tr>
-         <td><strong>AWS Object URL, virtual-hosted–style</strong></td>
-         <td><code>https://bucket-name.s3.region-code.amazonaws.com/object-name</code></td>
+         <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
+         <td><p><code>https://bucket-name.s3.region-code.amazonaws.com/object-name</code></p></td>
        </tr>
        <tr>
-         <td><strong>AWS Object URL, path-style</strong></td>
-         <td><code>https://s3.region-code.amazonaws.com/bucket-name/object-name</code></td>
+         <td><p><strong>AWS Object URL, path-style</strong></p></td>
+         <td><p><code>https://s3.region-code.amazonaws.com/bucket-name/object-name</code></p></td>
        </tr>
     </table>
 
@@ -94,20 +94,20 @@ The following table lists applicable remote bucket URIs and some quick examples 
 
     <table>
        <tr>
-         <th><strong>File Type</strong></th>
-         <th><strong>Quick Examples</strong></th>
+         <th><p><strong>File Type</strong></p></th>
+         <th><p><strong>Quick Examples</strong></p></th>
        </tr>
        <tr>
-         <td><strong>JSON</strong></td>
-         <td><code>s3://bucket-name/json-folder/</code><br/> <code>s3://bucket-name/json-folder/data.json</code></td>
+         <td><p><strong>JSON</strong></p></td>
+         <td><p><code>s3://bucket-name/json-folder/</code><br/> <code>s3://bucket-name/json-folder/data.json</code></p></td>
        </tr>
        <tr>
-         <td><strong>NumPy</strong></td>
-         <td><code>s3://bucket-name/numpy_folder/</code><br/> <code>s3://bucket-name/folder/*.npy</code></td>
+         <td><p><strong>NumPy</strong></p></td>
+         <td><p><code>s3://bucket-name/numpy_folder/</code><br/> <code>s3://bucket-name/folder/*.npy</code></p></td>
        </tr>
        <tr>
-         <td><strong>Parquet</strong></td>
-         <td><code>s3://bucket-name/parquet-folder/</code><br/> <code>s3://bucket-name/parquet-folder/data.parquet</code></td>
+         <td><p><strong>Parquet</strong></p></td>
+         <td><p><code>s3://bucket-name/parquet-folder/</code><br/> <code>s3://bucket-name/parquet-folder/data.parquet</code></p></td>
        </tr>
     </table>
 
@@ -127,16 +127,16 @@ The following table lists applicable remote bucket URIs and some quick examples 
 
     <table>
        <tr>
-         <th><strong>URI Style</strong></th>
-         <th><strong>URI Format</strong></th>
+         <th><p><strong>URI Style</strong></p></th>
+         <th><p><strong>URI Format</strong></p></th>
        </tr>
        <tr>
-         <td><strong>GCS public URL</strong></td>
-         <td><code>https://storage.googleapis.com/bucket_name/object_name</code></td>
+         <td><p><strong>GCS public URL</strong></p></td>
+         <td><p><code>https://storage.googleapis.com/bucket_name/object_name</code></p></td>
        </tr>
        <tr>
-         <td><strong>GCS gsutil URI</strong></td>
-         <td><code>gs://bucket_name/object_name</code></td>
+         <td><p><strong>GCS gsutil URI</strong></p></td>
+         <td><p><code>gs://bucket_name/object_name</code></p></td>
        </tr>
     </table>
 
@@ -146,20 +146,20 @@ The following table lists applicable remote bucket URIs and some quick examples 
 
     <table>
        <tr>
-         <th><strong>File Type</strong></th>
-         <th><strong>Quick Examples</strong></th>
+         <th><p><strong>File Type</strong></p></th>
+         <th><p><strong>Quick Examples</strong></p></th>
        </tr>
        <tr>
-         <td><strong>JSON</strong></td>
-         <td><code>gs://bucket-name/json-folder/</code><br/> <code>gs://bucket-name/json-folder/data.json</code></td>
+         <td><p><strong>JSON</strong></p></td>
+         <td><p><code>gs://bucket-name/json-folder/</code><br/> <code>gs://bucket-name/json-folder/data.json</code></p></td>
        </tr>
        <tr>
-         <td><strong>NumPy</strong></td>
-         <td><code>gs://bucket-name/numpy-folder/</code><br/> <code>gs://bucket-name/numpy-folder/*.npy</code></td>
+         <td><p><strong>NumPy</strong></p></td>
+         <td><p><code>gs://bucket-name/numpy-folder/</code><br/> <code>gs://bucket-name/numpy-folder/*.npy</code></p></td>
        </tr>
        <tr>
-         <td><strong>Parquet</strong></td>
-         <td><code>gs://bucket-name/parquet-folder/</code><br/> <code>gs://bucket-name/parquet-folder/data.parquet</code></td>
+         <td><p><strong>Parquet</strong></p></td>
+         <td><p><code>gs://bucket-name/parquet-folder/</code><br/> <code>gs://bucket-name/parquet-folder/data.parquet</code></p></td>
        </tr>
     </table>
 
@@ -177,12 +177,12 @@ The following table lists applicable remote bucket URIs and some quick examples 
 
     <table>
        <tr>
-         <th><strong>URI Style</strong></th>
-         <th><strong>URI Format</strong></th>
+         <th><p><strong>URI Style</strong></p></th>
+         <th><p><strong>URI Format</strong></p></th>
        </tr>
        <tr>
-         <td><strong>Azure storage blob URI</strong></td>
-         <td><code>https://myaccount.blob.core.windows.net/bucket-name/object-name</code></td>
+         <td><p><strong>Azure storage blob URI</strong></p></td>
+         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/object-name</code></p></td>
        </tr>
     </table>
 
@@ -192,20 +192,20 @@ The following table lists applicable remote bucket URIs and some quick examples 
 
     <table>
        <tr>
-         <th><strong>File Type</strong></th>
-         <th><strong>Quick Examples</strong></th>
+         <th><p><strong>File Type</strong></p></th>
+         <th><p><strong>Quick Examples</strong></p></th>
        </tr>
        <tr>
-         <td><strong>JSON</strong></td>
-         <td><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></td>
+         <td><p><strong>JSON</strong></p></td>
+         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
        </tr>
        <tr>
-         <td><strong>NumPy</strong></td>
-         <td><code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/*.npy</code></td>
+         <td><p><strong>NumPy</strong></p></td>
+         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/*.npy</code></p></td>
        </tr>
        <tr>
-         <td><strong>Parquet</strong></td>
-         <td><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></td>
+         <td><p><strong>Parquet</strong></p></td>
+         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></p></td>
        </tr>
     </table>
 

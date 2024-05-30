@@ -114,20 +114,20 @@ A valid JSON file has a root key named **rows**, the corresponding value of whic
 
 <table>
    <tr>
-     <th><strong>Item</strong></th>
-     <th><strong>Description</strong></th>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
    </tr>
    <tr>
-     <td><strong>Multiple files per import</strong></td>
-     <td>Yes</td>
+     <td><p><strong>Multiple files per import</strong></p></td>
+     <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td><strong>Maximum file size per import</strong></td>
-     <td>Free cluster: 512 MB in total<br/> Serverless and Dedicated cluster:<br/> - Individual file size: 10 GB<br/> - Total file size: 100 GB<br/></td>
+     <td><p><strong>Maximum file size per import</strong></p></td>
+     <td><p>Free cluster: 512 MB in total<br/> Serverless and Dedicated cluster:<br/> - Individual file size: 10 GB<br/> - Total file size: 100 GB<br/></p></td>
    </tr>
    <tr>
-     <td><strong>Applicable data file locations</strong></td>
-     <td>Local and remote files</td>
+     <td><p><strong>Applicable data file locations</strong></p></td>
+     <td><p>Local and remote files</p></td>
    </tr>
 </table>
 
@@ -149,20 +149,20 @@ You can either rebuild your data on your own by referring to [Prepare the data f
 
 <table>
    <tr>
-     <th><strong>Item</strong></th>
-     <th><strong>Description</strong></th>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
    </tr>
    <tr>
-     <td><strong>Multiple files per import</strong></td>
-     <td>Yes</td>
+     <td><p><strong>Multiple files per import</strong></p></td>
+     <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td><strong>Maximum file size per import</strong></td>
-     <td>Free cluster: 512 MB in total<br/> Serverless &amp; Dedicated cluster<br/> - Individual file size: 10 GB<br/> - Total file size: 100 GB<br/></td>
+     <td><p><strong>Maximum file size per import</strong></p></td>
+     <td><p>Free cluster: 512 MB in total<br/> Serverless &amp; Dedicated cluster<br/> - Individual file size: 10 GB<br/> - Total file size: 100 GB<br/></p></td>
    </tr>
    <tr>
-     <td><strong>Applicable data file locations</strong></td>
-     <td>Remote files only</td>
+     <td><p><strong>Applicable data file locations</strong></p></td>
+     <td><p>Remote files only</p></td>
    </tr>
 </table>
 
@@ -180,28 +180,28 @@ A valid set of NumPy files should be named after the fields in the schema of the
 
 <table>
    <tr>
-     <th><strong>Item</strong></th>
-     <th><strong>Description</strong></th>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
    </tr>
    <tr>
-     <td><strong>Multiple files per import</strong></td>
-     <td>Yes</td>
+     <td><p><strong>Multiple files per import</strong></p></td>
+     <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td><strong>Data import from first-level subfolders</strong></td>
-     <td>Yes</td>
+     <td><p><strong>Data import from first-level subfolders</strong></p></td>
+     <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td><strong>Maximum number of first-level subfolders</strong></td>
-     <td>100</td>
+     <td><p><strong>Maximum number of first-level subfolders</strong></p></td>
+     <td><p>100</p></td>
    </tr>
    <tr>
-     <td><strong>Maximum file size per import</strong><br/></td>
-     <td>Free cluster: 512 MB in total<br/> Serverless &amp; Dedicated cluster:<br/> - Total file size in each first-level subfolder: 10 GB<br/> - Total file size: 100 GB<br/></td>
+     <td><p><strong>Maximum file size per import</strong><br/></p></td>
+     <td><p>Free cluster: 512 MB in total<br/> Serverless &amp; Dedicated cluster:<br/> - Total file size in each first-level subfolder: 10 GB<br/> - Total file size: 100 GB<br/></p></td>
    </tr>
    <tr>
-     <td><strong>Applicable data file locations</strong></td>
-     <td>Remote files only</td>
+     <td><p><strong>Applicable data file locations</strong></p></td>
+     <td><p>Remote files only</p></td>
    </tr>
 </table>
 
@@ -249,20 +249,20 @@ Zilliz Cloud also supports data import from a bucket on **AWS S3**, **Google GCS
 
     <table>
        <tr>
-         <th><strong>URI Style</strong></th>
-         <th><strong>URI Format</strong></th>
+         <th><p><strong>URI Style</strong></p></th>
+         <th><p><strong>URI Format</strong></p></th>
        </tr>
        <tr>
-         <td><strong>AWS S3 URI</strong></td>
-         <td><code>s3://bucket-name/object-name</code></td>
+         <td><p><strong>AWS S3 URI</strong></p></td>
+         <td><p><code>s3://bucket-name/object-name</code></p></td>
        </tr>
        <tr>
-         <td><strong>AWS Object URL, virtual-hosted–style</strong></td>
-         <td><code>https://bucket-name.s3.region-code.amazonaws.com/object-name</code></td>
+         <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
+         <td><p><code>https://bucket-name.s3.region-code.amazonaws.com/object-name</code></p></td>
        </tr>
        <tr>
-         <td><strong>AWS Object URL, path-style</strong></td>
-         <td><code>https://s3.region-code.amazonaws.com/bucket-name/object-name</code></td>
+         <td><p><strong>AWS Object URL, path-style</strong></p></td>
+         <td><p><code>https://s3.region-code.amazonaws.com/bucket-name/object-name</code></p></td>
        </tr>
     </table>
 
@@ -272,20 +272,20 @@ Zilliz Cloud also supports data import from a bucket on **AWS S3**, **Google GCS
 
     <table>
        <tr>
-         <th><strong>File Type</strong></th>
-         <th><strong>Quick Examples</strong></th>
+         <th><p><strong>File Type</strong></p></th>
+         <th><p><strong>Quick Examples</strong></p></th>
        </tr>
        <tr>
-         <td><strong>JSON</strong></td>
-         <td><code>s3://bucket-name/json-folder/</code><br/> <code>s3://bucket-name/json-folder/data.json</code></td>
+         <td><p><strong>JSON</strong></p></td>
+         <td><p><code>s3://bucket-name/json-folder/</code><br/> <code>s3://bucket-name/json-folder/data.json</code></p></td>
        </tr>
        <tr>
-         <td><strong>NumPy</strong></td>
-         <td><code>s3://bucket-name/numpy_folder/</code><br/> <code>s3://bucket-name/folder/*.npy</code></td>
+         <td><p><strong>NumPy</strong></p></td>
+         <td><p><code>s3://bucket-name/numpy_folder/</code><br/> <code>s3://bucket-name/folder/*.npy</code></p></td>
        </tr>
        <tr>
-         <td><strong>Parquet</strong></td>
-         <td><code>s3://bucket-name/parquet-folder/</code><br/> <code>s3://bucket-name/parquet-folder/data.parquet</code></td>
+         <td><p><strong>Parquet</strong></p></td>
+         <td><p><code>s3://bucket-name/parquet-folder/</code><br/> <code>s3://bucket-name/parquet-folder/data.parquet</code></p></td>
        </tr>
     </table>
 
@@ -305,16 +305,16 @@ Zilliz Cloud also supports data import from a bucket on **AWS S3**, **Google GCS
 
     <table>
        <tr>
-         <th><strong>URI Style</strong></th>
-         <th><strong>URI Format</strong></th>
+         <th><p><strong>URI Style</strong></p></th>
+         <th><p><strong>URI Format</strong></p></th>
        </tr>
        <tr>
-         <td><strong>GSC public URL</strong></td>
-         <td><code>https://storage.googleapis.com/bucket_name/object_name</code></td>
+         <td><p><strong>GSC public URL</strong></p></td>
+         <td><p><code>https://storage.googleapis.com/bucket_name/object_name</code></p></td>
        </tr>
        <tr>
-         <td><strong>GSC gsutil URI</strong></td>
-         <td><code>gs://bucket_name/object_name</code></td>
+         <td><p><strong>GSC gsutil URI</strong></p></td>
+         <td><p><code>gs://bucket_name/object_name</code></p></td>
        </tr>
     </table>
 
@@ -324,20 +324,20 @@ Zilliz Cloud also supports data import from a bucket on **AWS S3**, **Google GCS
 
     <table>
        <tr>
-         <th><strong>File Type</strong></th>
-         <th><strong>Quick Examples</strong></th>
+         <th><p><strong>File Type</strong></p></th>
+         <th><p><strong>Quick Examples</strong></p></th>
        </tr>
        <tr>
-         <td><strong>JSON</strong></td>
-         <td><code>gs://bucket-name/json-folder/</code><br/> <code>gs://bucket-name/json-folder/data.json</code></td>
+         <td><p><strong>JSON</strong></p></td>
+         <td><p><code>gs://bucket-name/json-folder/</code><br/> <code>gs://bucket-name/json-folder/data.json</code></p></td>
        </tr>
        <tr>
-         <td><strong>NumPy</strong></td>
-         <td><code>gs://bucket-name/numpy-folder/</code><br/> <code>gs://bucket-name/numpy-folder/*.npy</code></td>
+         <td><p><strong>NumPy</strong></p></td>
+         <td><p><code>gs://bucket-name/numpy-folder/</code><br/> <code>gs://bucket-name/numpy-folder/*.npy</code></p></td>
        </tr>
        <tr>
-         <td><strong>Parquet</strong></td>
-         <td><code>gs://bucket-name/parquet-folder/</code><br/> <code>gs://bucket-name/parquet-folder/data.parquet</code></td>
+         <td><p><strong>Parquet</strong></p></td>
+         <td><p><code>gs://bucket-name/parquet-folder/</code><br/> <code>gs://bucket-name/parquet-folder/data.parquet</code></p></td>
        </tr>
     </table>
 
@@ -355,12 +355,12 @@ Zilliz Cloud also supports data import from a bucket on **AWS S3**, **Google GCS
 
     <table>
        <tr>
-         <th><strong>URI Style</strong></th>
-         <th><strong>URI Format</strong></th>
+         <th><p><strong>URI Style</strong></p></th>
+         <th><p><strong>URI Format</strong></p></th>
        </tr>
        <tr>
-         <td><strong>Azure storage blob URI</strong></td>
-         <td><code>https://myaccount.blob.core.windows.net/bucket-name/object_name</code></td>
+         <td><p><strong>Azure storage blob URI</strong></p></td>
+         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/object_name</code></p></td>
        </tr>
     </table>
 
@@ -370,20 +370,20 @@ Zilliz Cloud also supports data import from a bucket on **AWS S3**, **Google GCS
 
     <table>
        <tr>
-         <th><strong>File Type</strong></th>
-         <th><strong>Quick Examples</strong></th>
+         <th><p><strong>File Type</strong></p></th>
+         <th><p><strong>Quick Examples</strong></p></th>
        </tr>
        <tr>
-         <td><strong>JSON</strong></td>
-         <td><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></td>
+         <td><p><strong>JSON</strong></p></td>
+         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
        </tr>
        <tr>
-         <td><strong>NumPy</strong></td>
-         <td><code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/*.npy</code></td>
+         <td><p><strong>NumPy</strong></p></td>
+         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/*.npy</code></p></td>
        </tr>
        <tr>
-         <td><strong>Parquet</strong></td>
-         <td><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></td>
+         <td><p><strong>Parquet</strong></p></td>
+         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></p></td>
        </tr>
     </table>
 

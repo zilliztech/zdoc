@@ -15,7 +15,7 @@ import Admonition from '@theme/Admonition';
 
 # create_collection()
 
-This operation creates a collection either with default or customized settings. 
+This operation supports creating a collection in two distinct ways: quick setup or custom setup. 
 
 ## Request syntax{#request-syntax}
 
@@ -29,8 +29,8 @@ create_collection(
     metric_type: str = "COSINE",
     auto_id: bool = False,
     timeout: Optional[float] = None,
-    schema: Optional[CollectionSchema] = None,
-    index_params: Optional[IndexParams] = None,
+    schema: Optional[CollectionSchema] = None, # Used for custom setup
+    index_params: Optional[IndexParams] = None, # Used for custom setup
     **kwargs,
 ) -> None
 ```
@@ -99,7 +99,7 @@ create_collection(
 
     The schema of this collection.
 
-    Setting this to **None** indicates this collection will be created with default settings. 
+    Setting this to **None** indicates this collection will be created in a quick setup manner. 
 
     To set up a collection with a customized schema, you need to create a **CollectionSchema** object and reference it here. In this case, Zilliz Cloud ignores all other schema-related settings carried in the request.
 
@@ -211,7 +211,7 @@ You can choose between a quick setup or a customized setup as follows:
 
 - **Quick setup**
 
-    The quick setup collection has two fields: the primary and vector fields. It also allows the insertion of undefined fields and their values in key-value pairs in a dynamic field.
+    The quick setup collection has two mandatory fields: the primary and vector fields. It also allows the insertion of undefined fields and their values in key-value pairs in a dynamic field.
 
     ```python
     client.create_collection(
@@ -245,7 +245,7 @@ You can choose between a quick setup or a customized setup as follows:
     )
     ```
 
-    In the above code, the collection will be created and automatically loaded into memory.
+    In the above code, the collection will be created, indexed, and loaded into memory.
 
 - **Customized setup with index parameters**
 
@@ -288,7 +288,7 @@ You can choose between a quick setup or a customized setup as follows:
     )
     ```
 
-    In the above code, the collection will be created and automatically loaded into memory.
+    In the above code, the collection will be created, indexed, and loaded into memory.
 
 - **Customized setup without index parameters**
 
@@ -312,7 +312,7 @@ You can choose between a quick setup or a customized setup as follows:
     )
     ```
 
-    In the above code, the collection will also be created, but its data will not automatically loaded into memory.
+    In the above code, the collection will also be created. However, without `index_param`, data in the collection will not be indexed and loaded into memory.
 
 ## Related methods{#related-methods}
 

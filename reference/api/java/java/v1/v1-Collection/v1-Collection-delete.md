@@ -33,29 +33,29 @@ Methods of `DeleteParam.Builder`:
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Parameters</th>
+        <th><p>Method</p></th>
+        <th><p>Description</p></th>
+        <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td>withCollectionName(String collectionName)</td>
-        <td>Sets the collection name. Collection name cannot be empty or null.</td>
-        <td>collectionName: The name of the collection to delete the entity or entities from.</td>
+        <td><p>withCollectionName(String collectionName)</p></td>
+        <td><p>Sets the collection name. Collection name cannot be empty or null.</p></td>
+        <td><p>collectionName: The name of the collection to delete the entity or entities from.</p></td>
     </tr>
     <tr>
-        <td>withPartitionName(String partitionName)</td>
-        <td>Sets the target partition name (Optional).</td>
-        <td>partitionName: The name of the partition to delete the entity or entities from.</td>
+        <td><p>withPartitionName(String partitionName)</p></td>
+        <td><p>Sets the target partition name (Optional).</p></td>
+        <td><p>partitionName: The name of the partition to delete the entity or entities from.</p></td>
     </tr>
     <tr>
-        <td>withExpr(String expr)</td>
-        <td>Sets the expression filtering to pick out the entities to be deleted.</td>
-        <td>expr: The expression used for filtering.</td>
+        <td><p>withExpr(String expr)</p></td>
+        <td><p>Sets the expression filtering to pick out the entities to be deleted.</p></td>
+        <td><p>expr: The expression used for filtering.</p></td>
     </tr>
     <tr>
-        <td>build()</td>
-        <td>Constructs a DeleteParam object.</td>
-        <td>N/A</td>
+        <td><p>build()</p></td>
+        <td><p>Constructs a DeleteParam object.</p></td>
+        <td><p>N/A</p></td>
     </tr>
 </table>
 

@@ -20,7 +20,7 @@ This operation drops an index from a specific collection.
 ## Request syntax{#request-syntax}
 
 ```python
-create_index(
+drop_index(
     collection_name: str,
     index_name: str,
     timeout: Optional[float] = None,

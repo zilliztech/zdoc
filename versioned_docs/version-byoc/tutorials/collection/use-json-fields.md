@@ -1740,64 +1740,64 @@ The following table assumes that the value of a JSON field named `json_key` has 
 
 <table>
    <tr>
-     <th><strong>Operator</strong></th>
-     <th><strong>Examples</strong></th>
-     <th><strong>Remarks</strong></th>
+     <th><p><strong>Operator</strong></p></th>
+     <th><p><strong>Examples</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td><strong>\<</strong></td>
-     <td><code>'json_field["A"] &lt; 3'</code></td>
-     <td>This expression evaluates to true if the value of <code>json_field["A"]</code> is less than <code>3</code>.</td>
+     <td><p><strong>\<</strong></p></td>
+     <td><p><code>'json_field["A"] &lt; 3'</code></p></td>
+     <td><p>This expression evaluates to true if the value of <code>json_field["A"]</code> is less than <code>3</code>.</p></td>
    </tr>
    <tr>
-     <td><strong>></strong></td>
-     <td><code>'json_field["A"] &gt; 1'</code></td>
-     <td>This expression evaluates to true if the value of <code>json_field["A"]</code> is greater than <code>1</code>.</td>
+     <td><p><strong>></strong></p></td>
+     <td><p><code>'json_field["A"] &gt; 1'</code></p></td>
+     <td><p>This expression evaluates to true if the value of <code>json_field["A"]</code> is greater than <code>1</code>.</p></td>
    </tr>
    <tr>
-     <td><strong>==</strong></td>
-     <td><code>'json_field["A"] == 1'</code></td>
-     <td>This expression evaluates to true if the value of <code>json_field["A"]</code> is equal to <code>1</code>.</td>
+     <td><p><strong>==</strong></p></td>
+     <td><p><code>'json_field["A"] == 1'</code></p></td>
+     <td><p>This expression evaluates to true if the value of <code>json_field["A"]</code> is equal to <code>1</code>.</p></td>
    </tr>
    <tr>
-     <td><strong>!=</strong></td>
-     <td><code>'json_field["A"][0]' != "abc"'</code></td>
-     <td>This expression evaluates to true if<br/> - <code>json_field</code> does not have a key named <code>A</code>.<br/> - <code>json_field</code> has a key named <code>A</code> but <code>json_field["A"]</code> is not an array.<br/> - <code>json_field["A"]</code> is an empty array.<br/> - <code>json_field["A"]</code> is an array but the first element is not <code>abc</code>.<br/></td>
+     <td><p><strong>!=</strong></p></td>
+     <td><p><code>'json_field["A"][0]' != "abc"'</code></p></td>
+     <td><p>This expression evaluates to true if<br/> - <code>json_field</code> does not have a key named <code>A</code>.<br/> - <code>json_field</code> has a key named <code>A</code> but <code>json_field["A"]</code> is not an array.<br/> - <code>json_field["A"]</code> is an empty array.<br/> - <code>json_field["A"]</code> is an array but the first element is not <code>abc</code>.<br/></p></td>
    </tr>
    <tr>
-     <td><strong>\&lt;=</strong></td>
-     <td><code>'json_field["A"] &lt;= 5'</code></td>
-     <td>This expression evaluates to true if the value of <code>json_field["A"]</code> is less than or equal to <code>5</code>.</td>
+     <td><p><strong>\&lt;=</strong></p></td>
+     <td><p><code>'json_field["A"] &lt;= 5'</code></p></td>
+     <td><p>This expression evaluates to true if the value of <code>json_field["A"]</code> is less than or equal to <code>5</code>.</p></td>
    </tr>
    <tr>
-     <td><strong>>=</strong></td>
-     <td><code>'json_field["A"] &gt;= 1'</code></td>
-     <td>This expression evaluates to true if the value of <code>json_field["A"]</code> is greater than or equal to <code>1</code>.</td>
+     <td><p><strong>>=</strong></p></td>
+     <td><p><code>'json_field["A"] &gt;= 1'</code></p></td>
+     <td><p>This expression evaluates to true if the value of <code>json_field["A"]</code> is greater than or equal to <code>1</code>.</p></td>
    </tr>
    <tr>
-     <td><strong>not</strong></td>
-     <td><code>'not json_field["A"] == 1'</code></td>
-     <td>This expression evaluates to true if<br/> - <code>json_field</code> does not have a key named <code>A</code>.<br/> - <code>json_field["A"]</code> is not equal to <code>1</code>.<br/></td>
+     <td><p><strong>not</strong></p></td>
+     <td><p><code>'not json_field["A"] == 1'</code></p></td>
+     <td><p>This expression evaluates to true if<br/> - <code>json_field</code> does not have a key named <code>A</code>.<br/> - <code>json_field["A"]</code> is not equal to <code>1</code>.<br/></p></td>
    </tr>
    <tr>
-     <td><strong>in</strong></td>
-     <td><code>'json_field["A"] in [1, 2, 3]'</code></td>
-     <td>This expression evaluates to true if the value of <code>json_field["A"]</code> is <code>1</code>, <code>2</code>, or <code>3</code>.</td>
+     <td><p><strong>in</strong></p></td>
+     <td><p><code>'json_field["A"] in [1, 2, 3]'</code></p></td>
+     <td><p>This expression evaluates to true if the value of <code>json_field["A"]</code> is <code>1</code>, <code>2</code>, or <code>3</code>.</p></td>
    </tr>
    <tr>
-     <td><strong>and (&&)</strong></td>
-     <td><code>'json_field["A"] &gt; 1 &amp;&amp; json_field["A"] &lt; 3'</code></td>
-     <td>This expression evaluates to true if the value of <code>json_field["A"]</code> is greater than 1 and less than <code>3</code>.</td>
+     <td><p><strong>and (&&)</strong></p></td>
+     <td><p><code>'json_field["A"] &gt; 1 &amp;&amp; json_field["A"] &lt; 3'</code></p></td>
+     <td><p>This expression evaluates to true if the value of <code>json_field["A"]</code> is greater than 1 and less than <code>3</code>.</p></td>
    </tr>
    <tr>
-     <td><strong>or (||)</strong></td>
-     <td><code>'json_field["A"] &gt; 1 || json_field["A"] &lt; 3'</code></td>
-     <td>This expression evaluates to true if the value of <code>json_field["A"]</code> is greater than <code>1</code> or less than <code>3</code>.</td>
+     <td><p><strong>or (||)</strong></p></td>
+     <td><p><code>'json_field["A"] &gt; 1 || json_field["A"] &lt; 3'</code></p></td>
+     <td><p>This expression evaluates to true if the value of <code>json_field["A"]</code> is greater than <code>1</code> or less than <code>3</code>.</p></td>
    </tr>
    <tr>
-     <td><strong>exists</strong></td>
-     <td><code>'exists json_field["A"]'</code></td>
-     <td>This expression evaluates to true if <code>json_field</code> does not have a key named <code>A</code>.</td>
+     <td><p><strong>exists</strong></p></td>
+     <td><p><code>'exists json_field["A"]'</code></p></td>
+     <td><p>This expression evaluates to true if <code>json_field</code> does not have a key named <code>A</code>.</p></td>
    </tr>
 </table>
 

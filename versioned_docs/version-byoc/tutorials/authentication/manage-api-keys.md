@@ -44,81 +44,81 @@ For more information on access levels of each role, see [Authorization](./author
 <table>
    <tr>
      <th></th>
-     <th>Organization Owner</th>
-     <th>Project Owner</th>
-     <th>Project Member</th>
+     <th><p>Organization Owner</p></th>
+     <th><p>Project Owner</p></th>
+     <th><p>Project Member</p></th>
    </tr>
    <tr>
-     <td><strong>Personal API Key</strong></td>
+     <td><p><strong>Personal API Key</strong></p></td>
      <td></td>
      <td></td>
      <td></td>
    </tr>
    <tr>
-     <td>Creation</td>
-     <td>Auto generated</td>
-     <td>Auto generated</td>
-     <td>Auto generated</td>
+     <td><p>Creation</p></td>
+     <td><p>Auto generated</p></td>
+     <td><p>Auto generated</p></td>
+     <td><p>Auto generated</p></td>
    </tr>
    <tr>
-     <td>Viewing the user's assigned API key</td>
-     <td>✔️</td>
-     <td>✔️</td>
-     <td>✔️</td>
+     <td><p>Viewing the user's assigned API key</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✔️</p></td>
    </tr>
    <tr>
-     <td>Viewing member's API key names [1]</td>
-     <td>✔️</td>
-     <td>✔️</td>
-     <td>✘</td>
+     <td><p>Viewing member's API key names [1]</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✘</p></td>
    </tr>
    <tr>
-     <td>Resetting API key [2]</td>
-     <td>✔️</td>
-     <td>✔️</td>
-     <td>✔️</td>
+     <td><p>Resetting API key [2]</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✔️</p></td>
    </tr>
    <tr>
-     <td><strong>Customized API Key</strong></td>
+     <td><p><strong>Customized API Key</strong></p></td>
      <td></td>
      <td></td>
      <td></td>
    </tr>
    <tr>
-     <td>Creation</td>
-     <td>✔️</td>
-     <td>✔️ [3]</td>
-     <td>✘</td>
+     <td><p>Creation</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✔️ [3]</p></td>
+     <td><p>✘</p></td>
    </tr>
    <tr>
-     <td>Viewing</td>
-     <td>✔️</td>
-     <td>✔️ [4]</td>
-     <td>✘</td>
+     <td><p>Viewing</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✔️ [4]</p></td>
+     <td><p>✘</p></td>
    </tr>
    <tr>
-     <td>Removing permissions from API key</td>
-     <td>✔️</td>
-     <td>✔️ [4]</td>
-     <td>✘</td>
+     <td><p>Removing permissions from API key</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✔️ [4]</p></td>
+     <td><p>✘</p></td>
    </tr>
    <tr>
-     <td>Editing API key name</td>
-     <td>✔️</td>
-     <td>✘</td>
-     <td>✘</td>
+     <td><p>Editing API key name</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
    </tr>
    <tr>
-     <td>Resetting API key</td>
-     <td>✔️</td>
-     <td>✘</td>
-     <td>✘</td>
+     <td><p>Resetting API key</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
    </tr>
    <tr>
-     <td>Deleting API key</td>
-     <td>✔️</td>
-     <td>✘</td>
-     <td>✘</td>
+     <td><p>Deleting API key</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
    </tr>
 </table>
 

@@ -33,24 +33,24 @@ Methods of `ShowCollectionsParam.Builder`:
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Parameters</th>
+        <th><p>Method</p></th>
+        <th><p>Description</p></th>
+        <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td>withCollectionNames(List\<String> collectionNames)</td>
-        <td>Sets a list of collection names. If the list is empty, the method will return all the collections in database.<br/>Collection name cannot be empty or null.</td>
-        <td>collectionNames: A list of the collection names to show.</td>
+        <td><p>withCollectionNames(List\<String> collectionNames)</p></td>
+        <td><p>Sets a list of collection names. If the list is empty, the method will return all the collections in database.<br/>Collection name cannot be empty or null.</p></td>
+        <td><p>collectionNames: A list of the collection names to show.</p></td>
     </tr>
     <tr>
-        <td>addCollectionName(String collectionName)</td>
-        <td>Adds a collection name. Collection name cannot be empty or null.</td>
-        <td>collectionName: The name of the collection to show.</td>
+        <td><p>addCollectionName(String collectionName)</p></td>
+        <td><p>Adds a collection name. Collection name cannot be empty or null.</p></td>
+        <td><p>collectionName: The name of the collection to show.</p></td>
     </tr>
     <tr>
-        <td>build()</td>
-        <td>Constructs a ShowCollectionsParam object.</td>
-        <td>N/A</td>
+        <td><p>build()</p></td>
+        <td><p>Constructs a ShowCollectionsParam object.</p></td>
+        <td><p>N/A</p></td>
     </tr>
 </table>
 
@@ -81,22 +81,22 @@ Methods of `ShowCollResponseWrapper`:
 
 <table>
    <tr>
-     <th><strong>Method</strong></th>
-     <th><strong>Description</strong></th>
-     <th><strong>Parameters</strong></th>
-     <th><strong>Returns</strong></th>
+     <th><p><strong>Method</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Parameters</strong></p></th>
+     <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td>getCollectionsInfo()<br/></td>
-     <td>Returns a list of CollectionInfo objects. Each CollectionInfo represents a collection.</td>
-     <td>N/A</td>
-     <td>List\<CollectionInfo></td>
+     <td><p>getCollectionsInfo()<br/></p></td>
+     <td><p>Returns a list of CollectionInfo objects. Each CollectionInfo represents a collection.</p></td>
+     <td><p>N/A</p></td>
+     <td><p>List\<CollectionInfo></p></td>
    </tr>
    <tr>
-     <td>getCollectionInfoByName(String collectionName)</td>
-     <td>Gets a CollectionInfo object by collection name.<br/></td>
-     <td><code>collectionName</code>: The collection name.</td>
-     <td>CollectionInfo</td>
+     <td><p>getCollectionInfoByName(String collectionName)</p></td>
+     <td><p>Gets a CollectionInfo object by collection name.<br/></p></td>
+     <td><p><code>collectionName</code>: The collection name.</p></td>
+     <td><p>CollectionInfo</p></td>
    </tr>
 </table>
 
@@ -108,29 +108,29 @@ Methods of `ShowCollResponseWrapper.CollectionInfo`:
 
 <table>
    <tr>
-     <th><strong>Method</strong></th>
-     <th><strong>Description</strong></th>
-     <th><strong>Returns</strong></th>
+     <th><p><strong>Method</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td>getName()</td>
-     <td>Gets the name of the collection.</td>
-     <td>String</td>
+     <td><p>getName()</p></td>
+     <td><p>Gets the name of the collection.</p></td>
+     <td><p>String</p></td>
    </tr>
    <tr>
-     <td>getId()</td>
-     <td>Gets the ID of the collection.</td>
-     <td>long</td>
+     <td><p>getId()</p></td>
+     <td><p>Gets the ID of the collection.</p></td>
+     <td><p>long</p></td>
    </tr>
    <tr>
-     <td>getUtcTimestamp()</td>
-     <td>Gets a UTC timestamp that indicates when this collection is created. This method is for internal usage.</td>
-     <td>long</td>
+     <td><p>getUtcTimestamp()</p></td>
+     <td><p>Gets a UTC timestamp that indicates when this collection is created. This method is for internal usage.</p></td>
+     <td><p>long</p></td>
    </tr>
    <tr>
-     <td>getInMemoryPercentage()<br/></td>
-     <td>Load percentage on query node.<br/></td>
-     <td>long</td>
+     <td><p>getInMemoryPercentage()<br/></p></td>
+     <td><p>Load percentage on query node.<br/></p></td>
+     <td><p>long</p></td>
    </tr>
 </table>
 

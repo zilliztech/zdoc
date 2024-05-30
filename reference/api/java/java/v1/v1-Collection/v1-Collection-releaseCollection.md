@@ -33,19 +33,19 @@ Methods of `ReleaseCollectionParam.Builder`:
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Parameters</th>
+        <th><p>Method</p></th>
+        <th><p>Description</p></th>
+        <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td>withCollectionName(String collectionName)</td>
-        <td>Sets the collection name. Collection name cannot be empty or null.</td>
-        <td>collectionName: The name of the collection to release.</td>
+        <td><p>withCollectionName(String collectionName)</p></td>
+        <td><p>Sets the collection name. Collection name cannot be empty or null.</p></td>
+        <td><p>collectionName: The name of the collection to release.</p></td>
     </tr>
     <tr>
-        <td>build()</td>
-        <td>Constructs a ReleaseCollectionParam object.</td>
-        <td>N/A</td>
+        <td><p>build()</p></td>
+        <td><p>Constructs a ReleaseCollectionParam object.</p></td>
+        <td><p>N/A</p></td>
     </tr>
 </table>
 

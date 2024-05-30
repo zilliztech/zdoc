@@ -2,7 +2,7 @@
 slug: /question-answering-using-zilliz-cloud-and-cohere
 sidebar_label: With Cohere
 beta: FALSE
-notebook: 82_integrations_cohere.ipynb
+notebook: FALSE
 type: origin
 token: WjZswh3lJi6k5BkyLaNchzodnib
 sidebar_position: 3

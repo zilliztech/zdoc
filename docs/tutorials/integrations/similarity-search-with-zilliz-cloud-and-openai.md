@@ -2,7 +2,7 @@
 slug: /similarity-search-with-zilliz-cloud-and-openai
 sidebar_label: With OpenAI
 beta: FALSE
-notebook: 80_integrations_openai.ipynb
+notebook: FALSE
 type: origin
 token: SeQxwhBEaimlzykxXLacoJuTnAb
 sidebar_position: 1

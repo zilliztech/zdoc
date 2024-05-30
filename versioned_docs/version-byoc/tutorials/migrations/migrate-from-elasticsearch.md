@@ -85,49 +85,49 @@ Review the table below to understand how Elasticsearch field types map to Zilliz
 
 <table>
    <tr>
-     <th><strong>Elasticsearch Field Type</strong></th>
-     <th><strong>Zilliz Cloud Field Type</strong></th>
-     <th><strong>Description</strong></th>
+     <th><p><strong>Elasticsearch Field Type</strong></p></th>
+     <th><p><strong>Zilliz Cloud Field Type</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
    </tr>
    <tr>
-     <td>dense_vector</td>
-     <td>FloatVector</td>
-     <td>Vector dimensions remain unchanged. Specify <strong>L2</strong> or <strong>IP</strong> as the metric type.</td>
+     <td><p>dense_vector</p></td>
+     <td><p>FloatVector</p></td>
+     <td><p>Vector dimensions remain unchanged. Specify <strong>L2</strong> or <strong>IP</strong> as the metric type.</p></td>
    </tr>
    <tr>
-     <td>keyword</td>
-     <td>VarChar</td>
-     <td>Set Max Length (1 to 65,535). Strings exceeding the limit can trigger migration errors.</td>
+     <td><p>keyword</p></td>
+     <td><p>VarChar</p></td>
+     <td><p>Set Max Length (1 to 65,535). Strings exceeding the limit can trigger migration errors.</p></td>
    </tr>
    <tr>
-     <td>text</td>
-     <td>VarChar</td>
-     <td>Set Max Length (1 to 65,535). Strings exceeding the limit can trigger migration errors.</td>
+     <td><p>text</p></td>
+     <td><p>VarChar</p></td>
+     <td><p>Set Max Length (1 to 65,535). Strings exceeding the limit can trigger migration errors.</p></td>
    </tr>
    <tr>
-     <td>long</td>
-     <td>Int64</td>
-     <td>-</td>
+     <td><p>long</p></td>
+     <td><p>Int64</p></td>
+     <td><p>-</p></td>
    </tr>
    <tr>
-     <td>integer</td>
-     <td>Int32</td>
-     <td>-</td>
+     <td><p>integer</p></td>
+     <td><p>Int32</p></td>
+     <td><p>-</p></td>
    </tr>
    <tr>
-     <td>double</td>
-     <td>Double</td>
-     <td>-</td>
+     <td><p>double</p></td>
+     <td><p>Double</p></td>
+     <td><p>-</p></td>
    </tr>
    <tr>
-     <td>float</td>
-     <td>Float</td>
-     <td>-</td>
+     <td><p>float</p></td>
+     <td><p>Float</p></td>
+     <td><p>-</p></td>
    </tr>
    <tr>
-     <td>boolean</td>
-     <td>Bool</td>
-     <td>-</td>
+     <td><p>boolean</p></td>
+     <td><p>Bool</p></td>
+     <td><p>-</p></td>
    </tr>
 </table>
 

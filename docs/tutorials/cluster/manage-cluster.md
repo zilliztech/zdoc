@@ -85,12 +85,12 @@ Once the status changes to **SUSPENDED**, you will only be charged for storage. 
 
 <table>
    <tr>
-     <th><strong>Cloud Provider</strong></th>
-     <th><strong>Storage Pricing</strong></th>
+     <th><p><strong>Cloud Provider</strong></p></th>
+     <th><p><strong>Storage Pricing</strong></p></th>
    </tr>
    <tr>
-     <td>GCP storage</td>
-     <td>$0.020 / GB per month</td>
+     <td><p>GCP storage</p></td>
+     <td><p>$0.020 / GB per month</p></td>
    </tr>
 </table>
 
@@ -210,16 +210,16 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 
     <table>
        <tr>
-         <th><strong>Cloud Provider</strong></th>
-         <th><strong>Storage Pricing</strong></th>
+         <th><p><strong>Cloud Provider</strong></p></th>
+         <th><p><strong>Storage Pricing</strong></p></th>
        </tr>
        <tr>
-         <td>AWS storage</td>
-         <td>$0.025 / GB per month</td>
+         <td><p>AWS storage</p></td>
+         <td><p>$0.025 / GB per month</p></td>
        </tr>
        <tr>
-         <td>GCP storage</td>
-         <td>$0.020 / GB per month</td>
+         <td><p>GCP storage</p></td>
+         <td><p>$0.020 / GB per month</p></td>
        </tr>
     </table>
 

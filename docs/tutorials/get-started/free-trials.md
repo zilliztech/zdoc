@@ -111,40 +111,40 @@ This plan is crafted for production applications with customizable workload mana
 
 <table>
    <tr>
-     <th><strong>Item</strong></th>
-     <th><strong>Free</strong></th>
-     <th><strong>Serverless</strong></th>
-     <th><strong>Dedicated (Standard)</strong></th>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Free</strong></p></th>
+     <th><p><strong>Serverless</strong></p></th>
+     <th><p><strong>Dedicated (Standard)</strong></p></th>
    </tr>
    <tr>
-     <td>Cost</td>
-     <td>Free</td>
-     <td>Free for a limited time</td>
-     <td>Deducted from free credits</td>
+     <td><p>Cost</p></td>
+     <td><p>Free</p></td>
+     <td><p>Free for a limited time</p></td>
+     <td><p>Deducted from free credits</p></td>
    </tr>
    <tr>
-     <td>Trial Duration</td>
-     <td>Permanent</td>
-     <td>30 days</td>
-     <td>30 days</td>
+     <td><p>Trial Duration</p></td>
+     <td><p>Permanent</p></td>
+     <td><p>30 days</p></td>
+     <td><p>30 days</p></td>
    </tr>
    <tr>
-     <td>Use Case</td>
-     <td>Quick start</td>
-     <td>Serverless applications</td>
-     <td>Applications in dev</td>
+     <td><p>Use Case</p></td>
+     <td><p>Quick start</p></td>
+     <td><p>Serverless applications</p></td>
+     <td><p>Applications in dev</p></td>
    </tr>
    <tr>
-     <td>Max. collections</td>
-     <td>2</td>
-     <td>10</td>
-     <td>Self-provisioned</td>
+     <td><p>Max. collections</p></td>
+     <td><p>2</p></td>
+     <td><p>10</p></td>
+     <td><p>Self-provisioned</p></td>
    </tr>
    <tr>
-     <td>CUs</td>
-     <td>Shared</td>
-     <td>Auto-scale</td>
-     <td>32 CUs for self-provisioning</td>
+     <td><p>CUs</p></td>
+     <td><p>Shared</p></td>
+     <td><p>Auto-scale</p></td>
+     <td><p>32 CUs for self-provisioning</p></td>
    </tr>
 </table>
 

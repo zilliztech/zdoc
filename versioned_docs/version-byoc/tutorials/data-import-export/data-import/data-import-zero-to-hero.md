@@ -2,7 +2,7 @@
 slug: /data-import-zero-to-hero
 sidebar_label: Zero to Hero
 beta: FALSE
-notebook: 99_data_import_zero_to_hero.ipynb
+notebook: FALSE
 type: origin
 token: BjHZwBkk0iFScik49QMc1Wwjndb
 sidebar_position: 1
@@ -93,7 +93,7 @@ To enhance the usage of the example code, we recommend you use variables to stor
 CLUSTER_ENDPOINT=""
 API_KEY=""
 TOKEN=""
-CLUSTER_ID=""
+CLUSTER_ID="" # Zilliz Cloud cluster ID, like "in01-xxxxxxxxxxxxxxx"
 CLOUD_REGION=""
 CLOUD_API_ENDPOINT="controller.api.{0}.zillizcloud.com".format(CLOUD_REGION)
 COLLECTION_NAME=""
@@ -113,7 +113,7 @@ BUCKET_NAME=""
 String CLUSTER_ENDPOINT = "";
 String TOKEN = "";
 String API_KEY = "";
-String CLUSTER_ID = "";
+String CLUSTER_ID = ""; // Zilliz Cloud cluster ID, like "in01-xxxxxxxxxxxxxxx"
 String CLOUD_REGION = "";
 String CLOUD_API_ENDPOINT = String.format("controller.api.%s.zillizcloud.com", CLOUD_REGION);
 String COLLECTION_NAME = "";
@@ -148,58 +148,58 @@ The output is similar to the following. If you prefer to download from the brows
 
 <table>
    <tr>
-     <th><strong>Field Name</strong></th>
-     <th><strong>Type</strong></th>
-     <th><strong>Attributes</strong></th>
-     <th><strong>Sample Value</strong></th>
+     <th><p><strong>Field Name</strong></p></th>
+     <th><p><strong>Type</strong></p></th>
+     <th><p><strong>Attributes</strong></p></th>
+     <th><p><strong>Sample Value</strong></p></th>
    </tr>
    <tr>
-     <td>id</td>
-     <td>INT64</td>
-     <td>N/A</td>
-     <td>0</td>
+     <td><p>id</p></td>
+     <td><p>INT64</p></td>
+     <td><p>N/A</p></td>
+     <td><p>0</p></td>
    </tr>
    <tr>
-     <td>title_vector</td>
-     <td>FLOAT_VECTOR</td>
-     <td>Dimension: 768</td>
-     <td>[0.041732933, 0.013779674, -0.027564144, -0.01…</td>
+     <td><p>title_vector</p></td>
+     <td><p>FLOAT_VECTOR</p></td>
+     <td><p>Dimension: 768</p></td>
+     <td><p>[0.041732933, 0.013779674, -0.027564144, -0.01…</p></td>
    </tr>
    <tr>
-     <td>title</td>
-     <td>VARCHAR</td>
-     <td>Max length: 512</td>
-     <td>The Reported Mortality Rate of Coronavirus Is …</td>
+     <td><p>title</p></td>
+     <td><p>VARCHAR</p></td>
+     <td><p>Max length: 512</p></td>
+     <td><p>The Reported Mortality Rate of Coronavirus Is …</p></td>
    </tr>
    <tr>
-     <td>link</td>
-     <td>VARCHAR</td>
-     <td>Max length: 512</td>
-     <td>https://medium.com/swlh/the-reported-mortality…</td>
+     <td><p>link</p></td>
+     <td><p>VARCHAR</p></td>
+     <td><p>Max length: 512</p></td>
+     <td><p>https://medium.com/swlh/the-reported-mortality…</p></td>
    </tr>
    <tr>
-     <td>reading_time</td>
-     <td>INT64</td>
-     <td>N/A</td>
-     <td>13</td>
+     <td><p>reading_time</p></td>
+     <td><p>INT64</p></td>
+     <td><p>N/A</p></td>
+     <td><p>13</p></td>
    </tr>
    <tr>
-     <td>publication</td>
-     <td>VARCHAR</td>
-     <td>Max length: 512</td>
-     <td>The Startup</td>
+     <td><p>publication</p></td>
+     <td><p>VARCHAR</p></td>
+     <td><p>Max length: 512</p></td>
+     <td><p>The Startup</p></td>
    </tr>
    <tr>
-     <td>claps</td>
-     <td>INT64</td>
-     <td>N/A</td>
-     <td>1100</td>
+     <td><p>claps</p></td>
+     <td><p>INT64</p></td>
+     <td><p>N/A</p></td>
+     <td><p>1100</p></td>
    </tr>
    <tr>
-     <td>responses</td>
-     <td>INT64</td>
-     <td>N/A</td>
-     <td>18</td>
+     <td><p>responses</p></td>
+     <td><p>INT64</p></td>
+     <td><p>N/A</p></td>
+     <td><p>18</p></td>
    </tr>
 </table>
 
@@ -398,7 +398,9 @@ Once the schema is ready, you can use the schema to create a **RemoteBulkWriter*
 
 ```python
 
-from pymilvus import RemoteBulkWriter, BulkFileType
+from pymilvus.bulk_import import RemoteBulkWriter, BulkFileType
+# Use `from pymilvus import RemoteBulkWriter, BulkFileType`
+# if your pymilvus version is earlier than 2.4.2 
 
 # Connections parameters to access the remote bucket
 conn = RemoteBulkWriter.S3ConnectParam(
@@ -770,7 +772,7 @@ res = bulk_import(
     # highlight-next-line
     url=CLOUD_API_ENDPOINT,
     api_key=API_KEY,
-    cluster_id=CLUSTER_ID,
+    cluster_id=CLUSTER_ID, # Zilliz Cloud cluster ID, like "in01-xxxxxxxxxxxxxxx"
     collection_name=COLLECTION_NAME,
     # Parameters for bucket access
     object_url=object_url,
@@ -798,7 +800,7 @@ String OBJECT_URL = String.format("https://storage.googleapis.com/%s/%s", BUCKET
 BulkImportResponse bulkImportResponse = CloudImport.bulkImport(
     CLUSTER_ENDPOINT,
     API_KEY,
-    CLUSTER_ID,
+    CLUSTER_ID, // Zilliz Cloud cluster ID, like "in01-xxxxxxxxxxxxxxx"
     COLLECTION_NAME,
     OBJECT_URL,
     ACCESS_KEY,
@@ -841,7 +843,7 @@ res = get_import_progress(
     url=CLOUD_API_ENDPOINT,
     api_key=API_KEY,
     job_id=job_id,
-    cluster_id=CLUSTER_ID
+    cluster_id=CLUSTER_ID # Zilliz Cloud cluster ID, like "in01-xxxxxxxxxxxxxxx"
 )
 
 print(res.json()["data"]["readyPercentage"])
@@ -878,7 +880,7 @@ while (true) {
     GetImportProgressResponse getImportProgressResponse = CloudImport.getImportProgress(
         CLUSTER_ENDPOINT,
         API_KEY,
-        CLUSTER_ID,
+        CLUSTER_ID, // Zilliz Cloud cluster ID, like "in01-xxxxxxxxxxxxxxx"
         jobId
     );
 
@@ -919,7 +921,7 @@ res = list_import_jobs(
     # highlight-next-line
     url=CLOUD_API_ENDPOINT,
     api_key=API_KEY,
-    cluster_id=CLUSTER_ID,
+    cluster_id=CLUSTER_ID, # Zilliz Cloud cluster ID, like "in01-xxxxxxxxxxxxxxx"
     page_size=10,
     current_page=1,
 )
@@ -951,7 +953,7 @@ print(res.json())
 ListImportJobsResponse listImportJobsResponse = CloudImport.listImportJobs(
     CLUSTER_ENDPOINT,
     API_KEY,
-    CLUSTER_ID,
+    CLUSTER_ID, // Zilliz Cloud cluster ID, like "in01-xxxxxxxxxxxxxxx"
     10,
     1
 );

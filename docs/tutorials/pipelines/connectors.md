@@ -67,16 +67,16 @@ Zilliz Cloud Pipelines provides flexible options when you create a connector. On
 
         <table>
            <tr>
-             <th><strong>Parameter</strong></th>
-             <th><strong>Description</strong></th>
+             <th><p><strong>Parameter</strong></p></th>
+             <th><p><strong>Description</strong></p></th>
            </tr>
            <tr>
-             <td>Connector Name</td>
-             <td>The name of the connector to create.</td>
+             <td><p>Connector Name</p></td>
+             <td><p>The name of the connector to create.</p></td>
            </tr>
            <tr>
-             <td>Description (optional)</td>
-             <td>The description of the connector.</td>
+             <td><p>Description (optional)</p></td>
+             <td><p>The description of the connector.</p></td>
            </tr>
         </table>
 
@@ -84,20 +84,20 @@ Zilliz Cloud Pipelines provides flexible options when you create a connector. On
 
         <table>
            <tr>
-             <th><strong>Parameter</strong></th>
-             <th><strong>Description</strong></th>
+             <th><p><strong>Parameter</strong></p></th>
+             <th><p><strong>Description</strong></p></th>
            </tr>
            <tr>
-             <td>Object Storage Service</td>
-             <td>Select the object storage service of your data source. Available options include: <br/> - AWS S3<br/> - Google Cloud Storage.<br/></td>
+             <td><p>Object Storage Service</p></td>
+             <td><p>Select the object storage service of your data source. Available options include: <br/> - AWS S3<br/> - Google Cloud Storage.<br/></p></td>
            </tr>
            <tr>
-             <td>Bucket URL</td>
-             <td>Provide the bucket URL used for accessing your source data. Please make sure you enter the URL of the file directory instead of a specific file.<br/> To learn more about how to obtain the URL, please refer to:<br/> - <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html">Accessing and listing an Amazon S3 bucket</a><br/> - <a href="https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object">Discover object storage with the Google Cloud console</a><br/></td>
+             <td><p>Bucket URL</p></td>
+             <td><p>Provide the bucket URL used for accessing your source data. Please make sure you enter the URL of the file directory instead of a specific file.<br/> To learn more about how to obtain the URL, please refer to:<br/> - <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html">Accessing and listing an Amazon S3 bucket</a><br/> - <a href="https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object">Discover object storage with the Google Cloud console</a><br/></p></td>
            </tr>
            <tr>
-             <td>Access Keys for authorization (optional)</td>
-             <td>Provide the following information for authorization if necessary:<br/> - For AWS S3, please provide the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey">access key and secret key</a>.<br/> - For Google Cloud Storage, please provide the <a href="https://cloud.google.com/storage/docs/authentication/managing-hmackeys">access key ID and secret access key</a>.<br/></td>
+             <td><p>Access Keys for authorization (optional)</p></td>
+             <td><p>Provide the following information for authorization if necessary:<br/> - For AWS S3, please provide the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey">access key and secret key</a>.<br/> - For Google Cloud Storage, please provide the <a href="https://cloud.google.com/storage/docs/authentication/managing-hmackeys">access key ID and secret access key</a>.<br/></p></td>
            </tr>
         </table>
 
@@ -131,16 +131,16 @@ Zilliz Cloud Pipelines provides flexible options when you create a connector. On
 
         <table>
            <tr>
-             <th><strong>Parameter</strong></th>
-             <th><strong>Description</strong></th>
+             <th><p><strong>Parameter</strong></p></th>
+             <th><p><strong>Description</strong></p></th>
            </tr>
            <tr>
-             <td>Frequency</td>
-             <td>Set how often the system performs scans.<br/> - Daily: Choose any number from 1 to 7.<br/> - Hourly: Options are 1, 6, 12, or 18 hours.<br/></td>
+             <td><p>Frequency</p></td>
+             <td><p>Set how often the system performs scans.<br/> - Daily: Choose any number from 1 to 7.<br/> - Hourly: Options are 1, 6, 12, or 18 hours.<br/></p></td>
            </tr>
            <tr>
-             <td>Next Run at</td>
-             <td>Specify the time for the next scan. The time zone is consistent with the <a href="./manage-timezone">system time zone</a> in organization settings.</td>
+             <td><p>Next Run at</p></td>
+             <td><p>Specify the time for the next scan. The time zone is consistent with the <a href="./manage-timezone">system time zone</a> in organization settings.</p></td>
            </tr>
         </table>
 

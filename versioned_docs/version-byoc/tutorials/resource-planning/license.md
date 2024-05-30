@@ -41,28 +41,28 @@ The following table summarizes the calculation of CPU cores for a BYOC license.
 
 <table>
    <tr>
-     <th>Deployment</th>
-     <th>Plane</th>
-     <th>Component</th>
-     <th>Billable?</th>
+     <th><p>Deployment</p></th>
+     <th><p>Plane</p></th>
+     <th><p>Component</p></th>
+     <th><p>Billable?</p></th>
    </tr>
    <tr>
-     <td>Zilliz Cloud</td>
-     <td>Control Plane</td>
-     <td>API functionality, cloud ops, backup, migration, alerts, etc.</td>
-     <td>No</td>
+     <td><p>Zilliz Cloud</p></td>
+     <td><p>Control Plane</p></td>
+     <td><p>API functionality, cloud ops, backup, migration, alerts, etc.</p></td>
+     <td><p>No</p></td>
    </tr>
    <tr>
-     <td>User's VPC</td>
-     <td>Data Plane</td>
-     <td>Index services</td>
-     <td>Yes</td>
+     <td><p>User's VPC</p></td>
+     <td><p>Data Plane</p></td>
+     <td><p>Index services</p></td>
+     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td></td>
      <td></td>
-     <td>Zilliz Cloud cluster services</td>
-     <td>Yes</td>
+     <td><p>Zilliz Cloud cluster services</p></td>
+     <td><p>Yes</p></td>
    </tr>
 </table>
 

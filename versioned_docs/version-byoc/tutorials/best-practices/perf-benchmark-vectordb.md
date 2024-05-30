@@ -30,34 +30,34 @@ Closely mimicking real-world production environments, VectorDBBench has set up d
 
 <table>
    <tr>
-     <th><strong>Metric</strong></th>
-     <th><strong>Description</strong></th>
-     <th><strong>Test Scenario</strong></th>
+     <th><p><strong>Metric</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Test Scenario</strong></p></th>
    </tr>
    <tr>
-     <td>Max<em>load</em>count</td>
-     <td>The capacity of a vector database. VectorDBBench will keep inserting vector data into the vector database until the database fails or reject the insertion request over 10 times and keep a record of the maximum number of inserted entities.<br/> Higher Max<em>load</em>count values indicate better vector database performance.</td>
-     <td>Insertion</td>
+     <td><p>Max<em>load</em>count</p></td>
+     <td><p>The capacity of a vector database. VectorDBBench will keep inserting vector data into the vector database until the database fails or reject the insertion request over 10 times and keep a record of the maximum number of inserted entities.<br/> Higher Max<em>load</em>count values indicate better vector database performance.</p></td>
+     <td><p>Insertion</p></td>
    </tr>
    <tr>
-     <td>QPS</td>
-     <td>The capability of a vector database to handle concurrent queries per second. VectorDBBench uses top-100 searches in multiple times and selects the highest QPS value as the final result.<br/> Higher QPS values indicate better vector database performance.</td>
-     <td>Search &amp; filtered search</td>
+     <td><p>QPS</p></td>
+     <td><p>The capability of a vector database to handle concurrent queries per second. VectorDBBench uses top-100 searches in multiple times and selects the highest QPS value as the final result.<br/> Higher QPS values indicate better vector database performance.</p></td>
+     <td><p>Search &amp; filtered search</p></td>
    </tr>
    <tr>
-     <td>Recall</td>
-     <td>The measure of search accuracy by comparing search results with ground truth.<br/> Higher recall values indicate better vector database performance.</td>
-     <td>Search &amp; filtered search</td>
+     <td><p>Recall</p></td>
+     <td><p>The measure of search accuracy by comparing search results with ground truth.<br/> Higher recall values indicate better vector database performance.</p></td>
+     <td><p>Search &amp; filtered search</p></td>
    </tr>
    <tr>
-     <td>Load_duration</td>
-     <td>The time it takes for Zilliz Cloud to complete the process of inserting entities and building indexes.<br/> Lower Load_duration values indicate better vector database performance.</td>
-     <td>Search &amp; filtered search</td>
+     <td><p>Load_duration</p></td>
+     <td><p>The time it takes for Zilliz Cloud to complete the process of inserting entities and building indexes.<br/> Lower Load_duration values indicate better vector database performance.</p></td>
+     <td><p>Search &amp; filtered search</p></td>
    </tr>
    <tr>
-     <td>Serial<em>latancy</em>p99<br/></td>
-     <td>The time that 99% of queries take to complete. VectorDBBench records the search latency of each top-100 searches and uses the 99th percentile average as the final result.<br/> Lower Serial<em>latancy</em>p99 values indicate better vector database performance.</td>
-     <td>Search &amp; filtered search</td>
+     <td><p>Serial<em>latancy</em>p99<br/></p></td>
+     <td><p>The time that 99% of queries take to complete. VectorDBBench records the search latency of each top-100 searches and uses the 99th percentile average as the final result.<br/> Lower Serial<em>latancy</em>p99 values indicate better vector database performance.</p></td>
+     <td><p>Search &amp; filtered search</p></td>
    </tr>
 </table>
 

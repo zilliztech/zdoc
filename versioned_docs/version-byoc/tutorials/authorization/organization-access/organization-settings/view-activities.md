@@ -43,20 +43,20 @@ To enhance your control and ease in navigating through the organization activiti
 
     <table>
        <tr>
-         <th><strong>Activity Type</strong></th>
-         <th><strong>Description</strong></th>
+         <th><p><strong>Activity Type</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
        </tr>
        <tr>
-         <td>Info</td>
-         <td>General information related to clusters, access, or billing. <br/> Eg. Cluster in01-xxxxxxxxxxxxxxx was created.</td>
+         <td><p>Info</p></td>
+         <td><p>General information related to clusters, access, or billing. <br/> Eg. Cluster in01-xxxxxxxxxxxxxxx was created.</p></td>
        </tr>
        <tr>
-         <td>Warning</td>
-         <td>Updates regarding resource states that necessitate your attention.<br/>  E.g., "Cluster in01-xxxxxxxxxxxxxxx was deleted."</td>
+         <td><p>Warning</p></td>
+         <td><p>Updates regarding resource states that necessitate your attention.<br/>  E.g., "Cluster in01-xxxxxxxxxxxxxxx was deleted."</p></td>
        </tr>
        <tr>
-         <td>Error</td>
-         <td>Notifications of payment failures or other system malfunctions requiring immediate attention or action. <br/> E.g., "The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed."</td>
+         <td><p>Error</p></td>
+         <td><p>Notifications of payment failures or other system malfunctions requiring immediate attention or action. <br/> E.g., "The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed."</p></td>
        </tr>
     </table>
 

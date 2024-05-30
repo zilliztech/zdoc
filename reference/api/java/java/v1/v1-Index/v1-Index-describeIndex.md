@@ -33,24 +33,24 @@ Methods of `DescribeIndexParam.Builder`:
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Parameters</th>
+        <th><p>Method</p></th>
+        <th><p>Description</p></th>
+        <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td>withCollectionName(collectionName)</td>
-        <td>Set the collection name. Collection name cannot be empty or null.</td>
-        <td>collectionName: The target collection name.</td>
+        <td><p>withCollectionName(collectionName)</p></td>
+        <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
+        <td><p>collectionName: The target collection name.</p></td>
     </tr>
     <tr>
-        <td>withIndexName(String indexName)</td>
-        <td>Set the target index name. If no index name is specified, the default index name is empty string which means let the server determine it.</td>
-        <td>indexName: The name of the index.</td>
+        <td><p>withIndexName(String indexName)</p></td>
+        <td><p>Set the target index name. If no index name is specified, the default index name is empty string which means let the server determine it.</p></td>
+        <td><p>indexName: The name of the index.</p></td>
     </tr>
     <tr>
-        <td>build()</td>
-        <td>Construct a DescribeIndexParam object.</td>
-        <td>N/A</td>
+        <td><p>build()</p></td>
+        <td><p>Construct a DescribeIndexParam object.</p></td>
+        <td><p>N/A</p></td>
     </tr>
 </table>
 
@@ -81,22 +81,22 @@ Methods of `DescIndexResponseWrapper`:
 
 <table>
    <tr>
-     <th><strong>Method</strong></th>
-     <th><strong>Description</strong></th>
-     <th><strong>Parameters</strong></th>
-     <th><strong>Returns</strong></th>
+     <th><p><strong>Method</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Parameters</strong></p></th>
+     <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td>getIndexDescriptions()<br/></td>
-     <td>Get a list of all index descriptions. (Currently only return one index information)</td>
-     <td>N/A</td>
-     <td>List\<IndexDesc></td>
+     <td><p>getIndexDescriptions()<br/></p></td>
+     <td><p>Get a list of all index descriptions. (Currently only return one index information)</p></td>
+     <td><p>N/A</p></td>
+     <td><p>List\<IndexDesc></p></td>
    </tr>
    <tr>
-     <td>getIndexDescByFieldName(String fieldName)<br/></td>
-     <td>Get index description by field name. Return null if the field doesn't exist.</td>
-     <td>fieldName: A field name</td>
-     <td>IndexDesc</td>
+     <td><p>getIndexDescByFieldName(String fieldName)<br/></p></td>
+     <td><p>Get index description by field name. Return null if the field doesn't exist.</p></td>
+     <td><p>fieldName: A field name</p></td>
+     <td><p>IndexDesc</p></td>
    </tr>
 </table>
 
@@ -108,24 +108,24 @@ Methods of `DescIndexResponseWrapper.IndexDesc`
 
 <table>
    <tr>
-     <th><strong>Method</strong></th>
-     <th><strong>Description</strong></th>
-     <th><strong>Returns</strong></th>
+     <th><p><strong>Method</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td>getIndexType()</td>
-     <td>Get index type.</td>
-     <td>IndexType</td>
+     <td><p>getIndexType()</p></td>
+     <td><p>Get index type.</p></td>
+     <td><p>IndexType</p></td>
    </tr>
    <tr>
-     <td>getMetricType()</td>
-     <td>Get metric type.</td>
-     <td>MetricType</td>
+     <td><p>getMetricType()</p></td>
+     <td><p>Get metric type.</p></td>
+     <td><p>MetricType</p></td>
    </tr>
    <tr>
-     <td>getExtraParam()</td>
-     <td>Get index parameters in JSON format.</td>
-     <td>String</td>
+     <td><p>getExtraParam()</p></td>
+     <td><p>Get index parameters in JSON format.</p></td>
+     <td><p>String</p></td>
    </tr>
 </table>
 

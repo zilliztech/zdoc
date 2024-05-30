@@ -33,19 +33,19 @@ Methods of `DeleteCredentialParam.Builder`:
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Parameters</th>
+        <th><p>Method</p></th>
+        <th><p>Description</p></th>
+        <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td>withUsername(String username)</td>
-        <td>Sets the username. Username cannot be empty or null.</td>
-        <td>username: The user name used to delete a credential.</td>
+        <td><p>withUsername(String username)</p></td>
+        <td><p>Sets the username. Username cannot be empty or null.</p></td>
+        <td><p>username: The user name used to delete a credential.</p></td>
     </tr>
     <tr>
-        <td>build()</td>
-        <td>Constructs a DeleteCredentialParam object.</td>
-        <td>N/A</td>
+        <td><p>build()</p></td>
+        <td><p>Constructs a DeleteCredentialParam object.</p></td>
+        <td><p>N/A</p></td>
     </tr>
 </table>
 

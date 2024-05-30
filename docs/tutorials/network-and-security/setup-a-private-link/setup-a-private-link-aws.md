@@ -122,20 +122,20 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
         <table>
            <tr>
-             <th><strong>Parameter name</strong></th>
-             <th><strong>Parameter Description</strong></th>
+             <th><p><strong>Parameter name</strong></p></th>
+             <th><p><strong>Parameter Description</strong></p></th>
            </tr>
            <tr>
-             <td><strong>Domain name</strong></td>
-             <td>Private Link allocated by Zilliz Cloud for the target cluster.</td>
+             <td><p><strong>Domain name</strong></p></td>
+             <td><p>Private Link allocated by Zilliz Cloud for the target cluster.</p></td>
            </tr>
            <tr>
-             <td><strong>Description</strong></td>
-             <td>Description used to distinguish hosted zones.</td>
+             <td><p><strong>Description</strong></p></td>
+             <td><p>Description used to distinguish hosted zones.</p></td>
            </tr>
            <tr>
-             <td><strong>Type</strong></td>
-             <td>Select <strong>Private hosted zone</strong>.</td>
+             <td><p><strong>Type</strong></p></td>
+             <td><p>Select <strong>Private hosted zone</strong>.</p></td>
            </tr>
         </table>
 
