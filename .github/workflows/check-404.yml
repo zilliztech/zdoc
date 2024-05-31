@@ -1,0 +1,25 @@
+name: "check 404"
+
+on:
+  push:
+    branches:
+      - "master"
+      - "dev"
+    paths:
+      - "**.md"
+
+jobs:
+  Check-404:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out git repository
+        uses: actions/checkout@v1
+
+      - name: "Setup node.js"
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: "Checking"
+        run: |
+          node scripts/check-404.js
