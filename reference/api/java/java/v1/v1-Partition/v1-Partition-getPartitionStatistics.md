@@ -33,29 +33,29 @@ Methods of `GetPartitionStatisticsParam.Builder`:
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Parameters</th>
+        <th><p>Method</p></th>
+        <th><p>Description</p></th>
+        <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td>withCollectionName(String collectionName)</td>
-        <td>Set the collection name. Collection name cannot be empty or null.</td>
-        <td>collectionName: The target collection name.</td>
+        <td><p>withCollectionName(String collectionName)</p></td>
+        <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
+        <td><p>collectionName: The target collection name.</p></td>
     </tr>
     <tr>
-        <td>withPartitionName(String partitionName)</td>
-        <td>Sets the partition name. Partition name cannot be empty or null.</td>
-        <td>partitionName: The target partition name.</td>
+        <td><p>withPartitionName(String partitionName)</p></td>
+        <td><p>Sets the partition name. Partition name cannot be empty or null.</p></td>
+        <td><p>partitionName: The target partition name.</p></td>
     </tr>
     <tr>
-        <td>withFlush(Boolean flush)</td>
-        <td>Requires a flush action before retrieving partition statistics. Default value is True.</td>
-        <td>flush: Set to True to ask a flush action.</td>
+        <td><p>withFlush(Boolean flush)</p></td>
+        <td><p>Requires a flush action before retrieving partition statistics. Default value is True.</p></td>
+        <td><p>flush: Set to True to ask a flush action.</p></td>
     </tr>
     <tr>
-        <td>build()</td>
-        <td>Construct a GetPartitionStatisticsParam object.</td>
-        <td>N/A</td>
+        <td><p>build()</p></td>
+        <td><p>Construct a GetPartitionStatisticsParam object.</p></td>
+        <td><p>N/A</p></td>
     </tr>
 </table>
 
@@ -86,14 +86,14 @@ Methods of `GetPartStatResponseWrapper`:
 
 <table>
    <tr>
-     <th><strong>Method</strong></th>
-     <th><strong>Description</strong></th>
-     <th><strong>Returns</strong></th>
+     <th><p><strong>Method</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td>getRowCount()</td>
-     <td>Get the row count of a partition.<br/>Throw NumberFormatException if the row count string is illegal.</td>
-     <td>long</td>
+     <td><p>getRowCount()</p></td>
+     <td><p>Get the row count of a partition.<br/>Throw NumberFormatException if the row count string is illegal.</p></td>
+     <td><p>long</p></td>
    </tr>
 </table>
 

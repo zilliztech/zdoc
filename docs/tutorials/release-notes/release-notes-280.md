@@ -39,6 +39,20 @@ New GCP region：
 
 - us-east-4 (Virginia)
 
+For all available cloud regions, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
+
+## Pipelines{#pipelines}
+
+- Text pipelines
+
+    In addition to ingesting documents as a whole, it now supports ingesting text strings such as product description or document chunks for search. This gives more flexibility in developing RAG or semantic search. For details, please refer to [Text Data](./pipelines-text-data) and [Doc Data](./pipelines-doc-data).
+
+- Image pipelines
+
+    To unlock image search use cases, the newly added image pipelines can generate vector embeddings and take image URLs as query input. This allows for the implementation of applications that need to search image by image. For details, please refer to [Image Data](./pipelines-image-data).
+
+- Now pipelines can be used with existing collections. In the REST API, the create pipeline request can specify an existing vector collection as destination, as long as the pipeline's logic matches the schema of the existing collection (e.g. if pipelines specifies PRESERVE a field called "publish_date" that field must also exist in the collection schema. For details, refer to the [pipeline reference](/reference/restful/pipeline-operations) docs.
+
 ## Enhancements{#enhancements}
 
 This release also includes a series of enhancements:

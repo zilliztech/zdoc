@@ -103,23 +103,23 @@ For a dedicated cluster, the number of collections you can create varies with th
 <table>
    <tr>
      <th></th>
-     <th>Maximum number of collections</th>
+     <th><p>Maximum number of collections</p></th>
    </tr>
    <tr>
-     <td>Free cluster</td>
-     <td><strong>2</strong></td>
+     <td><p>Free cluster</p></td>
+     <td><p><strong>2</strong></p></td>
    </tr>
    <tr>
-     <td>Serverless cluster</td>
-     <td><strong>10</strong></td>
+     <td><p>Serverless cluster</p></td>
+     <td><p><strong>10</strong></p></td>
    </tr>
    <tr>
-     <td>Dedicated cluster (8 CUs and less)</td>
-     <td><strong>32</strong></td>
+     <td><p>Dedicated cluster (8 CUs and less)</p></td>
+     <td><p><strong>32</strong></p></td>
    </tr>
    <tr>
-     <td>Dedicated cluster (More than 8 CUs)</td>
-     <td><strong>256</strong></td>
+     <td><p>Dedicated cluster (More than 8 CUs)</p></td>
+     <td><p><strong>256</strong></p></td>
    </tr>
 </table>
 

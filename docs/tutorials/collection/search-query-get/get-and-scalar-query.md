@@ -1611,52 +1611,52 @@ A **boolean expression** is always **a string comprising field names joined by o
 
 <table>
    <tr>
-     <th><strong>Operator</strong></th>
-     <th><strong>Description</strong></th>
+     <th><p><strong>Operator</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
    </tr>
    <tr>
-     <td><strong>add (&&)</strong></td>
-     <td>True if both operands are true</td>
+     <td><p><strong>add (&&)</strong></p></td>
+     <td><p>True if both operands are true</p></td>
    </tr>
    <tr>
-     <td><strong>or (||)</strong></td>
-     <td>True if either operand is true</td>
+     <td><p><strong>or (||)</strong></p></td>
+     <td><p>True if either operand is true</p></td>
    </tr>
    <tr>
-     <td><strong>+, -, *, /</strong></td>
-     <td>Addition, subtraction, multiplication, and division</td>
+     <td><p><strong>+, -, *, /</strong></p></td>
+     <td><p>Addition, subtraction, multiplication, and division</p></td>
    </tr>
    <tr>
-     <td></td>
-     <td>Exponent</td>
+     <td><hr /></td>
+     <td><p>Exponent</p></td>
    </tr>
    <tr>
-     <td><strong>%</strong></td>
-     <td>Modulus</td>
+     <td><p><strong>%</strong></p></td>
+     <td><p>Modulus</p></td>
    </tr>
    <tr>
-     <td><strong>\&lt;, ></strong></td>
-     <td>Less than, greater than</td>
+     <td><p><strong>\&lt;, ></strong></p></td>
+     <td><p>Less than, greater than</p></td>
    </tr>
    <tr>
-     <td><strong>==, !=</strong></td>
-     <td>Equal to, not equal to</td>
+     <td><p><strong>==, !=</strong></p></td>
+     <td><p>Equal to, not equal to</p></td>
    </tr>
    <tr>
-     <td><strong>\&lt;=, >=</strong></td>
-     <td>Less than or equal to, greater than or equal to</td>
+     <td><p><strong>\&lt;=, >=</strong></p></td>
+     <td><p>Less than or equal to, greater than or equal to</p></td>
    </tr>
    <tr>
-     <td><strong>not</strong></td>
-     <td>Reverses the result of a given condition.</td>
+     <td><p><strong>not</strong></p></td>
+     <td><p>Reverses the result of a given condition.</p></td>
    </tr>
    <tr>
-     <td><strong>like</strong></td>
-     <td>Compares a value to similar values using wildcard operators.<br/> For example, like "prefix%" matches strings that begin with "prefix".</td>
+     <td><p><strong>like</strong></p></td>
+     <td><p>Compares a value to similar values using wildcard operators.<br/> For example, like "prefix%" matches strings that begin with "prefix".</p></td>
    </tr>
    <tr>
-     <td><strong>in</strong></td>
-     <td>Tests if an expression matches any value in a list of values.</td>
+     <td><p><strong>in</strong></p></td>
+     <td><p>Tests if an expression matches any value in a list of values.</p></td>
    </tr>
 </table>
 

@@ -1,7 +1,7 @@
 ---
 slug: /use-bulkwriter
 beta: FALSE
-notebook: 06_use_remote-bulk-writer.ipynb
+notebook: FALSE
 type: origin
 token: QyjpwAaKuihAeJkNBUJcdFesn9e
 sidebar_position: 2
@@ -231,7 +231,7 @@ There are two types of **BulkWriter**s available.
 
     ```python
     
-    from pymilvus import RemoteBulkWriter
+    from pymilvus.bulk_writer import RemoteBulkWriter
     # Use `from pymilvus import RemoteBulkWriter` 
     # when you use pymilvus earlier than 2.4.2 
     
@@ -255,6 +255,10 @@ There are two types of **BulkWriter**s available.
     <TabItem value='python_1'>
 
     ```python
+    from pymilvus.bulk_writer import RemoteBulkWriter
+    # Use `from pymilvus import RemoteBulkWriter` 
+    # when you use pymilvus earlier than 2.4.2 
+    
     # Third-party constants
     AZURE_CONNECT_STRING = ""
     
@@ -332,8 +336,8 @@ There are two types of **BulkWriter**s available.
     <TabItem value='python'>
 
     ```python
-    from pymilvus import BulkFileType
-    # Use `from pymilvus import BulkFileType` 
+    from pymilvus.bulk_writer import RemoteBulkWriter
+    # Use `from pymilvus import RemoteBulkWriter` 
     # when you use pymilvus earlier than 2.4.2 
     
     writer = RemoteBulkWriter(
@@ -617,20 +621,20 @@ Possible folder structures are as follows:
 
     <table>
        <tr>
-         <th><strong>File Type</strong></th>
-         <th><strong>Valid Import Paths</strong></th>
+         <th><p><strong>File Type</strong></p></th>
+         <th><p><strong>Valid Import Paths</strong></p></th>
        </tr>
        <tr>
-         <td><strong>JSON</strong></td>
-         <td><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></td>
+         <td><p><strong>JSON</strong></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
        </tr>
        <tr>
-         <td><strong>Parquet</strong></td>
-         <td><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</code></td>
+         <td><p><strong>Parquet</strong></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</code></p></td>
        </tr>
        <tr>
-         <td><strong>NumPy</strong></td>
-         <td><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></td>
+         <td><p><strong>NumPy</strong></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
        </tr>
     </table>
 
@@ -670,20 +674,20 @@ Possible folder structures are as follows:
 
     <table>
        <tr>
-         <th><strong>File Type</strong></th>
-         <th><strong>Valid Import Paths</strong></th>
+         <th><p><strong>File Type</strong></p></th>
+         <th><p><strong>Valid Import Paths</strong></p></th>
        </tr>
        <tr>
-         <td><strong>JSON</strong></td>
-         <td><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></td>
+         <td><p><strong>JSON</strong></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p></td>
        </tr>
        <tr>
-         <td><strong>Parquet</strong></td>
-         <td><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></td>
+         <td><p><strong>Parquet</strong></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p></td>
        </tr>
        <tr>
-         <td><strong>NumPy</strong></td>
-         <td><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></td>
+         <td><p><strong>NumPy</strong></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
        </tr>
     </table>
 

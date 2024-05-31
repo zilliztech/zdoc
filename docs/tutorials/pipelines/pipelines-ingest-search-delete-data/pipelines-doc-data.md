@@ -48,24 +48,24 @@ To ingest any data, you need to first create an ingestion pipeline and then run 
 
     <table>
        <tr>
-         <th><strong>Parameters</strong></th>
-         <th><strong>Description</strong></th>
+         <th><p><strong>Parameters</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
        </tr>
        <tr>
-         <td>Target Cluster</td>
-         <td>The cluster where a new collection will be automatically created with this Ingestion pipeline. Currently, this can only be a cluster deployed on GCP us-west1.</td>
+         <td><p>Target Cluster</p></td>
+         <td><p>The cluster where a new collection will be automatically created with this Ingestion pipeline. Currently, this can only be a cluster deployed on GCP us-west1.</p></td>
        </tr>
        <tr>
-         <td>Collection Name</td>
-         <td>The name of the auto-created collection.</td>
+         <td><p>Collection Name</p></td>
+         <td><p>The name of the auto-created collection.</p></td>
        </tr>
        <tr>
-         <td>Pipeline Name</td>
-         <td>Name of the new Ingestion pipeline. It should only contain lowercase letters, numbers, and underscores.</td>
+         <td><p>Pipeline Name</p></td>
+         <td><p>Name of the new Ingestion pipeline. It should only contain lowercase letters, numbers, and underscores.</p></td>
        </tr>
        <tr>
-         <td>Description (Optional)</td>
-         <td>The description of the new Ingestion pipeline.</td>
+         <td><p>Description (Optional)</p></td>
+         <td><p>The description of the new Ingestion pipeline.</p></td>
        </tr>
     </table>
 
@@ -81,36 +81,36 @@ To ingest any data, you need to first create an ingestion pipeline and then run 
 
         <table>
            <tr>
-             <th><strong>Embedding Model</strong></th>
-             <th><strong>Description</strong></th>
+             <th><p><strong>Embedding Model</strong></p></th>
+             <th><p><strong>Description</strong></p></th>
            </tr>
            <tr>
-             <td>zilliz/bge-base-en-v1.5</td>
-             <td>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency.</td>
+             <td><p>zilliz/bge-base-en-v1.5</p></td>
+             <td><p>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency.</p></td>
            </tr>
            <tr>
-             <td>voyageai/voyage-2</td>
-             <td>Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when <code>language</code> is <code>ENGLISH</code>.</td>
+             <td><p>voyageai/voyage-2</p></td>
+             <td><p>Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td>voyageai/voyage-code-2</td>
-             <td>Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code. This model is only available when <code>language</code> is <code>ENGLISH</code>.</td>
+             <td><p>voyageai/voyage-code-2</p></td>
+             <td><p>Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td>voyageai/voyage-large-2</td>
-             <td>Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents. This model is only available when <code>language</code> is <code>ENGLISH</code>.</td>
+             <td><p>voyageai/voyage-large-2</p></td>
+             <td><p>Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td>openai/text-embedding-3-small</td>
-             <td>Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when <code>language</code> is <code>ENGLISH</code>.</td>
+             <td><p>openai/text-embedding-3-small</p></td>
+             <td><p>Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td>openai/text-embedding-3-large</td>
-             <td>Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when <code>language</code> is <code>ENGLISH</code>.</td>
+             <td><p>openai/text-embedding-3-large</p></td>
+             <td><p>Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td>zilliz/bge-base-zh-v1.5</td>
-             <td>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when <code>language</code> is <code>CHINESE</code>.</td>
+             <td><p>zilliz/bge-base-zh-v1.5</p></td>
+             <td><p>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when <code>language</code> is <code>CHINESE</code>.</p></td>
            </tr>
         </table>
 
@@ -226,32 +226,32 @@ The parameters in the above code are described as follows:
 
         <table>
            <tr>
-             <th><strong>Embedding Model</strong></th>
-             <th><strong>Description</strong></th>
+             <th><p><strong>Embedding Model</strong></p></th>
+             <th><p><strong>Description</strong></p></th>
            </tr>
            <tr>
-             <td>zilliz/bge-base-en-v1.5</td>
-             <td>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency.</td>
+             <td><p>zilliz/bge-base-en-v1.5</p></td>
+             <td><p>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency.</p></td>
            </tr>
            <tr>
-             <td>voyageai/voyage-2</td>
-             <td>Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when <code>language</code> is <code>ENGLISH</code>.</td>
+             <td><p>voyageai/voyage-2</p></td>
+             <td><p>Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td>voyageai/voyage-code-2</td>
-             <td>Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks. This model is only available when <code>language</code> is <code>ENGLISH</code>.</td>
+             <td><p>voyageai/voyage-code-2</p></td>
+             <td><p>Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td>openai/text-embedding-3-small</td>
-             <td>Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when <code>language</code> is <code>ENGLISH</code>.</td>
+             <td><p>openai/text-embedding-3-small</p></td>
+             <td><p>Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td>openai/text-embedding-3-large</td>
-             <td>Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when <code>language</code> is <code>ENGLISH</code>.</td>
+             <td><p>openai/text-embedding-3-large</p></td>
+             <td><p>Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td>zilliz/bge-base-zh-v1.5</td>
-             <td>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when <code>language</code> is <code>CHINESE</code>.</td>
+             <td><p>zilliz/bge-base-zh-v1.5</p></td>
+             <td><p>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when <code>language</code> is <code>CHINESE</code>.</p></td>
            </tr>
         </table>
 
@@ -261,32 +261,32 @@ The parameters in the above code are described as follows:
 
         <table>
            <tr>
-             <th><strong>Model</strong></th>
-             <th><strong>Chunk Size Range (tokens)</strong></th>
+             <th><p><strong>Model</strong></p></th>
+             <th><p><strong>Chunk Size Range (tokens)</strong></p></th>
            </tr>
            <tr>
-             <td>zilliz/bge-base-en-v1.5</td>
-             <td>20-500 tokens</td>
+             <td><p>zilliz/bge-base-en-v1.5</p></td>
+             <td><p>20-500 tokens</p></td>
            </tr>
            <tr>
-             <td>zilliz/bge-base-zh-v1.5</td>
-             <td>20-500 tokens</td>
+             <td><p>zilliz/bge-base-zh-v1.5</p></td>
+             <td><p>20-500 tokens</p></td>
            </tr>
            <tr>
-             <td>voyageai/voyage-2</td>
-             <td>20-3,000   tokens</td>
+             <td><p>voyageai/voyage-2</p></td>
+             <td><p>20-3,000   tokens</p></td>
            </tr>
            <tr>
-             <td>voyageai/voyage-code-2</td>
-             <td>20-12,000 tokens</td>
+             <td><p>voyageai/voyage-code-2</p></td>
+             <td><p>20-12,000 tokens</p></td>
            </tr>
            <tr>
-             <td>openai/text-embedding-3-small</td>
-             <td>250-8,191 tokens</td>
+             <td><p>openai/text-embedding-3-small</p></td>
+             <td><p>250-8,191 tokens</p></td>
            </tr>
            <tr>
-             <td>openai/text-embedding-3-large</td>
-             <td>250-8,191 tokens</td>
+             <td><p>openai/text-embedding-3-large</p></td>
+             <td><p>250-8,191 tokens</p></td>
            </tr>
         </table>
 
@@ -347,12 +347,12 @@ This collection contains six fields: one ID field that is automatically generate
 
 <table>
    <tr>
-     <th>id<br/> (Data Type: Int64)</th>
-     <th>doc_name<br/> (Data type: VarChar)</th>
-     <th>chunk_id<br/> (Data type: Int64)</th>
-     <th>chunk_text<br/> (Data type: VarChar)</th>
-     <th>embedding<br/> (Data type: FLOAT_VECTOR)</th>
-     <th>publish_year<br/> (Data type: Int16)</th>
+     <th><p>id<br/> (Data Type: Int64)</p></th>
+     <th><p>doc_name<br/> (Data type: VarChar)</p></th>
+     <th><p>chunk_id<br/> (Data type: Int64)</p></th>
+     <th><p>chunk_text<br/> (Data type: VarChar)</p></th>
+     <th><p>embedding<br/> (Data type: FLOAT_VECTOR)</p></th>
+     <th><p>publish_year<br/> (Data type: Int16)</p></th>
    </tr>
 </table>
 
@@ -507,16 +507,16 @@ To search any data, you need to first create a search pipeline and then run it. 
 
     <table>
        <tr>
-         <th><strong>Parameters</strong></th>
-         <th><strong>Description</strong></th>
+         <th><p><strong>Parameters</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
        </tr>
        <tr>
-         <td>Pipeline Name</td>
-         <td>The name of the new Search pipeline. It should only contain lowercase letters, numbers, and underscores only.</td>
+         <td><p>Pipeline Name</p></td>
+         <td><p>The name of the new Search pipeline. It should only contain lowercase letters, numbers, and underscores only.</p></td>
        </tr>
        <tr>
-         <td>Description (Optional)</td>
-         <td>The description of the new Search pipeline.</td>
+         <td><p>Description (Optional)</p></td>
+         <td><p>The description of the new Search pipeline.</p></td>
        </tr>
     </table>
 
@@ -534,12 +534,12 @@ To search any data, you need to first create a search pipeline and then run it. 
 
         <table>
            <tr>
-             <th><strong>Reranker Model Service</strong></th>
-             <th><strong>Description</strong></th>
+             <th><p><strong>Reranker Model Service</strong></p></th>
+             <th><p><strong>Description</strong></p></th>
            </tr>
            <tr>
-             <td>zilliz/bge-reranker-base</td>
-             <td>Open-source cross-encoder architecture reranker model published by BAAI. This model is hosted on Zilliz Cloud.</td>
+             <td><p>zilliz/bge-reranker-base</p></td>
+             <td><p>Open-source cross-encoder architecture reranker model published by BAAI. This model is hosted on Zilliz Cloud.</p></td>
            </tr>
         </table>
 
@@ -752,16 +752,16 @@ To delete any data, you need to first create a deletion pipeline and then run it
 
     <table>
        <tr>
-         <th><strong>Parameters</strong></th>
-         <th><strong>Description</strong></th>
+         <th><p><strong>Parameters</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
        </tr>
        <tr>
-         <td>Pipeline Name</td>
-         <td>The name of the new Deletion pipeline. It should only contain lowercase letters, numbers, and underscores.</td>
+         <td><p>Pipeline Name</p></td>
+         <td><p>The name of the new Deletion pipeline. It should only contain lowercase letters, numbers, and underscores.</p></td>
        </tr>
        <tr>
-         <td>Description (Optional)</td>
-         <td>The description of the new Deletion pipeline.</td>
+         <td><p>Description (Optional)</p></td>
+         <td><p>The description of the new Deletion pipeline.</p></td>
        </tr>
     </table>
 

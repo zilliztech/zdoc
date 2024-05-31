@@ -136,61 +136,61 @@ The following table lists the minimum resources required for BYOC deployment.
 
 <table>
    <tr>
-     <th rowspan="2"><strong>Resource type</strong></th>
-     <th colspan="3"><strong>GCP</strong></th>
+     <th rowspan="2"><p><strong>Resource type</strong></p></th>
+     <th colspan="3"><p><strong>GCP</strong></p></th>
    </tr>
    <tr>
-     <td><strong>Resource name</strong></td>
-     <td><strong>Requirements</strong></td>
-     <td><strong>Description</strong></td>
+     <td><p><strong>Resource name</strong></p></td>
+     <td><p><strong>Requirements</strong></p></td>
+     <td><p><strong>Description</strong></p></td>
    </tr>
    <tr>
-     <td>Virtual Machine<br/></td>
-     <td>Instance<br/></td>
-     <td>80 vCPU, 448 GiB in total:<br/> - n2-standard-8 * 4<br/> - n2-standard-4 * 4<br/> - n2-highmem-16 * 1<br/></td>
-     <td>The instance is created by the machine group and is used to run Zilliz Cloud services.</td>
+     <td><p>Virtual Machine<br/></p></td>
+     <td><p>Instance<br/></p></td>
+     <td><p>80 vCPU, 448 GiB in total:<br/> - n2-standard-8 * 4<br/> - n2-standard-4 * 4<br/> - n2-highmem-16 * 1<br/></p></td>
+     <td><p>The instance is created by the machine group and is used to run Zilliz Cloud services.</p></td>
    </tr>
    <tr>
-     <td>Object Storage<br/></td>
-     <td>Bucket</td>
-     <td>2 buckets<br/></td>
-     <td>Stores Milvus data.<br/></td>
+     <td><p>Object Storage<br/></p></td>
+     <td><p>Bucket</p></td>
+     <td><p>2 buckets<br/></p></td>
+     <td><p>Stores Milvus data.<br/></p></td>
    </tr>
    <tr>
-     <td>Block Storage<br/></td>
-     <td>Persistent disk</td>
-     <td>1 TB  or more</td>
-     <td>Local storage such as etcd and pulsar to store Milvus indexes.</td>
+     <td><p>Block Storage<br/></p></td>
+     <td><p>Persistent disk</p></td>
+     <td><p>1 TB  or more</p></td>
+     <td><p>Local storage such as etcd and pulsar to store Milvus indexes.</p></td>
    </tr>
    <tr>
-     <td>Public IP address<br/></td>
-     <td>Public IP<br/></td>
-     <td>1 public IP address<br/></td>
-     <td>For NAT gateway.</td>
+     <td><p>Public IP address<br/></p></td>
+     <td><p>Public IP<br/></p></td>
+     <td><p>1 public IP address<br/></p></td>
+     <td><p>For NAT gateway.</p></td>
    </tr>
    <tr>
-     <td>Private network<br/></td>
-     <td>Private Network VPC</td>
-     <td>1 private network (VPC)<br/></td>
-     <td>Deploys BYOC cloud environment with individual VPC.</td>
+     <td><p>Private network<br/></p></td>
+     <td><p>Private Network VPC</p></td>
+     <td><p>1 private network (VPC)<br/></p></td>
+     <td><p>Deploys BYOC cloud environment with individual VPC.</p></td>
    </tr>
    <tr>
-     <td>Network channels<br/></td>
-     <td>Network Channel PrivateLink</td>
-     <td>2 network channel private links</td>
-     <td>Used by Zilliz to interact with BYOC environment, send control requests, and receive alerts.</td>
+     <td><p>Network channels<br/></p></td>
+     <td><p>Network Channel PrivateLink</p></td>
+     <td><p>2 network channel private links</p></td>
+     <td><p>Used by Zilliz to interact with BYOC environment, send control requests, and receive alerts.</p></td>
    </tr>
    <tr>
-     <td>DNS<br/></td>
-     <td>DNS</td>
-     <td>1<br/></td>
-     <td>For the setup of a private link to send alerts to Zilliz Cloud.</td>
+     <td><p>DNS<br/></p></td>
+     <td><p>DNS</p></td>
+     <td><p>1<br/></p></td>
+     <td><p>For the setup of a private link to send alerts to Zilliz Cloud.</p></td>
    </tr>
    <tr>
-     <td>LB</td>
-     <td>Load balancer</td>
-     <td>1+</td>
-     <td>For Zilliz Proxy and Milvus</td>
+     <td><p>LB</p></td>
+     <td><p>Load balancer</p></td>
+     <td><p>1+</p></td>
+     <td><p>For Zilliz Proxy and Milvus</p></td>
    </tr>
 </table>
 

@@ -35,16 +35,16 @@ Write costs measure the resources consumed by [insert, upsert, and delete operat
 
 <table>
    <tr>
-     <th><strong>Insert</strong></th>
-     <th>Based on the size of the data inserted</th>
+     <th><p><strong>Insert</strong></p></th>
+     <th><p>Based on the size of the data inserted</p></th>
    </tr>
    <tr>
-     <td><strong>Upsert</strong></td>
-     <td>Based on the size of the data updated and the number of entities affected</td>
+     <td><p><strong>Upsert</strong></p></td>
+     <td><p>Based on the size of the data updated and the number of entities affected</p></td>
    </tr>
    <tr>
-     <td><strong>Delete</strong></td>
-     <td>Based on the number of deleted entities</td>
+     <td><p><strong>Delete</strong></p></td>
+     <td><p>Based on the number of deleted entities</p></td>
    </tr>
 </table>
 

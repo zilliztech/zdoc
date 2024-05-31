@@ -33,24 +33,24 @@ Methods of `CreateAliasParam.Builder`:
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Parameters</th>
+        <th><p>Method</p></th>
+        <th><p>Description</p></th>
+        <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td>withCollectionName(<br/>String collectionName)</td>
-        <td>Sets the target collection name. <br/>Collection name cannot be empty or null.</td>
-        <td>collectionName: The name of the target collection to create an alias for.</td>
+        <td><p>withCollectionName(<br/>String collectionName)</p></td>
+        <td><p>Sets the target collection name. <br/>Collection name cannot be empty or null.</p></td>
+        <td><p>collectionName: The name of the target collection to create an alias for.</p></td>
     </tr>
     <tr>
-        <td>withAlias(String alias)</td>
-        <td>Sets the collection alias.<br/>Collection alias cannot be empty or null.</td>
-        <td>alias: The alias of the target collection.</td>
+        <td><p>withAlias(String alias)</p></td>
+        <td><p>Sets the collection alias.<br/>Collection alias cannot be empty or null.</p></td>
+        <td><p>alias: The alias of the target collection.</p></td>
     </tr>
     <tr>
-        <td>build()</td>
-        <td>Constructs a CreateAliasParam object.</td>
-        <td>N/A</td>
+        <td><p>build()</p></td>
+        <td><p>Constructs a CreateAliasParam object.</p></td>
+        <td><p>N/A</p></td>
     </tr>
 </table>
 

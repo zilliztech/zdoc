@@ -33,24 +33,24 @@ Methods of `InsertRowsParam.Builder`:
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Parameters</th>
+        <th><p>Method</p></th>
+        <th><p>Description</p></th>
+        <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td>withCollectionName(String collectionName)</td>
-        <td>Sets the target collection name. Collection name cannot be empty or null.</td>
-        <td>collectionName: The name of the collection to insert data into.</td>
+        <td><p>withCollectionName(String collectionName)</p></td>
+        <td><p>Sets the target collection name. Collection name cannot be empty or null.</p></td>
+        <td><p>collectionName: The name of the collection to insert data into.</p></td>
     </tr>
     <tr>
-        <td>withRows(List\<JSONObject> rows)</td>
-        <td>Sets the row data to insert. The rows list cannot be empty.<br/>Note that no input is required for the primary key field if auto-ID is enabled.</td>
-        <td>rows: A list of JSONObject objects, each representing a row data.</td>
+        <td><p>withRows(List\<JSONObject> rows)</p></td>
+        <td><p>Sets the row data to insert. The rows list cannot be empty.<br/>Note that no input is required for the primary key field if auto-ID is enabled.</p></td>
+        <td><p>rows: A list of JSONObject objects, each representing a row data.</p></td>
     </tr>
     <tr>
-        <td>build()</td>
-        <td>Constructs an InsertRowsParam object.</td>
-        <td>N/A</td>
+        <td><p>build()</p></td>
+        <td><p>Constructs an InsertRowsParam object.</p></td>
+        <td><p>N/A</p></td>
     </tr>
 </table>
 

@@ -1505,15 +1505,15 @@ The number of collections you can create varies with the CU that your cluster us
 <table>
    <tr>
      <th></th>
-     <th>Maximum number of collections</th>
+     <th><p>Maximum number of collections</p></th>
    </tr>
    <tr>
-     <td>8 CUs and less</td>
-     <td><strong>32</strong></td>
+     <td><p>8 CUs and less</p></td>
+     <td><p><strong>32</strong></p></td>
    </tr>
    <tr>
-     <td>More than 8 CUs</td>
-     <td><strong>256</strong></td>
+     <td><p>More than 8 CUs</p></td>
+     <td><p><strong>256</strong></p></td>
    </tr>
 </table>
 

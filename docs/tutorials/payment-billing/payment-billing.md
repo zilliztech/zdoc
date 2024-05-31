@@ -27,32 +27,32 @@ This guide details the available ways for you to subscribe to our services on Zi
 
 <table>
    <tr>
-     <th><strong>Payment method</strong></th>
-     <th><strong>Description</strong></th>
+     <th><p><strong>Payment method</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
    </tr>
    <tr>
-     <td>Credits</td>
-     <td>You earn credits upon registration or by participating in Zilliz Cloud events, etc. Credits can be used to cover the expenses of using Zilliz Cloud services.</td>
+     <td><p>Credits</p></td>
+     <td><p>You earn credits upon registration or by participating in Zilliz Cloud events, etc. Credits can be used to cover the expenses of using Zilliz Cloud services.</p></td>
    </tr>
    <tr>
-     <td>Credit card</td>
-     <td>You receive a monthly invoice for your usage on Zilliz Cloud.</td>
+     <td><p>Credit card</p></td>
+     <td><p>You receive a monthly invoice for your usage on Zilliz Cloud.</p></td>
    </tr>
    <tr>
-     <td>AWS Marketplace subscription</td>
-     <td>You receive invoices for your Zilliz Cloud usage through the AWS Marketplace. <br/> You can subscribe to our service in AWS Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.</td>
+     <td><p>AWS Marketplace subscription</p></td>
+     <td><p>You receive invoices for your Zilliz Cloud usage through the AWS Marketplace. <br/> You can subscribe to our service in AWS Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.</p></td>
    </tr>
    <tr>
-     <td>GCP Marketplace subscription</td>
-     <td>You receive invoices for your Zilliz Cloud usage through the GCP Marketplace.<br/> You can subscribe to our service in GCP Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.</td>
+     <td><p>GCP Marketplace subscription</p></td>
+     <td><p>You receive invoices for your Zilliz Cloud usage through the GCP Marketplace.<br/> You can subscribe to our service in GCP Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.</p></td>
    </tr>
    <tr>
-     <td>Azure Marketplace subscription</td>
-     <td>You receive invoices for your Zilliz Cloud usage through the Azure Marketplace.<br/> You can subscribe to our service in Azure Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.</td>
+     <td><p>Azure Marketplace subscription</p></td>
+     <td><p>You receive invoices for your Zilliz Cloud usage through the Azure Marketplace.<br/> You can subscribe to our service in Azure Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.</p></td>
    </tr>
    <tr>
-     <td>Advance Pay</td>
-     <td>You prepay a sum of funds for Zilliz Cloud services.</td>
+     <td><p>Advance Pay</p></td>
+     <td><p>You prepay a sum of funds for Zilliz Cloud services.</p></td>
    </tr>
 </table>
 

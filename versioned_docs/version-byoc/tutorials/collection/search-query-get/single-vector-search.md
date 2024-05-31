@@ -1789,19 +1789,19 @@ The parameter settings for `radius` and `range_filter` vary with the metric type
 
 <table>
    <tr>
-     <th><strong>Metric Type</strong></th>
-     <th><strong>Charactericstics</strong></th>
-     <th><strong>Range Search Settings</strong></th>
+     <th><p><strong>Metric Type</strong></p></th>
+     <th><p><strong>Charactericstics</strong></p></th>
+     <th><p><strong>Range Search Settings</strong></p></th>
    </tr>
    <tr>
-     <td><code>L2</code></td>
-     <td>Smaller L2 distances indicate higher similarity.</td>
-     <td>To exclude the closest vectors from results, ensure that:<br/> <code>range_filter</code> &lt;= distance &lt; <code>radius</code></td>
+     <td><p><code>L2</code></p></td>
+     <td><p>Smaller L2 distances indicate higher similarity.</p></td>
+     <td><p>To exclude the closest vectors from results, ensure that:<br/> <code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
    </tr>
    <tr>
-     <td><code>IP</code></td>
-     <td>Larger IP distances indicate higher similarity.</td>
-     <td>To exclude the closest vectors from results, ensure that:<br/> <code>radius</code> &lt; distance &lt;= <code>range_filter</code></td>
+     <td><p><code>IP</code></p></td>
+     <td><p>Larger IP distances indicate higher similarity.</p></td>
+     <td><p>To exclude the closest vectors from results, ensure that:<br/> <code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
    </tr>
 </table>
 
@@ -1827,28 +1827,28 @@ The following table lists all possible settings in the search parameters.
 
 <table>
    <tr>
-     <th><strong>Parameter Name</strong></th>
-     <th><strong>Parameter Description</strong></th>
+     <th><p><strong>Parameter Name</strong></p></th>
+     <th><p><strong>Parameter Description</strong></p></th>
    </tr>
    <tr>
-     <td><code>metric_type</code></td>
-     <td>How to measure similarity between vector embeddings.<br/> Possible values are <code>IP</code>, <code>L2</code>, and <code>COSINE</code>, and defaults to that of the loaded index file.</td>
+     <td><p><code>metric_type</code></p></td>
+     <td><p>How to measure similarity between vector embeddings.<br/> Possible values are <code>IP</code>, <code>L2</code>, and <code>COSINE</code>, and defaults to that of the loaded index file.</p></td>
    </tr>
    <tr>
-     <td><code>params.nprobe</code></td>
-     <td>Number of units to query during the search.<br/> The value falls in the range [1, nlist<sub>[1]</sub>].</td>
+     <td><p><code>params.nprobe</code></p></td>
+     <td><p>Number of units to query during the search.<br/> The value falls in the range [1, nlist<sub>[1]</sub>].</p></td>
    </tr>
    <tr>
-     <td><code>params.level</code></td>
-     <td>Search precision level.<br/> Possible values are <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, and <code>5</code>, and defaults to <code>1</code>. Higher values yield more accurate results but slower performance.</td>
+     <td><p><code>params.level</code></p></td>
+     <td><p>Search precision level.<br/> Possible values are <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, and <code>5</code>, and defaults to <code>1</code>. Higher values yield more accurate results but slower performance.</p></td>
    </tr>
    <tr>
-     <td><code>params.radius</code></td>
-     <td>Minimum similarity between the query vector and candidate vectors.<br/> The value falls in the range [1, nlist<sub>[1]</sub>].</td>
+     <td><p><code>params.radius</code></p></td>
+     <td><p>Minimum similarity between the query vector and candidate vectors.<br/> The value falls in the range [1, nlist<sub>[1]</sub>].</p></td>
    </tr>
    <tr>
-     <td><code>params.range_filter</code></td>
-     <td>A similarity range, optionally refining the search for vectors that fall in the range.<br/> The value falls in the range [top-K<sub>[2]</sub>, ∞].</td>
+     <td><p><code>params.range_filter</code></p></td>
+     <td><p>A similarity range, optionally refining the search for vectors that fall in the range.<br/> The value falls in the range [top-K<sub>[2]</sub>, ∞].</p></td>
    </tr>
 </table>
 

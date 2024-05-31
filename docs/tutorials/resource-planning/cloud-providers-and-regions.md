@@ -23,52 +23,52 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
 
 <table>
    <tr>
-     <th><strong>AWS Region</strong></th>
-     <th><strong>Location</strong></th>
-     <th><strong>Free Cluster</strong></th>
-     <th><strong>Serverless Cluster</strong></th>
-     <th><strong>Dedicated Cluster (Standard)</strong></th>
-     <th><strong>Dedicated Cluster (Enterprise)</strong></th>
+     <th><p><strong>AWS Region</strong></p></th>
+     <th><p><strong>Location</strong></p></th>
+     <th><p><strong>Free Cluster</strong></p></th>
+     <th><p><strong>Serverless Cluster</strong></p></th>
+     <th><p><strong>Dedicated Cluster (Standard)</strong></p></th>
+     <th><p><strong>Dedicated Cluster (Enterprise)</strong></p></th>
    </tr>
    <tr>
-     <td>us-east-1</td>
-     <td>N. Virginia, USA</td>
-     <td>No</td>
-     <td>No</td>
-     <td>Yes</td>
-     <td>Yes</td>
+     <td><p>us-east-1</p></td>
+     <td><p>N. Virginia, USA</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td>us-east-2</td>
-     <td>Ohio, USA</td>
-     <td>No</td>
-     <td>No</td>
-     <td>Yes</td>
-     <td>Yes</td>
+     <td><p>us-east-2</p></td>
+     <td><p>Ohio, USA</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td>us-west-2</td>
-     <td>Oregon, USA</td>
-     <td>No</td>
-     <td>No</td>
-     <td>Yes</td>
-     <td>Yes</td>
+     <td><p>us-west-2</p></td>
+     <td><p>Oregon, USA</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td>ap-southeast-2</td>
-     <td>Singapore</td>
-     <td>No</td>
-     <td>No</td>
-     <td>Yes</td>
-     <td>Yes</td>
+     <td><p>ap-southeast-2</p></td>
+     <td><p>Singapore</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td>eu-central-1</td>
-     <td>Frankfurt</td>
-     <td>No</td>
-     <td>No</td>
-     <td>Yes</td>
-     <td>Yes</td>
+     <td><p>eu-central-1</p></td>
+     <td><p>Frankfurt</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
    </tr>
 </table>
 
@@ -80,44 +80,44 @@ Free, serverless, and dedicated clusters can be deployed on GCP.
 
 <table>
    <tr>
-     <th><strong>GCP Region</strong></th>
-     <th><strong>Location</strong></th>
-     <th><strong>Free Cluster</strong></th>
-     <th><strong>Serverless Cluster</strong></th>
-     <th><strong>Dedicated Cluster (Standard)</strong></th>
-     <th><strong>Dedicated Cluster (Enterprise)</strong></th>
+     <th><p><strong>GCP Region</strong></p></th>
+     <th><p><strong>Location</strong></p></th>
+     <th><p><strong>Free Cluster</strong></p></th>
+     <th><p><strong>Serverless Cluster</strong></p></th>
+     <th><p><strong>Dedicated Cluster (Standard)</strong></p></th>
+     <th><p><strong>Dedicated Cluster (Enterprise)</strong></p></th>
    </tr>
    <tr>
-     <td>us-west1</td>
-     <td>Oregon, USA</td>
-     <td>Yes</td>
-     <td>Yes</td>
-     <td>Yes</td>
-     <td>Yes</td>
+     <td><p>us-west1</p></td>
+     <td><p>Oregon, USA</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td>us-east4</td>
-     <td>Virginia, USA</td>
-     <td>No</td>
-     <td>No</td>
-     <td>Yes</td>
-     <td>Yes</td>
+     <td><p>us-east4</p></td>
+     <td><p>Virginia, USA</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td>europe-west3</td>
-     <td>Frankfurt, Germany</td>
-     <td>No</td>
-     <td>No</td>
-     <td>Yes</td>
-     <td>Yes</td>
+     <td><p>europe-west3</p></td>
+     <td><p>Frankfurt, Germany</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td>asia-southeast1</td>
-     <td>Singapore</td>
-     <td>No</td>
-     <td>No</td>
-     <td>Yes</td>
-     <td>Yes</td>
+     <td><p>asia-southeast1</p></td>
+     <td><p>Singapore</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
    </tr>
 </table>
 
@@ -129,28 +129,28 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
 
 <table>
    <tr>
-     <th><strong>Azure Region</strong></th>
-     <th><strong>Location</strong></th>
-     <th><strong>Free Cluster</strong></th>
-     <th><strong>Serverless Cluster</strong></th>
-     <th><strong>Dedicated Cluster (Standard)</strong></th>
-     <th><strong>Dedicated Cluster (Enterprise)</strong></th>
+     <th><p><strong>Azure Region</strong></p></th>
+     <th><p><strong>Location</strong></p></th>
+     <th><p><strong>Free Cluster</strong></p></th>
+     <th><p><strong>Serverless Cluster</strong></p></th>
+     <th><p><strong>Dedicated Cluster (Standard)</strong></p></th>
+     <th><p><strong>Dedicated Cluster (Enterprise)</strong></p></th>
    </tr>
    <tr>
-     <td>East US</td>
-     <td>Virginia, USA</td>
-     <td>No</td>
-     <td>No</td>
-     <td>Yes</td>
-     <td>Yes</td>
+     <td><p>East US</p></td>
+     <td><p>Virginia, USA</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td>Germany West Central</td>
-     <td>Frankfurt, Germany</td>
-     <td>No</td>
-     <td>No</td>
-     <td>Yes</td>
-     <td>Yes</td>
+     <td><p>Germany West Central</p></td>
+     <td><p>Frankfurt, Germany</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
    </tr>
 </table>
 

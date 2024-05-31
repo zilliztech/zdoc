@@ -2,7 +2,7 @@
 slug: /question-answering-using-zilliz-cloud-and-hugging-face
 sidebar_label: With HuggingFace
 beta: FALSE
-notebook: 81_integrations_huggingface.ipynb
+notebook: FALSE
 type: origin
 token: RWxKwfwFniNU1skCVCgcrKHbnCd
 sidebar_position: 2

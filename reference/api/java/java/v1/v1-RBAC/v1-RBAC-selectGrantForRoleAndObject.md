@@ -33,29 +33,29 @@ Methods of `SelectGrantForRoleAndObjectParam.Builder`:
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Parameters</th>
+        <th><p>Method</p></th>
+        <th><p>Description</p></th>
+        <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td>withRoleName(String roleName)</td>
-        <td>Sets the roleName. RoleName cannot be empty or null.</td>
-        <td>roleName: The role name.</td>
+        <td><p>withRoleName(String roleName)</p></td>
+        <td><p>Sets the roleName. RoleName cannot be empty or null.</p></td>
+        <td><p>roleName: The role name.</p></td>
     </tr>
     <tr>
-        <td>withObject(String object)</td>
-        <td>Sets the object. object cannot be empty or null.</td>
-        <td>object: A granted object in Milvus, such as collection, partition, and database.</td>
+        <td><p>withObject(String object)</p></td>
+        <td><p>Sets the object. object cannot be empty or null.</p></td>
+        <td><p>object: A granted object in Milvus, such as collection, partition, and database.</p></td>
     </tr>
     <tr>
-        <td>withObjectName(String objectName)</td>
-        <td>Sets the objectName. objectName cannot be empty or null.</td>
-        <td>objectName: The object name.</td>
+        <td><p>withObjectName(String objectName)</p></td>
+        <td><p>Sets the objectName. objectName cannot be empty or null.</p></td>
+        <td><p>objectName: The object name.</p></td>
     </tr>
     <tr>
-        <td>build()</td>
-        <td>Construct a SelectGrantForRoleAndObjectParam object.</td>
-        <td>N/A</td>
+        <td><p>build()</p></td>
+        <td><p>Construct a SelectGrantForRoleAndObjectParam object.</p></td>
+        <td><p>N/A</p></td>
     </tr>
 </table>
 

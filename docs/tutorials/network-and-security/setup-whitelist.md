@@ -37,16 +37,16 @@ Ensure the following prerequisites are met before proceeding:
 
     <table>
        <tr>
-         <th><strong>Field</strong></th>
-         <th><strong>Description</strong></th>
+         <th><p><strong>Field</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
        </tr>
        <tr>
-         <td>IP Address (CIDR)</td>
-         <td>The IP addresses or CIDR block that you want to add to the whitelist. Up to 20 CIDR blocks are allowed. Example value: 192.168.1.1/20.</td>
+         <td><p>IP Address (CIDR)</p></td>
+         <td><p>The IP addresses or CIDR block that you want to add to the whitelist. Up to 20 CIDR blocks are allowed. Example value: 192.168.1.1/20.</p></td>
        </tr>
        <tr>
-         <td>Description</td>
-         <td>The description of the whitelisted IP addresses or CIDR block.</td>
+         <td><p>Description</p></td>
+         <td><p>The description of the whitelisted IP addresses or CIDR block.</p></td>
        </tr>
     </table>
 

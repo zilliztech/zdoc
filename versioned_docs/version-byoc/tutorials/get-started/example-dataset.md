@@ -67,49 +67,49 @@ Each record in the dataset possesses eight attributes. Familiarize yourself with
 
 <table>
    <tr>
-     <th><strong>Field Name</strong></th>
-     <th><strong>Type</strong></th>
-     <th><strong>Attributes</strong></th>
+     <th><p><strong>Field Name</strong></p></th>
+     <th><p><strong>Type</strong></p></th>
+     <th><p><strong>Attributes</strong></p></th>
    </tr>
    <tr>
-     <td>id</td>
-     <td>INT64</td>
-     <td>N/A</td>
+     <td><p>id</p></td>
+     <td><p>INT64</p></td>
+     <td><p>N/A</p></td>
    </tr>
    <tr>
-     <td>title_vector</td>
-     <td>FLOAT_VECTOR</td>
-     <td>Dimension: 768</td>
+     <td><p>title_vector</p></td>
+     <td><p>FLOAT_VECTOR</p></td>
+     <td><p>Dimension: 768</p></td>
    </tr>
    <tr>
-     <td>title</td>
-     <td>VARCHAR</td>
-     <td>Max length: 512</td>
+     <td><p>title</p></td>
+     <td><p>VARCHAR</p></td>
+     <td><p>Max length: 512</p></td>
    </tr>
    <tr>
-     <td>link</td>
-     <td>VARCHAR</td>
-     <td>Max length: 512</td>
+     <td><p>link</p></td>
+     <td><p>VARCHAR</p></td>
+     <td><p>Max length: 512</p></td>
    </tr>
    <tr>
-     <td>reading_time</td>
-     <td>INT64</td>
-     <td>N/A</td>
+     <td><p>reading_time</p></td>
+     <td><p>INT64</p></td>
+     <td><p>N/A</p></td>
    </tr>
    <tr>
-     <td>publication</td>
-     <td>VARCHAR</td>
-     <td>Max length: 512</td>
+     <td><p>publication</p></td>
+     <td><p>VARCHAR</p></td>
+     <td><p>Max length: 512</p></td>
    </tr>
    <tr>
-     <td>claps</td>
-     <td>INT64</td>
-     <td>N/A</td>
+     <td><p>claps</p></td>
+     <td><p>INT64</p></td>
+     <td><p>N/A</p></td>
    </tr>
    <tr>
-     <td>responses</td>
-     <td>INT64</td>
-     <td>N/A</td>
+     <td><p>responses</p></td>
+     <td><p>INT64</p></td>
+     <td><p>N/A</p></td>
    </tr>
 </table>
 

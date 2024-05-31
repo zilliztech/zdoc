@@ -20,32 +20,32 @@ Milvus Java SDK is an open-source project and its source code is hosted on [GitH
 
 <table>
     <tr>
-        <th>Milvus version</th>
-        <th>Recommended SDK version</th>
+        <th><p>Milvus version</p></th>
+        <th><p>Recommended SDK version</p></th>
     </tr>
     <tr>
-        <td>2.0.2</td>
-        <td>2.0.4</td>
+        <td><p>2.0.2</p></td>
+        <td><p>2.0.4</p></td>
     </tr>
     <tr>
-        <td>2.1</td>
-        <td>2.1.0-beta4</td>
+        <td><p>2.1</p></td>
+        <td><p>2.1.0-beta4</p></td>
     </tr>
     <tr>
-        <td>2.2.0 ~ 2.2.8</td>
-        <td>2.2.5</td>
+        <td><p>2.2.0 ~ 2.2.8</p></td>
+        <td><p>2.2.5</p></td>
     </tr>
     <tr>
-        <td>2.2.9 ~ 2.2.14</td>
-        <td>2.2.13</td>
+        <td><p>2.2.9 ~ 2.2.14</p></td>
+        <td><p>2.2.13</p></td>
     </tr>
     <tr>
-        <td>2.3.x</td>
-        <td>2.3.6</td>
+        <td><p>2.3.x</p></td>
+        <td><p>2.3.6</p></td>
     </tr>
     <tr>
-        <td>2.4.x</td>
-        <td>2.4.1</td>
+        <td><p>2.4.x</p></td>
+        <td><p>2.4.1</p></td>
     </tr>
 </table>
 

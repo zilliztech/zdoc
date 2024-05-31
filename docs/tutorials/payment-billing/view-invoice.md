@@ -32,28 +32,28 @@ To view your billing records, navigate to **Billing** in the left sidebar and se
 
 <table>
    <tr>
-     <th><strong>Status</strong></th>
-     <th><strong>Definition</strong></th>
+     <th><p><strong>Status</strong></p></th>
+     <th><p><strong>Definition</strong></p></th>
    </tr>
    <tr>
-     <td><strong>Paid</strong></td>
-     <td>Payment has been completed with no outstanding amounts.</td>
+     <td><p><strong>Paid</strong></p></td>
+     <td><p>Payment has been completed with no outstanding amounts.</p></td>
    </tr>
    <tr>
-     <td><strong>Free</strong></td>
-     <td>All amounts due are paid with credits.</td>
+     <td><p><strong>Free</strong></p></td>
+     <td><p>All amounts due are paid with credits.</p></td>
    </tr>
    <tr>
-     <td><strong>Overdue</strong></td>
-     <td>The invoice is billed but not paid within the due timeframe.</td>
+     <td><p><strong>Overdue</strong></p></td>
+     <td><p>The invoice is billed but not paid within the due timeframe.</p></td>
    </tr>
    <tr>
-     <td><strong>Unbilled</strong></td>
-     <td>Transactions that occur after the billing cycle but before the statement is generated. These amounts are not immediately due but will be included in the next billing cycle.</td>
+     <td><p><strong>Unbilled</strong></p></td>
+     <td><p>Transactions that occur after the billing cycle but before the statement is generated. These amounts are not immediately due but will be included in the next billing cycle.</p></td>
    </tr>
    <tr>
-     <td><strong>Unpaid</strong></td>
-     <td>The invoice is billed and is within the due timeframe.</td>
+     <td><p><strong>Unpaid</strong></p></td>
+     <td><p>The invoice is billed and is within the due timeframe.</p></td>
    </tr>
 </table>
 

@@ -27,39 +27,39 @@ For more information about recommended actions, refer to [Metrics & Alerts Refer
 
 <table>
    <tr>
-     <th>Alert Target</th>
-     <th>Unit</th>
-     <th>Default Trigger Condition</th>
+     <th><p>Alert Target</p></th>
+     <th><p>Unit</p></th>
+     <th><p>Default Trigger Condition</p></th>
    </tr>
    <tr>
-     <td>CU Computation<br/></td>
-     <td>%</td>
-     <td><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes.<br/> <strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</td>
+     <td><p>CU Computation<br/></p></td>
+     <td><p>%</p></td>
+     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes.<br/> <strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</p></td>
    </tr>
    <tr>
-     <td>CU Capacity</td>
-     <td>%</td>
-     <td><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized CU capacity for 10+ minutes.<br/> <strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized CU capacity for 10+ minutes.</td>
+     <td><p>CU Capacity</p></td>
+     <td><p>%</p></td>
+     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized CU capacity for 10+ minutes.<br/> <strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized CU capacity for 10+ minutes.</p></td>
    </tr>
    <tr>
-     <td>Search (QPS)</td>
-     <td>QPS</td>
-     <td>Trigger <strong>WARNING</strong> alerts at &gt;50 search operations per second for 10+ minutes.</td>
+     <td><p>Search (QPS)</p></td>
+     <td><p>QPS</p></td>
+     <td><p>Trigger <strong>WARNING</strong> alerts at &gt;50 search operations per second for 10+ minutes.</p></td>
    </tr>
    <tr>
-     <td>Query (QPS)</td>
-     <td>QPS</td>
-     <td>Trigger <strong>WARNING</strong> alerts at &gt;50 query operations per second for 10+ minutes.</td>
+     <td><p>Query (QPS)</p></td>
+     <td><p>QPS</p></td>
+     <td><p>Trigger <strong>WARNING</strong> alerts at &gt;50 query operations per second for 10+ minutes.</p></td>
    </tr>
    <tr>
-     <td>Search Latency (P99)</td>
-     <td>ms</td>
-     <td>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</td>
+     <td><p>Search Latency (P99)</p></td>
+     <td><p>ms</p></td>
+     <td><p>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</p></td>
    </tr>
    <tr>
-     <td>Query Latency (P99)</td>
-     <td>ms</td>
-     <td>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</td>
+     <td><p>Query Latency (P99)</p></td>
+     <td><p>ms</p></td>
+     <td><p>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</p></td>
    </tr>
 </table>
 

@@ -21,29 +21,29 @@ The following table lists the limits on the maximum number of organizations and 
 
 <table>
    <tr>
-     <th><strong>Item</strong></th>
-     <th><strong>Max number</strong></th>
-     <th><strong>Remarks</strong></th>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Max number</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td>Organization</td>
-     <td>1<br/></td>
-     <td>Each user can create only one organization.<br/></td>
+     <td><p>Organization</p></td>
+     <td><p>1<br/></p></td>
+     <td><p>Each user can create only one organization.<br/></p></td>
    </tr>
    <tr>
-     <td>Organization member</td>
-     <td>100</td>
-     <td>An organization can hold up to 100 members. A user can belong to multiple organizations.</td>
+     <td><p>Organization member</p></td>
+     <td><p>100</p></td>
+     <td><p>An organization can hold up to 100 members. A user can belong to multiple organizations.</p></td>
    </tr>
    <tr>
-     <td>Project</td>
-     <td>10</td>
-     <td>Each user can create 10 projects.</td>
+     <td><p>Project</p></td>
+     <td><p>10</p></td>
+     <td><p>Each user can create 10 projects.</p></td>
    </tr>
    <tr>
-     <td>Project Member</td>
-     <td>100</td>
-     <td>A project can hold up to 100 members. A user can belong to multiple projects within their organization.</td>
+     <td><p>Project Member</p></td>
+     <td><p>100</p></td>
+     <td><p>A project can hold up to 100 members. A user can belong to multiple projects within their organization.</p></td>
    </tr>
 </table>
 
@@ -55,28 +55,28 @@ The maximum number of clusters and CUs varies with your payment method and subsc
 
     <table>
        <tr>
-         <th><strong>Subscription Plan</strong></th>
-         <th><strong>Max number</strong></th>
-         <th><strong>Remarks</strong></th>
+         <th><p><strong>Subscription Plan</strong></p></th>
+         <th><p><strong>Max number</strong></p></th>
+         <th><p><strong>Remarks</strong></p></th>
        </tr>
        <tr>
-         <td>Free</td>
-         <td>1</td>
-         <td>Only 1 cluster is available for the Free cluster plan. You can drop an existing cluster and replace it with a new one if required.</td>
+         <td><p>Free</p></td>
+         <td><p>1</p></td>
+         <td><p>Only 1 cluster is available for the Free cluster plan. You can drop an existing cluster and replace it with a new one if required.</p></td>
        </tr>
        <tr>
-         <td>Serverless</td>
-         <td>1</td>
-         <td>The trial Serverless cluster plan offers only 1 cluster. If you would like additional clusters, please provide payment.</td>
+         <td><p>Serverless</p></td>
+         <td><p>1</p></td>
+         <td><p>The trial Serverless cluster plan offers only 1 cluster. If you would like additional clusters, please provide payment.</p></td>
        </tr>
        <tr>
-         <td>Dedicated (Standard)</td>
-         <td>1<br/></td>
-         <td>The trial Dedicated (Standard) cluster plan offers only 1 cluster. If you would like additional clusters, please provide payment.</td>
+         <td><p>Dedicated (Standard)</p></td>
+         <td><p>1<br/></p></td>
+         <td><p>The trial Dedicated (Standard) cluster plan offers only 1 cluster. If you would like additional clusters, please provide payment.</p></td>
        </tr>
        <tr>
-         <td>Dedicated (Enterprise)</td>
-         <td>0</td>
+         <td><p>Dedicated (Enterprise)</p></td>
+         <td><p>0</p></td>
          <td></td>
        </tr>
     </table>
@@ -85,27 +85,27 @@ The maximum number of clusters and CUs varies with your payment method and subsc
 
     <table>
        <tr>
-         <th><strong>Subscription Plan</strong></th>
-         <th><strong>Limits</strong></th>
-         <th><strong>Remarks</strong></th>
+         <th><p><strong>Subscription Plan</strong></p></th>
+         <th><p><strong>Limits</strong></p></th>
+         <th><p><strong>Remarks</strong></p></th>
        </tr>
        <tr>
-         <td>Dedicated (Standard)</td>
-         <td>128 CUs</td>
-         <td>On the console, you can create up to 128 compute units (CUs) across all Dedicated (Standard) Clusters or 24 CUs for a single cluster.</td>
+         <td><p>Dedicated (Standard)</p></td>
+         <td><p>32 CUs<br/></p></td>
+         <td><p>On the console, you can create up to 32 CUs for a single cluster.</p></td>
        </tr>
        <tr>
-         <td>Dedicated (Enterprise)</td>
-         <td>128 CUs</td>
-         <td>On the console, you can create up to 128 compute units (CUs) across all Dedicated (Enterprise) Clusters or 32 CUs for a single cluster.</td>
+         <td><p>Dedicated (Enterprise)</p></td>
+         <td><p>256 CUs</p></td>
+         <td><p>On the console, you can create up to 256 CUs for a single cluster.</p></td>
        </tr>
     </table>
 
 You are welcome to [contact us](https://support.zilliz.com/hc/en-us) 
 
-- If one of your clusters needs more than 32 CUs or,
+- If one of your Dedicated (Standard)clusters needs more than 32 CUs or,
 
-- If all your Dedicated (Enterprise) Clusters require more than 128 CUs.
+- If all your Dedicated (Enterprise) Clusters require more than 256 CUs.
 
 ## Pipelines{#pipelines}
 
@@ -115,20 +115,20 @@ The following table lists the limits on different types of pipelines you can cre
 
 <table>
    <tr>
-     <th><strong>Pipeline Type</strong></th>
-     <th><strong>Max. Number (Per Project)</strong></th>
+     <th><p><strong>Pipeline Type</strong></p></th>
+     <th><p><strong>Max. Number (Per Project)</strong></p></th>
    </tr>
    <tr>
-     <td>Ingestion Pipeline</td>
-     <td>10</td>
+     <td><p>Ingestion Pipeline</p></td>
+     <td><p>10</p></td>
    </tr>
    <tr>
-     <td>Deletion Pipeline</td>
-     <td>10</td>
+     <td><p>Deletion Pipeline</p></td>
+     <td><p>10</p></td>
    </tr>
    <tr>
-     <td>Search Pipeline</td>
-     <td>10</td>
+     <td><p>Search Pipeline</p></td>
+     <td><p>10</p></td>
    </tr>
 </table>
 
@@ -138,36 +138,36 @@ The following table lists the limits on customized chunk size supported in each 
 
 <table>
    <tr>
-     <th><strong>Embedding Model</strong></th>
-     <th><strong>Chunk Size Range (Tokens）</strong></th>
+     <th><p><strong>Embedding Model</strong></p></th>
+     <th><p><strong>Chunk Size Range (Tokens）</strong></p></th>
    </tr>
    <tr>
-     <td>zilliz/bge-base-en-v1.5</td>
-     <td>20-500</td>
+     <td><p>zilliz/bge-base-en-v1.5</p></td>
+     <td><p>20-500</p></td>
    </tr>
    <tr>
-     <td>zilliz/bge-base-zh-v1.5</td>
-     <td>20-500</td>
+     <td><p>zilliz/bge-base-zh-v1.5</p></td>
+     <td><p>20-500</p></td>
    </tr>
    <tr>
-     <td>voyageai/voyage-2</td>
-     <td>20-3,000</td>
+     <td><p>voyageai/voyage-2</p></td>
+     <td><p>20-3,000</p></td>
    </tr>
    <tr>
-     <td>voyageai/voyage-code-2</td>
-     <td>20-12,000</td>
+     <td><p>voyageai/voyage-code-2</p></td>
+     <td><p>20-12,000</p></td>
    </tr>
    <tr>
-     <td>voyageai/voyage-large-2</td>
-     <td>20-12,000</td>
+     <td><p>voyageai/voyage-large-2</p></td>
+     <td><p>20-12,000</p></td>
    </tr>
    <tr>
-     <td>openai/text-embedding-3-small</td>
-     <td>250-8,191</td>
+     <td><p>openai/text-embedding-3-small</p></td>
+     <td><p>250-8,191</p></td>
    </tr>
    <tr>
-     <td>openai/text-embedding-3-large</td>
-     <td>250-8,191</td>
+     <td><p>openai/text-embedding-3-large</p></td>
+     <td><p>250-8,191</p></td>
    </tr>
 </table>
 
@@ -176,15 +176,15 @@ The following table lists the limits on metadata fields generated by a PRESERVE 
 <table>
    <tr>
      <th></th>
-     <th><strong>Max. Number</strong></th>
+     <th><p><strong>Max. Number</strong></p></th>
    </tr>
    <tr>
-     <td>Number of metadata fields</td>
-     <td>50</td>
+     <td><p>Number of metadata fields</p></td>
+     <td><p>50</p></td>
    </tr>
    <tr>
-     <td>The max_length of a VARCHAR field</td>
-     <td>4,000</td>
+     <td><p>The max_length of a VARCHAR field</p></td>
+     <td><p>4,000</p></td>
    </tr>
 </table>
 
@@ -192,32 +192,32 @@ The following table lists the limits on the number of chunks that are allowed to
 
 <table>
    <tr>
-     <th><strong>Embedding Model</strong></th>
-     <th><strong>Max. Chunks/Ingestion</strong></th>
+     <th><p><strong>Embedding Model</strong></p></th>
+     <th><p><strong>Max. Chunks/Ingestion</strong></p></th>
    </tr>
    <tr>
-     <td>zilliz/bge-base-en-v1.5</td>
-     <td>3,500</td>
+     <td><p>zilliz/bge-base-en-v1.5</p></td>
+     <td><p>3,500</p></td>
    </tr>
    <tr>
-     <td>voyageai/voyage-2</td>
-     <td>6,000</td>
+     <td><p>voyageai/voyage-2</p></td>
+     <td><p>6,000</p></td>
    </tr>
    <tr>
-     <td>voyageai/voyage-code-2</td>
-     <td>6,000</td>
+     <td><p>voyageai/voyage-code-2</p></td>
+     <td><p>6,000</p></td>
    </tr>
    <tr>
-     <td>openai/text-embedding-3-small</td>
-     <td>6,000</td>
+     <td><p>openai/text-embedding-3-small</p></td>
+     <td><p>6,000</p></td>
    </tr>
    <tr>
-     <td>openai/text-embedding-large</td>
-     <td>6,000</td>
+     <td><p>openai/text-embedding-large</p></td>
+     <td><p>6,000</p></td>
    </tr>
    <tr>
-     <td>zilliz/bge-base-zh-v1.5</td>
-     <td>3,500</td>
+     <td><p>zilliz/bge-base-zh-v1.5</p></td>
+     <td><p>3,500</p></td>
    </tr>
 </table>
 
@@ -227,36 +227,36 @@ The following table lists the limits on token usage.
 
 <table>
    <tr>
-     <th><strong>Pipeline Type</strong></th>
-     <th><strong>Embedding Model</strong></th>
-     <th><strong>Max. Token Usage</strong></th>
+     <th><p><strong>Pipeline Type</strong></p></th>
+     <th><p><strong>Embedding Model</strong></p></th>
+     <th><p><strong>Max. Token Usage</strong></p></th>
    </tr>
    <tr>
-     <td rowspan="2">Ingestion Pipeline</td>
-     <td>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</td>
-     <td>80,000,000</td>
+     <td rowspan="2"><p>Ingestion Pipeline</p></td>
+     <td><p>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</p></td>
+     <td><p>80,000,000</p></td>
    </tr>
    <tr>
-     <td>Others</td>
-     <td>100,000,000</td>
+     <td><p>Others</p></td>
+     <td><p>100,000,000</p></td>
    </tr>
    <tr>
-     <td rowspan="2">Search Pipeline</td>
-     <td>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</td>
-     <td>30,000,000</td>
+     <td rowspan="2"><p>Search Pipeline</p></td>
+     <td><p>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</p></td>
+     <td><p>30,000,000</p></td>
    </tr>
    <tr>
-     <td>Others</td>
-     <td>20,000,000</td>
+     <td><p>Others</p></td>
+     <td><p>20,000,000</p></td>
    </tr>
    <tr>
-     <td rowspan="2">All Pipelines in an Organization</td>
-     <td>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</td>
-     <td>150,000,000</td>
+     <td rowspan="2"><p>All Pipelines in an Organization</p></td>
+     <td><p>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</p></td>
+     <td><p>150,000,000</p></td>
    </tr>
    <tr>
-     <td>Others</td>
-     <td>200,000,000</td>
+     <td><p>Others</p></td>
+     <td><p>200,000,000</p></td>
    </tr>
 </table>
 
@@ -270,24 +270,24 @@ The following table lists the limits on token usage.
 
 <table>
    <tr>
-     <th><strong>Cluster Plan</strong></th>
-     <th><strong>Max Number</strong></th>
-     <th><strong>Remarks</strong></th>
+     <th><p><strong>Cluster Plan</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td>Free cluster</td>
-     <td>2<br/></td>
-     <td>You can create up to 2 collections.</td>
+     <td><p>Free cluster</p></td>
+     <td><p>2<br/></p></td>
+     <td><p>You can create up to 2 collections.</p></td>
    </tr>
    <tr>
-     <td>Serverless cluster</td>
-     <td>10</td>
-     <td>You can create up to 10 collections.</td>
+     <td><p>Serverless cluster</p></td>
+     <td><p>10</p></td>
+     <td><p>You can create up to 10 collections.</p></td>
    </tr>
    <tr>
-     <td>Dedicated cluster<br/></td>
-     <td>64 per CU, and &lt;= 4096</td>
-     <td>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</td>
+     <td><p>Dedicated cluster<br/></p></td>
+     <td><p>64 per CU, and &lt;= 4096</p></td>
+     <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
    </tr>
 </table>
 
@@ -295,16 +295,16 @@ In addition to the limits on the number of collections per cluster, Zilliz Cloud
 
 <table>
    <tr>
-     <th><strong>Number of CUs</strong></th>
-     <th><strong>General Capacity</strong></th>
+     <th><p><strong>Number of CUs</strong></p></th>
+     <th><p><strong>General Capacity</strong></p></th>
    </tr>
    <tr>
-     <td>1-8 CUs</td>
-     <td>&lt;= 4,096</td>
+     <td><p>1-8 CUs</p></td>
+     <td><p>&lt;= 4,096</p></td>
    </tr>
    <tr>
-     <td>12 CUs and more</td>
-     <td>&lt;= 512 x Number of CUs</td>
+     <td><p>12 CUs and more</p></td>
+     <td><p>&lt;= 512 x Number of CUs</p></td>
    </tr>
 </table>
 
@@ -339,24 +339,24 @@ Additionally, the rate limit for creating collections is **1** collection/s per 
 
 <table>
    <tr>
-     <th><strong>Cluster Type</strong></th>
-     <th><strong>Max number (Per collection)</strong></th>
-     <th><strong>Remarks</strong></th>
+     <th><p><strong>Cluster Type</strong></p></th>
+     <th><p><strong>Max number (Per collection)</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td>Free cluster</td>
-     <td>64<br/></td>
-     <td>You can create up to 64 partitions per collection in a free cluster.</td>
+     <td><p>Free cluster</p></td>
+     <td><p>64<br/></p></td>
+     <td><p>You can create up to 64 partitions per collection in a free cluster.</p></td>
    </tr>
    <tr>
-     <td>Serverless cluster</td>
-     <td>64<br/></td>
-     <td>You can create up to 64 partitions per collection in a serverless cluster.</td>
+     <td><p>Serverless cluster</p></td>
+     <td><p>64<br/></p></td>
+     <td><p>You can create up to 64 partitions per collection in a serverless cluster.</p></td>
    </tr>
    <tr>
-     <td>Dedicated cluster<br/></td>
-     <td>4,096</td>
-     <td>You can create up to 4,096 partitions per collection in a dedicated cluster.</td>
+     <td><p>Dedicated cluster<br/></p></td>
+     <td><p>4,096</p></td>
+     <td><p>You can create up to 4,096 partitions per collection in a dedicated cluster.</p></td>
    </tr>
 </table>
 
@@ -366,19 +366,19 @@ When calculating the consumed and general capacity, refer to the notes in [Colle
 
 <table>
    <tr>
-     <th><strong>Item</strong></th>
-     <th><strong>Max Number</strong></th>
-     <th><strong>Remarks</strong></th>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td>Fields per collection</td>
-     <td>64</td>
-     <td>N/A</td>
+     <td><p>Fields per collection</p></td>
+     <td><p>64</p></td>
+     <td><p>N/A</p></td>
    </tr>
    <tr>
-     <td>Vector fields per collection</td>
-     <td>1</td>
-     <td>The support for multiple vector fields is coming soon.</td>
+     <td><p>Vector fields per collection</p></td>
+     <td><p>1</p></td>
+     <td><p>The support for multiple vector fields is coming soon.</p></td>
    </tr>
 </table>
 
@@ -405,31 +405,31 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 <table>
    <tr>
      <th></th>
-     <th>Insert rate limits</th>
+     <th><p>Insert rate limits</p></th>
    </tr>
    <tr>
-     <td>Free cluster</td>
-     <td>2 MB/s<br/></td>
+     <td><p>Free cluster</p></td>
+     <td><p>2 MB/s<br/></p></td>
    </tr>
    <tr>
-     <td>Serverless cluster</td>
-     <td>100 MB/s<br/></td>
+     <td><p>Serverless cluster</p></td>
+     <td><p>100 MB/s<br/></p></td>
    </tr>
    <tr>
-     <td>Dedicated cluster 1 CU and 2 CUs</td>
-     <td>4 MB/s</td>
+     <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
+     <td><p>4 MB/s</p></td>
    </tr>
    <tr>
-     <td>Dedicated cluster 4 - 8 CUs</td>
-     <td>6 MB/s</td>
+     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
+     <td><p>6 MB/s</p></td>
    </tr>
    <tr>
-     <td>Dedicated cluster 12 - 20 CUs</td>
-     <td>8 MB/s</td>
+     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td>Dedicated cluster &gt;= 24 CUs</td>
-     <td>12 MB/s</td>
+     <td><p>Dedicated cluster &gt;= 24 CUs</p></td>
+     <td><p>12 MB/s</p></td>
    </tr>
 </table>
 
@@ -446,31 +446,31 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 <table>
    <tr>
      <th></th>
-     <th>Insert rate limits</th>
+     <th><p>Insert rate limits</p></th>
    </tr>
    <tr>
-     <td>Free cluster</td>
-     <td>2 MB/s</td>
+     <td><p>Free cluster</p></td>
+     <td><p>2 MB/s</p></td>
    </tr>
    <tr>
-     <td>Serverless cluster</td>
-     <td>100 MB/s</td>
+     <td><p>Serverless cluster</p></td>
+     <td><p>100 MB/s</p></td>
    </tr>
    <tr>
-     <td>Dedicated cluster 1 CU and 2 CUs</td>
-     <td>4 MB/s</td>
+     <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
+     <td><p>4 MB/s</p></td>
    </tr>
    <tr>
-     <td>Dedicated cluster 4 - 8 CUs</td>
-     <td>6 MB/s</td>
+     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
+     <td><p>6 MB/s</p></td>
    </tr>
    <tr>
-     <td>Dedicated cluster 12 - 20 CUs</td>
-     <td>8 MB/s</td>
+     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td>Dedicated cluster &gt;= 24 CUs</td>
-     <td>12 MB/s</td>
+     <td><p>Dedicated cluster &gt;= 24 CUs</p></td>
+     <td><p>12 MB/s</p></td>
    </tr>
 </table>
 
@@ -484,29 +484,29 @@ Index types vary with field types. The following table lists the indexable field
 
 <table>
    <tr>
-     <th><strong>Field Type</strong></th>
-     <th><strong>Index Type</strong></th>
-     <th><strong>Metric Type</strong></th>
+     <th><p><strong>Field Type</strong></p></th>
+     <th><p><strong>Index Type</strong></p></th>
+     <th><p><strong>Metric Type</strong></p></th>
    </tr>
    <tr>
-     <td>Vector Field</td>
-     <td>AUTOINDEX</td>
-     <td>L2, IP, and COSINE</td>
+     <td><p>Vector Field</p></td>
+     <td><p>AUTOINDEX</p></td>
+     <td><p>L2, IP, and COSINE</p></td>
    </tr>
    <tr>
-     <td>VarChar Field</td>
-     <td>TRIE</td>
-     <td>N/A</td>
+     <td><p>VarChar Field</p></td>
+     <td><p>TRIE</p></td>
+     <td><p>N/A</p></td>
    </tr>
    <tr>
-     <td>Int8/16/32/64</td>
-     <td>STL_SORT</td>
-     <td>N/A</td>
+     <td><p>Int8/16/32/64</p></td>
+     <td><p>STL_SORT</p></td>
+     <td><p>N/A</p></td>
    </tr>
    <tr>
-     <td>Float32/64</td>
-     <td>STL_SORT</td>
-     <td>N/A</td>
+     <td><p>Float32/64</p></td>
+     <td><p>STL_SORT</p></td>
+     <td><p>N/A</p></td>
    </tr>
 </table>
 
@@ -566,24 +566,24 @@ Read [Select the Right CU](./cu-types-explained) for more.
 
 <table>
    <tr>
-     <th>File Type</th>
-     <th>Local upload</th>
-     <th>Sync from S3/GCS/Other OSS</th>
+     <th><p>File Type</p></th>
+     <th><p>Local upload</p></th>
+     <th><p>Sync from S3/GCS/Other OSS</p></th>
    </tr>
    <tr>
-     <td>JSON</td>
-     <td>1 GB</td>
-     <td>1 GB</td>
+     <td><p>JSON</p></td>
+     <td><p>1 GB</p></td>
+     <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td>Numpy<br/></td>
-     <td>Not support</td>
-     <td>The maximum size of the folder is 100 GB and the maximum size of each subdirectory is 15 GB</td>
+     <td><p>Numpy<br/></p></td>
+     <td><p>Not support</p></td>
+     <td><p>The maximum size of the folder is 100 GB and the maximum size of each subdirectory is 15 GB</p></td>
    </tr>
    <tr>
-     <td>Parquet</td>
-     <td>Not support</td>
-     <td>10GB</td>
+     <td><p>Parquet</p></td>
+     <td><p>Not support</p></td>
+     <td><p>10GB</p></td>
    </tr>
 </table>
 

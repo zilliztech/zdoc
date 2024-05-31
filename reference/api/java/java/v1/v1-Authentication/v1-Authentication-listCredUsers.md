@@ -33,14 +33,14 @@ Methods of `ListCredUsersParam.Builder`:
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Parameters</th>
+        <th><p>Method</p></th>
+        <th><p>Description</p></th>
+        <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td>build()</td>
-        <td>Constructs a ListCredUsersParam object.</td>
-        <td>N/A</td>
+        <td><p>build()</p></td>
+        <td><p>Constructs a ListCredUsersParam object.</p></td>
+        <td><p>N/A</p></td>
     </tr>
 </table>
 

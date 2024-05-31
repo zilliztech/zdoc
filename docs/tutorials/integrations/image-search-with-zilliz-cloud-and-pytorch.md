@@ -2,7 +2,7 @@
 slug: /image-search-with-zilliz-cloud-and-pytorch
 sidebar_label: With PyTorch
 beta: FALSE
-notebook: 84_integrations_pytorch.ipynb
+notebook: FALSE
 type: origin
 token: XnWswbO9Zi4sykkgRzec8el8nyd
 sidebar_position: 5

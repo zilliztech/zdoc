@@ -37,24 +37,24 @@ Methods of `GetCollectionStatisticsParam.Builder`:
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Parameters</th>
+        <th><p>Method</p></th>
+        <th><p>Description</p></th>
+        <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td>withCollectionName(String collectionName)</td>
-        <td>Sets the collection name. Collection name cannot be empty or null.</td>
-        <td>collectionName: The name of the collection whose statistical information needs to be checked.</td>
+        <td><p>withCollectionName(String collectionName)</p></td>
+        <td><p>Sets the collection name. Collection name cannot be empty or null.</p></td>
+        <td><p>collectionName: The name of the collection whose statistical information needs to be checked.</p></td>
     </tr>
     <tr>
-        <td>withFlush(Boolean flush)</td>
-        <td>Requests a flush action before retrieving collection statistics. The default value is False.</td>
-        <td>flush: Set the value to true to perform a flush action.</td>
+        <td><p>withFlush(Boolean flush)</p></td>
+        <td><p>Requests a flush action before retrieving collection statistics. The default value is False.</p></td>
+        <td><p>flush: Set the value to true to perform a flush action.</p></td>
     </tr>
     <tr>
-        <td>build()</td>
-        <td>Constructs a GetCollectionStatisticsParam object.</td>
-        <td>N/A</td>
+        <td><p>build()</p></td>
+        <td><p>Constructs a GetCollectionStatisticsParam object.</p></td>
+        <td><p>N/A</p></td>
     </tr>
 </table>
 
@@ -85,16 +85,16 @@ Methods of `GetCollStatResponseWrapper`:
 
 <table>
    <tr>
-     <th><strong>Method</strong></th>
-     <th><strong>Description</strong></th>
-     <th><strong>Parameters</strong></th>
-     <th><strong>Returns</strong></th>
+     <th><p><strong>Method</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Parameters</strong></p></th>
+     <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td>getRowCount()<br/></td>
-     <td>Gets the row count of a collection. Note that due to technical reasons, the deleted entities are not counted in the row count.</td>
-     <td>N/A<br/></td>
-     <td>long</td>
+     <td><p>getRowCount()<br/></p></td>
+     <td><p>Gets the row count of a collection. Note that due to technical reasons, the deleted entities are not counted in the row count.</p></td>
+     <td><p>N/A<br/></p></td>
+     <td><p>long</p></td>
    </tr>
 </table>
 
