@@ -58,7 +58,7 @@ client = MilvusClient(
 # 2. Create a collection
 client.create_collection(
     collection_name="quick_setup",
-    dimension=5,
+    dimension=5, # The dimension value should be greater than 1
 )
 ```
 
@@ -85,7 +85,7 @@ MilvusServiceClient client  = new MilvusServiceClient(connectParam);
 // 2. Create a collection
 CreateSimpleCollectionParam createCollectionParam = CreateSimpleCollectionParam.newBuilder()
         .withCollectionName("quick_setup")
-        .withDimension(5)
+        .withDimension(5) // The dimension value should be greater than 1
         .build();
 
 client.createCollection(createCollectionParam);

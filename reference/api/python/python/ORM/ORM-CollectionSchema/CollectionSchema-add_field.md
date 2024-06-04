@@ -109,7 +109,7 @@ add_field(
 
 - **dim** (*int*) -
 
-    The dimension of the vector embeddings.
+    The dimension of the vector embeddings. The value should be an integer greater than 1.
 
     This is mandatory for a **DataType.FLOAT_VECTOR** field field.
 

@@ -36,7 +36,7 @@ For complete control over your collection, follow these steps.
 
     - **Primary key field**: Available types are **Int64** or **VarChar**. Not required if **Auto ID** is enabled.
 
-    - **Vector field**: Dimension for vector embeddings. Defaults to **AUTOINDEX** with metrics such as **Cosine**, **IP**, or **L2**. For details, refer to [Similarity Metrics Explained](./search-metrics-explained) and [AUTOINDEX Explained](./autoindex-explained).
+    - **Vector field**: Dimension for vector embeddings. The dimension value of a valid vector field should be an integer greater than 1. The index type defaults to **AUTOINDEX** with metrics such as **Cosine**, **IP**, or **L2**. For details, refer to [Similarity Metrics Explained](./search-metrics-explained) and [AUTOINDEX Explained](./autoindex-explained).
 
     - **Additional fields**: Click **+ Field** below **Schema Preview** to add more scalar fields. For details, refer to [Schema Explained](./schema-explained).
 

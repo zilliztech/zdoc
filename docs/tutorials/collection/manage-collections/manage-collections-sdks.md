@@ -73,7 +73,7 @@ client = MilvusClient(
 # 2. Create a collection in quick setup mode
 client.create_collection(
     collection_name="quick_setup",
-    dimension=5
+    dimension=5 # The dimension value should be an integer greater than 1.
 )
 
 res = client.get_load_state(
@@ -113,7 +113,7 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 // 2. Create a collection in quick setup mode
 CreateCollectionReq quickSetupReq = CreateCollectionReq.builder()
     .collectionName("quick_setup")
-    .dimension(5)
+    .dimension(5) // The dimension value should be an integer greater than 1.
     .build();
 
 client.createCollection(quickSetupReq);
@@ -143,7 +143,7 @@ client = new MilvusClient({address, token});
 // 2. Create a collection in quick setup mode
 let res = await client.createCollection({
     collection_name: "quick_setup",
-    dimension: 5,
+    dimension: 5, // The dimension value should be an integer greater than 1.
 });  
 
 console.log(res.error_code)
@@ -202,6 +202,7 @@ schema = MilvusClient.create_schema(
 
 # 3.2. Add fields to schema
 schema.add_field(field_name="my_id", datatype=DataType.INT64, is_primary=True)
+# The dim value should be an integer greater than 1.
 schema.add_field(field_name="my_vector", datatype=DataType.FLOAT_VECTOR, dim=5)
 ```
 
@@ -221,15 +222,15 @@ CreateCollectionReq.CollectionSchema schema = client.createSchema();
 // 3.2 Add fields to schema
 schema.addField(AddFieldReq.builder()
     .fieldName("my_id")
-    .dataType(DataType.Int64).
-    isPrimaryKey(true)
+    .dataType(DataType.Int64)
+    .isPrimaryKey(true)
     .autoID(false)
     .build());
 
 schema.addField(AddFieldReq.builder()
     .fieldName("my_vector")
     .dataType(DataType.FloatVector)
-    .dimension(5)
+    .dimension(5) // The dimension value should be an integer greater than 1
     .build());
 ```
 
@@ -250,7 +251,7 @@ const fields = [
     {
         name: "my_vector",
         data_type: DataType.FloatVector,
-        dim: 5
+        dim: 5 // The dim value should be an integer greater than 1.
     },
 ]
 ```
@@ -258,7 +259,7 @@ const fields = [
 </TabItem>
 </Tabs>
 
-In the provided code snippet for Python, the `enable_dynamic_field` is set to `True`, and `auto_id` is enabled for the primary key. Additionally, a `vector` field is introduced, configured with a dimensionality of 768, along with the inclusion of four scalar fields, each with its respective attributes.
+In the provided code snippet for Python, the `enable_dynamic_field` is set to `True`, and `auto_id` is enabled for the primary key. Additionally, a `vector` field is introduced, configured with a dimensionality of 768, along with the inclusion of four scalar fields, each with its respective attributes. The dimensionality of a valid vector field should be greater than 1.
 
 #### Step 2: Set up index parameters{#step-2-set-up-index-parameters}
 

@@ -160,10 +160,11 @@ schema = MilvusClient.create_schema(
 )
 
 schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+# The dim value should be greater than 1
 schema.add_field(field_name="vector", datatype=DataType.FLOAT_VECTOR, dim=5)
 schema.add_field(field_name="color", datatype=DataType.VARCHAR, max_length=512)
 schema.add_field(field_name="color_tag", datatype=DataType.INT64)
-# highlight-next-line
+# Define an array field
 schema.add_field(field_name="color_coord", datatype=DataType.ARRAY, element_type=DataType.INT64, max_capacity=5)
 
 index_params = MilvusClient.prepare_index_params()
@@ -239,7 +240,7 @@ schema.addField(AddFieldReq.builder()
 schema.addField(AddFieldReq.builder()
     .fieldName("vector")
     .dataType(DataType.FloatVector)
-    .dimension(5)
+    .dimension(5) // The dimension value should be greater than 1
     .build());
     
 schema.addField(AddFieldReq.builder()
@@ -253,14 +254,13 @@ schema.addField(AddFieldReq.builder()
     .dataType(DataType.Int64)
     .build());
 
-// highlight-start
+// Define an array field
 schema.addField(AddFieldReq.builder()
     .fieldName("color_coord")
     .dataType(DataType.Array)
     .elementType(DataType.Int64)
     .maxCapacity(5)
     .build());
-// highlight-end
 
 // 2.3 Prepare index parameters
 IndexParam indexParamForIdField = IndexParam.builder()
@@ -332,7 +332,7 @@ const fields = [
     {
         name: "vector",
         data_type: DataType.FloatVector,
-        dim: 5
+        dim: 5 // The dim value should be greater than 1
     },
     {
         name: "color",
@@ -343,14 +343,12 @@ const fields = [
         name: "color_tag",
         data_type: DataType.Int64,
     },
-// highlight-start
     {
         name: "color_coord",
-        data_type: DataType.Array,
+        data_type: DataType.Array, // Define an array field
         element_type: DataType.Int64,
         max_capacity: 5
     }
-// highlight-end
 ]
 
 // 2.2 Prepare index parameters

@@ -4164,7 +4164,7 @@
                   },
                   "dimension": {
                     "type": "integer",
-                    "description": "The number of dimensions for the vector field of the collection. For performance-optimized CUs, this value ranges from 1 to 32768. For capacity-optimized and cost-optimized CUs, this value ranges from 32 to 32768.",
+                    "description": "The number of dimensions for the vector field of the collection. For performance-optimized CUs, this value ranges from 2 to 32768. For capacity-optimized and cost-optimized CUs, this value ranges from 32 to 32768.",
                     "minimum": 1,
                     "maximum": 32768
                   },

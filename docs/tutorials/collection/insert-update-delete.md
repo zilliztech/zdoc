@@ -56,7 +56,7 @@ client = MilvusClient(
 # 2. Create a collection
 client.create_collection(
     collection_name="quick_setup",
-    dimension=5,
+    dimension=5, # The dimension value should be an integer greater than 1
     metric_type="IP"
 )
 ```
@@ -84,7 +84,7 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 // 2. Create a collection in quick setup mode
 CreateCollectionReq quickSetupReq = CreateCollectionReq.builder()
     .collectionName("quick_setup")
-    .dimension(5)
+    .dimension(5) // The dimension value should be an integer greater than 1
     .metricType("IP")
     .build();
 
@@ -107,7 +107,7 @@ client = new MilvusClient({address, token});
 // 2. Create a collection in quick setup mode
 await client.createCollection({
     collection_name: "quick_setup",
-    dimension: 5,
+    dimension: 5, // The dimension value should be an integer greater than 1
     metric_type: "IP"
 });  
 ```
