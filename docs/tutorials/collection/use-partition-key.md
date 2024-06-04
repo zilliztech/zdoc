@@ -48,12 +48,12 @@ client = MilvusClient(
 schema = MilvusClient.create_schema(
     auto_id=False,
     enable_dynamic_field=True,
-    # highlight-next-line
     partition_key_field="color",
     num_partitions=64 # Number of partitions. Defaults to 64.
 )
 
 schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+# The dim value should be greater than 1
 schema.add_field(field_name="vector", datatype=DataType.FLOAT_VECTOR, dim=5)
 schema.add_field(field_name="color", datatype=DataType.VARCHAR, max_length=512)
 ```
@@ -97,7 +97,7 @@ schema.addField(AddFieldReq.builder()
 schema.addField(AddFieldReq.builder()
     .fieldName("vector")
     .dataType(DataType.FloatVector)
-    .dimension(5)
+    .dimension(5) // The dimension value should be greater than 1
     .build());
     
 schema.addField(AddFieldReq.builder()
@@ -135,7 +135,7 @@ const fields = [
     {
         name: "vector",
         data_type: DataType.FloatVector,
-        dim: 5
+        dim: 5 // The dim value should be greater than 1
     },
     {
         name: "color",

@@ -60,7 +60,7 @@ client = MilvusClient(
 # Create a collection
 client.create_collection(
     collection_name="medium_articles",
-    dimension=768
+    dimension=768 # The dimension should be an integer greater than 1
 )
 ```
 

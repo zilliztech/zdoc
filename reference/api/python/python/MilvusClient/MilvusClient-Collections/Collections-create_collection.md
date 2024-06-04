@@ -47,7 +47,7 @@ create_collection(
 
     The dimension of the collection field to hold vector embeddings.
 
-    The value is usually determined by the model you use to generate vector embeddings.
+    The value is usually determined by the model you use to generate vector embeddings and should be an integer greater than 1.
 
     This parameter is designed for the quick setup of a collection and will be ignored if **schema** is not **None** and a field in the schema has its **dim** set to a positive integer.
 

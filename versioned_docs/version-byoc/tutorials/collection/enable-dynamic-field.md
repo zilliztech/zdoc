@@ -49,11 +49,11 @@ client = MilvusClient(
 # 2. Create a collection
 schema = MilvusClient.create_schema(
     auto_id=False,
-    # highlight-next-line
     enable_dynamic_field=True,
 )
 
 schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+# The dim value should be greater than 1
 schema.add_field(field_name="vector", datatype=DataType.FLOAT_VECTOR, dim=5)
 
 index_params = MilvusClient.prepare_index_params()
@@ -120,6 +120,7 @@ CreateCollectionReq.CollectionSchema schema = client.createSchema();
 
 // 2.2 Add fields to schema
 schema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(true).autoID(false).build());
+// The dimension value should be greater than 1
 schema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(5).build());
 
 // 2.3 Prepare index parameters
@@ -191,7 +192,7 @@ const fields = [
     {
         name: "vector",
         data_type: DataType.FloatVector,
-        dim: 5
+        dim: 5 // The dim value should be greater than 1
     },
 ]
 

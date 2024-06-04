@@ -202,8 +202,9 @@ schema = MilvusClient.create_schema(
 )
 
 schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+# The dim value should be greater than 1
 schema.add_field(field_name="vector", datatype=DataType.FLOAT_VECTOR, dim=5)
-# highlight-next-line
+# Define a JSON field
 schema.add_field(field_name="color", datatype=DataType.JSON)
 
 index_params = MilvusClient.prepare_index_params()
@@ -271,15 +272,14 @@ schema.addField(AddFieldReq.builder()
 schema.addField(AddFieldReq.builder()
     .fieldName("vector")
     .dataType(DataType.FloatVector)
-    .dimension(5)
+    .dimension(5) // The dimension value should be greater than 1
     .build());
 
-// highlight-start    
+// Define a JSON field
 schema.addField(AddFieldReq.builder()
     .fieldName("color")
     .dataType(DataType.JSON)
     .build());
-// highlight-end
 
 // 2.3 Prepare index parameters
 IndexParam indexParamForIdField = IndexParam.builder()
@@ -346,14 +346,12 @@ const fields = [
     {
         name: "vector",
         data_type: DataType.FloatVector,
-        dim: 5
+        dim: 5 // The dim value should be greater than 1
     },
-// highlight-start
     {
         name: "color",
-        data_type: DataType.JSON,
+        data_type: DataType.JSON, // Define a JSON field.
     }
-// highlight-end
 ]
 
 // 2.2 Prepare index parameters

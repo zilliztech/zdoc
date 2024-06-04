@@ -78,7 +78,7 @@ Success response:
 |------------------|-------------------------------------------------------------------------------------------|
 | __dbName__ | string  <br/>The name of the database. <zilliz>This parameter applies only to dedicated clusters.</zilliz>  |
 | __collectionName__ | string  <br/>The name of the collection to create.  |
-| __dimension__ | integer  <br/>The number of dimensions for the vector field of the collection. For performance-optimized CUs, this value ranges from 1 to 32768. For capacity-optimized and cost-optimized CUs, this value ranges from 32 to 32768.<br/>The value ranges from 1 to 32768.  |
+| __dimension__ | integer  <br/>The number of dimensions for the vector field of the collection. For performance-optimized CUs, this value ranges from 2 to 32768. For capacity-optimized and cost-optimized CUs, this value ranges from 32 to 32768.<br/>The value ranges from 1 to 32768.  |
 | __metricType__ | string  <br/>The distance metric used for the collection.<br/>The value defaults to L2  |
 | __primaryField__ | string  <br/>The primary key field.<br/>The value defaults to id  |
 | __vectorField__ | string  <br/>The vector field.<br/>The value defaults to vector  |

@@ -55,9 +55,9 @@ createCollection(CreateCollectionReq.builder()
 
 - `dimension(int dimension)`
 
-    The dimension of the collection field to hold vector embeddings.
+    The dimensionality of the collection field that holds vector embeddings.
 
-    The value is usually determined by the model you use to generate vector embeddings.
+    The value should be greater than 1 and is usually determined by the model you use to generate vector embeddings.
 
     This is required to set up a collection with default settings. Skip this parameter if you need to set up a collection with a customized schema.
 
