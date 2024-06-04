@@ -141,7 +141,7 @@ To set up a collection in quick setup mode, you only need to set the collection 
 # 2. Create a collection in quick setup mode
 client.create_collection(
     collection_name="quick_setup",
-    dimension=5
+    dimension=5 # The dimensionality should be an integer greater than 1.
 )
 ```
 
@@ -155,7 +155,7 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 // 2. Create a collection in quick setup mode
 CreateCollectionReq quickSetupReq = CreateCollectionReq.builder()
     .collectionName("quick_setup")
-    .dimension(5)
+    .dimension(5) // The dimensionality should be an integer greater than 1.
     .build();
 
 client.createCollection(quickSetupReq);
@@ -169,7 +169,7 @@ client.createCollection(quickSetupReq);
 // 2. Create a collection
 await client.createCollection({
     collection_name: "quick_setup",
-    dimension: 5,
+    dimension: 5, // The dimensionality should be an integer greater than 1.
 });  
 ```
 
