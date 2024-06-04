@@ -790,9 +790,9 @@ System.out.println(listCollectionsRes.getCollectionNames());
 
 ```javascript
 // 5. List all collection names
-ListCollectionsResp listCollectionsRes = client.listCollections();
+res = await client.listCollections()
 
-System.out.println(listCollectionsRes.getCollectionNames());
+console.log(res)
 
 // Output:
 // [
