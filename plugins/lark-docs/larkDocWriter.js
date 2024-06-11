@@ -459,7 +459,11 @@ class larkDocWriter {
             markdown = this.__filter_content(preText + matchText + postText, targets)
         }
 
-        return markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
+        return markdown.replace(/(\s*\n){3,}/g, '\n\n')
+            .replace(/<br>/g, '<br/>')
+            .replace(/(<br\/>){2,}/, "<br/>")
+            .replace("<br\/></p>", "</p>")
+            .replace(/\n\s*<tr>\n(\s*<td.*><p><\/p><\/td>\n)*\s*<\/tr>/g, '');
     }
 
     __match_filter_tags(markdown) {
@@ -629,7 +633,12 @@ class larkDocWriter {
             }
         }
     
-        return markdown.join('\n\n').replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br>){2,}/g, '<br>').replace(/<br>/g, '<br/>');
+        return markdown.join('\n\n')
+            .replace(/(\s*\n){3,}/g, '\n\n')
+            .replace(/<br>/g, '<br/>')
+            .replace(/(<br\/>){2,}/g, '<br>')
+            .replace("<br\/></p>", "</p>")
+            .replace(/\n\s*<tr>\n(\s*<td.*><p><\/p><\/td>\n)*\s*<\/tr>/g, '');
     }
 
     __mdx_patches(content) {
