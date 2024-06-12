@@ -6,6 +6,8 @@ on:
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    outputs:
+      fetch_docs_output: $ 
     steps:
     - name: get current date
       id: date
@@ -15,6 +17,7 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
     - name: fetch docs
+      id: fetch_docs
       run: |
         yarn
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas

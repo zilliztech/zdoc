@@ -1,0 +1,125 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 11
+slug: /restful/import
+title: Import
+---
+
+import RestHeader from '@site/src/components/RestHeader';
+
+Imports data from files stored in a specified object storage bucket. Note that the bucket should be in the same cloud as the target cluster of the import.
+
+<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/vector/collections/import" />
+
+---
+
+## Example
+
+
+
+
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
+
+```shell
+curl --request POST \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "clusterId": "in03-***************",
+      "collectionName": "medium_articles",
+      "partitionName": "_default",
+      "objectUrl": "gs://publicdataset-zillizcloud-com/medium_articles_2020.json",
+      "accessKey": "your-access-key",
+      "secretKey": "your-secret-key"
+    }'
+```
+
+Your access key and secret key should have necessary permissions to access the object URL. 
+
+- For AWS S3, the following permissions are required:
+
+  - `s3:GetObject`
+  - `s3:ListBucket`
+  - `s3:GetBucketLocation`
+
+- For Google Cloud Storage, the following permissions are required:
+
+  - `storage.objects.get`
+  - `storage.objects.list`
+
+
+
+
+## Request
+
+### Parameters
+
+- No query parameters required
+
+- No path parameters required
+
+### Request Body
+
+```json
+{
+    "clusterId": "string",
+    "collectionName": "string",
+    "partitionName": "string",
+    "objectUrl": "string",
+    "accessKey": "string",
+    "secretKey": "string"
+}
+```
+
+| Parameter        | Description                                                                               |
+|------------------|-------------------------------------------------------------------------------------------|
+| __clusterId__ | string  <br/>The ID of a cluster to which this operation applies.  |
+| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
+| __partitionName__ | string  <br/>The name of the partition to which this operation applies.  |
+| __objectUrl__ | string  <br/>The URL of the object that stores the data to be imported.  |
+| __accessKey__ | string  <br/>The access key used to access the specified object.  |
+| __secretKey__ | string  <br/>The access secret key used to access the specified object.  |
+
+## Response
+
+Returns a import task job ID.
+
+### Response Bodies
+
+- Response body if we process your request successfully
+
+```json
+{
+    "code": "integer",
+    "data": {
+        "jobId": "string"
+    }
+}
+```
+
+- Response body if we failed to process your request
+
+```json
+{
+    "code": integer,
+    "message": string
+}
+```
+
+### Properties
+
+The properties in the returned response are listed in the following table.
+
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__ | integer  <br/>  |
+| __data__ | object<br/> |
+| __data.jobId__ | string  <br/>The ID of the import task that has been submitted  |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |

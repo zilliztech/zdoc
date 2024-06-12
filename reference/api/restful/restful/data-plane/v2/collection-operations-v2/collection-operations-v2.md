@@ -1,0 +1,18 @@
+---
+slug: /restful/collection-operations-v2
+beta: FALSE
+notebook: FALSE
+sidebar_position: 5
+displayed_sidebar: restfulSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# Collection (V2)
+
+This set of APIs provides a way to manage collections in Zilliz Cloud.
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

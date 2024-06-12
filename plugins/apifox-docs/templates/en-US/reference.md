@@ -7,7 +7,7 @@ title: {{page_title}}
 
 import RestHeader from '@site/src/components/RestHeader';
 
-{{page_excerpt}}
+{{page_excerpt | split_excerpt}}
 
 <RestHeader method="{{page_method}}" endpoint="{{server}}{{page_url}}" />
 
@@ -15,7 +15,15 @@ import RestHeader from '@site/src/components/RestHeader';
 
 ## Example
 
+{% if page_excerpt | split_example === '' %}
+
 {{ page_title | get_example }}
+
+{% else %}
+
+{{ page_excerpt | split_example }}
+
+{% endif %}
 
 ## Request
 
@@ -103,9 +111,3 @@ The properties in the returned response are listed in the following table.
 | `code`   | **integer**<br>Indicates whether the request succeeds.<br><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 {{ res_body | prepare_entries }}
 | `message`  | **string**<br>Indicates the possible reason for the reported error. |
-
-## Possible Errors
-
-| Code | Error Message |
-| ---- | ------------- |
-{{ page_title | list_error }}

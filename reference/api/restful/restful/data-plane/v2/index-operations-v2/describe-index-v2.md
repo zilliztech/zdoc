@@ -1,0 +1,133 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 51
+slug: /restful/describe-index-v2
+title: Describe Index
+---
+
+import RestHeader from '@site/src/components/RestHeader';
+
+This operation describes the current index.
+
+<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/indexes/describe" />
+
+---
+
+## Example
+
+
+
+```shell
+export MILVUS_URI="localhost:19530"
+export TOKEN="root:Milvus"
+
+curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/indexes/describe" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data-raw '{
+    "indexName": "vector",
+    "collectionName": "quick_setup"
+}'
+```
+Possible response is similar to the following:
+```json
+{
+    "code": 0,
+    "data": [
+        {
+            "failReason": "",
+            "fieldName": "vector",
+            "indexName": "vector",
+            "indexState": "Finished",
+            "indexType": "AUTOINDEX",
+            "indexedRows": 0,
+            "metricType": "COSINE",
+            "pendingRows": 0,
+            "totalRows": 0
+        }
+    ]
+}
+```
+
+
+
+## Request
+
+### Parameters
+
+- No query parameters required
+
+- No path parameters required
+
+### Request Body
+
+```json
+{
+    "dbName": "string",
+    "collectionName": "string",
+    "indexName": "string"
+}
+```
+
+| Parameter        | Description                                                                               |
+|------------------|-------------------------------------------------------------------------------------------|
+| __dbName__ | string  <br/>The name of the database to which the collection belongs.  |
+| __collectionName__ | string  <br/>The name of an the collection to which the index belongs.  |
+| __indexName__ | string  <br/>The name of the index to describe.  |
+
+## Response
+
+An object that contains the detailed description of the current index.
+
+### Response Bodies
+
+- Response body if we process your request successfully
+
+```json
+{
+    "code": "integer",
+    "data": [
+        {
+            "fieldName": "string",
+            "indexName": "string",
+            "indexState": "string",
+            "indexType": "string",
+            "indexedRows": "integer",
+            "metricType": "string",
+            "pendingRows": "integer",
+            "totalRows": "integer",
+            "failReason": "string"
+        }
+    ]
+}
+```
+
+- Response body if we failed to process your request
+
+```json
+{
+    "code": integer,
+    "message": string
+}
+```
+
+### Properties
+
+The properties in the returned response are listed in the following table.
+
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__ | integer  <br/>  |
+| __data__ | array<br/> |
+| __data[]__ | object<br/> |
+| __data[].fieldName__ | string  <br/>The name of the target field.  |
+| __data[].indexName__ | string  <br/>The name of the index.  |
+| __data[].indexState__ | string  <br/>The status of the indexing progress.  |
+| __data[].indexType__ | string  <br/>The type of this index.  |
+| __data[].indexedRows__ | integer  <br/>The total number o rows that have been indexed.  |
+| __data[].metricType__ | string  <br/>The type of the metric.  |
+| __data[].pendingRows__ | integer  <br/>The number of rows that are waiting to be indexed.  |
+| __data[].totalRows__ | integer  <br/>The total number of entities/rows  |
+| __data[].failReason__ | string  <br/>The reason for the failure to build indexes.  |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |

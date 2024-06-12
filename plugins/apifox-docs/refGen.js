@@ -33,6 +33,8 @@ class refGen {
     env.addFilter('list_error', this.list_error)
     env.addFilter('get_example', this.get_example)
     env.addFilter('prepare_entries', this.prepare_entries)
+    env.addFilter('split_excerpt', this.split_excerpt)
+    env.addFilter('split_example', this.split_example)
 
     const template = env.getTemplate("reference.md")
     var idx = 0
@@ -50,7 +52,9 @@ class refGen {
         const page_title = specifications.paths[page_url][method].summary
         const page_excerpt = specifications.paths[page_url][method].description
         const page_parent = parents.filter(x => x === specifications.paths[page_url][method].tags[0])[0].split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
-        const page_slug = this.get_slug(page_title)
+        const version = page_parent.includes('v2') ? 'v2' : 'v1'
+        const upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('import') || page_parent.startsWith('pipeline') ? 'control-plane' : 'data-plane'
+        const page_slug = (this.get_slug(page_title)) + (version === 'v2' ? '-v2' : '')
         const page_method = method.toLowerCase()
         const host = lang === 'zh-CN' ? 'cloud.zilliz.com.cn' : 'zillizcloud.com'
         const condition = (page_slug.includes('cloud') || page_slug.includes('cluster') || page_slug.includes('import') || page_slug.includes('pipeline'))
@@ -109,7 +113,7 @@ class refGen {
           sidebar_position
         }).replaceAll(/<br>/g, '<br/>')
         
-        fs.writeFileSync(`${this.options.target_path}/${page_parent}/${page_slug}.md`, t)
+        fs.writeFileSync(`${this.options.target_path}/${upper_folder}/${version}/${page_parent}/${page_slug}.md`, t)
       }
     }
   }  
@@ -125,7 +129,9 @@ class refGen {
 
     for (const group of Object.keys(specifications.tags)) {
       const slug = specifications.tags[group].name.split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
-      const group_name = specifications.tags[group].name.split(' ')[0]
+      const version = slug.includes('v2') ? 'v2' : 'v1'
+      const upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('import') || slug.startsWith('pipeline') ? 'control-plane' : 'data-plane'
+      const group_name = specifications.tags[group].name.split(' ')[0] + (version === 'v2' ? ' (V2)' : ' (V1)')
       const descriptions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/descriptions.json', 'utf-8'))
       const description = descriptions.filter(x => x.name === slug)[0].description
       const position = specifications.tags.map(x => x.name).indexOf(specifications.tags[group].name)
@@ -136,10 +142,32 @@ class refGen {
         description
       })
 
-      const folder_path = `${target_path}/${slug}`
+      const folder_path = `${target_path}/${upper_folder}/${version}/${slug}`
 
       if (!fs.existsSync(folder_path)) {
-        fs.mkdirSync(folder_path)
+        fs.mkdirSync(folder_path, { recursive: true })
+      }
+
+      if (!fs.existsSync(`${target_path}/${upper_folder}/${upper_folder}.md`)) {
+        const title = upper_folder.startsWith('control') ? 'Control Plane' : 'Data Plane'
+        const pos = upper_folder.startsWith('control') ? 1 : 2
+        const desc = upper_folder.startsWith('control') ? 'APIs for managing Zilliz Cloud clusters and resources' : 'APIs for managing data stored in Zilliz Cloud clusters'
+
+        fs.writeFileSync(`${target_path}/${upper_folder}/${upper_folder}.md`, template.render({
+          group_name: title,
+          position: pos,
+          slug: upper_folder,
+          description: desc
+        }))
+      }
+
+      if (!fs.existsSync(`${target_path}/${upper_folder}/${version}/${version}.md`)) {
+        fs.writeFileSync(`${target_path}/${upper_folder}/${version}/${version}.md`, template.render({
+          group_name: version === 'v2' ? 'V2' : 'V1',
+          position: version === 'v2' ? 1 : 2,
+          slug: `${upper_folder}-${version}`,
+          description: ''
+        }))
       }
 
       fs.writeFileSync(`${folder_path}/${slug}.md`, t)
@@ -456,6 +484,25 @@ class refGen {
     }
 
     return entries.join('\n')
+  }
+
+  split_excerpt(text) {
+    var result = text
+    if (text.includes("## Example")) {
+      result = text.split("## Example")[0]
+    }
+
+    return result.trim()
+  }
+
+  split_example(text) {
+    var result = ''
+
+    if (text.includes("## Example")) {
+      result = text.split("## Example")[1].trim()
+    }
+
+    return result
   }
 
   __delete_examples(body) {

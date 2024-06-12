@@ -43,6 +43,11 @@ module.exports = function (context, options) {
                         strings,
                     })
 
+                    folders = fs.readdirSync(target_path).filter(f => fs.statSync(target_path + '/' + f).isDirectory())
+                    for (let folder of folders) {
+                        fs.rmSync(target_path + '/' + folder, { recursive: true, force: true })
+                    }
+
                     refGen.make_groups()
                     refGen.write_refs()
                 })

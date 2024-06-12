@@ -1,0 +1,101 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 61
+slug: /restful/list-indexes-v2
+title: List Indexes
+---
+
+import RestHeader from '@site/src/components/RestHeader';
+
+This operation lists all indexes of a specific collection.
+
+<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/indexes/list" />
+
+---
+
+## Example
+
+
+
+```shell
+export MILVUS_URI="localhost:19530"
+export TOKEN="root:Milvus"
+
+curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/indexes/list" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data-raw '{
+    "collectionName": "quick_setup"
+}'
+```
+Possible response is as follows:
+```json
+{
+    "code": 0,
+    "data": [
+        "vector"
+    ]
+}
+```
+
+
+
+## Request
+
+### Parameters
+
+- No query parameters required
+
+- No path parameters required
+
+### Request Body
+
+```json
+{
+    "dbName": "string",
+    "collectionName": "string"
+}
+```
+
+| Parameter        | Description                                                                               |
+|------------------|-------------------------------------------------------------------------------------------|
+| __dbName__ | string  <br/>The name of the database to which the collection belongs.  |
+| __collectionName__ | string  <br/>The name of an existing collection. Setting this to a non-existing collection leads to an error.  |
+
+## Response
+
+The names of all built indexes in a list.
+
+### Response Bodies
+
+- Response body if we process your request successfully
+
+```json
+{
+    "code": "integer",
+    "data": [
+        {}
+    ]
+}
+```
+
+- Response body if we failed to process your request
+
+```json
+{
+    "code": integer,
+    "message": string
+}
+```
+
+### Properties
+
+The properties in the returned response are listed in the following table.
+
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__ | integer  <br/>  |
+| __data__ | array<br/>A list of index names. |
+| __data[]__ | string  <br/>A index name.  |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |

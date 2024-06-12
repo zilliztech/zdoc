@@ -195,6 +195,7 @@ const config = {
     }],
     './plugins/apifox-docs',
     './plugins/link-checks',
+    './plugins/nb-to-mdx'
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */

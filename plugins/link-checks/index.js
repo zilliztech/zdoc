@@ -29,7 +29,8 @@ module.exports = function (context, options) {
         name: "check external links",
         extendCli(cli) {
             cli
-                .command('check-links', 'check external links in markdown files')
+                .command('link-checks')
+                .description('check external links in markdown files')
                 .action(async (opts) => {
                     const remote = await listUrls(context.siteConfig.url + context.siteConfig.baseUrl)
                     const local = await listUrls('build/sitemap.xml')
