@@ -67,6 +67,12 @@ jobs:
       run : |
         yarn
         npx docusaurus report-to-lark -m "🔥 Build failed! Please check the logs."
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        SPACE_ID: ${{ secrets.SPACE_ID }}
+        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
   success:
     needs: fetch
     runs-on: ubuntu-latest
@@ -80,4 +86,10 @@ jobs:
       run : |
         yarn
         npx docusaurus report-to-lark -m "🔥 Build succeeded! You can build docs on Jenkins now."
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        SPACE_ID: ${{ secrets.SPACE_ID }}
+        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
       
