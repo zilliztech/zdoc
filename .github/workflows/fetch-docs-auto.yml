@@ -42,9 +42,16 @@ jobs:
       run: |
         npx docusaurus report-to-lark -m "🔥 All docs fetched! Building docs..."
         npm run build
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
     - name: link checks
       env:
-          TOKEN: ${{ secrets.ACTION_TOKEN }}
+        TOKEN: ${{ secrets.ACTION_TOKEN }}
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
       run: |
         npx docusaurus report-to-lark -m "🔥 Docs built! Checking links..."
         npx docusaurus link-checks
@@ -71,8 +78,6 @@ jobs:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        SPACE_ID: ${{ secrets.SPACE_ID }}
-        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
   success:
     needs: fetch
     runs-on: ubuntu-latest
@@ -90,6 +95,4 @@ jobs:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        SPACE_ID: ${{ secrets.SPACE_ID }}
-        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
       
