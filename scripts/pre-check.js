@@ -4,6 +4,7 @@ const {
 	nginxConfigPath,
 	validateChangedFiles,
 	getNginxRedirects,
+	getDeletedSlugs,
 } = require("./common");
 
 console.info(`***** Running pre-check.js *****`);
@@ -16,7 +17,7 @@ fs.readFile(nginxConfigPath, "utf8", (err, fileContents) => {
 
 	const redirects = getNginxRedirects(fileContents);
 
-	const GIT_COMMAND_GET_CHANGED_FILES = `git diff --cached --name-only --diff-filter=DR`;
+	const GIT_COMMAND_GET_CHANGED_FILES = `git diff --cached`;
 	exec(GIT_COMMAND_GET_CHANGED_FILES, (error, stdout, stderr) => {
 		if (error) {
 			console.error(`exec error: ${error}`);
@@ -26,7 +27,8 @@ fs.readFile(nginxConfigPath, "utf8", (err, fileContents) => {
 			console.error(`stderr: ${stderr}`);
 			return;
 		}
-		validateChangedFiles(stdout, redirects);
+		const deletedSlugs = getDeletedSlugs(stdout);
+		validateChangedFiles(deletedSlugs, redirects);
 		console.info(`***** 🎉 pre-check.js completed successfully *****\n`);
 	});
 });
