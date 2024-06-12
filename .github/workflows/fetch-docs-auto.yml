@@ -6,8 +6,6 @@ on:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    outputs:
-      fetch_docs_output: $ 
     steps:
     - name: get current date
       id: date
@@ -20,6 +18,7 @@ jobs:
       id: fetch_docs
       run: |
         yarn
+        npx docusaurus report-to-lark -m "🔥 Start building global docs..."
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -skipS
@@ -41,11 +40,13 @@ jobs:
         FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
     - name: build docsite
       run: |
+        npx docusaurus report-to-lark -m "🔥 All docs fetched! Building docs..."
         npm run build
     - name: link checks
       env:
           TOKEN: ${{ secrets.ACTION_TOKEN }}
       run: |
+        npx docusaurus report-to-lark -m "🔥 Docs built! Checking links..."
         npx docusaurus link-checks
     - name: commit to dev
       uses: stefanzweifel/git-auto-commit-action@v5
@@ -53,4 +54,30 @@ jobs:
         branch: dev
         create_branch: true
         push_options: --force
+  failure:
+    needs: fetch
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+    - name: set up Environment
+      uses: actions/setup-node@v4.0.1
+    - name: checkout repo
+      uses: actions/checkout@v4
+    - name: report failure
+      run : |
+        yarn
+        npx docusaurus report-to-lark -m "🔥 Build failed! Please check the logs."
+  success:
+    needs: fetch
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+    - name: set up Environment
+      uses: actions/setup-node@v4.0.1
+    - name: checkout repo
+      uses: actions/checkout@v4
+    - name: report success
+      run : |
+        yarn
+        npx docusaurus report-to-lark -m "🔥 Build succeeded! You can build docs on Jenkins now."
       

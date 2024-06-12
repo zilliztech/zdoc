@@ -195,7 +195,11 @@ const config = {
     }],
     './plugins/apifox-docs',
     './plugins/link-checks',
-    './plugins/nb-to-mdx'
+    './plugins/nb-to-mdx',
+    ['./plugins/report-to-lark',{
+        receiveId: 'oc_0e36909edb9247c7b6ecb437e99f1d68'
+      }
+    ]
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
