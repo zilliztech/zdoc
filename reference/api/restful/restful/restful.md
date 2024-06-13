@@ -25,7 +25,7 @@ The control plane provides APIs for **Cloud Meta**, **Cluster Operations**, **Im
 
     ```shell
     export CLOUD_REGION="gcp-us-west1"
-    export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
     curl --request GET \
         --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clouds" \
@@ -47,7 +47,7 @@ The control plane provides APIs for **Cloud Meta**, **Cluster Operations**, **Im
 
     curl --request GET \
         --url "${CLUSTER_ENDPOINT}/v1/vector/collections" \
-        --header "Authorization: Bearer ${TOKEN}" \
+        --header "Authorization: Bearer ${CLUSTER_USER}:${CLUSTER_PASSWORD}" \
         --header "accept: application/json" \
         --header "content-type: application/json"
     ```

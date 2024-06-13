@@ -437,35 +437,11 @@ There is an empty object in the 'data' parameter.
 
 **80005**
 
-Invalid cuType. The parameter value should be one of ['Performance-optimized','Capacity-optimized','Cost-optimized'].
+Invalid cuType. The parameter value should be one of ['Performance-optimized','Capacity-optimized'].
 
 **80006**
 
-Invalid cuSize. The parameter value should be one of [1
-
-
-2
-
-
-4
-
-
-6
-
-
-8
-
-
-12
-
-
-16
-
-
-20
-
-
-24]
+Invalid cuSize. The parameter value should be one of [1,2,4,6,8,12,16,20,24].
 
 **80013**
 

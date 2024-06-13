@@ -1,7 +1,7 @@
 {
     "servers": [
         {
-          "url": "https://api.{cloud-region}.cloud.zilliz.com.cn/v1",
+          "url": "https://api.${CLOUD_REGION}.cloud.zilliz.com.cn/v1",
           "variables": {
             "cloud-region": {
               "default": "ali-cn-hangzhou",
@@ -10,7 +10,7 @@
           }
         },
         {
-          "url": "https://{instance-id}.{cloud-region}.vectordb.zilliz.com.cn/v1",
+          "url": "https://${INSTANCE_ID}.${CLOUD_REGION}.vectordb.zilliz.com.cn/v1",
           "variables": {
             "instance-id": {
               "default": "vector-instance",
