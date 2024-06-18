@@ -677,14 +677,12 @@ class larkDocWriter {
         
             acorns.forEach((acorn, i) => {
                 const c = acorn[0].match(/</g).length - 1
-                const a = acorn[0].replace(/</g, '\\<')
+                const a = acorn[0].replace(/</g, '\\<').replace('"{', '"\\{').replace(/\\\\/g, '\\').replace('<=', '&lt;=').replace('<,', '&lt;,');
                 content = content.slice(0, acorn.index + i) + a + content.slice(acorn.index + i + acorn[0].length + c)
             })
         }
         
-        return content.replace('"{', '"\\{').replace(/\\\\/g, '\\')
-            .replace('<=', '&lt;=')
-            .replace('<,', '&lt;,');
+        return content;
     }
 
     async __page(page) {

@@ -137,7 +137,7 @@ class larkDocScraper {
 
         this.records = records
 
-        fs.writeFileSync(`records.json`, JSON.stringify(this.records, null, 2))
+        // fs.writeFileSync(`records.json`, JSON.stringify(this.records, null, 2))
 
         const slugs = {}
         if (records.length > 0) {
@@ -152,7 +152,7 @@ class larkDocScraper {
         
         this.slugs = slugs
 
-        fs.writeFileSync(`slugs.json`, JSON.stringify(this.slugs, null, 2))
+        // fs.writeFileSync(`slugs.json`, JSON.stringify(this.slugs, null, 2))
     }
 
     async __slugify(token, title=null) {
