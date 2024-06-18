@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 60
+sidebar_position: 64
 slug: /restful/get-collection-load-state-v2
 title: Get Collection Load State
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation returns the load status of a specific collection.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/collections/get_load_state" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_load_state" />
 
 ---
 

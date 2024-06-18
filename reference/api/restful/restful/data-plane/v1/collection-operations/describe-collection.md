@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Describes the details of a collection.
 
-<RestHeader method="get" endpoint="https://{cluster-endpoint}/v1/vector/collections/describe" />
+<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/vector/collections/describe" />
 
 ---
 
@@ -18,10 +18,10 @@ Describes the details of a collection.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v1/vector/collections/describe?collectionName=quick_setup&dbName=default" \
+curl --location --request POST "http://${MILVUS_URI}/v1/vector/collections/describe?collectionName=quick_setup" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" 
 ```
@@ -75,7 +75,6 @@ Possible response is similar to the following.
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
     | `collectionName`  | **string**(required)<br/>The name of the collection to describe.|
-    | `dbName`  | **string**<br/>The name of the database.|
 
 - No path parameters required
 

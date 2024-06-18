@@ -12,7 +12,7 @@ This operation inserts data into a specific collection.
 > Notes
 > You can insert a maximum of 100 entities at a time. To insert large volumes of data, please use [the bulk-insert API](https://docs.zilliz.com/docs/data-import).
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/entities/insert" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" />
 
 ---
 
@@ -21,8 +21,8 @@ This operation inserts data into a specific collection.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/entities/insert" \
 --header "Authorization: Bearer ${TOKEN}" \

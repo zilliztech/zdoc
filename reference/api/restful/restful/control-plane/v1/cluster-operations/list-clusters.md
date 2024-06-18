@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists all clusters in the specified cloud region.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters" />
+<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters" />
 
 ---
 
@@ -17,35 +17,40 @@ Lists all clusters in the specified cloud region.
 
 
 
-
-:::info Notes
-
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
-
-:::
-
 ```shell
-curl --request GET \
-    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters?pageSize=&current=" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json"
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
+
+curl --location --request GET "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters?pageSize=10&current=1" \
+--header "Authorization: Bearer ${API_KEY}"
 ```
-
-Success response:
-
-```shell
+Possible response is similar to the following.
+```json
 {
     "code": 200,
     "data": {
-       "count": 0,
-       "currentPage": 1,
-       "pageSize": 10,
-       "clusters": []
+        "count": 1,
+        "currentPage": 1,
+        "pageSize": 10,
+        "clusters": [
+            {
+                "clusterId": "inxx-xxxxxxxxxxxxxxx",
+                "clusterName": "Cluster-01",
+                "description": "",
+                "regionId": "gcp-us-west1",
+                "clusterType": "Cost-optimized",
+                "plan": "Free",
+                "cuSize": 0,
+                "status": "RUNNING",
+                "connectAddress": "https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com",
+                "privateLinkAddress": "",
+                "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+                "createTime": "2024-04-01T06:42:31Z"
+            }
+        ]
     }
 }
 ```
-
 
 
 

@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Create a pipeline.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" />
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" />
 
 ---
 
@@ -215,7 +215,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
         }
     ],
     "clusterId": "string",
-    "newCollectionName": "string"
+    "collectionName": "string",
+    "projectId": "string"
 }
 ```
 
@@ -225,9 +226,10 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 | __type__ | string  <br/>Type of the pipeline to create. For an ingestion pipeline, the value should be `INGESTION`.  |
 | __description__ | string  <br/>Description of the pipeline to create.  |
 | __functions__ | array<br/>Actions to take in the pipeline to create. For an ingestion pipeline, you can add only one doc-indexing function and multilpe preserve functions. |
-| __functions[]__ | object | object<br/> |
+| __functions[]__ | object | object | object | object<br/> |
 | __clusterId__ | string  <br/>ID of a target cluster. You can find it in cluster details on Zilliz Cloud console.  |
-| __newCollectionName__ | string  <br/>Name of the collection to create in the specified cluster. Zilliz Cloud creates a new collection and name it using this value.  |
+| __collectionName__ | string  <br/>Name of the collection to create in the specified cluster. Zilliz Cloud creates a new collection and name it using this value.  |
+| __projectId__ | string  <br/>ID of the project to which the target cluster belongs.  |
 
 ```json
 {
@@ -239,9 +241,12 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
             "name": "string",
             "action": "string",
             "clusterId": "string",
-            "collectionName": "string"
+            "collectionName": "string",
+            "embedding": "string",
+            "reranker": "string"
         }
-    ]
+    ],
+    "projectId": "string"
 }
 ```
 
@@ -253,9 +258,12 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 | __functions__ | array<br/>Actions to take in the search pipeline to create. You can define multiple functions to retrieve results from different collections. |
 | __functions[]__ | object<br/> |
 | __functions[].name__ | string  <br/>Name of the function to create.  |
-| __functions[].action__ | string  <br/>Type of the function to create. For a search pipeline, possible value is `SEARCH_DOC_CHUNK`.  |
+| __functions[].action__ | string  <br/>Type of the function to create. For a search pipeline, possible value is `SEARCH_TEXT`, `SEARCH_DOC_CHUNK`, and `SEARCH_IMAGE_BY_IMAGE`.  |
 | __functions[].clusterId__ | string  <br/>ID of a target collection in which Zilliz Cloud concducts the search.  |
 | __functions[].collectionName__ | string  <br/>Name of the collection in which ZIlliz Cloud conducts the search.  |
+| __functions[].embedding__ | string  <br/>The embedding model used during vector search. The model should be consistent with the one chosen in the compatible collection.  |
+| __functions[].reranker__ | string  <br/>If you need to reorder or rank a set of candidate outputs to improve the quality of the search results, set this parameter to a reranker model. This parameter applies only to pipelines for Text and Doc Data. Currently, only `zilliz/bge-reranker-base` is available as the parameter value.  |
+| __projectId__ | string  <br/>ID of the project to which the target cluster belongs  |
 
 ```json
 {
@@ -265,12 +273,12 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     "functions": [
         {
             "name": "string",
-            "action": "string",
-            "inputField": "string"
+            "action": "string"
         }
     ],
     "clusterId": "string",
-    "collectionName": "string"
+    "collectionName": "string",
+    "projectId": "string"
 }
 ```
 
@@ -282,10 +290,10 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 | __functions__ | array<br/>Actions to take in the pipeline to create. |
 | __functions[]__ | object<br/> |
 | __functions[].name__ | string  <br/>Name of the function to create.  |
-| __functions[].action__ | string  <br/>Type of the function to create. For a delete pipeline, possible value is `PURGE_DOC_INDEX`.  |
-| __functions[].inputField__ | string  <br/>Name the field according to your needs. In a delete pipeline, use it for the name of a document to delete.  |
+| __functions[].action__ | string  <br/>Type of the function to create. For a delete pipeline, possible value is `PURGE_BY_EXPRESSION`, `PURGE_DOC_INDEX`, and `PURGE_IMAGE_INDEX`.  |
 | __clusterId__ | string  <br/>ID of a target cluster. You can find it in cluster details on Zilliz Cloud console.  |
 | __collectionName__ | string  <br/>Name of the collection to create in the specified cluster. Zilliz Cloud creates a new collection and name it using this value.  |
+| __projectId__ | string  <br/>ID of the project to which the target cluster belongs.  |
 
 ## Response
 
@@ -333,7 +341,7 @@ The properties in the returned response are listed in the following table.
 | __data.type__ | string  <br/>Type of the pipeline. For an ingestion pipeline, the value should be `INGESTION`.  |
 | __data.description__ | string  <br/>Description of the pipeline.  |
 | __data.status__ | string  <br/>Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working.  |
-| __functions__ | object | object<br/>Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function. |
+| __functions__ | object | object | object | object<br/>Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function. |
 | __data.clusterID__ | string  <br/>The target cluster to which the pipeline applies.  |
 | __data.collectionName__ | string  <br/>The target collection to which the pipeline applies.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |

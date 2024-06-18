@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 57
+sidebar_position: 60
 slug: /restful/has-partition-v2
 title: Has Partition
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation checks whether a partition exists.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/partitions/has" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/has" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation checks whether a partition exists.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/partitions/has" \
 --header "Authorization: Bearer ${TOKEN}" \

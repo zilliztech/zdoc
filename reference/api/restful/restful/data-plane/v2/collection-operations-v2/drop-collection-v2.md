@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 64
+sidebar_position: 68
 slug: /restful/drop-collection-v2
 title: Drop Collection
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation drops the current collection and all data within the collection.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/collections/drop" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation drops the current collection and all data within the collection.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/drop" \
 --header "Authorization: Bearer ${TOKEN}" \

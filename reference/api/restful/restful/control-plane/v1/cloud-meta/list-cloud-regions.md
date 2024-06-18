@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists all available cloud regions of a specific cloud provider.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/regions" />
+<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/regions" />
 
 ---
 
@@ -17,26 +17,15 @@ Lists all available cloud regions of a specific cloud provider.
 
 
 
-
-:::info Notes
-
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
-
-:::
-
 ```shell
-curl --request GET \
-    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/regions?cloudId=gcp" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json"
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
+
+curl --location --request GET "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/regions?cloudId=gcp" \
+--header "Authorization: Bearer ${API_KEY}"
 ```
-
-You can obtain valid `cloudId` values by performing [List Cloud Providers](./list-cloud-providers) operations.
-
-Success response:
-
-```shell
+Possible response is similar to the following.
+```json
 {
     "code": 200,
     "data": [
@@ -48,7 +37,6 @@ Success response:
     ]
 }
 ```
-
 
 
 

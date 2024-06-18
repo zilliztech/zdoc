@@ -12,7 +12,7 @@ This operation grants a specified role to the current user. Once granted the rol
 > Notes
 > To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/users/grant_role" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/users/grant_role" />
 
 ---
 
@@ -21,8 +21,8 @@ This operation grants a specified role to the current user. Once granted the rol
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/users/grant_role" \
 --header "Authorization: Bearer ${TOKEN}" \

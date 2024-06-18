@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 61
+sidebar_position: 65
 slug: /restful/list-indexes-v2
 title: List Indexes
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation lists all indexes of a specific collection.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/indexes/list" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/list" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation lists all indexes of a specific collection.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/indexes/list" \
 --header "Authorization: Bearer ${TOKEN}" \

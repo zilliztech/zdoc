@@ -21,6 +21,12 @@ The **Metrics** tab in the Zilliz Cloud console presents various graphical repre
 
 The table provides a description of each metric and the actions that you are advised to perform when the usage of your cluster resource exceeds a threshold.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Currently, free clusters offer only one metric, CU Capacity. To unlock a range of advanced metrics, <a href="./manage-cluster#upgrade-plan">upgrade your plan tier</a>.</p>
+
+</Admonition>
+
 <table>
    <tr>
      <th><p>Metric Name</p></th>
@@ -32,6 +38,18 @@ The table provides a description of each metric and the actions that you are adv
      <td colspan="4"><p><strong>Resources</strong></p></td>
    </tr>
    <tr>
+     <td><p>Read vCUs</p></td>
+     <td><p>%</p></td>
+     <td><p>The measure of vCU consumption of search and query operations.<br/> This metric is available only for Serverless clusters.</p></td>
+     <td><p>-</p></td>
+   </tr>
+   <tr>
+     <td><p>Write vCUs</p></td>
+     <td><p>%</p></td>
+     <td><p>The measure of vCU consumption of insert, delete, and upsert operations.<br/> This metric is available only for Serverless clusters.</p></td>
+     <td><p>-</p></td>
+   </tr>
+   <tr>
      <td><p>CU Computation</p></td>
      <td><p>%</p></td>
      <td><p>A measure of the utilized computational power relative to the total computational capacity of the CU.</p></td>
@@ -40,7 +58,7 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td><p>CU Capacity</p></td>
      <td><p>%</p></td>
-     <td><p>A measure of the used capacity relative to the total capacity of the CU.<br/> </p></td>
+     <td><p>A measure of the used capacity relative to the total capacity of the CU.<br/> This also applies to free clusters.</p></td>
      <td><p><strong>70%-80%</strong>: Check service status and prepare for scaling up.<br/> <strong>> 90%</strong>: <a href="./manage-cluster#manage-and-configure-clusters">Scale up</a> immediately to avoid service interruption.<br/> <strong>100%</strong>: When CU capacity reaches 100%, you will be unable to write data into the cluster. Please <a href="./manage-cluster#manage-and-configure-clusters">scale up</a> immediately to avoid service interruption.</p></td>
    </tr>
    <tr>
@@ -170,7 +188,7 @@ Organization alerts keep you informed about billing-related issues such as expir
 
 Project alerts focus on the operational aspects of your clusters, including notifications on the CU usage, QPS thresholds, latency issues, and request anomalies, ensuring you maintain optimal cluster performance.
 
-For each project alert target, the trigger condition includes a threshold value and a duration value that must be met for the alert to be triggered. The condition can be set to one of the following operators: >, >=, &lt;, &lt;=, =. The threshold value can be a numeric value, such as a number for metrics like query latency, query QPS, search QPS, CU Capacity, and CU Computation. The duration specifies how long the threshold must be exceeded, which is set to a minimum of 1 minute and a maximum of 30 minutes.
+For each project alert target, the trigger condition includes a threshold value and a duration value that must be met for the alert to be triggered. The condition can be set to one of the following operators: >, >=, \<, \<=, =. The threshold value can be a numeric value, such as a number for metrics like query latency, query QPS, search QPS, CU Capacity, and CU Computation. The duration specifies how long the threshold must be exceeded, which is set to a minimum of 1 minute and a maximum of 30 minutes.
 
 ### Default alert targets{#default-alert-targets}
 

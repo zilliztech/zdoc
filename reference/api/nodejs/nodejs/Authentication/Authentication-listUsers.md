@@ -5,7 +5,7 @@ beta: FALSE
 notebook: FALSE
 type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
-sidebar_position: 10
+sidebar_position: 12
 displayed_sidebar: nodeSidebar
 
 ---
@@ -15,7 +15,7 @@ import Admonition from '@theme/Admonition';
 
 # listUsers()
 
-This is a method template.
+This operation lists currently available users.
 
 ```javascript
 listUsers(data): Promise<ListCredUsersResponse>

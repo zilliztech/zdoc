@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 69
+sidebar_position: 73
 slug: /restful/create-alias-v2
 title: Create Alias
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation creates an alias for an existing collection. A collection can have multiple aliases, while an alias can be associated with only one collection.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/aliases/create" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/create" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation creates an alias for an existing collection. A collection can hav
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/aliases/create" \
 --header "Authorization: Bearer ${TOKEN}" \

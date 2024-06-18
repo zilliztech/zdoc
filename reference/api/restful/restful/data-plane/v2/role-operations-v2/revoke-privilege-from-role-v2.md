@@ -1,15 +1,19 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 41
-slug: /restful/create-user-v2
-title: Create User
+sidebar_position: 63
+slug: /restful/revoke-privilege-from-role-v2
+title: Revoke Privilege From Role
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-This operation creates a new user with a corresponding password.
+This operation revokes a privilege granted to the current role.
 
-<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/users/create" />
+> Notes
+> - To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).
+> - To learn more about the privileges and role objects, refer to [Users & Roles](https://milvus.io/docs/users_and_roles.md)
+
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/roles/revoke_privilege" />
 
 ---
 
@@ -21,15 +25,17 @@ This operation creates a new user with a corresponding password.
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/users/create" \
+curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/roles/revoke_privilege" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
-    "password": "P@ssw0rd",
-    "userName": "milvusAdmin"
+    "objectType": "Collection",
+    "objectName": "*",
+    "privilege": "Search",
+    "roleName": "readOnly"
 }'
 ```
-Possible response is similar to the following:
+Possible response is similar to the following.
 ```json
 {
     "code": 0,
@@ -51,15 +57,19 @@ Possible response is similar to the following:
 
 ```json
 {
-    "userName": "string",
-    "password": "string"
+    "roleName": "string",
+    "objectType": "string",
+    "objectName": "string",
+    "privilege": "string"
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __userName__ | string  <br/>The name of the target user. The value should start with a letter and can only contain underline, letters and numbers.  |
-| __password__ | string  <br/>The corresponding password to the new user to create. <br/>The password must be a string of 8 to 64 characters and must include at least three of the following character types: uppercase letters, lowercase letters, numbers, and special characters.  |
+| __roleName__ | string  <br/>The name of the role.  |
+| __objectType__ | string  <br/>The type of the object to which the privilege belongs.  |
+| __objectName__ | string  <br/>The name of the object to which the role is granted the specified privilege.  |
+| __privilege__ | string  <br/>The privilege that is granted to the role.  |
 
 ## Response
 

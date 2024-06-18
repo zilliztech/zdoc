@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 62
+sidebar_position: 66
 slug: /restful/list-collections-v2
 title: List Collections
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation lists all collections in the specified database.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/collections/list" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation lists all collections in the specified database.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/list" \
 --header "Authorization: Bearer ${TOKEN}" \

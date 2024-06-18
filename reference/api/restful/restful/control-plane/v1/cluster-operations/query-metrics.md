@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 70
+sidebar_position: 74
 slug: /restful/query-metrics
 title: Query Metrics
 ---
@@ -8,6 +8,14 @@ title: Query Metrics
 import RestHeader from '@site/src/components/RestHeader';
 
 View metric statistics.
+
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/CLUSTER_ID/metrics/query" />
+
+---
+
+## Example
+
+
 
 ```shell
 export CLOUD_REGION="gcp-us-west1"
@@ -58,17 +66,6 @@ Possible response is similar to the following.
 }
 ```
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/clusters/{CLUSTER_ID}/metrics/query" />
-
----
-
-## Example
-
-
-
-# RESTful API Examples
-
-
 
 
 ## Request
@@ -77,11 +74,7 @@ Possible response is similar to the following.
 
 - No query parameters required
 
-- Path parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `CLUSTER_ID`  | **string**(required)<br/>|
+- No path parameters required
 
 ### Request Body
 

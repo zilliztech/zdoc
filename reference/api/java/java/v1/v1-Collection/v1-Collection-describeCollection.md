@@ -89,7 +89,7 @@ Methods of `DescCollResponseWrapper`:
    </tr>
    <tr>
      <td><p>getCollectionDescription()</p></td>
-     <td><p>Get the description of the collection.<br/></p></td>
+     <td><p>Get the description of the collection.</p></td>
      <td><p>N/A</p></td>
      <td><p>String</p></td>
    </tr>

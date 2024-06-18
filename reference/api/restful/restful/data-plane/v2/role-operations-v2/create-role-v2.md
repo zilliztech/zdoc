@@ -1,15 +1,15 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 22
-slug: /restful/drop-collection
-title: Drop Collection
+sidebar_position: 49
+slug: /restful/create-role-v2
+title: Create Role
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-Drops a collection. This operation erases your collection data. Exercise caution when performing this operation.
+This operation creates the current role.
 
-<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/vector/collections/drop" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/roles/create" />
 
 ---
 
@@ -17,37 +17,24 @@ Drops a collection. This operation erases your collection data. Exercise caution
 
 
 
-
-:::info Notes
-
-You can use either of the following ways to authorize:
-
-- An [API Key](/docs/manage-api-keys) with appropriate permissions.
-- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
-
-:::
-
-
 ```shell
-curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/collections/drop" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json" \
-    -d '{
-       "collectionName": "medium_articles"
-     }'
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
+
+curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/roles/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data-raw '{
+    "roleName": "readOnly"
+}'
 ```
-
-Success response:
-
-```shell
+Possible response is similar to the following.
+```json
 {
-    "code": 200,
+    "code": 0,
     "data": {}
 }
 ```
-
 
 
 
@@ -63,17 +50,17 @@ Success response:
 
 ```json
 {
-    "collectionName": "string"
+    "roleName": "string"
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __collectionName__ | string  <br/>The name of the collection to delete.  |
+| __roleName__ | string  <br/>The name of the role.  |
 
 ## Response
 
-Returns an empty object.
+None
 
 ### Response Bodies
 

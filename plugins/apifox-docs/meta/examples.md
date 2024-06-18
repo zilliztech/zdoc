@@ -401,8 +401,7 @@ curl --request POST \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
-    -d '{
-      "dbName": "default",   
+    -d '{ 
       "collectionName": "medium_articles",
       "dimension": 256,
       "metricType": "L2",

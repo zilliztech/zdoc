@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation describes the detailed information of a specific user.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/users/describe" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/users/describe" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation describes the detailed information of a specific user.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/users/describe" \
 --header "Authorization: Bearer ${TOKEN}" \

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 59
+sidebar_position: 62
 slug: /restful/revoke-role-from-user-v2
 title: Revoke Role From User
 ---
@@ -12,7 +12,7 @@ This operation revokes a privilege granted to the current role.
 > Notes
 > To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/users/revoke_role" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/users/revoke_role" />
 
 ---
 
@@ -21,8 +21,8 @@ This operation revokes a privilege granted to the current role.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/users/revoke_role" \
 --header "Authorization: Bearer ${TOKEN}" \

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 56
+sidebar_position: 59
 slug: /restful/create-collection-v2
 title: Create Collection
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation creates a collection in a specified cluster.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/collections/create" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" />
 
 ---
 
@@ -24,8 +24,8 @@ You can choose between a quick setup or a custom setup as follows:
 The quick setup collection has two fields: the primary and vector fields. It also allows the insertion of undefined fields and their values in key-value pairs in a dynamic field.
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -46,8 +46,8 @@ In the above setup,
 You can modify the names of the primary and vector fields and change the metric type. Additionally, the primary field can be set to increment automatically.
     
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -73,8 +73,8 @@ In the above code, the collection will be created and automatically loaded into 
 For a customized setup, you need to include the schema object in the request. You are advised to include the index parameters also, so that the collection will be indexed upon creation.
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -124,8 +124,8 @@ curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/cre
 Of course, you can leave the index parameters unspecified in the request and create an index for the collection later.
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \

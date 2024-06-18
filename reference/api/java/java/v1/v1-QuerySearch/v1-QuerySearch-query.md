@@ -127,7 +127,7 @@ Methods of `QueryResultsWrapper`:
      <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td><p>getFieldWrapper(String fieldName)<br/></p></td>
+     <td><p>getFieldWrapper(String fieldName)</p></td>
      <td><p>Return a FieldDataWrapper object by a field name. Throws <code>ParamException</code> if the field doesn't exist.</p></td>
      <td><p>fieldName: A field name which is specified by the withOutFields() of QueryParam.</p></td>
      <td><p>FieldDataWrapper</p></td>

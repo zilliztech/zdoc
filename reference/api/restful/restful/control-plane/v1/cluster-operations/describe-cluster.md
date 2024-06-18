@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Describe a cluster in detail.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/{CLUSTER_ID}" />
+<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/{CLUSTER_ID}" />
 
 ---
 
@@ -17,44 +17,35 @@ Describe a cluster in detail.
 
 
 
-
-:::info Notes
-
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
-
-:::
-
 ```shell
-curl --request GET \
-    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/${clusterId}" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json"
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
+
+curl --location --request GET "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/inxx-xxxxxxxxxxxxxxx" \
+--header "Authorization: Bearer ${API_KEY}"
 ```
-
-Success response:
-
-```shell
+Possible response is similar to the following.
+```json
 {
     "code": 200,
     "data": {
-        "clusterId": "in03-***************",
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
         "clusterName": "Cluster-01",
         "description": "",
         "regionId": "gcp-us-west1",
         "clusterType": "",
+        "plan": "Free",
         "cuSize": 0,
-        "status": "RUNNING",
-        "connectAddress": "https://in03-***************.api.gcp-us-west1.cloud-uat3.zilliz.com",
+        "status": "DELETED",
+        "connectAddress": "https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com",
         "privateLinkAddress": "",
-        "createTime": "2023-12-12T11:32:43Z",
+        "createTime": "2024-04-01T06:32:39Z",
         "storageSize": 0,
         "snapshotNumber": 0,
-        "createProgress": 100
+        "createProgress": 100,
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx"
     }
 }
-```
-
 
 
 

@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Creates a serverless cluster.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/createServerless" />
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/createServerless" />
 
 ---
 

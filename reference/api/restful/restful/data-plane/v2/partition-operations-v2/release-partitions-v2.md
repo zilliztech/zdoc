@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 55
+sidebar_position: 58
 slug: /restful/release-partitions-v2
 title: Release Partitions
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation releases the data of the current partition from memory.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/partitions/release" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/release" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation releases the data of the current partition from memory.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/partitions/release" \
 --header "Authorization: Bearer ${TOKEN}" \

@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists collections in a cluster.
 
-<RestHeader method="get" endpoint="https://{cluster-endpoint}/v1/vector/collections" />
+<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/vector/collections" />
 
 ---
 
@@ -18,10 +18,10 @@ Lists collections in a cluster.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v1/vector/collections?dbName=default" \
+curl --location --request POST "http://${MILVUS_URI}/v1/vector/collections" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" 
 ```
@@ -43,11 +43,7 @@ Possible response is similar to the following.
 
 ### Parameters
 
-- Query parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `dbName`  | **string**<br/>The name of the database|
+- No query parameters required
 
 - No path parameters required
 

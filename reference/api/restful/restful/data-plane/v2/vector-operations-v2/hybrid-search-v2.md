@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 71
+sidebar_position: 75
 slug: /restful/hybrid-search-v2
 title: Hybrid Search
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/entities/hybrid_search" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search" />
 
 ---
 
@@ -18,8 +18,8 @@ import RestHeader from '@site/src/components/RestHeader';
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/entities/search" \
 --header "Authorization: Bearer ${TOKEN}" \

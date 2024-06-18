@@ -12,7 +12,7 @@ This operation inserts new records into the database or updates existing ones.
 > Notes
 > The upsert endpoint does not apply to the collections that have autoId enabled.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/entities/upsert" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" />
 
 ---
 
@@ -21,8 +21,8 @@ This operation inserts new records into the database or updates existing ones.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/entities/upsert" \
 --header "Authorization: Bearer ${TOKEN}" \

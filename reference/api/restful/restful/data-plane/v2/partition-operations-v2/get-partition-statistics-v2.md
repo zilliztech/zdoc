@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 58
+sidebar_position: 61
 slug: /restful/get-partition-statistics-v2
 title: Get Partition Statistics
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operations gets the number of entities in a partition.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/partitions/get_stats" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/get_stats" />
 
 ---
 
@@ -18,8 +18,8 @@ This operations gets the number of entities in a partition.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/partitions/get_stats" \
 --header "Authorization: Bearer ${TOKEN}" \

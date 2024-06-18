@@ -91,7 +91,7 @@ Methods of `GetCollStatResponseWrapper`:
      <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td><p>getRowCount()<br/></p></td>
+     <td><p>getRowCount()</p></td>
      <td><p>Gets the row count of a collection. Note that due to technical reasons, the deleted entities are not counted in the row count.</p></td>
      <td><p>N/A<br/></p></td>
      <td><p>long</p></td>

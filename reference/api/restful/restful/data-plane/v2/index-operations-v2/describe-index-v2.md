@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 51
+sidebar_position: 54
 slug: /restful/describe-index-v2
 title: Describe Index
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation describes the current index.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/indexes/describe" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/describe" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation describes the current index.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/indexes/describe" \
 --header "Authorization: Bearer ${TOKEN}" \

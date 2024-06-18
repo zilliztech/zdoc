@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation lists the information about all existing roles.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/roles/list" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/roles/list" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation lists the information about all existing roles.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/roles/list" \
 --header "Authorization: Bearer ${TOKEN}" \

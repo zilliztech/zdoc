@@ -155,17 +155,17 @@ For more information please refer to <a href="https://milvus.io/docs/v2.3.x/bool
     </tr>
     <tr>
         <td><p>withFloat16Vectors(List\<ByteBuffer> vectors)</p></td>
-        <td><p>Set the target vectors to search Float16Vector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
+        <td><p>Set the target vectors to search Float16Vector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
         <td><p>withBFloat16Vectors(List\<List\<Float>gt; vectors)</p></td>
-        <td><p>Set the target vectors to search BFloat16Vector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
+        <td><p>Set the target vectors to search BFloat16Vector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
         <td><p>withSparseFloatVectors(List\<SortedMap\<Long, Float>gt; vectors)</p></td>
-        <td><p>Set the target vectors to search SparseFloatVector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
+        <td><p>Set the target vectors to search SparseFloatVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
@@ -196,7 +196,7 @@ Methods of `RRFRanker.Builder`:
     </tr>
     <tr>
         <td><p>withK(Integer k)</p></td>
-        <td><p>Sets k factor for RRF. Value cannot be negative. Default value is 60.<br/>score = 1 / (k + float32(rank<em>i+1))<br/>rank</em>i is the rank in each field<br/></p></td>
+        <td><p>Sets k factor for RRF. Value cannot be negative. Default value is 60.<br/>score = 1 / (k + float32(rank<em>i+1))<br/>rank</em>i is the rank in each field</p></td>
         <td><p>k: The k factor value.</p></td>
     </tr>
     <tr>
@@ -227,7 +227,7 @@ Methods of `WeightedRanker.Builder`:
     </tr>
     <tr>
         <td><p>withWeights(List\<Float> weights)</p></td>
-        <td><p>Assign weights for each AnnSearchParam. The length of weights must be equal to number of AnnSearchParam.<br/>You can assign any float value for weight, the sum of weight values can exceed 1.<br/>The distance/similarity values of each field will be mapped into a range of [0,1],<br/>and score = sum(weights[i] * distance<em>i</em>in_[0,1]).<br/></p></td>
+        <td><p>Assign weights for each AnnSearchParam. The length of weights must be equal to number of AnnSearchParam.<br/>You can assign any float value for weight, the sum of weight values can exceed 1.<br/>The distance/similarity values of each field will be mapped into a range of [0,1],<br/>and score = sum(weights[i] * distance<em>i</em>in_[0,1]).</p></td>
         <td><p>weights: The weight values.</p></td>
     </tr>
     <tr>
@@ -258,7 +258,7 @@ AnnSearchParam req1 = AnnSearchParam.newBuilder()
         .withVectorFieldName(FLOAT_VECTOR_FIELD)
         .withFloatVectors(floatVectors)
         .withMetricType(MetricType.IP)
-        .withParams("\{\"nprobe\": 32}")
+        .withParams("{\"nprobe\": 32}")
         .withTopK(10)
         .build();
 

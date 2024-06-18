@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Trigger a specific pipeline.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/pipeline/{PIPELINE_ID}/run" />
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipeline/{PIPELINE_ID}/run" />
 
 ---
 
@@ -134,24 +134,18 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 ### Request Body
 
 ```json
-{
-    "data": {
-        "doc_url": "string",
-        "\\<scalar_field_name>": "string"
-    }
-}
+{}
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __data__ | object<br/>Data ingestion parameters. |
-| __data.doc_url__ | string  <br/>An active pre-signed URL of one of your documents in a GCS or an AWS S3 bucket. You should replace `doc_url` with the field name you have defined when you create the pipeline. Supported file types are `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, and `.pptx`  |
-| __data.\<scalar_field_name>__ | string  <br/>  |
+| __data__ | object | object | object<br/> |
 
 ```json
 {
     "data": {
-        "query_text": "string"
+        "query_text": "string",
+        "query_image_url": "string"
     },
     "params": {
         "limit": "integer",
@@ -165,7 +159,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
 | __data__ | object<br/>Search data. |
-| __data.query_text__ | string  <br/>A query text. Zilliz Cloud embeds it and use the generated vector embeddings to conduct a search in the target collection.  |
+| __data.query_text__ | string  <br/>A query text. Zilliz Cloud embeds it and use the generated vector embeddings to conduct a search in the target collection. This applies to pipelines of a SEARCH_TEXT or a SEARCH_DOC_CHUNK type.  |
+| __data.query_image_url__ | string  <br/>The URL of a query image. This applies to pipelines of a SEARCH_IMAGE_BY_IMAGE type.  |
 | __params__ | object<br/>Search parameters. |
 | __params.limit__ | integer  <br/>Total number of records to return.  |
 | __params.offset__ | integer  <br/>Total number of records to skip in the search results.  |
@@ -176,7 +171,9 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 ```json
 {
     "data": {
-        "doc_name": "string"
+        "expression": "string",
+        "doc_name": "string",
+        "image_id": "string"
     }
 }
 ```
@@ -184,7 +181,9 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
 | __data__ | object<br/>Payload of the doc deletion request. |
-| __data.doc_name__ | string  <br/>Name of the document to delete. Note that you can delete document by its name, and all the chunks of the document will be removed.  |
+| __data.expression__ | string  <br/>A filter expression. This applies to pipelines of the INDEX_TEXT type.  |
+| __data.doc_name__ | string  <br/>Name of the document to delete. Note that you can delete document by its name, and all the chunks of the document will be removed. This applies to pipelines of the INDEX_DOC_CHUNK type.  |
+| __data.image_id__ | string  <br/>ID of an image. This applies to pipelines of the INDEX_IMAGE type.  |
 
 ## Response
 
@@ -196,11 +195,7 @@ Returns the result of running a specific pipeline.
 
 ```json
 {
-    "code": "integer",
-    "data": {
-        "num_chunks": "integer",
-        "doc_name": "string"
-    }
+    "code": "integer"
 }
 ```
 
@@ -221,7 +216,5 @@ The properties in the returned response are listed in the following table.
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __code__ | integer  <br/>  |
-| __data__ | object<br/>Payload of the response. |
-| __data.num_chunks__ | integer  <br/>Number of chunks generated.  |
-| __data.doc_name__ | string  <br/>Name of the chunked document with the file extension.  |
+| __data__ | object | object | object<br/>Payload of the response. |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |

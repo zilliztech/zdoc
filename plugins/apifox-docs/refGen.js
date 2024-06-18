@@ -352,6 +352,29 @@ class refGen {
             this.__delete_examples(schema)
           }
         }
+
+        if (url.includes('v1')) {
+          console.log(url)
+          const parameters = specifications.paths[url][method].parameters
+          this.__delete_parameters(parameters, ['dbName', 'partitionName', 'partitionNames'])
+
+          if (specifications.paths[url][method].requestBody) {
+            const schema = specifications.paths[url][method].requestBody.content["application/json"].schema
+            if (schema.oneOf) {
+              for (const req_body of schema.oneOf) {
+                this.__delete_parameters(req_body.properties, ['dbName', 'partitionName', 'partitionNames'])
+              }
+            } else if (schema.anyOf) {
+              schema.oneOf = schema.anyOf
+              delete schema.anyOf
+              for (const req_body of schema.oneOf) {
+                this.__delete_parameters(req_body.properties, ['dbName', 'partitionName', 'partitionNames'])
+              }
+            } else {
+              this.__delete_parameters(schema.properties, ['dbName', 'partitionName', 'partitionNames'])
+            }
+          }
+        }
       }
     }
 
@@ -514,6 +537,22 @@ class refGen {
         this.__delete_examples(body.properties[prop])
       }
     }
+  }
+
+  __delete_parameters(parameters, names) {
+    if (parameters instanceof Array) {
+      for (const param of parameters) {
+        if (names.includes(param.name)) {
+          parameters.splice(parameters.indexOf(param), 1)
+        }
+      }
+    }
+
+    Object.keys(parameters).forEach(key => {
+      if (names.includes(key)) {
+        delete parameters[key]
+      }
+    })
   }
 }
 

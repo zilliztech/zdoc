@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Gets entities by the specified IDs. You can set an ID in string or integer or set a set of IDs in a list of strings or a list of integers as shown in the four types of request bodies below.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/get" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/vector/get" />
 
 ---
 
@@ -104,9 +104,7 @@ curl --request POST \
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
-    "partitionNames": [],
     "outputFields": [],
     "id": "string"
 }
@@ -114,17 +112,13 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
 | __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __partitionNames__ | array<br/>The name of the partitions to which this operation applies. |
-| __partitionNames[]__ | string  <br/>partitionName  |
 | __outputFields__ | array<br/>An array of fields to return along with the search results. |
 | __outputFields[]__ | string  <br/>  |
 | __id__ | string  <br/>The ID of the entity to be retrieved  |
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "outputFields": [],
     "id": []
@@ -133,7 +127,6 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
 | __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
 | __outputFields__ | array<br/>An array of fields to return along with the search results. |
 | __outputFields[]__ | string  <br/>  |
@@ -142,7 +135,6 @@ curl --request POST \
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "outputFields": [],
     "id": "integer"
@@ -151,7 +143,6 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
 | __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
 | __outputFields__ | array<br/>An array of fields to return along with the search results. |
 | __outputFields[]__ | string  <br/>  |
@@ -159,7 +150,6 @@ curl --request POST \
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "outputFields": [],
     "id": []
@@ -168,7 +158,6 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
 | __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
 | __outputFields__ | array<br/>An array of fields to return along with the search results. |
 | __outputFields[]__ | string  <br/>  |

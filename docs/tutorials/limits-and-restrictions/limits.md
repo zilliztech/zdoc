@@ -27,8 +27,8 @@ The following table lists the limits on the maximum number of organizations and 
    </tr>
    <tr>
      <td><p>Organization</p></td>
-     <td><p>1<br/></p></td>
-     <td><p>Each user can create only one organization.<br/></p></td>
+     <td><p>1</p></td>
+     <td><p>Each user can create only one organization.</p></td>
    </tr>
    <tr>
      <td><p>Organization member</p></td>
@@ -71,7 +71,7 @@ The maximum number of clusters and CUs varies with your payment method and subsc
        </tr>
        <tr>
          <td><p>Dedicated (Standard)</p></td>
-         <td><p>1<br/></p></td>
+         <td><p>1</p></td>
          <td><p>The trial Dedicated (Standard) cluster plan offers only 1 cluster. If you would like additional clusters, please provide payment.</p></td>
        </tr>
        <tr>
@@ -91,7 +91,7 @@ The maximum number of clusters and CUs varies with your payment method and subsc
        </tr>
        <tr>
          <td><p>Dedicated (Standard)</p></td>
-         <td><p>32 CUs<br/></p></td>
+         <td><p>32 CUs</p></td>
          <td><p>On the console, you can create up to 32 CUs for a single cluster.</p></td>
        </tr>
        <tr>
@@ -221,50 +221,18 @@ The following table lists the limits on the number of chunks that are allowed to
    </tr>
 </table>
 
-### Token usage{#token-usage}
-
-The following table lists the limits on token usage.
+### Pipeline usage{#pipeline-usage}
 
 <table>
    <tr>
-     <th><p><strong>Pipeline Type</strong></p></th>
-     <th><p><strong>Embedding Model</strong></p></th>
-     <th><p><strong>Max. Token Usage</strong></p></th>
+     <th></th>
+     <th><p><strong>Max. Usage</strong></p></th>
    </tr>
    <tr>
-     <td rowspan="2"><p>Ingestion Pipeline</p></td>
-     <td><p>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</p></td>
-     <td><p>80,000,000</p></td>
-   </tr>
-   <tr>
-     <td><p>Others</p></td>
-     <td><p>100,000,000</p></td>
-   </tr>
-   <tr>
-     <td rowspan="2"><p>Search Pipeline</p></td>
-     <td><p>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</p></td>
-     <td><p>30,000,000</p></td>
-   </tr>
-   <tr>
-     <td><p>Others</p></td>
-     <td><p>20,000,000</p></td>
-   </tr>
-   <tr>
-     <td rowspan="2"><p>All Pipelines in an Organization</p></td>
-     <td><p>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</p></td>
-     <td><p>150,000,000</p></td>
-   </tr>
-   <tr>
-     <td><p>Others</p></td>
-     <td><p>200,000,000</p></td>
+     <td><p>Each organization</p></td>
+     <td><p>$20/month</p></td>
    </tr>
 </table>
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>For the maximum token usage of all pipelines in an organization, the token usage of a dropped pipeline is still included in the overall count.</p>
-
-</Admonition>
 
 ## Collections{#collections}
 
@@ -276,7 +244,7 @@ The following table lists the limits on token usage.
    </tr>
    <tr>
      <td><p>Free cluster</p></td>
-     <td><p>2<br/></p></td>
+     <td><p>2</p></td>
      <td><p>You can create up to 2 collections.</p></td>
    </tr>
    <tr>
@@ -285,30 +253,17 @@ The following table lists the limits on token usage.
      <td><p>You can create up to 10 collections.</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster<br/></p></td>
+     <td><p>Dedicated cluster</p></td>
      <td><p>64 per CU, and &lt;= 4096</p></td>
      <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
    </tr>
 </table>
 
-In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following table lists the limits on the general capacity of a cluster.
+In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following formula shows how Zilliz Cloud calculates the general capacity of a cluster. The consumed capacity should be less than the general capacity available.
 
-<table>
-   <tr>
-     <th><p><strong>Number of CUs</strong></p></th>
-     <th><p><strong>General Capacity</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>1-8 CUs</p></td>
-     <td><p>&lt;= 4,096</p></td>
-   </tr>
-   <tr>
-     <td><p>12 CUs and more</p></td>
-     <td><p>&lt;= 512 x Number of CUs</p></td>
-   </tr>
-</table>
-
-The consumed capacity should be less than the general capacity available.
+```java
+General Capacity = 512 x Number of CUs
+```
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -323,10 +278,10 @@ The consumed capacity should be less than the general capacity available.
 <li><strong>Calculating the general capacity of a cluster</strong></li>
 </ul>
 <p>The general capacity can be determined using the following formula:</p>
-<p><strong>&lt;= 512 x Number of CUs</strong></p>
+<p><strong>\<= 512 x Number of CUs</strong></p>
 <p>For instance, </p>
 <ul>
-<li><p>In a cluster of <strong>2</strong> CUs, you can create a maximum of <strong>128</strong> collections with a general capacity of <strong>1,024</strong>.</p></li>
+<li><p>In a cluster of <strong>2</strong> CUs, you can create a maximum of <strong>128</strong> collections with a general capacity of <strong>4,096</strong>.</p></li>
 <li><p>In a cluster of <strong>12</strong> CUs, you can create a maximum of <strong>768</strong> collections with a general capacity of <strong>6,144</strong>.</p></li>
 <li><p>In a cluster of <strong>32</strong> CUs or more, you can create a maximum of <strong>4,096</strong> collections with a general capacity of <strong>65,536</strong>. </p></li>
 </ul>
@@ -345,16 +300,16 @@ Additionally, the rate limit for creating collections is **1** collection/s per 
    </tr>
    <tr>
      <td><p>Free cluster</p></td>
-     <td><p>64<br/></p></td>
+     <td><p>64</p></td>
      <td><p>You can create up to 64 partitions per collection in a free cluster.</p></td>
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
-     <td><p>64<br/></p></td>
+     <td><p>64</p></td>
      <td><p>You can create up to 64 partitions per collection in a serverless cluster.</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster<br/></p></td>
+     <td><p>Dedicated cluster</p></td>
      <td><p>4,096</p></td>
      <td><p>You can create up to 4,096 partitions per collection in a dedicated cluster.</p></td>
    </tr>
@@ -409,11 +364,11 @@ The rate limit that applies varies with the cluster types and the number of CUs 
    </tr>
    <tr>
      <td><p>Free cluster</p></td>
-     <td><p>2 MB/s<br/></p></td>
+     <td><p>2 MB/s</p></td>
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
-     <td><p>100 MB/s<br/></p></td>
+     <td><p>100 MB/s</p></td>
    </tr>
    <tr>
      <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
@@ -576,7 +531,7 @@ Read [Select the Right CU](./cu-types-explained) for more.
      <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td><p>Numpy<br/></p></td>
+     <td><p>Numpy</p></td>
      <td><p>Not support</p></td>
      <td><p>The maximum size of the folder is 100 GB and the maximum size of each subdirectory is 15 GB</p></td>
    </tr>

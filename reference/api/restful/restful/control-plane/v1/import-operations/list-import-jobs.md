@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 List all import jobs specific to a cluster.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/vector/collections/import/list" />
+<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import/list" />
 
 ---
 

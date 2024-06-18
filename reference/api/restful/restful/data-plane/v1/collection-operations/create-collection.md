@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Creates a collection in a cluster.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/collections/create" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/vector/collections/create" />
 
 ---
 
@@ -34,8 +34,7 @@ curl --request POST \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
-    -d '{
-      "dbName": "default",   
+    -d '{ 
       "collectionName": "medium_articles",
       "dimension": 256,
       "metricType": "L2",
@@ -68,7 +67,6 @@ Success response:
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "dimension": "integer",
     "metricType": "string",
@@ -80,7 +78,6 @@ Success response:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database. <zilliz>This parameter applies only to dedicated clusters.</zilliz>  |
 | __collectionName__ | string  <br/>The name of the collection to create.  |
 | __dimension__ | integer  <br/>The number of dimensions for the vector field of the collection. For performance-optimized CUs, this value ranges from 1 to 32768. For capacity-optimized and cost-optimized CUs, this value ranges from 32 to 32768.<br/>The value ranges from 1 to 32768.  |
 | __metricType__ | string  <br/>The distance metric used for the collection.<br/>The value defaults to L2  |

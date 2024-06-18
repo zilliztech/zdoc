@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation drops the current partition. To successfully drop a partition, ensure that the partition is already released.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/partitions/drop" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/drop" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation drops the current partition. To successfully drop a partition, en
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/partitions/drop" \
 --header "Authorization: Bearer ${TOKEN}" \

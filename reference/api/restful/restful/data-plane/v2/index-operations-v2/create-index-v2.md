@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 49
+sidebar_position: 52
 slug: /restful/create-index-v2
 title: Create Index
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This creates a named index for a target field, which can either be a vector field or a scalar field.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/indexes/create" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" />
 
 ---
 
@@ -18,8 +18,8 @@ This creates a named index for a target field, which can either be a vector fiel
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/indexes/create" \
 --header "Authorization: Bearer ${TOKEN}" \

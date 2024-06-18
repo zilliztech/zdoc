@@ -33,7 +33,7 @@ public enum IndexType
      <td><p>For internal usage.</p></td>
    </tr>
    <tr>
-     <td><p>FLAT<br/></p></td>
+     <td><p>FLAT</p></td>
      <td><p>1</p></td>
      <td><p>Works for FloatVector/Float16Vector/BFloat16Vector type field.</p></td>
    </tr>

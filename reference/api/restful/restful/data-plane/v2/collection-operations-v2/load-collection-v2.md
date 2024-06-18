@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 52
+sidebar_position: 55
 slug: /restful/load-collection-v2
 title: Load Collection
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation loads the data of the current collection into memory.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/collections/load" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation loads the data of the current collection into memory.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/load" \
 --header "Authorization: Bearer ${TOKEN}" \

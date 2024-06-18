@@ -92,7 +92,7 @@ Methods of `ShowPartitionsResponse`:
      <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td><p>getPartitionsInfo()<br/></p></td>
+     <td><p>getPartitionsInfo()</p></td>
      <td><p>Return a list of PartitionInfo.</p></td>
      <td><p>N/A</p></td>
      <td><p>List\<PartitionInfo></p></td>

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 67
+sidebar_position: 71
 slug: /restful/alter-alias-v2
 title: Alter Alias
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation reassigns the alias of one collection to another.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/aliases/alter" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/alter" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation reassigns the alias of one collection to another.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/aliases/alter" \
 --header "Authorization: Bearer ${TOKEN}" \

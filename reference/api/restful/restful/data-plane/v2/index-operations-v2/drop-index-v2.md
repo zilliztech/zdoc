@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 50
+sidebar_position: 53
 slug: /restful/drop-index-v2
 title: Drop Index
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation deletes index from a specified collection.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/indexes/drop" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/drop" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation deletes index from a specified collection.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/indexes/drop" \
 --header "Authorization: Bearer ${TOKEN}" \

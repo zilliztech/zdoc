@@ -87,7 +87,7 @@ Methods of `DescIndexResponseWrapper`:
      <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td><p>getIndexDescriptions()<br/></p></td>
+     <td><p>getIndexDescriptions()</p></td>
      <td><p>Get a list of all index descriptions. (Currently only return one index information)</p></td>
      <td><p>N/A</p></td>
      <td><p>List\<IndexDesc></p></td>

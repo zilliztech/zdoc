@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists all cloud providers available on Zilliz Cloud.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clouds" />
+<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clouds" />
 
 ---
 
@@ -17,39 +17,33 @@ Lists all cloud providers available on Zilliz Cloud.
 
 
 
-
-:::info Notes
-
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
-
-:::
-
 ```shell
-curl --request GET \
-    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clouds" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json"
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
+
+curl --location --request GET "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clouds" \
+--header "Authorization: Bearer ${API_KEY}"
 ```
-
-Success response:
-
-```shell
+Possible response is similar to the following.
+```json
 {
-    code: 200,
-    data: [
-    {
-       "cloudId": "aws",
-       "description": "amazon cloud"
-    },
-    {
-       "cloudId": "gcp",
-       "description": "google cloud"
-    }
+    "code": 200,
+    "data": [
+        {
+            "cloudId": "aws",
+            "description": "amazon aws"
+        },
+        {
+            "cloudId": "gcp",
+            "description": "GCP"
+        },
+        {
+            "cloudId": "azure",
+            "description": "azure"
+        }
     ]
 }
 ```
-
 
 
 

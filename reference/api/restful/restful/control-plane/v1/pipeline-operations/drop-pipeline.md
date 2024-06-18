@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Drop a specific pipeline
 
-<RestHeader method="delete" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/{PIPELINE_ID}" />
+<RestHeader method="delete" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines/{PIPELINE_ID}" />
 
 ---
 
@@ -130,7 +130,7 @@ The properties in the returned response are listed in the following table.
 | __data.type__ | string  <br/>Type of the pipeline. For an ingestion pipeline, the value should be `INGESTION`.  |
 | __data.description__ | string  <br/>Description of the pipeline.  |
 | __data.status__ | string  <br/>Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working.  |
-| __functions__ | object | object<br/>Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function. |
+| __functions__ | object | object | object | object<br/>Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function. |
 | __data.clusterID__ | string  <br/>The target cluster to which the pipeline applies.  |
 | __data.collectionName__ | string  <br/>The target collection to which the pipeline applies.  |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |

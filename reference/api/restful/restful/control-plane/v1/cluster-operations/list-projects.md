@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists all projects in the specified cloud region.
 
-<RestHeader method="get" endpoint="https://{cluster-endpoint}/v1/projects" />
+<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/projects" />
 
 ---
 
@@ -17,36 +17,27 @@ Lists all projects in the specified cloud region.
 
 
 
-
-:::info Notes
-
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
-
-:::
-
 ```shell
-curl --request GET \
-    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/projects" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json"
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
+
+curl --location --request GET "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/projects" \
+--header "Authorization: Bearer ${API_KEY}"
 ```
-
-Success response:
-
-```shell
+Possible response is similar to the following.
+```json
 {
     "code": 200,
     "data": [
-       {
-          "instanceCount": 1,
-          "projectId": "proj-********************",
-          "projectName": "test"
-       }
+        {
+            "createTimeMilli": 1685006867000,
+            "instanceCount": 1,
+            "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+            "projectName": "Default Project"
+        }
     ]
 }
 ```
-
 
 
 

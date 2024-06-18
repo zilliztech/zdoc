@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Deletes one or more entities from a collection.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/delete" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/vector/delete" />
 
 ---
 
@@ -100,7 +100,6 @@ curl --request POST \
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "id": "string"
 }
@@ -108,13 +107,11 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
 | __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
 | __id__ | string  <br/>The ID of the entity to be retrieved  |
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "id": []
 }
@@ -122,14 +119,12 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
 | __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
 | __id__ | array<br/>An array of IDs of the entities to be retrieved |
 | __id[]__ | string  <br/>  |
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "id": "integer"
 }
@@ -137,13 +132,11 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
 | __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
 | __id__ | integer  <br/>The ID of the entity to be retrieved  |
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "id": []
 }
@@ -151,7 +144,6 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
 | __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
 | __id__ | array<br/>An array of IDs of the entities to be retrieved |
 | __id[]__ | integer  <br/>  |

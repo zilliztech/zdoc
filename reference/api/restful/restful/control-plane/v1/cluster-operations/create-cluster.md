@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Creates a new cluster.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/create" />
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/create" />
 
 ---
 
@@ -17,56 +17,32 @@ Creates a new cluster.
 
 
 
-
-:::info Notes
-
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
-- This API requires the ID of a target project.
-
-:::
-
 ```shell
-curl --request POST \
-    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/create" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json" \
-    --data-raw '{
-    "plan": "Standard",
-    "clusterName": "cluster-02",
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
+
+curl --location --request POST "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/create" \
+--header "Authorization: Bearer ${API_KEY}" \
+--data-raw '{
     "cuSize": 1,
-    "cuType": "Performance-optimized",
-    "projectId": "proj-*****************"
-    }'
+    "clusterName": "Cluster-02",
+    "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+    "plan": "Standard",
+    "cuType": "Performance-optimized"
+}'
 ```
-
-Success response:
-
-```shell
+Possible response is similar to the following.
+```json
 {
     "code": 200,
     "data": {
-       "clusterId": "in01-*****************",
-       "username": "db_admin",
-       "password": "******************",
-       "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "username": "db_admin",
+        "password": "xxxxxxxxxxxxxxxx",
+        "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
     }
 }
 ```
-
-:::info How can I obtain the project ID?
-
-You can obtain the project ID in either of the following ways:
-
-- On the Zilliz Cloud console
-
-    1. Click **Projects** in the top menu bar to open the **Projects** page.
-    2. Locate the target project and copy its ID in the **Project ID** column.
-
-- Use the [List Projects](./list-projects) API endpoint to list all projects.
-
-:::
-
 
 
 

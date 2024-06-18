@@ -95,27 +95,27 @@ For more information please refer to <a href="https://milvus.io/docs/v2.3.x/bool
     </tr>
     <tr>
         <td><p>withFloatVectors(List\<List\<Float>gt; vectors)</p></td>
-        <td><p>Set the target vectors to search FloatVector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
+        <td><p>Set the target vectors to search FloatVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
         <td><p>withBinaryVectors(List\<ByteBuffer> vectors)</p></td>
-        <td><p>Set the target vectors to search BinaryVector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
+        <td><p>Set the target vectors to search BinaryVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
         <td><p>withFloat16Vectors(List\<ByteBuffer> vectors)</p></td>
-        <td><p>Set the target vectors to search Float16Vector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
+        <td><p>Set the target vectors to search Float16Vector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
         <td><p>withBFloat16Vectors(List\<List\<Float>gt; vectors)</p></td>
-        <td><p>Set the target vectors to search BFloat16Vector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
+        <td><p>Set the target vectors to search BFloat16Vector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
         <td><p>withSparseFloatVectors(List\<SortedMap\<Long, Float>gt; vectors)</p></td>
-        <td><p>Set the target vectors to search SparseFloatVector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
+        <td><p>Set the target vectors to search SparseFloatVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
@@ -173,7 +173,7 @@ Methods of `SearchIterator`:
    <tr>
      <td><p>next()</p></td>
      <td><p>Return a batch of results.</p></td>
-     <td><p>N/A<br/></p></td>
+     <td><p>N/A</p></td>
      <td><p>List\<QueryResultsWrapper.RowRecord></p></td>
    </tr>
    <tr>

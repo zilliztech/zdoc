@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation creates a partition in a collection.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/partitions/create" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/create" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation creates a partition in a collection.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/partitions/create" \
 --header "Authorization: Bearer ${TOKEN}" \

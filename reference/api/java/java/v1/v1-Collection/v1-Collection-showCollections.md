@@ -87,7 +87,7 @@ Methods of `ShowCollResponseWrapper`:
      <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td><p>getCollectionsInfo()<br/></p></td>
+     <td><p>getCollectionsInfo()</p></td>
      <td><p>Returns a list of CollectionInfo objects. Each CollectionInfo represents a collection.</p></td>
      <td><p>N/A</p></td>
      <td><p>List\<CollectionInfo></p></td>

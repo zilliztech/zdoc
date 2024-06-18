@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Conducts a similarity search on the vector field in a collection.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/search" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/vector/search" />
 
 ---
 
@@ -76,9 +76,7 @@ curl --request POST \
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
-    "partitionNames": [],
     "filter": "string",
     "limit": "integer",
     "offset": "integer",
@@ -93,10 +91,7 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
 | __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __partitionNames__ | array<br/>The name of the partitions to which this operation applies. |
-| __partitionNames[]__ | string  <br/>partitionName  |
 | __filter__ | string  <br/>The filter used to find matches for the search  |
 | __limit__ | integer  <br/>The maximum number of entities to return.<br/>The sum of this value of that of `offset` should be less than **1024**.<br/>The value defaults to 100<br/>The value ranges from 1 to 100.  |
 | __offset__ | integer  <br/>The number of entities to skip in the search results.<br/>The sum of this value and that of `limit` should not be greater than **1024**.<br/>The value is less than or equal to 1024.  |

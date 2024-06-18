@@ -107,7 +107,7 @@ Methods of `FieldType.Builder`:
      <td><p>name: The name of the field.</p></td>
    </tr>
    <tr>
-     <td><p>withPrimaryKey(boolean primaryKey)<br/></p></td>
+     <td><p>withPrimaryKey(boolean primaryKey)</p></td>
      <td><p>Sets the field as the primary key field. Only fields whose data type is INT64 or VARCHAR can be set as the primary key field. The value is false by default.<br/></p></td>
      <td><p>primaryKey: A boolean value that defines if the field is the primary key field. The value true means that the field is the primary key field while the value false means it is not.<br/></p></td>
    </tr>

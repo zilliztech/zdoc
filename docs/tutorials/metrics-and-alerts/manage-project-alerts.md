@@ -38,7 +38,7 @@ For more information about recommended actions, refer to [Metrics & Alerts Refer
      <th><p>Default Trigger Condition</p></th>
    </tr>
    <tr>
-     <td><p>CU Computation<br/></p></td>
+     <td><p>CU Computation</p></td>
      <td><p>%</p></td>
      <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes.<br/> <strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</p></td>
    </tr>
@@ -89,7 +89,7 @@ Navigate to the **Project Alerts** page to view project alerts.
 
 - **Status**: Indicates if the alert is active (**ON**) or not. When an alert in an **ON** status, the specified recipients will receive notifications once the conditions are met.
 
-- **Condition**: Trigger conditions for the alert. For each project alert target, the trigger condition includes a threshold value and a duration value that must be met for the alert to be triggered. The condition can be set to one of the following operators: >, >=, &lt;, &lt;=, =. The threshold value can be a numeric value, such as a number for metrics like query latency, query QPS, search QPS, CU Capacity, and CU Computation. The duration specifies how long the threshold must be exceeded, which is set to a minimum of 1 minute and a maximum of 30 minutes.
+- **Condition**: Trigger conditions for the alert. For each project alert target, the trigger condition includes a threshold value and a duration value that must be met for the alert to be triggered. The condition can be set to one of the following operators: >, >=, \<, \<=, =. The threshold value can be a numeric value, such as a number for metrics like query latency, query QPS, search QPS, CU Capacity, and CU Computation. The duration specifies how long the threshold must be exceeded, which is set to a minimum of 1 minute and a maximum of 30 minutes.
 
 - **Severity Level**: Categorized as **WARNING** or **CRITICAL**.
 

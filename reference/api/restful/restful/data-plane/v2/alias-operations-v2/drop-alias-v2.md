@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 68
+sidebar_position: 72
 slug: /restful/drop-alias-v2
 title: Drop Alias
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation drops a specified alias.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/aliases/drop" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/drop" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation drops a specified alias.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/aliases/drop" \
 --header "Authorization: Bearer ${TOKEN}" \

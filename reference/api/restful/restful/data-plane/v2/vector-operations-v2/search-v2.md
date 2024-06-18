@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation conducts a vector similarity search with an optional scalar filtering expression.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/entities/search" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation conducts a vector similarity search with an optional scalar filte
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/entities/search" \
 --header "Authorization: Bearer ${TOKEN}" \

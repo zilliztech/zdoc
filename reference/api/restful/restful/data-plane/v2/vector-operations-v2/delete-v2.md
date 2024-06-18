@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation deletes entities by their IDs or with a boolean expression.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/entities/delete" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/entities/delete" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation deletes entities by their IDs or with a boolean expression.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/entities/delete" \
 --header "Authorization: Bearer ${TOKEN}" \

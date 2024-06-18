@@ -81,7 +81,7 @@ Methods of `InsertParam.Field`:
      <th><p><strong>Parameters</strong></p></th>
    </tr>
    <tr>
-     <td><p>Field(String name, List\<?> values)<br/></p></td>
+     <td><p>Field(String name, List\<?> values)</p></td>
      <td><p>This class only provides a constructor to create a Field object.<br/></p></td>
      <td><p>name: The name of the data field. values:<br/>- Requires List\<Boolean> if the data type is Bool.<br/>- Requires List\<Long> if the data type is Int64.<br/>- Requires List\<Integer> or List\<Short> if the data type is Int8/Int16/Int32.<br/>- Requires List\<Float> if the data type is Float.<br/>- Requires List\<Double> if the data type is Double.<br/>- Requires List\<String> if the data type is Varchar.<br/>- Requires List\<List\<?>gt; if the data type is Array, the inner List type must be equal to the element type of the Array field.<br/>- Requires List\<List\<Float>gt;, if the data type is FloatVector.<br/>- Requires List\<ByteBuffer>, if the data type is BinaryVector/Float16Vector/BFloat16Vector.<br/>- Requires List\<SortedMap\<Long, Float>gt; if the data type is SparseFloatVector.</p></td>
    </tr>

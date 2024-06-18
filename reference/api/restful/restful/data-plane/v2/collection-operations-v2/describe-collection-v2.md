@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 63
+sidebar_position: 67
 slug: /restful/describe-collection-v2
 title: Describe Collection
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Describes the details of a collection.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/collections/describe" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/describe" />
 
 ---
 
@@ -18,8 +18,8 @@ Describes the details of a collection.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/describe" \
 --header "Authorization: Bearer ${TOKEN}" \

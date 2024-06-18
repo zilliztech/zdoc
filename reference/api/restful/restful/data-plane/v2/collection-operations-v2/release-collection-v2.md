@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 53
+sidebar_position: 56
 slug: /restful/release-collection-v2
 title: Release Collection
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation releases the data of the current collection from memory.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v2/vectordb/collections/release" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/release" />
 
 ---
 
@@ -18,8 +18,8 @@ This operation releases the data of the current collection from memory.
 
 
 ```shell
-export MILVUS_URI="localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="user:password"
 
 curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/release" \
 --header "Authorization: Bearer ${TOKEN}" \

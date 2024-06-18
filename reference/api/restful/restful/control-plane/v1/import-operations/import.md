@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Imports data from files stored in a specified object storage bucket. Note that the bucket should be in the same cloud as the target cluster of the import.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/vector/collections/import" />
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import" />
 
 ---
 
@@ -70,7 +70,6 @@ Your access key and secret key should have necessary permissions to access the o
 {
     "clusterId": "string",
     "collectionName": "string",
-    "partitionName": "string",
     "objectUrl": "string",
     "accessKey": "string",
     "secretKey": "string"
@@ -81,7 +80,6 @@ Your access key and secret key should have necessary permissions to access the o
 |------------------|-------------------------------------------------------------------------------------------|
 | __clusterId__ | string  <br/>The ID of a cluster to which this operation applies.  |
 | __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __partitionName__ | string  <br/>The name of the partition to which this operation applies.  |
 | __objectUrl__ | string  <br/>The URL of the object that stores the data to be imported.  |
 | __accessKey__ | string  <br/>The access key used to access the specified object.  |
 | __secretKey__ | string  <br/>The access secret key used to access the specified object.  |

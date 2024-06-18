@@ -95,27 +95,27 @@ For more information please refer to <a href="https://milvus.io/docs/v2.1.x/bool
     </tr>
     <tr>
         <td><p>withFloatVectors(List\<List\<Float>gt; vectors)</p></td>
-        <td><p>Set the target vectors to search FloatVector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
+        <td><p>Set the target vectors to search FloatVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
         <td><p>withBinaryVectors(List\<ByteBuffer> vectors)</p></td>
-        <td><p>Set the target vectors to search BinaryVector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
+        <td><p>Set the target vectors to search BinaryVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
         <td><p>withFloat16Vectors(List\<ByteBuffer> vectors)</p></td>
-        <td><p>Set the target vectors to search Float16Vector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
+        <td><p>Set the target vectors to search Float16Vector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
         <td><p>withBFloat16Vectors(List\<List\<Float>gt; vectors)</p></td>
-        <td><p>Set the target vectors to search BFloat16Vector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
+        <td><p>Set the target vectors to search BFloat16Vector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
         <td><p>withSparseFloatVectors(List\<SortedMap\<Long, Float>gt; vectors)</p></td>
-        <td><p>Set the target vectors to search SparseFloatVector field. Up to 16384 vectors allowed.<br/><br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
+        <td><p>Set the target vectors to search SparseFloatVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
@@ -178,7 +178,7 @@ Methods of `SearchResultsWrapper`:
      <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td><p>getFieldData(String fieldName, int indexOfTarget)<br/></p></td>
+     <td><p>getFieldData(String fieldName, int indexOfTarget)</p></td>
      <td><p>Gets data for an output field which is specified by SearchParam.<br/> Throws ParamException if the field doesn't exist or indexOfTarget is illegal.<br/></p></td>
      <td><p>fieldName: A field name which is specified by the withOutFields() of SearchParam.<br/> indexOfTarget: The order number of a target vector.<br/></p></td>
      <td><ul>
@@ -247,7 +247,7 @@ SearchParam param = SearchParam.newBuilder()
         .withFloatVectors(targetVectors)
         .withVectorFieldName("field1")
         .withConsistencyLevel(ConsistencyLevelEnum.EVENTUALLY)
-        .withParams("\{\"nprobe\":10,\"offset\":2, \"limit\":3}")
+        .withParams("{\"nprobe\":10,\"offset\":2, \"limit\":3}")
         .build();
 R<SearchResults> response = client.search(param)
 if (response.getStatus() != R.Status.Success.getCode()) {
