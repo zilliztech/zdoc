@@ -52,7 +52,7 @@ The control plane provides APIs for **Cloud Meta**, **Cluster Operations**, **Im
         --header "content-type: application/json"
     ```
 
-## API Eendpoint Versioning
+## API Endpoint Versioning
 
 For all Zilliz Cloud **clusters compatible with Milvus 2.4 and above**, you should use the **v2 endpoints** for all data plane APIs.
 
