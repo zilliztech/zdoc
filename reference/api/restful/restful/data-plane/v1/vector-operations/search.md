@@ -72,6 +72,8 @@ curl --request POST \
 
 - No path parameters required
 
+- No header parameters required
+
 ### Request Body
 
 ```json
@@ -91,25 +93,23 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __filter__ | string  <br/>The filter used to find matches for the search  |
-| __limit__ | integer  <br/>The maximum number of entities to return.<br/>The sum of this value of that of `offset` should be less than **1024**.<br/>The value defaults to 100<br/>The value ranges from 1 to 100.  |
-| __offset__ | integer  <br/>The number of entities to skip in the search results.<br/>The sum of this value and that of `limit` should not be greater than **1024**.<br/>The value is less than or equal to 1024.  |
-| __outputFields__ | array<br/>An array of fields to return along with the search results. |
-| __outputFields[]__ | string  <br/><br/>The value defaults to id, distance  |
-| __vector__ | array<br/>The query vector in the form of a list of floating numbers. |
-| __vector[]__ | number (float32) <br/>  |
-| __params__ | object<br/>List of search parameters |
-| __params.radius__ | number (float64) <br/>The angle where the vector with the least similarity resides.  |
-| __params.range_filter__ | number (float64) <br/>Used in combination to filter vector field values whose similarity to the query vector falls into a specific range.  |
+| __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
+| __filter__ | __string__  <br/>The filter used to find matches for the search  |
+| __limit__ | __integer__  <br/>The maximum number of entities to return.<br/>The sum of this value of that of `offset` should be less than **1024**.<br/>The value defaults to 100<br/>The value ranges from 1 to 100.  |
+| __offset__ | __integer__  <br/>The number of entities to skip in the search results.<br/>The sum of this value and that of `limit` should not be greater than **1024**.<br/>The value is less than or equal to 1024.  |
+| __outputFields__ | __array__<br/>An array of fields to return along with the search results. |
+| __outputFields[]__ | __string__  <br/><br/>The value defaults to id, distance  |
+| __vector__ | __array__<br/>The query vector in the form of a list of floating numbers. |
+| __vector[]__ | __number__ (float32) <br/>  |
+| __params__ | __object__<br/>List of search parameters |
+| __params.radius__ | __number__ (float64) <br/>The angle where the vector with the least similarity resides.  |
+| __params.range_filter__ | __number__ (float64) <br/>Used in combination to filter vector field values whose similarity to the query vector falls into a specific range.  |
 
 ## Response
 
 Returns the search results.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -120,7 +120,13 @@ Returns the search results.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __array__<br/> |
+| __data[]__ | __object__<br/> |
+
+### Error Response
 
 ```json
 {
@@ -129,14 +135,8 @@ Returns the search results.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | object<br/> |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

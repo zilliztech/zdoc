@@ -47,6 +47,8 @@ Possible response is similar to the following.
 
 - No path parameters required
 
+- No header parameters required
+
 ### Request Body
 
 No request body required
@@ -55,9 +57,7 @@ No request body required
 
 Returns a list of collections in the specified cluster.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -68,7 +68,13 @@ Returns a list of collections in the specified cluster.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __array__<br/> |
+| __data[]__ | __string__  <br/>  |
+
+### Error Response
 
 ```json
 {
@@ -77,14 +83,8 @@ Returns a list of collections in the specified cluster.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | string  <br/>  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

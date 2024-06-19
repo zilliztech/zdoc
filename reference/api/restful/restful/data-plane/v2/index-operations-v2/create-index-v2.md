@@ -57,6 +57,14 @@ Possible response is similar to the following:
 
 - No path parameters required
 
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation.
+Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.|
+    | __Authorization__  | **string**<br/>The authentication token.|
+
 ### Request Body
 
 ```json
@@ -81,26 +89,24 @@ Possible response is similar to the following:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database to which the collection belongs.<br/>Setting this to a non-existing database results in an error.  |
-| __collectionName__ | string  <br/>The name of the target collection.<br/>Setting this to a non-existing collection results in an error.  |
-| __indexParams__ | array<br/>The parameters that apply to the index-building process. |
-| __indexParams[]__ | object<br/> |
-| __indexParams[].metricType__ | string  <br/>The similarity metric type used to build the index.<br/>The value defaults to COSINE  |
-| __indexParams[].fieldName__ | string  <br/>The name of the target field on which an index is to be created.  |
-| __indexParams[].indexName__ | string  <br/>The name of the index to create, the value defaults to the target field name.  |
-| __indexParams[].params__ | object<br/>The index type and related settings. For details, refer to [Vector Indexes](https://milvus.io/docs/index.md). |
-| __indexParams[].params.index_type__ | string  <br/>The type of the index to create  |
-| __indexParams[].params.M__ | integer  <br/>The maximum degree of the node and applies only when index_type is set to __HNSW__.  |
-| __indexParams[].params.efConstruction__ | integer  <br/>The search scope. This applies only when **index_type** is set to **HNSW**  |
-| __indexParams[].params.nlist__ | integer  <br/>The number of cluster units. This applies to IVF-related index types.  |
+| __dbName__ | __string__  <br/>The name of the database to which the collection belongs.<br/>Setting this to a non-existing database results in an error.  |
+| __collectionName__ | __string__  <br/>The name of the target collection.<br/>Setting this to a non-existing collection results in an error.  |
+| __indexParams__ | __array__<br/>The parameters that apply to the index-building process. |
+| __indexParams[]__ | __object__<br/> |
+| __indexParams[].metricType__ | __string__  <br/>The similarity metric type used to build the index.<br/>The value defaults to COSINE  |
+| __indexParams[].fieldName__ | __string__  <br/>The name of the target field on which an index is to be created.  |
+| __indexParams[].indexName__ | __string__  <br/>The name of the index to create, the value defaults to the target field name.  |
+| __indexParams[].params__ | __object__<br/>The index type and related settings. For details, refer to [Vector Indexes](https://milvus.io/docs/index.md). |
+| __indexParams[].params.index_type__ | __string__  <br/>The type of the index to create  |
+| __indexParams[].params.M__ | __integer__  <br/>The maximum degree of the node and applies only when index_type is set to __HNSW__.  |
+| __indexParams[].params.efConstruction__ | __integer__  <br/>The search scope. This applies only when **index_type** is set to **HNSW**  |
+| __indexParams[].params.nlist__ | __integer__  <br/>The number of cluster units. This applies to IVF-related index types.  |
 
 ## Response
 
 A Status object indicating whether this operation succeeds.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -109,7 +115,12 @@ A Status object indicating whether this operation succeeds.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __object__<br/> |
+
+### Error Response
 
 ```json
 {
@@ -118,13 +129,8 @@ A Status object indicating whether this operation succeeds.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

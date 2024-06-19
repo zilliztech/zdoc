@@ -48,6 +48,14 @@ Possible response is as follows:
 
 - No path parameters required
 
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation.
+Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.|
+    | __Authorization__  | **string**<br/>The authentication token.|
+
 ### Request Body
 
 ```json
@@ -59,16 +67,14 @@ Possible response is as follows:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database to which the collection belongs.  |
-| __collectionName__ | string  <br/>The name of an existing collection. Setting this to a non-existing collection leads to an error.  |
+| __dbName__ | __string__  <br/>The name of the database to which the collection belongs.  |
+| __collectionName__ | __string__  <br/>The name of an existing collection. Setting this to a non-existing collection leads to an error.  |
 
 ## Response
 
 The names of all built indexes in a list.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -79,7 +85,13 @@ The names of all built indexes in a list.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __array__<br/>A list of index names. |
+| __data[]__ | __string__  <br/>A index name.  |
+
+### Error Response
 
 ```json
 {
@@ -88,14 +100,8 @@ The names of all built indexes in a list.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | array<br/>A list of index names. |
-| __data[]__ | string  <br/>A index name.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

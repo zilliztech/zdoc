@@ -45,8 +45,8 @@ class refGen {
         const query_params = []
         const path_params = []
         const req_bodies = []
+        const res_bodies = []
         const sidebar_position = idx; idx++;
-        let res_body;
         let res_desc;
 
         const page_title = specifications.paths[page_url][method].summary
@@ -91,9 +91,11 @@ class refGen {
           res_desc = specifications.paths[page_url][method].responses['200'].description
           const schema = specifications.paths[page_url][method].responses['200'].content["application/json"].schema
           if (schema.oneOf) {
-            res_body = schema.oneOf.filter(x => x.properties.data)[0]
+            for (const res_body of schema.oneOf.filter(x => x.properties.data)) {
+              res_bodies.push(res_body)
+            }
           } else {
-            res_body = schema
+            res_bodies.push(schema)
           }
         }
 
@@ -109,7 +111,7 @@ class refGen {
           path_params,
           req_bodies,
           res_desc,
-          res_body,
+          res_bodies,
           sidebar_position
         }).replaceAll(/<br>/g, '<br/>')
         
@@ -185,6 +187,8 @@ class refGen {
         x = iterate_array(obj.items)
       } else if (obj.hasOwnProperty('oneOf')) {
         x = iterate_oneOf(obj.oneOf)
+      } else if (obj.hasOwnProperty('anyOf')) {
+        x = iterate_oneOf(obj.anyOf)
       } else {
         x = obj.type
       }
@@ -354,7 +358,6 @@ class refGen {
         }
 
         if (url.includes('v1')) {
-          console.log(url)
           const parameters = specifications.paths[url][method].parameters
           this.__delete_parameters(parameters, ['dbName', 'partitionName', 'partitionNames'])
 
@@ -381,7 +384,7 @@ class refGen {
     return specifications
   }
 
-  prepare_entries(req_body) {
+  prepare_entries(body) {
     var entries = []
 
     var process_plain = function(field, name, parent_name, parent_type) {
@@ -410,7 +413,7 @@ class refGen {
         value_range = `<br/>The value is less than or equal to ${field.maximum}.`
       }
 
-      entries.push(`| __${field_name}__ | ${field.type} ${format} ${required}<br/>${description}${default_value}${value_range}  |`)
+      entries.push(`| __${field_name.replace('.[', '[')}__ | __${field.type}__ ${format} ${required}<br/>${description}${default_value}${value_range}  |`)
     }
 
     var process_object = function(field, name, parent_name, parent_type) {
@@ -426,7 +429,7 @@ class refGen {
         field_name = name
       }
 
-      entries.push(`| __${field_name}__ | object<br/>${description} |`)
+      entries.push(`| __${field_name.replace('.[', '[')}__ | __object__<br/>${description} |`)
 
       for (const prop in field.properties) {
         if (field.properties[prop].type == 'object') {
@@ -454,7 +457,7 @@ class refGen {
         field_name = name
       }
 
-      entries.push(`| __${field_name}__ | array<br/>${description} |`)
+      entries.push(`| __${field_name.replace('.[', '[')}__ | __array__<br/>${description} |`)
       
 
       if (field.items.type == 'object') {
@@ -491,18 +494,64 @@ class refGen {
         possible_types = field.oneOf ? field.oneOf.map(x => x.type) : [field.type]
       }
 
-      entries.push(`| __${field_name}__ | ${possible_types.join(' | ')}<br/>${description} |`)
+      entries.push(`| __${field_name.replace('.[', '[')}__ | ${possible_types.map(t => `__${t}__`).join(' \\\| ')}<br/>${description} |`)
+
+      if (field.anyOf) {
+        field.anyOf.forEach((item, index) => {
+          if (item.type == 'object') {
+            process_object(item, `[opt_${index+1}]`, field_name, 'object')
+          } else if (item.type == 'array') {
+            process_array(item, `[opt_${index+1}]`, field_name, 'array')
+          } else {
+            process_plain(item, `[opt_${index+1}]`, field_name, 'object')
+          }
+        })
+      }      
+
+      if (field.oneOf) {
+        field.oneOf.forEach((item, index) => {
+          if (item.type == 'object') {
+            process_object(item, `[opt_${index+1}]`, field_name, 'object')
+          } else if (item.type == 'array') {
+            process_array(item, `[opt_${index+1}]`, field_name, 'array')
+          } else {
+            process_plain(item, `[opt_${index+1}]`, field_name, 'object')
+          }
+        })
+      }      
     }
 
-    for (const prop in req_body.properties) {
-      if (req_body.properties[prop].type == 'object') {
-        process_object(req_body.properties[prop], prop, '')
-      } else if (req_body.properties[prop].type == 'array') {
-        process_array(req_body.properties[prop], prop, '')
-      } else if (req_body.properties[prop].anyOf || req_body.properties[prop].oneOf) {
-        process_composite(req_body.properties[prop], prop, '')
-      } else {
-        process_plain(req_body.properties[prop], prop, '')
+    if (body.properties) {
+      delete body.properties.code;
+      for (const prop in body.properties) {
+        if (body.properties[prop].type == 'object') {
+          process_object(body.properties[prop], prop, '')
+        } else if (body.properties[prop].type == 'array') {
+          process_array(body.properties[prop], prop, '')
+        } else if (body.properties[prop].anyOf || body.properties[prop].oneOf) {
+          process_composite(body.properties[prop], prop, '')
+        } else {
+          process_plain(body.properties[prop], prop, '')
+        }
+      }
+    }
+
+    if (body instanceof Array) {
+      for (const item of body) {
+        if (item.properties) {
+          delete item.properties.code;
+          for (const prop in item.properties) {
+            if (item.properties[prop].type == 'object') {
+              process_object(item.properties[prop], prop, '')
+            } else if (item.properties[prop].type == 'array') {
+              process_array(item.properties[prop], prop, '')
+            } else if (item.properties[prop].anyOf || item.properties[prop].oneOf) {
+              process_composite(item.properties[prop], prop, '')
+            } else {
+              process_plain(item.properties[prop], prop, '')
+            }
+          }
+        }
       }
     }
 

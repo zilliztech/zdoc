@@ -80,7 +80,11 @@ curl --request POST \
 
 - No path parameters required
 
+- No header parameters required
+
 ### Request Body
+
+#### Option 1: 
 
 ```json
 {
@@ -91,8 +95,10 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __collectionName__ | string  <br/>The name of the collection to which entities will be inserted.  |
-| __data__ | object<br/>An entity object. Note that the keys in the entity should match the collection schema. |
+| __collectionName__ | __string__  <br/>The name of the collection to which entities will be inserted.  |
+| __data__ | __object__<br/>An entity object. Note that the keys in the entity should match the collection schema. |
+
+#### Option 2: 
 
 ```json
 {
@@ -105,17 +111,15 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __collectionName__ | string  <br/>The name of the collection to which entities will be inserted.  |
-| __data__ | array<br/>An array of entity objects. Note that the keys in an entity object should match the collection schema |
-| __data[]__ | object<br/> |
+| __collectionName__ | __string__  <br/>The name of the collection to which entities will be inserted.  |
+| __data__ | __array__<br/>An array of entity objects. Note that the keys in an entity object should match the collection schema |
+| __data[]__ | __object__<br/> |
 
 ## Response
 
 Returns the number of inserted entities and an array of their IDs.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -129,7 +133,15 @@ Returns the number of inserted entities and an array of their IDs.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __object__<br/> |
+| __data.insertCount__ | __integer__  <br/>The number of inserted entities.  |
+| __data[].insertIds__ | __array__<br/>An array of the IDs of inserted entities. |
+| __data[].insertIds[]__ | __string__  <br/>  |
+
+### Error Response
 
 ```json
 {
@@ -138,16 +150,8 @@ Returns the number of inserted entities and an array of their IDs.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| __data.insertCount__ | integer  <br/>The number of inserted entities.  |
-| __data[].insertIds__ | array<br/>An array of the IDs of inserted entities. |
-| __data[].insertIds[]__ | string  <br/>  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

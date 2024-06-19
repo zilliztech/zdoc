@@ -62,10 +62,16 @@ Possible response is similar to the following.
 
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `pageSize`  | **integer**<br/>The number of records to return on each page.|
-    | `current`  | **integer**<br/>The current page number.|
+    | __pageSize__  | **integer**<br/>The number of records to return on each page.|
+    | __current__  | **integer**<br/>The current page number.|
 
 - No path parameters required
+
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Authorization__  | **string**<br/>|
 
 ### Request Body
 
@@ -75,9 +81,7 @@ No request body required
 
 Returns a list of your clusters.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -104,7 +108,27 @@ Returns a list of your clusters.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __object__<br/> |
+| __data.count__ | __integer__  <br/>The total number of clusters returned.  |
+| __data.currentPage__ | __integer__  <br/>The current page in the results.  |
+| __data.pageSize__ | __integer__  <br/>The number of clusters per page in the results.  |
+| __data[].clusters__ | __array__<br/>An array of clusters in detail. |
+| __data[].clusters[]__ | __object__<br/> |
+| __data[].clusters[].clusterId__ | __string__  <br/>The ID of the cluster.  |
+| __data[].clusters[].clusterName__ | __string__  <br/>The name of the cluster.  |
+| __data[].clusters[].description__ | __string__  <br/>An optional description about the cluster.  |
+| __data[].clusters[].regionId__ | __string__  <br/>The ID of the region where the cluster exists.  |
+| __data[].clusters[].clusterType__ | __string__  <br/>The type of CU associated with the cluster. Possible values are **Performance-optimized** and **Capacity-optimized**.  |
+| __data[].clusters[].cuSize__ | __integer__  <br/>The size of the CU associated with the cluster.  |
+| __data[].clusters[].status__ | __string__  <br/>The current status of the cluster. Possible values are **INITIALIZING**, **RUNNING**, **SUSPENDING**, and **RESUMING**.  |
+| __data[].clusters[].connectAddress__ | __string__  <br/>The public endpoint of the cluster. You can connect to the cluster using this endpoint from the public network.  |
+| __data[].clusters[].privateLinkAddress__ | __string__  <br/>The private endpoint of the cluster. You can set up a private link to allow your VPS in the same cloud region to access your cluster.  |
+| __data[].clusters[].createTime__ | __string__  <br/>The time at which the cluster has been created.  |
+
+### Error Response
 
 ```json
 {
@@ -113,28 +137,8 @@ Returns a list of your clusters.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| __data.count__ | integer  <br/>The total number of clusters returned.  |
-| __data.currentPage__ | integer  <br/>The current page in the results.  |
-| __data.pageSize__ | integer  <br/>The number of clusters per page in the results.  |
-| __data[].clusters__ | array<br/>An array of clusters in detail. |
-| __data[].clusters[]__ | object<br/> |
-| __data[].clusters[].clusterId__ | string  <br/>The ID of the cluster.  |
-| __data[].clusters[].clusterName__ | string  <br/>The name of the cluster.  |
-| __data[].clusters[].description__ | string  <br/>An optional description about the cluster.  |
-| __data[].clusters[].regionId__ | string  <br/>The ID of the region where the cluster exists.  |
-| __data[].clusters[].clusterType__ | string  <br/>The type of CU associated with the cluster. Possible values are **Performance-optimized** and **Capacity-optimized**.  |
-| __data[].clusters[].cuSize__ | integer  <br/>The size of the CU associated with the cluster.  |
-| __data[].clusters[].status__ | string  <br/>The current status of the cluster. Possible values are **INITIALIZING**, **RUNNING**, **SUSPENDING**, and **RESUMING**.  |
-| __data[].clusters[].connectAddress__ | string  <br/>The public endpoint of the cluster. You can connect to the cluster using this endpoint from the public network.  |
-| __data[].clusters[].privateLinkAddress__ | string  <br/>The private endpoint of the cluster. You can set up a private link to allow your VPS in the same cloud region to access your cluster.  |
-| __data[].clusters[].createTime__ | string  <br/>The time at which the cluster has been created.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

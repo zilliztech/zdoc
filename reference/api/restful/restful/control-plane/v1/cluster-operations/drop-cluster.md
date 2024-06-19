@@ -31,7 +31,13 @@ Deletes a cluster. This operation moves your cluster to the recycle bin. All clu
 
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `CLUSTER_ID`  | **string**(required)<br/>|
+    | __CLUSTER_ID__  | **string**(required)<br/>|
+
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Authorization__  | **string**<br/>|
 
 ### Request Body
 
@@ -41,9 +47,7 @@ No request body required
 
 Returns the ID of the deleted cluster.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -55,7 +59,14 @@ Returns the ID of the deleted cluster.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __object__<br/> |
+| __data.clusterId__ | __string__  <br/>The ID of a cluster.  |
+| __data.prompt__ | __string__  <br/>The statement indicating that the current operation succeeds.  |
+
+### Error Response
 
 ```json
 {
@@ -64,15 +75,8 @@ Returns the ID of the deleted cluster.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| __data.clusterId__ | string  <br/>The ID of a cluster.  |
-| __data.prompt__ | string  <br/>The statement indicating that the current operation succeeds.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

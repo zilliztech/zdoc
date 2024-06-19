@@ -49,6 +49,12 @@ Possible response is similar to the following.
 
 - No path parameters required
 
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Authorization__  | **string**<br/>|
+
 ### Request Body
 
 No request body required
@@ -57,9 +63,7 @@ No request body required
 
 Returns a list of projects.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -74,7 +78,16 @@ Returns a list of projects.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __array__<br/> |
+| __data[]__ | __object__<br/> |
+| __data[].instanceCount__ | __integer__  <br/>  |
+| __data[].projectId__ | __string__  <br/>  |
+| __data[].projectName__ | __string__  <br/>  |
+
+### Error Response
 
 ```json
 {
@@ -83,17 +96,8 @@ Returns a list of projects.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | object<br/> |
-| __data[].instanceCount__ | integer  <br/>  |
-| __data[].projectId__ | string  <br/>  |
-| __data[].projectName__ | string  <br/>  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

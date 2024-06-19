@@ -36,7 +36,7 @@ import RestHeader from '@site/src/components/RestHeader';
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
     {%- for param in query_params %}
-    | `{{param['name']}}`  | **{{param['schema']['type']}}** {%- if param['required'] -%}(required){%- endif -%}<br>{{param['description']}}{%- if param['default'] -%}<br>The value defaults to **{{param['default']}}**.{%- endif -%}{%- if param['minimum'] and param['maximum'] -%}<br>The value ranges from **{{param['minimum']}}** to **{{param['maximum']}}**.{%- endif -%}{%- if param['minimum'] and not param['maximum'] -%}<br>The minimum value is **{{param['minimum']}}**.{%- endif -%}{%- if param['maximum'] and not param['minimum'] -%}<br>The maximum value is **{{param['maximum']}}**.{%- endif -%} |
+    | __{{param['name']}}__  | **{{param['schema']['type']}}** {%- if param['required'] -%}(required){%- endif -%}<br>{{param['description']}}{%- if param['default'] -%}<br>The value defaults to **{{param['default']}}**.{%- endif -%}{%- if param['minimum'] and param['maximum'] -%}<br>The value ranges from **{{param['minimum']}}** to **{{param['maximum']}}**.{%- endif -%}{%- if param['minimum'] and not param['maximum'] -%}<br>The minimum value is **{{param['minimum']}}**.{%- endif -%}{%- if param['maximum'] and not param['minimum'] -%}<br>The maximum value is **{{param['maximum']}}**.{%- endif -%} |
     {%- endfor %}
 
 {%- else -%}
@@ -52,7 +52,7 @@ import RestHeader from '@site/src/components/RestHeader';
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
     {%- for param in path_params %}
-    | `{{param['name']}}`  | **{{param['schema']['type']}}** {%- if param['required'] -%}(required){%- endif -%}<br>{{param['description']}}{%- if param['default'] -%}<br>The value defaults to **{{param['default']}}**.{%- endif -%}{%- if param['minimum'] and param['maximum'] -%}<br>The value ranges from **{{param['minimum']}}** to **{{param['maximum']}}**.{%- endif -%}{%- if param['minimum'] and not param['maximum'] -%}<br>The minimum value is **{{param['minimum']}}**.{%- endif -%}{%- if param['maximum'] and not param['minimum'] -%}<br>The maximum value is **{{param['maximum']}}**.{%- endif -%} |
+    | __{{param['name']}}__  | **{{param['schema']['type']}}** {%- if param['required'] -%}(required){%- endif -%}<br>{{param['description']}}{%- if param['default'] -%}<br>The value defaults to **{{param['default']}}**.{%- endif -%}{%- if param['minimum'] and param['maximum'] -%}<br>The value ranges from **{{param['minimum']}}** to **{{param['maximum']}}**.{%- endif -%}{%- if param['minimum'] and not param['maximum'] -%}<br>The minimum value is **{{param['minimum']}}**.{%- endif -%}{%- if param['maximum'] and not param['minimum'] -%}<br>The maximum value is **{{param['maximum']}}**.{%- endif -%} |
     {%- endfor %}
 
 {%- else -%}
@@ -61,10 +61,31 @@ import RestHeader from '@site/src/components/RestHeader';
 
 {%- endif %}
 
+{% if header_params | length > 0 -%}
+
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    {%- for param in header_params %}
+    | __{{param['name']}}__  | **{{param['schema']['type']}}** {%- if param['required'] -%}(required){%- endif -%}<br>{{param['description']}}{%- if param['default'] -%}<br>The value defaults to **{{param['default']}}**.{%- endif -%}{%- if param['minimum'] and param['maximum'] -%}<br>The value ranges from **{{param['minimum']}}** to **{{param['maximum']}}**.{%- endif -%}{%- if param['minimum'] and not param['maximum'] -%}<br>The minimum value is **{{param['minimum']}}**.{%- endif -%}{%- if param['maximum'] and not param['minimum'] -%}<br>The maximum value is **{{param['maximum']}}**.{%- endif -%} |
+    {%- endfor %}
+
+{%- else -%}
+
+- No header parameters required
+
+{%- endif %}
+
 ### Request Body
 
 {%- if req_bodies | length > 0 -%}
 {%- for req_body in req_bodies %}
+
+{%- if req_bodies | length > 1 %}
+
+#### Option {{loop.index}}: {{req_body['description']}}
+{%- endif %}
 
 ```json
 {{req_body | req_format }}
@@ -85,15 +106,29 @@ No request body required
 
 {{ res_desc }}
 
-### Response Bodies
+### Response Body
 
-- Response body if we process your request successfully
+{%- if res_bodies | length > 0 -%}
+{%- for res_body in res_bodies %}
+
+{%- if res_bodies | length > 1 %}
+
+#### Option {{loop.index}}: {{res_body['description']}}
+{%- endif %}
 
 ```json
 {{res_body | res_format }}
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br>Indicates whether the request succeeds.<br><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+{{ res_body | prepare_entries }}
+
+{%- endfor %}
+{%- endif %}
+
+### Error Response
 
 ```json
 {
@@ -102,12 +137,8 @@ No request body required
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br>Indicates whether the request succeeds.<br><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-{{ res_body | prepare_entries }}
-| `message`  | **string**<br>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br>Indicates whether the request succeeds.<br><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br>Indicates the possible reason for the reported error. |
+

@@ -63,6 +63,8 @@ Success response:
 
 - No path parameters required
 
+- No header parameters required
+
 ### Request Body
 
 ```json
@@ -78,20 +80,18 @@ Success response:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __collectionName__ | string  <br/>The name of the collection to create.  |
-| __dimension__ | integer  <br/>The number of dimensions for the vector field of the collection. For performance-optimized CUs, this value ranges from 1 to 32768. For capacity-optimized and cost-optimized CUs, this value ranges from 32 to 32768.<br/>The value ranges from 1 to 32768.  |
-| __metricType__ | string  <br/>The distance metric used for the collection.<br/>The value defaults to L2  |
-| __primaryField__ | string  <br/>The primary key field.<br/>The value defaults to id  |
-| __vectorField__ | string  <br/>The vector field.<br/>The value defaults to vector  |
-| __description__ | string  <br/>The description of the collection  |
+| __collectionName__ | __string__  <br/>The name of the collection to create.  |
+| __dimension__ | __integer__  <br/>The number of dimensions for the vector field of the collection. For performance-optimized CUs, this value ranges from 1 to 32768. For capacity-optimized and cost-optimized CUs, this value ranges from 32 to 32768.<br/>The value ranges from 1 to 32768.  |
+| __metricType__ | __string__  <br/>The distance metric used for the collection.<br/>The value defaults to L2  |
+| __primaryField__ | __string__  <br/>The primary key field.<br/>The value defaults to id  |
+| __vectorField__ | __string__  <br/>The vector field.<br/>The value defaults to vector  |
+| __description__ | __string__  <br/>The description of the collection  |
 
 ## Response
 
 Returns an empty object.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -100,7 +100,12 @@ Returns an empty object.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __object__<br/> |
+
+### Error Response
 
 ```json
 {
@@ -109,13 +114,8 @@ Returns an empty object.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

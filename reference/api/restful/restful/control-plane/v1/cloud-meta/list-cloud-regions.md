@@ -48,9 +48,15 @@ Possible response is similar to the following.
 
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `cloudId`  | **string**<br/>The ID of a valid cloud provider.|
+    | __cloudId__  | **string**<br/>The ID of a valid cloud provider.|
 
 - No path parameters required
+
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Authorization__  | **string**<br/>|
 
 ### Request Body
 
@@ -60,9 +66,7 @@ No request body required
 
 Returns a list of all available regions that the specified cloud provider offers.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -77,7 +81,16 @@ Returns a list of all available regions that the specified cloud provider offers
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __array__<br/> |
+| __data[]__ | __object__<br/> |
+| __data[].cloudId__ | __string__  <br/>The ID of a cloud provider  |
+| __data[].regionId__ | __string__  <br/>The ID of a cloud region  |
+| __data[].domain__ | __string__  <br/>The base URL of an Zilliz Cloud open API endpiont  |
+
+### Error Response
 
 ```json
 {
@@ -86,17 +99,8 @@ Returns a list of all available regions that the specified cloud provider offers
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | object<br/> |
-| __data[].cloudId__ | string  <br/>The ID of a cloud provider  |
-| __data[].regionId__ | string  <br/>The ID of a cloud region  |
-| __data[].domain__ | string  <br/>The base URL of an Zilliz Cloud open API endpiont  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

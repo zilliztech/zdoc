@@ -96,7 +96,11 @@ curl --request POST \
 
 - No path parameters required
 
+- No header parameters required
+
 ### Request Body
+
+#### Option 1: 
 
 ```json
 {
@@ -107,8 +111,10 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __id__ | string  <br/>The ID of the entity to be retrieved  |
+| __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
+| __id__ | __string__  <br/>The ID of the entity to be retrieved  |
+
+#### Option 2: 
 
 ```json
 {
@@ -119,9 +125,11 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __id__ | array<br/>An array of IDs of the entities to be retrieved |
-| __id[]__ | string  <br/>  |
+| __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
+| __id__ | __array__<br/>An array of IDs of the entities to be retrieved |
+| __id[]__ | __string__  <br/>  |
+
+#### Option 3: 
 
 ```json
 {
@@ -132,8 +140,10 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __id__ | integer  <br/>The ID of the entity to be retrieved  |
+| __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
+| __id__ | __integer__  <br/>The ID of the entity to be retrieved  |
+
+#### Option 4: 
 
 ```json
 {
@@ -144,17 +154,15 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __id__ | array<br/>An array of IDs of the entities to be retrieved |
-| __id[]__ | integer  <br/>  |
+| __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
+| __id__ | __array__<br/>An array of IDs of the entities to be retrieved |
+| __id[]__ | __integer__  <br/>  |
 
 ## Response
 
 Returns an empty object.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -163,7 +171,12 @@ Returns an empty object.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __object__<br/> |
+
+### Error Response
 
 ```json
 {
@@ -172,13 +185,8 @@ Returns an empty object.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

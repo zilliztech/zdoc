@@ -70,6 +70,14 @@ Possible response is similar to the following.
 
 - No path parameters required
 
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation.
+Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.|
+    | __Authorization__  | **string**<br/>The authentication token.|
+
 ### Request Body
 
 ```json
@@ -101,37 +109,35 @@ Possible response is similar to the following.
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __partitionNames__ | array<br/>The name of the partitions to which this operation applies. |
-| __partitionNames[]__ | string  <br/>PartitionName  |
-| __search__ | array<br/> |
-| __search[]__ | object<br/>The parameter settings specific to this operation. |
-| __search[][].data__ | array<br/>A list of vector embeddings.<include target="milvus">Milvus</include><include target="zilliz">Zilliz Cloud</include> searches for the most similar vector embeddings to the specified ones. |
-| __search[][].data[]__ | number (float32) <br/>A vector embedding  |
-| __search[].annsField__ | string  <br/>  |
-| __search[].filter__ | string  <br/>  |
-| __search[].groupingField__ | string  <br/>  |
-| __search[].metricType__ | string  <br/>The name of the metric type that applies to the current search. The value should be the same as the metric type of the target collection.<br/>The value defaults to COSINE  |
-| __search[].limit__ | integer  <br/>  |
-| __search[].offset__ | integer  <br/>  |
-| __search[].ignoreGrowing__ | boolean  <br/>  |
-| __search[].params__ | object<br/>Extra search parameters. |
-| __search[].params.radius__ | integer  <br/>Determines the threshold of least similarity. When setting metric_type to L2, ensure that this value is greater than that of range_filter. Otherwise, this value should be lower than that of range_filter.  |
-| __search[].params.range_filter__ | integer  <br/>Refines the search to vectors within a specific similarity range. When setting metric_type to IP or COSINE, ensure that this value is greater than that of radius. Otherwise, this value should be lower than that of radius.  |
-| __rerank__ | string  <br/>  |
-| __limit__ | integer  <br/>The total number of entities to return.<br/>You can use this parameter in combination with **offset** in **param** to enable pagination.
+| __dbName__ | __string__  <br/>The name of the database.  |
+| __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
+| __partitionNames__ | __array__<br/>The name of the partitions to which this operation applies. |
+| __partitionNames[]__ | __string__  <br/>PartitionName  |
+| __search__ | __array__<br/> |
+| __search[]__ | __object__<br/>The parameter settings specific to this operation. |
+| __search[][].data__ | __array__<br/>A list of vector embeddings.<include target="milvus">Milvus</include><include target="zilliz">Zilliz Cloud</include> searches for the most similar vector embeddings to the specified ones. |
+| __search[][].data[]__ | __number__ (float32) <br/>A vector embedding  |
+| __search[].annsField__ | __string__  <br/>  |
+| __search[].filter__ | __string__  <br/>  |
+| __search[].groupingField__ | __string__  <br/>  |
+| __search[].metricType__ | __string__  <br/>The name of the metric type that applies to the current search. The value should be the same as the metric type of the target collection.<br/>The value defaults to COSINE  |
+| __search[].limit__ | __integer__  <br/>  |
+| __search[].offset__ | __integer__  <br/>  |
+| __search[].ignoreGrowing__ | __boolean__  <br/>  |
+| __search[].params__ | __object__<br/>Extra search parameters. |
+| __search[].params.radius__ | __integer__  <br/>Determines the threshold of least similarity. When setting metric_type to L2, ensure that this value is greater than that of range_filter. Otherwise, this value should be lower than that of range_filter.  |
+| __search[].params.range_filter__ | __integer__  <br/>Refines the search to vectors within a specific similarity range. When setting metric_type to IP or COSINE, ensure that this value is greater than that of radius. Otherwise, this value should be lower than that of radius.  |
+| __rerank__ | __string__  <br/>  |
+| __limit__ | __integer__  <br/>The total number of entities to return.<br/>You can use this parameter in combination with **offset** in **param** to enable pagination.
 The sum of this value and **offset** in **param** should be less than 16,384.  |
-| __outputFields__ | array<br/>An array of fields to return along with the search results. |
-| __outputFields[]__ | string  <br/>A field name  |
+| __outputFields__ | __array__<br/>An array of fields to return along with the search results. |
+| __outputFields[]__ | __string__  <br/>A field name  |
 
 ## Response
 
 Returns the search results.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -142,7 +148,13 @@ Returns the search results.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __array__<br/> |
+| __data[]__ | __object__<br/> |
+
+### Error Response
 
 ```json
 {
@@ -151,14 +163,8 @@ Returns the search results.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | object<br/> |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

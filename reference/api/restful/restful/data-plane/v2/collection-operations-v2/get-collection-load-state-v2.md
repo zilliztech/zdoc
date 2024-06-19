@@ -46,6 +46,13 @@ Possible response is similar to the following:
 
 - No path parameters required
 
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation. Setting this to None indicates that this operation times out when any response returns or an error occurs.|
+    | __Authorization__  | **string**<br/>|
+
 ### Request Body
 
 ```json
@@ -58,17 +65,15 @@ Possible response is similar to the following:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of a database to which the collection belongs.  |
-| __collectionName__ | string  <br/>The name of a collection.  |
-| __partitionNames__ | string  <br/>A list of partition names. If any partition names are specified, releasing any of these partitions results in the return of a NotLoad state.  |
+| __dbName__ | __string__  <br/>The name of a database to which the collection belongs.  |
+| __collectionName__ | __string__  <br/>The name of a collection.  |
+| __partitionNames__ | __string__  <br/>A list of partition names. If any partition names are specified, releasing any of these partitions results in the return of a NotLoad state.  |
 
 ## Response
 
 A LoadState object that indicates the load status of the specified collection.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -80,7 +85,14 @@ A LoadState object that indicates the load status of the specified collection.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __object__<br/> |
+| __data.loadState__ | __string__  <br/>An object that indicates the load status of the specified collection.  |
+| __data.loadProgress__ | __integer__  <br/>An integer that indicates the load progress in the percentage of the specified collection.  |
+
+### Error Response
 
 ```json
 {
@@ -89,15 +101,8 @@ A LoadState object that indicates the load status of the specified collection.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| __data.loadState__ | string  <br/>An object that indicates the load status of the specified collection.  |
-| __data.loadProgress__ | integer  <br/>An integer that indicates the load progress in the percentage of the specified collection.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

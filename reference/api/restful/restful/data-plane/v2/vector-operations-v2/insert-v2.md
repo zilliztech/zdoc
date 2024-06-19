@@ -75,6 +75,14 @@ Possible response is similar to the following:
 
 - No path parameters required
 
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation.
+Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.|
+    | __Authorization__  | **string**<br/>The authentication token.|
+
 ### Request Body
 
 ```json
@@ -87,18 +95,19 @@ Possible response is similar to the following:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the target database.  |
-| __collectionName__ | string  <br/>The name of an existing collection.  |
-| __data__ | object | array<br/>The data to insert into the current collection.<br/>The data to insert should be a dictionary that matches the schema of the current collection or a list of such dictionaries. |
-| __partitionName__ | string  <br/>The name of a partition in the current collection. <br/>If specified, the data is to be inserted into the specified partition.  |
+| __dbName__ | __string__  <br/>The name of the target database.  |
+| __collectionName__ | __string__  <br/>The name of an existing collection.  |
+| __data__ | __object__ \| __array__<br/>The data to insert into the current collection.<br/>The data to insert should be a dictionary that matches the schema of the current collection or a list of such dictionaries. |
+| __data[opt_1]__ | __object__<br/>An entity |
+| __data[][opt_2]__ | __array__<br/>A list of entities |
+| __data[][opt_2][]__ | __object__<br/>An entity |
+| __partitionName__ | __string__  <br/>The name of a partition in the current collection. <br/>If specified, the data is to be inserted into the specified partition.  |
 
 ## Response
 
 A dictionary contains information about the number of inserted entities.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -112,7 +121,15 @@ A dictionary contains information about the number of inserted entities.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __object__<br/> |
+| __data.insertCount__ | __integer__  <br/>The number of inserted entities.  |
+| __data[].insertIds__ | __array__<br/>An array of the IDs of inserted entities. |
+| __data[].insertIds[]__ | __string__  <br/>  |
+
+### Error Response
 
 ```json
 {
@@ -121,16 +138,8 @@ A dictionary contains information about the number of inserted entities.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| __data.insertCount__ | integer  <br/>The number of inserted entities.  |
-| __data[].insertIds__ | array<br/>An array of the IDs of inserted entities. |
-| __data[].insertIds[]__ | string  <br/>  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

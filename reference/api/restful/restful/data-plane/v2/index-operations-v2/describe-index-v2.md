@@ -59,6 +59,14 @@ Possible response is similar to the following:
 
 - No path parameters required
 
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation.
+Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.|
+    | __Authorization__  | **string**<br/>The authentication token.|
+
 ### Request Body
 
 ```json
@@ -71,17 +79,15 @@ Possible response is similar to the following:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database to which the collection belongs.  |
-| __collectionName__ | string  <br/>The name of an the collection to which the index belongs.  |
-| __indexName__ | string  <br/>The name of the index to describe.  |
+| __dbName__ | __string__  <br/>The name of the database to which the collection belongs.  |
+| __collectionName__ | __string__  <br/>The name of an the collection to which the index belongs.  |
+| __indexName__ | __string__  <br/>The name of the index to describe.  |
 
 ## Response
 
 An object that contains the detailed description of the current index.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -102,7 +108,22 @@ An object that contains the detailed description of the current index.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __array__<br/> |
+| __data[]__ | __object__<br/> |
+| __data[].fieldName__ | __string__  <br/>The name of the target field.  |
+| __data[].indexName__ | __string__  <br/>The name of the index.  |
+| __data[].indexState__ | __string__  <br/>The status of the indexing progress.  |
+| __data[].indexType__ | __string__  <br/>The type of this index.  |
+| __data[].indexedRows__ | __integer__  <br/>The total number o rows that have been indexed.  |
+| __data[].metricType__ | __string__  <br/>The type of the metric.  |
+| __data[].pendingRows__ | __integer__  <br/>The number of rows that are waiting to be indexed.  |
+| __data[].totalRows__ | __integer__  <br/>The total number of entities/rows  |
+| __data[].failReason__ | __string__  <br/>The reason for the failure to build indexes.  |
+
+### Error Response
 
 ```json
 {
@@ -111,23 +132,8 @@ An object that contains the detailed description of the current index.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | object<br/> |
-| __data[].fieldName__ | string  <br/>The name of the target field.  |
-| __data[].indexName__ | string  <br/>The name of the index.  |
-| __data[].indexState__ | string  <br/>The status of the indexing progress.  |
-| __data[].indexType__ | string  <br/>The type of this index.  |
-| __data[].indexedRows__ | integer  <br/>The total number o rows that have been indexed.  |
-| __data[].metricType__ | string  <br/>The type of the metric.  |
-| __data[].pendingRows__ | integer  <br/>The number of rows that are waiting to be indexed.  |
-| __data[].totalRows__ | integer  <br/>The total number of entities/rows  |
-| __data[].failReason__ | string  <br/>The reason for the failure to build indexes.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

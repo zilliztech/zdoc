@@ -74,9 +74,11 @@ Possible response is similar to the following.
 
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `collectionName`  | **string**(required)<br/>The name of the collection to describe.|
+    | __collectionName__  | **string**(required)<br/>The name of the collection to describe.|
 
 - No path parameters required
+
+- No header parameters required
 
 ### Request Body
 
@@ -86,9 +88,7 @@ No request body required
 
 Returns the specified collection in detail.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -119,7 +119,29 @@ Returns the specified collection in detail.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __object__<br/> |
+| __data.collectionName__ | __string__  <br/>The name of the collection.  |
+| __data.description__ | __string__  <br/>An optional description of the collection.  |
+| __data[].fields__ | __array__<br/>An field array |
+| __data[].fields[]__ | __object__<br/> |
+| __data[].fields[].autoId__ | __boolean__  <br/>Whether the primary key automatically increments.  |
+| __data[].fields[].description__ | __string__  <br/>An optional description of the field.  |
+| __data[].fields[].name__ | __string__  <br/>The name of the field.  |
+| __data[].fields[].primaryKey__ | __boolean__  <br/>Whether the field is a primary field.  |
+| __data[].fields[].type__ | __string__  <br/>The data type of the values in this field.  |
+| __data[].indexes__ | __array__<br/>An index array |
+| __data[].indexes[]__ | __object__<br/> |
+| __data[].indexes[].fieldName__ | __string__  <br/>The name of the indexed field.  |
+| __data[].indexes[].indexName__ | __string__  <br/>The name of the generated index files.  |
+| __data[].indexes[].metricType__ | __string__  <br/>The metric type used in the index process.  |
+| __data.load__ | __string__  <br/>The load status of the collection. Possible values are **unload**, **loading**, and **loaded**.  |
+| __data.shardsNum__ | __integer__  <br/>The number of shards in the collection.  |
+| __data.enableDynamicField__ | __boolean__  <br/>Whether the dynamic JSON feature is enabled for this collection.  |
+
+### Error Response
 
 ```json
 {
@@ -128,30 +150,8 @@ Returns the specified collection in detail.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| __data.collectionName__ | string  <br/>The name of the collection.  |
-| __data.description__ | string  <br/>An optional description of the collection.  |
-| __data[].fields__ | array<br/>An field array |
-| __data[].fields[]__ | object<br/> |
-| __data[].fields[].autoId__ | boolean  <br/>Whether the primary key automatically increments.  |
-| __data[].fields[].description__ | string  <br/>An optional description of the field.  |
-| __data[].fields[].name__ | string  <br/>The name of the field.  |
-| __data[].fields[].primaryKey__ | boolean  <br/>Whether the field is a primary field.  |
-| __data[].fields[].type__ | string  <br/>The data type of the values in this field.  |
-| __data[].indexes__ | array<br/>An index array |
-| __data[].indexes[]__ | object<br/> |
-| __data[].indexes[].fieldName__ | string  <br/>The name of the indexed field.  |
-| __data[].indexes[].indexName__ | string  <br/>The name of the generated index files.  |
-| __data[].indexes[].metricType__ | string  <br/>The metric type used in the index process.  |
-| __data.load__ | string  <br/>The load status of the collection. Possible values are **unload**, **loading**, and **loaded**.  |
-| __data.shardsNum__ | integer  <br/>The number of shards in the collection.  |
-| __data.enableDynamicField__ | boolean  <br/>Whether the dynamic JSON feature is enabled for this collection.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

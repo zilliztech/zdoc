@@ -2120,7 +2120,56 @@
                                                             "anyOf": [
                                                                 {
                                                                     "type": "object",
-                                                                    "properties": {}
+                                                                    "properties": {
+                                                                        "name": {
+                                                                            "type": "string",
+                                                                            "description": "Name of the function to create."
+                                                                        },
+                                                                        "action": {
+                                                                            "type": "string",
+                                                                            "description": "Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`. "
+                                                                        },
+                                                                        "inputField": {
+                                                                            "type": "string",
+                                                                            "description": "Name the field according to your needs. In an `INDEX_DOC` function of an ingestion pipeline, use it for pre-signed document URLs in GCS or AWS S3 buckets."
+                                                                        },
+                                                                        "langauge": {
+                                                                            "type": "string",
+                                                                            "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+                                                                        },
+                                                                        "chunkSize": {
+                                                                            "type": "integer",
+                                                                            "description": "The maximum size of a splitted document segment."
+                                                                        },
+                                                                        "embedding": {
+                                                                            "type": "string",
+                                                                            "description": "Name of the embedding model in use."
+                                                                        },
+                                                                        "splitBy": {
+                                                                            "type": "string",
+                                                                            "description": "The splitters that Zilliz Cloud uses to split the specified docs."
+                                                                        }
+                                                                    },
+                                                                    "x-apifox-orders": [
+                                                                        "name",
+                                                                        "action",
+                                                                        "inputField",
+                                                                        "langauge",
+                                                                        "chunkSize",
+                                                                        "embedding",
+                                                                        "splitBy"
+                                                                    ],
+                                                                    "required": [
+                                                                        "name",
+                                                                        "action",
+                                                                        "inputField",
+                                                                        "langauge",
+                                                                        "chunkSize",
+                                                                        "embedding",
+                                                                        "splitBy"
+                                                                    ],
+                                                                    "x-apifox-ignore-properties": [],
+                                                                    "x-apifox-folder": "Schemas"
                                                                 },
                                                                 {
                                                                     "type": "object",
@@ -2263,6 +2312,14 @@
                                                                 "x-apifox-ignore-properties": []
                                                             },
                                                             "description": "Functions in the pipeline. For a search pipeline, each of its member functions targets at a different collection."
+                                                        },
+                                                        "clusterId": {
+                                                            "type": "string",
+                                                            "description": "Target cluster of the pipeline."
+                                                        },
+                                                        "collectionName": {
+                                                            "type": "string",
+                                                            "description": "Target collection of the pipeline."
                                                         }
                                                     },
                                                     "x-apifox-orders": [
@@ -2271,7 +2328,9 @@
                                                         "type",
                                                         "description",
                                                         "status",
-                                                        "functions"
+                                                        "functions",
+                                                        "clusterId",
+                                                        "collectionName"
                                                     ],
                                                     "required": [
                                                         "pipelineId",
@@ -2279,7 +2338,9 @@
                                                         "type",
                                                         "description",
                                                         "status",
-                                                        "functions"
+                                                        "functions",
+                                                        "clusterId",
+                                                        "collectionName"
                                                     ],
                                                     "x-apifox-ignore-properties": []
                                                 },
@@ -4188,7 +4249,8 @@
                                                             "additionalProperties": false,
                                                             "x-apifox-orders": [
                                                                 "num_entities",
-                                                                "ids"
+                                                                "ids",
+                                                                "usage"
                                                             ],
                                                             "properties": {
                                                                 "num_entities": {
@@ -4201,11 +4263,29 @@
                                                                         "type": "integer"
                                                                     },
                                                                     "description": "IDs of the returned text strings in the collection."
+                                                                },
+                                                                "usage": {
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "embedding": {
+                                                                            "type": "integer",
+                                                                            "description": "Number of tokens used in text embedding"
+                                                                        }
+                                                                    },
+                                                                    "x-apifox-orders": [
+                                                                        "embedding"
+                                                                    ],
+                                                                    "required": [
+                                                                        "embedding"
+                                                                    ],
+                                                                    "description": "Token usage statistics",
+                                                                    "x-apifox-ignore-properties": []
                                                                 }
                                                             },
                                                             "required": [
                                                                 "num_entities",
-                                                                "ids"
+                                                                "ids",
+                                                                "usage"
                                                             ],
                                                             "x-apifox-ignore-properties": []
                                                         },
@@ -4219,15 +4299,34 @@
                                                                 "doc_name": {
                                                                     "type": "string",
                                                                     "description": "Name of the chunked document with the file extension."
+                                                                },
+                                                                "usage": {
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "embedding": {
+                                                                            "type": "integer",
+                                                                            "description": "Number of tokens used in text embedding"
+                                                                        }
+                                                                    },
+                                                                    "x-apifox-orders": [
+                                                                        "embedding"
+                                                                    ],
+                                                                    "required": [
+                                                                        "embedding"
+                                                                    ],
+                                                                    "description": "Token usage statistics",
+                                                                    "x-apifox-ignore-properties": []
                                                                 }
                                                             },
                                                             "x-apifox-orders": [
                                                                 "num_chunks",
-                                                                "doc_name"
+                                                                "doc_name",
+                                                                "usage"
                                                             ],
                                                             "required": [
                                                                 "num_chunks",
-                                                                "doc_name"
+                                                                "doc_name",
+                                                                "usage"
                                                             ],
                                                             "description": "Payload of the response.",
                                                             "x-apifox-ignore-properties": []
@@ -4238,13 +4337,32 @@
                                                                 "num_entities": {
                                                                     "type": "integer",
                                                                     "description": "Number of images added."
+                                                                },
+                                                                "usage": {
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "embedding": {
+                                                                            "type": "string",
+                                                                            "description": "Number of tokens used in image embedding"
+                                                                        }
+                                                                    },
+                                                                    "x-apifox-orders": [
+                                                                        "embedding"
+                                                                    ],
+                                                                    "required": [
+                                                                        "embedding"
+                                                                    ],
+                                                                    "description": "Token usage statistics",
+                                                                    "x-apifox-ignore-properties": []
                                                                 }
                                                             },
                                                             "x-apifox-orders": [
-                                                                "num_entities"
+                                                                "num_entities",
+                                                                "usage"
                                                             ],
                                                             "required": [
-                                                                "num_entities"
+                                                                "num_entities",
+                                                                "usage"
                                                             ],
                                                             "x-apifox-ignore-properties": []
                                                         }
@@ -4392,14 +4510,33 @@
                                                                     }
                                                                 }
                                                             ]
+                                                        },
+                                                        "usage": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "embedding": {
+                                                                    "type": "integer",
+                                                                    "description": "Number of tokens used in embedding"
+                                                                }
+                                                            },
+                                                            "x-apifox-orders": [
+                                                                "embedding"
+                                                            ],
+                                                            "description": "Token usage statistics",
+                                                            "required": [
+                                                                "embedding"
+                                                            ],
+                                                            "x-apifox-ignore-properties": []
                                                         }
                                                     },
                                                     "description": "Payload of the response",
                                                     "x-apifox-orders": [
-                                                        "results"
+                                                        "results",
+                                                        "usage"
                                                     ],
                                                     "required": [
-                                                        "results"
+                                                        "results",
+                                                        "usage"
                                                     ],
                                                     "x-apifox-ignore-properties": []
                                                 }
@@ -10059,7 +10196,29 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "x-apifox-refs": {},
+                                    "x-apifox-orders": [
+                                        "code",
+                                        "data"
+                                    ],
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "x-apifox-folder": ""
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {},
+                                            "x-apifox-orders": [],
+                                            "x-apifox-ignore-properties": []
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "data"
+                                    ],
+                                    "x-apifox-ignore-properties": [],
+                                    "x-apifox-folder": "httpReturn"
                                 },
                                 "examples": {
                                     "1": {

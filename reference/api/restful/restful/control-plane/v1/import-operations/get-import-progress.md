@@ -43,10 +43,16 @@ curl --request GET \
 
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `jobId`  | **string**(required)<br/>The ID of the import task in concern|
-    | `clusterId`  | **string**(required)<br/>The ID of a cluster to which this operation applies.|
+    | __jobId__  | **string**(required)<br/>The ID of the import task in concern|
+    | __clusterId__  | **string**(required)<br/>The ID of a cluster to which this operation applies.|
 
 - No path parameters required
+
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Authorization__  | **string**<br/>|
 
 ### Request Body
 
@@ -56,9 +62,7 @@ No request body required
 
 Returns the progress of the specified job ID in percentage.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -84,7 +88,26 @@ Returns the progress of the specified job ID in percentage.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __object__<br/> |
+| __data.fileName__ | __string__  <br/>The path of the data file object in the object storage.  |
+| __data.fileSize__ | __integer__ (int64) <br/>The size of the data file object.  |
+| __data.readyPercentage__ | __number__ (float) <br/>The indicator of the import progress  |
+| __data.completeTime__ | __string__  <br/>The time at which the import task completes. `null` indicates that the file import is going on.  |
+| __data.errorMessage__ | __string__  <br/>The message that explains the reason for an import failure. `null` indicates that no error occurs.  |
+| __data.collectionName__ | __string__  <br/>The target collection name of the import task.  |
+| __data.jobId__ | __string__  <br/>The ID of an import task.  |
+| __data[].details__ | __array__<br/>The import task details |
+| __data[].details[]__ | __object__<br/> |
+| __data[].details[].fileName__ | __string__  <br/>The path to a file being imported.  |
+| __data[].details[].fileSize__ | __integer__ (int64) <br/>The size of a file being imported.  |
+| __data[].details[].readyPercentage__ | __number__ (float) <br/>The import progress of a specific file.  |
+| __data[].details[].completeTime__ | __string__  <br/>The time at which the import progress ends for a specific file. `null` indicates that the file import is going on.  |
+| __data[].details[].errorMessage__ | __string__  <br/>The message that explains the reason for an import failure. `null` indicates that no error occurs.  |
+
+### Error Response
 
 ```json
 {
@@ -93,27 +116,8 @@ Returns the progress of the specified job ID in percentage.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| __data.fileName__ | string  <br/>The path of the data file object in the object storage.  |
-| __data.fileSize__ | integer (int64) <br/>The size of the data file object.  |
-| __data.readyPercentage__ | number (float) <br/>The indicator of the import progress  |
-| __data.completeTime__ | string  <br/>The time at which the import task completes. `null` indicates that the file import is going on.  |
-| __data.errorMessage__ | string  <br/>The message that explains the reason for an import failure. `null` indicates that no error occurs.  |
-| __data.collectionName__ | string  <br/>The target collection name of the import task.  |
-| __data.jobId__ | string  <br/>The ID of an import task.  |
-| __data[].details__ | array<br/>The import task details |
-| __data[].details[]__ | object<br/> |
-| __data[].details[].fileName__ | string  <br/>The path to a file being imported.  |
-| __data[].details[].fileSize__ | integer (int64) <br/>The size of a file being imported.  |
-| __data[].details[].readyPercentage__ | number (float) <br/>The import progress of a specific file.  |
-| __data[].details[].completeTime__ | string  <br/>The time at which the import progress ends for a specific file. `null` indicates that the file import is going on.  |
-| __data[].details[].errorMessage__ | string  <br/>The message that explains the reason for an import failure. `null` indicates that no error occurs.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

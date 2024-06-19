@@ -100,7 +100,11 @@ curl --request POST \
 
 - No path parameters required
 
+- No header parameters required
+
 ### Request Body
+
+#### Option 1: 
 
 ```json
 {
@@ -112,10 +116,12 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __outputFields__ | array<br/>An array of fields to return along with the search results. |
-| __outputFields[]__ | string  <br/>  |
-| __id__ | string  <br/>The ID of the entity to be retrieved  |
+| __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
+| __outputFields__ | __array__<br/>An array of fields to return along with the search results. |
+| __outputFields[]__ | __string__  <br/>  |
+| __id__ | __string__  <br/>The ID of the entity to be retrieved  |
+
+#### Option 2: 
 
 ```json
 {
@@ -127,11 +133,13 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __outputFields__ | array<br/>An array of fields to return along with the search results. |
-| __outputFields[]__ | string  <br/>  |
-| __id__ | array<br/>An array of IDs of the entities to be retrieved |
-| __id[]__ | string  <br/>An ID represents an entity.  |
+| __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
+| __outputFields__ | __array__<br/>An array of fields to return along with the search results. |
+| __outputFields[]__ | __string__  <br/>  |
+| __id__ | __array__<br/>An array of IDs of the entities to be retrieved |
+| __id[]__ | __string__  <br/>An ID represents an entity.  |
+
+#### Option 3: 
 
 ```json
 {
@@ -143,10 +151,12 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __outputFields__ | array<br/>An array of fields to return along with the search results. |
-| __outputFields[]__ | string  <br/>  |
-| __id__ | integer  <br/>The ID of entity to be retrieved  |
+| __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
+| __outputFields__ | __array__<br/>An array of fields to return along with the search results. |
+| __outputFields[]__ | __string__  <br/>  |
+| __id__ | __integer__  <br/>The ID of entity to be retrieved  |
+
+#### Option 4: 
 
 ```json
 {
@@ -158,19 +168,17 @@ curl --request POST \
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __outputFields__ | array<br/>An array of fields to return along with the search results. |
-| __outputFields[]__ | string  <br/>  |
-| __id__ | array<br/>An array of IDs of the entities to be retrieved |
-| __id[]__ | integer  <br/>  |
+| __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
+| __outputFields__ | __array__<br/>An array of fields to return along with the search results. |
+| __outputFields[]__ | __string__  <br/>  |
+| __id__ | __array__<br/>An array of IDs of the entities to be retrieved |
+| __id[]__ | __integer__  <br/>  |
 
 ## Response
 
 Returns the search results.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -181,7 +189,13 @@ Returns the search results.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __array__<br/> |
+| __data[]__ | __object__<br/> |
+
+### Error Response
 
 ```json
 {
@@ -190,14 +204,8 @@ Returns the search results.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | object<br/> |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

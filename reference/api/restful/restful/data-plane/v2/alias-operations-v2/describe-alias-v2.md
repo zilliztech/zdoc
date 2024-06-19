@@ -50,6 +50,13 @@ Possible response is similar to the following
 
 - No path parameters required
 
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation in seconds. Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.|
+    | __Authorization__  | **string**<br/>The authentication token.|
+
 ### Request Body
 
 ```json
@@ -61,16 +68,14 @@ Possible response is similar to the following
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database to which the collection belongs.  |
-| __aliasName__ | string  <br/>The name of the alias whose details are to be listed.  |
+| __dbName__ | __string__  <br/>The name of the database to which the collection belongs.  |
+| __aliasName__ | __string__  <br/>The name of the alias whose details are to be listed.  |
 
 ## Response
 
 An alias object that contains the detailed description of an alias.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -83,7 +88,15 @@ An alias object that contains the detailed description of an alias.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __object__<br/> |
+| __data.dbName__ | __string__  <br/>The name of the database to which the collection belongs.  |
+| __data.collectionName__ | __string__  <br/>the name of the collection to which an alias belongs.  |
+| __data.aliasName__ | __string__  <br/>The name of the alias.  |
+
+### Error Response
 
 ```json
 {
@@ -92,16 +105,8 @@ An alias object that contains the detailed description of an alias.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| __data.dbName__ | string  <br/>The name of the database to which the collection belongs.  |
-| __data.collectionName__ | string  <br/>the name of the collection to which an alias belongs.  |
-| __data.aliasName__ | string  <br/>The name of the alias.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

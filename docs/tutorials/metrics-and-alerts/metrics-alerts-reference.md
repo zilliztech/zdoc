@@ -40,13 +40,13 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td><p>Read vCUs</p></td>
      <td><p>%</p></td>
-     <td><p>The measure of vCU consumption of search and query operations.<br/> This metric is available only for Serverless clusters.</p></td>
+     <td><p>A measure of vCU consumption of search and query operations.<br/> This metric is available only for Serverless clusters.</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
      <td><p>Write vCUs</p></td>
      <td><p>%</p></td>
-     <td><p>The measure of vCU consumption of insert, delete, and upsert operations.<br/> This metric is available only for Serverless clusters.</p></td>
+     <td><p>A measure of vCU consumption of insert, delete, and upsert operations.<br/> This metric is available only for Serverless clusters.</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
@@ -97,13 +97,13 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td><p>Request Failure Rate (Read)</p></td>
      <td><p>%</p></td>
-     <td><p>The percentage of timeout read requests (search and query) in all read requests per second.</p></td>
+     <td><p>The percentage of failed read requests (search and query) in all read requests per second.</p></td>
      <td><p><a href="./manage-project-alerts">Configure alerts</a> to monitor read request failure rate.</p></td>
    </tr>
    <tr>
      <td><p>Request Failure Rate (Write)</p></td>
      <td><p>%</p></td>
-     <td><p>The percentage of timeout write requests (insert, bulk insert, upsert, and delete) in all write requests per second.</p></td>
+     <td><p>The percentage of failed write requests (insert, bulk insert, upsert, and delete) in all write requests per second.</p></td>
      <td><p><a href="./manage-project-alerts">Configure alerts</a> to monitor write request failure rate.</p></td>
    </tr>
    <tr>

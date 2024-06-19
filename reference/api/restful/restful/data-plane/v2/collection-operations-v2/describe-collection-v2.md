@@ -93,6 +93,13 @@ Possible output would be similar to the following:
 
 - No path parameters required
 
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation. Setting this to None indicates that this operation times out when any response returns or an error occurs.|
+    | __Authorization__  | **string**<br/>The authentication token.|
+
 ### Request Body
 
 ```json
@@ -104,16 +111,14 @@ Possible output would be similar to the following:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
-| __collectionName__ | string  <br/>The name of the collection to describe.  |
+| __dbName__ | __string__  <br/>The name of the database.  |
+| __collectionName__ | __string__  <br/>The name of the collection to describe.  |
 
 ## Response
 
 Returns the specified collection in detail.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -165,7 +170,45 @@ Returns the specified collection in detail.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __object__<br/> |
+| __data[].aliases__ | __array__<br/>A list aliases assigned to the collection. |
+| __data[].aliases[]__ | __string__  <br/>An alias of the collection.  |
+| __data.autoID__ | __boolean__  <br/>Whether the primary key of this collection automatically increments.  |
+| __data.collectionID__ | __integer__ (int64) <br/>The ID assigned to the collection upon creation.  |
+| __data.collectionName__ | __string__  <br/>The name of the current collection.  |
+| __data.consistencyLevel__ | __string__  <br/>The consistency level of the current collection.  |
+| __data.description__ | __string__  <br/>The description of the collection.  |
+| __data.enableDynamicField__ | __boolean__  <br/>Whether the reserved dynamic field named $meta is enabled to save non-schema-defined fields and their values in key-value pairs.  |
+| __data[].fields__ | __array__<br/>The collection fields in an array |
+| __data[].fields[]__ | __object__<br/>A field object. |
+| __data[].fields[].autoId__ | __boolean__  <br/>Whether this field automatically increments its value.  |
+| __data[].fields[].description__ | __string__  <br/>The description of the field.  |
+| __data[].fields[].id__ | __integer__  <br/>The field ID.  |
+| __data[].fields[].name__ | __string__  <br/>The name of the current field.  |
+| __data[].fields[][].params__ | __array__<br/>Other field parameters. |
+| __data[].fields[][].params[]__ | __object__<br/>A field parameter in a key-value pair |
+| __data[].fields[][].params[].key__ | __string__  <br/>Field parameter name.  |
+| __data[].fields[][].params[].value__ | __string__  <br/>Field parameter value.  |
+| __data[].fields[].partitionKey__ | __boolean__  <br/>Whether this field serves as a partition key.  |
+| __data[].fields[].primaryKey__ | __boolean__  <br/>Whether this field serves as the primary key.  |
+| __data[].fields[].type__ | __string__  <br/>The data type of the field.  |
+| __data[].indexes__ | __array__<br/>The created indexes in an array |
+| __data[].indexes[]__ | __object__<br/>A index parameter object |
+| __data[].indexes[].fieldName__ | __string__  <br/>The target field of this index.  |
+| __data[].indexes[].indexName__ | __string__  <br/>The name of this index.  |
+| __data[].indexes[].metricType__ | __string__  <br/>The metric type of this index.  |
+| __data.load__ | __string__  <br/>The load status of the current collection.  |
+| __data.partitionNum__ | __integer__  <br/>The number of partitions in the collection.  |
+| __data[].properties__ | __array__<br/>Extra collection properties in an array. |
+| __data[].properties[]__ | __object__<br/>A collection property object in a key-value pair. |
+| __data[].properties[].key__ | __string__  <br/>The property name  |
+| __data[].properties[].value__ | __string__  <br/>The property value.  |
+| __data.shardsNum__ | __integer__  <br/>The number of shards created along with the collection.  |
+
+### Error Response
 
 ```json
 {
@@ -174,46 +217,8 @@ Returns the specified collection in detail.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| __data[].aliases__ | array<br/>A list aliases assigned to the collection. |
-| __data[].aliases[]__ | string  <br/>An alias of the collection.  |
-| __data.autoID__ | boolean  <br/>Whether the primary key of this collection automatically increments.  |
-| __data.collectionID__ | integer (int64) <br/>The ID assigned to the collection upon creation.  |
-| __data.collectionName__ | string  <br/>The name of the current collection.  |
-| __data.consistencyLevel__ | string  <br/>The consistency level of the current collection.  |
-| __data.description__ | string  <br/>The description of the collection.  |
-| __data.enableDynamicField__ | boolean  <br/>Whether the reserved dynamic field named $meta is enabled to save non-schema-defined fields and their values in key-value pairs.  |
-| __data[].fields__ | array<br/>The collection fields in an array |
-| __data[].fields[]__ | object<br/>A field object. |
-| __data[].fields[].autoId__ | boolean  <br/>Whether this field automatically increments its value.  |
-| __data[].fields[].description__ | string  <br/>The description of the field.  |
-| __data[].fields[].id__ | integer  <br/>The field ID.  |
-| __data[].fields[].name__ | string  <br/>The name of the current field.  |
-| __data[].fields[][].params__ | array<br/>Other field parameters. |
-| __data[].fields[][].params[]__ | object<br/>A field parameter in a key-value pair |
-| __data[].fields[][].params[].key__ | string  <br/>Field parameter name.  |
-| __data[].fields[][].params[].value__ | string  <br/>Field parameter value.  |
-| __data[].fields[].partitionKey__ | boolean  <br/>Whether this field serves as a partition key.  |
-| __data[].fields[].primaryKey__ | boolean  <br/>Whether this field serves as the primary key.  |
-| __data[].fields[].type__ | string  <br/>The data type of the field.  |
-| __data[].indexes__ | array<br/>The created indexes in an array |
-| __data[].indexes[]__ | object<br/>A index parameter object |
-| __data[].indexes[].fieldName__ | string  <br/>The target field of this index.  |
-| __data[].indexes[].indexName__ | string  <br/>The name of this index.  |
-| __data[].indexes[].metricType__ | string  <br/>The metric type of this index.  |
-| __data.load__ | string  <br/>The load status of the current collection.  |
-| __data.partitionNum__ | integer  <br/>The number of partitions in the collection.  |
-| __data[].properties__ | array<br/>Extra collection properties in an array. |
-| __data[].properties[]__ | object<br/>A collection property object in a key-value pair. |
-| __data[].properties[].key__ | string  <br/>The property name  |
-| __data[].properties[].value__ | string  <br/>The property value.  |
-| __data.shardsNum__ | integer  <br/>The number of shards created along with the collection.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

@@ -53,6 +53,14 @@ Possible response is similar to the following.
 
 - No path parameters required
 
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation.
+Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.|
+    | __Authorization__  | **string**<br/>The authentication token.|
+
 ### Request Body
 
 ```json
@@ -63,15 +71,13 @@ Possible response is similar to the following.
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __roleName__ | string  <br/>The name of the role.  |
+| __roleName__ | __string__  <br/>The name of the role.  |
 
 ## Response
 
 An object that contains the detailed desription of a role.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -88,7 +94,18 @@ An object that contains the detailed desription of a role.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __array__<br/>A list of privilege items. |
+| __data[]__ | __object__<br/> |
+| __data[].object_type__ | __string__  <br/>The type of the object to which the privilege belongs.  |
+| __data[].privilege__ | __string__  <br/>The privilege that is granted to the role.  |
+| __data[].object_name__ | __string__  <br/>The name of the object to which the role is granted the specified privilege.  |
+| __data[].db_name__ | __string__  <br/>The name of the database in which this operation has been executed.  |
+| __data[].grantor__ | __string__  <br/>The name of the user who granted a specific role to a user.  |
+
+### Error Response
 
 ```json
 {
@@ -97,19 +114,8 @@ An object that contains the detailed desription of a role.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | array<br/>A list of privilege items. |
-| __data[]__ | object<br/> |
-| __data[].object_type__ | string  <br/>The type of the object to which the privilege belongs.  |
-| __data[].privilege__ | string  <br/>The privilege that is granted to the role.  |
-| __data[].object_name__ | string  <br/>The name of the object to which the role is granted the specified privilege.  |
-| __data[].db_name__ | string  <br/>The name of the database in which this operation has been executed.  |
-| __data[].grantor__ | string  <br/>The name of the user who granted a specific role to a user.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

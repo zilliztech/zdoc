@@ -65,6 +65,14 @@ Possible response is similar to the following.
 
 - No path parameters required
 
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation.
+Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.|
+    | __Authorization__  | **string**<br/>The authentication token.|
+
 ### Request Body
 
 ```json
@@ -78,21 +86,25 @@ Possible response is similar to the following.
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | string  <br/>The name of the database.  |
-| __collectionName__ | string  <br/>The name of the collection to which this operation applies.  |
-| __id__ | integer | string | array | array<br/>A specific entity ID or a list of entity IDs. |
-| __outputFields__ | array<br/>An array of fields to return along with the search results. |
-| __outputFields[]__ | string  <br/>  |
-| __partitionNames__ | array<br/>The name of the partitions to which this operation applies. |
-| __partitionNames[]__ | string  <br/>PartitionName  |
+| __dbName__ | __string__  <br/>The name of the database.  |
+| __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
+| __id__ | __integer__ \| __string__ \| __array__ \| __array__<br/>A specific entity ID or a list of entity IDs. |
+| __id[opt_1]__ | __integer__  <br/>  |
+| __id[opt_2]__ | __string__  <br/>  |
+| __id[][opt_3]__ | __array__<br/> |
+| __id[][opt_3][]__ | __integer__  <br/>  |
+| __id[][opt_4]__ | __array__<br/> |
+| __id[][opt_4][]__ | __string__  <br/>  |
+| __outputFields__ | __array__<br/>An array of fields to return along with the search results. |
+| __outputFields[]__ | __string__  <br/>  |
+| __partitionNames__ | __array__<br/>The name of the partitions to which this operation applies. |
+| __partitionNames[]__ | __string__  <br/>PartitionName  |
 
 ## Response
 
 A list of dictionaries with each dictionary representing a queried entity.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -103,7 +115,13 @@ A list of dictionaries with each dictionary representing a queried entity.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __array__<br/> |
+| __data[]__ | __object__<br/> |
+
+### Error Response
 
 ```json
 {
@@ -112,14 +130,8 @@ A list of dictionaries with each dictionary representing a queried entity.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | array<br/> |
-| __data[]__ | object<br/> |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+

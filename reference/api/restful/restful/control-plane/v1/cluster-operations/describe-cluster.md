@@ -59,7 +59,13 @@ Possible response is similar to the following.
 
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `CLUSTER_ID`  | **string**(required)<br/>|
+    | __CLUSTER_ID__  | **string**(required)<br/>|
+
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Authorization__  | **string**<br/>|
 
 ### Request Body
 
@@ -69,9 +75,7 @@ No request body required
 
 Returns an array of clusters in detail.
 
-### Response Bodies
-
-- Response body if we process your request successfully
+### Response Body
 
 ```json
 {
@@ -94,7 +98,25 @@ Returns an array of clusters in detail.
 }
 ```
 
-- Response body if we failed to process your request
+| Property | Description                                                                                                                                 |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __data__ | __object__<br/> |
+| __data.clusterId__ | __string__  <br/>The ID of the cluster.  |
+| __data.clusterName__ | __string__  <br/>The Name of the cluster.  |
+| __data.description__ | __string__  <br/>An optional description of the cluster.  |
+| __data.regionId__ | __string__  <br/>The ID of the cloud region where the cluster exists.  |
+| __data.clusterType__ | __string__  <br/>The type of the CU associated with the cluster.  |
+| __data.cuSize__ | __integer__  <br/>The size of the CU used by the cluster.  |
+| __data.status__ | __string__  <br/>The current status of the cluster. Possible values are **CREATING**, **RUNNING**, **SUSPENDING**, and **RESUMING**.  |
+| __data.connectAddress__ | __string__  <br/>The public endpoint of the cluster. You can use this to connect to your cluster from public networks.  |
+| __data.privateLinkAddress__ | __string__  <br/>The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region.  |
+| __data.createTime__ | __string__  <br/>The time when this cluster has been creaated.  |
+| __data.storageSize__ | __integer__ (sint64) <br/>The storage size of the cluster.  |
+| __data.snapshotNumber__ | __integer__  <br/>The number of snapshofts created from the cluster.  |
+| __data.createProgress__ | __integer__  <br/>The creation progress of the cluster.  |
+
+### Error Response
 
 ```json
 {
@@ -103,26 +125,8 @@ Returns an array of clusters in detail.
 }
 ```
 
-### Properties
-
-The properties in the returned response are listed in the following table.
-
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __code__ | integer  <br/>  |
-| __data__ | object<br/> |
-| __data.clusterId__ | string  <br/>The ID of the cluster.  |
-| __data.clusterName__ | string  <br/>The Name of the cluster.  |
-| __data.description__ | string  <br/>An optional description of the cluster.  |
-| __data.regionId__ | string  <br/>The ID of the cloud region where the cluster exists.  |
-| __data.clusterType__ | string  <br/>The type of the CU associated with the cluster.  |
-| __data.cuSize__ | integer  <br/>The size of the CU used by the cluster.  |
-| __data.status__ | string  <br/>The current status of the cluster. Possible values are **CREATING**, **RUNNING**, **SUSPENDING**, and **RESUMING**.  |
-| __data.connectAddress__ | string  <br/>The public endpoint of the cluster. You can use this to connect to your cluster from public networks.  |
-| __data.privateLinkAddress__ | string  <br/>The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region.  |
-| __data.createTime__ | string  <br/>The time when this cluster has been creaated.  |
-| __data.storageSize__ | integer (sint64) <br/>The storage size of the cluster.  |
-| __data.snapshotNumber__ | integer  <br/>The number of snapshofts created from the cluster.  |
-| __data.createProgress__ | integer  <br/>The creation progress of the cluster.  |
-| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __message__  | **string**<br/>Indicates the possible reason for the reported error. |
+
