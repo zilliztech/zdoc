@@ -2235,6 +2235,11 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
+"@inkeep/docusaurus@^1.0.30":
+  version "1.0.30"
+  resolved "https://registry.npmmirror.com/@inkeep/docusaurus/-/docusaurus-1.0.30.tgz#a00676801fb50848635507949157af1f06b87036"
+  integrity sha512-QZDwsUqyCgdYKc2YysliZLZE6bhW3sF00wXkiB8a9O0DCZE86tqst6/dXI+hY/wl3188GShh3SJ1Vpyd3sY7ew==
+
 "@inquirer/figures@^1.0.0":
   version "1.0.0"
   resolved "https://registry.npmmirror.com/@inquirer/figures/-/figures-1.0.0.tgz#f28ee68d08c5ada5284ee0d58ae1d177e80dabda"

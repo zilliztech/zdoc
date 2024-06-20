@@ -1,3 +1,5 @@
+require('dotenv/config');
+
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
@@ -405,6 +407,20 @@ const config = {
       hotjar: {
         applicationId: 3711906,
       },
+      inkeepConfig: {
+        baseSettings: {
+          apiKey: process.env.INKEEP_API_KEY,
+          integrationId: process.env.INKEEP_INTEGRATION_ID,
+          organizationId: process.env.INKEEP_ORGANIZATION_ID,
+          primaryBrandColor: null
+        },
+        aiChatSettings: {
+            chatSubjectName: "Zilliz Cloud",
+            botAvatarSrcUrl: null,
+            getHelpCallToActions: [],
+            quickQuestions: []
+        }
+      }
     }),
   themes: [
     [ '@easyops-cn/docusaurus-search-local', {
@@ -417,6 +433,7 @@ const config = {
       highlightSearchTermsOnTargetPage: true,
     }],
     'docusaurus-theme-frontmatter',
+    '@inkeep/docusaurus/chatButton'
   ],
   headTags: [
     {
@@ -455,17 +472,6 @@ const config = {
       async: true,
     },
     '/js/zilliz.js',
-    // {
-    //   src: "https://widget.kapa.ai/kapa-widget.bundle.js",
-    //   async: true,
-    //   "data-website-id": "d6d677b7-21a8-41fb-9990-b43e8c8e744f",
-    //   "data-project-name": "Milvus",
-    //   "data-project-color": "#000000",
-    //   "data-project-logo": "https://miro.medium.com/v2/resize:fit:2400/1*-VEGyAgcIBD62XtZWavy8w.png",
-    //   "data-modal-disclaimer": "This is a custom LLM for Milvus with access to all Milvus docs, Zilliz docs, GitHub Discussions and Issues, and the Zilliz GitHub repository.",
-    //   "data-modal-example-questions": "How do I create a search pipeline in Zilliz?,Help me insert entities in my Milvus database",
-    //   "data-kapa-branding-hide": "true"
-    // }
   ],
   stylesheets: ['/css/cookieconsent.css'],
 };
