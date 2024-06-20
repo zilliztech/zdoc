@@ -224,8 +224,6 @@ Parameters:
 
     - `RRFRanker()`
 
-    For more information about reranking strategies, refer to [Reranking](./reranking).
-
 - `limit` (*int*)
 
     The maximum number of final results to return in the hybrid search.
