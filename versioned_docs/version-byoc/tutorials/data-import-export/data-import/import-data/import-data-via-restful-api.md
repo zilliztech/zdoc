@@ -48,7 +48,7 @@ curl --request POST \
      --header "accept: application/json" \
      --header "content-type: application/json" \
      -d '{
-       "clusterId": "${CLUSTER_ID}",
+       "clusterId": "${CLUSTER_ID}", 
        "collectionName": "medium_articles",
        "objectUrl": "gs://publicdataset-zillizcloud-com/medium_articles_2020.json"
        "accessKey": "your-access-key"

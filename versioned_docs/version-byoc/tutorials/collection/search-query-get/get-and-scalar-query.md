@@ -118,7 +118,7 @@ for i in range(1000):
         "vector": [ random.uniform(-1, 1) for _ in range(5) ],
         "color": current_color,
         "tag": current_tag,
-        "color_tag": f"\{current_color}_{str(current_tag)}"
+        "color_tag": f"{current_color}_{str(current_tag)}"
     })
 
 print(data[0])
@@ -1627,7 +1627,7 @@ A **boolean expression** is always **a string comprising field names joined by o
      <td><p>Addition, subtraction, multiplication, and division</p></td>
    </tr>
    <tr>
-     <td><hr /></td>
+     <td><p><strong>/</strong>**</p></td>
      <td><p>Exponent</p></td>
    </tr>
    <tr>
@@ -1635,7 +1635,7 @@ A **boolean expression** is always **a string comprising field names joined by o
      <td><p>Modulus</p></td>
    </tr>
    <tr>
-     <td><p><strong>\&lt;, ></strong></p></td>
+     <td><p><strong>\<, ></strong></p></td>
      <td><p>Less than, greater than</p></td>
    </tr>
    <tr>
@@ -1643,7 +1643,7 @@ A **boolean expression** is always **a string comprising field names joined by o
      <td><p>Equal to, not equal to</p></td>
    </tr>
    <tr>
-     <td><p><strong>\&lt;=, >=</strong></p></td>
+     <td><p><strong>\<=, >=</strong></p></td>
      <td><p>Less than or equal to, greater than or equal to</p></td>
    </tr>
    <tr>

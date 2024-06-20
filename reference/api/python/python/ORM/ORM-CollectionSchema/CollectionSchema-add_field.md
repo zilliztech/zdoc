@@ -72,9 +72,9 @@ add_field(
 
         - **DataType.JSON**, and
 
-        - **DataType.ARRAY**.
+        - **DataType.ARRAY**
 
-    - Vector fields: Use **DataType.FLOAT_VECTOR**.
+    - Vector fields: Select **DataType.FLOAT_VECTOR**, **DataType.BINARY_VECTOR** <sup>(Beta)</sup>, **DataType.FLOAT16_VECTOR** <sup>(Beta)</sup>, **DataType.BFLOAT16_VECTOR** <sup>(Beta)</sup>, or **DataType.SPARSE_FLOAT_VECTOR** <sup>(Beta)</sup>.
 
 - **is_primary** (*bool*) -
 
@@ -99,19 +99,19 @@ add_field(
 
     The data type of the elements in the field value.
 
-    This is mandatory for a **DataType.Array** field.
+    This is mandatory for a **DataType.ARRAY** field.
 
 - **max_capacity** (*int*) -
 
     The number of elements in an Array field value.
 
-    This is mandatory for a **DataType.Array** field.
+    This is mandatory for a **DataType.ARRAY** field.
 
 - **dim** (*int*) -
 
     The dimension of the vector embeddings. The value should be an integer greater than 1.
 
-    This is mandatory for a **DataType.FLOAT_VECTOR** field field.
+    This is mandatory for a field of the **DataType.FLOAT_VECTOR**, **DataType.BINARY_VECTOR**, **DataType.FLOAT16_VECTOR**, or **DataType.BFLOAT16_VECTOR** type. If you use **DataType.SPARSE_FLOAT_VECTOR**, omit this parameter.
 
 - **is_partition_key** (*bool*) -
 

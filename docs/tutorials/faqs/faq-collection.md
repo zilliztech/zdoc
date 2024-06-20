@@ -61,9 +61,13 @@ Zilliz Cloud supports 3 types of metrics.
 
 1. **Inner Product (IP)** multiplies two vectors. The more positive the result, the more similar the two vectors are.
 
-1. *[Beta]* **Cosine** measures the cosine value of the angle between two vectors.
+1. **Cosine** measures the cosine value of the angle between two vectors.
 
-Note that the cosine metric type is still in Beta version. If you need to choose this metric type, you need to upgrade your cluster to Beta version first.
+1. *[Beta]* **Jaccard** measures the dissimilarity between data sets and is obtained by subtracting the JACCARD similarity coefficient from 1.
+
+1. *[Beta]* **Hamming** measures binary data strings. The distance between two strings of equal length is the number of bit positions at which the bits are different.
+
+Currently, the Jaccard and Hamming similarity metrics are available exclusively to Dedicated clusters that have been upgraded to the Beta version. For more details, see [Similarity Metrics Explained](./search-metrics-explained).
 
 ### How to set the TTL (time to live) property of a created collection?{#how-to-set-the-ttl-time-to-live-property-of-a-created-collection}
 

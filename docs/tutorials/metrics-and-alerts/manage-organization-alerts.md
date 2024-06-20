@@ -41,7 +41,7 @@ When an alert in an **ON** status, the specified recipients will receive notific
      <td><p>Expiration Date of Credit card</p></td>
      <td><p>Day</p></td>
      <td><p>Monitor the remaining days until the credit card's expiration to ensure uninterrupted service.</p></td>
-     <td><p>Renew or update credit card information before the expiration date.<br/></p></td>
+     <td><p>Renew or update credit card information before the expiration date.</p></td>
      <td><p><strong>WARNING</strong>: Trigger alerts within 30 days of card expiration.<br/> <strong>CRITICAL</strong>: Trigger alerts within 7 days of card expiration.</p></td>
    </tr>
    <tr>
@@ -52,8 +52,8 @@ When an alert in an **ON** status, the specified recipients will receive notific
      <td><p>Trigger <strong>WARNING</strong> alerts when the balance of free credits falls below $10.</p></td>
    </tr>
    <tr>
-     <td><p>Credit Validity Period<br/></p></td>
-     <td><p>Day<br/></p></td>
+     <td><p>Credit Validity Period</p></td>
+     <td><p>Day</p></td>
      <td><p>Monitor the remaining validity period of free credits, alerting the user to encourage usage or extension.</p></td>
      <td><p>Extend the validity period or use the credits before they expire.</p></td>
      <td><p>Trigger <strong>WARNING</strong> alerts when the validity period of free credits reaches 0 days.</p></td>

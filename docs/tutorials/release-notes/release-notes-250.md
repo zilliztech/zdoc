@@ -43,7 +43,7 @@ In this release, Zilliz Cloud introduced a unified design for the [API Key](./ma
 
 The permission design of Zilliz Cloud follows the RBAC (Role-Based Access Control) principles, divided into two layers: the Operation Layer and the Data Layer. In the Operation Layer, roles govern the operational permissions of resources such as Clusters, Projects, Users, and Billing. In the Data Layer, roles focus on controlling the capabilities of adding, deleting, modifying, and querying data.
 
-[Unsupported block type]
+![V6ZhbOu0go1AORx0dxFcELQ3ndd](/img/V6ZhbOu0go1AORx0dxFcELQ3ndd.png)
 
 In the Operation Layer, Zilliz Cloud supports four types of roles, of which Organization Owner, Project Owner, and Project Member are three commonly used roles:
 

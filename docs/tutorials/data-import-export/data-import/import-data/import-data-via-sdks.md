@@ -164,7 +164,7 @@ from pymilvus import MilvusClient, DataType
 CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
 TOKEN = "YOUR_CLUSTER_TOKEN"
 API_KEY = "YOUR_CLUSTER_TOKEN"
-CLUSTER_ID = "YOUR_CLUSTER_ID"
+CLUSTER_ID = "YOUR_CLUSTER_ID" # inxx-xxxxxxxxxxxxxxx
 CLUSTER_REGION = "YOUR_CLUSTER_REGION"
 COLLECTION_NAME = "medium_articles"
 
@@ -230,7 +230,7 @@ import io.milvus.param.index.CreateIndexParam;
 String CLUSTER_ENDPOINT = "";
 String TOKEN = "";
 String API_KEY = "";
-String CLUSTER_ID = "";
+String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
 String CLOUD_REGION = "";
 String COLLECTION_NAME = "";
 
@@ -329,6 +329,10 @@ milvusClient.loadCollection(loadCollectionParam);
 
 </TabItem>
 </Tabs>
+
+In the code snippet above, fill in `CLUSTER_ENDPOINT`, `TOKEN`, `API_KEY`, `CLUSTER_ID` and `CLOUD_REGION` with your data, respectively. 
+
+You can obtain `CLOUD_REGION` and `CLUSTER_ID` from your cluster's public endpoint. For instance, in the public endpoint `https://in03-3bf3c31f4248e22.api.aws-us-east1.zillizcloud.com`, `CLOUD_REGION_ID` is `aws-us-east1` and `CLUSTER_ID` is `in03-3bf3c31f4248e22`. To find your cluster endpoint on the Zilliz Cloud console, refer to [On Zilliz Cloud Console](./on-zilliz-cloud-console).
 
 ## Import data{#import-data}
 

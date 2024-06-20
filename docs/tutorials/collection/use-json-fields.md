@@ -1760,10 +1760,10 @@ The following table assumes that the value of a JSON field named `json_key` has 
    <tr>
      <td><p><strong>!=</strong></p></td>
      <td><p><code>'json_field["A"][0]' != "abc"'</code></p></td>
-     <td><p>This expression evaluates to true if<br/> - <code>json_field</code> does not have a key named <code>A</code>.<br/> - <code>json_field</code> has a key named <code>A</code> but <code>json_field["A"]</code> is not an array.<br/> - <code>json_field["A"]</code> is an empty array.<br/> - <code>json_field["A"]</code> is an array but the first element is not <code>abc</code>.<br/></p></td>
+     <td><p>This expression evaluates to true if<br/> - <code>json_field</code> does not have a key named <code>A</code>.<br/> - <code>json_field</code> has a key named <code>A</code> but <code>json_field["A"]</code> is not an array.<br/> - <code>json_field["A"]</code> is an empty array.<br/> - <code>json_field["A"]</code> is an array but the first element is not <code>abc</code>.</p></td>
    </tr>
    <tr>
-     <td><p><strong>\&lt;=</strong></p></td>
+     <td><p><strong>\<=</strong></p></td>
      <td><p><code>'json_field["A"] &lt;= 5'</code></p></td>
      <td><p>This expression evaluates to true if the value of <code>json_field["A"]</code> is less than or equal to <code>5</code>.</p></td>
    </tr>

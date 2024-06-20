@@ -26,11 +26,6 @@ The following table lists the limits on the maximum number of organizations and 
      <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td><p></p></td>
-     <td><p><br/></p></td>
-     <td><p><br/></p></td>
-   </tr>
-   <tr>
      <td><p>Organization member</p></td>
      <td><p>100</p></td>
      <td><p>An organization can hold up to 100 members. A user can belong to multiple organizations.</p></td>
@@ -56,40 +51,17 @@ The following table lists the limits on the maximum number of organizations and 
      <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td><p></p></td>
-     <td><p><br/></p></td>
-     <td><p></p></td>
-   </tr>
-   <tr>
-     <td><p></p></td>
-     <td><p></p></td>
-     <td><p></p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster<br/></p></td>
+     <td><p>Dedicated cluster</p></td>
      <td><p>64 per CU, and &lt;= 4096</p></td>
      <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
    </tr>
 </table>
 
-In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following table lists the limits on the general capacity of a cluster.
+In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following formula shows how Zilliz Cloud calculates the general capacity of a cluster. The consumed capacity should be less than the general capacity available.
 
-<table>
-   <tr>
-     <th><p><strong>Number of CUs</strong></p></th>
-     <th><p><strong>General Capacity</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>1-8 CUs</p></td>
-     <td><p>&lt;= 4,096</p></td>
-   </tr>
-   <tr>
-     <td><p>12 CUs and more</p></td>
-     <td><p>&lt;= 512 x Number of CUs</p></td>
-   </tr>
-</table>
-
-The consumed capacity should be less than the general capacity available.
+```java
+General Capacity = 512 x Number of CUs
+```
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -104,10 +76,10 @@ The consumed capacity should be less than the general capacity available.
 <li><strong>Calculating the general capacity of a cluster</strong></li>
 </ul>
 <p>The general capacity can be determined using the following formula:</p>
-<p><strong>&lt;= 512 x Number of CUs</strong></p>
+<p><strong>\<= 512 x Number of CUs</strong></p>
 <p>For instance, </p>
 <ul>
-<li><p>In a cluster of <strong>2</strong> CUs, you can create a maximum of <strong>128</strong> collections with a general capacity of <strong>1,024</strong>.</p></li>
+<li><p>In a cluster of <strong>2</strong> CUs, you can create a maximum of <strong>128</strong> collections with a general capacity of <strong>4,096</strong>.</p></li>
 <li><p>In a cluster of <strong>12</strong> CUs, you can create a maximum of <strong>768</strong> collections with a general capacity of <strong>6,144</strong>.</p></li>
 <li><p>In a cluster of <strong>32</strong> CUs or more, you can create a maximum of <strong>4,096</strong> collections with a general capacity of <strong>65,536</strong>. </p></li>
 </ul>
@@ -125,17 +97,7 @@ Additionally, the rate limit for creating collections is **1** collection/s per 
      <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td><p></p></td>
-     <td><p><br/></p></td>
-     <td><p></p></td>
-   </tr>
-   <tr>
-     <td><p></p></td>
-     <td><p><br/></p></td>
-     <td><p></p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster<br/></p></td>
+     <td><p>Dedicated cluster</p></td>
      <td><p>4,096</p></td>
      <td><p>You can create up to 4,096 partitions per collection in a dedicated cluster.</p></td>
    </tr>
@@ -189,14 +151,6 @@ The rate limit that applies varies with the cluster types and the number of CUs 
      <th><p>Insert rate limits</p></th>
    </tr>
    <tr>
-     <td><p></p></td>
-     <td><p><br/></p></td>
-   </tr>
-   <tr>
-     <td><p></p></td>
-     <td><p><br/></p></td>
-   </tr>
-   <tr>
      <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
      <td><p>4 MB/s</p></td>
    </tr>
@@ -228,14 +182,6 @@ The rate limit that applies varies with the cluster types and the number of CUs 
    <tr>
      <th></th>
      <th><p>Insert rate limits</p></th>
-   </tr>
-   <tr>
-     <td><p></p></td>
-     <td><p></p></td>
-   </tr>
-   <tr>
-     <td><p></p></td>
-     <td><p></p></td>
    </tr>
    <tr>
      <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
@@ -357,7 +303,7 @@ Read [Select the Right CU](./cu-types-explained) for more.
      <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td><p>Numpy<br/></p></td>
+     <td><p>Numpy</p></td>
      <td><p>Not support</p></td>
      <td><p>The maximum size of the folder is 100 GB and the maximum size of each subdirectory is 15 GB</p></td>
    </tr>

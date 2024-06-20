@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 # Free Trials
 
-Zilliz Cloud offers four subscription plans: **Free**, **Serverless**, **Dedicated (Standard)**, and **Dedicated (Enterprise)**. 
+Zilliz Cloud offers four subscription plans: **Free**, **Serverless**, **Dedicated (Standard)**, and **Dedicated (Enterprise)**. In addition to the **Free** plan, Zilliz Cloud also offers free trials for the **Serverless** and **Dedicated** plans.
 
 ## Free plan{#free-plan}
 
@@ -29,7 +29,7 @@ This plan is ideal for learning, experimenting, and prototyping.
 
 - **Configuration**
 
-    Minimal setup required.
+    Minimal configuration available.
 
 - **Free Trial**
 
@@ -49,7 +49,7 @@ This plan is designed for serverless applications with variable or sporadic quer
 
 - **Cost**
 
-    Charged based on the read and write workload you run, with a starting bonus of $100 free credits for new users.
+    Charged based on the read and write workload you run. Free for a limited time.
 
 - **Configuration**
 
@@ -73,7 +73,7 @@ This plan is tailored for applications in dev with customizable workload managem
 
 - **Cost**
 
-    Charged based on usage, with a starting bonus of $100 free credits for new users.
+    Charged based on usage, with a starting bonus of $100 free credits for new users. Check our [pricing page](https://zilliz.com/pricing).
 
 - **Free Trial**
 
@@ -97,11 +97,11 @@ This plan is crafted for production applications with customizable workload mana
 
 - **Cost**
 
-    Check our [pricing page](https://zilliz.com/pricing).
+    Charged based on usage, with a starting bonus of $100 free credits for new users. Check our [pricing page](https://zilliz.com/pricing).
 
 - **Free Trial**
 
-    No. 
+    Yes. A 30-day trial is provided. If you associate a [Marketplace](./payment-billing#payment-options) account with Zilliz Cloud, you'll receive an additional $100 in free credits. Moreover, adding a payment method extends the validity of these credits to a year.
 
 - **Recommended use cases**
 
@@ -115,16 +115,19 @@ This plan is crafted for production applications with customizable workload mana
      <th><p><strong>Free</strong></p></th>
      <th><p><strong>Serverless</strong></p></th>
      <th><p><strong>Dedicated (Standard)</strong></p></th>
+     <th><p><strong>Dedicated (Dedicated)</strong></p></th>
    </tr>
    <tr>
      <td><p>Cost</p></td>
      <td><p>Free</p></td>
      <td><p>Free for a limited time</p></td>
      <td><p>Deducted from free credits</p></td>
+     <td><p>Deducted from free credits</p></td>
    </tr>
    <tr>
      <td><p>Trial Duration</p></td>
      <td><p>Permanent</p></td>
+     <td><p>30 days</p></td>
      <td><p>30 days</p></td>
      <td><p>30 days</p></td>
    </tr>
@@ -133,18 +136,21 @@ This plan is crafted for production applications with customizable workload mana
      <td><p>Quick start</p></td>
      <td><p>Serverless applications</p></td>
      <td><p>Applications in dev</p></td>
+     <td><p>Applications in production</p></td>
    </tr>
    <tr>
      <td><p>Max. collections</p></td>
      <td><p>2</p></td>
      <td><p>10</p></td>
-     <td><p>Self-provisioned</p></td>
+     <td><p>See <a href="./limits#collections">Zilliz Cloud Limits</a></p></td>
+     <td><p>See <a href="./limits#collections">Zilliz Cloud Limits</a></p></td>
    </tr>
    <tr>
      <td><p>CUs</p></td>
      <td><p>Shared</p></td>
      <td><p>Auto-scale</p></td>
      <td><p>32 CUs for self-provisioning</p></td>
+     <td><p>256 CUs for self-provisioning</p></td>
    </tr>
 </table>
 

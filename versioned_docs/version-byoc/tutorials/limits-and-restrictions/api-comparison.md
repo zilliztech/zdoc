@@ -67,7 +67,7 @@ The table below provides a comparison of API availability across various service
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td rowspan="4"><p>Authentication<br/></p></td>
+     <td rowspan="4"><p>Authentication</p></td>
      <td><p>createCredential()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>

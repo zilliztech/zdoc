@@ -115,7 +115,7 @@ for i in range(10000):
         "vector": [ random.uniform(-1, 1) for _ in range(5) ],
         "color": current_color,
         "tag": current_tag,
-        "color_tag": f"\{current_color}_{str(current_tag)}"
+        "color_tag": f"{current_color}_{str(current_tag)}"
     })
 
 print(data[0])

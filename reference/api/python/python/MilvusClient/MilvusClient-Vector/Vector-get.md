@@ -25,6 +25,7 @@ get(
     ids: Union[list, str, int],
     output_fields: Optional[List[str]] = None,
     timeout: Optional[float] = None,
+    partition_names: Optional[List[str]] = None,
     **kwargs,
 ) -> List[dict]
 ```
@@ -54,6 +55,12 @@ get(
     The timeout duration for this operation. 
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+- **partition_names** (*list[str]* | *None*) -
+
+    A list of partition names.
+
+    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
 
 **RETURN TYPE:**
 

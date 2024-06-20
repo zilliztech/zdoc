@@ -27,8 +27,13 @@ Example:
 
 ```python
 # Auto indexing
+CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+TOKEN = "YOUR_CLUSTER_TOKEN"
+
+# 1. Set up a Milvus client
 client = MilvusClient(
-    uri="http://localhost:19530"
+    uri=CLUSTER_ENDPOINT,
+    token=TOKEN 
 )
 
 index_params = client.create_index_params() # Prepare an empty IndexParams object, without having to specify any index parameters

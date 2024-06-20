@@ -32,7 +32,7 @@ When an alert in an **ON** status, the specified recipients will receive notific
      <th><p>Default Trigger Condition</p></th>
    </tr>
    <tr>
-     <td><p>License (Core Usage)<br/></p></td>
+     <td><p>License (Core Usage)</p></td>
      <td><p>%</p></td>
      <td><p>Monitor the percentage of used CPU cores against the total licensed cores.</p></td>
      <td><p><strong>Below 70%</strong>: Continue monitoring to ensure core usage stays within this range. <br/> <strong>70-99%</strong>: Assess future needs and prepare to renew or upgrade the license.<br/> <strong>100% or above</strong>: Renew or upgrade the license immediately to avoid operational disruptions.<br/> For details, refer to <a href="./license">License</a>.</p></td>

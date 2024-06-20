@@ -97,7 +97,7 @@ Refer to the table below for the necessary cloud resources and services for Zill
 <table>
    <tr>
      <th><p><strong>Resource Type</strong></p></th>
-     <th><p><strong>Instance</strong><br/></p></th>
+     <th><p><strong>Instance</strong></p></th>
      <th><p>Min. Config<br/></p></th>
    </tr>
    <tr>

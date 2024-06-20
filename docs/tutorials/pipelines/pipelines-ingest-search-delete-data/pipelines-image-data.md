@@ -77,7 +77,7 @@ To ingest any data, you need to first create an ingestion pipeline and then run 
 
     1. Select **INDEX_IMAGE** as the function type. An **INDEX_IMAGE** function can generate vector embeddings for the images in the provided URLs.
 
-    1. Choose the embedding model used to generate vector embeddings. Currently, there are 2 available models: **zilliz/vit-base-patch16-224** and **zilliz/clip-vit-base-patch16**. The following chart briefly introduces each embedding model.
+    1. Choose the embedding model used to generate vector embeddings. Currently, there are 2 available models: **zilliz/vit-base-patch16-224** and **zilliz/clip-vit-base-patch32**. The following chart briefly introduces each embedding model.
 
         <table>
            <tr>
@@ -89,7 +89,7 @@ To ingest any data, you need to first create an ingestion pipeline and then run 
              <td><p>The Vision Transformer (ViT) is a transformer encoder model (BERT-like) open-sourced by Google. The model is pretrained on a large collection of images to embed the semantic of image content to a vector space. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
            </tr>
            <tr>
-             <td><p>zilliz/clip-vit-base-patch16</p></td>
+             <td><p>zilliz/clip-vit-base-patch32</p></td>
              <td><p>A multi-modal model released by OpenAI. This vision model and its pairing text model are capable of embedding images and texts into the same vector space, enabling semantic search between visual and textual information. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
            </tr>
         </table>
@@ -145,7 +145,7 @@ curl --request POST \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
     -d '{
         "name": "my_image_ingestion_pipeline",
-        "clusterId": "${CLUSTER_ID}",
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
         "projectId": "proj-xxxx"，
         "collectionName": "my_collection",
         "description": "A pipeline that converts an image into vector embeddings and store in efficient index for search.",
@@ -164,7 +164,7 @@ curl --request POST \
                 "fieldType": "VarChar" 
             }
         ]   
-    }
+    }'
 ```
 
 The parameters in the above code are described as follows:
@@ -203,7 +203,7 @@ The parameters in the above code are described as follows:
              <td><p>The Vision Transformer (ViT) is a transformer encoder model (BERT-like) open-sourced by Google. The model is pretrained on a large collection of images to embed the semantic of image content to a vector space. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
            </tr>
            <tr>
-             <td><p>zilliz/clip-vit-base-patch16</p></td>
+             <td><p>zilliz/clip-vit-base-patch32</p></td>
              <td><p>A multi-modal model released by OpenAI. This vision model and its pairing text model are capable of embedding images and texts into the same vector space, enabling semantic search between visual and textual information. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
            </tr>
         </table>
@@ -291,7 +291,7 @@ This collection contains three fields:  two output fields of the **INDEX_IMAGE**
 
 <TabItem value="Bash">
 
-The following example runs the Ingestion pipeline `my_image_ingestion_pipeline`. `image_title` is the metadata field that needs to be preserved. 
+The following example runs the Ingestion pipeline `my_image_ingestion_pipeline`. 
 
 ```python
 curl --request POST \
@@ -304,7 +304,7 @@ curl --request POST \
             "image_id": "my-img-123456",
             "image_title": "A cute yellow cat"
         }
-    }
+    }'
 ```
 
 The parameters in the above code are described as follows:
@@ -317,13 +317,18 @@ The parameters in the above code are described as follows:
 
 - `image_url`: The URL of the image stored on an object storage. You should use a URL that is either not encoded or encoded in UTF-8. Ensure that the URL remains valid for at least one hour.
 
+- `image_title`：The metadata field that needs to be preserved.
+
 Below is an example response.
 
 ```bash
 {
   "code": 200,
     "data": {
-        "num_entities": 1
+        "num_entities": 1,
+        "usage": {
+          "embedding": 1
+    }
   }
 }
 ```
@@ -404,11 +409,11 @@ curl --request POST \
                 "name": "search_image_by_image",
                 "action": "SEARCH_IMAGE_BY_IMAGE",
                 "embedding": "zilliz/vit-base-patch16-224",
-                "clusterId": "${CLUSTER_ID}",
+                "clusterId": "inxx-xxxxxxxxxxxxxxx",
                 "collectionName": "my_collection"
             }
         ]
-    }
+    }'
 ```
 
 The parameters in the above code are described as follows:
@@ -448,7 +453,7 @@ Below is an example output.
     "type": "SEARCH",
     "description": "A pipeline that searches image by image.",
     "status": "SERVING",
-    "functions": [
+    "functions": 
       {
         "action": "SEARCH_IMAGE_BY_IMAGE",
         "name": "search_image_by_image",
@@ -457,8 +462,6 @@ Below is an example output.
         "collectionName": "my_collection",
         "embedding": "zilliz/vit-base-patch16-224"
       }
-    ],
-    "totalTokenUsage": 0
   }
 }
 ```
@@ -534,17 +537,20 @@ Below is an example response.
 ```bash
 {
     "code": 200,
-    "data": [{
-            "image_id": 101,
-            "distance": 0.4,
-            "image_title": "test image 1"
-            }, 
-            {
-            "image_id": 103,
-            "distance": 0.2,
-            "image_title": "test image 3"  
-            }
-            ]
+    "data": {
+    "result": [
+      {
+        "id": "image-101",
+        "distance": 0.4,
+        "image_id": "image-101"，
+        "image_title": "test title"
+      },
+    ],
+    "usage": {
+      "embedding": 1
+    }
+  }
+}
 }
 ```
 
@@ -627,9 +633,9 @@ curl --request POST \
                 "action": "PURGE_IMAGE_INDEX"
             }
         ], 
-        "clusterId": "${CLUSTER_ID}",
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
         "collectionName": "my_collection"
-    }
+    }'
 ```
 
 The parameters in the above code are described as follows:
@@ -715,7 +721,7 @@ curl --request POST \
         "data": {
             "image_id": "my-img-123456"
         }
-    }
+    }'
 ```
 
 The parameters in the above code are described as follows:
@@ -751,7 +757,7 @@ The following are relevant operations that manages the created pipelines in the 
 
 <TabItem value="Cloud Console">
 
-Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You will see all the available pipelines, their detailed information, and the token usage of each pipeline. 
+Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You will see all the available pipelines and their detailed information. 
 
 ![view-pipelines-on-web-ui](/img/view-pipelines-on-web-ui.png)
 
@@ -936,7 +942,6 @@ The following is an example output.
     "type": "INGESTION",
     "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
     "status": "SERVING",
-    "totalTokenUsage": 0,
     "functions": [
       {
         "action": "INDEX_DOC",

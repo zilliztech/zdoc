@@ -45,6 +45,10 @@ You can create a collection in either of the following manners:
 
     Instead of letting Zilliz Cloud decide almost everything for your collection, you can determine the **schema** and **index parameters** of the collection on your own. For details, refer to [Customized setup](./manage-collections-sdks#customized-setup).
 
+- **With multiple vector fields** <sup>(Beta)</sup>
+
+    Zilliz Cloud enables multi-vector support, allowing you to add a maximum of 4 vector fields per collection. Currently, this feature is in Beta, exclusively available for Dedicated clusters that have been upgraded to the Beta version. For details, refer to [With multiple vector fields](./manage-collections-sdks#with-multiple-vector-fields-lesssupgreaterbetalesssupgreater).
+
 ### Quick setup{#quick-setup}
 
 Against the backdrop of the great leap in the AI industry, most developers just need a simple yet dynamic collection to start with. Zilliz Cloud allows a quick setup of such a collection with just three arguments: 
@@ -280,7 +284,7 @@ index_params.add_index(
 
 index_params.add_index(
     field_name="my_vector", 
-    index_type="IVF_FLAT",
+    index_type="AUTOINDEX",
     metric_type="IP",
     params={ "nlist": 128 }
 )
@@ -301,7 +305,7 @@ IndexParam indexParamForIdField = IndexParam.builder()
 
 IndexParam indexParamForVectorField = IndexParam.builder()
     .fieldName("my_vector")
-    .indexType(IndexParam.IndexType.IVF_FLAT)
+    .indexType(IndexParam.IndexType.AUTOINDEX)
     .metricType(IndexParam.MetricType.L2)
     .extraParams(Map.of("nlist", 1024))
     .build();
@@ -322,7 +326,7 @@ const index_params = [{
     index_type: "STL_SORT"
 },{
     field_name: "my_vector",
-    index_type: "IVF_FLAT",
+    index_type: "AUTOINDEX",
     metric_type: "IP",
     params: { nlist: 1024}
 }]
@@ -585,6 +589,108 @@ You have the option to create a collection and an index file separately or to cr
 
     </TabItem>
     </Tabs>
+
+### With multiple vector fields <sup>(Beta)</sup>{#with-multiple-vector-fields-lesssupgreaterbetalesssupgreater}
+
+The process for creating a collection with multiple vector fields keeps consistent with that for [customized setup](./manage-collections-sdks#customized-setup). To create a collection with multiple vector fields (up to 4), you need to define the configuration of all the vector fields you want to store in the collection. Each vector field in the collection has its own name and distant metric type used to measure how similar the entities are. For more information on vector data types and metrics, refer to [Similarity Metrics Explained](./search-metrics-explained) and [Schema Explained](./schema-explained#data-types).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Currently, this feature is in Beta, exclusively available for Dedicated clusters that have been upgraded to the Beta version.</p>
+
+</Admonition>
+
+The example below defines two vector fields, `text_vector` and `image_vector`, in the collection schema.
+
+```python
+# Create a collection with multiple vector fields
+
+schema = client.create_schema(
+    auto_id=False,
+    enable_dynamic_field=True,
+)
+
+# Add primary key field to schema
+schema.add_field(field_name="my_id", datatype=DataType.INT64, is_primary=True)
+
+# Add vector field 1 to schema
+# The dim value should be an integer greater than 1.
+# Binary vector dimensions must be a multiple of 8
+schema.add_field(field_name="text_vector", datatype=DataType.BINARY_VECTOR, dim=8)
+
+# Add vector field 2 to schema
+# The dim value should be an integer greater than 1.
+schema.add_field(field_name="image_vector", datatype=DataType.FLOAT_VECTOR, dim=128)
+
+# Output:
+# {'auto_id': False, 'description': '', 'fields': [{'name': 'my_id', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': False}, {'name': 'text_vector', 'description': '', 'type': <DataType.BINARY_VECTOR: 100>, 'params': {'dim': 8}}, {'name': 'image_vector', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 128}}], 'enable_dynamic_field': True}
+```
+
+In the example code above,
+
+- The `create_schema` method is used to create a new schema for the collection, with `auto_id` set to `False` and dynamic fields enabled.
+
+- A primary key field `my_id` of type `INT64` is added to the schema.
+
+- Two vector fields are added: `text_vector` (a binary vector with a dimension of 8) and `image_vector` (a float vector with a dimension of 128).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>For vector fields of the <code>BINARY_VECTOR</code> type, </p>
+<ul>
+<li><p>The dimension value (<code>dim</code>) must be a multiple of 8.</p></li>
+<li><p>The available metric types are <code>HAMMING</code> and <code>JACCARD</code>.</p></li>
+</ul>
+
+</Admonition>
+
+After defining the schema, you can create an index for each vector field separately. The example code below demonstrates how to prepare and add indexes for both vector fields `text_vector` and `image_vector`.
+
+```python
+# Prepare index parameters
+
+index_params = client.prepare_index_params()
+
+index_params.add_index(
+    field_name="text_vector", 
+    # In Zilliz Cloud, the index type should always be `AUTOINDEX`.
+    index_type="AUTOINDEX", 
+    # For vector of the `BINARY_VECTOR` type, use `HAMMING` or `JACCARD` as the metric type.
+    metric_type="HAMMING", 
+    params={ "nlist": 128 }
+)
+
+index_params.add_index(
+    field_name="image_vector", 
+    index_type="AUTOINDEX",
+    metric_type="IP",
+    params={ "nlist": 128 }
+)
+
+client.create_collection(
+    collection_name="demo_multiple_vector_fields",
+    schema=schema,
+    index_params=index_params
+)
+```
+
+In the example code above,
+
+- The `prepare_index_params` method prepares the parameters for indexing.
+
+- Indexes are added to both vector fields: `text_vector` uses `HAMMING` as the metric type, and `image_vector` uses `IP` (Inner Product).
+
+- The `create_collection` method creates the collection with the defined schema and index parameters.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>For vector fields of the <code>BINARY_VECTOR</code> type, </p>
+<ul>
+<li><p>The dimension value (<code>dim</code>) must be a multiple of 8.</p></li>
+<li><p>The available metric types are <code>HAMMING</code> and <code>JACCARD</code>.</p></li>
+</ul>
+
+</Admonition>
 
 ## View Collections{#view-collections}
 

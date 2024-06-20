@@ -17,7 +17,7 @@ Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To acces
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is exclusively available to clusters in the Standard and Enterprise plans. For more information, see <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p>
+<p>For free clusters, only the metric chart for CU capacity is available. To unlock a range of advanced metrics, <a href="./manage-cluster#upgrade-plan">upgrade your plan tier</a>.</p>
 
 </Admonition>
 
@@ -47,6 +47,10 @@ The **Metrics** tab allows for two types of window sizes.
 
     - Last hour
 
+    - Last 6 hours
+
+    - Last 12 hours
+
     - Last day
 
     - Last week
@@ -66,6 +70,10 @@ Zilliz Cloud offers metric charts for monitoring cluster performance from variou
 ### Resources{#resources}
 
 To view metric charts for resource usage, select the **Metrics** tab and refer to the **Resources** area. These charts provide a snapshot of the cluster's resource usage, including computation, capacity, and storage.
+
+- **Read vCUs**: Measures vCU consumption of search and query operations. This metric is available only for Serverless clusters.
+
+- **Write vCUs**: Measures vCU consumption of insert, delete, and upsert operations. This metric is available only for Serverless clusters.
 
 - **CU Computation**: Measures computational power usage relative to the total.
 

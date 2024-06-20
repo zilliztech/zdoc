@@ -85,7 +85,7 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 
 ### Manage and configure clusters{#manage-and-configure-clusters}
 
-- **Scale-up cluster**
+- **Scale up cluster**
 
     In the **Summary** section, click **Scale** right to the CU **Size** to open the **Scale Cluster** dialog box. You can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. You can scale the size of a cluster up to 256 CUs in the dialog box. Contact us if you need a larger CU.
 
@@ -100,6 +100,14 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
     </Admonition>
 
 - **Scale down cluster**
+
+    To scale down the cluster CU size, please navigate to the overview page of the target cluster and click **Scale** next to the CU size. Select the desired CU size in the dialog window. 
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>Please use the <a href="https://zilliz.com/pricing#calculator">CU calculator</a> to estimate the minimum CU size needed for your data. Otherwise, scaling may fail.</p>
+
+    </Admonition>
 
     To scale down the cluster CU size, please [submit a request](https://support.zilliz.com/hc/en-us).
 

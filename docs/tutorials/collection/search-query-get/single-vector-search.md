@@ -26,6 +26,8 @@ There are a variety of search types to meet different requirements:
 
 - [Range search](./single-vector-search#range-search): Finds vectors within a specific distance range from the query vector.
 
+- [Grouping search](./single-vector-search#grouping-search-lessinclude-targetzillizgreaterlesssupgreaterbetalesssupgreaterlessincludegreater): Groups search results based on a specific field to ensure diversity in the results.
+
 ## Preparations{#preparations}
 
 The code snippets below repurpose the existing code to establish connections to a Zilliz Cloud cluster, quickly set up a collection and two partitions, and insert data into them.
@@ -57,7 +59,7 @@ for i in range(1000):
         "id": i,
         "vector": [ random.uniform(-1, 1) for _ in range(5) ],
         "color": current_color,
-        "color_tag": f"\{current_color}_{str(random.randint(1000, 9999))}"
+        "color_tag": f"{current_color}_{str(random.randint(1000, 9999))}"
     })
 
 res = client.insert(
@@ -1455,6 +1457,28 @@ Alongside the nearest neighbors, the search results will include the specified f
 
 Filtered search applies scalar filters to vector searches, allowing you to refine the search results based on specific criteria. You can find more about filter expressions in [Boolean Expression Rules](https://milvus.io/docs/boolean.md) and examples in [Get & Scalar Query](./get-and-scalar-query).
 
+### Use the `like` operator{#use-the-like-operator}
+
+The `like` operator enhances string searches by evaluating patterns including prefixes, infixes, and suffixes:
+
+- **Prefix matching**: To find values starting with a specific prefix, use the syntax `'like "prefix%"'`.
+
+- **Infix matching**: To find values containing a specific sequence of characters anywhere within the string, use the syntax `'like "%infix%"'`.
+
+- **Suffix matching**: To find values ending with a specific suffix, use the syntax `'like "%suffix"'`.
+
+For single-character matching, underscore (**_**) acts as a wildcard for one character, e.g., `'like "y_llow"'`.
+
+### Special characters in search strings{#special-characters-in-search-strings}
+
+If you want to search for a string that contains special characters like underscores (`_`) or percent signs (`%`), which are normally used as wildcards in search patterns (`_` for any single character and `%` for any sequence of characters), you must escape these characters to treat them as literal characters. Use a backslash (`\`) to escape special characters, and remember to escape the backslash itself. For instance:
+
+- To search for a literal underscore, use `\_`.
+
+- To search for a literal percent sign, use `\%`.
+
+So, if you need to search for the text `"_version_"`, your query should be formatted as `'like "\_version\_"'` to ensure the underscores are treated as part of the search term and not as wildcards.
+
 Filter results whose **color** is prefixed with **red**:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
@@ -1611,7 +1635,119 @@ The output is similar to the following:
   { score: 2.42964243888855, id: '724', color_tag: 'black_9885' },
   { score: 2.4004223346710205, id: '854', color_tag: 'black_5990' }
 ]
+```
 
+</TabItem>
+</Tabs>
+
+Filter results whose **color** contains the letters **ll** anywhere within the string:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
+
+```python
+# Infix match on color field
+query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+
+res = client.search(
+    collection_name="quick_setup", # Replace with the actual name of your collection
+    data=[query_vector],
+    limit=5, # Max. number of search results to return
+    search_params={"metric_type": "IP", "params": {"level": 1}}, # Search parameters
+    output_fields=["color_tag"], # Output fields to return
+    filter='color like "%ll%"' # Filter on color field, infix match on "ll"
+)
+
+result = json.dumps(res, indent=4)
+print(result)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// 8. Filtered search
+query_vectors = Arrays.asList(Arrays.asList(0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f));
+
+searchReq = SearchReq.builder()
+    .collectionName("quick_setup")
+    .data(query_vectors)
+    .outputFields(Arrays.asList("color_tag"))
+    .filter("color like \"%ll%\"")
+    .topK(5)
+    .build();
+
+searchResp = client.search(searchReq);
+
+System.out.println(JSONObject.toJSON(searchResp));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 8. Filtered search
+// 8.1 Filter with "like" operator and prefix wildcard
+query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+
+res = await client.search({
+    collection_name: "quick_setup",
+    data: [query_vector],
+    limit: 5,
+    filters: "color_tag like \"%ll%\"",
+    output_fields: ["color_tag"]
+})
+
+console.log(res.results)
+```
+
+</TabItem>
+</Tabs>
+
+The output is similar to the following:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
+
+```python
+[
+    [
+        {
+            "id": 5,
+            "distance": 0.7972343564033508,
+            "entity": {
+                "color": "yellow_4222"
+            }
+        }
+    ]
+]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+{"searchResults": [
+    [
+        {
+            "score": 1.1869997,
+            "fields": {"color_tag": "yellow_4222"}
+        }
+    ]
+]}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+[
+  { score: 2.5080761909484863, id: '1201', color_tag: 'yellow_4222' }
+]
 ```
 
 </TabItem>
@@ -1804,6 +1940,94 @@ The parameter settings for `radius` and `range_filter` vary with the metric type
      <td><p>To exclude the closest vectors from results, ensure that:<br/> <code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
    </tr>
 </table>
+
+## Grouping search <sup>(Beta)</sup>{#grouping-search-lesssupgreaterbetalesssupgreater}
+
+In Zilliz Cloud, grouping search by a specific field can avoid redundancy of the same field item in the results. You can get a varied set of results for the specific field. 
+
+Consider a collection of documents, each document splits into various passages. Each passage is represented by one vector embedding and belongs to one document. To find relevant documents instead of similar passages, you can include the `group_by_field` argument in the `search()` opeartion to group results by the document ID. This helps return the most relevant and unique documents, rather than separate passages from the same document.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Currently, this feature is available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+
+</Admonition>
+
+Here is the example code to group search results by field:
+
+```python
+# Load data into collection
+client.load_collection("group_search") # Collection name
+
+# Group search results
+res = client.search(
+    collection_name="group_search", # Collection name
+    data=[[0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088]], # Query vector
+    search_params={
+    "metric_type": "L2",
+    "params": {"level": 1},
+    }, # Search parameters
+    limit=10, # Max. number of search results to return
+    group_by_field="doc_id", # Group results by document ID
+    output_fields=["doc_id", "passage_id"]
+)
+
+# Retrieve the values in the `doc_id` column
+doc_ids = [result['entity']['doc_id'] for result in res[0]]
+
+print(doc_ids)
+```
+
+The output is similar to the following:
+
+```python
+[5, 10, 1, 7, 9, 6, 3, 4, 8, 2]
+```
+
+In the given output, it can be observed that the returned entities do not contain any duplicate `doc_id` values.
+
+For comparison, let's comment out the `group_by_field` and conduct a regular search:
+
+```python
+# Load data into collection
+client.load_collection("group_search") # Collection name
+
+# Search without `group_by_field`
+res = client.search(
+    collection_name="group_search", # Collection name
+    data=query_passage_vector, # Replace with your query vector
+    search_params={
+    "metric_type": "L2",
+    "params": {"level": 1},
+    }, # Search parameters
+    limit=10, # Max. number of search results to return
+    # group_by_field="doc_id", # Group results by document ID
+    output_fields=["doc_id", "passage_id"]
+)
+
+# Retrieve the values in the `doc_id` column
+doc_ids = [result['entity']['doc_id'] for result in res[0]]
+
+print(doc_ids)
+```
+
+The output is similar to the following:
+
+```python
+[1, 10, 3, 10, 1, 9, 4, 4, 8, 6]
+```
+
+In the given output, it can be observed that the returned entities contain duplicate `doc_id` values.
+
+**Limitations**
+
+- **Vector**: Currently, grouping search does not support a vector field of the **BINARY_VECTOR** type. For more information on data types, refer to [Schema Explained](./schema-explained#data-types).
+
+- **Field**: Currently, grouping search allows only for a single column. You cannot specify multiple field names in the `group_by_field` config.  Additionally, grouping search is incompatible with data types of JSON, FLOAT, DOUBLE, ARRAY, or vector fields.
+
+- **Performance Impact**: Be mindful that performance degrades with increasing query vector counts. Using a cluster with 2 CPU cores and 8 GB of memory as an example, the execution time for grouping search increases proportionally with the number of input query vectors.
+
+- **Functionality**: Grouping search is not supported by [range search](./single-vector-search#range-search), [search iterators](./with-iterators#search-with-iterator), or [multi-vector search](./hybrid-search).
 
 ## Search parameters{#search-parameters}
 

@@ -26,7 +26,7 @@ You can use the partition key to implement multi-tenancy. For details on multi-t
 
 The following snippet demonstrates how to set a field as the partition key.
 
-In the example code below, `num_partitions` determines the number of partitions that will be created. By default, it is set to `64`. We recommend you retain the default value.
+In the example code below, `num_partitions` determines the number of partitions that will be created. By default, it is set to `16`. We recommend you retain the default value.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
@@ -49,7 +49,7 @@ schema = MilvusClient.create_schema(
     auto_id=False,
     enable_dynamic_field=True,
     partition_key_field="color",
-    num_partitions=64 # Number of partitions. Defaults to 64.
+    num_partitions=16 # Number of partitions. Defaults to 16.
 )
 
 schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
@@ -389,7 +389,7 @@ for i in range(1000):
         "vector": [ random.uniform(-1, 1) for _ in range(5) ],
         "color": current_color,
         "tag": current_tag,
-        "color_tag": f"\{current_color}_{str(current_tag)}"
+        "color_tag": f"{current_color}_{str(current_tag)}"
     })
 
 print(data[0])

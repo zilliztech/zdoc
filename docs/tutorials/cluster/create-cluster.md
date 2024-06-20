@@ -36,7 +36,7 @@ Ensure:
 
 1. Select the appropriate organization and project.
 
-1. Click **+ Create Cluster**.
+1. Click **+ Free Cluster**.
 
     ![create_cluster_01](/img/create_cluster_01.png)
 
@@ -81,7 +81,7 @@ curl --request POST \
      --header "Authorization: Bearer ${API_KEY}" \
      --header "accept: application/json" \
      --header "content-type: application/json" \
-     --data-raw "\{
+     --data-raw "{
      \"plan\": \"Free\",
      \"clusterName\": \"cluster-free\",
      \"projectId\": \"${PROJECT_ID}\"
@@ -123,9 +123,9 @@ In the command above,
 
 1. Select the appropriate organization and project.
 
-1. Click **+ Create Cluster**.
+1. Click **+ Cluster**.
 
-    ![create_cluster_01](/img/create_cluster_01.png)
+    ![create_serverless_dedicated_cluster_01](/img/create_serverless_dedicated_cluster_01.png)
 
 1. In the **Create New Cluster** section, choose the **Serverless** plan and fill in the required parameters. 
 
@@ -204,9 +204,9 @@ In the command above,
 
 1. Enter the desired organization and project.
 
-1. Click **+ Create Cluster**.
+1. Click **+ Free Cluster**.
 
-    ![create_cluster_01](/img/create_cluster_01.png)
+    ![create_serverless_dedicated_cluster_01](/img/create_serverless_dedicated_cluster_01.png)
 
 1. On the **Create New Cluster** page, opt for the **Standard** or **Enterprise** plan and fill out the relevant parameters.
 

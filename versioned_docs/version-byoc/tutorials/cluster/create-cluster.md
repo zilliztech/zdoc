@@ -34,9 +34,9 @@ Ensure:
 
 1. Enter the desired organization and project.
 
-1. Click **+ Create Cluster**.
+1. Click **+ Free Cluster**.
 
-    ![create_cluster_01](/byoc/create_cluster_01.png)
+    ![create_serverless_dedicated_cluster_01](/byoc/create_serverless_dedicated_cluster_01.png)
 
 1. On the **Create New Cluster** page, fill out the relevant parameters.
 
@@ -86,7 +86,7 @@ curl --request POST \
      --header "Authorization: Bearer ${API_KEY}" \
      --header "accept: application/json" \
      --header "content-type: application/json" \
-     --data-raw "\{
+     --data-raw "{
      \"plan\": \"Standard\",
      \"clusterName\": \"cluster-02\",
      \"cuSize\": 1,

@@ -145,7 +145,7 @@ The following table lists the minimum resources required for BYOC deployment.
      <td><p><strong>Description</strong></p></td>
    </tr>
    <tr>
-     <td><p>Virtual Machine<br/></p></td>
+     <td><p>Virtual Machine</p></td>
      <td><p>Instance<br/></p></td>
      <td><p>80 vCPU, 448 GiB in total:<br/> - n2-standard-8 * 4<br/> - n2-standard-4 * 4<br/> - n2-highmem-16 * 1<br/></p></td>
      <td><p>The instance is created by the machine group and is used to run Zilliz Cloud services.</p></td>
@@ -175,7 +175,7 @@ The following table lists the minimum resources required for BYOC deployment.
      <td><p>Deploys BYOC cloud environment with individual VPC.</p></td>
    </tr>
    <tr>
-     <td><p>Network channels<br/></p></td>
+     <td><p>Network channels</p></td>
      <td><p>Network Channel PrivateLink</p></td>
      <td><p>2 network channel private links</p></td>
      <td><p>Used by Zilliz to interact with BYOC environment, send control requests, and receive alerts.</p></td>

@@ -15,7 +15,57 @@ import Admonition from '@theme/Admonition';
 
 Similarity metrics are used to measure similarities among vectors. Choosing an appropriate distance metric helps improve classification and clustering performance significantly.
 
-Currently, Zilliz Cloud supports three types of similarity Metrics: **Euclidean distance (L2)**, **Inner product (IP)**, and **Cosine similarity (COSINE)**.
+Currently, Zilliz Cloud supports these types of similarity Metrics: **Euclidean distance (L2)**, **Inner product (IP)**, **Cosine similarity (COSINE)**, **JACCARD** <sup>(Beta)</sup>, and **HAMMING** <sup>(Beta)</sup>.
+
+The table below summarizes the mapping between different field types and their corresponding metric types.
+
+<table>
+   <tr>
+     <th><p>Field Type</p></th>
+     <th><p>Dimension Range</p></th>
+     <th><p>Supported Metric Types</p></th>
+     <th><p>Default Metric Type</p></th>
+   </tr>
+   <tr>
+     <td><p>FLOAT_VECTOR</p></td>
+     <td><p>2-32,768</p></td>
+     <td><p>Cosine, L2, IP</p></td>
+     <td><p>Cosine</p></td>
+   </tr>
+   <tr>
+     <td><p>FLOAT16_VECTOR <sup>(Beta)</sup></p></td>
+     <td><p>2-32,768</p></td>
+     <td><p>Cosine, L2, IP</p></td>
+     <td><p>Cosine</p></td>
+   </tr>
+   <tr>
+     <td><p>BFLOAT16_VECTOR <sup>(Beta)</sup></p></td>
+     <td><p>2-32,768</p></td>
+     <td><p>Cosine, L2, IP</p></td>
+     <td><p>Cosine</p></td>
+   </tr>
+   <tr>
+     <td><p>SPARSE_FLOAT_VECTOR <sup>(Beta)</sup></p></td>
+     <td><p>No need to specify the dimension.</p></td>
+     <td><p>IP</p></td>
+     <td><p>IP</p></td>
+   </tr>
+   <tr>
+     <td><p>BINARY_VECTOR <sup>(Beta)</sup></p></td>
+     <td><p>8-32,768*8<br/></p></td>
+     <td><p>HAMMING <sup>(Beta)</sup>, JACCARD <sup>(Beta)</sup></p></td>
+     <td><p>HAMMING <sup>(Beta)</sup></p></td>
+   </tr>
+</table>
+
+<Admonition type="info" icon="📘" title="For vector fields of the `BINARY_VECTOR` type,">
+
+<ul>
+<li><p>The dimension value (<code>dim</code>) must be a multiple of 8.</p></li>
+<li><p>The available metric types are <code>HAMMING</code> and <code>JACCARD</code>.</p></li>
+</ul>
+
+</Admonition>
 
 ## Euclidean distance (L2){#euclidean-distance-l2}
 
@@ -74,3 +124,34 @@ By subtracting their cosine similarity from 1, you can get the cosine distance b
 <p>This is currently in beta. Upgrade your cluster to the beta version to utilize this new similarity metric.</p>
 
 </Admonition>
+
+## JACCARD distance <sup>(Beta)</sup>{#jaccard-distance-lesssupgreaterbetalesssupgreater}
+
+JACCARD similarity coefficient measures the similarity between two sample sets and is defined as the cardinality of the intersection of the defined sets divided by the cardinality of the union of them. It can only be applied to finite sample sets.
+
+![YwyibzK9poGlkJxaddocu3lynJb](/byoc/YwyibzK9poGlkJxaddocu3lynJb.png)
+
+JACCARD distance measures the dissimilarity between data sets and is obtained by subtracting the JACCARD similarity coefficient from 1. For binary variables, JACCARD distance is equivalent to the Tanimoto coefficient.
+
+![H1aSbG70JorMGXxtXfTcRIO3nng](/byoc/H1aSbG70JorMGXxtXfTcRIO3nng.png)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Currently, this similarity metric is available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+
+</Admonition>
+
+## HAMMING distance <sup>(Beta)</sup>{#hamming-distance-lesssupgreaterbetalesssupgreater}
+
+HAMMING distance measures binary data strings. The distance between two strings of equal length is the number of bit positions at which the bits are different.
+
+For example, suppose there are two strings, 1101 1001 and 1001 1101.
+
+11011001 ⊕ 10011101 = 01000100. Since, this contains two 1s, the HAMMING distance, d (11011001, 10011101) = 2.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Currently, this similarity metric is available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+
+</Admonition>
+
