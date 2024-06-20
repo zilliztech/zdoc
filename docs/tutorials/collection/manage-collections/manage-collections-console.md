@@ -30,15 +30,27 @@ Zilliz Cloud offers three methods to create a collection, each catering to diffe
 
 For complete control over your collection, follow these steps.
 
+![create_custom_collection](/img/create_custom_collection.png)
+
 1. On the **Create Collection** page, define the schema of your collection.
 
     - **Auto ID**: Automatically generates unique IDs for the primary key, without the need to manually assign or manage them during data insertion.
 
-    - **Primary key field**: Available types are **Int64** or **VarChar**. Not required if **Auto ID** is enabled.
+    - **Primary key field**: Available types are **Int64** or **VarChar**. When the field type is set to **VarChar**, specify **Max Length** for the field. If **Auto ID** is enabled, you do not need to configure the primary key field.
 
-    - **Vector field**: Dimension for vector embeddings. The dimension value of a valid vector field should be an integer greater than 1. The index type defaults to **AUTOINDEX** with metrics such as **Cosine**, **IP**, or **L2**. For details, refer to [Similarity Metrics Explained](./search-metrics-explained) and [AUTOINDEX Explained](./autoindex-explained).
+    - **Vector field**: Vector field in the collection. For Dedicated clusters that have been upgraded to the Beta version, you can add one or more vector fields to a collection, with a maximum of 4 vector fields per collection. When using multiple vector fields, you can set the same or different data types for these fields. For example, combine `FLOAT_VECTOR` and `BFLOAT16_VECTOR` <sup>(Beta)</sup>. For more information on vector field types, refer to [Schema Explained](./schema-explained).
 
-    - **Additional fields**: Click **+ Field** below **Schema Preview** to add more scalar fields. For details, refer to [Schema Explained](./schema-explained).
+        - **Dimension**: The dimension value of a vector field. The requirement for the **Dimension** value varies depending on the type of the vector field:
+
+            - `FLOAT_VECTOR`, `FLOAT16_VECTOR`, and `BFLOAT16_VECTOR`: The dimension value must be an integer, ranging from 2 to 32,768.
+
+            - `SPARSE_FLOAT_VECTOR`: The dimension is not required.
+
+            - `BINARY_VECTOR`: The dimension must be a multiple of 8, ranging from 8 to 32,768 * 8.
+
+        - **Index** & **Index Parameter**: The index type defaults to **AUTOINDEX** with metrics such as **Cosine**, **IP**, **L2**, **JACCARD** <sup>(Beta)</sup>, and **HAMMING** <sup>(Beta)</sup>. For details, refer to [Similarity Metrics Explained](./search-metrics-explained) and [AUTOINDEX Explained](./autoindex-explained).
+
+    - **Additional fields**: Click **+ Field** below **Schema Preview** to add more fields. For details, refer to [Schema Explained](./schema-explained).
 
 1. (Optional) In **Advanced Settings**, consider dynamic fields and partition keys for advanced configurations.
 
@@ -47,8 +59,6 @@ For complete control over your collection, follow these steps.
     - **Partition Key**: Improve query efficiency by grouping data into partitions. For more information, refer to [Use Partition Key](./use-partition-key).
 
 1. Click **Create Collection**. Then, you can [insert data](./insert-update-delete) into your collection.
-
-![create_custom_collection](/img/create_custom_collection.png)
 
 ### Method 2: Use example data{#method-2-use-example-data}
 
@@ -92,34 +102,47 @@ Dropping a collection is a permanent action used when a collection is no longer 
 
 ![drop_collection](/img/drop_collection.png)
 
-## Collection limits{#collection-limits}
-
-For a free cluster, you can create up to two collections. 
-
-For a serverless cluster, you can create up to ten collections.
-
-For a dedicated cluster, the number of collections you can create varies with the CU that your cluster uses.
+## Limits on collections{#limits-on-collections}
 
 <table>
    <tr>
-     <th></th>
-     <th><p>Maximum number of collections</p></th>
+     <th><p><strong>Cluster Type</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
      <td><p>Free cluster</p></td>
-     <td><p><strong>2</strong></p></td>
+     <td><p>2</p></td>
+     <td><p>You can create up to 2 collections.</p></td>
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
-     <td><p><strong>10</strong></p></td>
+     <td><p>10</p></td>
+     <td><p>You can create up to 10 collections.</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster (8 CUs and less)</p></td>
-     <td><p><strong>32</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster (More than 8 CUs)</p></td>
-     <td><p><strong>256</strong></p></td>
+     <td><p>Dedicated cluster</p></td>
+     <td><p>64 per CU, and &lt;= 4096</p></td>
+     <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
    </tr>
 </table>
+
+In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following table lists the limits on the general capacity of a cluster.
+
+<table>
+   <tr>
+     <th><p><strong>Number of CUs</strong></p></th>
+     <th><p><strong>General Capacity</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>1-8 CUs</p></td>
+     <td><p>&lt;= 4,096</p></td>
+   </tr>
+   <tr>
+     <td><p>12+ CUs</p></td>
+     <td><p>Min(512 x Number of CUs, 65536)</p></td>
+   </tr>
+</table>
+
+For details on the calculation of general and consumed capacity, refer to [Zilliz Cloud Limits](./limits#collections).
 

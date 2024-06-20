@@ -55,7 +55,7 @@ Closely mimicking real-world production environments, VectorDBBench has set up d
      <td><p>Search &amp; filtered search</p></td>
    </tr>
    <tr>
-     <td><p>Serial<em>latancy</em>p99<br/></p></td>
+     <td><p>Serial<em>latancy</em>p99</p></td>
      <td><p>The time that 99% of queries take to complete. VectorDBBench records the search latency of each top-100 searches and uses the 99th percentile average as the final result.<br/> Lower Serial<em>latancy</em>p99 values indicate better vector database performance.</p></td>
      <td><p>Search &amp; filtered search</p></td>
    </tr>

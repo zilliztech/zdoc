@@ -41,6 +41,10 @@ The **Metrics** tab allows for two types of window sizes.
 
     - Last hour
 
+    - Last 6 hours
+
+    - Last 12 hours
+
     - Last day
 
     - Last week

@@ -128,25 +128,53 @@ collection = Collection(
 
 ## Data types{#data-types}
 
-For your reference, Zilliz Cloud supports the following field data types:
+Zilliz Cloud supports the following field data types. The available data types vary depending on the field type.
 
-- Boolean value (BOOLEAN)
+- **Primary key field**
 
-- 8-byte floating-point (DOUBLE)
+    - 64-bit integer (INT64)
 
-- 4-byte floating-point (FLOAT)
+    - Variable character (VARCHAR)
 
-- Float vector (FLOAT_VECTOR)
+- **Scalar field**
 
-- 8-bit integer (INT8)
+    - 64-bit integer (INT64)
 
-- 32-bit integer (INT32)
+    - Variable character (VARCHAR)
 
-- 64-bit integer (INT64)
+    - 8-bit integer (INT8)
 
-- Variable character (VARCHAR)
+    - 16-bit integer (INT16)
 
-- [JSON](./enable-dynamic-field)
+    - 32-bit integer (INT32)
+
+    - 4-byte floating-point (FLOAT)
+
+    - 8-byte floating-point (DOUBLE)
+
+    - Boolean value (BOOLEAN)
+
+    - [JSON](./enable-dynamic-field)
+
+    - [ARRAY](./use-array-fields)
+
+- **Vector field**
+
+    - FLOAT_VECTOR: Stores 32-bit floating-point numbers, commonly used in scientific computing and machine learning for representing real numbers.
+
+    - FLOAT16_VECTOR <sup>(Beta)</sup>: Stores 16-bit half-precision floating-point numbers, used in deep learning and GPU computations for memory and bandwidth efficiency.
+
+    - BFLOAT16_VECTOR <sup>(Beta)</sup>: Stores 16-bit floating-point numbers with reduced precision but the same exponent range as Float32, popular in deep learning for reducing memory and computational requirements without significantly impacting accuracy.
+
+    - SPARSE_FLOAT_VECTOR <sup>(Beta)</sup>: Stores a list of non-zero elements and their corresponding indices, used for representing sparse vectors. When using `SPARSE_FLOAT_VECTOR`, you do not need to specify the dimension.
+
+    - BINARY_VECTOR <sup>(Beta)</sup>: Stores binary data as a sequence of 0s and 1s, used for compact feature representation in image processing and information retrieval. When using `BINARY_VECTOR`, note that the dimension must be a multiple of 8, ranging from 8 to 32,768 * 8.
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>Currently, the vector field types <code>FLOAT16_VECTOR</code>, <code>BFLOAT16_VECTOR</code>, <code>SPARSE_FLOAT_VECTOR</code>, and <code>BINARY_VECTOR</code> are available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+
+    </Admonition>
 
 ## What’s next{#whats-next}
 

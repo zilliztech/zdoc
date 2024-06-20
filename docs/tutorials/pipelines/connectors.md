@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 # Connect to Your Data
 
-The connector is an in-built tool that makes it easy to connect various data sources to a vector database. This guide will explain the concept of a connector and provide instructions on how to create and manage connectors in Zilliz Cloud Pipelines.
+The connector is an in-built free tool that makes it easy to connect various data sources to a vector database. This guide will explain the concept of a connector and provide instructions on how to create and manage connectors in Zilliz Cloud Pipelines.
 
 ## Understanding Connectors{#understanding-connectors}
 
@@ -89,15 +89,15 @@ Zilliz Cloud Pipelines provides flexible options when you create a connector. On
            </tr>
            <tr>
              <td><p>Object Storage Service</p></td>
-             <td><p>Select the object storage service of your data source. Available options include: <br/> - AWS S3<br/> - Google Cloud Storage.<br/></p></td>
+             <td><p>Select the object storage service of your data source. Available options include: <br/> - AWS S3<br/> - Google Cloud Storage.</p></td>
            </tr>
            <tr>
              <td><p>Bucket URL</p></td>
-             <td><p>Provide the bucket URL used for accessing your source data. Please make sure you enter the URL of the file directory instead of a specific file.<br/> To learn more about how to obtain the URL, please refer to:<br/> - <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html">Accessing and listing an Amazon S3 bucket</a><br/> - <a href="https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object">Discover object storage with the Google Cloud console</a><br/></p></td>
+             <td><p>Provide the bucket URL used for accessing your source data. Please make sure you enter the URL of the file directory instead of a specific file.<br/> To learn more about how to obtain the URL, please refer to:<br/> - <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html">Accessing and listing an Amazon S3 bucket</a><br/> - <a href="https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object">Discover object storage with the Google Cloud console</a></p></td>
            </tr>
            <tr>
              <td><p>Access Keys for authorization (optional)</p></td>
-             <td><p>Provide the following information for authorization if necessary:<br/> - For AWS S3, please provide the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey">access key and secret key</a>.<br/> - For Google Cloud Storage, please provide the <a href="https://cloud.google.com/storage/docs/authentication/managing-hmackeys">access key ID and secret access key</a>.<br/></p></td>
+             <td><p>Provide the following information for authorization if necessary:<br/> - For AWS S3, please provide the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey">access key and secret key</a>.<br/> - For Google Cloud Storage, please provide the <a href="https://cloud.google.com/storage/docs/authentication/managing-hmackeys">access key ID and secret access key</a>.</p></td>
            </tr>
         </table>
 
@@ -136,7 +136,7 @@ Zilliz Cloud Pipelines provides flexible options when you create a connector. On
            </tr>
            <tr>
              <td><p>Frequency</p></td>
-             <td><p>Set how often the system performs scans.<br/> - Daily: Choose any number from 1 to 7.<br/> - Hourly: Options are 1, 6, 12, or 18 hours.<br/></p></td>
+             <td><p>Set how often the system performs scans.<br/> - Daily: Choose any number from 1 to 7.<br/> - Hourly: Options are 1, 6, 12, or 18 hours.</p></td>
            </tr>
            <tr>
              <td><p>Next Run at</p></td>

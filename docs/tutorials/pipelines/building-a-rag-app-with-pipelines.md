@@ -1,5 +1,6 @@
 ---
 slug: /building-a-rag-app-with-pipelines
+sidebar_label: Pipelines Quickstart
 beta: FALSE
 notebook: FALSE
 type: origin
@@ -334,7 +335,7 @@ class Chatbot:
                  "content":
                      f"We have provided context information below. \n"
                      f"---------------------\n"
-                     f"\{context_str}"
+                     f"{context_str}"
                      f"\n---------------------\n"
                      f"Given this information, please answer the question: {query}"
                  }

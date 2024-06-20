@@ -67,10 +67,7 @@ index_params = {
     # Always set this to AUTOINDEX
     "index_type": "AUTOINDEX", 
     # This is the only parameter you should think about.
-    "metric_type": "L2",
-    "params": {
-        "nlist": 1024
-    }
+    "metric_type": "L2"
 }
 ```
 

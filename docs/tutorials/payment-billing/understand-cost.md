@@ -35,16 +35,20 @@ Write costs measure the resources consumed by [insert, upsert, and delete operat
 
 <table>
    <tr>
-     <th><p><strong>Insert</strong></p></th>
-     <th><p>Based on the size of the data inserted</p></th>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Consumption of vCUs</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>Upsert</strong></p></td>
-     <td><p>Based on the size of the data updated and the number of entities affected</p></td>
+     <td><p>Insert</p></td>
+     <td><p>Calculated based on the size of the data inserted</p></td>
    </tr>
    <tr>
-     <td><p><strong>Delete</strong></p></td>
-     <td><p>Based on the number of deleted entities</p></td>
+     <td><p>Upsert</p></td>
+     <td><p>Calculated based on the size of the data updated and the number of entities affected</p></td>
+   </tr>
+   <tr>
+     <td><p>Delete</p></td>
+     <td><p>Calculated based on the number of deleted entities</p></td>
    </tr>
 </table>
 
@@ -93,4 +97,8 @@ Zilliz Cloud allows you to migrate data from various sources and between your Zi
 Migrations between serverless and dedicated clusters, as well as between dedicated clusters, incur charges based on the size of the data migrated. If the source and target clusters are located in different cloud regions, additional fees will apply.
 
 Migrations from Milvus, ElasticSearch, and free clusters do not incur any charges.
+
+### Pipelines costs{#pipelines-costs}
+
+The in-built Pipelines of Zilliz Cloud allows you to streamline embedding, vector ingestion, search and reranking in one API service. Pipelines costs are determined by the type of model and its actual usage. For more details, refer to [Pipelines Pricing](https://zilliz.com/pricing).
 

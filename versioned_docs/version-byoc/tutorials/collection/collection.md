@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 # Collection
 
-[Unsupported block type]
+Everything you need to know about operations on collections, partitions, indexes, and similarity searches.
 
 
 

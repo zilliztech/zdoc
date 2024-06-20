@@ -191,9 +191,9 @@ curl --request POST \
                 "fieldType": "Int16" 
             }
         ],
-        "clusterId": "${CLUSTER_ID}",
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
         "newCollectionName": "my_collection"
-    }
+    }'
 ```
 
 The parameters in the above code are described as follows:
@@ -316,7 +316,6 @@ Below is an example output.
     "type": "INGESTION",
     "description": "A pipeline that splits a doc file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
     "status": "SERVING",
-    "totalTokenUsage": 0,
     "functions": [
       {
         "action": "INDEX_DOC",
@@ -428,8 +427,10 @@ You can either run ingestion pipeline with a file from an object storage or run 
       "code": 200,
       "data": {
         "doc_name": "zilliz_concept_doc.md",
-        "token_usage": 200,
-        "num_chunks": 123
+        "num_chunks": 123,
+        "usage": {
+          "embedding": 1247
+        }
       }
     }
     
@@ -448,7 +449,6 @@ Run the command below to ingest a local file.
 ```python
 curl --request POST \
      --header "Content-Type: multipart/form-data" \
-     --header 'Accept: multipart/form-data' \
      --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
      --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}/run_ingestion_with_file" \
      --form 'data={"year": 2023}' \
@@ -473,9 +473,11 @@ Below is an example response.
 {
   "code": 200,
   "data": {
-    "doc_name": "zilliz_concept_doc.md",
-    "token_usage": 200,
-    "num_chunks": 123
+    "doc_name": "file.ext",
+    "num_chunks": 123,
+    "usage": {
+      "embedding": 1234
+    }
   }
 }
 
@@ -569,13 +571,13 @@ curl --request POST \
             {
                 "name": "search_chunk_text_and_title",
                 "action": "SEARCH_DOC_CHUNK",
-                "clusterId": "${CLUSTER_ID}",
+                "clusterId": "inxx-xxxxxxxxxxxxxxx",
                 "collectionName": "my_collection",
                 "embedding": "zilliz/bge-base-en-v1.5",
                 "reranker": "zilliz/bge-reranker-base"
             }
         ]
-    }
+    }'
 ```
 
 The parameters in the above code are described as follows:
@@ -617,7 +619,7 @@ Below is an example output.
     "type": "SEARCH",
     "description": "A pipeline that receives text and search for semantically similar doc chunks",
     "status": "SERVING",
-    "functions": [
+    "functions": 
       {
         "action": "SEARCH_DOC_CHUNK",
         "name": "search_chunk_text_and_title",
@@ -627,8 +629,6 @@ Below is an example output.
         "embedding": "zilliz/bge-base-en-v1.5",
         "reranker": "zilliz/bge-reranker-base"
       }
-    ],
-    "totalTokenUsage": 0
   }
 }
 ```
@@ -677,7 +677,6 @@ curl --request POST \
           "filter": "id >= 0", 
       }
     }'
-
 ```
 
 The parameters in the above code are described as follows:
@@ -710,12 +709,22 @@ Below is an example response.
       {
         "id": "445951244000281783",
         "distance": 0.7270776033401489,
-        "chunk_text": "After determining the CU type, you must also specify its size. Note that the\nnumber of collections a cluster can hold varies based on its CU size. A\ncluster with less than 8 CUs can hold no more than 32 collections, while a\ncluster with more than 8 CUs can hold as many as 256 collections.\n\nAll collections in a cluster share the CUs associated with the cluster. To\nsave CUs, you can unload some collections. When a collection is unloaded, its\ndata is moved to disk storage and its CUs are freed up for use by other\ncollections. You can load the collection back into memory when you need to\nquery it. Keep in mind that loading a collection requires some time, so you\nshould only do so when necessary.\n\n## Collection\n\nA collection collects data in a two-dimensional table with a fixed number of\ncolumns and a variable number of rows. In the table, each column corresponds\nto a field, and each row represents an entity.\n\nThe following figure shows a sample collection that comprises six entities and\neight fields.\n\n### Fields\n\nIn most cases, people describe an object in terms of its attributes, including\nsize, weight, position, etc. These attributes of the object are similar to the\nfields in a collection.\n\nAmong all the fields in a collection, the primary key is one of the most\nspecial, because the values stored in this field are unique throughout the\nentire collection. Each primary key maps to a different record in the\ncollection.",
         "chunk_id": 123,
         "doc_name": "zilliz_concept_doc.md",
-      }
-    ],
-    "token_usage": 200
+        "chunk_text": "After determining the CU type, you must also specify its size. Note that the\nnumber of collections a cluster can hold varies based on its CU size. A\ncluster with less than 8 CUs can hold no more than 32 collections, while a\ncluster with more than 8 CUs can hold as many as 256 collections.\n\nAll collections in a cluster share the CUs associated with the cluster. To\nsave CUs, you can unload some collections. When a collection is unloaded, its\ndata is moved to disk storage and its CUs are freed up for use by other\ncollections. You can load the collection back into memory when you need to\nquery it. Keep in mind that loading a collection requires some time, so you\nshould only do so when necessary.\n\n## Collection\n\nA collection collects data in a two-dimensional table with a fixed number of\ncolumns and a variable number of rows. In the table, each column corresponds\nto a field, and each row represents an entity.\n\nThe following figure shows a sample collection that comprises six entities and\neight fields.\n\n### Fields\n\nIn most cases, people describe an object in terms of its attributes, including\nsize, weight, position, etc. These attributes of the object are similar to the\nfields in a collection.\n\nAmong all the fields in a collection, the primary key is one of the most\nspecial, because the values stored in this field are unique throughout the\nentire collection. Each primary key maps to a different record in the\ncollection."
+       },
+       {
+        "id": "450524927755095513",
+        "distance": 0.4568396508693695,
+        "chunk_id": 125,
+        "doc_name": "zilliz_concept_doc.md",
+        "chunk_text": "# Cluster, Collection & Entities\n## Collection\n### Fields\nIn most cases, people describe an object in terms of its attributes, including size, weight, position, etc. These attributes of the object are similar to the fields in a collection.  \nAmong all the fields in a collection, the primary key is one of the most special, because the values stored in this field are unique throughout the entire collection. Each primary key maps to a different record in the collection.  \nIn the collection shown in Figure 1, the **id** field is the primary key. The first ID **0** maps to the article titled *The Mortality Rate of Coronavirus is Not Important*, and will not be used in any other records in this collection.\\n\\n# Cluster, Collection & Entities\n## Collection\n### Schema\nFields have their own properties, such as data types and related constraints for storing data in the field, like vector dimensions and distance metrics. By defining fields and their order, you will get a skeletal data structure termed schema, which shapes a collection in a way that resembles constructing the structure of a data table.  \nFor your reference, Zilliz Cloud supports the following field data types:  \n- Boolean value (BOOLEAN)\n- 8-byte floating-point (DOUBLE)\n- 4-byte floating-point (FLOAT)\n- Float vector (FLOAT_VECTOR)\n- 8-bit integer (INT8)\n- 32-bit integer (INT32)\n- 64-bit integer (INT64)\n- Variable character (VARCHAR)\n- [JSON](https://zilliverse.feishu.cn/wiki/H04VwNGoaimjcLkxoH4cs5TQnNd)  \nZilliz Cloud provides three types of CUs, each of which have its own application scenarios, and they are also the factor that impacts search performance.  \n> 📘 Notes\n>\n> **FLOAT_VECTOR** is the only data type that supports vector embeddings in Zilliz Cloud clusters."
+       }
+     ],  
+    "usage": {
+      "embedding": 21,
+      "rerank": 5110
+    }
   }
 }
 ```
@@ -800,7 +809,7 @@ curl --request POST \
             }
         ],
     
-        "clusterId": "${CLUSTER_ID}",
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
         "collectionName": "my_collection"
     }'
 ```
@@ -924,7 +933,7 @@ The following are relevant operations that manages the created pipelines in the 
 
 <TabItem value="Cloud Console">
 
-Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You will see all the available pipelines, their detailed information, and the token usage of each pipeline. 
+Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You will see all the available pipelines and their detailed information. 
 
 ![view-pipelines-on-web-ui](/img/view-pipelines-on-web-ui.png)
 
@@ -961,7 +970,6 @@ You can call the API to list all existing pipelines or view the details of a par
           "type": "INGESTION",
           "description": "A pipeline that splits a doc file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
           "status": "SERVING",
-          "totalTokenUsage": 0,
           "functions": [
             {
               "action": "INDEX_DOC",
@@ -1041,7 +1049,6 @@ You can call the API to list all existing pipelines or view the details of a par
         "type": "INGESTION",
         "description": "A pipeline that splits a doc file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
         "status": "SERVING",
-        "totalTokenUsage": 0,
         "functions": [
           {
             "action": "INDEX_DOC",
@@ -1114,7 +1121,6 @@ The following is an example output.
     "type": "INGESTION",
     "description": "A pipeline that splits a doc file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
     "status": "SERVING",
-    "totalTokenUsage": 0,
     "functions": [
       {
         "action": "INDEX_DOC",

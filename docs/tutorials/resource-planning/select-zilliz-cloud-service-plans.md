@@ -23,14 +23,14 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
 <table>
    <tr>
      <th><p>Feature</p></th>
-     <th><p>Starter<br/></p></th>
+     <th><p>Starter</p></th>
      <th><p>Serverless<br/></p></th>
      <th><p>Dedicated-Standard<br/></p></th>
      <th><p>Dedicated-Enterprise<br/></p></th>
      <th><p>Bring Your Own Cloud (BYOC)<br/></p></th>
    </tr>
    <tr>
-     <td><p>Plan Description</p></td>
+     <td><p><strong>Plan Description</strong><br/></p></td>
      <td><p>For learning, experimenting, and prototyping; easy migration to different plans for production.</p></td>
      <td><p>Designed for serverless applications with variable or infrequent traffic. Minimal configuration required.</p></td>
      <td><p>Suitable for applications in dev with customizable workload management. Advanced configuration options.</p></td>

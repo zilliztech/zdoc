@@ -13,33 +13,7 @@ import Admonition from '@theme/Admonition';
 
 # Migrate Between Clusters
 
-Zilliz Cloud supports migrating data between Zilliz Cloud clusters. You can seamlessly transfer data from a serverless cluster to a dedicated cluster or between two dedicated clusters.
-
-## From dedicated cluster to serverless cluster{#from-dedicated-cluster-to-serverless-cluster}
-
-To experience the new Serverless cluster, consider transitioning your business from a dedicated cluster to a serverless cluster.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Ensure your payment method is set up to access this feature.</p>
-
-</Admonition>
-
-Navigate to the dedicated cluster to migration. Switch to **Migrations** tab. In the **Migrate** drop-down button, select **Migrate to a New Serverless Cluster.**
-
-On the page that opens,
-
-- Select the **Serverless** plan and **Target Project**,
-
-- Enter the **Cluster Name**.
-
-![migrate-from-dedicated-to-serverless](/img/migrate-from-dedicated-to-serverless.png)
-
-After filling out the details, click **Migrate**. Zilliz Cloud will then create a a new serverless cluster with the specified settings, initiating the data migration from the dedicated cluster.
-
-The serverless cluster status will switch from **CREATING** to **RESTORING**, and finally to **RUNNING**. Upon completion, you can connect to the new serverless cluster and access the migrated data. See [Connect to Cluster](./connect-to-cluster) for further details.
-
-## From dedicated to another dedicated cluster{#from-dedicated-to-another-dedicated-cluster}
+Zilliz Cloud allows you to seamlessly transfer data between two Dedicated clusters.
 
 By migrating between dedicated clusters, you can modify your cluster type, region, and scale down your cluster at ease, without interrupting your business on the original cluster.
 
@@ -52,7 +26,7 @@ By migrating between dedicated clusters, you can modify your cluster type, regio
 
 </Admonition>
 
-1. Navigate to your target cluster. On the **Cluster Details** page, click **Actions** in the upper right corner, and then click **Migrate From**. Select **Dedicated Cluster**.
+1. On the **Migrations** tab of the cluster page, choose **Migrate** > **Migrate from a Dedicated Cluster**.
 
 1. In the dialogue box,
 

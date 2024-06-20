@@ -123,7 +123,7 @@ A valid JSON file has a root key named **rows**, the corresponding value of whic
    </tr>
    <tr>
      <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total<br/> Serverless and Dedicated cluster:<br/> - Individual file size: 10 GB<br/> - Total file size: 100 GB<br/></p></td>
+     <td><p>Free cluster: 512 MB in total<br/> Serverless and Dedicated cluster:<br/> - Individual file size: 10 GB<br/> - Total file size: 100 GB</p></td>
    </tr>
    <tr>
      <td><p><strong>Applicable data file locations</strong></p></td>
@@ -158,7 +158,7 @@ You can either rebuild your data on your own by referring to [Prepare the data f
    </tr>
    <tr>
      <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total<br/> Serverless &amp; Dedicated cluster<br/> - Individual file size: 10 GB<br/> - Total file size: 100 GB<br/></p></td>
+     <td><p>Free cluster: 512 MB in total<br/> Serverless &amp; Dedicated cluster<br/> - Individual file size: 10 GB<br/> - Total file size: 100 GB</p></td>
    </tr>
    <tr>
      <td><p><strong>Applicable data file locations</strong></p></td>
@@ -196,7 +196,7 @@ A valid set of NumPy files should be named after the fields in the schema of the
      <td><p>100</p></td>
    </tr>
    <tr>
-     <td><p><strong>Maximum file size per import</strong><br/></p></td>
+     <td><p><strong>Maximum file size per import</strong></p></td>
      <td><p>Free cluster: 512 MB in total<br/> Serverless &amp; Dedicated cluster:<br/> - Total file size in each first-level subfolder: 10 GB<br/> - Total file size: 100 GB<br/></p></td>
    </tr>
    <tr>

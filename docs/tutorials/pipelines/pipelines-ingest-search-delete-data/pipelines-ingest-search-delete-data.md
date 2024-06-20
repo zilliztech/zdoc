@@ -1,5 +1,6 @@
 ---
 slug: /pipelines-ingest-search-delete-data
+sidebar_label: Ingest, Search, Delete
 beta: FALSE
 notebook: FALSE
 type: origin

@@ -21,6 +21,12 @@ The **Metrics** tab in the Zilliz Cloud console presents various graphical repre
 
 The table provides a description of each metric and the actions that you are advised to perform when the usage of your cluster resource exceeds a threshold.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Currently, free clusters offer only one metric, CU Capacity. To unlock a range of advanced metrics, <a href="./manage-cluster#upgrade-plan">upgrade your plan tier</a>.</p>
+
+</Admonition>
+
 <table>
    <tr>
      <th><p>Metric Name</p></th>
@@ -118,13 +124,13 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td><p>Request Failure Rate (Read)</p></td>
      <td><p>%</p></td>
-     <td><p>The percentage of timeout read requests (search and query) in all read requests per second.</p></td>
+     <td><p>The percentage of failed read requests (search and query) in all read requests per second.</p></td>
      <td><p><a href="./manage-project-alerts">Configure alerts</a> to monitor read request failure rate.</p></td>
    </tr>
    <tr>
      <td><p>Request Failure Rate (Write)</p></td>
      <td><p>%</p></td>
-     <td><p>The percentage of timeout write requests (insert, bulk insert, upsert, and delete) in all write requests per second.</p></td>
+     <td><p>The percentage of failed write requests (insert, bulk insert, upsert, and delete) in all write requests per second.</p></td>
      <td><p><a href="./manage-project-alerts">Configure alerts</a> to monitor write request failure rate.</p></td>
    </tr>
    <tr>
@@ -188,7 +194,7 @@ Organization alerts keep you informed about license-related issues such as the l
 
 Project alerts focus on the operational aspects of your clusters, including notifications on the CU usage, QPS thresholds, latency issues, and request anomalies, ensuring you maintain optimal cluster performance.
 
-For each project alert target, the trigger condition includes a threshold value and a duration value that must be met for the alert to be triggered. The condition can be set to one of the following operators: >, >=, &lt;, &lt;=, =. The threshold value can be a numeric value, such as a number for metrics like query latency, query QPS, search QPS, CU Capacity, and CU Computation. The duration specifies how long the threshold must be exceeded, which is set to a minimum of 1 minute and a maximum of 30 minutes.
+For each project alert target, the trigger condition includes a threshold value and a duration value that must be met for the alert to be triggered. The condition can be set to one of the following operators: >, >=, \<, \<=, =. The threshold value can be a numeric value, such as a number for metrics like query latency, query QPS, search QPS, CU Capacity, and CU Computation. The duration specifies how long the threshold must be exceeded, which is set to a minimum of 1 minute and a maximum of 30 minutes.
 
 ### Default alert targets{#default-alert-targets}
 

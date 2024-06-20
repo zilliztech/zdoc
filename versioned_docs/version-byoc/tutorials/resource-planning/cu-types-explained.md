@@ -84,7 +84,7 @@ The table below illustrates the load capacity for each CU type, taking into acco
    </tr>
    <tr>
      <td><p>768</p></td>
-     <td><p>1.5 million<br/></p></td>
+     <td><p>1.5 million</p></td>
      <td><p>5 million</p></td>
    </tr>
    <tr>
@@ -109,7 +109,7 @@ The following table shows the test result of how each CU type performs in terms 
 <table>
    <tr>
      <th><p>top_k</p></th>
-     <th><p>QPS for Performance-optimized CU (768-dim 1M vectors)<br/></p></th>
+     <th><p>QPS for Performance-optimized CU (768-dim 1M vectors)</p></th>
      <th><p>QPS for Capacity-optimized CU (768-dim 5M vectors)</p></th>
    </tr>
    <tr>
@@ -138,7 +138,7 @@ The following table shows the test result of how each CU type performs in terms 
 
 <table>
    <tr>
-     <th><p>top_k<br/></p></th>
+     <th><p>top_k</p></th>
      <th><p>Latency of Performance-optimized CU (768-dim 1M vectors)<br/></p></th>
      <th><p>Latency of Capacity-optimized CU (768-dim 5M vectors)<br/></p></th>
    </tr>

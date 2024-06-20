@@ -40,7 +40,7 @@ curl --request POST \
     --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
-    --data-raw "\{
+    --data-raw "{
         \"plan\": \"Standard\",
         \"clusterName\": \"cluster-standard\",
         \"cuSize\": 1,
