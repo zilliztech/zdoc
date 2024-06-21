@@ -7,7 +7,7 @@ title: Create Pipeline
 
 import RestHeader from '@site/src/components/RestHeader';
 
-Create a pipeline.
+This creates an pipeline.
 
 <RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" />
 
@@ -17,507 +17,570 @@ Create a pipeline.
 
 
 
+import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
+    
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
 
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+Currently, you can create pipelines to ingest data into and search/purge data from your collections. The request parameters vary with the type of pipelines you want to create and the data you want to process.
 
-Currently, data of the JSON and Array types are not supported in RESTful API requests..
-:::
+<Tabs groupId="pipeline" defaultValue="ingest" values={[{"label": "Ingestion", "value": "ingest"},{"label": "Search", "value": "search"},{"label": "Deletion", "value": "purge"}]}>
+<TabItem value="ingest">
 
-- Create a text ingestion pipeline.
+<Tabs groupId="pipeline-data" defaultValue="text" values={[{"label": "Text Data", "value": "text"},{"label": "Document Data", "value": "doc"},{"label": "Image Data", "value": "image"}]}>
+<TabItem value="text">
 
-    ```shell
-    curl --request POST \
-        --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
-        -d '{
-            "name": "my_text_ingestion_pipeline",
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "projectId": "proj-xxxx"，
-            "collectionName": "my_collection",
-            "description": "A pipeline that generates text embeddings and stores additional fields.",
-            "type": "INGESTION",  
-            "functions": [
-                { 
-                    "name": "index_my_text",
-                    "action": "INDEX_TEXT", 
-                    "language": "ENGLISH",
-                    "embedding": "zilliz/bge-base-en-v1.5"
-                },
-                {
-                    "name": "keep_text_info",
-                    "action": "PRESERVE", 
-                    "inputField": "source", 
-                    "outputField": "source",
-                    "fieldType": "VarChar" 
-                }
-            ]   
-        }'
-    ```
+```shell
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export API_KEY="YOUR_API_KEY"
 
-    Possible response:
-
-    ```shell
-    {
-        "code": 200,
-        "data": {
-            "pipelineId": "pipe-xxxxxxxxxxxxxxxxxxxx",
-            "name": "my_text_ingestion_pipeline",
-            "type": "INGESTION",
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "collectionName": "my_collection"
-            "description": "A pipeline that generates text embeddings and stores additional fields.",
-            "status": "SERVING",
-            "functions": [
-            {
-                "action": "INDEX_TEXT",
+curl --request POST \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    -d '{
+        "name": "my_text_ingestion_pipeline",
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "projectId": "proj-xxxx"，
+        "collectionName": "my_collection",
+        "description": "A pipeline that generates text embeddings and stores additional fields.",
+        "type": "INGESTION",  
+        "functions": [
+            { 
                 "name": "index_my_text",
-                "inputFields": ["text_list"],
+                "action": "INDEX_TEXT", 
                 "language": "ENGLISH",
                 "embedding": "zilliz/bge-base-en-v1.5"
             },
             {
-                "action": "PRESERVE",
                 "name": "keep_text_info",
-                "inputField": "source",
+                "action": "PRESERVE", 
+                "inputField": "source", 
                 "outputField": "source",
-                "fieldType": "VarChar"
+                "fieldType": "VarChar" 
             }
-            ]
-        }
-    }  
-    ```
+        ]   
+    }'
+```
 
-- Create a document ingestion pipeline.
+Possible response is similar to the following
 
-    ```shell
-    curl --request POST \
-        --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
-        -d '{
-            "projectId": "proj-xxxx"，
-            "name": "my_doc_ingestion_pipeline",
-            "description": "A pipeline that splits a doc file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
-            "type": "INGESTION",  
-            "functions": [
-                { 
-                    "name": "index_my_doc",
-                    "action": "INDEX_DOC", 
-                    "language": "ENGLISH",
-                    "chunkSize": 500,
-                    "embedding": "zilliz/bge-base-en-v1.5",
-                    "splitBy": ["\n\n", "\n", " ", ""]
-                },
-                {
-                    "name": "keep_doc_info",
-                    "action": "PRESERVE", 
-                    "inputField": "publish_year", 
-                    "outputField": "publish_year",
-                    "fieldType": "Int16" 
-                }
-            ],
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "newCollectionName": "my_collection"
-        }'
-    ```
+```json
+{
+  "code": 200,
+  "data": {
+    "pipelineId": "pipe-xxxx",
+    "name": "my_text_ingestion_pipeline",
+    "type": "INGESTION",
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "collectionName": "my_collection"
+    "description": "A pipeline that generates text embeddings and stores additional fields.",
+    "status": "SERVING",
+    "functions": [
+      {
+        "action": "INDEX_TEXT",
+        "name": "index_my_text",
+        "inputFields": ["text_list"],
+        "language": "ENGLISH",
+        "embedding": "zilliz/bge-base-en-v1.5"
+      },
+      {
+        "action": "PRESERVE",
+        "name": "keep_text_info",
+        "inputField": "source",
+        "outputField": "source",
+        "fieldType": "VarChar"
+      }
+    ]
+  }
+}
+```
 
-    Possible response:
+</TabItem>
+<TabItem value="doc">
 
-    ```shell
-    {
-        "code": 200,
-        "data": {
-            "pipelineId": "pipe-xxxxxxxxxxxxxxxxxxxx",
-            "name": "my_doc_ingestion_pipeline",
-            "type": "INGESTION",
-            "description": "A pipeline that splits a doc file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
-            "status": "SERVING",
-            "totalTokenUsage": 0,
-            "functions": [
-                {
-                    "action": "INDEX_DOC",
-                    "name": "index_my_doc",
-                    "inputField": "doc_url",
-                    "language": "ENGLISH",
-                    "chunkSize": 500,
-                    "embedding": "zilliz/bge-base-en-v1.5"，
-                    "splitBy": ["\n\n", "\n", " ", ""]
-                },
-                {
-                    "action": "PRESERVE",
-                    "name": "keep_doc_info",
-                    "inputField": "publish_year",
-                    "outputField": "publish_year",
-                    "fieldType": "Int16"
-                }
-            ],
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "newCollectionName": "my_collection"
-        }
-    }
-    ```
 
-- Create an image ingestion pipeline.
+```shell
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export API_KEY="YOUR_API_KEY"    
 
-    ```shell
-    curl --request POST \
-        --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
-        -d '{
-            "name": "my_image_ingestion_pipeline",
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "projectId": "proj-xxxx"，
-            "collectionName": "my_collection",
-            "description": "A pipeline that converts an image into vector embeddings and store in efficient index for search.",
-            "type": "INGESTION",  
-            "functions": [
-                { 
-                    "name": "index_my_image",
-                    "action": "INDEX_IMAGE", 
-                    "embedding": "zilliz/vit-base-patch16-224"
-                },
-                {
-                    "name": "keep_image_tag",
-                    "action": "PRESERVE", 
-                    "inputField": "image_title", 
-                    "outputField": "image_title",
-                    "fieldType": "VarChar" 
-                }
-            ]   
-        }'
-    ```
-
-    Possible response:
-
-    ```shell
-    {
-        "code": 200,
-        "data": {
-            "pipelineId": "pipe-xxxxxxxxxxxxxxxxxxxx",
-            "name": "my_image_ingestion_pipeline",
-            "type": "INGESTION",
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "collectionName": "my_collection"
-            "description": "A pipeline that converts an image into vector embeddings and store in efficient index for search.",
-            "status": "SERVING",
-            "functions": [
-                {
-                    "action": "INDEX_IMAGE",
-                    "name": "index_my_image",
-                    "inputFields": ["image_url", "image_id"],
-                    "embedding": "zilliz/vit-base-patch16-224"
-                },
-                {
-                    "action": "PRESERVE",
-                    "name": "keep_image_tag",
-                    "inputField": "image_title",
-                    "outputField": "image_title",
-                    "fieldType": "VarChar"
-                }
-            ]
-        }
-    }
-    ```
-
-- Create a text search pipeline
-
-    ```shell
-    curl --request POST \
-        --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
-        -d '{
-            "projectId": "proj-xxxx",       
-            "name": "my_text_search_pipeline",
-            "description": "A pipeline that receives text and search for semantically similar texts",
-            "type": "SEARCH",
-            "functions": [
-                {
-                    "name": "search_text",
-                    "action": "SEARCH_TEXT",
-                    "clusterId": "inxx-xxxxxxxxxxxxxxx",
-                    "collectionName": "my_collection",
-                    "embedding": "zilliz/bge-base-en-v1.5",
-                    "reranker": "zilliz/bge-reranker-base"
-                }
-            ]
-        }'
-    ```
-
-    Possible response
-
-    ```shell
-    {
-        "code": 200,
-        "data": {
-            "pipelineId": "pipe-xxxxxxxxxxxxxxxxxxxx",
-            "name": "my_text_search_pipeline",
-            "type": "SEARCH",
-            "description": "A pipeline that receives text and search for semantically similar texts",
-            "status": "SERVING",
-            "functions": 
+curl --request POST \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    -d '{
+        "projectId": "proj-xxxx"，
+        "name": "my_doc_ingestion_pipeline",
+        "description": "A pipeline that splits a doc file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+        "type": "INGESTION",  
+        "functions": [
+            { 
+                "name": "index_my_doc",
+                "action": "INDEX_DOC", 
+                "language": "ENGLISH",
+                "chunkSize": 500,
+                "embedding": "zilliz/bge-base-en-v1.5",
+                "splitBy": ["\n\n", "\n", " ", ""]
+            },
             {
-                "action": "SEARCH_TEXT",
+                "name": "keep_doc_info",
+                "action": "PRESERVE", 
+                "inputField": "publish_year", 
+                "outputField": "publish_year",
+                "fieldType": "Int16" 
+            }
+        ],
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "newCollectionName": "my_collection"
+    }'
+```
+
+Possible response is similar to the following:
+
+```json
+{
+  "code": 200,
+  "data": {
+    "pipelineId": "pipe-xxxx",
+    "name": "my_doc_ingestion_pipeline",
+    "type": "INGESTION",
+    "description": "A pipeline that splits a doc file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+    "status": "SERVING",
+    "functions": [
+      {
+        "action": "INDEX_DOC",
+        "name": "index_my_doc",
+        "inputField": "doc_url",
+        "language": "ENGLISH",
+        "chunkSize": 500,
+        "embedding": "zilliz/bge-base-en-v1.5"，
+        "splitBy": ["\n\n", "\n", " ", ""]
+      },
+      {
+        "action": "PRESERVE",
+        "name": "keep_doc_info",
+        "inputField": "publish_year",
+        "outputField": "publish_year",
+        "fieldType": "Int16"
+      }
+    ],
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "newCollectionName": "my_collection"
+  }
+}
+```
+
+
+</TabItem>
+<TabItem value="image">
+
+
+
+```shell
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export API_KEY="YOUR_API_KEY"   
+
+curl --request POST \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    -d '{
+        "name": "my_image_ingestion_pipeline",
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "projectId": "proj-xxxx"，
+        "collectionName": "my_collection",
+        "description": "A pipeline that converts an image into vector embeddings and store in efficient index for search.",
+        "type": "INGESTION",  
+        "functions": [
+            { 
+                "name": "index_my_image",
+                "action": "INDEX_IMAGE", 
+                "embedding": "zilliz/vit-base-patch16-224"
+            },
+            {
+                "name": "keep_image_tag",
+                "action": "PRESERVE", 
+                "inputField": "image_title", 
+                "outputField": "image_title",
+                "fieldType": "VarChar" 
+            }
+        ]   
+    }'
+```
+
+Possible response is similar to the following:
+
+```json
+{
+  "code": 200,
+  "data": {
+    "pipelineId": "pipe-xxxx",
+    "name": "my_image_ingestion_pipeline",
+    "type": "INGESTION",
+    "clusterId": "in03-***************",
+    "collectionName": "my_collection"
+    "description": "A pipeline that converts an image into vector embeddings and store in efficient index for search.",
+    "status": "SERVING",
+    "functions": [
+      {
+        "action": "INDEX_IMAGE",
+        "name": "index_my_image",
+        "inputFields": ["image_url", "image_id"],
+        "embedding": "zilliz/vit-base-patch16-224"
+      },
+      {
+        "action": "PRESERVE",
+        "name": "keep_image_tag",
+        "inputField": "image_title",
+        "outputField": "image_title",
+        "fieldType": "VarChar"
+      }
+    ]
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+</TabItem>
+
+<TabItem value="search">
+<Tabs groupId="pipeline-data" defaultValue="text" values={[{"label": "Text Data", "value": "text"},{"label": "Document Data", "value": "doc"},{"label": "Image Data", "value": "image"}]}>
+<TabItem value="text">
+
+```shell
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export API_KEY="YOUR_API_KEY"
+
+curl --request POST \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    -d '{
+        "projectId": "proj-xxxx",       
+        "name": "my_text_search_pipeline",
+        "description": "A pipeline that receives text and search for semantically similar texts",
+        "type": "SEARCH",
+        "functions": [
+            {
                 "name": "search_text",
-                "inputFields": "query_text",
+                "action": "SEARCH_TEXT",
                 "clusterId": "inxx-xxxxxxxxxxxxxxx",
                 "collectionName": "my_collection",
                 "embedding": "zilliz/bge-base-en-v1.5",
                 "reranker": "zilliz/bge-reranker-base"
             }
-        }
-    }
-    ```
+        ]
+    }'
+```
 
-- Create a doc search pipeline
+Possible response is similar to the following
 
-    ```shell
-    curl --request POST \
-        --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
-        -d '{
-            "projectId": "proj-xxxxxxxxxxxxxxxxxxxx",       
-            "name": "my_text_search_pipeline",
-            "description": "A pipeline that receives text and search for semantically similar doc chunks",
-            "type": "SEARCH",
-            "functions": [
-                {
-                    "name": "search_chunk_text_and_title",
-                    "action": "SEARCH_DOC_CHUNK",
-                    "clusterId": "inxx-xxxxxxxxxxxxxxx",
-                    "collectionName": "my_collection",
-                    "embedding": "zilliz/bge-base-en-v1.5",
-                    "reranker": "zilliz/bge-reranker-base"
-                }
-            ]
-        }'
-    ```
+```json
+{
+  "code": 200,
+  "data": {
+    "pipelineId": "pipe-xxxx",
+    "name": "my_text_search_pipeline",
+    "type": "SEARCH",
+    "description": "A pipeline that receives text and search for semantically similar texts",
+    "status": "SERVING",
+    "functions": 
+      {
+        "action": "SEARCH_TEXT",
+        "name": "search_text",
+        "inputFields": "query_text",
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "collectionName": "my_collection",
+        "embedding": "zilliz/bge-base-en-v1.5",
+        "reranker": "zilliz/bge-reranker-base"
+      }
+  }
+}
+```
 
-    Possible response
+</TabItem>
+<TabItem value="doc">
 
-    ```shell
-    {
-        "code": 200,
-        "data": {
-            "result": [
-                {
-                    "id": "445951244000281783",
-                    "distance": 0.7270776033401489,
-                    "chunk_id": 123,
-                    "doc_name": "zilliz_concept_doc.md",
-                    "chunk_text": "After determining the CU type, you must also specify its size. Note that the\nnumber of collections a cluster can hold varies based on its CU size. A\ncluster with less than 8 CUs can hold no more than 32 collections, while a\ncluster with more than 8 CUs can hold as many as 256 collections.\n\nAll collections in a cluster share the CUs associated with the cluster. To\nsave CUs, you can unload some collections. When a collection is unloaded, its\ndata is moved to disk storage and its CUs are freed up for use by other\ncollections. You can load the collection back into memory when you need to\nquery it. Keep in mind that loading a collection requires some time, so you\nshould only do so when necessary.\n\n## Collection\n\nA collection collects data in a two-dimensional table with a fixed number of\ncolumns and a variable number of rows. In the table, each column corresponds\nto a field, and each row represents an entity.\n\nThe following figure shows a sample collection that comprises six entities and\neight fields.\n\n### Fields\n\nIn most cases, people describe an object in terms of its attributes, including\nsize, weight, position, etc. These attributes of the object are similar to the\nfields in a collection.\n\nAmong all the fields in a collection, the primary key is one of the most\nspecial, because the values stored in this field are unique throughout the\nentire collection. Each primary key maps to a different record in the\ncollection."
-                },
-                {
-                    "id": "450524927755095513",
-                    "distance": 0.4568396508693695,
-                    "chunk_id": 125,
-                    "doc_name": "zilliz_concept_doc.md",
-                    "chunk_text": "# Cluster, Collection & Entities\n## Collection\n### Fields\nIn most cases, people describe an object in terms of its attributes, including size, weight, position, etc. These attributes of the object are similar to the fields in a collection.  \nAmong all the fields in a collection, the primary key is one of the most special, because the values stored in this field are unique throughout the entire collection. Each primary key maps to a different record in the collection.  \nIn the collection shown in Figure 1, the **id** field is the primary key. The first ID **0** maps to the article titled *The Mortality Rate of Coronavirus is Not Important*, and will not be used in any other records in this collection.\\n\\n# Cluster, Collection & Entities\n## Collection\n### Schema\nFields have their own properties, such as data types and related constraints for storing data in the field, like vector dimensions and distance metrics. By defining fields and their order, you will get a skeletal data structure termed schema, which shapes a collection in a way that resembles constructing the structure of a data table.  \nFor your reference, Zilliz Cloud supports the following field data types:  \n- Boolean value (BOOLEAN)\n- 8-byte floating-point (DOUBLE)\n- 4-byte floating-point (FLOAT)\n- Float vector (FLOAT_VECTOR)\n- 8-bit integer (INT8)\n- 32-bit integer (INT32)\n- 64-bit integer (INT64)\n- Variable character (VARCHAR)\n- [JSON](https://zilliverse.feishu.cn/wiki/H04VwNGoaimjcLkxoH4cs5TQnNd)  \nZilliz Cloud provides three types of CUs, each of which have its own application scenarios, and they are also the factor that impacts search performance.  \n> 📘 Notes\n>\n> **FLOAT_VECTOR** is the only data type that supports vector embeddings in Zilliz Cloud clusters."
-                }
-            ],  
-            "usage": {
-                "embedding": 21,
-                "rerank": 5110
-            }
-        }
-    }
-    ```   
 
-- Create an image search pipeline
+```shell
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export API_KEY="YOUR_API_KEY"    
 
-    ```shell
-    curl --request POST \
-        --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
-        -d '{
-            "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",       
-            "name": "my_image_search_pipeline",
-            "description": "A pipeline that searches image by image.",
-            "type": "SEARCH",
-            "functions": [
-                {
-                    "name": "search_image_by_image",
-                    "action": "SEARCH_IMAGE_BY_IMAGE",
-                    "embedding": "zilliz/vit-base-patch16-224",
-                    "clusterId": "inxx-xxxxxxxxxxxxxxx",
-                    "collectionName": "my_collection"
-                }
-            ]
-        }'
-    ```   
-
-    Possible response
-
-    ```shell
-    {
-        "code": 200,
-        "data": {
-            "pipelineId": "pipe-xxxxxxxxxxxxxxxxxxxxx",
-            "name": "my_image_search_pipeline",
-            "type": "SEARCH",
-            "description": "A pipeline that searches image by image.",
-            "status": "SERVING",
-            "functions": 
+curl --request POST \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    -d '{
+        "projectId": "proj-xxxx",       
+        "name": "my_text_search_pipeline",
+        "description": "A pipeline that receives text and search for semantically similar doc chunks",
+        "type": "SEARCH",
+        "functions": [
             {
-                "action": "SEARCH_IMAGE_BY_IMAGE",
-                "name": "search_image_by_image",
-                "inputFields": ["query_image_url"],
+                "name": "search_chunk_text_and_title",
+                "action": "SEARCH_DOC_CHUNK",
                 "clusterId": "inxx-xxxxxxxxxxxxxxx",
                 "collectionName": "my_collection",
-                "embedding": "zilliz/vit-base-patch16-224"
+                "embedding": "zilliz/bge-base-en-v1.5",
+                "reranker": "zilliz/bge-reranker-base"
             }
-        }
+        ]
+    }'
+```
+
+Possible response is similar to the following:
+
+```json
+{
+  "code": 200,
+  "data": {
+    "pipelineId": "pipe-84e6d9dba930e035150972",
+    "name": "my_text_search_pipeline",
+    "type": "SEARCH",
+    "description": "A pipeline that receives text and search for semantically similar doc chunks",
+    "status": "SERVING",
+    "functions": 
+      {
+        "action": "SEARCH_DOC_CHUNK",
+        "name": "search_chunk_text_and_title",
+        "inputField": "query_text",
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "collectionName": "my_collection",
+        "embedding": "zilliz/bge-base-en-v1.5",
+        "reranker": "zilliz/bge-reranker-base"
+      }
+  }
+}
+```
+
+
+</TabItem>
+<TabItem value="image">
+
+
+
+```shell
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export API_KEY="YOUR_API_KEY"   
+
+curl --request POST \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    -d '{
+        "projectId": "proj-xxxx",       
+        "name": "my_image_search_pipeline",
+        "description": "A pipeline that searches image by image.",
+        "type": "SEARCH",
+        "functions": [
+            {
+                "name": "search_image_by_image",
+                "action": "SEARCH_IMAGE_BY_IMAGE",
+                "embedding": "zilliz/vit-base-patch16-224",
+                "clusterId": "inxx-xxxxxxxxxxxxxxx",
+                "collectionName": "my_collection"
+            }
+        ]
+    }'
+```
+
+Possible response is similar to the following:
+
+```json
+{
+  "code": 200,
+  "data": {
+    "pipelineId": "pipe-xxxx",
+    "name": "my_image_search_pipeline",
+    "type": "SEARCH",
+    "description": "A pipeline that searches image by image.",
+    "status": "SERVING",
+    "functions": 
+      {
+        "action": "SEARCH_IMAGE_BY_IMAGE",
+        "name": "search_image_by_image",
+        "inputFields": ["query_image_url"],
+        "clusterId": "in03-***************",
+        "collectionName": "my_collection",
+        "embedding": "zilliz/vit-base-patch16-224"
+      }
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+</TabItem>
+
+<TabItem value="purge">
+<Tabs groupId="pipeline-data" defaultValue="text" values={[{"label": "Text Data", "value": "text"},{"label": "Document Data", "value": "doc"},{"label": "Image Data", "value": "image"}]}>
+<TabItem value="text">
+
+```shell
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export API_KEY="YOUR_API_KEY"
+
+curl --request POST \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    -d '{
+        "projectId": "proj-xxxx",
+        "name": "my_text_deletion_pipeline",
+        "description": "A pipeline that deletes entities by expression",
+        "type": "DELETION",
+        "functions": [
+            {
+                "name": "purge_data_by_expression",
+                "action": "PURGE_BY_EXPRESSION"
+            }
+        ], 
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "collectionName": "my_collection"
+    }'
+```
+
+Possible response is similar to the following
+
+```json
+{
+  "code": 200,
+  "data": {
+    "pipelineId": "pipe-xxxx",
+    "name": "my_text_deletion_pipeline",
+    "type": "DELETION",
+    "description": "A pipeline that deletes entities by expression",
+    "status": "SERVING",
+    "functions": [
+      {
+        "action": "PURGE_BY_EXPRESSION",
+        "name": "purge_data_by_expression",
+        "inputFields": ["expression"]
+      }
+    ],
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "collectionName": "my_collection"
+  }
+}
+```
+
+</TabItem>
+<TabItem value="doc">
+
+
+```shell
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export API_KEY="YOUR_API_KEY"    
+
+curl --request POST \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    -d '{
+        "projectId": "proj-xxxx",
+        "name": "my_doc_deletion_pipeline",
+        "description": "A pipeline that deletes all info associated with a doc",
+        "type": "DELETION",
+        "functions": [
+            {
+                "name": "purge_chunks_by_doc_name",
+                "action": "PURGE_DOC_INDEX"
+            }
+        ],
+    
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "collectionName": "my_collection"
+    }'
+```
+
+Possible response is similar to the following:
+
+```json
+{
+  "code": 200,
+  "data": {
+    "pipelineId": "pipe-ab2874d8138c8554375bb0",
+    "name": "my_doc_deletion_pipeline",
+    "type": "DELETION",
+    "description": "A pipeline that deletes all info associated with a doc",
+    "status": "SERVING",
+    "functions": [
+      {
+        "action": "PURGE_DOC_INDEX",
+        "name": "purge_chunks_by_doc_name",
+        "inputField": "doc_name"
+      }
+    ],
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "collectionName": "my_collection"
+  }
+}
+```
+
+
+</TabItem>
+<TabItem value="image">
+
+
+
+```shell
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export API_KEY="YOUR_API_KEY"   
+
+curl --request POST \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    -d '{
+        "projectId": "proj-xxxx",
+        "name": "my_image_deletion_pipeline",
+        "description": "A pipeline that deletes image by id",
+        "type": "DELETION",
+        "functions": [
+            {
+                "name": "purge_image_by_id",
+                "action": "PURGE_IMAGE_INDEX"
+            }
+        ], 
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "collectionName": "my_collection"
+    }'
+```
+
+Possible response is similar to the following:
+
+```json
+{
+    "code": 200,
+    "data": {
+        "id": 0,
+        "name": "my_image_deletion_pipeline",
+        "type": "DELETION",
+        "description": "A pipeline that deletes image by id",
+        "status": "SERVING",
+        "functions": [
+            {
+                "name": "purge_image_by_id",
+                "action": "PURGE_IMAGE_INDEX",
+                "inputFields": ["image_id"]
+            }
+        ],
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "collectionName":" my_collection"
     }
-    ```    
+}
+```
 
-- Create a text deletion pipeline
-
-    ```shell
-    curl --request POST \
-        --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
-        -d '{
-            "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-            "name": "my_text_deletion_pipeline",
-            "description": "A pipeline that deletes entities by expression",
-            "type": "DELETION",
-            "functions": [
-                {
-                    "name": "purge_data_by_expression",
-                    "action": "PURGE_BY_EXPRESSION"
-                }
-            ], 
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "collectionName": "my_collection"
-        }'
-    ```
-
-    Possible response
-
-    ```shell
-    {
-        "code": 200,
-        "data": {
-            "pipelineId": "pipe-xxxxxxxxxxxxxxxxxxxxxx",
-            "name": "my_text_deletion_pipeline",
-            "type": "DELETION",
-            "description": "A pipeline that deletes entities by expression",
-            "status": "SERVING",
-            "functions": [
-                {
-                    "action": "PURGE_BY_EXPRESSION",
-                    "name": "purge_data_by_expression",
-                    "inputFields": ["expression"]
-                }
-            ],
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "collectionName": "my_collection"
-        }
-    }
-    ```
-
-- Create a doc deletion pipeline
-
-    ```shell
-    curl --request POST \
-        --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
-        -d '{
-            "projectId": "proj-xxxxxxxxxxxxxxxxxxxx",
-            "name": "my_doc_deletion_pipeline",
-            "description": "A pipeline that deletes all info associated with a doc",
-            "type": "DELETION",
-            "functions": [
-                {
-                    "name": "purge_chunks_by_doc_name",
-                    "action": "PURGE_DOC_INDEX"
-                }
-            ],
-        
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "collectionName": "my_collection"
-        }'
-    ```
-
-    Possible response
-
-    ```shell
-    {
-        "code": 200,
-        "data": {
-            "pipelineId": "pipe-ab2874d8138c8554375bb0",
-            "name": "my_doc_deletion_pipeline",
-            "type": "DELETION",
-            "description": "A pipeline that deletes all info associated with a doc",
-            "status": "SERVING",
-            "functions": [
-                {
-                    "action": "PURGE_DOC_INDEX",
-                    "name": "purge_chunks_by_doc_name",
-                    "inputField": "doc_name"
-                }
-            ],
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "collectionName": "my_collection"
-        }
-    }
-    ``` 
-
-- Create an image deletion pipeline
-
-    ```shell
-    curl --request POST \
-        --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
-        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
-        -d '{
-            "projectId": "proj-xxxx",
-            "name": "my_image_deletion_pipeline",
-            "description": "A pipeline that deletes image by id",
-            "type": "DELETION",
-            "functions": [
-                {
-                    "name": "purge_image_by_id",
-                    "action": "PURGE_IMAGE_INDEX"
-                }
-            ], 
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "collectionName": "my_collection"
-        }'
-    ```
-
-    Possible response
-
-    ```shell
-    {
-        "code": 200,
-        "data": {
-            "id": 0,
-            "name": "my_image_deletion_pipeline",
-            "type": "DELETION",
-            "description": "A pipeline that deletes image by id",
-            "status": "SERVING",
-            "functions": [
-                {
-                    "name": "purge_image_by_id",
-                    "action": "PURGE_IMAGE_INDEX",
-                    "inputFields": ["image_id"]
-                }
-            ],
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "collectionName":" my_collection"
-        }
-    }
-    ```    
-
+</TabItem>
+</Tabs>
+</TabItem>
+</Tabs>
 
 
 
@@ -685,7 +748,15 @@ Returns information about the pipeline just created.
                     "langauge": "string",
                     "embedding": "string"
                 },
-                {},
+                {
+                    "name": "string",
+                    "action": "string",
+                    "inputField": "string",
+                    "langauge": "string",
+                    "chunkSize": "integer",
+                    "embedding": "string",
+                    "splitBy": "string"
+                },
                 {
                     "name": "string",
                     "action": "string",
@@ -727,6 +798,13 @@ Returns information about the pipeline just created.
 | __functions[opt_1].langauge__ | __string__  <br/>Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines.  |
 | __functions[opt_1].embedding__ | __string__  <br/>Name of the embedding model in use.  |
 | __functions[opt_2]__ | __object__<br/> |
+| __functions[opt_2].name__ | __string__  <br/>Name of the function to create.  |
+| __functions[opt_2].action__ | __string__  <br/>Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`.  |
+| __functions[opt_2].inputField__ | __string__  <br/>Name the field according to your needs. In an `INDEX_DOC` function of an ingestion pipeline, use it for pre-signed document URLs in GCS or AWS S3 buckets.  |
+| __functions[opt_2].langauge__ | __string__  <br/>Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines.  |
+| __functions[opt_2].chunkSize__ | __integer__  <br/>The maximum size of a splitted document segment.  |
+| __functions[opt_2].embedding__ | __string__  <br/>Name of the embedding model in use.  |
+| __functions[opt_2].splitBy__ | __string__  <br/>The splitters that Zilliz Cloud uses to split the specified docs.  |
 | __functions[opt_3]__ | __object__<br/> |
 | __functions[opt_3].name__ | __string__  <br/>Name of the function to create.  |
 | __functions[opt_3].action__ | __string__  <br/>Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`.  |
