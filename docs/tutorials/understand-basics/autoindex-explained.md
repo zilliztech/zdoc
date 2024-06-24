@@ -41,7 +41,7 @@ Choosing query parameters requires a lot of domain-specific knowledge, which gre
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>After you have migrated your Milvus codebase to the Cloud, Zilliz Cloud automatically applies <strong>AUTOINDEX</strong> when creating indexes even if a specific index type is explicitly set.</p>
+<p>When migrating your Milvus codebase to Zilliz Cloud, you do not need to change the index type used manually. Zilliz Cloud automatically applies AUTOINDEX when creating indexes.</p>
 
 </Admonition>
 
