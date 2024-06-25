@@ -19,7 +19,7 @@ Zilliz Cloud enables hybrid search capabilities using the [hybrid_search()](/ref
 
 The following figure illustrates the execution of a hybrid search in Zilliz Cloud and highlights the role of reranking in the process.
 
-![WYpibSFFmoSRvlxlwY9cKYJBnQg](/img/WYpibSFFmoSRvlxlwY9cKYJBnQg.png)
+![WYpibSFFmoSRvlxlwY9cKYJBnQg](/byoc/WYpibSFFmoSRvlxlwY9cKYJBnQg.png)
 
 Reranking in hybrid search is a crucial step that consolidates results from several vector fields, ensuring the final output is relevant and accurately prioritized. Currently, Zilliz Cloud offers these reranking strategies:
 
@@ -37,13 +37,13 @@ WeightedRanker’s basic process is as follows:
 
 - **Score Normalization**: Normalize the scores from each route to a [0,1] range, where values closer to 1 indicate higher relevance. This normalization is crucial due to score distributions varying with different metric types. For instance, the distance for IP ranges from [-∞,+∞], while the distance for L2 ranges from [0,+∞]. Zilliz Cloud employs the `arctan` function, transforming values to the [0,1] range to provide a standardized basis for different metric types.
 
-    ![MCalbX4PQoBvXbxo5nLcCkl4nFo](/img/MCalbX4PQoBvXbxo5nLcCkl4nFo.png)
+    ![MCalbX4PQoBvXbxo5nLcCkl4nFo](/byoc/MCalbX4PQoBvXbxo5nLcCkl4nFo.png)
 
 - **Weight Allocation**: Assign a weight `w𝑖` to each vector retrieval route. Users specify the weights, which reflect the data source's reliability, accuracy, or other pertinent metrics. Each weight ranges from [0,1].
 
 - **Score Fusion**: Calculate a weighted average of the normalized scores to derive the final score. The results are then ranked based on these highest to lowest scores to generate the final sorted results.
 
-![R6XxbJbCcomuemxFmNPcbgwBnHd](/img/R6XxbJbCcomuemxFmNPcbgwBnHd.png)
+![R6XxbJbCcomuemxFmNPcbgwBnHd](/byoc/R6XxbJbCcomuemxFmNPcbgwBnHd.png)
 
 To use this strategy, apply a `WeightedRanker` instance and set weight values by passing in a variable number of numeric arguments.
 
@@ -72,7 +72,7 @@ RRF’s basic process is as follows:
 
 - **Rank Fusion**: The RRF algorithm weighs and combines the ranks from each retriever. The formula is as follows:
 
-    ![BMw9bM29QodO5lx0jdUcAhtLn2c](/img/BMw9bM29QodO5lx0jdUcAhtLn2c.png)
+    ![BMw9bM29QodO5lx0jdUcAhtLn2c](/byoc/BMw9bM29QodO5lx0jdUcAhtLn2c.png)
 
     Here, \(N\) represents the number of different retrieval routes, \(text{rank}_i(d)\) is the rank position of retrieved document \(d\) by the \(i\)th retriever, and \(k\) is a smoothing parameter, typically set to 60.
 
