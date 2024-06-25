@@ -25,6 +25,7 @@ CMD ["yarn", "start", "-h", "0.0.0.0"]
 FROM node:lts as production
 WORKDIR /home/node/app
 COPY --from=development --chown=node:node /home/node/app /home/node/app
+RUN echo "tada" && echo $INKEEP_API_KEY
 RUN npm run build
 
 ## deploy
