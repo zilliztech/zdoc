@@ -296,12 +296,12 @@ The following example runs the Ingestion pipeline `my_image_ingestion_pipeline`.
 ```python
 curl --request POST \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}/run" \
     -d '{
         "data": {
-            "image_url": "xxx",
             "image_id": "my-img-123456",
+            "image_url": "xxx",
             "image_title": "A cute yellow cat"
         }
     }'
@@ -309,7 +309,7 @@ curl --request POST \
 
 The parameters in the above code are described as follows:
 
-- `YOUR_CLUSTER_TOKEN`: The token used to authenticate API requests. This token can be an [API key](/docs/manage-api-keys) or a [cluster credential](/docs/cluster-credentials) that consists of a username and password pair.
+- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
 
 - `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
 
@@ -324,10 +324,10 @@ Below is an example response.
 ```bash
 {
   "code": 200,
-    "data": {
-        "num_entities": 1,
-        "usage": {
-          "embedding": 1
+  "data": {
+    "num_entities": 1,
+    "usage": {
+      "embedding": 1
     }
   }
 }
@@ -492,16 +492,16 @@ Below is an example output.
 
 <TabItem value="Bash">
 
-The following example runs the Search pipeline named `my_image_search_pipeline`. The query image URL is a photo of a cat from [Unsplash](https://unsplash.com/photos/an-orange-and-white-cat-laying-on-top-of-a-table-hAbwQ1elxvI).
+The following example runs the Search pipeline named `my_image_search_pipeline`. 
 
 ```bash
 curl --request POST \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}/run" \
     -d '{
       "data": {
-        "query_image_url": "https://unsplash.com/photos/an-orange-and-white-cat-laying-on-top-of-a-table-hAbwQ1elxvI"
+        "query_image_url": "xxx"
       },
       "params":{
           "limit": 1,
@@ -514,7 +514,7 @@ curl --request POST \
 
 The parameters in the above code are described as follows:
 
-- `YOUR_CLUSTER_TOKEN`: The token used to authenticate API requests. This token can be an [API key](/docs/manage-api-keys) or a [cluster credential](/docs/cluster-credentials) that consists of a username and password pair.
+- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
 
 - `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
 
@@ -536,21 +536,20 @@ Below is an example response.
 
 ```bash
 {
-    "code": 200,
-    "data": {
+  "code": 200,
+  "data": {
     "result": [
       {
-        "id": "image-101",
-        "distance": 0.4,
-        "image_id": "image-101"，
-        "image_title": "test title"
-      },
+        "id": "my-img-123456",
+        "distance": 0.40448662638664246,
+        "image_id": "my-img-123456",
+        "image_title": "A cute yellow cat"
+      }
     ],
     "usage": {
       "embedding": 1
     }
   }
-}
 }
 ```
 
@@ -621,7 +620,7 @@ The example below creates a Deletion pipeline named `my_image_deletion_pipeline`
 curl --request POST \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
-    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
+    --url "https://controller.api.{cloud-region}.zilliz.cloud.com/v1/pipelines" \
     -d '{
         "projectId": "proj-xxxx",
         "name": "my_image_deletion_pipeline",
@@ -715,7 +714,7 @@ The following example runs the Deletion pipeline named `my_image_deletion_pipeli
 ```bash
 curl --request POST \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}/run" \
     -d '{
         "data": {
@@ -726,7 +725,7 @@ curl --request POST \
 
 The parameters in the above code are described as follows:
 
-- `YOUR_CLUSTER_TOKEN`: The token used to authenticate API requests. This token can be an [API key](/docs/manage-api-keys) or a [cluster credential](/docs/cluster-credentials) that consists of a username and password pair.
+- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
 
 - `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
 
@@ -927,7 +926,7 @@ Follow the example below to drop a pipeline.
 ```bash
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}"
 ```
 

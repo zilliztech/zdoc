@@ -39,6 +39,12 @@ Approximate nearest neighbor (ANN) algorithms require a trade-off between recall
 
 Choosing query parameters requires a lot of domain-specific knowledge, which greatly increases the learning curve for users. To address this issue, **AUTOINDEX** has developed an intelligent algorithm that facilitates the selection of query parameters. By analyzing the distribution of users' datasets during index building, **AUTOINDEX** achieves a trade-off between recall and performance, powered by a machine learning model for query parameter recommendation. This way, users no longer need to manually set query parameters.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>When migrating your Milvus codebase to Zilliz Cloud, you do not need to change the index type used manually. Zilliz Cloud automatically applies AUTOINDEX when creating indexes.</p>
+
+</Admonition>
+
 ## Index building and search settings{#index-building-and-search-settings}
 
 The process of building an index involves sorting out the entities in a collection in a specific order so that results can be retrieved more quickly.
