@@ -33,6 +33,7 @@ ENV INSTALL_PATH /usr/share/nginx/html
 WORKDIR $INSTALL_PATH
 COPY ./default.conf /etc/nginx/conf.d
 COPY --from=production /home/node/app/build /usr/share/nginx/html
+RUN echo "tada" && echo $INKEEP_API_KEY
 RUN set -x ; \
   addgroup -g 82 -S www-data ; \
   adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1
