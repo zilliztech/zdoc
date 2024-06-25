@@ -4,7 +4,7 @@ beta: TRUE
 notebook: FALSE
 type: origin
 token: O85Kw2EeeiGgL3kGShIcCObunwg
-sidebar_position: 99
+sidebar_position: undefined
 
 ---
 
@@ -39,7 +39,7 @@ WeightedRanker’s basic process is as follows:
 
     ![MCalbX4PQoBvXbxo5nLcCkl4nFo](/byoc/MCalbX4PQoBvXbxo5nLcCkl4nFo.png)
 
-- **Weight Allocation**: Assign a weight `w𝑖` to each vector retrieval route. Users specify the weights, which reflect the data source's reliability, accuracy, or other pertinent metrics. Each weight ranges from [0,1].
+- **Weight Allocation**: Assign a weight w𝑖 to each vector retrieval route. Users specify the weights, which reflect the data source's reliability, accuracy, or other pertinent metrics. Each weight ranges from [0,1].
 
 - **Score Fusion**: Calculate a weighted average of the normalized scores to derive the final score. The results are then ranked based on these highest to lowest scores to generate the final sorted results.
 
@@ -74,7 +74,7 @@ RRF’s basic process is as follows:
 
     ![BMw9bM29QodO5lx0jdUcAhtLn2c](/byoc/BMw9bM29QodO5lx0jdUcAhtLn2c.png)
 
-    Here, \(N\) represents the number of different retrieval routes, \(text{rank}_i(d)\) is the rank position of retrieved document \(d\) by the \(i\)th retriever, and \(k\) is a smoothing parameter, typically set to 60.
+    Here, 𝑁 represents the number of different retrieval routes, rank𝑖(𝑑) is the rank position of retrieved document 𝑑 by the 𝑖th retriever, and 𝑘 is a smoothing parameter, typically set to 60.
 
 - **Comprehensive Ranking**: Re-rank the retrieved results based on the combined scores to produce the final results.
 
