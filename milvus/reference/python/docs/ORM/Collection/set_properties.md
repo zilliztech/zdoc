@@ -14,13 +14,17 @@ set_properties(
 
 **PARAMETERS:**
 
-- properties (dict) -
+- **properties** (dict) -
 
     A set of collection properties in the form of a dictionary. Currently, you can set the following properties:
 
     - **collection.ttl.seconds**
 
         Once this property is set, data in the current collection expires in the specified time. Expired data in the collection will be cleaned up and will not be involved in searches or queries.
+
+    - **mmap.enabled**
+
+        Whether to enable memory-mapped storage at the collection level. For more information, refer to [Configure memory mapping](https://milvus.io/docs/mmap.md#Configure-memory-mapping).
 
 - **timeout** (*float*)  -
 

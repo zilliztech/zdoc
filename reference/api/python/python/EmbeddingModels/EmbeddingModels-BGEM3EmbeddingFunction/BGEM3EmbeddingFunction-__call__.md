@@ -1,10 +1,26 @@
+---
+displayed_sidbar: pythonSidebar
+slug: /python/python/BGEM3EmbeddingFunction-__call__
+sidebar_label: __call__()
+beta: FALSE
+notebook: FALSE
+type: docx
+token: K7qWdSwtNo976VxcvopczGLjnLf
+sidebar_position: 4
+displayed_sidebar: pythonSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
 # \_\_call\_\_()
 
-This operation in [BGEM3EmbeddingFunction](BGEM3EmbeddingFunction.md) takes a list of text strings and directly encodes them into vector embeddings.
+This operation in [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
 
-The **\_\_call\_\_()** method of BGEM3EmbeddingFunction shares the same functionality as [encode_documents()](encode_documents.md) and [encode_queries()](encode_queries.md).
+The **\_\_call\_\_()** method of BGEM3EmbeddingFunction shares the same functionality as [encode_documents()](./BGEM3EmbeddingFunction-encode_documents) and [encode_queries()](./BGEM3EmbeddingFunction-encode_queries).
 
-## Request syntax
+## Request syntax{#request-syntax}
 
 ```python
 # Instance created
@@ -30,7 +46,7 @@ bge_m3_ef(
 
 A dictionary containing the document embeddings.
 
-When initializing [BGEM3EmbeddingFunction](BGEM3EmbeddingFunction.md), if **return_dense**, **return_sparse**, and **return_colbert_vecs** are set to **True**, the returned dictionary will contain the keys **dense**, **sparse**, and **colbert_vecs**, with the corresponding dense embeddings, sparse word embeddings, and ColBERT vectors.
+When initializing [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction), if **return_dense**, **return_sparse**, and **return_colbert_vecs** are set to **True**, the returned dictionary will contain the keys **dense**, **sparse**, and **colbert_vecs**, with the corresponding dense embeddings, sparse word embeddings, and ColBERT vectors.
 
 **Exceptions:**
 
@@ -38,7 +54,7 @@ When initializing [BGEM3EmbeddingFunction](BGEM3EmbeddingFunction.md), if **retu
 
     This exception will be raised when the FlagEmbedding module is not installed.
 
-## Examples
+## Examples{#examples}
 
 ```python
 from pymilvus import model

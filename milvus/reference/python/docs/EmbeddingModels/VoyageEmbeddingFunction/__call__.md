@@ -2,7 +2,7 @@
 
 This operation in [VoyageEmbeddingFunction](VoyageEmbeddingFunction.md) takes a list of text strings and directly encodes them into vector embeddings.
 
-The `call` method of VoyageEmbeddingFunction shares the same functionality as [encode_documents()](encode_documents.md) and [encode_queries()](encode_queries.md).
+The **\_\_call\_\_()** method of VoyageEmbeddingFunction shares the same functionality as [encode_documents()](encode_documents.md) and [encode_queries()](encode_queries.md).
 
 ## Request syntax
 
@@ -11,7 +11,7 @@ The `call` method of VoyageEmbeddingFunction shares the same functionality as [e
 
 voyage_ef = VoyageEmbeddingFunction()
 
-# \_\_call\_\_ method will be called
+# __call__ method will be called
 voyage_ef(
     texts: List[str]
 ) -> List[np.array]

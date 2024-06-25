@@ -52,9 +52,6 @@ class larkDriveWriter extends larkDocWriter {
                     }
 
                     if (source.children) {
-                        // source.index = index
-                        // subfolders.push(source)
-
                         console.log(source.token)
                         const meta = await this.__is_to_publish(source.name, source.slug)
                         if (meta['publish']) {
@@ -86,44 +83,6 @@ class larkDriveWriter extends larkDocWriter {
                     }
                 }    
             })
-
-            // if (subfolders.length > 0) {
-            //     subfolders.forEach(async (source, x) => {
-            //         if (source.children) {
-            //             console.log(source.token)
-            //             const meta = await this.__is_to_publish(source.name, source.slug)
-            //             if (meta['publish']) {
-            //                 const token = source.token
-            //                 const source_type = source.type
-            //                 const slug = source.slug instanceof Array? source.slug[0].text : source.slug
-            //                 const description = meta.description
-
-            //                 current_path = node_path.join(path, slug)
-
-            //                 if (!fs.existsSync(current_path)) {
-            //                     fs.mkdirSync(current_path, { recursive: true });
-            //                 }
-
-            //                 console.log(current_path)
-
-            //                 await this.write_doc({
-            //                     path: current_path,
-            //                     page_title: source.name,
-            //                     page_slug: slug,
-            //                     page_beta: 'false',
-            //                     notebook: 'false',
-            //                     page_type: source_type,
-            //                     page_token: token,
-            //                     page_description: description,
-            //                     sidebar_position: source.index+1,
-            //                     doc_card_list: true
-            //                 })
-
-            //                 await this.write_docs(current_path, token)
-            //             }
-            //         }
-            //     })
-            // }
         }
     }
 
