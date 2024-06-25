@@ -28,7 +28,6 @@ ARG INKEEP_ORGANIZATION_ID
 ENV INKEEP_API_KEY=${INKEEP_API_KEY}
 ENV INKEEP_INTEGRATION_ID=${INKEEP_INTEGRATION_ID}
 ENV INKEEP_ORGANIZATION_ID=${INKEEP_ORGANIZATION_ID}
-RUN echo "tada" && echo ${INKEEP_API_KEY}
 RUN npm run build
 
 ## deploy
@@ -37,7 +36,6 @@ ENV INSTALL_PATH /usr/share/nginx/html
 WORKDIR $INSTALL_PATH
 COPY ./default.conf /etc/nginx/conf.d
 COPY --from=production /home/node/app/build /usr/share/nginx/html
-RUN echo "tada" && echo $INKEEP_API_KEY
 RUN set -x ; \
   addgroup -g 82 -S www-data ; \
   adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1
