@@ -412,13 +412,19 @@ const config = {
           apiKey: process.env.INKEEP_API_KEY,
           integrationId: process.env.INKEEP_INTEGRATION_ID,
           organizationId: process.env.INKEEP_ORGANIZATION_ID,
-          primaryBrandColor: null
+          primaryBrandColor: "#175fff",
+          organizationDisplayName: "Zilliz",
         },
         aiChatSettings: {
             chatSubjectName: "Zilliz Cloud",
-            botAvatarSrcUrl: null,
+            botAvatarSrcUrl: "/img/logo.svg",
             getHelpCallToActions: [],
-            quickQuestions: []
+            quickQuestions: [
+              "What is Zilliz Cloud?",
+              "How to connect to Zilliz Cloud?",
+              "What is AUTOINDEX?",
+              "What is the difference between Zilliz Cloud and Milvus?"
+            ]
         }
       }
     }),
