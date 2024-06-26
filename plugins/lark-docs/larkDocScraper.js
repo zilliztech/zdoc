@@ -164,27 +164,31 @@ class larkDocScraper {
         var slug = this.slugs[token]
          
         if (!slug && title) {
-            var source
-            try {
-                source = JSON.parse(fs.readFileSync(node_path.join(this.doc_source_dir, `${token}.json`), 'utf-8'))
-            } catch (error) {
-                source = null
-            }
-            
-            if (source && source.type === "folder") {
-                var pair = fs.readdirSync(this.doc_source_dir)
-                    .map(file => JSON.parse(fs.readFileSync(node_path.join(this.doc_source_dir, file), 'utf-8')))
-                    .filter(s => s.name === title && s.parent_token === token)
-
-                if (pair.length === 1) {
-                    slug = this.slugs[pair[0].token]
-                } else {
-                    slug = ''
-                }
-            } else {
+            if (this.target_type == "wiki") {
                 const record = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
                 if (record.length > 0) {
                     slug = this.slugs[record[0]] 
+                }
+            }
+
+            if (this.target_type == "drive") {
+                var source
+                try {
+                    source = JSON.parse(fs.readFileSync(node_path.join(this.doc_source_dir, `${token}.json`), 'utf-8'))
+                } catch (error) {
+                    source = null
+                }
+                
+                if (source && source.type === "folder") {
+                    var pair = fs.readdirSync(this.doc_source_dir)
+                        .map(file => JSON.parse(fs.readFileSync(node_path.join(this.doc_source_dir, file), 'utf-8')))
+                        .filter(s => s.name === title && s.parent_token === token)
+    
+                    if (pair.length === 1) {
+                        slug = this.slugs[pair[0].token]
+                    } else {
+                        slug = ''
+                    }
                 }
             }
         }
