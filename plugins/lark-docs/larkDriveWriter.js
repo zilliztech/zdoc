@@ -138,7 +138,7 @@ class larkDriveWriter extends larkDocWriter {
                     
                     fs.writeFileSync(node_path.join(current_path, current_path.split('/').pop() + '.md'), markdown)
                 }
-            } else if (obj.blocks && !this.utils.locate_drive_source_pair(this.docSourceDir, page_token, page_slug)) {
+            } else if (obj.blocks) {
                 this.page_blocks = obj.blocks.items
                 page = this.page_blocks.filter(block => block.block_type == 1)[0]
             }

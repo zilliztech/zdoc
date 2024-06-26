@@ -375,6 +375,12 @@ You can check the index file created on a specific field, and collect the statis
 
 You can simply drop an index if it is no longer needed.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Before dropping an index, make sure it has been released first.</p>
+
+</Admonition>
+
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 

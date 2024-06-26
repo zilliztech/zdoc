@@ -232,9 +232,9 @@ When configuring search parameters, take note of the following:
 
 ## Perform scalar queries{#perform-scalar-queries}
 
-In addition to ANN search, Zilliz Cloud also supports scalar queries on sparse vectors. These queries allow you to retrieve documents based on a scalar value associated with the sparse vector. For more information on parameters, refer to .
+In addition to ANN search, Zilliz Cloud also supports scalar queries on sparse vectors. These queries allow you to retrieve documents based on a scalar value associated with the sparse vector. For more information on parameters, refer to [query()](/reference/python/python/Vector-query).
 
-Filter entities with **scalar_field** greater than 3:
+Filter entities with **scalar_field** greater than 0.999:
 
 ```python
 # Perform a query by specifying filter expr
@@ -279,10 +279,6 @@ When using sparse vectors in Zilliz Cloud, consider the following limits:
 - **What distance metric is supported for sparse vectors?**
 
     Sparse vectors only support the Inner Product (IP) distance metric due to the high dimensionality of sparse vectors, which makes L2 distance and cosine distance impractical.
-
-- **Can you explain the difference between SPARSE_INVERTED_INDEX and SPARSE_WAND, and how do I choose between them?**
-
-    **SPARSE_INVERTED_INDEX** is a traditional inverted index, while **SPARSE_WAND** uses the [Weak-AND](https://dl.acm.org/doi/10.1145/956863.956944) algorithm to reduce the number of full IP distance evaluations during search. **SPARSE_WAND** is typically faster, but its performance can decline with increasing vector density. To choose between them, conduct experiments and benchmarks based on your specific dataset and use case.
 
 - **How should I choose the drop_ratio_build and drop_ratio_search parameters?**
 
