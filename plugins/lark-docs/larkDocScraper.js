@@ -164,8 +164,14 @@ class larkDocScraper {
         var slug = this.slugs[token]
          
         if (!slug && title) {
-            var source = JSON.parse(fs.readFileSync(node_path.join(this.doc_source_dir, `${token}.json`), 'utf-8'))
-            if (source.type === "folder") {
+            var source
+            try {
+                source = JSON.parse(fs.readFileSync(node_path.join(this.doc_source_dir, `${token}.json`), 'utf-8'))
+            } catch (error) {
+                source = null
+            }
+            
+            if (source && source.type === "folder") {
                 var pair = fs.readdirSync(this.doc_source_dir)
                     .map(file => JSON.parse(fs.readFileSync(node_path.join(this.doc_source_dir, file), 'utf-8')))
                     .filter(s => s.name === title && s.parent_token === token)
@@ -176,11 +182,9 @@ class larkDocScraper {
                     slug = ''
                 }
             } else {
-                for (const token in this.slugs) {
-                    if (this.slugs[token].title === title) {
-                        slug = this.slugs[token]
-                        break
-                    }
+                const record = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
+                if (record.length > 0) {
+                    slug = this.slugs[record[0]] 
                 }
             }
         }
