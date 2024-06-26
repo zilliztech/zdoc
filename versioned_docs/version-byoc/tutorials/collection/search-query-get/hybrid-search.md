@@ -13,9 +13,9 @@ import Admonition from '@theme/Admonition';
 
 # Hybrid Search
 
-Zilliz Cloud introduced multi-vector support and a hybrid search framework, which means users can bring in several vector fields into a single collection. Different vector fields can represent different aspects, different embedding models or even different modalities of data characterizing the same entity, which greatly expands the richness of information. This feature is particularly useful in comprehensive search scenarios, such as identifying the most similar person in a vector library based on various attributes like pictures, voice, fingerprints, etc.
+Zilliz Cloud introduced multi-vector support and a hybrid search framework, which means users can bring in several vector fields into a single collection. These vectors in different columns represent diverse facets of data, originating from different embedding models or undergoing distinct processing methods. The results of hybrid searches are integrated using reranking strategies, such as Reciprocal Rank Fusion (RRF) and Weighted Scoring.
 
-A hybrid search enables executing search requests over various vector fields and combines the results using reranking strategies, such as Reciprocal Rank Fusion (RRF) and Weighted Scoring.
+This feature is particularly useful in comprehensive search scenarios, such as identifying the most similar person in a vector library based on various attributes like pictures, voice, fingerprints, etc.
 
 <Admonition type="info" icon="📘" title="Notes">
 

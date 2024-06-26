@@ -75,32 +75,47 @@ After creating a Serverless cluster, you will see the following in the console.
 
 ![serverless-cluster-lifecycle](/img/serverless-cluster-lifecycle.png)
 
+- **Connect**: This section provides the necessary details to begin interacting with your cluster, including the cluster ID, cluster cloud region, public endpoint for connections, and a token for secure access.
+
+- **Summary**: This offers a snapshot of your cluster's essentials. You can find the cluster plan and compatible Milvus version. Details on the creator, as well as the creation date and time, are also presented.
+
 ### Connect to cluster{#connect-to-cluster}
 
 In the **Connect** section, you can find the **Public Endpoint** and **Token** used to connect to the cluster.
 
 For details, refer to [Connect to Cluster](./connect-to-cluster).
 
-### Suspend & resume cluster{#suspend-and-resume-cluster}
+### Manage collections and data{#manage-collections-and-data}
 
-In the **Actions** drop-down button, select **Suspend** to stop the cluster. Once you confirm this operation in the **Suspend Cluster** dialog box, the cluster status changes from **RUNNING** to **SUSPENDING**, during which you cannot perform other actions to the cluster.
+- **Collections**
 
-Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
+    On the **Collections** tab, you can manage the collections in the cluster. You can create collections, import data into them, load or release them, rename them, and drop them.
 
-<table>
-   <tr>
-     <th><p><strong>Cloud Provider</strong></p></th>
-     <th><p><strong>Storage Pricing</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>GCP storage</p></td>
-     <td><p>$0.020 / GB per month</p></td>
-   </tr>
-</table>
+    For details on data import, refer to [Data Import](/docs/data-import).
 
-To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully.
+    ![manage-collections](/img/manage-collections.png)
 
-You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster) and [Resume Cluster](/reference/restful/resume-cluster).
+- **Backups**
+
+    In the **Backups** tab, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
+
+- **Data migrations**
+
+    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster).
+
+### Users and access control{#users-and-access-control}
+
+On the **Users** tab, you can add users, reset their passwords, and drop them.
+
+For details, refer to [Manage Cluster Credentials (Console)](./cluster-credentials-console).
+
+![manage-users](/img/manage-users.png)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>You cannot drop <b>db_admin</b>. Zilliz Cloud grants access permissions to all collections in the cluster to any added users.</p>
+
+</Admonition>
 
 ### Drop cluster{#drop-cluster}
 
@@ -112,13 +127,13 @@ In addition to the web UI, you can also make an API request to drop a cluster. F
 
 ### View cluster details{#view-cluster-details}
 
-After setting up your Zilliz Cloud cluster, here’s what you’ll find in each section for cluster details:
+After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll find in each section for cluster details:
 
 ![dedicated-cluster-lifecycle](/img/dedicated-cluster-lifecycle.png)
 
-- **Connect**: This section provides the necessary details to begin interacting with your cluster, including the public endpoint for connections, a private link, and a token for secure access.
+- **Connect**: This section provides the necessary details to begin interacting with your cluster, including the cluster ID, cluster cloud region, public endpoint for connections, a private link,, IP address whitelist, and a token for secure access.
 
-- **Summary**: This offers a snapshot of your cluster's essentials. You can find the cluster's ID, hosting region, type, and size. Details on the creator, as well as the creation date and time, are also presented.
+- **Summary**: This offers a snapshot of your cluster's essentials. You can find the cluster plan, CU type, and CU size, compatible Milvus version. Details on the creator, as well as the creation date and time, are also presented.
 
 ### Establish connection{#establish-connection}
 
@@ -144,11 +159,11 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 
 - **Backups**
 
-    In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
+    In the **Backups** tab, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
 
 - **Data migrations**
 
-    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrate Between Clusters](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster).
+    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster).
 
 ### Users and access control{#users-and-access-control}
 

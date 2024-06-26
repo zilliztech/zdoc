@@ -17,13 +17,13 @@ This guide describes the lifecycle of a cluster so that you can make full use of
 
 ### View cluster details{#view-cluster-details}
 
-After setting up your Zilliz Cloud cluster, here’s what you’ll find in each section for cluster details:
+After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll find in each section for cluster details:
 
 ![byoc-cluster-lifecycle](/byoc/byoc-cluster-lifecycle.png)
 
-- **Connect**: This section provides the necessary details to begin interacting with your cluster, including the public endpoint for connections, and a token for secure access.
+- **Connect**: This section provides the necessary details to begin interacting with your cluster, including the cluster ID, cluster cloud region, public endpoint for connections,, IP address whitelist, and a token for secure access.
 
-- **Summary**: This offers a snapshot of your cluster's essentials. You can find the cluster's ID, hosting region, type, and size. Details on the creator, as well as the creation date and time, are also presented.
+- **Summary**: This offers a snapshot of your cluster's essentials. You can find the cluster plan, CU type, and CU size, compatible Milvus version. Details on the creator, as well as the creation date and time, are also presented.
 
 - **Topology**: A graphical representation showing the structure of your cluster. This includes the designation of roles and compute resources for various nodes:
 
@@ -61,11 +61,11 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 
 - **Backups**
 
-    In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
+    In the **Backups** tab, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
 
 - **Data migrations**
 
-    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus.
+    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**.
 
 ### Users and access control{#users-and-access-control}
 
