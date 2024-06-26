@@ -56,7 +56,7 @@ Before starting the deployment process, ensure that the following prerequisites 
 1. Copy the provided command. Paste and run this command in your **GCP Cloud Shell** to authorize Zilliz Cloud to deploy the necessary components for you on GCP.
 
     ```shell
-    $ gcloud projects add-iam-policy-binding zilliz-byoc-user-prj1 --member=serviceAccount:org-flhzhmlonnykqxkgnbfoup@zilliz-byoc.iam.gserviceaccount.com --role=roles/owner
+    $ gcloud projects add-iam-policy-binding zilliz-byoc-user-prj1 --member=serviceAccount:org-xxxxxxxxxxxxxxxxxxxxxx@zilliz-byoc.iam.gserviceaccount.com --role=roles/owner
     ```
 
     To run this command, you may need to authorize Google Cloud Shell properly. When prompted to select a condition to bind, enter **2**, indicating that **None** condition will apply.

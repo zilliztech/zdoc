@@ -697,11 +697,21 @@ class larkDocWriter {
         let content = await this.__text_elements(heading['elements'])
         if (content.length > 0) {
             content = this.__filter_content(content, this.targets)
+            content = this.__clean_headings(content)
             let slug = slugify(content, {lower: true, strict: true})
             return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
         } else {
             return '';
         }
+    }
+
+    __clean_headings(content) {
+        // remove html tags
+        content = content.replace(/<\/?[^>]+(>|$)/g, "")
+        // remove trailing and leading spaces
+        content = content.trim()
+
+        return content
     }
 
     async __bullet(block, indent) {

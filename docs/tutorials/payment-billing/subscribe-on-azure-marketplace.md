@@ -122,6 +122,18 @@ For more information about how to cancel subscription on Azure Marketplace, see 
 
 Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more information.
 
+## Troubleshooting{#troubleshooting}
+
+**What I can do if there is no organization available when linking my Marketplace subscription to Zilliz Cloud?**
+
+There could be various reasons for no organization being available:
+
+1. You may lack the necessary permission. In that case, please contact the organization owner.
+
+1. All organizations might already be connected to Marketplace subscriptions. To link a new subscription, please first [unlink](./subscribe-on-azure-marketplace#cancel-azure-marketplace-subscription) the organization from the current subscription.
+
+1. The list does not contain any organizations at all. Please [submit a support ticket](https://support.zilliz.com/hc/en-us).
+
 ## Related topics{#related-topics}
 
 - [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)

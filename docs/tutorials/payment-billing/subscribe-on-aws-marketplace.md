@@ -50,13 +50,21 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
     ![aws_flash_message](/img/aws_flash_message.png)
 
-1. If you already have a Zilliz Cloud account, simply log in. If not, choose a [sign-up option](./register-with-zilliz-cloud) and follow the process. Ensure all query strings in the URL are retained to link your AWS identity to your Zilliz Cloud account.
+1.  In the new tab, follow the steps below to complete subscription.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    1. If you already have a Zilliz Cloud account, simply log in. If not, choose a [sign-up option](./register-with-zilliz-cloud) and follow the process. Ensure all query strings in the URL are retained to link your AWS identity to your Zilliz Cloud account.
 
-    <p>AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.</p>
+        <Admonition type="info" icon="📘" title="Notes">
 
-    </Admonition>
+        <p>AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.</p>
+
+        </Admonition>
+
+    1. Link your subscription to an existing Zilliz Cloud organization.
+
+        ![aws-marketplace-dialog](/img/aws-marketplace-dialog.png)
+
+    1. Complete authorization.
 
 1. Go to **Billing** to ensure your AWS Marketplace subscription is set as your payment method.
 
@@ -107,6 +115,18 @@ To cancel your AWS Marketplace subscription, you need to open the AWS Marketplac
 ## AWS Marketplace pricing terms{#aws-marketplace-pricing-terms}
 
 Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more information.
+
+## Troubleshooting{#troubleshooting}
+
+**What I can do if there is no organization available when linking my Marketplace subscription to Zilliz Cloud?**
+
+There could be various reasons for no organization being available:
+
+1. You may lack the necessary permission. In that case, please contact the organization owner.
+
+1. All organizations might already be connected to Marketplace subscriptions. To link a new subscription, please first [unlink](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription) the organization from the current subscription.
+
+1. The list does not contain any organizations at all. Please [submit a support ticket](https://support.zilliz.com/hc/en-us).
 
 ## Related topics{#related-topics}
 
