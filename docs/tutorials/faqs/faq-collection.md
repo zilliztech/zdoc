@@ -31,7 +31,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 ### How many collections are allowed in a single cluster?{#how-many-collections-are-allowed-in-a-single-cluster}
 
-A free cluster can have up to 2 collections.  If you have reached the upper limit and need to create more collections, please [migrate to a dedicated cluster](./migrate-between-clusters#from-dedicated-cluster-to-serverless-cluster).
+A free cluster can have up to 2 collections.  If you have reached the upper limit and need to create more collections, please [migrate to a dedicated cluster](./migrate-between-clusters).
 
 The number of collections allowed in a dedicated cluster varies with the cluster CU size. For clusters with 8 CUs or less, you can create a maximum of 32 collections. For clusters with more than 8 CUs,  you can create a maximum of 256 collections. For more information about the limits, please see [Zilliz Cloud Limits](./limits).
 

@@ -272,7 +272,7 @@ When using sparse vectors in Zilliz Cloud, consider the following limits:
 
 - Currently, only the **IP** distance metric is supported for sparse vectors.
 
-- Currently, [range search](./single-vector-search#range-search), [grouping search](./single-vector-search#grouping-search-lessinclude-targetzillizgreaterlesssupgreaterbetalesssupgreaterlessincludegreater), and [search iterator](./with-iterators) are not supported for sparse vectors.
+- Currently, [range search](./single-vector-search#range-search), [grouping search](./single-vector-search#grouping-search-beta), and [search iterator](./with-iterators) are not supported for sparse vectors.
 
 ## FAQ{#faq}
 

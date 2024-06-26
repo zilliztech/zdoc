@@ -148,7 +148,7 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 
 - **Data migrations**
 
-    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrate Between Clusters](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster).
+    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrate Between Clusters](./migrate-between-clusters).
 
 ### Users and access control{#users-and-access-control}
 

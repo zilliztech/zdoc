@@ -26,7 +26,7 @@ There are a variety of search types to meet different requirements:
 
 - [Range search](./single-vector-search#range-search): Finds vectors within a specific distance range from the query vector.
 
-- [Grouping search](./single-vector-search#grouping-search-lessinclude-targetzillizgreaterlesssupgreaterbetalesssupgreaterlessincludegreater): Groups search results based on a specific field to ensure diversity in the results.
+- [Grouping search](./single-vector-search#grouping-search-beta): Groups search results based on a specific field to ensure diversity in the results.
 
 ## Preparations{#preparations}
 
@@ -1941,7 +1941,7 @@ The parameter settings for `radius` and `range_filter` vary with the metric type
    </tr>
 </table>
 
-## Grouping search <sup>(Beta)</sup>{#grouping-search-lesssupgreaterbetalesssupgreater}
+## Grouping search (Beta){#grouping-search-beta}
 
 In Zilliz Cloud, grouping search by a specific field can avoid redundancy of the same field item in the results. You can get a varied set of results for the specific field. 
 

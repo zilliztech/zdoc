@@ -36,7 +36,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 Generally, a free cluster can handle 1 million 768-dimensional vectors. However, the actual capacity depends on your schema. 
 
-If your data exceeds the maximum capacity of a free cluster, please [upgrade](./select-zilliz-cloud-service-plans#select-a-cluster-plan) to Serverless or Dedicated plan to create a new cluster and [migrate your data](./migrate-between-clusters#from-dedicated-cluster-to-serverless-cluster) there. For more information about the capacity of a  cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
+If your data exceeds the maximum capacity of a free cluster, please [upgrade](./select-zilliz-cloud-service-plans#select-a-cluster-plan) to Serverless or Dedicated plan to create a new cluster and [migrate your data](./migrate-between-clusters) there. For more information about the capacity of a  cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
 
 ### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
 
