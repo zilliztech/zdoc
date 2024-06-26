@@ -1,6 +1,7 @@
 const fetch = require('node-fetch')
 const tokenFetcher = require('./larkTokenFetcher.js')
 const fs = require('fs')
+const node_path = require('path')
 const _ = require('lodash')
 require('dotenv').config()
 
@@ -158,24 +159,34 @@ class larkDocScraper {
     async __slugify(token, title=null) {
         if (!this.slugs) {
             await this.__base(this.base)
-        }
-
+        }      
+        
         var slug = this.slugs[token]
          
-        if (!slug) {
-            const record = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
-            if (record.length > 0) {
-                slug = this.slugs[record[0]] 
+        if (!slug && title) {
+            var source = JSON.parse(fs.readFileSync(node_path.join(this.doc_source_dir, `${token}.json`), 'utf-8'))
+            if (source.type === "folder") {
+                var pair = fs.readdirSync(this.doc_source_dir)
+                    .map(file => JSON.parse(fs.readFileSync(node_path.join(this.doc_source_dir, file), 'utf-8')))
+                    .filter(s => s.name === title && s.parent_token === token)
+
+                if (pair.length === 1) {
+                    slug = this.slugs[pair[0].token]
+                } else {
+                    slug = ''
+                }
+            } else {
+                slug = ''
             }
         }
 
-        if (slug) {
+        if (slug && Object.keys(slug).includes('slug')) {
             slug = slug.slug
         }
 
         if (slug instanceof Array) {
             if (slug[0] instanceof Object) {
-                return slug[0][slug[0].type]
+                slug = slug[0][slug[0].type]
             }
         }
 

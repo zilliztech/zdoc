@@ -244,7 +244,6 @@ module.exports = function (context, options) {
                         if (opts.pubTarget === "milvus") {
                             utils.postprocess_for_milvus(outputDir, docSourceDir)
                         }
-    
                     }
                 })
         }
