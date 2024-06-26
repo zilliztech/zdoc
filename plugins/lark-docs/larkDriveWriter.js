@@ -42,19 +42,22 @@ class larkDriveWriter extends larkDocWriter {
                                 page_type: source_type,
                                 page_token: token,
                                 page_slug: slug,
-                                page_beta: false,
-                                notebook: false,
+                                page_beta: 'false',
+                                notebook: 'false',
                                 sidebar_position: index+1,
                                 sidebar_label: meta['labels'],
                                 doc_card_list: false
                             })
-                        }   
+
+                            // if (source.slug === "SentenceTransformerEmbeddingFunction-encode_documents") {
+                            //     console.log(current_path)
+    
+                            //     throw new Error("SentenceTransformerEmbeddingFunction-encode_documents is not supported yet")
+                            // }
+                        }                           
                     }
 
                     if (source.children) {
-                        // source.index = index
-                        // subfolders.push(source)
-
                         console.log(source.token)
                         const meta = await this.__is_to_publish(source.name, source.slug)
                         if (meta['publish']) {
@@ -82,48 +85,10 @@ class larkDriveWriter extends larkDocWriter {
                             })
 
                             await this.write_docs(node_path.join(path, slug), token)
-                        }
+                        }                     
                     }
                 }    
             })
-
-            // if (subfolders.length > 0) {
-            //     subfolders.forEach(async (source, x) => {
-            //         if (source.children) {
-            //             console.log(source.token)
-            //             const meta = await this.__is_to_publish(source.name, source.slug)
-            //             if (meta['publish']) {
-            //                 const token = source.token
-            //                 const source_type = source.type
-            //                 const slug = source.slug instanceof Array? source.slug[0].text : source.slug
-            //                 const description = meta.description
-
-            //                 current_path = node_path.join(path, slug)
-
-            //                 if (!fs.existsSync(current_path)) {
-            //                     fs.mkdirSync(current_path, { recursive: true });
-            //                 }
-
-            //                 console.log(current_path)
-
-            //                 await this.write_doc({
-            //                     path: current_path,
-            //                     page_title: source.name,
-            //                     page_slug: slug,
-            //                     page_beta: 'false',
-            //                     notebook: 'false',
-            //                     page_type: source_type,
-            //                     page_token: token,
-            //                     page_description: description,
-            //                     sidebar_position: source.index+1,
-            //                     doc_card_list: true
-            //                 })
-
-            //                 await this.write_docs(current_path, token)
-            //             }
-            //         }
-            //     })
-            // }
         }
     }
 
@@ -173,7 +138,7 @@ class larkDriveWriter extends larkDocWriter {
                     
                     fs.writeFileSync(node_path.join(current_path, current_path.split('/').pop() + '.md'), markdown)
                 }
-            } else if (obj.blocks && !this.utils.locate_drive_source_pair(this.docSourceDir, page_token, page_slug)) {
+            } else if (obj.blocks) {
                 this.page_blocks = obj.blocks.items
                 page = this.page_blocks.filter(block => block.block_type == 1)[0]
             }

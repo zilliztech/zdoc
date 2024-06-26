@@ -1,6 +1,7 @@
 const fetch = require('node-fetch')
 const tokenFetcher = require('./larkTokenFetcher.js')
 const fs = require('fs')
+const node_path = require('path')
 const _ = require('lodash')
 require('dotenv').config()
 
@@ -14,6 +15,8 @@ class larkDocScraper {
         this.base = base_app_id
         this.target_type = target_type
         this.doc_source_dir = doc_source_dir
+
+        // fs.rmSync(this.doc_source_dir, { recursive: true, force: true })
     }
 
     async fetch(recursive=false, page_token=null) { 

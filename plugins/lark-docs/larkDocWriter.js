@@ -403,10 +403,9 @@ class larkDocWriter {
             await this.__listed_docs()
         }
 
-        // console.log(this.records.filter(record => record["fields"]["Slug"][0].text == slug)[0].fields.Docs)
-
         const result = this.records.filter(record => {
             const record_slug = record["fields"]["Slug"] instanceof Array ? record["fields"]["Slug"][0].text : record["fields"]["Slug"]
+
             if (record["fields"]["Docs"] && record["fields"]["Docs"]["text"] === title && record_slug == slug && record["fields"]["Targets"] &&
                 record["fields"]["Progress"] && (record["fields"]["Progress"] === "Draft" || record["fields"]["Progress"] === "Publish")) {
 
@@ -695,6 +694,8 @@ class larkDocWriter {
 
     async __heading(heading, level) {
         let content = await this.__text_elements(heading['elements'])
+        content = this.__clean_headings(content)
+        
         if (content.length > 0) {
             content = this.__filter_content(content, this.targets)
             let slug = slugify(content, {lower: true, strict: true})
@@ -702,6 +703,15 @@ class larkDocWriter {
         } else {
             return '';
         }
+    }
+
+    __clean_headings(content) {
+        // remove html tags
+        content = content.replace(/<\/?[^>]+(>|$)/g, "")
+        // remove trailing and leading spaces
+        content = content.trim()
+
+        return content
     }
 
     async __bullet(block, indent) {
@@ -1218,7 +1228,7 @@ class larkDocWriter {
                         const blockType = this.block_types[headerBlock['block_type'] - 1];
                         if (parseInt(blockType.slice(-1)) <= 9) {
                             const title = await this.__text_elements(headerBlock[blockType]['elements']);
-                            const slug = slugify(title, {strict: true, lower: true});
+                            const slug = slugify(this.__clean_headings(title), {strict: true, lower: true});
                             newUrl += `#${slug}`;
                         }
                     }
