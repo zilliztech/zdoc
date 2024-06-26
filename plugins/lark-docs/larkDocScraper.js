@@ -176,7 +176,12 @@ class larkDocScraper {
                     slug = ''
                 }
             } else {
-                slug = ''
+                for (const token in this.slugs) {
+                    if (this.slugs[token].title === title) {
+                        slug = this.slugs[token]
+                        break
+                    }
+                }
             }
         }
 
@@ -188,6 +193,10 @@ class larkDocScraper {
             if (slug[0] instanceof Object) {
                 slug = slug[0][slug[0].type]
             }
+        }
+
+        if (!slug) {
+            slug = ''
         }
 
         return slug
