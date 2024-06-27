@@ -1227,8 +1227,10 @@ class larkDocWriter {
                     if (headerBlock) {
                         const blockType = this.block_types[headerBlock['block_type'] - 1];
                         if (parseInt(blockType.slice(-1)) <= 9) {
-                            const title = await this.__text_elements(headerBlock[blockType]['elements']);
-                            const slug = slugify(this.__clean_headings(title), {strict: true, lower: true});
+                            var content = await this.__text_elements(headerBlock[blockType]['elements']);
+                            content = this.__filter_content(content, this.targets)
+                            content = this.__clean_headings(content)
+                            const slug = slugify(content, {strict: true, lower: true});
                             newUrl += `#${slug}`;
                         }
                     }
