@@ -38,7 +38,7 @@ For complete control over your collection, follow these steps.
 
     - **Primary key field**: Available types are **Int64** or **VarChar**. When the field type is set to **VarChar**, specify **Max Length** for the field. If **Auto ID** is enabled, you do not need to configure the primary key field.
 
-    - **Vector field**: Vector field in the collection. For Dedicated clusters that have been upgraded to the Beta version, you can add one or more vector fields to a collection, with a maximum of 4 vector fields per collection. When using multiple vector fields, you can set the same or different data types for these fields. For example, combine `FLOAT_VECTOR` and `BFLOAT16_VECTOR` <sup>(Beta)</sup>. For more information on vector field types, refer to [Schema Explained](./schema-explained).
+    - **Vector field**: Vector field in the collection. For clusters that have been upgraded to the Beta version, you can add one or more vector fields to a collection, with a maximum of 4 vector fields per collection. When using multiple vector fields, you can set the same or different data types for these fields. For example, combine `FLOAT_VECTOR` and `BFLOAT16_VECTOR` <sup>(Beta)</sup>. For more information on vector field types, refer to [Schema Explained](./schema-explained).
 
         - **Dimension**: The dimension value of a vector field. The requirement for the **Dimension** value varies depending on the type of the vector field:
 

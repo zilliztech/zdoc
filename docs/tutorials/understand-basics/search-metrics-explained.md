@@ -107,7 +107,7 @@ The correlation between the two embeddings is as follows:
 
 ![UgebbKhefovb1KxFJfmcg1w1nng](/img/UgebbKhefovb1KxFJfmcg1w1nng.png)
 
-## Cosine similarity {#cosine-similarity}
+## Cosine similarity{#cosine-similarity}
 
 Cosine similarity uses the cosine of the angle between two sets of vectors to measure how similar they are. You can think of the two sets of vectors as line segments starting from the same point, such as [0,0,...], but pointing in different directions.
 
@@ -125,7 +125,7 @@ By subtracting their cosine similarity from 1, you can get the cosine distance b
 
 </Admonition>
 
-## JACCARD distance <sup>(Beta)</sup>{#jaccard-distance-lesssupgreaterbetalesssupgreater}
+## JACCARD distance (Beta){#jaccard-distance-beta}
 
 JACCARD similarity coefficient measures the similarity between two sample sets and is defined as the cardinality of the intersection of the defined sets divided by the cardinality of the union of them. It can only be applied to finite sample sets.
 
@@ -137,11 +137,11 @@ JACCARD distance measures the dissimilarity between data sets and is obtained by
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, this similarity metric is available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+<p>Currently, this similarity metric is available exclusively for clusters that have been upgraded to the Beta version.</p>
 
 </Admonition>
 
-## HAMMING distance <sup>(Beta)</sup>{#hamming-distance-lesssupgreaterbetalesssupgreater}
+## HAMMING distance (Beta){#hamming-distance-beta}
 
 HAMMING distance measures binary data strings. The distance between two strings of equal length is the number of bit positions at which the bits are different.
 
@@ -151,7 +151,7 @@ For example, suppose there are two strings, 1101 1001 and 1001 1101.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, this similarity metric is available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+<p>Currently, this similarity metric is available exclusively for clusters that have been upgraded to the Beta version.</p>
 
 </Admonition>
 

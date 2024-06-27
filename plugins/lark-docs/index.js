@@ -188,12 +188,28 @@ module.exports = function (context, options) {
                                 const labels = meta['labels']
                                 const keywords = meta['keywords']
                                 const parent = Object.keys(source).includes('parent_node_token') ? source.parent_node_token : source.parent_token
-                                const sidebarPos = JSON.parse(fs.readFileSync(docSourceDir + '/' + parent + '.json', 'utf8')).children.map((child, index) => {
-                                    const child_token = child.node_token ? child.node_token : child.token
-                                    if (child_token === token) {
-                                        return index+1
-                                    }
-                                }).filter(index => index !== undefined)[0]
+                                var sidebarPos = 0
+                                try {
+                                    const parent_source = JSON.parse(fs.readFileSync(docSourceDir + '/' + parent + '.json', 'utf8'))
+                                    parent_source.children.map((child, index) => {
+                                        const child_token = child.node_token ? child.node_token : child.token
+                                        if (child_token === token) {
+                                            sidebarPos = index+1
+                                        }
+                                    }).filter(index => index !== undefined)[0]
+                                } catch (e) {
+                                    fs.readdirSync(docSourceDir).forEach(file => {
+                                        var source = JSON.parse(fs.readFileSync(docSourceDir + '/' + file, 'utf8'))
+                                        if (Object.keys(source).includes('children') && source.children.map(child => child.node_token ? child.node_token : child.token).includes(token)) {
+                                            source.children.map((child, index) => {
+                                                const child_token = child.node_token ? child.node_token : child.token
+                                                if (child_token === token) {
+                                                    sidebarPos = index+1
+                                                }
+                                            }).filter(index => index !== undefined)[0]
+                                        }
+                                    })
+                                }
                                 
                                 const req = {
                                     path: file_path.split('/').slice(0, -1).join('/'),

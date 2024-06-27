@@ -1949,7 +1949,7 @@ Consider a collection of documents, each document splits into various passages. 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, this feature is available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+<p>Currently, this feature is available exclusively for clusters that have been upgraded to the Beta version.</p>
 
 </Admonition>
 

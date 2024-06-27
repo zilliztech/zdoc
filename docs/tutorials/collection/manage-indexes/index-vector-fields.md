@@ -24,7 +24,7 @@ Zilliz Cloud employs [AUTOINDEX](./autoindex-explained) to enable efficient simi
 
 It is recommended to create indexes for both the vector field and scalar fields that are frequently accessed.
 
-If your collection contains more than one vector field, you can create an index for each vector field separately. For more information, refer to [With multiple vector fields](./manage-collections-sdks#with-multiple-vector-fields-lesssupgreaterbetalesssupgreater).
+If your collection contains more than one vector field, you can create an index for each vector field separately. For more information, refer to [With multiple vector fields](./manage-collections-sdks#with-multiple-vector-fields-beta).
 
 ## Preparations{#preparations}
 
@@ -374,6 +374,12 @@ You can check the index file created on a specific field, and collect the statis
 ## Drop an Index{#drop-an-index}
 
 You can simply drop an index if it is no longer needed.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Before dropping an index, make sure it has been released first.</p>
+
+</Admonition>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
