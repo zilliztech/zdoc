@@ -161,52 +161,25 @@ class larkDocScraper {
     async __slugify(token, title=null) {
         if (!this.slugs) {
             await this.__base(this.base)
-        }      
-        
+        }
+
         var slug = this.slugs[token]
          
-        if (!slug && title) {
-            if (this.target_type == "wiki") {
-                const record = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
-                if (record.length > 0) {
-                    slug = this.slugs[record[0]] 
-                }
-            }
-
-            if (this.target_type == "drive") {
-                var source
-                try {
-                    source = JSON.parse(fs.readFileSync(node_path.join(this.doc_source_dir, `${token}.json`), 'utf-8'))
-                } catch (error) {
-                    source = null
-                }
-                
-                if (source && source.type === "folder") {
-                    var pair = fs.readdirSync(this.doc_source_dir)
-                        .map(file => JSON.parse(fs.readFileSync(node_path.join(this.doc_source_dir, file), 'utf-8')))
-                        .filter(s => s.name === title && s.parent_token === token)
-    
-                    if (pair.length === 1) {
-                        slug = this.slugs[pair[0].token]
-                    } else {
-                        slug = ''
-                    }
-                }
+        if (!slug) {
+            const record = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
+            if (record.length > 0) {
+                slug = this.slugs[record[0]] 
             }
         }
 
-        if (slug && Object.keys(slug).includes('slug')) {
+        if (slug) {
             slug = slug.slug
         }
 
         if (slug instanceof Array) {
             if (slug[0] instanceof Object) {
-                slug = slug[0][slug[0].type]
+                return slug[0][slug[0].type]
             }
-        }
-
-        if (!slug) {
-            slug = ''
         }
 
         return slug
