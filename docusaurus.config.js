@@ -408,6 +408,7 @@ const config = {
         applicationId: 3711906,
       },
       inkeepConfig: {
+        stylesheetUrls: ["/css/inkeep-overrides.css"],
         baseSettings: {
           apiKey: process.env.INKEEP_API_KEY,
           integrationId: process.env.INKEEP_INTEGRATION_ID,
@@ -417,8 +418,15 @@ const config = {
         },
         aiChatSettings: {
             chatSubjectName: "Zilliz Cloud",
-            botAvatarSrcUrl: "/img/logo.svg",
-            getHelpCallToActions: [],
+            botAvatarSrcUrl: "/img/zilliz-star.svg",
+            getHelpCallToActions: [
+              {
+                type: "OPEN_LINK",
+                icon: { builtIn: "FaEnvelope" },
+                name: "Contact Us",
+                url: "https://support.zilliz.com/hc/en-us/"
+              }
+            ],
             quickQuestions: [
               "What is Zilliz Cloud?",
               "How to connect to Zilliz Cloud?",
