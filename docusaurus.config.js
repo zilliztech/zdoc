@@ -405,6 +405,39 @@ const config = {
       hotjar: {
         applicationId: 3711906,
       },
+      inkeepConfig: {
+        stylesheetUrls: ["/css/inkeep-overrides.css"],
+        baseSettings: {
+          apiKey: process.env.INKEEP_API_KEY,
+          integrationId: process.env.INKEEP_INTEGRATION_ID,
+          organizationId: process.env.INKEEP_ORGANIZATION_ID,
+          primaryBrandColor: "#175fff",
+          organizationDisplayName: "Zilliz",
+        },
+        aiChatSettings: {
+            chatSubjectName: "Zilliz Cloud",
+            botAvatarSrcUrl: "/img/zilliz-star.svg",
+            getHelpCallToActions: [
+              {
+                type: "OPEN_LINK",
+                icon: { builtIn: "IoHelpBuoyOutline" },
+                name: "Support Portal",
+                url: "https://support.zilliz.com/hc/en-us/"
+              },
+              {
+                type: "OPEN_LINK",
+                icon: { builtIn: "IoChatbubblesOutline" },
+                name: "Contact Sales",
+                url: "https://zilliz.com/contact-sales"
+              }
+            ],
+            quickQuestions: [
+              "What is Zilliz Cloud?",
+              "How to connect to Zilliz Cloud?",
+              "What is the difference between Zilliz Cloud and Milvus?"
+            ]
+        }
+      }
     }),
   themes: [
     [ '@easyops-cn/docusaurus-search-local', {
@@ -417,6 +450,8 @@ const config = {
       highlightSearchTermsOnTargetPage: true,
     }],
     'docusaurus-theme-frontmatter',
+    '@inkeep/docusaurus/chatButton',
+    '@inkeep/docusaurus/searchBar'
   ],
   headTags: [
     {

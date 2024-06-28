@@ -27,6 +27,12 @@ To create a snapshot schedule, follow these steps:
 
 ![create-snapshot-schedule](/byoc/create-snapshot-schedule.png)
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>For more information about backup cost, please refer to <a href="./understand-cost#backup-costs">Understand Cost</a>.</p>
+
+</Admonition>
+
 ## Adjust snapshot schedule settings{#adjust-snapshot-schedule-settings}
 
 The snapshot schedule settings are cluster-specific and disabled by default. Since there is a cost for storing snapshots, you can determine when and how Zilliz Cloud creates snapshots on your behalf.

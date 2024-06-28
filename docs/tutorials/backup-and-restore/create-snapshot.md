@@ -35,7 +35,7 @@ You can determine how long Zilliz Cloud keeps your snapshot by setting **Retenti
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Data transfer used to create the snapshots is separately charged at the rate of <strong>$0.025/GB</strong>. For example, a 20 GB snapshot will incur a one-time data transfer charge of <strong>$0.025 x 20 = $0.5</strong>. Currently, a snapshot can live on Zilliz Cloud for up to 30 days free of charge.</p>
+<p>For more information about backup cost, please refer to <a href="./understand-cost#backup-costs">Understand Cost</a>.</p>
 
 </Admonition>
 

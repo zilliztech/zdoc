@@ -318,7 +318,7 @@ For details, refer to [Prepare Source Data](./prepare-source-data).
 
 ## Backup on Console{#backup-on-console}
 
-Zilliz Cloud provides free storage for backup snapshots for up to 30 days. 
+Backup snapshots can be retained for up to 30 days.
 
 ## Restore on Console{#restore-on-console}
 
