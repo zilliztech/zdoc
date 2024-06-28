@@ -422,15 +422,20 @@ const config = {
             getHelpCallToActions: [
               {
                 type: "OPEN_LINK",
-                icon: { builtIn: "FaEnvelope" },
-                name: "Contact Us",
+                icon: { builtIn: "IoHelpBuoyOutline" },
+                name: "Support Portal",
                 url: "https://support.zilliz.com/hc/en-us/"
+              },
+              {
+                type: "OPEN_LINK",
+                icon: { builtIn: "IoChatbubblesOutline" },
+                name: "Contact Sales",
+                url: "https://zilliz.com/contact-sales"
               }
             ],
             quickQuestions: [
               "What is Zilliz Cloud?",
               "How to connect to Zilliz Cloud?",
-              "What is AUTOINDEX?",
               "What is the difference between Zilliz Cloud and Milvus?"
             ]
         }
