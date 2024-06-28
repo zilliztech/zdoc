@@ -447,7 +447,8 @@ const config = {
       highlightSearchTermsOnTargetPage: true,
     }],
     'docusaurus-theme-frontmatter',
-    '@inkeep/docusaurus/chatButton'
+    '@inkeep/docusaurus/chatButton',
+    '@inkeep/docusaurus/searchBar'
   ],
   headTags: [
     {
