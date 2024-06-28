@@ -22,6 +22,12 @@ CMD ["yarn", "start", "-h", "0.0.0.0"]
 FROM node:lts as production
 WORKDIR /home/node/app
 COPY --from=development --chown=node:node /home/node/app /home/node/app
+ARG INKEEP_API_KEY
+ARG INKEEP_INTEGRATION_ID
+ARG INKEEP_ORGANIZATION_ID
+ENV INKEEP_API_KEY=${INKEEP_API_KEY}
+ENV INKEEP_INTEGRATION_ID=${INKEEP_INTEGRATION_ID}
+ENV INKEEP_ORGANIZATION_ID=${INKEEP_ORGANIZATION_ID}
 RUN npm run build
 
 ## deploy
