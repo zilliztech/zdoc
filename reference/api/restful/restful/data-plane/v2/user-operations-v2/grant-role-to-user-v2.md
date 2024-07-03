@@ -24,7 +24,7 @@ This operation grants a specified role to the current user. Once granted the rol
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/users/grant_role" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/users/grant_role" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{

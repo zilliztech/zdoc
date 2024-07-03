@@ -36,7 +36,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribing to Zilliz Cloud as follows:
 
-1. Search for **Zilliz Cloud** in the search box, or [click here](https://aws.amazon.com/marketplace/search/results?searchTerms=zilliz+cloud) to view Zilliz Cloud on AWS.
+1. Search for **Zilliz Cloud** in the search box, or [go to AWS Marketplace](https://aws.amazon.com/marketplace/search/results?searchTerms=zilliz+cloud) to view the Zilliz Cloud portal page.
 
     ![search_for_zilliz_on_aws](/img/search_for_zilliz_on_aws.png)
 
@@ -110,7 +110,7 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
 ## Cancel AWS Marketplace subscription{#cancel-aws-marketplace-subscription}
 
-To cancel your AWS Marketplace subscription, you need to open the AWS Marketplace console and follow the instructions [here](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html).
+To cancel your AWS Marketplace subscription, you need to open the AWS Marketplace console and follow the instructions [in the AWS guides](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html).
 
 ## AWS Marketplace pricing terms{#aws-marketplace-pricing-terms}
 

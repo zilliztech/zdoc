@@ -34,7 +34,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://console.cloud.google.com/marketplace) and start subscribing to Zilliz Cloud as follows:
 
-1. Search for **Zilliz Cloud** in the search box, or click [here](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1) to view Zilliz Cloud on GCP.
+1. Search for **Zilliz Cloud** in the search box, or [go to the GCP Marketplace](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1) to view the Zilliz Cloud portal page.
 
     ![search_for_zilliz_on_gcp](/img/search_for_zilliz_on_gcp.png)
 

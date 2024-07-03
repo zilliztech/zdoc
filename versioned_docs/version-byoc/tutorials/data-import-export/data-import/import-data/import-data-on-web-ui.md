@@ -34,7 +34,10 @@ Once data files are ready, you can upload them to an object storage bucket for d
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You can have up to 10 running or pending import jobs in a collection.</p>
+<ul>
+<li><p>You can have up to 10 running or pending import jobs in a collection.</p></li>
+<li><p>The web console supports uploading a local JSON file of up to 1 GB. For larger files, it is recommended to <a href="./import-data-on-web-ui#remote-files-from-an-object-storage-bucket">upload from an object storage</a> instead. If you have any difficulties with data import, please <a href="https://support.zilliz.com/hc/en-us">create a support ticket</a>.</p></li>
+</ul>
 
 </Admonition>
 

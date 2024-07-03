@@ -21,7 +21,7 @@ This operation checks whether a collection exists.
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/has" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/has" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{

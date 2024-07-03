@@ -4,7 +4,7 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: S7PMwgqGOiURCpkTFT4cTnTjnAc
-sidebar_position: 2
+sidebar_position: 3
 
 ---
 
@@ -25,7 +25,7 @@ Zilliz Cloud is now available on the Azure Marketplace, making it simpler than e
 
 ### Connectors{#connectors}
 
-Connectors are built-in tools designed for streaming data into Zilliz Cloud from multiple data sources, encompassing Object Storage, Kafka (with support arriving shortly), and beyond. For instance, the Object Storage connector has the capability to monitor a given object storage bucket, and automatically synchronize files like PDFs and HTMLs to Zilliz Cloud Ingestion Pipelines. This process facilitates the conversion of these files into vector representations, allowing them to be efficiently loaded in our vector database for enhanced search capabilities. [Learn more](./connectors).
+Connectors are built-in tools designed for streaming data into Zilliz Cloud from multiple data sources, encompassing Object Storage, Kafka (with support arriving shortly), and beyond. For instance, the Object Storage connector has the capability to monitor a given object storage bucket, and automatically synchronize files like PDFs and HTMLs to Zilliz Cloud Ingestion Pipelines. This process facilitates the conversion of these files into vector representations, allowing them to be efficiently loaded in our vector database for enhanced search capabilities. For details, see [Connect to Your Data](./connectors).
 
 ### Rerankers{#rerankers}
 

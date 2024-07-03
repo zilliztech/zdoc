@@ -28,17 +28,7 @@ This topic lists the possible issues about accounts that you may encounter on Zi
 
 ### How can I change my account email address?{#how-can-i-change-my-account-email-address}
 
-Currently, Zilliz Cloud does not support changing your account email address directly. However, you can try the following workaround plan.
-
-1. Log in to your account with the current email address.
-
-1. Invite your new email address to your organization with Organization Owner role granted.
-
-1. Log out your Zilliz Cloud.
-
-1. Check the inbox of your new email address, find the invitation email and accept the invitation.
-
-1. Follow the instructions and log in to Zilliz Cloud with your new email address.
+For more information, please refer to [Email Accounts](./email-accounts#update-account-email-address).
 
 ### Why is my account locked and how to unlock it?{#why-is-my-account-locked-and-how-to-unlock-it}
 

@@ -21,7 +21,7 @@ This operation creates a new user with a corresponding password.
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/users/create" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/users/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{

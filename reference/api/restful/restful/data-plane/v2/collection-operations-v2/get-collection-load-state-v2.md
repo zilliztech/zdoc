@@ -18,7 +18,7 @@ This operation returns the load status of a specific collection.
 
 
 ```shell
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/get_load_state" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_load_state" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{

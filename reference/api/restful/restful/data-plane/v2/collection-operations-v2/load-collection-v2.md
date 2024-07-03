@@ -21,7 +21,7 @@ This operation loads the data of the current collection into memory.
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/load" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{

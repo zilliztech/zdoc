@@ -21,7 +21,7 @@ This creates a named index for a target field, which can either be a vector fiel
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/indexes/create" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -32,8 +32,7 @@ curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/indexes/create"
             "fieldName": "my_vector",
             "indexName": "my_vector",
             "indexConfig": {
-                "index_type": "IVF_FLAT",
-                "nlist": "1024"
+                "index_type": "AUTOINDEX"
             }
         }
     ]
@@ -77,10 +76,7 @@ Setting this to None indicates that this operation timeouts when any response ar
             "fieldName": "string",
             "indexName": "string",
             "params": {
-                "index_type": "string",
-                "M": "integer",
-                "efConstruction": "integer",
-                "nlist": "integer"
+                "index_type": "string"
             }
         }
     ]
@@ -98,9 +94,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 | __indexParams[].indexName__ | __string__  <br/>The name of the index to create, the value defaults to the target field name.  |
 | __indexParams[].params__ | __object__<br/>The index type and related settings. For details, refer to [Vector Indexes](https://milvus.io/docs/index.md). |
 | __indexParams[].params.index_type__ | __string__  <br/>The type of the index to create  |
-| __indexParams[].params.M__ | __integer__  <br/>The maximum degree of the node and applies only when index_type is set to __HNSW__.  |
-| __indexParams[].params.efConstruction__ | __integer__  <br/>The search scope. This applies only when **index_type** is set to **HNSW**  |
-| __indexParams[].params.nlist__ | __integer__  <br/>The number of cluster units. This applies to IVF-related index types.  |
 
 ## Response
 

@@ -21,7 +21,7 @@ Lists collections in a cluster.
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v1/vector/collections" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v1/vector/collections" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" 
 ```

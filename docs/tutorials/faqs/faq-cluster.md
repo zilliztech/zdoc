@@ -44,7 +44,7 @@ When inserting or upserting data, you will receive this error because your data 
 
 To address this issue, you can follow the instructions below.
 
-- If you are using a free cluster, please upgrade to Serverless or Dedicated plan.
+- If you are using a free cluster, please [upgrade](./manage-cluster#upgrade-plan) to Serverless or Dedicated plan.
 
 - If you are using a Dedicated cluster, please [scale up your cluster](./manage-cluster#manage-and-configure-clusters) by increasing the CU size.
 

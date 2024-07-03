@@ -24,12 +24,12 @@ This operation revokes a privilege granted to the current role.
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/users/revoke_role" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/users/revoke_role" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
-    "roleName": "admin",
-    "userName": "milvusAdmin"
+    "roleName": "db_admin",
+    "userName": "administrator"
 }'
 ```
 Possible response is similar to the following.

@@ -21,7 +21,7 @@ This operation creates an alias for an existing collection. A collection can hav
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/aliases/create" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{

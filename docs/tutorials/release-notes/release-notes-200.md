@@ -4,7 +4,7 @@ beta: FALSE
 notebook: FALSE
 type: origin
 token: BcXMwUYQ3iD7mEkWKFhcU5PUnB5
-sidebar_position: 10
+sidebar_position: 11
 
 ---
 
@@ -51,7 +51,7 @@ We are excited to announce that Zilliz Cloud now offers sophisticated organizati
 
 This major update is supported by the integration of Role-Based Access Control (RBAC), which allows fine-grained control over who can access specific resources. This ensures both security and flexibility, enabling teams to work together more efficiently while maintaining a high degree of data protection.
 
-This enhancement not only offers greater control over project access but also streamlines the collaborative process, making it easier for teams to manage their vector database in a more secure and organized environment. Dive into this feature today and experience a new level of collaborative efficiency with Zilliz Cloud. [Learn more](./authorization).
+This enhancement not only offers greater control over project access but also streamlines the collaborative process, making it easier for teams to manage their vector database in a more secure and organized environment. Dive into this feature today and experience a new level of collaborative efficiency with Zilliz Cloud. For details, refer to [Authorization](./authorization).
 
 ## Partition Key{#partition-key}
 

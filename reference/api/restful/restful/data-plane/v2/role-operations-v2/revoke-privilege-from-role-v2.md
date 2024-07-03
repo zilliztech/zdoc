@@ -25,14 +25,14 @@ This operation revokes a privilege granted to the current role.
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/roles/revoke_privilege" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/roles/revoke_privilege" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
     "objectType": "Collection",
     "objectName": "*",
     "privilege": "Search",
-    "roleName": "readOnly"
+    "roleName": "db_ro"
 }'
 ```
 Possible response is similar to the following.

@@ -27,7 +27,7 @@ The quick setup collection has two fields: the primary and vector fields. It als
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/create" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -49,7 +49,7 @@ You can modify the names of the primary and vector fields and change the metric 
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/create" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -76,7 +76,7 @@ For a customized setup, you need to include the schema object in the request. Yo
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/create" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -106,8 +106,7 @@ curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/cre
             "metricType": "COSINE",
             "indexName": "my_vector",
             "params": {
-                "index_type": "IVF_FLAT",
-                "nlist": "1024"
+                "index_type": "AUTOINDEX"
             }
         },
         {
@@ -127,7 +126,7 @@ Of course, you can leave the index parameters unspecified in the request and cre
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/create" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -215,10 +214,7 @@ Possible responses for the above requests are similar to the following:
             "fieldName": "string",
             "indexName": "string",
             "params": {
-                "index_type": "string",
-                "M": "integer",
-                "efConstruction": "integer",
-                "nlist": "integer"
+                "index_type": "string"
             }
         }
     ],
@@ -264,9 +260,6 @@ Possible responses for the above requests are similar to the following:
 | __indexParams[].indexName__ | __string__  <br/>The name of the index to create, the value defaults to the target field name.  |
 | __indexParams[].params__ | __object__<br/>The index type and related settings. For details, refer to [Vector Indexes](https://milvus.io/docs/index.md). |
 | __indexParams[].params.index_type__ | __string__  <br/>The type of the index to create  |
-| __indexParams[].params.M__ | __integer__  <br/>The maximum degree of the node and applies only when index_type is set to __HNSW__.  |
-| __indexParams[].params.efConstruction__ | __integer__  <br/>The search scope. This applies only when **index_type** is set to **HNSW**  |
-| __indexParams[].params.nlist__ | __integer__  <br/>The number of cluster units. This applies to IVF-related index types.  |
 | __params__ | __object__<br/>Extra parameters for the collection. |
 | __params.max_length__ | __integer__  <br/>The maximum number of characters in a VarChar field. This parameter is mandatory when the current field type is VarChar.  |
 | __params.enableDynamicField__ | __boolean__  <br/>Whether to enable the reserved dynamic field. If set to true, non-schema-defined fields are saved in the reserved dynamic field as key-value pairs.  |

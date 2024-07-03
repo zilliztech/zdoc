@@ -32,7 +32,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and start subscribing to Zilliz Cloud as follows:
 
-1. Search for **Zilliz Cloud** in the search box, or click [here](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview) to view Zilliz Cloud on Azure Marketplace.
+1. Search for **Zilliz Cloud** in the search box, or [go to the Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview) to view the Zilliz Cloud portal page.
 
     ![search_for_zilliz_on_azure](/img/search_for_zilliz_on_azure.png)
 

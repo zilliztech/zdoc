@@ -21,18 +21,50 @@ import RestHeader from '@site/src/components/RestHeader';
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/entities/search" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
-    "collectionName": "quick_setup",
-    "data": [
-        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+    "collectionName": "test_collection_2024_06_21_14_32_54_951152jqKAxWVu",
+    "search": [
+        {
+            "data": [
+                [
+                    0.673437956701697,
+                    0.739243747672878
+                ]
+            ],
+            "annsField": "float_vector_1",
+            "limit": 10,
+            "outputFields": [
+                "*"
+            ]
+        },
+        {
+            "data": [
+                [
+                    0.075384179256879,
+                    0.9971545645073111
+                ]
+            ],
+            "annsField": "float_vector_2",
+            "limit": 10,
+            "outputFields": [
+                "*"
+            ]
+        }
     ],
-    "annsField": "vector",
+    "rerank": {
+        "strategy": "rrf",
+        "params": {
+            "k": 10
+        }
+    },
     "limit": 3,
     "outputFields": [
-        "color"
+        "user_id",
+        "word_count",
+        "book_describe"
     ]
 }'
 ```
@@ -40,21 +72,28 @@ Possible response is similar to the following.
 ```json
 {
     "code": 0,
+    "cost": 0,
     "data": [
         {
-            "color": "pink_8682",
-            "distance": 1,
-            "id": 0
+            "book_describe": "book_105",
+            "distance": 0.09090909,
+            "id": 450519760774180816,
+            "user_id": 5,
+            "word_count": 105
         },
         {
-            "color": "red_7025",
-            "distance": 0.6290165,
-            "id": 1
+            "book_describe": "book_246",
+            "distance": 0.09090909,
+            "id": 450519760774180957,
+            "user_id": 46,
+            "word_count": 246
         },
         {
-            "color": "red_4794",
-            "distance": 0.5975797,
-            "id": 4
+            "book_describe": "book_367",
+            "distance": 0.08333333600000001,
+            "id": 450519760774181078,
+            "user_id": 67,
+            "word_count": 367
         }
     ]
 }
@@ -101,7 +140,12 @@ Setting this to None indicates that this operation timeouts when any response ar
             }
         }
     ],
-    "rerank": "string",
+    "rerank": {
+        "strategy": "string",
+        "params": {
+            "k": "integer"
+        }
+    },
     "limit": "integer",
     "outputFields": []
 }
@@ -113,21 +157,24 @@ Setting this to None indicates that this operation timeouts when any response ar
 | __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
 | __partitionNames__ | __array__<br/>The name of the partitions to which this operation applies. |
 | __partitionNames[]__ | __string__  <br/>PartitionName  |
-| __search__ | __array__<br/> |
-| __search[]__ | __object__<br/>The parameter settings specific to this operation. |
+| __search__ | __array__<br/>The search parameters |
+| __search[]__ | __object__<br/>Search parameter for a vector field. |
 | __search[][].data__ | __array__<br/>A list of vector embeddings.<include target="milvus">Milvus</include><include target="zilliz">Zilliz Cloud</include> searches for the most similar vector embeddings to the specified ones. |
 | __search[][].data[]__ | __number__ (float32) <br/>A vector embedding  |
-| __search[].annsField__ | __string__  <br/>  |
-| __search[].filter__ | __string__  <br/>  |
-| __search[].groupingField__ | __string__  <br/>  |
+| __search[].annsField__ | __string__  <br/>The name of the vector field.  |
+| __search[].filter__ | __string__  <br/>A boolean expression filter.  |
+| __search[].groupingField__ | __string__  <br/>The name of the field that serve as the aggregation criteria.  |
 | __search[].metricType__ | __string__  <br/>The name of the metric type that applies to the current search. The value should be the same as the metric type of the target collection.<br/>The value defaults to COSINE  |
-| __search[].limit__ | __integer__  <br/>  |
-| __search[].offset__ | __integer__  <br/>  |
-| __search[].ignoreGrowing__ | __boolean__  <br/>  |
+| __search[].limit__ | __integer__  <br/>The number of entities to return.  |
+| __search[].offset__ | __integer__  <br/>The number of entities to skip in the returned entities.  |
+| __search[].ignoreGrowing__ | __boolean__  <br/>Whether to ignore the entities found in the growing segments.  |
 | __search[].params__ | __object__<br/>Extra search parameters. |
 | __search[].params.radius__ | __integer__  <br/>Determines the threshold of least similarity. When setting metric_type to L2, ensure that this value is greater than that of range_filter. Otherwise, this value should be lower than that of range_filter.  |
 | __search[].params.range_filter__ | __integer__  <br/>Refines the search to vectors within a specific similarity range. When setting metric_type to IP or COSINE, ensure that this value is greater than that of radius. Otherwise, this value should be lower than that of radius.  |
-| __rerank__ | __string__  <br/>  |
+| __rerank__ | __object__<br/>The reranking strategy. |
+| __rerank.strategy__ | __string__  <br/>The name of the reranking strategy.  |
+| __rerank.params__ | __object__<br/>A set of parameters related to the specified strategy |
+| __rerank.params.k__ | __integer__  <br/>A tunable constant in the RRF algorithm. This applies only when the strategy is set to `rrf`.  |
 | __limit__ | __integer__  <br/>The total number of entities to return.<br/>You can use this parameter in combination with **offset** in **param** to enable pagination.
 The sum of this value and **offset** in **param** should be less than 16,384.  |
 | __outputFields__ | __array__<br/>An array of fields to return along with the search results. |

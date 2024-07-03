@@ -21,7 +21,7 @@ Describes the details of a collection.
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v1/vector/collections/describe?collectionName=quick_setup" \
+curl --location --request POST "https://${CLUSTER_ENDPOINT}/v1/vector/collections/describe?collectionName=quick_setup" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" 
 ```

@@ -136,7 +136,7 @@ curl https://assets.zilliz.com/doc-assets/medium_articles_partial_a13e0f2a.csv \
         --output medium_articles_partial.csv
 ```
 
-The output is similar to the following. If you prefer to download from the browser, [click here](https://assets.zilliz.com/medium_articles_partial.csv).
+The output is similar to the following. [Click here to download the example dataset.](https://assets.zilliz.com/medium_articles_partial.csv).
 
 ```python
 % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current

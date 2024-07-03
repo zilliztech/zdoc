@@ -40,7 +40,7 @@ An Ingestion pipeline contains several functions, each describing a transformati
 
 ### Search pipeline{#search-pipeline}
 
-A Search pipeline enables semantic search by converting a query string into a vector embedding and then retrieving top-K similar vectors with its corresponding text and other metadata. A Search pipeline allows only one type of function.
+A Search pipeline enables vector similarity search and semantic search by converting the input into an embedding vector and then retrieving the top-K most similar embedding vectors and relevant metadata. A Search pipeline allows only one type of function.
 
 ### Deletion pipeline{#deletion-pipeline}
 
@@ -365,7 +365,7 @@ chatbot = Chatbot(search_pipe_id)
 
 The code above creates a RAG-enabled chatbot that utilizes the search pipeline we just created to retrieve the most relevant text pieces from the knowledge base. Now let's see how it works.
 
-#### Ask the chatbot a question {#ask-the-chatbot-a-question}
+#### Ask the chatbot a question{#ask-the-chatbot-a-question}
 
 We ask the chatbot which Milvus version to use in Jupyter notebook if we have a small dataset.
 
@@ -401,7 +401,7 @@ If you are working with a small scale of data in a Jupyter notebook, you may wan
 
 Clearly, this time, the chatbot is not infused with domain knowledge and [hallucinates](https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence).
 
-### Conclusion {#conclusion}
+### Conclusion{#conclusion}
 
 We have successfully built an RAG-enabled chatbot that is infused with domain knowledge and provide accurate answers to user questions. 
 
