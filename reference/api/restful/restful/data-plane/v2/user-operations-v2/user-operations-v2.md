@@ -13,6 +13,12 @@ import Admonition from '@theme/Admonition';
 
 This set of APIs provides a way to manage the use of Zilliz Cloud resources.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+The APIs listed on this page are not generally available yet, and are subject to change.
+
+</Admonition>
+
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

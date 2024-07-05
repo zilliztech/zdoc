@@ -9,13 +9,17 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation revokes a privilege granted to the current role.
 
-> Notes
-> - To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).
-> - To learn more about the privileges and role objects, refer to [Users & Roles](https://milvus.io/docs/users_and_roles.md)
-
 <RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/roles/revoke_privilege" />
 
 ---
+
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This API is not generally available yet, and is subject to change.
+
+</Admonition>
 
 ## Example
 

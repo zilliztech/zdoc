@@ -7,6 +7,20 @@ title: List Aliases
 
 import RestHeader from '@site/src/components/RestHeader';
 
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/list" />
+
+---
+
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This API is not generally available yet, and is subject to change.
+
+</Admonition>
+
+## Example
+
 This operation lists all existing collection aliases in the specified database.
 
 ```shell
@@ -29,18 +43,6 @@ Possible response is similar to the following
     ]
 }
 ```
-
-<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/list" />
-
----
-
-## Example
-
-
-
-# RESTful API Examples
-
-
 
 
 ## Request

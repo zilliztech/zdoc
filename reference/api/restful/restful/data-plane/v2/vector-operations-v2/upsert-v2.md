@@ -9,12 +9,17 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation inserts new records into the database or updates existing ones.  
 
-> Notes
-> The upsert endpoint does not apply to the collections that have autoId enabled.
-
 <RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" />
 
 ---
+
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This API is not generally available yet, and is subject to change.
+
+</Admonition>
 
 ## Example
 

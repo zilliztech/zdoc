@@ -13,6 +13,14 @@ This operation returns the load status of a specific collection.
 
 ---
 
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This API is not generally available yet, and is subject to change.
+
+</Admonition>
+
 ## Example
 
 

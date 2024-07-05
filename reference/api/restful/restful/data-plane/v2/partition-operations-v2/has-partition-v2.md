@@ -13,6 +13,14 @@ This operation checks whether a partition exists.
 
 ---
 
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This API is not generally available yet, and is subject to change.
+
+</Admonition>
+
 ## Example
 
 

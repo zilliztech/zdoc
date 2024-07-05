@@ -13,6 +13,14 @@ This operation loads the data of the current partition into memory.
 
 ---
 
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This API is not generally available yet, and is subject to change.
+
+</Admonition>
+
 ## Example
 
 

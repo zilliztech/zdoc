@@ -13,6 +13,14 @@ This creates a named index for a target field, which can either be a vector fiel
 
 ---
 
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This API is not generally available yet, and is subject to change.
+
+</Admonition>
+
 ## Example
 
 

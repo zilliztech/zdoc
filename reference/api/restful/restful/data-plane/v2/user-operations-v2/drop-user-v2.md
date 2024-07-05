@@ -9,6 +9,21 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation deletes an existing user.
 
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/users/drop" />
+
+---
+
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This API is not generally available yet, and is subject to change.
+
+</Admonition>
+
+## Example
+
+
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="user:password"
@@ -27,19 +42,6 @@ Possible response is similar to the following.
     "data": {}
 }
 ```
-
-<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/users/drop" />
-
----
-
-## Example
-
-
-
-# RESTful API Examples
-
-
-
 
 ## Request
 
