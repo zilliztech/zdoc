@@ -9,9 +9,6 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation inserts data into a specific collection. 
 
-> Notes
-> You can insert a maximum of 100 entities at a time. To insert large volumes of data, please use [the bulk-insert API](https://docs.zilliz.com/docs/data-import).
-
 <RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" />
 
 ---

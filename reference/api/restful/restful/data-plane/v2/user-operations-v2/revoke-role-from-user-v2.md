@@ -9,9 +9,6 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation revokes a privilege granted to the current role.
 
-> Notes
-> To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).
-
 <RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/users/revoke_role" />
 
 ---

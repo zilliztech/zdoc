@@ -9,9 +9,6 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This operation grants a specified role to the current user. Once granted the role, the user gets permissions allowed for the current role and can perform certain operations.
 
-> Notes
-> To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).
-
 <RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/users/grant_role" />
 
 ---

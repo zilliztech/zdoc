@@ -11,6 +11,8 @@ This operation grants a privilege to the current role.
 
 <RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/roles/grant_privilege" />
 
+---
+
 import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -18,8 +20,6 @@ import Admonition from '@theme/Admonition';
 This API is not generally available yet, and is subject to change.
 
 </Admonition>
-
----
 
 ## Example
 
