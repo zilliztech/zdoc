@@ -47,7 +47,7 @@ const validateChangedFiles = (changedSlugs, redirects) => {
 	changedSlugs.forEach((slug) => {
 		const matchedRedirect = redirects.some((redirect) => {
 			if (redirect.operator === "=") {
-				return slug === redirect.from;
+				return slug.endsWith(redirect.from);
 			}
 			return slug.match(redirect.from);
 		});
