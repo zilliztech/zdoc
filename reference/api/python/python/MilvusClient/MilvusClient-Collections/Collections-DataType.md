@@ -43,9 +43,6 @@ Sets the data type to **Float**.
 - DOUBLE = 11
 Sets the data type to **Double**.
 
-- STRING = 20
-Sets the data type to **String**.
-
 - VARCHAR = 21
 Sets the data type to **Varchar**.
 
