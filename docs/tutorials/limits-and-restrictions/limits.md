@@ -368,7 +368,7 @@ The rate limit that applies varies with the cluster types and the number of CUs 
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
-     <td><p>100 MB/s</p></td>
+     <td><p>10 MB/s</p></td>
    </tr>
    <tr>
      <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
