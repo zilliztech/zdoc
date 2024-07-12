@@ -197,11 +197,13 @@ class larkDocScraper {
             //     slug = this.slugs[record[0]] 
             // }
 
-            const source = JSON.parse(fs.readFileSync(`${this.doc_source_dir}/${token}.json`, 'utf8'))
+            if (fs.existsSync(`${this.doc_source_dir}/${token}.json`)) {
+                const source = JSON.parse(fs.readFileSync(`${this.doc_source_dir}/${token}.json`, 'utf8'))
             
-            if (source.type === "folder") {
-                token = source.children.filter(c => c.name == source.name)[0].token
-                slug = this.slugs[token]
+                if (source.type === "folder") {
+                    token = source.children.filter(c => c.name == source.name)[0].token
+                    slug = this.slugs[token]
+                }
             }
         }
 
