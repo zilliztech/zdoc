@@ -192,18 +192,9 @@ class larkDocScraper {
         var slug = this.slugs[token]
          
         if (!slug) {
-            // const record = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
-            // if (record.length > 0) {
-            //     slug = this.slugs[record[0]] 
-            // }
-
-            if (fs.existsSync(`${this.doc_source_dir}/${token}.json`)) {
-                const source = JSON.parse(fs.readFileSync(`${this.doc_source_dir}/${token}.json`, 'utf8'))
-            
-                if (source.type === "folder") {
-                    token = source.children.filter(c => c.name == source.name)[0].token
-                    slug = this.slugs[token]
-                }
+            const record = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
+            if (record.length > 0) {
+                slug = this.slugs[record[0]] 
             }
         }
 
@@ -421,6 +412,17 @@ class larkDocScraper {
 
             if (jres.has_more) {
                 await this.__fetch_drive_children(folder_token, jres.data.next_page_token, recursive)
+            }
+
+            if (!this.slugs) {
+                await this.__base(this.base)
+            }
+
+            if (this.docs.children.filter(c => c.name == this.docs.name && c.type == 'docx').length > 0) {
+                const slug = this.slugs[this.docs.children.filter(c => c.name == this.docs.name && c.type == 'docx')[0].token]
+                if (slug) {
+                    this.docs.slug = slug.slug instanceof Array ? slug.slug[0][slug.slug[0].type] : slug.slug
+                }
             }
 
             fs.writeFileSync(`${this.doc_source_dir}/${folder_token}.json`, JSON.stringify(this.docs, null, 2))
