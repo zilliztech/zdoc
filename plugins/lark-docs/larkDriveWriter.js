@@ -34,7 +34,7 @@ class larkDriveWriter extends larkDocWriter {
                             const source_type = source.type
                             const slug = source.slug instanceof Array? source.slug[0].text : source.slug
 
-                            console.log(current_path)
+                            console.log(`${current_path}/${slug}.md`)
 
                             await this.write_doc({
                                 path: current_path,

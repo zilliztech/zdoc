@@ -153,9 +153,35 @@ class larkDocScraper {
             }
         }
         
+        const slugs_arr = this.__uniquify(Object.values(slugs).map(s => s.slug instanceof Array ? s.slug[0][s.slug[0].type] : s.slug))
+        const slug_keys = Object.keys(slugs)
+
+        slug_keys.forEach((s, i) => {
+            if (slugs[s].slug instanceof Array) {
+                slugs[s].slug[0][slugs[s].slug[0].type] = slugs_arr[i]
+            } else {
+                slugs[s].slug = slugs_arr[i]
+            }
+        })
+
         this.slugs = slugs
 
-        // fs.writeFileSync(`slugs.json`, JSON.stringify(this.slugs, null, 2))
+        fs.writeFileSync(`slugs.json`, JSON.stringify(this.slugs, null, 2))
+    }
+
+    __uniquify(arr) {
+        const seen = []
+        arr.forEach(item => {
+            const lastIndex = seen.findLastIndex(s => s.match(new RegExp(`^${item}(_\\d+)?$`)))
+            if (lastIndex === -1) {
+                seen.push(item)
+            } else {
+                const seq = seen[lastIndex].match(/_\d+$/) ? parseInt(seen[lastIndex].match(/_\d+$/)[0].slice(1)) : 0
+                seen.push(`${item}_${parseInt(seq) + 1}`)
+            }
+        })
+
+        return seen
     }
 
     async __slugify(token, title=null) {
@@ -166,9 +192,16 @@ class larkDocScraper {
         var slug = this.slugs[token]
          
         if (!slug) {
-            const record = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
-            if (record.length > 0) {
-                slug = this.slugs[record[0]] 
+            // const record = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
+            // if (record.length > 0) {
+            //     slug = this.slugs[record[0]] 
+            // }
+
+            const source = JSON.parse(fs.readFileSync(`${this.doc_source_dir}/${token}.json`, 'utf8'))
+            
+            if (source.type === "folder") {
+                token = source.children.filter(c => c.name == source.name)[0].token
+                slug = this.slugs[token]
             }
         }
 
