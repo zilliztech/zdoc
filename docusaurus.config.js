@@ -1,4 +1,5 @@
-require('dotenv/config');
+import {themes as prismThemes} from 'prism-react-renderer';
+import 'dotenv/config';
 
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
@@ -400,6 +401,7 @@ const config = {
       },
       prism: {
         additionalLanguages: ['java', 'go', 'bash', 'json'],
+        theme: prismThemes.github,
       },
       colorMode: {
         disableSwitch: true,
