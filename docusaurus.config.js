@@ -417,6 +417,62 @@ const config = {
           organizationId: process.env.INKEEP_ORGANIZATION_ID,
           primaryBrandColor: "#175fff",
           organizationDisplayName: "Zilliz",
+          customCardSettings: [
+            {
+              filters: {
+                UrlMatch: {
+                  ruleType: 'PartialUrl',
+                  partialUrl: 'docs.zilliz.com/docs/byoc',
+                },
+              },
+              searchTabLabel: 'BYOC',
+            },
+            {
+              filters: {
+                UrlMatch: {
+                  ruleType: 'PartialUrl',
+                  partialUrl: 'docs.zilliz.com/docs',
+                },
+              },
+              searchTabLabel: 'Guides',
+            },
+            {
+              filters: {
+                UrlMatch: {
+                  ruleType: 'PartialUrl',
+                  partialUrl: 'docs.zilliz.com/reference',
+                },
+              },
+              searchTabLabel: 'Reference',
+            },
+            {
+              filters: {
+                UrlMatch: {
+                  ruleType: 'PartialUrl',
+                  partialUrl: 'support.zilliz.com',
+                },
+              },
+              searchTabLabel: 'Support',
+            },
+            {
+              filters: {
+                UrlMatch: {
+                  ruleType: 'PartialUrl',
+                  partialUrl: 'zilliz.com/customers',
+                },
+              },
+              searchTabLabel: 'Customers',
+            },
+            {
+              filters: {
+                UrlMatch: {
+                  ruleType: 'PartialUrl',
+                  partialUrl: 'zilliz.com/event',
+                },
+              },
+              searchTabLabel: 'Events',
+            },
+          ],
         },
         aiChatSettings: {
             chatSubjectName: "Zilliz Cloud",
@@ -440,6 +496,12 @@ const config = {
               "How to connect to Zilliz Cloud?",
               "What is the difference between Zilliz Cloud and Milvus?"
             ]
+        },
+        searchSettings: {
+          tabSettings: {
+            isAllTabEnabled: false,
+            rootBreadcrumbsToUseAsTabs: ['Guides', 'BYOC', 'Reference', 'Support', 'Customers', 'Events'],
+          }
         }
       }
     }),
