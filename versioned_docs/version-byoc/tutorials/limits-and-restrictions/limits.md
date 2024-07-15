@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - limits
 
 ---
 
@@ -263,7 +269,11 @@ Each search request/response should be no greater than **64** MB.
 
 Each search request carries no more than **16,384** query vectors (usually known as **nq**).
 
-Each search response carries no more than 16,384 entities in return (usually known as **topK**).
+The number that each search response carries (usually known as **topK**) varies with your subscription plan:
+
+- For Free and Serverless clusters, the **topK** is no greater than **1,024** entities in return.
+
+- For dedicated clusters, the **topK** is no greater than **16,384** entities in return.
 
 ### Query{#query}
 
