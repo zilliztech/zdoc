@@ -449,10 +449,19 @@ const config = {
               filters: {
                 UrlMatch: {
                   ruleType: 'PartialUrl',
-                  partialUrl: 'support.zilliz.com',
+                  partialUrl: 'support.zilliz.com/hc/en-us',
                 },
               },
               searchTabLabel: 'Support',
+            },
+            {
+              filters: {
+                UrlMatch: {
+                  ruleType: 'PartialUrl',
+                  partialUrl: 'zilliz.com/learn',
+                },
+              },
+              searchTabLabel: 'Learn',
             },
             {
               filters: {
