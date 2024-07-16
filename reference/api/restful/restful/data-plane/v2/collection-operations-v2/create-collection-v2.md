@@ -106,8 +106,7 @@ curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/collectio
             "metricType": "COSINE",
             "indexName": "my_vector",
             "params": {
-                "index_type": "IVF_FLAT",
-                "nlist": "1024"
+                "index_type": "AUTOINDEX",
             }
         },
         {

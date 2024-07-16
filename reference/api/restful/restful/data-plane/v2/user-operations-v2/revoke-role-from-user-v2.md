@@ -28,8 +28,8 @@ curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/users/rev
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
-    "roleName": "admin",
-    "userName": "milvusAdmin"
+    "roleName": "db_admin",
+    "userName": "admin"
 }'
 ```
 Possible response is similar to the following.

@@ -32,8 +32,7 @@ curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/c
             "fieldName": "my_vector",
             "indexName": "my_vector",
             "indexConfig": {
-                "index_type": "IVF_FLAT",
-                "nlist": "1024"
+                "index_type": "AUTOINDEX",
             }
         }
     ]

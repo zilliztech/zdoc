@@ -25,7 +25,7 @@ curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/cre
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
-    "roleName": "readOnly"
+    "roleName": "db_ro"
 }'
 ```
 Possible response is similar to the following.

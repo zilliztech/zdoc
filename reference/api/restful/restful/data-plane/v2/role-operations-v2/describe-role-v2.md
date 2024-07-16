@@ -25,7 +25,7 @@ curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/des
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
-    "roleName": "readOnly"
+    "roleName": "db_ro"
 }'
 ```
 Possible response is similar to the following.
@@ -37,7 +37,7 @@ Possible response is similar to the following.
              "objectType": "Collection",
              "objectName": "*",
              "privilege": "Search",
-             "roleName": "readOnly"
+             "roleName": "db_ro"
         }
     ]
 }

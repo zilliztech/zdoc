@@ -32,7 +32,7 @@ curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/gra
     "objectType": "Collection",
     "objectName": "*",
     "privilege": "Search",
-    "roleName": "readOnly"
+    "roleName": "db_ro"
 }'
 ```
 Possible response is similar to the following.
