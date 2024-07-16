@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 74
+sidebar_position: 19
 slug: /restful/query-metrics
 title: Query Metrics
 ---
@@ -9,13 +9,21 @@ import RestHeader from '@site/src/components/RestHeader';
 
 View metric statistics.
 
-<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/CLUSTER_ID/metrics/query" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/clusters/CLUSTER_ID/metrics/query" />
 
 ---
 
 ## Example
 
 
+
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
 
 ```shell
 export CLOUD_REGION="gcp-us-west1"
@@ -36,33 +44,35 @@ curl --location --request POST "https://controller.api.${CLOUD_REGION}.zillizclo
     ]
 }'
 ```
+
 Possible response is similar to the following.
+
 ```json
 {
-  "code": 200,
-  "data": {
-    "results": [
-      {
-        "name": "CU_CAPACITY",
-        "stat": "AVG",
-        "unit": "percent",
-        "values": [
-          {
-            "timestamp": "2024-03-28T04:58:06Z",
-            "value": null
-          },
-          {
-            "timestamp": "2024-03-28T09:58:06Z",
-            "value": null
-          },
-          {
-            "timestamp": "2024-03-28T14:58:06Z",
-            "value": null
-          }
+    "code": 200,
+    "data": {
+        "results": [
+            {
+                "name": "CU_CAPACITY",
+                "stat": "AVG",
+                "unit": "percent",
+                "values": [
+                    {
+                        "timestamp": "2024-07-06T04:27:53Z",
+                        "value": null
+                    },
+                    {
+                        "timestamp": "2024-07-06T09:27:53Z",
+                        "value": null
+                    },
+                    {
+                        "timestamp": "2024-07-06T14:27:53Z",
+                        "value": null
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  }
+    }
 }
 ```
 
@@ -76,7 +86,11 @@ Possible response is similar to the following.
 
 - No path parameters required
 
-- No header parameters required
+- Header parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __Authorization__  | **string**(required)<br/>|
 
 ### Request Body
 

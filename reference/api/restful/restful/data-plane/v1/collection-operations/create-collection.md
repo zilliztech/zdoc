@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 20
+sidebar_position: 13
 slug: /restful/create-collection
 title: Create Collection
 ---
@@ -17,20 +17,35 @@ Creates a collection in a cluster.
 
 
 
+<include target="zilliz">
+import Admonition from '@theme/Admonition';
 
-:::info Notes
-
-You can use either of the following ways to authorize:
-
-- An [API Key](/docs/manage-api-keys) with appropriate permissions.
-- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
-
-Currently, data of the JSON and Array types are not supported in RESTful API requests..
-:::
+<Admonition type="info" icon="📘" title="Notes">
+    
+You can use eitehr of the following ways to authorize:
+<ul>
+<li> An API Key with appropriate permissions.</li>
+<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>
+</ul>
+    
+</Admonition>
+</include>
 
 ```shell
+<include target="milvus">
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="username:password"
+
 curl --request POST \
     --url "${CLUSTER_ENDPOINT}/v1/vector/collections/create" \
+</include>
+<include target="zilliz">
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530"
+export TOKEN="db_admin:xxxxxxxxxxx"
+
+curl --request POST \
+    --url "${CLUSTER_ENDPOINT}/v1/vector/collections/create" \
+</include>
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
@@ -43,15 +58,14 @@ curl --request POST \
      }'
 ```
 
-Success response:
+Possible response is similar to the following.
 
-```shell
+```json
 {
     "code": 200,
     "data": {}
 }
 ```
-
 
 
 

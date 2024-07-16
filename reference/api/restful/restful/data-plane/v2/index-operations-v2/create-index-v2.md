@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 52
+sidebar_position: 15
 slug: /restful/create-index-v2
 title: Create Index
 ---
@@ -19,9 +19,9 @@ This creates a named index for a target field, which can either be a vector fiel
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/indexes/create" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -69,7 +69,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "indexParams": [
         {
@@ -89,7 +88,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database to which the collection belongs.<br/>Setting this to a non-existing database results in an error.  |
 | __collectionName__ | __string__  <br/>The name of the target collection.<br/>Setting this to a non-existing collection results in an error.  |
 | __indexParams__ | __array__<br/>The parameters that apply to the index-building process. |
 | __indexParams[]__ | __object__<br/> |

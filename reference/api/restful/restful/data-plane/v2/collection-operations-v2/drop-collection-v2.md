@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 68
+sidebar_position: 63
 slug: /restful/drop-collection-v2
 title: Drop Collection
 ---
@@ -19,9 +19,9 @@ This operation drops the current collection and all data within the collection.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/drop" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -58,14 +58,12 @@ Setting this to **None** indicates that this operation timeouts when any respons
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string"
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database to which the collection belongs.<br/>Setting this to a non-existing database results in an error.  |
 | __collectionName__ | __string__  <br/>The name of the target collection.<br/>Setting this to a non-existing collection results in an error.  |
 
 ## Response

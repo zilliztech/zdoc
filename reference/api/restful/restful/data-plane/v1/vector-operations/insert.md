@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 24
+sidebar_position: 14
 slug: /restful/insert
 title: Insert
 ---

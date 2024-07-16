@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 22
+sidebar_position: 52
 slug: /restful/drop-collection
 title: Drop Collection
 ---
@@ -17,37 +17,43 @@ Drops a collection. This operation erases your collection data. Exercise caution
 
 
 
+<include target="zilliz">
+import Admonition from '@theme/Admonition';
 
-:::info Notes
-
-You can use either of the following ways to authorize:
-
-- An [API Key](/docs/manage-api-keys) with appropriate permissions.
-- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
-
-:::
-
+<Admonition type="info" icon="📘" title="Notes">
+    
+You can use eitehr of the following ways to authorize:
+<ul>
+<li> An API Key with appropriate permissions.</li>
+<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>
+</ul>
+    
+</Admonition>
+</include>
 
 ```shell
-curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/collections/drop" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json" \
-    -d '{
-       "collectionName": "medium_articles"
-     }'
+<include target="milvus">
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="username:password"
+
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v1/vector/collections/drop" \
+</include>
+<include target="zilliz">
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530"
+export TOKEN="db_admin:xxxxxxxxxxx"
+
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v1/vector/collections/drop" \
+</include>
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" 
 ```
-
-Success response:
-
-```shell
+Possible response is similar to the following.
+```json
 {
     "code": 200,
     "data": {}
 }
 ```
-
 
 
 

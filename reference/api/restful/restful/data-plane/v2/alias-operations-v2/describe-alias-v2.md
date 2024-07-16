@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 70
+sidebar_position: 37
 slug: /restful/describe-alias-v2
 title: Describe Alias
 ---
@@ -19,9 +19,9 @@ This operation describes the details of a specific alias.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/aliases/describe" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/describe" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw  '{
@@ -35,7 +35,6 @@ Possible response is similar to the following
     "data": {
         "aliasName": "bob",
         "collectionName": "quick_setup",
-        "dbName": "default"
     }
 }
 ```
@@ -61,14 +60,12 @@ Possible response is similar to the following
 
 ```json
 {
-    "dbName": "string",
     "aliasName": "string"
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database to which the collection belongs.  |
 | __aliasName__ | __string__  <br/>The name of the alias whose details are to be listed.  |
 
 ## Response
@@ -81,7 +78,6 @@ An alias object that contains the detailed description of an alias.
 {
     "code": "integer",
     "data": {
-        "dbName": "string",
         "collectionName": "string",
         "aliasName": "string"
     }
@@ -92,7 +88,6 @@ An alias object that contains the detailed description of an alias.
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __data__ | __object__<br/> |
-| __data.dbName__ | __string__  <br/>The name of the database to which the collection belongs.  |
 | __data.collectionName__ | __string__  <br/>the name of the collection to which an alias belongs.  |
 | __data.aliasName__ | __string__  <br/>The name of the alias.  |
 

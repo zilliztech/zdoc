@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 56
+sidebar_position: 90
 slug: /restful/release-collection-v2
 title: Release Collection
 ---
@@ -19,9 +19,9 @@ This operation releases the data of the current collection from memory.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/release" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/release" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -57,14 +57,12 @@ Possible response is similar to the following:
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string"
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database to which the cpllection belongs.<br/>Setting this to a non-existing database results in a **MilvusException**.  |
 | __collectionName__ | __string__  <br/>The name of the target colletion.<br/>Setting this to a non-existing collection results in a **MilvusException**.  |
 
 ## Response

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 13
+sidebar_position: 16
 slug: /restful/list-import-jobs
 title: List Import Jobs
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 List all import jobs specific to a cluster.
 
-<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import/list" />
+<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/vector/collections/import/list" />
 
 ---
 
@@ -17,21 +17,48 @@ List all import jobs specific to a cluster.
 
 
 
+import Admonition from '@theme/Admonition';
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
-
-:::
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
 
 ```shell
-curl --request GET \
-    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import/list?clusterId=${CLUSTERID}" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json"
+export CLOUD_REGION="gcp-us-west1"
+export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+export API_KEY=""
+
+
+curl --location --request GET "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import/list?clusterId=${CLUSTER_ID}&pageSize=10&currentPage=1" \
+--header "Authorization: Bearer ${API_KEY}"
 ```
 
+Possible return is similar to the following.
+
+```json
+{
+    "code": 200,
+    "data": {
+        "tasks": [
+            {
+                "collectionName": "medium_articles",
+                "jobId": "job-xxxxxxxxxxxxxxxxxxxxxx",
+                "state": "ImportRunning"
+            },
+            {
+                "collectionName": "medium_articles",
+                "jobId": "2b93fef7-xxxx-xxxx-xxxx-f82afd598ff1",
+                "state": "ImportCompleted"
+            }
+        ],
+        "count": 2,
+        "currentPage": 1,
+        "pageSize": 10
+    }
+}
+```
 
 
 

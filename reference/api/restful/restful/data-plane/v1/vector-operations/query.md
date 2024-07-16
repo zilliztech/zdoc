@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 27
+sidebar_position: 58
 slug: /restful/query
 title: Query
 ---

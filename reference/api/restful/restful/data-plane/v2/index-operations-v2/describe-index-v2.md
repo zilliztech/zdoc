@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 54
+sidebar_position: 21
 slug: /restful/describe-index-v2
 title: Describe Index
 ---
@@ -19,9 +19,9 @@ This operation describes the current index.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/indexes/describe" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/describe" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -71,7 +71,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "indexName": "string"
 }
@@ -79,7 +78,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database to which the collection belongs.  |
 | __collectionName__ | __string__  <br/>The name of an the collection to which the index belongs.  |
 | __indexName__ | __string__  <br/>The name of the index to describe.  |
 

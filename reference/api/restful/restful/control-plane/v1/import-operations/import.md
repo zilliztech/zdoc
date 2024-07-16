@@ -1,15 +1,15 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 11
+sidebar_position: 2
 slug: /restful/import
 title: Import
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-Imports data from files stored in a specified object storage bucket. Note that the bucket should be in the same cloud as the target cluster of the import.
+Imports data from files stored in a specified object storage bucket.
 
-<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/vector/collections/import" />
 
 ---
 
@@ -17,42 +17,41 @@ Imports data from files stored in a specified object storage bucket. Note that t
 
 
 
+import Admonition from '@theme/Admonition';
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
-
-:::
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
 
 ```shell
-curl --request POST \
-    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json" \
-    -d '{
-      "clusterId": "inxx-xxxxxxxxxxxxxxx",
-      "collectionName": "medium_articles",
-      "partitionName": "_default",
-      "objectUrl": "gs://publicdataset-zillizcloud-com/medium_articles_2020.json",
-      "accessKey": "your-access-key",
-      "secretKey": "your-secret-key"
-    }'
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
+export ACCESS_KEY=""
+export SECRET_KEY=""
+
+curl --location --request POST "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import" \
+--header "Authorization: Bearer ${API_KEY}" \
+--data-raw '{
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "collectionName": "medium_articles",
+    "objectUrl": "gs://docs-demo/1af78216-xxxx-xxxx-xxxx-2b0a73c566ed/1.parquet",
+    "accessKey": "${ACCESS_KEY}",
+    "secretKey": "${SECRET_KEY}"
+}'
 ```
 
-Your access key and secret key should have necessary permissions to access the object URL. 
+Possible return is similar to the following.
 
-- For AWS S3, the following permissions are required:
-
-  - `s3:GetObject`
-  - `s3:ListBucket`
-  - `s3:GetBucketLocation`
-
-- For Google Cloud Storage, the following permissions are required:
-
-  - `storage.objects.get`
-  - `storage.objects.list`
-
+```json
+{
+    "code": 200,
+    "data": {
+        "jobId": "job-xxxxxxxxxxxxxxxxxxxxxx"
+    }
+}
+```
 
 
 

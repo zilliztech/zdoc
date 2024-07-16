@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 7
+sidebar_position: 60
 slug: /restful/resume-cluster
 title: Resume Cluster
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Resume a suspended cluster.
 
-<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/{CLUSTER_ID}/resume" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/clusters/{CLUSTER_ID}/resume" />
 
 ---
 
@@ -17,34 +17,36 @@ Resume a suspended cluster.
 
 
 
+import Admonition from '@theme/Admonition';
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
-- Using this API requires you to add a valid payment method.
+<ul>
+<li>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</li>
+<li>This API requires applies only to dedicated clusters.</li>
+</ul>
+    
+</Admonition>
 
-:::
+```curl
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
 
-```shell
-curl --request POST \
-    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/${clusterId}/resume" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json"
+curl --location --request POST "https://controller.api.${CLOUD_REGION}.zilliz.com.com/v1/clusters/inxx-xxxxxxxxxxxxxxx/resume" \
+--header "Authorization: Bearer ${API_KEY}"
 ```
 
-Success response:
+Possible return is similar to the following.
 
-```shell
+```json
 {
-  code: 200,
-  data: {
-    "clusterId": "cluster01",
-    "prompt": "Submission successful. Cluster is currently resuming, which typically takes several minutes. You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster's status is RUNNING, you can access your vector database using the SDK."
-  }
+    "code": 200,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "prompt": "Successfully Submitted. Cluster is being resumed, which is expected to takes several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+    }
 }
 ```
-
 
 
 

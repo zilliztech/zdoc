@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 47
+sidebar_position: 20
 slug: /restful/list-roles-v2
 title: List Roles
 ---
@@ -19,9 +19,9 @@ This operation lists the information about all existing roles.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/roles/list" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/list" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{}'

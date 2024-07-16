@@ -2,7 +2,7 @@
 slug: /restful/collection-operations-v2
 beta: FALSE
 notebook: FALSE
-sidebar_position: 5
+sidebar_position: 7
 displayed_sidebar: restfulSidebar
 ---
 

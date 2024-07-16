@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 33
+sidebar_position: 86
 slug: /restful/rename-collection-v2
 title: Rename Collection
 ---
@@ -19,13 +19,12 @@ This operation renames an existing collection and optionally moves the collectio
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/rename" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/rename" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
-    "dbName": "default",
     "collectionName": "test_collection",
     "newCollectionName": "quick_setup"
 }'
@@ -60,19 +59,14 @@ Possible responses are similar to the following:
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
-    "newDbName": "string",
     "newCollectionName": "string"
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database to which the collection belongs.<br/>Setting this to a non-existing database results in an error.  |
 | __collectionName__ | __string__  <br/>The name of the target collection.<br/>Setting this to a non-existing collection results in an error.  |
-| __newDbName__ | __string__  <br/>The name of the database to which the collection belongs after this operation.<br/>The value defaults to **default**. Setting this to a database rather than the one the collection belongs to before this operation moves this collection to the specified database.
-Setting this to a non-existing database results in an error.  |
 | __newCollectionName__ | __string__  <br/>The name of the target collection after this operation.<br/>Setting this to the value of **old_collection_name** results in an error.  |
 
 ## Response

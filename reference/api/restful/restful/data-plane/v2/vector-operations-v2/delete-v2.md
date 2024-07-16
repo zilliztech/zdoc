@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 29
+sidebar_position: 7
 slug: /restful/delete-v2
 title: Delete
 ---
@@ -19,9 +19,9 @@ This operation deletes entities by their IDs or with a boolean expression.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/entities/delete" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/delete" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -59,7 +59,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "filter": "string",
     "partitionName": "string"
@@ -68,7 +67,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the target database.  |
 | __collectionName__ | __string__  <br/>The name of an existing collection.  |
 | __filter__ | __string__  <br/>A scalar filtering condition to filter matching entities.    The value defaults to an empty string, indicating that no condition applies. Setting both **id** and **filter** results in an error.<br/>You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md).  |
 | __partitionName__ | __string__  <br/>The name of a partition in the current collection. <br/>If specified, the data is to be deleted from the specified partition.  |

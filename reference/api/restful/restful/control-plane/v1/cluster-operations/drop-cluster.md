@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 5
+sidebar_position: 45
 slug: /restful/drop-cluster
 title: Drop Cluster
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Deletes a cluster. This operation moves your cluster to the recycle bin. All clusters in the recycle bin are pending permanent deletion in 30 days.
 
-<RestHeader method="delete" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/{CLUSTER_ID}/drop" />
+<RestHeader method="delete" endpoint="https://${CLUSTER_ENDPOINT}/v1/clusters/{CLUSTER_ID}/drop" />
 
 ---
 
@@ -17,7 +17,33 @@ Deletes a cluster. This operation moves your cluster to the recycle bin. All clu
 
 
 
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
+
 ```shell
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
+
+curl --location --request DELETE "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/inxx-xxxxxxxxxxxxxxx/drop" \
+--header "Authorization: Bearer ${API_KEY}"
+```
+
+Possible return is similar to the following:
+
+```json
+{
+    "code": 200,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."
+    }
+}
+```
 
 
 

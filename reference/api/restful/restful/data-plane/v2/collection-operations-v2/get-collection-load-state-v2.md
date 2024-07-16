@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 64
+sidebar_position: 92
 slug: /restful/get-collection-load-state-v2
 title: Get Collection Load State
 ---
@@ -18,7 +18,7 @@ This operation returns the load status of a specific collection.
 
 
 ```shell
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/get_load_state" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_load_state" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -57,7 +57,6 @@ Possible response is similar to the following:
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "partitionNames": "string"
 }
@@ -65,7 +64,6 @@ Possible response is similar to the following:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of a database to which the collection belongs.  |
 | __collectionName__ | __string__  <br/>The name of a collection.  |
 | __partitionNames__ | __string__  <br/>A list of partition names. If any partition names are specified, releasing any of these partitions results in the return of a NotLoad state.  |
 

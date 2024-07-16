@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 72
+sidebar_position: 64
 slug: /restful/drop-alias-v2
 title: Drop Alias
 ---
@@ -19,9 +19,9 @@ This operation drops a specified alias.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/aliases/drop" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/drop" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw  '{
@@ -57,7 +57,6 @@ Possible response is similar to the following
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "aliasName": "string"
 }
@@ -65,7 +64,6 @@ Possible response is similar to the following
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database to which the collection belongs.  |
 | __collectionName__ | __string__  <br/>The name of the collection to which the alias is assigned to.  |
 | __aliasName__ | __string__  <br/>The alias to drop.<br/>When dropping an alias, you do not need to provide the collection name because one alias can only be assigned to exactly one collection. Therefore, the server knows which collection the specified alias belongs to.  |
 

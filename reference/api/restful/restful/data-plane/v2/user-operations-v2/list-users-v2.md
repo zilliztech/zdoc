@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 45
+sidebar_position: 46
 slug: /restful/list-users-v2
 title: List Users
 ---
@@ -19,9 +19,9 @@ This operation lists the information of all existing users.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/users/list" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/users/list" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{}'

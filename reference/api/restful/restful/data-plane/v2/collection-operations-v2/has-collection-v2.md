@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 32
+sidebar_position: 72
 slug: /restful/has-collection-v2
 title: Has Collection
 ---
@@ -19,13 +19,12 @@ This operation checks whether a collection exists.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/has" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/has" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
-    "dbName": "default",
     "collectionName": "quick_setup"
 }'
 ```
@@ -62,14 +61,12 @@ The possible response is similar to the following:
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string"
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database in which to check the existence of a collection.  |
 | __collectionName__ | __string__  <br/>The name of an existing collection.  |
 
 ## Response

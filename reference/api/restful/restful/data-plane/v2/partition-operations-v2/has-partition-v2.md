@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 60
+sidebar_position: 66
 slug: /restful/has-partition-v2
 title: Has Partition
 ---
@@ -19,9 +19,9 @@ This operation checks whether a partition exists.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/partitions/has" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/has" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -61,7 +61,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "partitionName": "string"
 }
@@ -69,7 +68,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of an existing database. The value defaults to __default__.  |
 | __collectionName__ | __string__  <br/>The name of an existing collection.  |
 | __partitionName__ | __string__  <br/>The name of the partition to test.  |
 

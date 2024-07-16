@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 3
+sidebar_position: 30
 slug: /restful/create-cluster
 title: Create Cluster
 ---
@@ -9,13 +9,21 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Creates a new cluster.
 
-<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/create" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/clusters/create" />
 
 ---
 
 ## Example
 
 
+
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+    
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
 
 ```shell
 export CLOUD_REGION="gcp-us-west1"

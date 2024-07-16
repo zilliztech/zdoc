@@ -58,7 +58,7 @@ class refGen {
         const page_method = method.toLowerCase()
         const host = lang === 'zh-CN' ? 'cloud.zilliz.com.cn' : 'zillizcloud.com'
         const condition = (page_slug.includes('cloud') || page_slug.includes('cluster') || page_slug.includes('import') || page_slug.includes('pipeline')) || page_slug.includes('project') || page_slug.includes('metrics')
-        const server = condition ? `https://controller.api.\${CLOUD_REGION}.${host}` : "https://\${CLUSTER_ENDPOINT}"
+        const server = condition && page_slug.includes('v1') ? `https://controller.api.\${CLOUD_REGION}.${host}` : condition && page_slug.includes('v2') ? 'https://api.cloud.zilliz.com' : "https://\${CLUSTER_ENDPOINT}"
 
         if (specifications.paths[page_url][method].parameters) {
           for (const param of specifications.paths[page_url][method].parameters) {
@@ -326,6 +326,7 @@ class refGen {
         }
 
         if (specifications.paths[url][method].requestBody) {
+          console.log(specifications.paths[url][method].requestBody)
           if (specifications.paths[url][method].requestBody.content["application/json"].example) {
             delete specifications.paths[url][method].requestBody.content["application/json"].example
           }
@@ -375,6 +376,28 @@ class refGen {
               }
             } else {
               this.__delete_parameters(schema.properties, ['dbName', 'partitionName', 'partitionNames'])
+            }
+          }
+        }
+
+        if (url.includes('v2')) {
+          const parameters = specifications.paths[url][method].parameters
+          this.__delete_parameters(parameters, ['dbName'])
+
+          if (specifications.paths[url][method].requestBody) {
+            const schema = specifications.paths[url][method].requestBody.content["application/json"].schema
+            if (schema.oneOf) {
+              for (const req_body of schema.oneOf) {
+                this.__delete_parameters(req_body.properties, ['dbName'])
+              }
+            } else if (schema.anyOf) {
+              schema.oneOf = schema.anyOf
+              delete schema.anyOf
+              for (const req_body of schema.oneOf) {
+                this.__delete_parameters(req_body.properties, ['dbName'])
+              }
+            } else {
+              this.__delete_parameters(schema.properties, ['dbName'])
             }
           }
         }

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 42
+sidebar_position: 61
 slug: /restful/update-user-password-v2
 title: Update User Password
 ---
@@ -19,9 +19,9 @@ This operation updates the password for a specific user.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/users/update_password" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/users/update_password" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{

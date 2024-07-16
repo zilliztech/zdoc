@@ -2,7 +2,7 @@
 slug: /restful/user-operations-v2
 beta: FALSE
 notebook: FALSE
-sidebar_position: 9
+sidebar_position: 15
 displayed_sidebar: restfulSidebar
 ---
 

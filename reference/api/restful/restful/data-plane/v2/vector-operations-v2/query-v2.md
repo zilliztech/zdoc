@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 31
+sidebar_position: 67
 slug: /restful/query-v2
 title: Query
 ---
@@ -19,9 +19,9 @@ This operation conducts a filtering on the scalar field with a specified boolean
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/entities/query" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -76,7 +76,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "filter": "string",
     "outputFields": [],
@@ -86,7 +85,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database.  |
 | __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
 | __filter__ | __string__  <br/>The filter used to find matches for the search.  |
 | __outputFields__ | __array__<br/>An array of fields to return along with the search results. |

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 21
+sidebar_position: 34
 slug: /restful/describe-collection
 title: Describe Collection
 ---
@@ -17,11 +17,33 @@ Describes the details of a collection.
 
 
 
-```shell
-export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+<include target="zilliz">
+import Admonition from '@theme/Admonition';
 
-curl --location --request POST "http://${MILVUS_URI}/v1/vector/collections/describe?collectionName=quick_setup" \
+<Admonition type="info" icon="📘" title="Notes">
+    
+You can use eitehr of the following ways to authorize:
+<ul>
+<li> An API Key with appropriate permissions.</li>
+<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>
+</ul>
+    
+</Admonition>
+</include>
+
+```shell
+<include target="milvus">
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export TOKEN="username:password"
+
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v1/vector/collections/describe?collectionName=quick_setup" \
+</include>
+<include target="zilliz">
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530"
+export TOKEN="db_admin:xxxxxxxxxxx"
+
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v1/vector/collections/describe?collectionName=quick_setup" \
+</include>
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" 
 ```

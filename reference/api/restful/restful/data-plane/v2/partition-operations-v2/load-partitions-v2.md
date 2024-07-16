@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 57
+sidebar_position: 53
 slug: /restful/load-partitions-v2
 title: Load Partitions
 ---
@@ -19,9 +19,9 @@ This operation loads the data of the current partition into memory.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/partitions/load" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/load" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -62,7 +62,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "partitionNames": []
 }
@@ -70,7 +69,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database to which the collection belongs.<br/>Setting this to a non-existing database results in an error.  |
 | __collectionName__ | __string__  <br/>The name of the target collection.<br/>Setting this to a non-existing collection results in an error.  |
 | __partitionNames__ | __array__<br/>The list of names of the target partitions. |
 | __partitionNames[]__ | __string__  <br/>  |

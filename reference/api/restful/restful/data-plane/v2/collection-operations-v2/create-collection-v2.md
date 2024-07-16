@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 59
+sidebar_position: 29
 slug: /restful/create-collection-v2
 title: Create Collection
 ---
@@ -25,9 +25,9 @@ The quick setup collection has two fields: the primary and vector fields. It als
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/create" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -47,9 +47,9 @@ You can modify the names of the primary and vector fields and change the metric 
     
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/create" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -74,9 +74,9 @@ For a customized setup, you need to include the schema object in the request. Yo
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/create" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -125,9 +125,9 @@ Of course, you can leave the index parameters unspecified in the request and cre
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/create" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -183,7 +183,6 @@ Possible responses for the above requests are similar to the following:
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "dimension": "integer",
     "metricType": "string",
@@ -235,7 +234,6 @@ Possible responses for the above requests are similar to the following:
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database. <zilliz>This parameter applies only to dedicated clusters.</zilliz>  |
 | __collectionName__ | __string__  <br/>The name of the collection to create.  |
 | __dimension__ | __integer__  <br/>The number of dimensions a vector value should have.<br/>This is required if **dtype** of this field is set to **DataType.FLOAT_VECTOR**.  |
 | __metricType__ | __string__  <br/>The metric type applied to this operation. <br/>Possible values are **L2**, **IP**, and **COSINE**.<br/>The value defaults to COSINE  |
@@ -249,8 +247,8 @@ Possible responses for the above requests are similar to the following:
 | __schema[].fields__ | __array__<br/>A list of field objects. |
 | __schema[].fields[]__ | __object__<br/>A field object |
 | __schema[].fields[].fieldName__ | __string__  <br/>The name of the field to create in the target collection  |
-| __schema[].fields[].dataType__ | __string__  <br/>The data type of the field values.  |
-| __schema[].fields[].elementDataType__ | __string__  <br/>The data type of the elements in an array field.  |
+| __schema[].fields[].dataType__ | __string__  <br/>The data type of the field values. Possible values are: **DataType.BOOL**, **DataType.INT8**, **DataType.INT16**, **DataType.INT32**, **DataType.INT64**, **DataType.FLOAT**, **DataType.DOUBLE**, **DataType.VARCHAR**, **DataType.ARRAY**, **DataType.JSON**, **DataType.BINARY_VECTOR**, **DataType.FLOAT_VECTOR**, **DataType.FLOAT16_VECTOR**, **DataType.BFLOAT16_VECTOR**, **DataType.SPARSE_FLOAT_VECTOR**.  |
+| __schema[].fields[].elementDataType__ | __string__  <br/>The data type of the elements in an array field. Possible values are: **DataType.BOOL**, **DataType.INT8**, **DataType.INT16**, **DataType.INT32**, **DataType.INT64**, **DataType.FLOAT**, **DataType.DOUBLE**, **DataType.VARCHAR**.  |
 | __schema[].fields[].isPrimary__ | __boolean__  <br/>Whether the current field is the primary field. Setting this to True makes the current field the primary field.  |
 | __schema[].fields[].isPartitionKey__ | __boolean__  <br/>Whether the current field serves as the partition key. Setting this to True makes the current field serve as the partition key. In this case, MilvusZilliz Cloud manages all partitions in the current collection.  |
 | __schema[].fields[].elementTypeParams__ | __object__<br/>Extra field parameters. |

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 73
+sidebar_position: 75
 slug: /restful/create-alias-v2
 title: Create Alias
 ---
@@ -19,9 +19,9 @@ This operation creates an alias for an existing collection. A collection can hav
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/aliases/create" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -58,7 +58,6 @@ Possible response is similar to the following
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "aliasName": "string"
 }
@@ -66,7 +65,6 @@ Possible response is similar to the following
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database to which the collection belongs.  |
 | __collectionName__ | __string__  <br/>The name of the target collection to reassign an alias to.  |
 | __aliasName__ | __string__  <br/>The alias of the collection.  |
 

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 6
+sidebar_position: 55
 slug: /restful/modify-cluster
 title: Modify Cluster
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Modify the configuration of a specified cluster. Currently, you can use this API to change the size of the CU associated with your cluster.
 
-<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/{CLUSTER_ID}/modify" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/clusters/{CLUSTER_ID}/modify" />
 
 ---
 
@@ -17,36 +17,39 @@ Modify the configuration of a specified cluster. Currently, you can use this API
 
 
 
+import Admonition from '@theme/Admonition';
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+<ul>
+<li>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</li>
+<li>This API requires applies only to dedicated clusters.</li>
+</ul>
+    
+</Admonition>
 
-:::
+```curl
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
 
-```shell
-curl --request POST \
-    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/${clusterId}/modify" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json" \
-    --data-raw '{
+curl --location --request POST 'https://controller.api.${CLOUD_REGION}.cloud-uat3.zilliz.com/v1/clusters/inxx-xxxxxxxxxxxxxxx/modify' \
+--header "Authorization: Bearer ${API_KEY}" \
+--data-raw '{
     "cuSize": 2
-    }'
+}'
 ```
 
-Success response:
+Possible return is similar to the following.
 
-```shell
+```json
 {
     "code": 200,
     "data": {
-       "clusterId": "in01-***************",
-       "prompt": "Submission successful, Cluster is currently upgrading and will take several minutes, you can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK."
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "prompt": "Successfully submitted. Cluster is being upgraded, which is expected to take several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
     }
 }
 ```
-
 
 
 

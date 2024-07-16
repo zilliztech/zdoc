@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 1
+sidebar_position: 9
 slug: /restful/list-cloud-regions
 title: List Cloud Regions
 ---
@@ -9,13 +9,21 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists all available cloud regions of a specific cloud provider.
 
-<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/regions" />
+<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/regions" />
 
 ---
 
 ## Example
 
 
+
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+    
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
 
 ```shell
 export CLOUD_REGION="gcp-us-west1"
@@ -24,14 +32,16 @@ export API_KEY=""
 curl --location --request GET "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/regions?cloudId=gcp" \
 --header "Authorization: Bearer ${API_KEY}"
 ```
+
 Possible response is similar to the following.
+
 ```json
 {
     "code": 200,
     "data": [
         {
             "cloudId": "gcp",
-            "domain": "*.api.gcp-us-west1.cloud-uat3.zilliz.com",
+            "domain": "*.api.gcp-us-west1.zillizcloud.com",
             "regionId": "gcp-us-west1"
         }
     ]

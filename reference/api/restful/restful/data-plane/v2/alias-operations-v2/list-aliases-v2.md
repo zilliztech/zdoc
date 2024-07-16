@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 69
+sidebar_position: 25
 slug: /restful/list-aliases-v2
 title: List Aliases
 ---
@@ -11,14 +11,11 @@ This operation lists all existing collection aliases in the specified database.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/aliases/list" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/list" \
 --header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---data-raw '{
-    "dbName": "default"
-}'
+--header "Content-Type: application/json" 
 ```
 Possible response is similar to the following
 ```json
@@ -61,14 +58,12 @@ Possible response is similar to the following
 ### Request Body
 
 ```json
-{
-    "dbName": "string"
-}
+{}
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of an existing database. The value defaults to __default__.  |
+
 
 ## Response
 

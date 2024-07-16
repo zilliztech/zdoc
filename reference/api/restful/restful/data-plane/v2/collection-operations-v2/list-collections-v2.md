@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 66
+sidebar_position: 8
 slug: /restful/list-collections-v2
 title: List Collections
 ---
@@ -19,14 +19,11 @@ This operation lists all collections in the specified database.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/list" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
 --header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---data-raw '{
-    "dbName": "default"
-}'
+--header "Content-Type: application/json" 
 ```
 
 The possible output will be similar to the following:
@@ -63,14 +60,12 @@ The possible output will be similar to the following:
 ### Request Body
 
 ```json
-{
-    "dbName": "string"
-}
+{}
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of an existing database.  |
+
 
 ## Response
 

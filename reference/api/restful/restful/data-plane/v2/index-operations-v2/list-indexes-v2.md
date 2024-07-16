@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 65
+sidebar_position: 47
 slug: /restful/list-indexes-v2
 title: List Indexes
 ---
@@ -19,9 +19,9 @@ This operation lists all indexes of a specific collection.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/indexes/list" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/list" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -60,14 +60,12 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string"
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database to which the collection belongs.  |
 | __collectionName__ | __string__  <br/>The name of an existing collection. Setting this to a non-existing collection leads to an error.  |
 
 ## Response

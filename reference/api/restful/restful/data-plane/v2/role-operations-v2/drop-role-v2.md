@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 50
+sidebar_position: 70
 slug: /restful/drop-role-v2
 title: Drop Role
 ---
@@ -19,9 +19,9 @@ This operation drops an existing role. The operation will succeed if the specifi
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/roles/drop" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/drop" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{

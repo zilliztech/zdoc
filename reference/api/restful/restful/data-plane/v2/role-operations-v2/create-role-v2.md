@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 49
+sidebar_position: 44
 slug: /restful/create-role-v2
 title: Create Role
 ---
@@ -19,9 +19,9 @@ This operation creates the current role.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/roles/create" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{

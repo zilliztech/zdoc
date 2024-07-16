@@ -9,13 +9,21 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists all cloud providers available on Zilliz Cloud.
 
-<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clouds" />
+<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/clouds" />
 
 ---
 
 ## Example
 
 
+
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+    
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
 
 ```shell
 export CLOUD_REGION="gcp-us-west1"

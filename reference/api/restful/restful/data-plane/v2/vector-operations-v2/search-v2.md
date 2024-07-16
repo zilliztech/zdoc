@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 37
+sidebar_position: 76
 slug: /restful/search-v2
 title: Search
 ---
@@ -19,9 +19,9 @@ This operation conducts a vector similarity search with an optional scalar filte
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/entities/search" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -82,7 +82,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "data": [],
     "annsField": "string",
@@ -104,7 +103,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database.  |
 | __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
 | __data__ | __array__<br/>A list of vector embeddings.<br/><include target="milvus">Milvus</include><include target="zilliz">Zilliz Cloud</include> searches for the most similar vector embeddings to the specified ones. |
 | __data[]__ | __number__ (float32) <br/>A vector embedding  |

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 14
+sidebar_position: 3
 slug: /restful/describe-pipeline
 title: Describe Pipeline
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Describe a specific pipeline by its name.
 
-<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines/{PIPELINE_ID}" />
+<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/pipelines/{PIPELINE_ID}" />
 
 ---
 
@@ -17,55 +17,68 @@ Describe a specific pipeline by its name.
 
 
 
+import Admonition from '@theme/Admonition';
 
-:::info Notes
-
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
-
-Currently, data of the JSON and Array types are not supported in RESTful API requests..
-:::
+<Admonition type="info" icon="📘" title="Notes">
+    
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
 
 ```shell
-curl --request GET \
-    --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --url "https://controller.api.{CLOUD_REGION}.zillizcloud.com/v1/pipelines/pipe-xxxxxxxxxxxxxxxxxxxxxx"
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
+
+curl --location --request GET "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines/pipe-xxxxxxxxxxxxxxxxxxxxxxxxx" \
+--header "Authorization: Bearer ${API_KEY}" 
 ```
 
-Possible response
+Possible return is similar to the following.
 
-```shell
+```json
 {
     "code": 200,
     "data": {
-        "pipelineId": "pipe-xxxxxxxxxxxxxxxxxxxxxx",
+        "pipelineId": "pipe-xxxxxxxxxxxxxxxxxxxxxxxx",
         "name": "my_doc_ingestion_pipeline",
         "type": "INGESTION",
-        "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+        "createTimestamp": 1720601290000,
+        "description": "A doc ingestion pipeline",
         "status": "SERVING",
-        "totalTokenUsage": 0,
+        "totalUsage": {
+            "embedding": 0
+        },
         "functions": [
             {
-                "action": "INDEX_DOC",
                 "name": "index_my_doc",
-                "inputField": "doc_url",
+                "action": "INDEX_DOC",
+                "inputFields": [
+                    "doc_url",
+                    "doc_name"
+                ],
                 "language": "ENGLISH",
-                "chunkSize": 500
+                "chunkSize": 500,
+                "splitBy": [
+                    "\n\n",
+                    "\n",
+                    " ",
+                    ""
+                ],
+                "embedding": "zilliz/bge-base-en-v1.5"
             },
             {
-                "action": "PRESERVE",
                 "name": "keep_doc_info",
+                "action": "PRESERVE",
                 "inputField": "publish_year",
                 "outputField": "publish_year",
                 "fieldType": "Int16"
             }
         ],
         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-        "collectionName": "my_collection"
+        "collectionName": "doc_pipeline"
     }
 }
 ```
-
 
 
 

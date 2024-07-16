@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 51
+sidebar_position: 57
 slug: /restful/grant-privilege-to-role-v2
 title: Grant Privilege To Role
 ---
@@ -23,9 +23,9 @@ This operation grants a privilege to the current role.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/roles/grant_privilege" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/grant_privilege" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{

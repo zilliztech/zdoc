@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 12
+sidebar_position: 10
 slug: /restful/get-import-progress
 title: Get Import Progress
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Retrieves the progress of a specified import task.
 
-<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import/get" />
+<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/vector/collections/import/get" />
 
 ---
 
@@ -17,21 +17,50 @@ Retrieves the progress of a specified import task.
 
 
 
+import Admonition from '@theme/Admonition';
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
-
-:::
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
 
 ```shell
-curl --request GET \
-    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json"
+export CLOUD_REGION="gcp-us-west1"
+export JOB_ID="job-xxxxxxxxxxxxxxxxxxxxxx"
+export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+export API_KEY=""
+
+
+curl --location --request GET "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOB_ID}&clusterId=${CLUSTER_ID}" \
+--header "Authorization: Bearer ${API_KEY}"
 ```
 
+Possible return is similar to the following.
+
+```json
+{
+    "code": 200,
+    "data": {
+        "collectionName": "medium_articles",
+        "fileName": "1af78216-xxxx-xxxx-xxxx-2b0a73c566ed/1.parquet",
+        "fileSize": 19599887,
+        "readyPercentage": 0,
+        "completeTime": null,
+        "errorMessage": null,
+        "jobId": "job-xxxxxxxxxxxxxxxxxxxxxx",
+        "details": [
+            {
+                "fileName": "1af78216-xxxx-xxxx-xxxx-2b0a73c566ed/1.parquet",
+                "fileSize": 19599887,
+                "readyPercentage": 0,
+                "completeTime": null,
+                "errorMessage": null
+            }
+        ]
+    }
+}
+```
 
 
 

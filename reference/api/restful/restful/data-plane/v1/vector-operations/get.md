@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 28
+sidebar_position: 82
 slug: /restful/get
 title: Get
 ---

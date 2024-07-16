@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 16
+sidebar_position: 11
 slug: /restful/create-pipeline
 title: Create Pipeline
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This creates an pipeline.
 
-<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/pipelines" />
 
 ---
 
@@ -29,6 +29,7 @@ import TabItem from '@theme/TabItem';
 
 Currently, you can create pipelines to ingest data into and search/purge data from your collections. The request parameters vary with the type of pipelines you want to create and the data you want to process.
 
+
 <Tabs groupId="pipeline" defaultValue="ingest" values={[{"label": "Ingestion", "value": "ingest"},{"label": "Search", "value": "search"},{"label": "Deletion", "value": "purge"}]}>
 <TabItem value="ingest">
 
@@ -36,13 +37,13 @@ Currently, you can create pipelines to ingest data into and search/purge data fr
 <TabItem value="text">
 
 ```shell
-export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export API_KEY="YOUR_API_KEY"
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
 
 curl --request POST \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${API_KEY}" \
-    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" \
     -d '{
         "name": "my_text_ingestion_pipeline",
         "clusterId": "inxx-xxxxxxxxxxxxxxx",
@@ -106,13 +107,13 @@ Possible response is similar to the following
 
 
 ```shell
-export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export API_KEY="YOUR_API_KEY"    
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""    
 
 curl --request POST \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${API_KEY}" \
-    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" \
     -d '{
         "projectId": "proj-xxxx"，
         "name": "my_doc_ingestion_pipeline",
@@ -182,13 +183,13 @@ Possible response is similar to the following:
 
 
 ```shell
-export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export CLOUD_REGION="gcp-us-west1"
 export API_KEY="YOUR_API_KEY"   
 
 curl --request POST \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${API_KEY}" \
-    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" \
     -d '{
         "name": "my_image_ingestion_pipeline",
         "clusterId": "inxx-xxxxxxxxxxxxxxx",
@@ -254,13 +255,13 @@ Possible response is similar to the following:
 <TabItem value="text">
 
 ```shell
-export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export API_KEY="YOUR_API_KEY"
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
 
 curl --request POST \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${API_KEY}" \
-    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" \
     -d '{
         "projectId": "proj-xxxx",       
         "name": "my_text_search_pipeline",
@@ -309,13 +310,13 @@ Possible response is similar to the following
 
 
 ```shell
-export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export CLOUD_REGION="gcp-us-west1"
 export API_KEY="YOUR_API_KEY"    
 
 curl --request POST \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${API_KEY}" \
-    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" \
     -d '{
         "projectId": "proj-xxxx",       
         "name": "my_text_search_pipeline",
@@ -363,16 +364,18 @@ Possible response is similar to the following:
 </TabItem>
 <TabItem value="image">
 
+You can create a pipeline to search images by either an image or a query text.
 
+- Create a pipeline to search images by an image
 
 ```shell
-export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export CLOUD_REGION="gcp-us-west1"
 export API_KEY="YOUR_API_KEY"   
 
 curl --request POST \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${API_KEY}" \
-    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" \
     -d '{
         "projectId": "proj-xxxx",       
         "name": "my_image_search_pipeline",
@@ -414,6 +417,58 @@ Possible response is similar to the following:
 }
 ```
 
+- Create a pipeline to search images by a query text
+
+```shell
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY="YOUR_API_KEY"   
+
+curl --request POST \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" \
+    -d '{
+        "projectId": "proj-xxxx",       
+        "name": "my_text_image_search_pipeline",
+        "description": "A pipeline that searches image by text.",
+        "type": "SEARCH",
+        "functions": [
+            {
+                "name": "search_image_by_text",
+                "action": "SEARCH_IMAGE_BY_TEXT",
+                "embedding": "zilliz/clip-vit-base-patch32-multilingual-v1",
+                "clusterId": "inxx-xxxxxxxxxxxxxxx",
+                "collectionName": "my_collection"
+            }
+        ]
+    }'
+```
+
+Possible response is similar to the following:
+
+```json
+{
+  "code": 200,
+  "data": {
+    "pipelineId": "pipe-xxxx",
+    "name": "my_text_image_search_pipeline",
+    "type": "SEARCH",
+    "description": "A pipeline that searches image by text.",
+    "status": "SERVING",
+    "functions": 
+      {
+        "action": "SEARCH_IMAGE_BY_TEXT",
+        "name": "search_image_by_text",
+        "inputFields": ["query_text"],
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "collectionName": "my_collection",
+        "embedding": "zilliz/clip-vit-base-patch32-multilingual-v1"
+      }
+  }
+}
+```
+
+
 </TabItem>
 </Tabs>
 </TabItem>
@@ -423,13 +478,13 @@ Possible response is similar to the following:
 <TabItem value="text">
 
 ```shell
-export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export CLOUD_REGION="gcp-us-west1"
 export API_KEY="YOUR_API_KEY"
 
 curl --request POST \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${API_KEY}" \
-    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" \
     -d '{
         "projectId": "proj-xxxx",
         "name": "my_text_deletion_pipeline",
@@ -475,13 +530,13 @@ Possible response is similar to the following
 
 
 ```shell
-export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export CLOUD_REGION="gcp-us-west1"
 export API_KEY="YOUR_API_KEY"    
 
 curl --request POST \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${API_KEY}" \
-    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" \
     -d '{
         "projectId": "proj-xxxx",
         "name": "my_doc_deletion_pipeline",
@@ -530,13 +585,13 @@ Possible response is similar to the following:
 
 
 ```shell
-export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
+export CLOUD_REGION="gcp-us-west1"
 export API_KEY="YOUR_API_KEY"   
 
 curl --request POST \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${API_KEY}" \
-    --url "${CLUSTER_ENDPOINT}/v1/pipelines" \
+    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" \
     -d '{
         "projectId": "proj-xxxx",
         "name": "my_image_deletion_pipeline",
@@ -681,7 +736,7 @@ Possible response is similar to the following:
 | __functions__ | __array__<br/>Actions to take in the search pipeline to create. You can define multiple functions to retrieve results from different collections. |
 | __functions[]__ | __object__<br/> |
 | __functions[].name__ | __string__  <br/>Name of the function to create.  |
-| __functions[].action__ | __string__  <br/>Type of the function to create. For a search pipeline, possible value is `SEARCH_TEXT`, `SEARCH_DOC_CHUNK`, and `SEARCH_IMAGE_BY_IMAGE`.  |
+| __functions[].action__ | __string__  <br/>Type of the function to create. For a search pipeline, possible value is `SEARCH_TEXT`, `SEARCH_DOC_CHUNK`, `SEARCH_IMAGE_BY_IMAGE`, and `SEARCH_IMAGE_BY_TEXT`.  |
 | __functions[].clusterId__ | __string__  <br/>ID of a target collection in which Zilliz Cloud concducts the search.  |
 | __functions[].collectionName__ | __string__  <br/>Name of the collection in which ZIlliz Cloud conducts the search.  |
 | __functions[].embedding__ | __string__  <br/>The embedding model used during vector search. The model should be consistent with the one chosen in the compatible collection.  |
@@ -835,7 +890,9 @@ Returns information about the pipeline just created.
             {
                 "name": "string",
                 "action": "string",
-                "inputField": "string",
+                "inputFields": [
+                    {}
+                ],
                 "clusterID": "string",
                 "collectionName": "string",
                 "reranker": "string"
@@ -857,8 +914,9 @@ Returns information about the pipeline just created.
 | __data[].functions__ | __array__<br/>Functions in the pipeline. For a search pipeline, each of its member functions targets at a different collection. |
 | __data[].functions[]__ | __object__<br/> |
 | __data[].functions[].name__ | __string__  <br/>Name of the function.  |
-| __data[].functions[].action__ | __string__  <br/>Type of the function. For a search function, the value should be `SEARCH_DOC_CHUNKS`, `SEARCH_TEXT`, and `SEARCH_IMAGE_BY_IMAGE`.  |
-| __data[].functions[].inputField__ | __string__  <br/>Name of the input field. For a `SEARCH_DOC_CHUNKS` function, the value should be your query text.  |
+| __data[].functions[].action__ | __string__  <br/>Type of the function. For a search function, the value should be `SEARCH_DOC_CHUNKS`, `SEARCH_TEXT`, `SEARCH_IMAGE_BY_IMAGE`, and `SEARCH_IMAGE_BY_TEXT`.  |
+| __data[].functions[][].inputFields__ | __array__<br/>Name of the input fields. |
+| __data[].functions[][].inputFields[]__ | __string__  <br/>For a `SEARCH_DOC_CHUNKS` or a `SEARCH_IMAGE_BY_TEXT` function, you should include `query_text` as the value.  |
 | __data[].functions[].clusterID__ | __string__  <br/>Target cluster of this function.  |
 | __data[].functions[].collectionName__ | __string__  <br/>Target collection of this function.  |
 | __data[].functions[].reranker__ | __string__  <br/>If you need to reorder or rank a set of candidate outputs to improve the quality of the search results, set this parameter to a reranker model. This parameter applies only to pipelines for Text and Doc Data. Currently, only `zilliz/bge-reranker-base` is available as the parameter value.  |

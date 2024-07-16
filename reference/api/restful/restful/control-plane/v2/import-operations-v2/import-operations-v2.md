@@ -1,0 +1,18 @@
+---
+slug: /restful/import-operations-v2
+beta: FALSE
+notebook: FALSE
+sidebar_position: 12
+displayed_sidebar: restfulSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# Import (V2)
+
+This set of APIs provides a way to import data into Zilliz Cloud.
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

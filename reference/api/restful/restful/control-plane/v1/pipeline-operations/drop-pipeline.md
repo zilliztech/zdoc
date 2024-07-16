@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 15
+sidebar_position: 4
 slug: /restful/drop-pipeline
 title: Drop Pipeline
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Drop a specific pipeline
 
-<RestHeader method="delete" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines/{PIPELINE_ID}" />
+<RestHeader method="delete" endpoint="https://${CLUSTER_ENDPOINT}/v1/pipelines/{PIPELINE_ID}" />
 
 ---
 
@@ -17,54 +17,69 @@ Drop a specific pipeline
 
 
 
+import Admonition from '@theme/Admonition';
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
+    
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
 
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
-
-Currently, data of the JSON and Array types are not supported in RESTful API requests..
-:::
 
 ```shell
-curl --request GET \
-    --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --url "https://controller.api.{CLOUD_REGION}.zillizcloud.com/v1/pipelines/pipe-xxxxxxxxxxxxxxxxxxxxxx"
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
+
+curl --location --request DELETE "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines/pipe-xxxxxxxxxxxxxxxxxxxxxx" \
+--header "Authorization: Bearer ${API_KEY}" 
 ```
 
-Possible response
+Possible response is similar to the following.
 
-```shell
+```json
 {
     "code": 200,
     "data": {
         "pipelineId": "pipe-xxxxxxxxxxxxxxxxxxxxxx",
         "name": "my_doc_ingestion_pipeline",
         "type": "INGESTION",
-        "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+        "createTimestamp": 1720601290000,
+        "description": "A doc ingestion pipeline",
         "status": "SERVING",
+        "totalUsage": {
+            "embedding": 0
+        },
         "functions": [
             {
-                "action": "INDEX_DOC",
                 "name": "index_my_doc",
-                "inputField": "doc_url",
-                "language": "ENGLISH"
+                "action": "INDEX_DOC",
+                "inputFields": [
+                    "doc_url",
+                    "doc_name"
+                ],
+                "language": "ENGLISH",
+                "chunkSize": 500,
+                "splitBy": [
+                    "\n\n",
+                    "\n",
+                    " ",
+                    ""
+                ],
+                "embedding": "zilliz/bge-base-en-v1.5"
             },
             {
-                "action": "PRESERVE",
                 "name": "keep_doc_info",
+                "action": "PRESERVE",
                 "inputField": "publish_year",
                 "outputField": "publish_year",
                 "fieldType": "Int16"
             }
         ],
         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-        "collectionName": "my_new_collection"
+        "collectionName": "doc_pipeline"
     }
 }
-
 ```
-
 
 
 
@@ -114,7 +129,15 @@ Returns information of a specific pipeline just dropped.
                     "langauge": "string",
                     "embedding": "string"
                 },
-                {},
+                {
+                    "name": "string",
+                    "action": "string",
+                    "inputField": "string",
+                    "langauge": "string",
+                    "chunkSize": "integer",
+                    "embedding": "string",
+                    "splitBy": "string"
+                },
                 {
                     "name": "string",
                     "action": "string",
@@ -156,6 +179,13 @@ Returns information of a specific pipeline just dropped.
 | __functions[opt_1].langauge__ | __string__  <br/>Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines.  |
 | __functions[opt_1].embedding__ | __string__  <br/>Name of the embedding model in use.  |
 | __functions[opt_2]__ | __object__<br/> |
+| __functions[opt_2].name__ | __string__  <br/>Name of the function to create.  |
+| __functions[opt_2].action__ | __string__  <br/>Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`.  |
+| __functions[opt_2].inputField__ | __string__  <br/>Name the field according to your needs. In an `INDEX_DOC` function of an ingestion pipeline, use it for pre-signed document URLs in GCS or AWS S3 buckets.  |
+| __functions[opt_2].langauge__ | __string__  <br/>Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines.  |
+| __functions[opt_2].chunkSize__ | __integer__  <br/>The maximum size of a splitted document segment.  |
+| __functions[opt_2].embedding__ | __string__  <br/>Name of the embedding model in use.  |
+| __functions[opt_2].splitBy__ | __string__  <br/>The splitters that Zilliz Cloud uses to split the specified docs.  |
 | __functions[opt_3]__ | __object__<br/> |
 | __functions[opt_3].name__ | __string__  <br/>Name of the function to create.  |
 | __functions[opt_3].action__ | __string__  <br/>Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`.  |
@@ -186,7 +216,9 @@ Returns information of a specific pipeline just dropped.
             {
                 "name": "string",
                 "action": "string",
-                "inputField": "string",
+                "inputFields": [
+                    {}
+                ],
                 "clusterID": "string",
                 "collectionName": "string",
                 "reranker": "string"
@@ -208,8 +240,9 @@ Returns information of a specific pipeline just dropped.
 | __data[].functions__ | __array__<br/>Functions in the pipeline. For a search pipeline, each of its member functions targets at a different collection. |
 | __data[].functions[]__ | __object__<br/> |
 | __data[].functions[].name__ | __string__  <br/>Name of the function.  |
-| __data[].functions[].action__ | __string__  <br/>Type of the function. For a search function, the value should be `SEARCH_DOC_CHUNKS`, `SEARCH_TEXT`, and `SEARCH_IMAGE_BY_IMAGE`.  |
-| __data[].functions[].inputField__ | __string__  <br/>Name of the input field. For a `SEARCH_DOC_CHUNKS` function, the value should be your query text.  |
+| __data[].functions[].action__ | __string__  <br/>Type of the function. For a search function, the value should be `SEARCH_DOC_CHUNKS`, `SEARCH_TEXT`, `SEARCH_IMAGE_BY_IMAGE`, and `SEARCH_IMAGE_BY_TEXT`.  |
+| __data[].functions[][].inputFields__ | __array__<br/>Name of the input fields. |
+| __data[].functions[][].inputFields[]__ | __string__  <br/>For a `SEARCH_DOC_CHUNKS` or a `SEARCH_IMAGE_BY_TEXT` function, you should include `query_text` as the value.  |
 | __data[].functions[].clusterID__ | __string__  <br/>Target cluster of this function.  |
 | __data[].functions[].collectionName__ | __string__  <br/>Target collection of this function.  |
 | __data[].functions[].reranker__ | __string__  <br/>If you need to reorder or rank a set of candidate outputs to improve the quality of the search results, set this parameter to a reranker model. This parameter applies only to pipelines for Text and Doc Data. Currently, only `zilliz/bge-reranker-base` is available as the parameter value.  |

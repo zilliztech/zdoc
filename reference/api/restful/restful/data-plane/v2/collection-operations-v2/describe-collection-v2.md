@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 67
+sidebar_position: 48
 slug: /restful/describe-collection-v2
 title: Describe Collection
 ---
@@ -19,13 +19,12 @@ Describes the details of a collection.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/collections/describe" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/describe" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
-    "dbName": "default",
     "collectionName": "test_collection"
 }'
 ```
@@ -104,14 +103,12 @@ Possible output would be similar to the following:
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string"
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database.  |
 | __collectionName__ | __string__  <br/>The name of the collection to describe.  |
 
 ## Response

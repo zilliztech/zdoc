@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 23
+sidebar_position: 6
 slug: /restful/delete
 title: Delete
 ---
@@ -8,6 +8,53 @@ title: Delete
 import RestHeader from '@site/src/components/RestHeader';
 
 Deletes one or more entities from a collection.
+
+<include target="zilliz">
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+    
+You can use eitehr of the following ways to authorize:
+<ul>
+<li> An API Key with appropriate permissions.</li>
+<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>
+</ul>
+    
+</Admonition>
+</include>
+
+```shell
+<include target="milvus">
+export MILVUS_URI="http://localhost:19530"
+export TOKEN="username:password"
+
+curl --request POST \
+    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+</include>
+<include target="zilliz">
+export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530"
+export TOKEN="db_admin:xxxxxxxxxxx"
+
+curl --request POST \
+    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+</include>
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "collectionName": "medium_articles",
+      "id": 1
+    }'
+```
+
+Possible response is similar to the following.
+
+```json
+{
+    "code": 200,
+    "data": {}
+}
+```
 
 <RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/vector/delete" />
 

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 30
+sidebar_position: 24
 slug: /restful/insert-v2
 title: Insert
 ---
@@ -22,9 +22,9 @@ This operation inserts data into a specific collection.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/entities/insert" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -87,7 +87,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "partitionName": "string"
 }
@@ -95,7 +94,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the target database.  |
 | __collectionName__ | __string__  <br/>The name of an existing collection.  |
 | __data__ | __object__ \| __array__<br/>The data to insert into the current collection.<br/>The data to insert should be a dictionary that matches the schema of the current collection or a list of such dictionaries. |
 | __data[opt_1]__ | __object__<br/>An entity |

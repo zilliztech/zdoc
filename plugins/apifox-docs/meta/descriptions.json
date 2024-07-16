@@ -50,5 +50,17 @@
     {
         "name": "alias-operations-v2",
         "description": "This set of APIs provides a way to manage collection aliases in Zilliz Cloud."
+    },
+    {
+        "name": "cloud-meta-v2",
+        "description": "This set of APIs provides a way to view cloud providers and regions."
+    },
+    {
+        "name": "cluster-operations-v2",
+        "description": "This set of APIs provides a way to manage Zilliz Cloud clusters in a cloud provider."
+    },
+    {
+        "name": "import-operations-v2",
+        "description": "This set of APIs provides a way to import data into Zilliz Cloud."
     }
 ]

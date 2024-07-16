@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 36
+sidebar_position: 80
 slug: /restful/get-v2
 title: Get
 ---
@@ -19,9 +19,9 @@ This operation gets specific entities by their IDs.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/entities/get" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/get" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
@@ -77,7 +77,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 ```json
 {
-    "dbName": "string",
     "collectionName": "string",
     "outputFields": [],
     "partitionNames": []
@@ -86,7 +85,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __dbName__ | __string__  <br/>The name of the database.  |
 | __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
 | __id__ | __integer__ \| __string__ \| __array__ \| __array__<br/>A specific entity ID or a list of entity IDs. |
 | __id[opt_1]__ | __integer__  <br/>  |

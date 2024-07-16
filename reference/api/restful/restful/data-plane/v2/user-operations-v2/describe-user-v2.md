@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 44
+sidebar_position: 40
 slug: /restful/describe-user-v2
 title: Describe User
 ---
@@ -19,9 +19,9 @@ This operation describes the detailed information of a specific user.
 
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="user:password"
+export TOKEN="username:password"
 
-curl --location --request POST "http://${MILVUS_URI}/v2/vectordb/users/describe" \
+curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/users/describe" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{

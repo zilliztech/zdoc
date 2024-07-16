@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 8
+sidebar_position: 68
 slug: /restful/suspend-cluster
 title: Suspend Cluster
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Suspend a specified cluster. This operation will only stop the cluster and your data will remain intact.
 
-<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/{CLUSTER_ID}/suspend" />
+<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/clusters/{CLUSTER_ID}/suspend" />
 
 ---
 
@@ -17,33 +17,36 @@ Suspend a specified cluster. This operation will only stop the cluster and your 
 
 
 
+import Admonition from '@theme/Admonition';
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+<ul>
+<li>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</li>
+<li>This API requires applies only to dedicated clusters.</li>
+</ul>
+    
+</Admonition>
 
-:::
+```curl
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
 
-```shell
-curl --request POST \
-    --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/${clusterId}/suspend" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --header "accept: application/json" \
-    --header "content-type: application/json"
+curl --location --request POST "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/inxx-xxxxxxxxxxxxxxx/suspend" \
+--header "Authorization: Bearer ${API_KEY}"
 ```
 
-Success response:
+Possible return is similar to the following.
 
-```shell
+```json
 {
-  code: 200,
-  data: {
-    "clusterId": "cluster01",
-    "prompt": "Submission successful. Your vector database computing cost is free until you Resume the Cluster, and only storage costs will be charged."
-  }
+    "code": 200,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "prompt": "Successfully Submitted. The cluster will not incur any computing costs when suspended. You will only be billed for the storage costs during this time."
+    }
 }
 ```
-
 
 
 

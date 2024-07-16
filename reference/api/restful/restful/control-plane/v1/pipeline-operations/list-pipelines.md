@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 17
+sidebar_position: 12
 slug: /restful/list-pipelines
 title: List Pipelines
 ---
@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 List all pipelines in a project.
 
-<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" />
+<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/pipelines" />
 
 ---
 
@@ -17,89 +17,102 @@ List all pipelines in a project.
 
 
 
+import Admonition from '@theme/Admonition';
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
+    
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
 
-- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
-
-Currently, data of the JSON and Array types are not supported in RESTful API requests..
-:::
 
 ```shell
-curl --request GET \
-    --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --url "https://controller.api.{CLOUD_REGION}.zillizcloud.com/v1/pipelines?projectId=proj-xxxxxxxxxxxxxxxxxxxxxx"
+export CLOUD_REGION="gcp-us-west1"
+export API_KEY=""
+
+curl --location --request GET "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines?projectId=proj-xxxxxxxxxxxxxxxxxxxxxx" \
+--header "Authorization: Bearer ${API_KEY}" 
 ```
 
-Possible response
+Possible return is similar to the following.
 
-```shell
+```json
 {
-  "code": 200,
-  "data": [
-    {
-     "pipelineId": "pipe-xxxxxxxxxxxxxxxxxxxxxx",
-     "name": "my_doc_ingestion_pipeline",
-     "type": "INGESTION",
-     "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
-     "status": "SERVING",
-     "totalTokenUsage": 0,
-     "functions": [
+    "code": 200,
+    "data": [
         {
-            "action": "INDEX_DOC",
-            "name": "index_my_doc",
-            "inputField": "doc_url",
-            "language": "ENGLISH",
-            "chunkSize": 500
+            "pipelineId": "pipe-cf7c8f130608912949a032",
+            "name": "my_doc_ingestion_pipeline",
+            "type": "INGESTION",
+            "createTimestamp": 1720601290000,
+            "description": "A doc ingestion pipeline",
+            "status": "SERVING",
+            "totalUsage": {
+                "embedding": 0
+            },
+            "functions": [
+                {
+                    "name": "index_my_doc",
+                    "action": "INDEX_DOC",
+                    "inputFields": [
+                        "doc_url",
+                        "doc_name"
+                    ],
+                    "language": "ENGLISH",
+                    "chunkSize": 500,
+                    "splitBy": [
+                        "\n\n",
+                        "\n",
+                        " ",
+                        ""
+                    ],
+                    "embedding": "zilliz/bge-base-en-v1.5"
+                },
+                {
+                    "name": "keep_doc_info",
+                    "action": "PRESERVE",
+                    "inputField": "publish_year",
+                    "outputField": "publish_year",
+                    "fieldType": "Int16"
+                }
+            ],
+            "clusterId": "in03-bdfdb12c2f6cae2",
+            "collectionName": "doc_pipeline"
         },
         {
-            "action": "PRESERVE",
-            "name": "keep_doc_info",
-            "inputField": "publish_year",
-            "outputField": "publish_year",
-            "fieldType": "Int16"
+            "pipelineId": "pipe-22bf025b1941499b56e73f",
+            "name": "my_text_ingestion_pipeline",
+            "type": "INGESTION",
+            "createTimestamp": 1720601012000,
+            "description": "A text ingestion pipeline",
+            "status": "SERVING",
+            "totalUsage": {
+                "embedding": 0
+            },
+            "functions": [
+                {
+                    "name": "index_my_text",
+                    "action": "INDEX_TEXT",
+                    "inputFields": [
+                        "text_list"
+                    ],
+                    "language": "ENGLISH",
+                    "embedding": "zilliz/bge-base-en-v1.5"
+                },
+                {
+                    "name": "keep_text_info",
+                    "action": "PRESERVE",
+                    "inputField": "source",
+                    "outputField": "source",
+                    "fieldType": "VarChar"
+                }
+            ],
+            "clusterId": "in03-bdfdb12c2f6cae2",
+            "collectionName": "text_pipeline"
         }
-     ],
-     "clusterId": "inxx-xxxxxxxxxxxxxxx",
-     "newCollectionName": "my_new_collection"
-    },
-    {
-        "pipelineId": "pipe-xxxxxxxxxxxxxxxxxxxxxx",
-        "name": "my_text_search_pipeline",
-        "type": "SEARCH",
-        "description": "A pipeline that receives text and search for semantically similar doc chunks",
-        "status": "SERVING",
-        "functions": [
-            {
-                "action": "SEARCH_DOC_CHUNK",
-                "name": "search_chunk_text_and_title",
-                "inputField": null,
-                "clusterId": "inxx-xxxxxxxxxxxxxxx",
-                "collectionName": "my_new_collection"
-            }
-        ]
-    },
-    {
-        "pipelineId": "pipe-xxxxxxxxxxxxxxxxxxxxxx",
-        "name": "my_doc_deletion_pipeline",
-        "type": "DELETION",
-        "description": "A pipeline that deletes all info associated with a doc",
-        "status": "SERVING",
-        "functions": [
-            {
-            "action": "PURGE_DOC_INDEX",
-            "name": "purge_chunks_by_doc_name",
-            "inputField": "doc_name"
-            }
-        ],
-        "clusterId": "inxx-xxxxxxxxxxxxxxx",
-        "collectionName": "my_new_collection"
-    }
-  ]
+    ]
 }
 ```
-
 
 
 
@@ -107,7 +120,11 @@ Possible response
 
 ### Parameters
 
-- No query parameters required
+- Query parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | __projectId__  | **string**<br/>The ID of the project to which this pipeline belongs.|
 
 - No path parameters required
 
@@ -153,6 +170,13 @@ Returns a list of pipelines in detail.
 | __data[][opt_1][].functions[].[opt_1].langauge__ | __string__  <br/>Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines.  |
 | __data[][opt_1][].functions[].[opt_1].embedding__ | __string__  <br/>Name of the embedding model in use.  |
 | __data[][opt_1][].functions[].[opt_2]__ | __object__<br/> |
+| __data[][opt_1][].functions[].[opt_2].name__ | __string__  <br/>Name of the function to create.  |
+| __data[][opt_1][].functions[].[opt_2].action__ | __string__  <br/>Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`.  |
+| __data[][opt_1][].functions[].[opt_2].inputField__ | __string__  <br/>Name the field according to your needs. In an `INDEX_DOC` function of an ingestion pipeline, use it for pre-signed document URLs in GCS or AWS S3 buckets.  |
+| __data[][opt_1][].functions[].[opt_2].langauge__ | __string__  <br/>Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines.  |
+| __data[][opt_1][].functions[].[opt_2].chunkSize__ | __integer__  <br/>The maximum size of a splitted document segment.  |
+| __data[][opt_1][].functions[].[opt_2].embedding__ | __string__  <br/>Name of the embedding model in use.  |
+| __data[][opt_1][].functions[].[opt_2].splitBy__ | __string__  <br/>The splitters that Zilliz Cloud uses to split the specified docs.  |
 | __data[][opt_1][].functions[].[opt_3]__ | __object__<br/> |
 | __data[][opt_1][].functions[].[opt_3].name__ | __string__  <br/>Name of the function to create.  |
 | __data[][opt_1][].functions[].[opt_3].action__ | __string__  <br/>Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`.  |

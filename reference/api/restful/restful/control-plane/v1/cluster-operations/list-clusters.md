@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 2
+sidebar_position: 1
 slug: /restful/list-clusters
 title: List Clusters
 ---
@@ -9,13 +9,21 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists all clusters in the specified cloud region.
 
-<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters" />
+<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/clusters" />
 
 ---
 
 ## Example
 
 
+
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+    
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
 
 ```shell
 export CLOUD_REGION="gcp-us-west1"

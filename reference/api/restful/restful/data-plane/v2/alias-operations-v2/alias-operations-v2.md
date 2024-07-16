@@ -2,7 +2,7 @@
 slug: /restful/alias-operations-v2
 beta: FALSE
 notebook: FALSE
-sidebar_position: 12
+sidebar_position: 13
 displayed_sidebar: restfulSidebar
 ---
 

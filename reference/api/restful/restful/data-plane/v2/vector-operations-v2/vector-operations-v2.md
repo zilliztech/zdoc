@@ -2,7 +2,7 @@
 slug: /restful/vector-operations-v2
 beta: FALSE
 notebook: FALSE
-sidebar_position: 7
+sidebar_position: 6
 displayed_sidebar: restfulSidebar
 ---
 
