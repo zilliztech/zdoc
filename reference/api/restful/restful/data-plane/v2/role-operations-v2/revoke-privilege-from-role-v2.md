@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 62
+sidebar_position: 61
 slug: /restful/revoke-privilege-from-role-v2
 title: Revoke Privilege From Role
 ---

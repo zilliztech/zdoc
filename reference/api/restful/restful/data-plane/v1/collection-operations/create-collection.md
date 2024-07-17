@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 13
+sidebar_position: 14
 slug: /restful/create-collection
 title: Create Collection
 ---

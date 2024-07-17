@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 19
+sidebar_position: 20
 slug: /restful/query-metrics
 title: Query Metrics
 ---

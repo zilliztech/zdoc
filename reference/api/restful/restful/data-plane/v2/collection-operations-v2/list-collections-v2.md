@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 8
+sidebar_position: 9
 slug: /restful/list-collections-v2
 title: List Collections
 ---

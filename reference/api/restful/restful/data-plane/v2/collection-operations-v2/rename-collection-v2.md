@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 86
+sidebar_position: 85
 slug: /restful/rename-collection-v2
 title: Rename Collection
 ---

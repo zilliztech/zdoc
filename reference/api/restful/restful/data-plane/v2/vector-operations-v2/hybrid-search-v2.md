@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 78
+sidebar_position: 77
 slug: /restful/hybrid-search-v2
 title: Hybrid Search
 ---

@@ -1,15 +1,23 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 54
+sidebar_position: 39
 slug: /restful/get-import-job-progress-v2
 title: Get Import Job Progress
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-This operation gets the progress of the specified bulk-import job.
+Retrieves the progress of a specified import job.
 
-<RestHeader method="post" endpoint="https://api.cloud.zilliz.com/v2/vectordb/jobs/import/get_progress" />
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+    
+<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+    
+</Admonition>
+
+<RestHeader method="post" endpoint="https://api.cloud.zilliz.com/v2/vectordb/jobs/import/getProgress" />
 
 ---
 
@@ -18,13 +26,13 @@ This operation gets the progress of the specified bulk-import job.
 
 
 ```shell
-export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="username:password"
+export API_KEY=""
 
-curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/jobs/import/get_progress" \
---header "Authorization: Bearer ${TOKEN}" \
+curl --location --request POST "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/getProgress" \
+--header "Authorization: Bearer ${API_KEY}" \
 --header "Content-Type: application/json" \
 --data-raw '{
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
     "jobId": 44870776388440916
 }'
 ```
@@ -33,25 +41,25 @@ Possible response is similar to the following.
 {
     "code": 0,
     "data": {
-        "collectionName": "quick_setup",
+        "jobId": "448761313698322011",
+        "collectionName": "medium_articles",
+        "fileName":"medium_articles_2020_dpr.json",
+        "fileSize": 3279917,
+        "state": "Completed",
+        "progress": 100,
         "completeTime": "2024-04-01T06:17:55Z",
+        "reason":"",
+        "totalRows": 100000,
         "details": [
             {
-                "completeTime": "2024-04-01T06:17:53Z",
-                "fileName": "id:448761313698322012 paths:\"a6fb2d1c-7b1b-427c-a8a3-178944e3b66d/1.parquet\" ",
+                "fileName": "medium_articles_2020_dpr.json",
                 "fileSize": 3279917,
-                "importedRows": 100000,
-                "progress": 100,
                 "state": "Completed",
-                "totalRows": 100000
+                "progress": 100,
+                "completeTime": "2024-04-01T06:17:53Z",
+                "reason":""
             }
-        ],
-        "fileSize": 3279917,
-        "importedRows": 100000,
-        "jobId": "448761313698322011",
-        "progress": 100,
-        "state": "Completed",
-        "totalRows": 100000
+        ]
     }
 }
 ```
@@ -70,21 +78,22 @@ Possible response is similar to the following.
 
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation.
-Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.|
-    | __Authorization__  | **string**<br/>The authentication token.|
+    | __Authorization__  | **string**(required)<br/>The authorization token. You should always use an API key with appropriate permissions.|
+    | __Accept__  | **string**<br/>Use `application/json`.|
 
 ### Request Body
 
 ```json
 {
-    "jobId": "string"
+    "jobId": "string",
+    "clusterId": "string"
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| __jobId__ | __string__  <br/>The ID of the bulk-import job of your interest. <br/>The **Create import Jobs** operation usually returns a job ID. You can also call **List Import Jobs** to get the IDs of all bulk-import jobs related to the specific cluster.  |
+| __jobId__ | __string__  <br/>The ID of the import job in concern  |
+| __clusterId__ | __string__  <br/>The ID of a cluster to which this operation applies.  |
 
 ## Response
 
@@ -94,29 +103,27 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 ```json
 {
-    "code": "integer",
+    "code": "string",
     "data": {
+        "jobId": "string",
         "collectionName": "string",
+        "fileName": "string",
+        "fileSize": "integer",
+        "state": "string",
+        "progress": "integer",
         "completeTime": "string",
+        "reason": "string",
+        "totalRows": "integer",
         "details": [
             {
-                "completeTime": "string",
                 "fileName": "string",
-                "fileSize": "string",
-                "progress": "string",
+                "fileSize": "integer",
                 "state": "string",
-                "reason": "string",
-                "importedRows": "string",
-                "totalRows": "string"
+                "progress": "integer",
+                "completeTime": "string",
+                "reason": "string"
             }
-        ],
-        "fileSize": "integer",
-        "jobId": "integer",
-        "progress": "integer",
-        "state": "string",
-        "reason": "string",
-        "importedRows": "integer",
-        "totalRows": "integer"
+        ]
     }
 }
 ```
@@ -124,26 +131,24 @@ Setting this to None indicates that this operation timeouts when any response ar
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| __data__ | __object__<br/> |
-| __data.collectionName__ | __string__  <br/>The name of the target collection of this bulk-import job.  |
-| __data.completeTime__ | __string__  <br/>The timestamp indicating when the bulk-import job is complete.  |
+| __data__ | __object__<br/>Response payload. |
+| __data.jobId__ | __string__  <br/>ID of an import job.  |
+| __data.collectionName__ | __string__  <br/>Target collection name of the import job.  |
+| __data.fileName__ | __string__  <br/>Path of the data file object in the object storage.  |
+| __data.fileSize__ | __integer__  <br/>Size of the data file object.  |
+| __data.state__ | __string__  <br/>State of this import job. Possible values are Pending, Importing, Completed, and Failed.  |
+| __data.progress__ | __integer__  <br/>Progress in percentage of the current import job.  |
+| __data.completeTime__ | __string__  <br/>Timestamp indicating when the import job is complete.  |
+| __data.reason__ | __string__  <br/>Reason for the failure to import data.  |
+| __data.totalRows__ | __integer__  <br/>Number of rows in the specified collection.  |
 | __data[].details__ | __array__<br/>Statistics on data import oriented to data files. |
-| __data[].details[]__ | __object__<br/>Statistics on data import from a file. |
-| __data[].details[].completeTime__ | __string__  <br/>The timestamp at which the file is processed.  |
+| __data[].details[]__ | __object__<br/> |
 | __data[].details[].fileName__ | __string__  <br/>The name of a data file.  |
-| __data[].details[].fileSize__ | __string__  <br/>The size of the data file.  |
-| __data[].details[].progress__ | __string__  <br/>The progress in percentage.  |
-| __data[].details[].state__ | __string__  <br/>The processing state of the data file. Possible values are __Pending__, __Importing__, __Completed__, and __Failed__.  |
-| __data[].details[].reason__ | __string__  <br/>The reason for the failure to bulk import data.  |
-| __data[].details[].importedRows__ | __string__  <br/>The number of rows imported from this file.  |
-| __data[].details[].totalRows__ | __string__  <br/>The number of rows in the specified collection upon the import from this file is complete.  |
-| __data.fileSize__ | __integer__  <br/>The uploaded file size in bytes.  |
-| __data.jobId__ | __integer__  <br/>The ID of this bulk-import job.  |
-| __data.progress__ | __integer__  <br/>The progress in percentage of the current bulk-import job.  |
-| __data.state__ | __string__  <br/>The state of this bulk-import job. Possible values are __Pending__, __Importing__, __Completed__, and __Failed__.  |
-| __data.reason__ | __string__  <br/>The reason for the failure to bulk import data.  |
-| __data.importedRows__ | __integer__  <br/>The number of rows inserted into the specified collection upon this import.  |
-| __data.totalRows__ | __integer__  <br/>The number of rows in the specified collection.  |
+| __data[].details[].fileSize__ | __integer__  <br/>The size of the data file.  |
+| __data[].details[].state__ | __string__  <br/>The processing state of the data file. Possible values are Pending, Importing, Completed, and Failed.  |
+| __data[].details[].progress__ | __integer__  <br/>The progress in percentage.  |
+| __data[].details[].completeTime__ | __string__  <br/>The timestamp at which the file is processed.  |
+| __data[].details[].reason__ | __string__  <br/>The reason for the failure to import data.  |
 
 ### Error Response
 

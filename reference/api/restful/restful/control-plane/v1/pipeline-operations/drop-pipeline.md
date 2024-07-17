@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 4
+sidebar_position: 5
 slug: /restful/drop-pipeline
 title: Drop Pipeline
 ---

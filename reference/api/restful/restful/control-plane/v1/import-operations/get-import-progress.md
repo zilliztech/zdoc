@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 10
+sidebar_position: 11
 slug: /restful/get-import-progress
 title: Get Import Progress
 ---

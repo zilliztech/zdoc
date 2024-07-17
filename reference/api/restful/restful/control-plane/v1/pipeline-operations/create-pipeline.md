@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 11
+sidebar_position: 12
 slug: /restful/create-pipeline
 title: Create Pipeline
 ---

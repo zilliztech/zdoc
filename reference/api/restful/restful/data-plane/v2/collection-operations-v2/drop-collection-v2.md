@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 63
+sidebar_position: 62
 slug: /restful/drop-collection-v2
 title: Drop Collection
 ---

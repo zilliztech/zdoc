@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 61
+sidebar_position: 60
 slug: /restful/update-user-password-v2
 title: Update User Password
 ---

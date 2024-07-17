@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 66
+sidebar_position: 65
 slug: /restful/has-partition-v2
 title: Has Partition
 ---

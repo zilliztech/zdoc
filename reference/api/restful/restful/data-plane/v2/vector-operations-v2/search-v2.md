@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 76
+sidebar_position: 75
 slug: /restful/search-v2
 title: Search
 ---

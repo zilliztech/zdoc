@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 71
+sidebar_position: 70
 slug: /restful/get-partition-statistics-v2
 title: Get Partition Statistics
 ---

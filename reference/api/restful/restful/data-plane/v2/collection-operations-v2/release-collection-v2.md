@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 90
+sidebar_position: 89
 slug: /restful/release-collection-v2
 title: Release Collection
 ---

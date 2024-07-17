@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 87
+sidebar_position: 86
 slug: /restful/resume-cluster-v2
 title: Resume Cluster
 ---

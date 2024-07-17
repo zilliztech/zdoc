@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 22
+sidebar_position: 23
 slug: /restful/list-cloud-providers-v2
 title: List Cloud Providers
 ---

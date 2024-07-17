@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 72
+sidebar_position: 71
 slug: /restful/has-collection-v2
 title: Has Collection
 ---

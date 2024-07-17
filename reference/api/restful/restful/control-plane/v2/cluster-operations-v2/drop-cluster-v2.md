@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 83
+sidebar_position: 82
 slug: /restful/drop-cluster-v2
 title: Drop Cluster
 ---

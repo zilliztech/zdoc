@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 21
+sidebar_position: 22
 slug: /restful/describe-index-v2
 title: Describe Index
 ---

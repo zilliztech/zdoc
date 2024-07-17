@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 57
+sidebar_position: 56
 slug: /restful/grant-privilege-to-role-v2
 title: Grant Privilege To Role
 ---

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 64
+sidebar_position: 63
 slug: /restful/drop-alias-v2
 title: Drop Alias
 ---

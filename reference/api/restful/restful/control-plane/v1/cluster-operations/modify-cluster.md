@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 55
+sidebar_position: 54
 slug: /restful/modify-cluster
 title: Modify Cluster
 ---

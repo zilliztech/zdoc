@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 77
+sidebar_position: 76
 slug: /restful/revoke-role-from-user-v2
 title: Revoke Role From User
 ---

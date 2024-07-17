@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 88
+sidebar_position: 87
 slug: /restful/load-collection-v2
 title: Load Collection
 ---

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 75
+sidebar_position: 74
 slug: /restful/create-alias-v2
 title: Create Alias
 ---

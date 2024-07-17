@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 12
+sidebar_position: 13
 slug: /restful/list-pipelines
 title: List Pipelines
 ---

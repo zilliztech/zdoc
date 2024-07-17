@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 69
+sidebar_position: 68
 slug: /restful/grant-role-to-user-v2
 title: Grant Role To User
 ---

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 84
+sidebar_position: 83
 slug: /restful/get-collection-stats-v2
 title: Get Collection Stats
 ---

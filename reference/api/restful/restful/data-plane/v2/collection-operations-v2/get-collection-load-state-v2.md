@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 92
+sidebar_position: 91
 slug: /restful/get-collection-load-state-v2
 title: Get Collection Load State
 ---

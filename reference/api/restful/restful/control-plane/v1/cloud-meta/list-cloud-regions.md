@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 9
+sidebar_position: 10
 slug: /restful/list-cloud-regions
 title: List Cloud Regions
 ---

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 18
+sidebar_position: 19
 slug: /restful/list-partitions-v2
 title: List Partitions
 ---

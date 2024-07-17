@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 74
+sidebar_position: 73
 slug: /restful/create-free-cluster-v2
 title: Create Free Cluster
 ---

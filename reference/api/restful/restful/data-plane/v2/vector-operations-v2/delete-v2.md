@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 7
+sidebar_position: 8
 slug: /restful/delete-v2
 title: Delete
 ---

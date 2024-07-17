@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 79
+sidebar_position: 78
 slug: /restful/list-projects
 title: List Projects
 ---

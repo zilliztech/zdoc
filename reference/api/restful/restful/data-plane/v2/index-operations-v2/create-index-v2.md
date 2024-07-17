@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 15
+sidebar_position: 16
 slug: /restful/create-index-v2
 title: Create Index
 ---

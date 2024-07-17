@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 70
+sidebar_position: 69
 slug: /restful/drop-role-v2
 title: Drop Role
 ---

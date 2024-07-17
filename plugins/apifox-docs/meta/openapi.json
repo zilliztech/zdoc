@@ -377,6 +377,114 @@
         "security": []
       }
     },
+    "/v2/vectordb/jobs/import/create": {
+      "post": {
+        "summary": "Create Import Jobs",
+        "deprecated": false,
+        "description": "Imports data from files stored in a specified object storage bucket. To learn how to prepare your data files, read [Prepare Data Import](/docs/prepare-source-data).\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \n<p>This API requires an <a href=\"/docs/manage_api_keys\">API key</a> as the authentication token.</p>\n    \n</Admonition>\n\n```shell\nexport API_KEY=\"\"\n\ncurl --location --request POST \"https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create\" \\\n--header \"Authorization: Bearer ${API_KEY}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"clusterId\": \"inxx-xxxxxxxxxxxxxxx\",\n    \"collectionName\": \"medium_articles\",\n    \"partitionName\":\"\",\n    \"objectUrl\": \"https://s3.us-west-2.amazonaws.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json\",\n    \"accessKey\": \"\",\n    \"secretKey\": \"\"\n}'\n```\n\nPossible response is similar to the following\n\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"jobId\": \"448707763884413158\"\n    }\n}\n```",
+        "tags": [
+          "Import Operations (V2)"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The authorization token. You should always use an API key with appropriate permissions.",
+            "required": true,
+            "example": "Bearer {{API_KEY}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Use `application/json`.",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "clusterId": {
+                    "type": "string",
+                    "description": "ID of a cluster to which this operation applies."
+                  },
+                  "collectionName": {
+                    "type": "string",
+                    "description": "Name of the target collection.Setting this to a non-existing collection results in an error."
+                  },
+                  "partitionName": {
+                    "type": "string",
+                    "description": "Name of the partition to which this operation applies."
+                  },
+                  "objectUrl": {
+                    "type": "string",
+                    "description": "URL of the object that stores the data to be imported."
+                  },
+                  "accessKey": {
+                    "type": "string",
+                    "description": "Access key used to access the specified object."
+                  },
+                  "secretKey": {
+                    "type": "string",
+                    "description": "Access secret key used to access the specified object."
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "clusterId",
+                  "objectUrl"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "Response code."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "jobId": {
+                          "type": "string",
+                          "description": "ID of the import job that has been submitted."
+                        }
+                      },
+                      "required": [
+                        "jobId"
+                      ],
+                      "description": "Response payload."
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
     "/v1/pipelines/{PIPELINE_ID}": {
       "get": {
         "summary": "Describe Pipeline",
@@ -4202,131 +4310,6 @@
         "security": []
       }
     },
-    "/v2/vectordb/jobs/import/create": {
-      "post": {
-        "summary": "Create import Jobs",
-        "deprecated": false,
-        "description": "This operation imports the prepared data files to a Milvus instance. To learn how to prepare your data files, read [Prepare Data Import](https://milvus.io/docs/prepare-source-data.md).\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/jobs/import/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"files\": [\n        [\n            \"/d1782fa1-6b65-4ff3-b05a-43a436342445/1.json\"\n        ],\n        [\n            \"/2a12dea7-2eff-4b34-97b6-9554063fd791/1/id.npy\",\n            \"/2a12dea7-2eff-4b34-97b6-9554063fd791/1/vector.npy\",\n            \"/2a12dea7-2eff-4b34-97b6-9554063fd791/1/$meta.npy\"\n        ],\n        [\n            \"/a6fb2d1c-7b1b-427c-a8a3-178944e3b66d/1.parquet\"\n        ]\n    ],\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"jobId\": \"448707763884413158\"\n    }\n}\n```",
-        "tags": [
-          "Import Operations (V2)"
-        ],
-        "parameters": [
-          {
-            "name": "Request-Timeout",
-            "in": "header",
-            "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
-            "required": false,
-            "example": "",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "The authentication token.",
-            "required": false,
-            "example": "Bearer {{TOKEN}}",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "dbName": {
-                    "type": "string",
-                    "description": "The name of the database to which the collection belongs.\nSetting this to a non-existing database results in an error."
-                  },
-                  "collectionName": {
-                    "type": "string",
-                    "description": "The name of the target collection.\nSetting this to a non-existing collection results in an error."
-                  },
-                  "files": {
-                    "type": "array",
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "description": "A list of file paths, relative to the root of your Milvus bucket on the MinIO instance shipped along with the Milvus instance."
-                      },
-                      "description": "A sub-list that contains a single JSON or Parquet file, or a set of NumPy files."
-                    },
-                    "description": "The files that contain the data to import. The files should reside within the Milvus bucket on the MinIO instance deployed along with your Milvus instance."
-                  },
-                  "options": {
-                    "type": "object",
-                    "properties": {
-                      "timeout": {
-                        "type": "string",
-                        "description": "The timeout duration of the created import jobs. The value should be a positive number suffixed by __s__ (seconds), __m__ (minutes), and __h__(hours). For example, _300s_, _1.5h_, and _1h45_ are all valid values."
-                      }
-                    },
-                    "description": "Bulk-import options."
-                  }
-                },
-                "required": [
-                  "files",
-                  "collectionName"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "The ID of the bulk-import job.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "jobID": {
-                            "type": "string",
-                            "description": "The ID of the current bulk-import job."
-                          }
-                        },
-                        "required": [
-                          "jobID"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "code",
-                    "data"
-                  ]
-                },
-                "examples": {
-                  "1": {
-                    "summary": "Success",
-                    "value": {
-                      "code": 200,
-                      "data": {
-                        "jobID": "448300048036249282"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": []
-      }
-    },
     "/v2/vectordb/entities/insert": {
       "post": {
         "summary": "Insert",
@@ -8030,199 +8013,6 @@
                     "value": {
                       "code": 200,
                       "data": {}
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": []
-      }
-    },
-    "/v2/vectordb/jobs/import/get_progress": {
-      "post": {
-        "summary": "Get Import Job Progress",
-        "deprecated": false,
-        "description": "This operation gets the progress of the specified bulk-import job.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/jobs/import/get_progress\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"jobId\": 44870776388440916\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"collectionName\": \"quick_setup\",\n        \"completeTime\": \"2024-04-01T06:17:55Z\",\n        \"details\": [\n            {\n                \"completeTime\": \"2024-04-01T06:17:53Z\",\n                \"fileName\": \"id:448761313698322012 paths:\\\"a6fb2d1c-7b1b-427c-a8a3-178944e3b66d/1.parquet\\\" \",\n                \"fileSize\": 3279917,\n                \"importedRows\": 100000,\n                \"progress\": 100,\n                \"state\": \"Completed\",\n                \"totalRows\": 100000\n            }\n        ],\n        \"fileSize\": 3279917,\n        \"importedRows\": 100000,\n        \"jobId\": \"448761313698322011\",\n        \"progress\": 100,\n        \"state\": \"Completed\",\n        \"totalRows\": 100000\n    }\n}\n```",
-        "tags": [
-          "Import Operations (V2)"
-        ],
-        "parameters": [
-          {
-            "name": "Request-Timeout",
-            "in": "header",
-            "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
-            "required": false,
-            "example": "",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "The authentication token.",
-            "required": false,
-            "example": "Bearer {{TOKEN}}",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "dbName": {
-                    "type": "string",
-                    "description": "The name of the target database of this operation.."
-                  },
-                  "jobId": {
-                    "type": "string",
-                    "description": "The ID of the bulk-import job of your interest. \nThe **Create import Jobs** operation usually returns a job ID. You can also call **List Import Jobs** to get the IDs of all bulk-import jobs related to the specific cluster."
-                  }
-                },
-                "required": [
-                  "jobId"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "成功",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "collectionName": {
-                          "type": "string",
-                          "description": "The name of the target collection of this bulk-import job."
-                        },
-                        "completeTime": {
-                          "type": "string",
-                          "description": "The timestamp indicating when the bulk-import job is complete."
-                        },
-                        "details": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "completeTime": {
-                                "type": "string",
-                                "description": "The timestamp at which the file is processed."
-                              },
-                              "fileName": {
-                                "type": "string",
-                                "description": "The name of a data file."
-                              },
-                              "fileSize": {
-                                "type": "string",
-                                "description": "The size of the data file."
-                              },
-                              "progress": {
-                                "type": "string",
-                                "description": "The progress in percentage."
-                              },
-                              "state": {
-                                "type": "string",
-                                "description": "The processing state of the data file. Possible values are __Pending__, __Importing__, __Completed__, and __Failed__."
-                              },
-                              "reason": {
-                                "type": "string",
-                                "description": "The reason for the failure to bulk import data."
-                              },
-                              "importedRows": {
-                                "type": "string",
-                                "description": "The number of rows imported from this file."
-                              },
-                              "totalRows": {
-                                "type": "string",
-                                "description": "The number of rows in the specified collection upon the import from this file is complete."
-                              }
-                            },
-                            "required": [
-                              "completeTime",
-                              "fileName",
-                              "fileSize",
-                              "importedRows",
-                              "progress",
-                              "state",
-                              "totalRows"
-                            ],
-                            "description": "Statistics on data import from a file."
-                          },
-                          "description": "Statistics on data import oriented to data files."
-                        },
-                        "fileSize": {
-                          "type": "integer",
-                          "description": "The uploaded file size in bytes."
-                        },
-                        "jobId": {
-                          "type": "integer",
-                          "description": "The ID of this bulk-import job."
-                        },
-                        "progress": {
-                          "type": "integer",
-                          "description": "The progress in percentage of the current bulk-import job."
-                        },
-                        "state": {
-                          "type": "string",
-                          "description": "The state of this bulk-import job. Possible values are __Pending__, __Importing__, __Completed__, and __Failed__."
-                        },
-                        "reason": {
-                          "type": "string",
-                          "description": "The reason for the failure to bulk import data."
-                        },
-                        "importedRows": {
-                          "type": "integer",
-                          "description": "The number of rows inserted into the specified collection upon this import."
-                        },
-                        "totalRows": {
-                          "type": "integer",
-                          "description": "The number of rows in the specified collection."
-                        }
-                      },
-                      "required": [
-                        "state",
-                        "collectionName",
-                        "jobId",
-                        "completeTime",
-                        "progress",
-                        "fileSize",
-                        "importedRows",
-                        "totalRows",
-                        "details"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "code",
-                    "data"
-                  ]
-                },
-                "examples": {
-                  "1": {
-                    "summary": "Success",
-                    "value": {
-                      "code": 200,
-                      "data": {
-                        "jobID": "448300048036249282",
-                        "progress": 0,
-                        "reason": "no file for field: vector, files: [dataimport/dd2bba42-b9c2-4cac-8dff-8285b95f5b1f/*.npy]: importing data failed",
-                        "state": "Failed"
-                      }
                     }
                   }
                 }

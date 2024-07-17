@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 81
+sidebar_position: 80
 slug: /restful/drop-partition-v2
 title: Drop Partition
 ---

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 59
+sidebar_position: 58
 slug: /restful/release-partitions-v2
 title: Release Partitions
 ---

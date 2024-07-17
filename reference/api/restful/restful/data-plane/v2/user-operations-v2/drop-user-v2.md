@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 56
+sidebar_position: 55
 slug: /restful/drop-user-v2
 title: Drop User
 ---
