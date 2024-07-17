@@ -90,7 +90,7 @@ Returns the ID of the affected cluster.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __data__ | __object__<br/> |
 | __data.clusterId__ | __string__  <br/>The ID of a cluster.  |
 | __data.prompt__ | __string__  <br/>The statement indicating that the current operation succeeds.  |
@@ -106,6 +106,6 @@ Returns the ID of the affected cluster.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 

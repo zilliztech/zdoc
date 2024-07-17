@@ -119,7 +119,7 @@ Returns the progress of the specified job ID in percentage.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __data__ | __object__<br/> |
 | __data.fileName__ | __string__  <br/>The path of the data file object in the object storage.  |
 | __data.fileSize__ | __integer__ (int64) <br/>The size of the data file object.  |
@@ -147,6 +147,6 @@ Returns the progress of the specified job ID in percentage.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 

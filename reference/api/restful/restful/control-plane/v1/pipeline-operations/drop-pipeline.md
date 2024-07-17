@@ -163,7 +163,7 @@ Returns information of a specific pipeline just dropped.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __data__ | __object__<br/> |
 | __data.pipelineId__ | __integer__  <br/>A pipeline ID.  |
 | __data.name__ | __string__  <br/>Name of the pipeline.  |
@@ -230,7 +230,7 @@ Returns information of a specific pipeline just dropped.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __data__ | __object__<br/> |
 | __data.pipelineId__ | __integer__  <br/>A pipeline ID.  |
 | __data.name__ | __string__  <br/>Name of the pipeline  |
@@ -273,7 +273,7 @@ Returns information of a specific pipeline just dropped.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __data__ | __object__<br/> |
 | __data.pipelineId__ | __integer__  <br/>A pipeline ID.  |
 | __data.name__ | __string__  <br/>Name of the pipeline.  |
@@ -299,6 +299,6 @@ Returns information of a specific pipeline just dropped.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 

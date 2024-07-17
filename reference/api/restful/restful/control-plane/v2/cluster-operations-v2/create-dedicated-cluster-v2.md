@@ -93,13 +93,13 @@ Possible response is similar to the following
 | __clusterName__ | __string__  <br/>Name of the cluster to create.  |
 | __projectId__ | __string__  <br/>ID of the project to which the cluster belongs.  |
 | __regionId__ | __string__  <br/>ID of the cloud region hosting the cluster.  |
-| __plan__ | __string__  <br/>Subscription plan of the cluster.  |
-| __cuType__ | __string__  <br/>CU type of the cluster.<br/> This applies to dedicated clusters only. For free and serverless clusters, the value is empty.  |
+| __plan__ | __string__  <br/>Subscription plan of the cluster. For details, refer to <a href="/docs/select-zilliz-cloud-service-plans">Select Zilliz Cloud Service Plans</a>.<br/>Possible values: "**Standard**", "**Enterprise**"  |
+| __cuType__ | __string__  <br/>CU type of the cluster.<br/> This applies to dedicated clusters only. For free and serverless clusters, the value is empty.<br/>Possible values: "**Performance-optimized**", "**Capacity-optimized**"  |
 | __cuSize__ | __integer__  <br/>CU size of the cluster. For free and serverless clusters, the value is always `0`.<br/>The value ranges from 1 to 256.  |
 
 ## Response
 
-成功
+Returns the details of the created cluster.
 
 ### Response Body
 
@@ -117,7 +117,7 @@ Possible response is similar to the following
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __data__ | __object__<br/>Response payload. |
 | __data.clusterId__ | __string__  <br/>ID of the cluster created.  |
 | __data.username__ | __string__  <br/>Name of the cluster administration user named `db_admin`.  |
@@ -135,6 +135,6 @@ Possible response is similar to the following
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 

@@ -73,7 +73,7 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 ## Response
 
-成功
+Returns the number of entities in the specified partition.
 
 ### Response Body
 
@@ -88,7 +88,7 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __data__ | __object__<br/> |
 | __data.rowCount__ | __integer__  <br/>The number of entities.  |
 
@@ -103,6 +103,6 @@ Setting this to None indicates that this operation timeouts when any response ar
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 

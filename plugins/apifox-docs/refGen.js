@@ -417,6 +417,7 @@ class refGen {
       var description = field.description ? field.description.replace('\n', '<br/>').trim() : ''
       var value_range = ""
       var field_name = ""
+      var enumValues = ""
 
       if (parent_type == 'array' && name != '') {
         field_name = `${parent_name}[].${name}`
@@ -436,7 +437,11 @@ class refGen {
         value_range = `<br/>The value is less than or equal to ${field.maximum}.`
       }
 
-      entries.push(`| __${field_name.replace('.[', '[')}__ | __${field.type}__ ${format} ${required}<br/>${description}${default_value}${value_range}  |`)
+      if (field.enum) {
+        enumValues = `<br/>Possible values: ${field.enum.map(x => `"**${x}**"`).join(', ')}`
+      }
+
+      entries.push(`| __${field_name.replace('.[', '[')}__ | __${field.type}__ ${format} ${required}<br/>${description}${default_value}${value_range}${enumValues}  |`)
     }
 
     var process_object = function(field, name, parent_name, parent_type) {

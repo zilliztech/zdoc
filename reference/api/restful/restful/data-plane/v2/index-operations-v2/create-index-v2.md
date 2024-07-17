@@ -90,7 +90,7 @@ Setting this to None indicates that this operation timeouts when any response ar
 | __collectionName__ | __string__  <br/>The name of the target collection.<br/>Setting this to a non-existing collection results in an error.  |
 | __indexParams__ | __array__<br/>The parameters that apply to the index-building process. |
 | __indexParams[]__ | __object__<br/> |
-| __indexParams[].metricType__ | __string__  <br/>The similarity metric type used to build the index.<br/>The value defaults to COSINE  |
+| __indexParams[].metricType__ | __string__  <br/>The similarity metric type used to build the index.<br/>The value defaults to COSINE<br/>Possible values: "**L2**", "**IP**", "**COSINE**"  |
 | __indexParams[].fieldName__ | __string__  <br/>The name of the target field on which an index is to be created.  |
 | __indexParams[].indexName__ | __string__  <br/>The name of the index to create, the value defaults to the target field name.  |
 | __indexParams[].params__ | __object__<br/>The index type and related settings. For details, refer to [Vector Indexes](https://milvus.io/docs/index.md). |
@@ -114,7 +114,7 @@ A Status object indicating whether this operation succeeds.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __data__ | __object__<br/> |
 
 ### Error Response
@@ -128,6 +128,6 @@ A Status object indicating whether this operation succeeds.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 

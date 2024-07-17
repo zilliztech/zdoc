@@ -162,7 +162,7 @@ Setting this to None indicates that this operation timeouts when any response ar
 | __search[].annsField__ | __string__  <br/>The name of the vector field.  |
 | __search[].filter__ | __string__  <br/>A boolean expression filter.  |
 | __search[].groupingField__ | __string__  <br/>The name of the field that serve as the aggregation criteria.  |
-| __search[].metricType__ | __string__  <br/>The name of the metric type that applies to the current search. The value should be the same as the metric type of the target collection.<br/>The value defaults to COSINE  |
+| __search[].metricType__ | __string__  <br/>The name of the metric type that applies to the current search. The value should be the same as the metric type of the target collection.<br/>The value defaults to COSINE<br/>Possible values: "**L2**", "**IP**", "**COSINE**"  |
 | __search[].limit__ | __integer__  <br/>The number of entities to return.  |
 | __search[].offset__ | __integer__  <br/>The number of entities to skip in the returned entities.  |
 | __search[].ignoreGrowing__ | __boolean__  <br/>Whether to ignore the entities found in the growing segments.  |
@@ -170,7 +170,7 @@ Setting this to None indicates that this operation timeouts when any response ar
 | __search[].params.radius__ | __integer__  <br/>Determines the threshold of least similarity. When setting metric_type to L2, ensure that this value is greater than that of range_filter. Otherwise, this value should be lower than that of range_filter.  |
 | __search[].params.range_filter__ | __integer__  <br/>Refines the search to vectors within a specific similarity range. When setting metric_type to IP or COSINE, ensure that this value is greater than that of radius. Otherwise, this value should be lower than that of radius.  |
 | __rerank__ | __object__<br/>The reranking strategy. |
-| __rerank.strategy__ | __string__  <br/>The name of the reranking strategy.  |
+| __rerank.strategy__ | __string__  <br/>The name of the reranking strategy.<br/>Possible values: "**rrf**", "**ws**"  |
 | __rerank.params__ | __object__<br/>A set of parameters related to the specified strategy |
 | __rerank.params.k__ | __integer__  <br/>A tunable constant in the RRF algorithm. This applies only when the strategy is set to `rrf`.  |
 | __limit__ | __integer__  <br/>The total number of entities to return.<br/>You can use this parameter in combination with **offset** in **param** to enable pagination.
@@ -195,7 +195,7 @@ Returns the search results.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __data__ | __array__<br/> |
 | __data[]__ | __object__<br/> |
 
@@ -210,6 +210,6 @@ Returns the search results.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 

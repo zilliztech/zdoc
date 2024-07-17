@@ -449,7 +449,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the ID of the created import jobs.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3918,7 +3918,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the collected statistics on the queried metrics.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5484,7 +5484,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the list of import jobs of a specific cluster.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6169,7 +6169,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the details of a specified cluster.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6341,7 +6341,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the progress of a specified import job.",
             "content": {
               "application/json": {
                 "schema": {
@@ -7785,7 +7785,7 @@
                       "Standard",
                       "Enterprise"
                     ],
-                    "description": "Subscription plan of the cluster."
+                    "description": "Subscription plan of the cluster. For details, refer to <a href=\"/docs/select-zilliz-cloud-service-plans\">Select Zilliz Cloud Service Plans</a>."
                   },
                   "cuType": {
                     "type": "string",
@@ -7816,7 +7816,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the details of the created cluster.",
             "content": {
               "application/json": {
                 "schema": {
@@ -9002,7 +9002,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the details of the created cluster.",
             "content": {
               "application/json": {
                 "schema": {
@@ -9581,7 +9581,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the number of entities in the specified partition.",
             "content": {
               "application/json": {
                 "schema": {
@@ -9941,7 +9941,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the details of the created cluster.",
             "content": {
               "application/json": {
                 "schema": {
@@ -11112,7 +11112,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the ID of the dropped cluster.",
             "content": {
               "application/json": {
                 "schema": {
@@ -11319,7 +11319,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the ID of the suspended cluster.",
             "content": {
               "application/json": {
                 "schema": {
@@ -11495,7 +11495,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the ID of the resumed cluster.",
             "content": {
               "application/json": {
                 "schema": {
@@ -11698,7 +11698,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the ID of the modified cluster.",
             "content": {
               "application/json": {
                 "schema": {
@@ -11877,7 +11877,7 @@
                       "properties": {
                         "metricName": {
                           "type": "string",
-                          "description": "Name of a metric. <br/>For possible values, refer to the enumerations. <br/>For details on these metrics, refer to [Metrics & Alerts Reference](/docs/metrics-alerts-reference).",
+                          "description": "Name of a metric. <br/>For details on these metrics, refer to [Metrics & Alerts Reference](/docs/metrics-alerts-reference).",
                           "enum": [
                             "CU_COMPUTATION",
                             "CU_CAPACITY",

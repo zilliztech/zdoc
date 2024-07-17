@@ -235,7 +235,7 @@ Possible responses for the above requests are similar to the following:
 |------------------|-------------------------------------------------------------------------------------------|
 | __collectionName__ | __string__  <br/>The name of the collection to create.  |
 | __dimension__ | __integer__  <br/>The number of dimensions a vector value should have.<br/>This is required if **dtype** of this field is set to **DataType.FLOAT_VECTOR**.  |
-| __metricType__ | __string__  <br/>The metric type applied to this operation. <br/>Possible values are **L2**, **IP**, and **COSINE**.<br/>The value defaults to COSINE  |
+| __metricType__ | __string__  <br/>The metric type applied to this operation. <br/>Possible values are **L2**, **IP**, and **COSINE**.<br/>The value defaults to COSINE<br/>Possible values: "**L2**", "**IP**", "**COSINE**"  |
 | __idType__ | __string__  <br/>The data type of the primary field. This parameter is designed for the quick-setup of a collection and will be ignored if __schema__ is defined.  |
 | __autoID__ | __string__  <br/>Whether the primary field automatically increments. This parameter is designed for the quick-setup of a collection and will be ignored if __schema__ is defined.<br/>The value defaults to false  |
 | __primaryFieldName__ | __string__  <br/>The name of the primary field. This parameter is designed for the quick-setup of a collection and will be ignored if __schema__ is defined.  |
@@ -256,7 +256,7 @@ Possible responses for the above requests are similar to the following:
 | __schema[].fields[].elementTypeParams.max_capacity__ | __integer__  <br/>An optional parameter for Array field values that determines the maximum number of elements in the current array field.  |
 | __indexParams__ | __array__<br/>The parameters that apply to the index-building process. |
 | __indexParams[]__ | __object__<br/> |
-| __indexParams[].metricType__ | __string__  <br/>The similarity metric type used to build the index.<br/>The value defaults to COSINE  |
+| __indexParams[].metricType__ | __string__  <br/>The similarity metric type used to build the index.<br/>The value defaults to COSINE<br/>Possible values: "**L2**", "**IP**", "**COSINE**"  |
 | __indexParams[].fieldName__ | __string__  <br/>The name of the target field on which an index is to be created.  |
 | __indexParams[].indexName__ | __string__  <br/>The name of the index to create, the value defaults to the target field name.  |
 | __indexParams[].params__ | __object__<br/>The index type and related settings. For details, refer to [Vector Indexes](https://milvus.io/docs/index.md). |
@@ -287,7 +287,7 @@ Returns A collection object.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __data__ | __object__<br/> |
 
 ### Error Response
@@ -301,6 +301,6 @@ Returns A collection object.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 

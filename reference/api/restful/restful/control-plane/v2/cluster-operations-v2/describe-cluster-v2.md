@@ -86,7 +86,7 @@ No request body required
 
 ## Response
 
-成功
+Returns the details of a specified cluster.
 
 ### Response Body
 
@@ -115,15 +115,15 @@ No request body required
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __data__ | __object__<br/>Response payload. |
 | __data.clusterId__ | __string__  <br/>ID of the specified cluster.  |
 | __data.clusterName__ | __string__  <br/>Name of the cluster.  |
 | __data.projectId__ | __string__  <br/>ID of the project to which the cluster belongs.  |
 | __data.description__ | __string__  <br/>Description of the cluster.  |
 | __data.regionId__ | __string__  <br/>ID of the cloud region hosting the cluster.  |
-| __data.cuType__ | __string__  <br/>CU type of the cluster. <br/>This applies to dedicated clusters only. For free and serverless clusters, the value is empty.  |
-| __data.plan__ | __string__  <br/>Subscription plan of the cluster.  |
+| __data.cuType__ | __string__  <br/>CU type of the cluster. <br/>This applies to dedicated clusters only. For free and serverless clusters, the value is empty.<br/>Possible values: "**Performance-optimized**", "**Capacity-optimized**"  |
+| __data.plan__ | __string__  <br/>Subscription plan of the cluster.<br/>Possible values: "**Free**", "**Serverless**", "**Standard**", "**Enterprise**"  |
 | __data.status__ | __string__  <br/>Current status of the cluster.  |
 | __data.connectAddress__ | __string__  <br/>Public endpoint of the cluster.  |
 | __data.privateLinkAddress__ | __string__  <br/>Private link of the cluster.  |
@@ -144,6 +144,6 @@ No request body required
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 

@@ -122,7 +122,7 @@ No request body required
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br>Indicates whether the request succeeds.<br><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br>Indicates whether the request succeeds.<br><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 {{ res_body | prepare_entries }}
 
 {%- endfor %}
@@ -139,6 +139,6 @@ No request body required
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br>Indicates whether the request succeeds.<br><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br>Indicates whether the request succeeds.<br><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __message__  | **string**<br>Indicates the possible reason for the reported error. |
 

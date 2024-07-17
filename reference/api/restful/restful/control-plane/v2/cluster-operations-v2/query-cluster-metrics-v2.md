@@ -122,8 +122,8 @@ Possible response is similar to the following.
 | __granularity__ | __string__  <br/>The time interval at which Milvus reports the metrics, expressed in ISO 8601 duration format in UTC. The minimum granularity is PT30S.  |
 | __metricQueries__ | __array__<br/>List of **MetricQuery** objects. |
 | __metricQueries[]__ | __object__<br/>A **MetricQuery** object. |
-| __metricQueries[].metricName__ | __string__  <br/>Name of a metric. <br/>For possible values, refer to the enumerations. <br/>For details on these metrics, refer to [Metrics & Alerts Reference](/docs/metrics-alerts-reference).  |
-| __metricQueries[].stat__ | __string__  <br/>The statistical method to apply to the metric. Valid values include **AVG** (average) and **P99** (99th percentile) for latency metrics. **AVG** is available for all other metrics.  |
+| __metricQueries[].metricName__ | __string__  <br/>Name of a metric. <br/>For details on these metrics, refer to [Metrics & Alerts Reference](/docs/metrics-alerts-reference).<br/>Possible values: "**CU_COMPUTATION**", "**CU_CAPACITY**", "**STORAGE_USE**", "**REQ_INSERT_COUNT**", "**REQ_BULK_INSERT_COUNT**", "**REQ_UPSERT_COUNT**", "**REQ_DELETE_COUNT**", "**REQ_SEARCH_COUNT**", "**REQ_QUERY_COUNT**", "**VECTOR_REQ_INSERT_COUNT**", "**VECTOR_REQ_UPSERT_COUNT**", "**VECTOR_REQ_SEARCH_COUNT**", "**REQ_INSERT_LATENCY**", "**REQ_BULK_INSERT_LATENCY**", "**REQ_UPSERT_LATENCY**", "**REQ_DELETE_LATENCY**", "**REQ_SEARCH_LATENCY**", "**REQ_QUERY_LATENCY**", "**REQ_SUCCESS_RATE**", "**REQ_FAIL_RATE**", "**REQ_FAIL_RATE_INSERT**", "**REQ_FAIL_RATE_BULK_INSERT**", "**REQ_FAIL_RATE_UPSERT**", "**REQ_FAIL_RATE_DELETE**", "**REQ_FAIL_RATE_SEARCH**", "**REQ_FAIL_RATE_QUERY**", "**ENTITIES_LOADED**", "**ENTITIES_INSERT_RATE**", "**COLLECTIONS_COUNT**", "**ENTITIES_COUNT**"  |
+| __metricQueries[].stat__ | __string__  <br/>The statistical method to apply to the metric. Valid values include **AVG** (average) and **P99** (99th percentile) for latency metrics. **AVG** is available for all other metrics.<br/>Possible values: "**AVG**", "**P99**"  |
 
 ## Response
 
@@ -154,7 +154,7 @@ Return the collected statistics on the specified metric in detail.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __data__ | __object__<br/>Response payload. |
 | __data[].results__ | __array__<br/>List of collected statistics on the specified metric. |
 | __data[].results[]__ | __object__<br/>A set of collected statistics. |
@@ -177,6 +177,6 @@ Return the collected statistics on the specified metric in detail.
 
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| __code__   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`0`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | __message__  | **string**<br/>Indicates the possible reason for the reported error. |
 
