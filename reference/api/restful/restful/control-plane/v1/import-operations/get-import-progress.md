@@ -31,7 +31,6 @@ export JOB_ID="job-xxxxxxxxxxxxxxxxxxxxxx"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 export API_KEY=""
 
-
 curl --location --request GET "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOB_ID}&clusterId=${CLUSTER_ID}" \
 --header "Authorization: Bearer ${API_KEY}"
 ```

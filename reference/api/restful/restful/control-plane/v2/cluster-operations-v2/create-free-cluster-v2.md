@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 73
+sidebar_position: 69
 slug: /restful/create-free-cluster-v2
 title: Create Free Cluster
 ---
@@ -24,7 +24,6 @@ import Admonition from '@theme/Admonition';
 <p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
     
 </Admonition>
-
 
 ```shell
 export API_KEY=""

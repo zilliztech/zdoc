@@ -73,7 +73,6 @@ Possible response is similar to the following
 </TabItem>
 <TabItem value="doc">
 
-
 ```shell
 export CLOUD_REGION="gcp-us-west1"
 export API_KEY=""  
@@ -106,11 +105,8 @@ Possible response is similar to the following:
 }
 ```
 
-
 </TabItem>
 <TabItem value="image">
-
-
 
 ```shell
 export CLOUD_REGION="gcp-us-west1"
@@ -198,7 +194,6 @@ Possible response is similar to the following
 </TabItem>
 <TabItem value="doc">
 
-
 ```shell
 export CLOUD_REGION="gcp-us-west1"
 export API_KEY=""  
@@ -250,7 +245,6 @@ Possible response is similar to the following:
   }
 }
 ```
-
 
 </TabItem>
 <TabItem value="image">
@@ -377,7 +371,6 @@ Possible response is similar to the following
 </TabItem>
 <TabItem value="doc">
 
-
 ```shell
 export CLOUD_REGION="gcp-us-west1"
 export API_KEY=""  
@@ -404,7 +397,6 @@ Possible response is similar to the following:
   }
 }
 ```
-
 
 </TabItem>
 <TabItem value="image">

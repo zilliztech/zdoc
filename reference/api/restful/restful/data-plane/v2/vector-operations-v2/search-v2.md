@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 75
+sidebar_position: 71
 slug: /restful/search-v2
 title: Search
 ---
@@ -17,6 +17,17 @@ This operation conducts a vector similarity search with an optional scalar filte
 
 
 
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+    
+You can use either of the following ways to authorize:
+<ul>
+<li> An API Key with appropriate permissions.</li>
+<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>
+</ul>
+    
+</Admonition>
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="username:password"
@@ -74,8 +85,7 @@ Possible response is similar to the following.
 
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation.
-Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.|
+    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.|
     | __Authorization__  | **string**<br/>The authentication token.|
 
 ### Request Body
@@ -104,7 +114,7 @@ Setting this to None indicates that this operation timeouts when any response ar
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
 | __collectionName__ | __string__  <br/>The name of the collection to which this operation applies.  |
-| __data__ | __array__<br/>A list of vector embeddings.<br/><include target="milvus">Milvus</include><include target="zilliz">Zilliz Cloud</include> searches for the most similar vector embeddings to the specified ones. |
+| __data__ | __array__<br/>A list of vector embeddings.<br/>Zilliz Cloud searches for the most similar vector embeddings to the specified ones. |
 | __data[]__ | __number__ (float32) <br/>A vector embedding  |
 | __annsField__ | __string__  <br/>The name of the vector field.  |
 | __filter__ | __string__  <br/>The filter used to find matches for the search.  |

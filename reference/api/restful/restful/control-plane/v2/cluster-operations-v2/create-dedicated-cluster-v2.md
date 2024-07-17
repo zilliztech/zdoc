@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 51
+sidebar_position: 50
 slug: /restful/create-dedicated-cluster-v2
 title: Create Dedicated Cluster
 ---

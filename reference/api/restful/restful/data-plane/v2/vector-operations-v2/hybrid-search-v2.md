@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 77
+sidebar_position: 72
 slug: /restful/hybrid-search-v2
 title: Hybrid Search
 ---
@@ -17,6 +17,17 @@ import RestHeader from '@site/src/components/RestHeader';
 
 
 
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+    
+You can use either of the following ways to authorize:
+<ul>
+<li> An API Key with appropriate permissions.</li>
+<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>
+</ul>
+    
+</Admonition>
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="username:password"
@@ -113,8 +124,7 @@ Possible response is similar to the following.
 
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation.
-Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.|
+    | __Request-Timeout__  | **integer**<br/>The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.|
     | __Authorization__  | **string**<br/>The authentication token.|
 
 ### Request Body
@@ -157,7 +167,7 @@ Setting this to None indicates that this operation timeouts when any response ar
 | __partitionNames[]__ | __string__  <br/>PartitionName  |
 | __search__ | __array__<br/>The search parameters |
 | __search[]__ | __object__<br/>Search parameter for a vector field. |
-| __search[][].data__ | __array__<br/>A list of vector embeddings.<include target="milvus">Milvus</include><include target="zilliz">Zilliz Cloud</include> searches for the most similar vector embeddings to the specified ones. |
+| __search[][].data__ | __array__<br/>A list of vector embeddings.Zilliz Cloud searches for the most similar vector embeddings to the specified ones. |
 | __search[][].data[]__ | __number__ (float32) <br/>A vector embedding  |
 | __search[].annsField__ | __string__  <br/>The name of the vector field.  |
 | __search[].filter__ | __string__  <br/>A boolean expression filter.  |

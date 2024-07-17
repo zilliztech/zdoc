@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 64
+sidebar_position: 61
 slug: /restful/create-serverless-cluster-v2
 title: Create Serverless Cluster
 ---

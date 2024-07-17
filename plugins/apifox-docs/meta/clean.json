@@ -1202,7 +1202,7 @@
             "get": {
                 "summary": "List Collections",
                 "deprecated": false,
-                "description": "Lists collections in a cluster.\n\n## Example\n\n<include target=\"zilliz\">\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use eitehr of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n</include>\n\n```shell\n<include target=\"milvus\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v1/vector/collections\" \\\n</include>\n<include target=\"zilliz\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\"\nexport TOKEN=\"db_admin:xxxxxxxxxxx\"\n\ncurl --location --request POST \"http://${CLOUD_ENDPOINT}/v1/vector/collections\" \\\n</include>\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": [\n        \"custom_setup_not_indexed\",\n        \"quick_setup\",\n        \"custom_setup_indexed\"\n    ]\n}\n```",
+                "description": "Lists collections in a cluster.\n\n## Example\n\n<include target=\"zilliz\">\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n</include>\n\n```shell\n<include target=\"milvus\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v1/vector/collections\" \\\n</include>\n<include target=\"zilliz\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\"\nexport TOKEN=\"db_admin:xxxxxxxxxxx\"\n\ncurl --location --request POST \"http://${CLOUD_ENDPOINT}/v1/vector/collections\" \\\n</include>\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": [\n        \"custom_setup_not_indexed\",\n        \"quick_setup\",\n        \"custom_setup_indexed\"\n    ]\n}\n```",
                 "tags": [
                     "Collection Operations"
                 ],
@@ -1237,7 +1237,7 @@
             "post": {
                 "summary": "Delete",
                 "deprecated": false,
-                "description": "Deletes one or more entities from a collection.\n\n<include target=\"zilliz\">\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use eitehr of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n</include>\n\n```shell\n<include target=\"milvus\">\nexport MILVUS_URI=\"http://localhost:19530\"\nexport TOKEN=\"username:password\"\n\ncurl --request POST \\\n    --url \"${CLUSTER_ENDPOINT}/v1/vector/delete\" \\\n</include>\n<include target=\"zilliz\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\"\nexport TOKEN=\"db_admin:xxxxxxxxxxx\"\n\ncurl --request POST \\\n    --url \"${CLUSTER_ENDPOINT}/v1/vector/delete\" \\\n</include>\n    --header \"Authorization: Bearer ${TOKEN}\" \\\n    --header \"accept: application/json\" \\\n    --header \"content-type: application/json\" \\\n    -d '{\n      \"collectionName\": \"medium_articles\",\n      \"id\": 1\n    }'\n```\n\nPossible response is similar to the following.\n\n```json\n{\n    \"code\": 200,\n    \"data\": {}\n}\n```",
+                "description": "Deletes one or more entities from a collection.\n\n<include target=\"zilliz\">\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n</include>\n\n```shell\n<include target=\"milvus\">\nexport MILVUS_URI=\"http://localhost:19530\"\nexport TOKEN=\"username:password\"\n\ncurl --request POST \\\n    --url \"${CLUSTER_ENDPOINT}/v1/vector/delete\" \\\n</include>\n<include target=\"zilliz\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\"\nexport TOKEN=\"db_admin:xxxxxxxxxxx\"\n\ncurl --request POST \\\n    --url \"${CLUSTER_ENDPOINT}/v1/vector/delete\" \\\n</include>\n    --header \"Authorization: Bearer ${TOKEN}\" \\\n    --header \"accept: application/json\" \\\n    --header \"content-type: application/json\" \\\n    -d '{\n      \"collectionName\": \"medium_articles\",\n      \"id\": 1\n    }'\n```\n\nPossible response is similar to the following.\n\n```json\n{\n    \"code\": 200,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Vector Operations"
                 ],
@@ -1355,7 +1355,7 @@
             "post": {
                 "summary": "Delete",
                 "deprecated": false,
-                "description": "This operation deletes entities by their IDs or with a boolean expression.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/delete\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\",\n    \"filter\": \"id in [0,1]\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation deletes entities by their IDs or with a boolean expression.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/delete\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\",\n    \"filter\": \"id in [0,1]\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Vector Operations (V2)"
                 ],
@@ -1363,7 +1363,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -1445,7 +1445,7 @@
             "post": {
                 "summary": "List Collections",
                 "deprecated": false,
-                "description": "This operation lists all collections in the specified database.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/list\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \n```\n\nThe possible output will be similar to the following:\n\n```json\n{\n  \"code\": 0,\n  \"data\": [\n    \"quick_setup_new\",\n    \"customized_setup_1\",\n    \"customized_setup_2\"\n  ]\n}\n```\n\n",
+                "description": "This operation lists all collections in the specified database.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/list\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \n```\n\nThe possible output will be similar to the following:\n\n```json\n{\n  \"code\": 0,\n  \"data\": [\n    \"quick_setup_new\",\n    \"customized_setup_1\",\n    \"customized_setup_2\"\n  ]\n}\n```\n\n",
                 "tags": [
                     "Collection Operations (V2)"
                 ],
@@ -2725,7 +2725,7 @@
             "post": {
                 "summary": "Create Collection",
                 "deprecated": false,
-                "description": "Creates a collection in a cluster.\n\n## Example\n\n<include target=\"zilliz\">\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use eitehr of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n</include>\n\n```shell\n<include target=\"milvus\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --request POST \\\n    --url \"${CLUSTER_ENDPOINT}/v1/vector/collections/create\" \\\n</include>\n<include target=\"zilliz\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\"\nexport TOKEN=\"db_admin:xxxxxxxxxxx\"\n\ncurl --request POST \\\n    --url \"${CLUSTER_ENDPOINT}/v1/vector/collections/create\" \\\n</include>\n    --header \"Authorization: Bearer ${TOKEN}\" \\\n    --header \"accept: application/json\" \\\n    --header \"content-type: application/json\" \\\n    -d '{ \n      \"collectionName\": \"medium_articles\",\n      \"dimension\": 256,\n      \"metricType\": \"L2\",\n      \"primaryField\": \"id\",\n      \"vectorField\": \"vector\"\n     }'\n```\n\nPossible response is similar to the following.\n\n```json\n{\n    \"code\": 200,\n    \"data\": {}\n}\n```",
+                "description": "Creates a collection in a cluster.\n\n## Example\n\n<include target=\"zilliz\">\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n</include>\n\n```shell\n<include target=\"milvus\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --request POST \\\n    --url \"${CLUSTER_ENDPOINT}/v1/vector/collections/create\" \\\n</include>\n<include target=\"zilliz\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\"\nexport TOKEN=\"db_admin:xxxxxxxxxxx\"\n\ncurl --request POST \\\n    --url \"${CLUSTER_ENDPOINT}/v1/vector/collections/create\" \\\n</include>\n    --header \"Authorization: Bearer ${TOKEN}\" \\\n    --header \"accept: application/json\" \\\n    --header \"content-type: application/json\" \\\n    -d '{ \n      \"collectionName\": \"medium_articles\",\n      \"dimension\": 256,\n      \"metricType\": \"L2\",\n      \"primaryField\": \"id\",\n      \"vectorField\": \"vector\"\n     }'\n```\n\nPossible response is similar to the following.\n\n```json\n{\n    \"code\": 200,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Collection Operations"
                 ],
@@ -2900,7 +2900,7 @@
             "post": {
                 "summary": "Create Index",
                 "deprecated": false,
-                "description": "This creates a named index for a target field, which can either be a vector field or a scalar field.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"custom_setup_not_indexed\",\n    \"indexParams\": [\n        {\n            \"metricType\": \"L2\",\n            \"fieldName\": \"my_vector\",\n            \"indexName\": \"my_vector\",\n            \"indexConfig\": {\n                \"index_type\": \"AUTOINDEX\",\n            }\n        }\n    ]\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This creates a named index for a target field, which can either be a vector field or a scalar field.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"custom_setup_not_indexed\",\n    \"indexParams\": [\n        {\n            \"metricType\": \"L2\",\n            \"fieldName\": \"my_vector\",\n            \"indexName\": \"my_vector\",\n            \"indexConfig\": {\n                \"index_type\": \"AUTOINDEX\",\n            }\n        }\n    ]\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Index Operations (V2)"
                 ],
@@ -2908,7 +2908,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -3654,7 +3654,7 @@
             "post": {
                 "summary": "List Partitions",
                 "deprecated": false,
-                "description": "This operation lists all partitions in the database used in the current connection.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/list\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        \"_default\"\n    ]\n}\n```",
+                "description": "This operation lists all partitions in the database used in the current connection.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/list\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        \"_default\"\n    ]\n}\n```",
                 "tags": [
                     "Partition Operations (V2)"
                 ],
@@ -3662,7 +3662,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -3893,7 +3893,7 @@
             "post": {
                 "summary": "List Roles",
                 "deprecated": false,
-                "description": "This operation lists the information about all existing roles.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/list\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        \"admin\",\n        \"public\"\n    ]\n}\n```\n",
+                "description": "This operation lists the information about all existing roles.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/list\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        \"admin\",\n        \"public\"\n    ]\n}\n```\n",
                 "tags": [
                     "Role Operations (V2)"
                 ],
@@ -3901,7 +3901,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -3975,7 +3975,7 @@
             "post": {
                 "summary": "Describe Index",
                 "deprecated": false,
-                "description": "This operation describes the current index.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/describe\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"indexName\": \"vector\",\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        {\n            \"failReason\": \"\",\n            \"fieldName\": \"vector\",\n            \"indexName\": \"vector\",\n            \"indexState\": \"Finished\",\n            \"indexType\": \"AUTOINDEX\",\n            \"indexedRows\": 0,\n            \"metricType\": \"COSINE\",\n            \"pendingRows\": 0,\n            \"totalRows\": 0\n        }\n    ]\n}\n```",
+                "description": "This operation describes the current index.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/describe\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"indexName\": \"vector\",\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        {\n            \"failReason\": \"\",\n            \"fieldName\": \"vector\",\n            \"indexName\": \"vector\",\n            \"indexState\": \"Finished\",\n            \"indexType\": \"AUTOINDEX\",\n            \"indexedRows\": 0,\n            \"metricType\": \"COSINE\",\n            \"pendingRows\": 0,\n            \"totalRows\": 0\n        }\n    ]\n}\n```",
                 "tags": [
                     "Index Operations (V2)"
                 ],
@@ -3983,7 +3983,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -4204,7 +4204,7 @@
             "post": {
                 "summary": "Insert",
                 "deprecated": false,
-                "description": "This operation inserts data into a specific collection. \n\n> Notes\n> You can insert a maximum of 100 entities at a time. To insert large volumes of data, please use [the bulk-insert API](https://docs.zilliz.com/docs/data-import).\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"data\": [\n        {\"id\": 0, \"vector\": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], \"color\": \"pink_8682\"},\n        {\"id\": 1, \"vector\": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104], \"color\": \"red_7025\"},\n        {\"id\": 2, \"vector\": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592], \"color\": \"orange_6781\"},\n        {\"id\": 3, \"vector\": [0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345], \"color\": \"pink_9298\"},\n        {\"id\": 4, \"vector\": [0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106], \"color\": \"red_4794\"},\n        {\"id\": 5, \"vector\": [0.985825131989184, -0.8144651566660419, 0.6299267002202009, 0.1206906911183383, -0.1446277761879955], \"color\": \"yellow_4222\"},\n        {\"id\": 6, \"vector\": [0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987], \"color\": \"red_9392\"},\n        {\"id\": 7, \"vector\": [-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052], \"color\": \"grey_8510\"},\n        {\"id\": 8, \"vector\": [0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336], \"color\": \"white_9381\"},\n        {\"id\": 9, \"vector\": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], \"color\": \"purple_4976\"}        \n    ],\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"insertCount\": 10,\n        \"insertIds\": [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5,\n            6,\n            7,\n            8,\n            9\n        ]\n    }\n}\n```",
+                "description": "This operation inserts data into a specific collection. \n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n<li>>You can insert a maximum of 100 entities at a time. To insert large volumes of data, please use [the bulk-insert API](/docs/data-import).</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"data\": [\n        {\"id\": 0, \"vector\": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], \"color\": \"pink_8682\"},\n        {\"id\": 1, \"vector\": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104], \"color\": \"red_7025\"},\n        {\"id\": 2, \"vector\": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592], \"color\": \"orange_6781\"},\n        {\"id\": 3, \"vector\": [0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345], \"color\": \"pink_9298\"},\n        {\"id\": 4, \"vector\": [0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106], \"color\": \"red_4794\"},\n        {\"id\": 5, \"vector\": [0.985825131989184, -0.8144651566660419, 0.6299267002202009, 0.1206906911183383, -0.1446277761879955], \"color\": \"yellow_4222\"},\n        {\"id\": 6, \"vector\": [0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987], \"color\": \"red_9392\"},\n        {\"id\": 7, \"vector\": [-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052], \"color\": \"grey_8510\"},\n        {\"id\": 8, \"vector\": [0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336], \"color\": \"white_9381\"},\n        {\"id\": 9, \"vector\": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], \"color\": \"purple_4976\"}        \n    ],\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"insertCount\": 10,\n        \"insertIds\": [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5,\n            6,\n            7,\n            8,\n            9\n        ]\n    }\n}\n```",
                 "tags": [
                     "Vector Operations (V2)"
                 ],
@@ -4212,7 +4212,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -4336,7 +4336,7 @@
             "post": {
                 "summary": "List Aliases",
                 "deprecated": false,
-                "description": "This operation lists all existing collection aliases in the specified database.\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/list\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \n```\nPossible response is similar to the following\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        \"bob\"\n    ]\n}\n```\n",
+                "description": "This operation lists all existing collection aliases in the specified database.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/list\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \n```\nPossible response is similar to the following\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        \"bob\"\n    ]\n}\n```\n",
                 "tags": [
                     "Alias Operations (V2)"
                 ],
@@ -4579,7 +4579,7 @@
             "post": {
                 "summary": "Create User",
                 "deprecated": false,
-                "description": "This operation creates a new user with a corresponding password.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"password\": \"P@ssw0rd\",\n    \"userName\": \"milvusAdmin\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation creates a new user with a corresponding password.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"password\": \"P@ssw0rd\",\n    \"userName\": \"milvusAdmin\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "User Operations (V2)"
                 ],
@@ -4587,7 +4587,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -4756,7 +4756,7 @@
             "post": {
                 "summary": "Create Collection",
                 "deprecated": false,
-                "description": "This operation creates a collection in a specified cluster.\n\n## Example\n\nYou can choose between a quick setup or a custom setup as follows:\n\n### Quick setup\n\nThe quick setup collection has two fields: the primary and vector fields. It also allows the insertion of undefined fields and their values in key-value pairs in a dynamic field.\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"test_collection\",\n    \"dimension\": 5\n}'\n```\n    \nIn the above setup,\n\n- The primary and vector fields use their default names (__id__ and __vector__).\n- The metric type is also set to its default value (__COSINE__).\n- The primary field accepts integers and does not automatically increments.\n- The reserved JSON field named __$meta__ is used to store non-schema-defined fields and their values.\n\nYou can modify the names of the primary and vector fields and change the metric type. Additionally, the primary field can be set to increment automatically.\n    \n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"custom_quick_setup\",\n    \"dimension\": 5,\n    \"primaryFieldName\": \"my_id\",\n    \"idType\": \"VarChar\",\n    \"vectorFieldName\": \"my_vector\",\n    \"metric_type\": \"L2\",\n    \"autoId\": true,\n    \"params\": {\n        \"max_length\": \"512\"\n    }\n}'\n```\n\nIn the above code, the collection will be created and automatically loaded into memory.\n    \n### Custom Setup with index parameters\n\nFor a customized setup, you need to include the schema object in the request. You are advised to include the index parameters also, so that the collection will be indexed upon creation.\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"custom_setup_indexed\",\n    \"schema\": {\n        \"autoId\": false,\n        \"enabledDynamicField\": false,\n        \"fields\": [\n            {\n                \"fieldName\": \"my_id\",\n                \"dataType\": \"Int64\",\n                \"isPrimary\": true\n            },\n            {\n                \"fieldName\": \"my_vector\",\n                \"dataType\": \"FloatVector\",\n                \"elementTypeParams\": {\n                    \"dim\": \"5\"\n                }\n            }\n        ]\n        \n    },\n    \"indexParams\": [\n        {\n            \"fieldName\": \"my_vector\",\n            \"metricType\": \"COSINE\",\n            \"indexName\": \"my_vector\",\n            \"params\": {\n                \"index_type\": \"AUTOINDEX\",\n            }\n        },\n        {\n            \"fieldName\": \"my_id\",\n            \"indexName\": \"my_id\",\n            \"params\": {\n                \"index_type\": \"STL_SORT\"\n            }            \n        }\n    ]\n}'\n```\n\nOf course, you can leave the index parameters unspecified in the request and create an index for the collection later.\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"custom_setup_not_indexed\",\n    \"schema\": {\n        \"autoId\": false,\n        \"enabledDynamicField\": false,\n        \"fields\": [\n            {\n                \"fieldName\": \"my_id\",\n                \"dataType\": \"Int64\",\n                \"isPrimary\": true\n            },\n            {\n                \"fieldName\": \"my_vector\",\n                \"dataType\": \"FloatVector\",\n                \"elementTypeParams\": {\n                    \"dim\": \"5\"\n                }\n            }\n        ]\n        \n    }\n}'\n```\nPossible responses for the above requests are similar to the following:\n\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```\n\n\n",
+                "description": "This operation creates a collection in a specified cluster.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\nYou can choose between a quick setup or a custom setup as follows:\n\n### Quick setup\n\nThe quick setup collection has two fields: the primary and vector fields. It also allows the insertion of undefined fields and their values in key-value pairs in a dynamic field.\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"test_collection\",\n    \"dimension\": 5\n}'\n```\n    \nIn the above setup,\n\n- The primary and vector fields use their default names (__id__ and __vector__).\n- The metric type is also set to its default value (__COSINE__).\n- The primary field accepts integers and does not automatically increments.\n- The reserved JSON field named __$meta__ is used to store non-schema-defined fields and their values.\n\nYou can modify the names of the primary and vector fields and change the metric type. Additionally, the primary field can be set to increment automatically.\n    \n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"custom_quick_setup\",\n    \"dimension\": 5,\n    \"primaryFieldName\": \"my_id\",\n    \"idType\": \"VarChar\",\n    \"vectorFieldName\": \"my_vector\",\n    \"metric_type\": \"L2\",\n    \"autoId\": true,\n    \"params\": {\n        \"max_length\": \"512\"\n    }\n}'\n```\n\nIn the above code, the collection will be created and automatically loaded into memory.\n    \n### Custom Setup with index parameters\n\nFor a customized setup, you need to include the schema object in the request. You are advised to include the index parameters also, so that the collection will be indexed upon creation.\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"custom_setup_indexed\",\n    \"schema\": {\n        \"autoId\": false,\n        \"enabledDynamicField\": false,\n        \"fields\": [\n            {\n                \"fieldName\": \"my_id\",\n                \"dataType\": \"Int64\",\n                \"isPrimary\": true\n            },\n            {\n                \"fieldName\": \"my_vector\",\n                \"dataType\": \"FloatVector\",\n                \"elementTypeParams\": {\n                    \"dim\": \"5\"\n                }\n            }\n        ]\n        \n    },\n    \"indexParams\": [\n        {\n            \"fieldName\": \"my_vector\",\n            \"metricType\": \"COSINE\",\n            \"indexName\": \"my_vector\",\n            \"params\": {\n                \"index_type\": \"AUTOINDEX\",\n            }\n        },\n        {\n            \"fieldName\": \"my_id\",\n            \"indexName\": \"my_id\",\n            \"params\": {\n                \"index_type\": \"STL_SORT\"\n            }            \n        }\n    ]\n}'\n```\n\nOf course, you can leave the index parameters unspecified in the request and create an index for the collection later.\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"custom_setup_not_indexed\",\n    \"schema\": {\n        \"autoId\": false,\n        \"enabledDynamicField\": false,\n        \"fields\": [\n            {\n                \"fieldName\": \"my_id\",\n                \"dataType\": \"Int64\",\n                \"isPrimary\": true\n            },\n            {\n                \"fieldName\": \"my_vector\",\n                \"dataType\": \"FloatVector\",\n                \"elementTypeParams\": {\n                    \"dim\": \"5\"\n                }\n            }\n        ]\n        \n    }\n}'\n```\nPossible responses for the above requests are similar to the following:\n\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```\n\n\n",
                 "tags": [
                     "Collection Operations (V2)"
                 ],
@@ -5148,7 +5148,7 @@
             "post": {
                 "summary": "Describe Role",
                 "deprecated": false,
-                "description": "This operation describes the details of a specified role.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/describe\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"roleName\": \"db_ro\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        {\n             \"objectType\": \"Collection\",\n             \"objectName\": \"*\",\n             \"privilege\": \"Search\",\n             \"roleName\": \"db_ro\"\n        }\n    ]\n}\n```\n\n",
+                "description": "This operation describes the details of a specified role.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/describe\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"roleName\": \"db_ro\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        {\n             \"objectType\": \"Collection\",\n             \"objectName\": \"*\",\n             \"privilege\": \"Search\",\n             \"roleName\": \"db_ro\"\n        }\n    ]\n}\n```\n\n",
                 "tags": [
                     "Role Operations (V2)"
                 ],
@@ -5156,7 +5156,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -5285,7 +5285,7 @@
             "post": {
                 "summary": "List Import Jobs",
                 "deprecated": false,
-                "description": "This operation lists all import jobs of a specific cluster.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \n<p>This API requires an <a href=\"/docs/manage_api_keys\">API key</a> as the authentication token.</p>\n    \n</Admonition>\n\n```shell\nexport API_KEY=\"\"\n\ncurl --location --request POST \"https://api.cloud.zilliz.com/v2/vectordb/jobs/import/list\" \\\n--header \"Authorization: Bearer ${API_KEY}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"clusterId\": \"inxx-xxxxxxxxxxxxxxx\",\n    \"currentPage\":1,\n    \"pageSize\":10,\n}'\n```\nPossible response is similart to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"count\":1000,\n        \"currentPage\":1,\n        \"pageSize\":10,\n        \"records\": [\n            {\n                \"collectionName\": \"quick_setup\",\n                \"jobId\": \"448761313698322011\",\n                \"state\": \"Importing\"\n            }\n        ]\n    }\n}\n```",
+                "description": "This operation lists all import jobs of a specific cluster.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport API_KEY=\"\"\n\ncurl --location --request POST \"https://api.cloud.zilliz.com/v2/vectordb/jobs/import/list\" \\\n--header \"Authorization: Bearer ${API_KEY}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"clusterId\": \"inxx-xxxxxxxxxxxxxxx\",\n    \"currentPage\":1,\n    \"pageSize\":10,\n}'\n```\nPossible response is similart to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"count\":1000,\n        \"currentPage\":1,\n        \"pageSize\":10,\n        \"records\": [\n            {\n                \"collectionName\": \"quick_setup\",\n                \"jobId\": \"448761313698322011\",\n                \"state\": \"Importing\"\n            }\n        ]\n    }\n}\n```",
                 "tags": [
                     "Import Operations (V2)"
                 ],
@@ -5415,7 +5415,7 @@
             "post": {
                 "summary": "Drop Index",
                 "deprecated": false,
-                "description": "This operation deletes index from a specified collection.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/drop\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"indexName\": \"my_vector\",\n    \"collectionName\": \"custom_setup_not_indexed\"\n}'\n```\nPossible response is as follows:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation deletes index from a specified collection.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/drop\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"indexName\": \"my_vector\",\n    \"collectionName\": \"custom_setup_not_indexed\"\n}'\n```\nPossible response is as follows:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Index Operations (V2)"
                 ],
@@ -5423,7 +5423,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -5507,7 +5507,7 @@
             "get": {
                 "summary": "Describe Collection",
                 "deprecated": false,
-                "description": "Describes the details of a collection.\n\n## Example\n\n<include target=\"zilliz\">\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use eitehr of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n</include>\n\n```shell\n<include target=\"milvus\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v1/vector/collections/describe?collectionName=quick_setup\" \\\n</include>\n<include target=\"zilliz\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\"\nexport TOKEN=\"db_admin:xxxxxxxxxxx\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v1/vector/collections/describe?collectionName=quick_setup\" \\\n</include>\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": {\n        \"collectionName\": \"quick_setup\",\n        \"description\": \"\",\n        \"enableDynamicField\": true,\n        \"fields\": [\n            {\n                \"autoId\": false,\n                \"description\": \"\",\n                \"name\": \"id\",\n                \"partitionKey\": false,\n                \"primaryKey\": true,\n                \"type\": \"Int64\"\n            },\n            {\n                \"autoId\": false,\n                \"description\": \"\",\n                \"name\": \"vector\",\n                \"partitionKey\": false,\n                \"primaryKey\": false,\n                \"type\": \"FloatVector(5)\"\n            }\n        ],\n        \"indexes\": [\n            {\n                \"fieldName\": \"vector\",\n                \"indexName\": \"vector\",\n                \"metricType\": \"COSINE\"\n            }\n        ],\n        \"load\": \"LoadStateLoaded\",\n        \"shardsNum\": 1\n    }\n}\n```\n",
+                "description": "Describes the details of a collection.\n\n## Example\n\n<include target=\"zilliz\">\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n</include>\n\n```shell\n<include target=\"milvus\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v1/vector/collections/describe?collectionName=quick_setup\" \\\n</include>\n<include target=\"zilliz\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\"\nexport TOKEN=\"db_admin:xxxxxxxxxxx\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v1/vector/collections/describe?collectionName=quick_setup\" \\\n</include>\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": {\n        \"collectionName\": \"quick_setup\",\n        \"description\": \"\",\n        \"enableDynamicField\": true,\n        \"fields\": [\n            {\n                \"autoId\": false,\n                \"description\": \"\",\n                \"name\": \"id\",\n                \"partitionKey\": false,\n                \"primaryKey\": true,\n                \"type\": \"Int64\"\n            },\n            {\n                \"autoId\": false,\n                \"description\": \"\",\n                \"name\": \"vector\",\n                \"partitionKey\": false,\n                \"primaryKey\": false,\n                \"type\": \"FloatVector(5)\"\n            }\n        ],\n        \"indexes\": [\n            {\n                \"fieldName\": \"vector\",\n                \"indexName\": \"vector\",\n                \"metricType\": \"COSINE\"\n            }\n        ],\n        \"load\": \"LoadStateLoaded\",\n        \"shardsNum\": 1\n    }\n}\n```\n",
                 "tags": [
                     "Collection Operations"
                 ],
@@ -5738,7 +5738,7 @@
             "post": {
                 "summary": "Upsert",
                 "deprecated": false,
-                "description": "This operation inserts new records into the database or updates existing ones.  \n\n> Notes\n> The upsert endpoint does not apply to the collections that have autoId enabled.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"data\": [\n        {\"id\": 0, \"vector\": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], \"color\": \"pink_8682\"},\n        {\"id\": 1, \"vector\": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104], \"color\": \"red_7025\"},\n        {\"id\": 2, \"vector\": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592], \"color\": \"orange_6781\"},\n        {\"id\": 3, \"vector\": [0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345], \"color\": \"pink_9298\"},\n        {\"id\": 4, \"vector\": [0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106], \"color\": \"red_4794\"},\n        {\"id\": 5, \"vector\": [0.985825131989184, -0.8144651566660419, 0.6299267002202009, 0.1206906911183383, -0.1446277761879955], \"color\": \"yellow_4222\"},\n        {\"id\": 6, \"vector\": [0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987], \"color\": \"red_9392\"},\n        {\"id\": 7, \"vector\": [-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052], \"color\": \"grey_8510\"},\n        {\"id\": 8, \"vector\": [0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336], \"color\": \"white_9381\"},\n        {\"id\": 9, \"vector\": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], \"color\": \"purple_4976\"}        \n    ],\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"upsertCount\": 10,\n        \"upsertIds\": [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5,\n            6,\n            7,\n            8,\n            9\n        ]\n    }\n}\n```\n",
+                "description": "This operation inserts new records into the database or updates existing ones.  \n\n>## Exampleimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n<p>The upsert endpoint does not apply to the collections that have autoId enabled.</p>\n</Admonition>\n\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"data\": [\n        {\"id\": 0, \"vector\": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], \"color\": \"pink_8682\"},\n        {\"id\": 1, \"vector\": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104], \"color\": \"red_7025\"},\n        {\"id\": 2, \"vector\": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592], \"color\": \"orange_6781\"},\n        {\"id\": 3, \"vector\": [0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345], \"color\": \"pink_9298\"},\n        {\"id\": 4, \"vector\": [0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106], \"color\": \"red_4794\"},\n        {\"id\": 5, \"vector\": [0.985825131989184, -0.8144651566660419, 0.6299267002202009, 0.1206906911183383, -0.1446277761879955], \"color\": \"yellow_4222\"},\n        {\"id\": 6, \"vector\": [0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987], \"color\": \"red_9392\"},\n        {\"id\": 7, \"vector\": [-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052], \"color\": \"grey_8510\"},\n        {\"id\": 8, \"vector\": [0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336], \"color\": \"white_9381\"},\n        {\"id\": 9, \"vector\": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], \"color\": \"purple_4976\"}        \n    ],\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"upsertCount\": 10,\n        \"upsertIds\": [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5,\n            6,\n            7,\n            8,\n            9\n        ]\n    }\n}\n```\n",
                 "tags": [
                     "Vector Operations (V2)"
                 ],
@@ -5746,7 +5746,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -5844,7 +5844,7 @@
             "post": {
                 "summary": "Describe Alias",
                 "deprecated": false,
-                "description": "This operation describes the details of a specific alias.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/describe\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw  '{\n    \"aliasName\": \"bob\"\n}'\n```\nPossible response is similar to the following\n```shell\n{\n    \"code\": 0,\n    \"data\": {\n        \"aliasName\": \"bob\",\n        \"collectionName\": \"quick_setup\",\n    }\n}\n```",
+                "description": "This operation describes the details of a specific alias.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/describe\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw  '{\n    \"aliasName\": \"bob\"\n}'\n```\nPossible response is similar to the following\n```shell\n{\n    \"code\": 0,\n    \"data\": {\n        \"aliasName\": \"bob\",\n        \"collectionName\": \"quick_setup\",\n    }\n}\n```",
                 "tags": [
                     "Alias Operations (V2)"
                 ],
@@ -6104,7 +6104,7 @@
             "post": {
                 "summary": "Get Import Job Progress",
                 "deprecated": false,
-                "description": "Retrieves the progress of a specified import job.\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \n<p>This API requires an <a href=\"/docs/manage_api_keys\">API key</a> as the authentication token.</p>\n    \n</Admonition>\n\n## Example\n\n```shell\nexport API_KEY=\"\"\n\ncurl --location --request POST \"https://api.cloud.zilliz.com/v2/vectordb/jobs/import/getProgress\" \\\n--header \"Authorization: Bearer ${API_KEY}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"clusterId\": \"inxx-xxxxxxxxxxxxxxx\",\n    \"jobId\": 44870776388440916\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"jobId\": \"448761313698322011\",\n        \"collectionName\": \"medium_articles\",\n        \"fileName\":\"medium_articles_2020_dpr.json\",\n        \"fileSize\": 3279917,\n        \"state\": \"Completed\",\n        \"progress\": 100,\n        \"completeTime\": \"2024-04-01T06:17:55Z\",\n        \"reason\":\"\",\n        \"totalRows\": 100000,\n        \"details\": [\n            {\n                \"fileName\": \"medium_articles_2020_dpr.json\",\n                \"fileSize\": 3279917,\n                \"state\": \"Completed\",\n                \"progress\": 100,\n                \"completeTime\": \"2024-04-01T06:17:53Z\",\n                \"reason\":\"\"\n            }\n        ]\n    }\n}\n```",
+                "description": "Retrieves the progress of a specified import job.\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n## Example\n\n```shell\nexport API_KEY=\"\"\n\ncurl --location --request POST \"https://api.cloud.zilliz.com/v2/vectordb/jobs/import/getProgress\" \\\n--header \"Authorization: Bearer ${API_KEY}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"clusterId\": \"inxx-xxxxxxxxxxxxxxx\",\n    \"jobId\": 44870776388440916\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"jobId\": \"448761313698322011\",\n        \"collectionName\": \"medium_articles\",\n        \"fileName\":\"medium_articles_2020_dpr.json\",\n        \"fileSize\": 3279917,\n        \"state\": \"Completed\",\n        \"progress\": 100,\n        \"completeTime\": \"2024-04-01T06:17:55Z\",\n        \"reason\":\"\",\n        \"totalRows\": 100000,\n        \"details\": [\n            {\n                \"fileName\": \"medium_articles_2020_dpr.json\",\n                \"fileSize\": 3279917,\n                \"state\": \"Completed\",\n                \"progress\": 100,\n                \"completeTime\": \"2024-04-01T06:17:53Z\",\n                \"reason\":\"\"\n            }\n        ]\n    }\n}\n```",
                 "tags": [
                     "Import Operations (V2)"
                 ],
@@ -6275,7 +6275,7 @@
             "post": {
                 "summary": "Describe User",
                 "deprecated": false,
-                "description": "This operation describes the detailed information of a specific user.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/describe\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"userName\": \"milvusAdmin\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        \"admin\"\n    ]\n}\n```",
+                "description": "This operation describes the detailed information of a specific user.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/describe\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"userName\": \"milvusAdmin\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        \"admin\"\n    ]\n}\n```",
                 "tags": [
                     "User Operations (V2)"
                 ],
@@ -6283,7 +6283,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -6457,7 +6457,7 @@
             "post": {
                 "summary": "Create Partition",
                 "deprecated": false,
-                "description": "This operation creates a partition in a collection. \n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"partitionName\": \"january\",\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```\n\n",
+                "description": "This operation creates a partition in a collection. \n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"partitionName\": \"january\",\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```\n\n",
                 "tags": [
                     "Partition Operations (V2)"
                 ],
@@ -6465,7 +6465,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -6642,90 +6642,6 @@
                 "security": []
             }
         },
-        "/v2/vectordb/roles/create": {
-            "post": {
-                "summary": "Create Role",
-                "deprecated": false,
-                "description": "This operation creates the current role. \n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"roleName\": \"db_ro\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
-                "tags": [
-                    "Role Operations (V2)"
-                ],
-                "parameters": [
-                    {
-                        "name": "Request-Timeout",
-                        "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
-                        "required": false,
-                        "example": "",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Then authentication token.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "roleName": {
-                                        "type": "string",
-                                        "description": "The name of the role."
-                                    }
-                                },
-                                "required": [
-                                    "roleName"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "None",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "code": {
-                                            "type": "integer"
-                                        },
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {}
-                                        }
-                                    },
-                                    "required": [
-                                        "code",
-                                        "data"
-                                    ]
-                                },
-                                "examples": {
-                                    "1": {
-                                        "summary": "Success",
-                                        "value": {
-                                            "code": 200,
-                                            "data": {}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": []
-            }
-        },
         "/v1/clusters/{CLUSTER_ID}/drop": {
             "delete": {
                 "summary": "Drop Cluster",
@@ -6791,7 +6707,7 @@
             "post": {
                 "summary": "List Users",
                 "deprecated": false,
-                "description": "This operation lists the information of all existing users.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/list\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        \"root\"\n    ]\n}\n```",
+                "description": "This operation lists the information of all existing users.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/list\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        \"root\"\n    ]\n}\n```",
                 "tags": [
                     "User Operations (V2)"
                 ],
@@ -6799,7 +6715,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -6876,7 +6792,7 @@
             "post": {
                 "summary": "List Indexes",
                 "deprecated": false,
-                "description": "This operation lists all indexes of a specific collection.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/list\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is as follows:\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        \"vector\"\n    ]\n}\n```",
+                "description": "This operation lists all indexes of a specific collection.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/indexes/list\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is as follows:\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        \"vector\"\n    ]\n}\n```",
                 "tags": [
                     "Index Operations (V2)"
                 ],
@@ -6884,7 +6800,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -6966,7 +6882,7 @@
             "post": {
                 "summary": "Describe Collection",
                 "deprecated": false,
-                "description": "Describes the details of a collection.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/describe\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"test_collection\"\n}'\n```\nPossible output would be similar to the following:\n\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"aliases\": [],\n        \"autoId\": false,\n        \"collectionID\": 448707763883002014,\n        \"collectionName\": \"test_collection\",\n        \"consistencyLevel\": \"Bounded\",\n        \"description\": \"\",\n        \"enableDynamicField\": true,\n        \"fields\": [\n            {\n                \"autoId\": false,\n                \"description\": \"\",\n                \"id\": 100,\n                \"name\": \"id\",\n                \"partitionKey\": false,\n                \"primaryKey\": true,\n                \"type\": \"Int64\"\n            },\n            {\n                \"autoId\": false,\n                \"description\": \"\",\n                \"id\": 101,\n                \"name\": \"vector\",\n                \"params\": [\n                    {\n                        \"key\": \"dim\",\n                        \"value\": \"5\"\n                    }\n                ],\n                \"partitionKey\": false,\n                \"primaryKey\": false,\n                \"type\": \"FloatVector\"\n            }\n        ],\n        \"indexes\": [\n            {\n                \"fieldName\": \"vector\",\n                \"indexName\": \"vector\",\n                \"metricType\": \"COSINE\"\n            }\n        ],\n        \"load\": \"LoadStateLoaded\",\n        \"partitionsNum\": 1,\n        \"properties\": [],\n        \"shardsNum\": 1\n    }\n}\n```",
+                "description": "Describes the details of a collection.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/describe\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"test_collection\"\n}'\n```\nPossible output would be similar to the following:\n\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"aliases\": [],\n        \"autoId\": false,\n        \"collectionID\": 448707763883002014,\n        \"collectionName\": \"test_collection\",\n        \"consistencyLevel\": \"Bounded\",\n        \"description\": \"\",\n        \"enableDynamicField\": true,\n        \"fields\": [\n            {\n                \"autoId\": false,\n                \"description\": \"\",\n                \"id\": 100,\n                \"name\": \"id\",\n                \"partitionKey\": false,\n                \"primaryKey\": true,\n                \"type\": \"Int64\"\n            },\n            {\n                \"autoId\": false,\n                \"description\": \"\",\n                \"id\": 101,\n                \"name\": \"vector\",\n                \"params\": [\n                    {\n                        \"key\": \"dim\",\n                        \"value\": \"5\"\n                    }\n                ],\n                \"partitionKey\": false,\n                \"primaryKey\": false,\n                \"type\": \"FloatVector\"\n            }\n        ],\n        \"indexes\": [\n            {\n                \"fieldName\": \"vector\",\n                \"indexName\": \"vector\",\n                \"metricType\": \"COSINE\"\n            }\n        ],\n        \"load\": \"LoadStateLoaded\",\n        \"partitionsNum\": 1,\n        \"properties\": [],\n        \"shardsNum\": 1\n    }\n}\n```",
                 "tags": [
                     "Collection Operations (V2)"
                 ],
@@ -7384,7 +7300,7 @@
             "post": {
                 "summary": "Alter Alias",
                 "deprecated": false,
-                "description": "This operation reassigns the alias of one collection to another.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/alter\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw  '{\n    \"aliasName\": \"bob\",\n    \"collectionName\": \"custom_setup_indexed\"\n}'\n```\nPossible response is similar to the following\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation reassigns the alias of one collection to another.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/alter\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw  '{\n    \"aliasName\": \"bob\",\n    \"collectionName\": \"custom_setup_indexed\"\n}'\n```\nPossible response is similar to the following\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Alias Operations (V2)"
                 ],
@@ -7619,7 +7535,7 @@
             "post": {
                 "summary": "Drop Collection",
                 "deprecated": false,
-                "description": "Drops a collection. This operation erases your collection data. Exercise caution when performing this operation.\n\n## Example\n\n<include target=\"zilliz\">\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use eitehr of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n</include>\n\n```shell\n<include target=\"milvus\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v1/vector/collections/drop\" \\\n</include>\n<include target=\"zilliz\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\"\nexport TOKEN=\"db_admin:xxxxxxxxxxx\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v1/vector/collections/drop\" \\\n</include>\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": {}\n}\n```\n\n\n",
+                "description": "Drops a collection. This operation erases your collection data. Exercise caution when performing this operation.\n\n## Example\n\n<include target=\"zilliz\">\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n</include>\n\n```shell\n<include target=\"milvus\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v1/vector/collections/drop\" \\\n</include>\n<include target=\"zilliz\">\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\"\nexport TOKEN=\"db_admin:xxxxxxxxxxx\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v1/vector/collections/drop\" \\\n</include>\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 200,\n    \"data\": {}\n}\n```\n\n\n",
                 "tags": [
                     "Collection Operations"
                 ],
@@ -7671,7 +7587,7 @@
             "post": {
                 "summary": "Load Partitions",
                 "deprecated": false,
-                "description": "This operation loads the data of the current partition into memory.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/load\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"partitionNames\": [\n        \"_default\",\n        \"january\"\n    ],\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation loads the data of the current partition into memory.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/load\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"partitionNames\": [\n        \"_default\",\n        \"january\"\n    ],\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Partition Operations (V2)"
                 ],
@@ -7679,7 +7595,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -7845,7 +7761,7 @@
             "post": {
                 "summary": "Drop User",
                 "deprecated": false,
-                "description": "This operation deletes an existing user.\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/drop\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"userName\": \"milvusAdmin\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation deletes an existing user.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/drop\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"userName\": \"milvusAdmin\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "User Operations (V2)"
                 ],
@@ -7853,7 +7769,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -7886,105 +7802,6 @@
                                 },
                                 "required": [
                                     "userName"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "None",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "code": {
-                                            "type": "integer"
-                                        },
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {}
-                                        }
-                                    },
-                                    "required": [
-                                        "code",
-                                        "data"
-                                    ]
-                                },
-                                "examples": {
-                                    "1": {
-                                        "summary": "Success",
-                                        "value": {
-                                            "code": 200,
-                                            "data": {}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": []
-            }
-        },
-        "/v2/vectordb/roles/grant_privilege": {
-            "post": {
-                "summary": "Grant Privilege To Role",
-                "deprecated": false,
-                "description": "This operation grants a privilege to the current role.\n\n> Notes\n> - To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).\n> - To learn more about the privileges and role objects, refer to [Users & Roles](https://milvus.io/docs/users_and_roles.md)\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/grant_privilege\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"objectType\": \"Collection\",\n    \"objectName\": \"*\",\n    \"privilege\": \"Search\",\n    \"roleName\": \"db_ro\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
-                "tags": [
-                    "Role Operations (V2)"
-                ],
-                "parameters": [
-                    {
-                        "name": "Request-Timeout",
-                        "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
-                        "required": false,
-                        "example": "",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "The authentication token.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "roleName": {
-                                        "type": "string",
-                                        "description": "The name of the role."
-                                    },
-                                    "objectType": {
-                                        "type": "string",
-                                        "description": " The type of the object to which the privilege belongs."
-                                    },
-                                    "objectName": {
-                                        "type": "string",
-                                        "description": " The name of the object to which the role is granted the specified privilege."
-                                    },
-                                    "privilege": {
-                                        "type": "string",
-                                        "description": " The privilege that is granted to the role."
-                                    }
-                                },
-                                "required": [
-                                    "objectType",
-                                    "privilege",
-                                    "objectName",
-                                    "roleName"
                                 ]
                             }
                         }
@@ -8112,7 +7929,7 @@
             "post": {
                 "summary": "Release Partitions",
                 "deprecated": false,
-                "description": "This operation releases the data of the current partition from memory.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/release\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"partitionNames\": [\n        \"_default\",\n        \"january\"\n    ],\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation releases the data of the current partition from memory.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/release\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"partitionNames\": [\n        \"_default\",\n        \"january\"\n    ],\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Partition Operations (V2)"
                 ],
@@ -8120,7 +7937,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -8268,7 +8085,7 @@
             "post": {
                 "summary": "Update User Password",
                 "deprecated": false,
-                "description": "This operation updates the password for a specific user.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/update_password\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"newPassword\": \"P@ssw0rd!\",\n    \"userName\": \"milvusAdmin\",\n    \"password\": \"P@ssw0rd\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation updates the password for a specific user.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/update_password\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"newPassword\": \"P@ssw0rd!\",\n    \"userName\": \"milvusAdmin\",\n    \"password\": \"P@ssw0rd\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "User Operations (V2)"
                 ],
@@ -8276,7 +8093,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -8361,110 +8178,11 @@
                 "security": []
             }
         },
-        "/v2/vectordb/roles/revoke_privilege": {
-            "post": {
-                "summary": "Revoke Privilege From Role",
-                "deprecated": false,
-                "description": "This operation revokes a privilege granted to the current role.\n\n> Notes\n> - To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).\n> - To learn more about the privileges and role objects, refer to [Users & Roles](https://milvus.io/docs/users_and_roles.md)\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/revoke_privilege\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"objectType\": \"Collection\",\n    \"objectName\": \"*\",\n    \"privilege\": \"Search\",\n    \"roleName\": \"db_ro\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
-                "tags": [
-                    "Role Operations (V2)"
-                ],
-                "parameters": [
-                    {
-                        "name": "Request-Timeout",
-                        "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
-                        "required": false,
-                        "example": "",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "The authentication token.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "roleName": {
-                                        "type": "string",
-                                        "description": "The name of the role."
-                                    },
-                                    "objectType": {
-                                        "type": "string",
-                                        "description": "The type of the object to which the privilege belongs."
-                                    },
-                                    "objectName": {
-                                        "type": "string",
-                                        "description": "The name of the object to which the role is granted the specified privilege."
-                                    },
-                                    "privilege": {
-                                        "type": "string",
-                                        "description": "The privilege that is granted to the role."
-                                    }
-                                },
-                                "required": [
-                                    "objectType",
-                                    "privilege",
-                                    "objectName",
-                                    "roleName"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "None",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "code": {
-                                            "type": "integer"
-                                        },
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {}
-                                        }
-                                    },
-                                    "required": [
-                                        "code",
-                                        "data"
-                                    ]
-                                },
-                                "examples": {
-                                    "1": {
-                                        "summary": "Success",
-                                        "value": {
-                                            "code": 200,
-                                            "data": {}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": []
-            }
-        },
         "/v2/vectordb/collections/drop": {
             "post": {
                 "summary": "Drop Collection",
                 "deprecated": false,
-                "description": "This operation drops the current collection and all data within the collection.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"custom_quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation drops the current collection and all data within the collection.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"custom_quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Collection Operations (V2)"
                 ],
@@ -8549,7 +8267,7 @@
             "post": {
                 "summary": "Drop Alias",
                 "deprecated": false,
-                "description": "This operation drops a specified alias. \n\n## Example\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/drop\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw  '{\n    \"aliasName\": \"bob\"\n}'\n```\nPossible response is similar to the following\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation drops a specified alias. \n\n## Example\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/drop\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw  '{\n    \"aliasName\": \"bob\"\n}'\n```\nPossible response is similar to the following\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Alias Operations (V2)"
                 ],
@@ -8758,7 +8476,7 @@
             "post": {
                 "summary": "Has Partition",
                 "deprecated": false,
-                "description": "This operation checks whether a partition exists.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/has\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"partitionName\": \"january\",\n    \"collectionName\": \"test_collection\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"has\": true\n    }\n}\n```",
+                "description": "This operation checks whether a partition exists.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/has\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"partitionName\": \"january\",\n    \"collectionName\": \"test_collection\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"has\": true\n    }\n}\n```",
                 "tags": [
                     "Partition Operations (V2)"
                 ],
@@ -8766,7 +8484,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -8860,7 +8578,7 @@
             "post": {
                 "summary": "Query",
                 "deprecated": false,
-                "description": "This operation conducts a filtering on the scalar field with a specified boolean expression.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/query\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\",\n    \"filter\": \"color like \\\"red_%\\\"\",\n    \"outputFields\": [\n        \"color\"\n    ],\n    \"limit\": 3\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        {\n            \"color\": \"red_7025\",\n            \"id\": 1\n        },\n        {\n            \"color\": \"red_4794\",\n            \"id\": 4\n        },\n        {\n            \"color\": \"red_9392\",\n            \"id\": 6\n        }\n    ]\n}\n```",
+                "description": "This operation conducts a filtering on the scalar field with a specified boolean expression.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/query\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\",\n    \"filter\": \"color like \\\"red_%\\\"\",\n    \"outputFields\": [\n        \"color\"\n    ],\n    \"limit\": 3\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        {\n            \"color\": \"red_7025\",\n            \"id\": 1\n        },\n        {\n            \"color\": \"red_4794\",\n            \"id\": 4\n        },\n        {\n            \"color\": \"red_9392\",\n            \"id\": 6\n        }\n    ]\n}\n```",
                 "tags": [
                     "Vector Operations (V2)"
                 ],
@@ -8868,7 +8586,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -9034,7 +8752,7 @@
             "post": {
                 "summary": "Grant Role To User",
                 "deprecated": false,
-                "description": "This operation grants a specified role to the current user. Once granted the role, the user gets permissions allowed for the current role and can perform certain operations.\n\n> Notes\n> To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/grant_role\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"roleName\": \"admin\",\n    \"userName\": \"milvusAdmin\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation grants a specified role to the current user. Once granted the role, the user gets permissions allowed for the current role and can perform certain operations.\n\n> Notes\n> To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/grant_role\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"roleName\": \"admin\",\n    \"userName\": \"milvusAdmin\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "User Operations (V2)"
                 ],
@@ -9042,7 +8760,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -9122,95 +8840,11 @@
                 "security": []
             }
         },
-        "/v2/vectordb/roles/drop": {
-            "post": {
-                "summary": "Drop Role",
-                "deprecated": false,
-                "description": "This operation drops an existing role. The operation will succeed if the specified role exists. Otherwise, this operation will fail.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/roles/drop\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"roleName\": \"db_ro\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
-                "tags": [
-                    "Role Operations (V2)"
-                ],
-                "parameters": [
-                    {
-                        "name": "Request-Timeout",
-                        "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
-                        "required": false,
-                        "example": "",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "The authentication token.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "roleName": {
-                                        "type": "string",
-                                        "description": "The name of the role."
-                                    }
-                                },
-                                "required": [
-                                    "roleName"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "None",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "code": {
-                                            "type": "integer"
-                                        },
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {}
-                                        }
-                                    },
-                                    "required": [
-                                        "code",
-                                        "data"
-                                    ]
-                                },
-                                "examples": {
-                                    "1": {
-                                        "summary": "Success",
-                                        "value": {
-                                            "code": 200,
-                                            "data": {}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": []
-            }
-        },
         "/v2/vectordb/partitions/get_stats": {
             "post": {
                 "summary": "Get Partition Statistics",
                 "deprecated": false,
-                "description": "This operations gets the number of entities in a partition.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/get_stats\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"partitionName\": \"january\",\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"rowCount\": 0\n    }\n}\n```",
+                "description": "This operations gets the number of entities in a partition.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/get_stats\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"partitionName\": \"january\",\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"rowCount\": 0\n    }\n}\n```",
                 "tags": [
                     "Partition Operations (V2)"
                 ],
@@ -9218,7 +8852,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -9312,7 +8946,7 @@
             "post": {
                 "summary": "Has Collection",
                 "deprecated": false,
-                "description": "This operation checks whether a collection exists.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/has\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\n\nThe possible response is similar to the following:\n\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"has\": false\n    }\n}\n```",
+                "description": "This operation checks whether a collection exists.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/has\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\n\nThe possible response is similar to the following:\n\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"has\": false\n    }\n}\n```",
                 "tags": [
                     "Collection Operations (V2)"
                 ],
@@ -9665,7 +9299,7 @@
             "post": {
                 "summary": "Create Alias",
                 "deprecated": false,
-                "description": "This operation creates an alias for an existing collection. A collection can have multiple aliases, while an alias can be associated with only one collection.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"aliasName\": \"bob\",\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```\n",
+                "description": "This operation creates an alias for an existing collection. A collection can have multiple aliases, while an alias can be associated with only one collection.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/aliases/create\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"aliasName\": \"bob\",\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```\n",
                 "tags": [
                     "Alias Operations (V2)"
                 ],
@@ -9757,7 +9391,7 @@
             "post": {
                 "summary": "Search",
                 "deprecated": false,
-                "description": "This operation conducts a vector similarity search with an optional scalar filtering expression.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/search\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\",\n    \"data\": [\n        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]\n    ],\n    \"annsField\": \"vector\",\n    \"limit\": 3,\n    \"outputFields\": [\n        \"color\"\n    ]\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        {\n            \"color\": \"pink_8682\",\n            \"distance\": 1,\n            \"id\": 0\n        },\n        {\n            \"color\": \"red_7025\",\n            \"distance\": 0.6290165,\n            \"id\": 1\n        },\n        {\n            \"color\": \"red_4794\",\n            \"distance\": 0.5975797,\n            \"id\": 4\n        }\n    ]\n}\n```",
+                "description": "This operation conducts a vector similarity search with an optional scalar filtering expression.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/search\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\",\n    \"data\": [\n        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]\n    ],\n    \"annsField\": \"vector\",\n    \"limit\": 3,\n    \"outputFields\": [\n        \"color\"\n    ]\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        {\n            \"color\": \"pink_8682\",\n            \"distance\": 1,\n            \"id\": 0\n        },\n        {\n            \"color\": \"red_7025\",\n            \"distance\": 0.6290165,\n            \"id\": 1\n        },\n        {\n            \"color\": \"red_4794\",\n            \"distance\": 0.5975797,\n            \"id\": 4\n        }\n    ]\n}\n```",
                 "tags": [
                     "Vector Operations (V2)"
                 ],
@@ -9765,7 +9399,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -9930,103 +9564,11 @@
                 "security": []
             }
         },
-        "/v2/vectordb/users/revoke_role": {
-            "post": {
-                "summary": "Revoke Role From User",
-                "deprecated": false,
-                "description": "This operation revokes a privilege granted to the current role.\n\n> Notes\n> To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/revoke_role\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"roleName\": \"db_admin\",\n    \"userName\": \"admin\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
-                "tags": [
-                    "User Operations (V2)"
-                ],
-                "parameters": [
-                    {
-                        "name": "Request-Timeout",
-                        "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
-                        "required": false,
-                        "example": "",
-                        "schema": {
-                            "type": "integer",
-                            "minimum": 0,
-                            "maximum": 3600,
-                            "exclusiveMinimum": true
-                        }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Then authentication token",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "userName": {
-                                        "type": "string",
-                                        "description": "The name of the target user. The value should start with a letter and can only contain underline, letters and numbers."
-                                    },
-                                    "roleName": {
-                                        "type": "string",
-                                        "description": "The name of the target role."
-                                    }
-                                },
-                                "required": [
-                                    "roleName",
-                                    "userName"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "None",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "code": {
-                                            "type": "integer"
-                                        },
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {}
-                                        }
-                                    },
-                                    "required": [
-                                        "code",
-                                        "data"
-                                    ]
-                                },
-                                "examples": {
-                                    "1": {
-                                        "summary": "Success",
-                                        "value": {
-                                            "code": 200,
-                                            "data": {}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": []
-            }
-        },
         "/v2/vectordb/entities/hybrid_search": {
             "post": {
                 "summary": "Hybrid Search",
                 "deprecated": false,
-                "description": "## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"test_collection_2024_06_21_14_32_54_951152jqKAxWVu\",\n    \"search\": [\n        {\n            \"data\": [\n                [\n                    0.673437956701697,\n                    0.739243747672878\n                ]\n            ],\n            \"annsField\": \"float_vector_1\",\n            \"limit\": 10,\n            \"outputFields\": [\n                \"*\"\n            ]\n        },\n        {\n            \"data\": [\n                [\n                    0.075384179256879,\n                    0.9971545645073111\n                ]\n            ],\n            \"annsField\": \"float_vector_2\",\n            \"limit\": 10,\n            \"outputFields\": [\n                \"*\"\n            ]\n        }\n    ],\n    \"rerank\": {\n        \"strategy\": \"rrf\",\n        \"params\": {\n            \"k\": 10\n        }\n    },\n    \"limit\": 3,\n    \"outputFields\": [\n        \"user_id\",\n        \"word_count\",\n        \"book_describe\"\n    ]\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"cost\": 0,\n    \"data\": [\n        {\n            \"book_describe\": \"book_105\",\n            \"distance\": 0.09090909,\n            \"id\": 450519760774180816,\n            \"user_id\": 5,\n            \"word_count\": 105\n        },\n        {\n            \"book_describe\": \"book_246\",\n            \"distance\": 0.09090909,\n            \"id\": 450519760774180957,\n            \"user_id\": 46,\n            \"word_count\": 246\n        },\n        {\n            \"book_describe\": \"book_367\",\n            \"distance\": 0.08333333600000001,\n            \"id\": 450519760774181078,\n            \"user_id\": 67,\n            \"word_count\": 367\n        }\n    ]\n}\n```",
+                "description": "## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"test_collection_2024_06_21_14_32_54_951152jqKAxWVu\",\n    \"search\": [\n        {\n            \"data\": [\n                [\n                    0.673437956701697,\n                    0.739243747672878\n                ]\n            ],\n            \"annsField\": \"float_vector_1\",\n            \"limit\": 10,\n            \"outputFields\": [\n                \"*\"\n            ]\n        },\n        {\n            \"data\": [\n                [\n                    0.075384179256879,\n                    0.9971545645073111\n                ]\n            ],\n            \"annsField\": \"float_vector_2\",\n            \"limit\": 10,\n            \"outputFields\": [\n                \"*\"\n            ]\n        }\n    ],\n    \"rerank\": {\n        \"strategy\": \"rrf\",\n        \"params\": {\n            \"k\": 10\n        }\n    },\n    \"limit\": 3,\n    \"outputFields\": [\n        \"user_id\",\n        \"word_count\",\n        \"book_describe\"\n    ]\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"cost\": 0,\n    \"data\": [\n        {\n            \"book_describe\": \"book_105\",\n            \"distance\": 0.09090909,\n            \"id\": 450519760774180816,\n            \"user_id\": 5,\n            \"word_count\": 105\n        },\n        {\n            \"book_describe\": \"book_246\",\n            \"distance\": 0.09090909,\n            \"id\": 450519760774180957,\n            \"user_id\": 46,\n            \"word_count\": 246\n        },\n        {\n            \"book_describe\": \"book_367\",\n            \"distance\": 0.08333333600000001,\n            \"id\": 450519760774181078,\n            \"user_id\": 67,\n            \"word_count\": 367\n        }\n    ]\n}\n```",
                 "tags": [
                     "Vector Operations (V2)"
                 ],
@@ -10034,7 +9576,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -10331,7 +9873,7 @@
             "post": {
                 "summary": "Get",
                 "deprecated": false,
-                "description": "This operation gets specific entities by their IDs.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/get\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\",\n    \"id\": [\n        1,3,5\n    ],\n    \"outputFields\": [\n        \"color\"\n    ]\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        {\n            \"color\": \"red_7025\",\n            \"id\": 1\n        },\n        {\n            \"color\": \"pink_9298\",\n            \"id\": 3\n        },\n        {\n            \"color\": \"yellow_4222\",\n            \"id\": 5\n        }\n    ]\n}\n```",
+                "description": "This operation gets specific entities by their IDs.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/entities/get\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\",\n    \"id\": [\n        1,3,5\n    ],\n    \"outputFields\": [\n        \"color\"\n    ]\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": [\n        {\n            \"color\": \"red_7025\",\n            \"id\": 1\n        },\n        {\n            \"color\": \"pink_9298\",\n            \"id\": 3\n        },\n        {\n            \"color\": \"yellow_4222\",\n            \"id\": 5\n        }\n    ]\n}\n```",
                 "tags": [
                     "Vector Operations (V2)"
                 ],
@@ -10339,7 +9881,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": false,
                         "example": "",
                         "schema": {
@@ -10459,7 +10001,7 @@
             "post": {
                 "summary": "Drop Partition",
                 "deprecated": false,
-                "description": "This operation drops the current partition. To successfully drop a partition, ensure that the partition is already released.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/drop\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"partitionName\": \"january\",\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation drops the current partition. To successfully drop a partition, ensure that the partition is already released.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/partitions/drop\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"partitionName\": \"january\",\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Partition Operations (V2)"
                 ],
@@ -10467,7 +10009,7 @@
                     {
                         "name": "Request-Timeout",
                         "in": "header",
-                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "description": "The timeout duration for this operation.<br/>Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
                         "required": true,
                         "example": "",
                         "schema": {
@@ -10772,7 +10314,7 @@
             "post": {
                 "summary": "Get Collection Stats",
                 "deprecated": false,
-                "description": "This operation gets the number of entities in a collection.\n\n## Examples\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_stats\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"rowCount\": 0\n    }\n}\n```",
+                "description": "This operation gets the number of entities in a collection.\n\n## Examples\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_stats\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"rowCount\": 0\n    }\n}\n```",
                 "tags": [
                     "Collection Operations (V2)"
                 ],
@@ -10971,7 +10513,7 @@
             "post": {
                 "summary": "Rename Collection",
                 "deprecated": false,
-                "description": "This operation renames an existing collection and optionally moves the collection to a new database.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/rename\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"test_collection\",\n    \"newCollectionName\": \"quick_setup\"\n}'\n```\nPossible responses are similar to the following:\n\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation renames an existing collection and optionally moves the collection to a new database.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/rename\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"test_collection\",\n    \"newCollectionName\": \"quick_setup\"\n}'\n```\nPossible responses are similar to the following:\n\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Collection Operations (V2)"
                 ],
@@ -11143,7 +10685,7 @@
             "post": {
                 "summary": "Load Collection",
                 "deprecated": false,
-                "description": "This operation loads the data of the current collection into memory. \n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/load\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation loads the data of the current collection into memory. \n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/load\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Collection Operations (V2)"
                 ],
@@ -11337,7 +10879,7 @@
             "post": {
                 "summary": "Release Collection",
                 "deprecated": false,
-                "description": "This operation releases the data of the current collection from memory.\n\n## Example\n\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/release\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
+                "description": "This operation releases the data of the current collection from memory.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/release\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```",
                 "tags": [
                     "Collection Operations (V2)"
                 ],
@@ -11616,7 +11158,7 @@
             "post": {
                 "summary": "Get Collection Load State",
                 "deprecated": false,
-                "description": "This operation returns the load status of a specific collection.\n\n## Example\n\n```shell\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_load_state\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"loadProgress\": 100,\n        \"loadState\": \"LoadStateLoaded\"\n    }\n}\n```",
+                "description": "This operation returns the load status of a specific collection.\n\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_load_state\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"collectionName\": \"quick_setup\"\n}'\n```\nPossible response is similar to the following:\n```json\n{\n    \"code\": 0,\n    \"data\": {\n        \"loadProgress\": 100,\n        \"loadState\": \"LoadStateLoaded\"\n    }\n}\n```",
                 "tags": [
                     "Collection Operations (V2)"
                 ],
@@ -11706,6 +11248,98 @@
                                                 "loadProgress": 100,
                                                 "loadState": "LoadStateLoaded"
                                             }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/v2/vectordb/users/revoke_role": {
+            "post": {
+                "summary": "Revoke Role From User",
+                "deprecated": false,
+                "description": "This operation revokes a privilege granted to the current role.\n\n<include target=\"milvus\">\n> Notes\n> To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).\n\n## Example\n\n```shell\nexport MILVUS_URI=\"localhost:19530\"\nexport TOKEN=\"root:Milvus\"\n\ncurl --location --request POST \"http://${MILVUS_URI}/v2/vectordb/users/revoke_role\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"roleName\": \"admin\",\n    \"userName\": \"milvusAdmin\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```\n</include>\n<include target=\"zilliz\">\n## Example\n\nimport Admonition from '@theme/Admonition';\n\n<Admonition type=\"info\" icon=\"📘\" title=\"Notes\">\n    \nYou can use either of the following ways to authorize:\n<ul>\n<li> An API Key with appropriate permissions.</li>\n<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>\n</ul>\n    \n</Admonition>\n```shell\nexport CLUSTER_ENDPOINT=\"https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com\"\nexport TOKEN=\"username:password\"\n\ncurl --location --request POST \"http://${CLUSTER_ENDPOINT}/v2/vectordb/users/revoke_role\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n--header \"Content-Type: application/json\" \\\n--data-raw '{\n    \"roleName\": \"admin\",\n    \"userName\": \"milvusAdmin\"\n}'\n```\nPossible response is similar to the following.\n```json\n{\n    \"code\": 0,\n    \"data\": {}\n}\n```\n</include>",
+                "tags": [
+                    "User Operations (V2)"
+                ],
+                "parameters": [
+                    {
+                        "name": "Request-Timeout",
+                        "in": "header",
+                        "description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+                        "required": false,
+                        "example": "",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 3600,
+                            "exclusiveMinimum": true
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Then authentication token",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userName": {
+                                        "type": "string",
+                                        "description": "The name of the target user. The value should start with a letter and can only contain underline, letters and numbers."
+                                    },
+                                    "roleName": {
+                                        "type": "string",
+                                        "description": "The name of the target role."
+                                    }
+                                },
+                                "required": [
+                                    "roleName",
+                                    "userName"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "None",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "data"
+                                    ]
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "Success",
+                                        "value": {
+                                            "code": 200,
+                                            "data": {}
                                         }
                                     }
                                 }

@@ -17,33 +17,25 @@ Lists collections in a cluster.
 
 
 
-<include target="zilliz">
 import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="Notes">
     
-You can use eitehr of the following ways to authorize:
+You can use either of the following ways to authorize:
 <ul>
 <li> An API Key with appropriate permissions.</li>
 <li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>
 </ul>
     
 </Admonition>
-</include>
 
 ```shell
-<include target="milvus">
-export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
-export TOKEN="username:password"
 
-curl --location --request POST "http://${CLUSTER_ENDPOINT}/v1/vector/collections" \
-</include>
-<include target="zilliz">
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530"
 export TOKEN="db_admin:xxxxxxxxxxx"
 
 curl --location --request POST "http://${CLOUD_ENDPOINT}/v1/vector/collections" \
-</include>
+
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" 
 ```

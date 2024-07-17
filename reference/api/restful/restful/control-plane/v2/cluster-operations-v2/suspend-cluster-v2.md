@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 84
+sidebar_position: 79
 slug: /restful/suspend-cluster-v2
 title: Suspend Cluster
 ---

@@ -13,7 +13,11 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="Notes">
     
-<p>This API requires an <a href="/docs/manage_api_keys">API key</a> as the authentication token.</p>
+You can use either of the following ways to authorize:
+<ul>
+<li> An API Key with appropriate permissions.</li>
+<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>
+</ul>
     
 </Admonition>
 

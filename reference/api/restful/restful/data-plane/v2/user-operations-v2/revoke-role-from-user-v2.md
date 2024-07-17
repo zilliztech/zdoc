@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 76
+sidebar_position: 87
 slug: /restful/revoke-role-from-user-v2
 title: Revoke Role From User
 ---
@@ -8,9 +8,6 @@ title: Revoke Role From User
 import RestHeader from '@site/src/components/RestHeader';
 
 This operation revokes a privilege granted to the current role.
-
-> Notes
-> To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).
 
 <RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v2/vectordb/users/revoke_role" />
 
@@ -20,6 +17,17 @@ This operation revokes a privilege granted to the current role.
 
 
 
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+    
+You can use either of the following ways to authorize:
+<ul>
+<li> An API Key with appropriate permissions.</li>
+<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>
+</ul>
+    
+</Admonition>
 ```shell
 export CLUSTER_ENDPOINT="https://inxx-xxxxxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com"
 export TOKEN="username:password"
@@ -28,8 +36,8 @@ curl --location --request POST "http://${CLUSTER_ENDPOINT}/v2/vectordb/users/rev
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data-raw '{
-    "roleName": "db_admin",
-    "userName": "admin"
+    "roleName": "admin",
+    "userName": "milvusAdmin"
 }'
 ```
 Possible response is similar to the following.

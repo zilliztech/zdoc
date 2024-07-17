@@ -30,7 +30,6 @@ export CLOUD_REGION="gcp-us-west1"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 export API_KEY=""
 
-
 curl --location --request GET "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import/list?clusterId=${CLUSTER_ID}&pageSize=10&currentPage=1" \
 --header "Authorization: Bearer ${API_KEY}"
 ```

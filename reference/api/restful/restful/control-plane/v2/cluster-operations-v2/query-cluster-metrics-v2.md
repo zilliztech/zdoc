@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: restfulSidebar
-sidebar_position: 90
+sidebar_position: 85
 slug: /restful/query-cluster-metrics-v2
 title: Query Cluster Metrics
 ---

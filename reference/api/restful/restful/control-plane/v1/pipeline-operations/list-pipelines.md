@@ -25,7 +25,6 @@ import Admonition from '@theme/Admonition';
     
 </Admonition>
 
-
 ```shell
 export CLOUD_REGION="gcp-us-west1"
 export API_KEY=""

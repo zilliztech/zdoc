@@ -17,6 +17,17 @@ This operation creates a collection in a specified cluster.
 
 
 
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" icon="📘" title="Notes">
+    
+You can use either of the following ways to authorize:
+<ul>
+<li> An API Key with appropriate permissions.</li>
+<li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>
+</ul>
+    
+</Admonition>
 You can choose between a quick setup or a custom setup as follows:
 
 ### Quick setup

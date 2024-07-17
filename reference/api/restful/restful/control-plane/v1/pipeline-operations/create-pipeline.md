@@ -29,7 +29,6 @@ import TabItem from '@theme/TabItem';
 
 Currently, you can create pipelines to ingest data into and search/purge data from your collections. The request parameters vary with the type of pipelines you want to create and the data you want to process.
 
-
 <Tabs groupId="pipeline" defaultValue="ingest" values={[{"label": "Ingestion", "value": "ingest"},{"label": "Search", "value": "search"},{"label": "Deletion", "value": "purge"}]}>
 <TabItem value="ingest">
 
@@ -105,7 +104,6 @@ Possible response is similar to the following
 </TabItem>
 <TabItem value="doc">
 
-
 ```shell
 export CLOUD_REGION="gcp-us-west1"
 export API_KEY=""    
@@ -176,11 +174,8 @@ Possible response is similar to the following:
 }
 ```
 
-
 </TabItem>
 <TabItem value="image">
-
-
 
 ```shell
 export CLOUD_REGION="gcp-us-west1"
@@ -308,7 +303,6 @@ Possible response is similar to the following
 </TabItem>
 <TabItem value="doc">
 
-
 ```shell
 export CLOUD_REGION="gcp-us-west1"
 export API_KEY="YOUR_API_KEY"    
@@ -359,7 +353,6 @@ Possible response is similar to the following:
   }
 }
 ```
-
 
 </TabItem>
 <TabItem value="image">
@@ -468,7 +461,6 @@ Possible response is similar to the following:
 }
 ```
 
-
 </TabItem>
 </Tabs>
 </TabItem>
@@ -528,7 +520,6 @@ Possible response is similar to the following
 </TabItem>
 <TabItem value="doc">
 
-
 ```shell
 export CLOUD_REGION="gcp-us-west1"
 export API_KEY="YOUR_API_KEY"    
@@ -578,11 +569,8 @@ Possible response is similar to the following:
 }
 ```
 
-
 </TabItem>
 <TabItem value="image">
-
-
 
 ```shell
 export CLOUD_REGION="gcp-us-west1"
