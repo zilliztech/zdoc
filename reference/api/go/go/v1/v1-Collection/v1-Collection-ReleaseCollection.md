@@ -1,0 +1,65 @@
+---
+slug: /go/v1-Collection-ReleaseCollection
+beta: FALSE
+notebook: FALSE
+type: origin
+token: PqoEwiGLQiRXiZkkKnLckVpLnFc
+sidebar_position: 7
+displayed_sidebar: goSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# ReleaseCollection()
+
+This method releases the specified collection from memory.
+
+```go
+func (c *GrpcClient) ReleaseCollection(ctx context.Context, collName string) error
+```
+
+## Request Parameters{#request-parameters}
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>ctx</code></p></td>
+     <td><p>Context for the current call to work.</p></td>
+     <td><p><code>context.Context</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>collName</code></p></td>
+     <td><p>Name of the collection to release.</p></td>
+     <td><p><code>string</code></p></td>
+   </tr>
+</table>
+
+## Return{#return}
+
+Null
+
+## Errors{#errors}
+
+Any error in the execution of the request. Possible errors are as follows:
+
+- `ErrClientNotReady`: The client is not connected to Milvus.
+
+- `ErrCollectionNotExists`: The collection with the specified name does not exist.
+
+- The call to this API fails.
+
+## Example{#example}
+
+```go
+// release collection
+errRelease := mc.ReleaseCollection(context.Background(), collectionName)
+if errRelease != nil {
+   log.Fatal("failed to release collection:", errRelease.Error())
+}
+```

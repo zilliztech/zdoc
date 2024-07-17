@@ -145,7 +145,7 @@ const config = {
         // root: 'wikcnu8oU4VVbRFKKLjDH5aCIIh',
         // base: 'XJ2RbEDgTakJ80sfUAPcLG4Tnug',
         sourceType: 'onePager',
-        version: 'v2.3.x',
+        version: 'v2.4.x',
         displayedSidebar: 'javaSidebar',
         docSourceDir: './plugins/lark-docs/meta/sources/java/v2.3.x/v1',
         targets: {
@@ -191,6 +191,24 @@ const config = {
           },
           zilliz: {
             outputDir: 'reference/api/nodejs/nodejs',
+            imageDir: 'static/img',
+          }
+        }
+      },
+      go: {
+        root: 'V0SCw3U3siZBynkKhUCcRRAin69',
+        base: 'WA8rbgtu8aq3wtsBm02cepOznPJ',
+        sourceType: 'wiki',
+        version: 'v2.4.x',
+        displayedSidebar: 'goSidebar',
+        docSourceDir: './plugins/lark-docs/meta/sources/go/v2.4.x',
+        targets: {
+          milvus: {
+            outputDir: 'milvus/reference/go/docs/v1',
+            imageDir: 'milvus/reference/go/images'
+          },
+          zilliz: {
+            outputDir: 'reference/api/go/go/v1',
             imageDir: 'static/img',
           }
         }

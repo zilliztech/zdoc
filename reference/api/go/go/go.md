@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: goSidebar
 slug: /go
 beta: FALSE
 notebook: FALSE
