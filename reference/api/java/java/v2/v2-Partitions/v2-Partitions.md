@@ -3,7 +3,7 @@ slug: /java/v2-Partitions
 beta: false
 notebook: false
 type: folder
-token: TXEsfWjuFl2cKPdDyrrcS7hFnwd
+token: YkL6fqkaNlgeWXdNaWLcltkZnRc
 sidebar_position: 5
 displayed_sidebar: javaSidebar
 ---

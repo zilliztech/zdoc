@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Management-describeIndex
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: MGX2dDWoooZ982x3pcNcbFzcnXb
+token: WUgedTmyZoW4clxSgHVcl1ZtnZl
 sidebar_position: 2
 displayed_sidebar: javaSidebar
 

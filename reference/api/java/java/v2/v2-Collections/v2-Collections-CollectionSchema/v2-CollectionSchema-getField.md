@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-CollectionSchema-getField
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: XK6yd5oUMoCq4Px7wAIclfdxnCd
+token: AXWod56QkoprlXxOXkwcPXfonHg
 sidebar_position: 3
 displayed_sidebar: javaSidebar
 

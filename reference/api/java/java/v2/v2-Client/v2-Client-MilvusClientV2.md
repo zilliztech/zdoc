@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Client-MilvusClientV2
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: YmaYdEH00oj9DWx9N22cWfbonWb
+token: Y4qvdMEeioKXShxxNmncvnJ2nJf
 sidebar_position: 1
 displayed_sidebar: javaSidebar
 

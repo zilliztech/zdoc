@@ -64,3 +64,7 @@ This is an enumeration that provides the following constants.
 
     Sets the data type to **BFloat16 Vector**.
 
+- SparseFloatVector(104)
+
+      Sets the data type to Sparse Vector.
+

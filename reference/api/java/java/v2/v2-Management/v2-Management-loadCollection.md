@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Management-loadCollection
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: G9QJdgzrVoGLqwxxHo6cgzwfnEh
+token: XEWvdbuFHoLOo7xKrAJcqip6n5J
 sidebar_position: 7
 displayed_sidebar: javaSidebar
 

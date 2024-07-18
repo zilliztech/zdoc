@@ -1,11 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Vector-insert
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: W0vxd7JhJo0trdx22VJcR2wgnud
-sidebar_position: 3
+token: P0XRd2Mgfo1uG6xk47icWRd4n6b
+sidebar_position: 4
 displayed_sidebar: javaSidebar
 
 ---
@@ -26,7 +26,7 @@ public InsertResp insert(InsertReq request)
 ```java
 insert(InsertReq.builder()
     .collectionName(String collectionName)
-    .data(List<JSONObject> data)
+    .data(List<JsonObject> data)
     .partitionName(String partitionName)
     .build()
 )
@@ -38,18 +38,24 @@ insert(InsertReq.builder()
 
     The name of an existing collection.
 
-- `data(List<JSONObject> data)`
+- `data(List<JsonObject> data)`
 
     The data to insert into the current collection.
 
-    The data to insert should be a dictionary that matches the schema of the current collection or a list of such dictionaries. 
+    The data to insert should be a `gson.JsonObject` that matches the schema of the current collection or a list of such dictionaries. 
 
     The following code assumes that the schema of the current collection has two fields named **id** and **vector**. The former is the primary field and the latter is a field to hold 5-dimensional vector embeddings.
 
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>In Java SDK versions v2.4.1 or earlier versions, the input is a <code>fastjson.JSONObject</code>. But <code>fastjson</code> is not recommended to use now because of its unsafe deserialization vulnerability. Therefore, replace <code>fastjson</code> with <code>gson</code> if you use the Java SDK of v2.4.2 or later releases.</p>
+
+    </Admonition>
+
     ```java
-    List<JSONObject> data = new ArrayList<>();
+    List<JsonObject> data = new ArrayList<>();
     
-    JSONObject dict1 = new JSONObject();
+    JsonObject dict1 = new JsonObject();
     List<Float> vectorArray1 = new ArrayList<>();
     vectorArray1.add(0.37417449965222693);
     vectorArray1.add(-0.9401784221711342);
@@ -57,10 +63,10 @@ insert(InsertReq.builder()
     vectorArray1.add(0.49519396415367245);
     vectorArray1.add(-0.558567588166478);
     
-    dict1.put("id", 1);
-    dict1.put("vector", vectorArray1);
+    dict1.addProperty("id", 1L);
+    dict1.add("vector", gson.toJsonTree(vectorArray1));
     
-    JSONObject dict2 = new JSONObject();
+    JsonObject dict2 = new JsonObject();
     List<Float> vectorArray2 = new ArrayList<>();
     vectorArray2.add(0.46949086179692356);
     vectorArray2.add(-0.533609076732849);
@@ -68,8 +74,8 @@ insert(InsertReq.builder()
     vectorArray2.add(0.9797361846081416);
     vectorArray2.add(0.6294256393761057);
     
-    dict2.put("id", 2);
-    dict2.put("vector", vectorArray2);
+    dict2.addProperty("id", 2L);
+    dict2.add("vector", gson.toJsonTree(vectorArray2));
     
     data.add(dict1);
     data.add(dict2);
@@ -96,12 +102,12 @@ An **InsertResp** object containing information about the number of inserted ent
 ## Example{#example}
 
 ```java
-JSONObject vector = new JSONObject();
+JsonObject vector = new JsonObject();
 List<Float> vectorList = new ArrayList<>();
 vectorList.add(1.0f);
 vectorList.add(2.0f);
-vector.put("vector", vectorList);
-vector.put("id", 0L);
+vector.add("vector", gson.toJsonTree(vectorList));
+vector.addProperty("id", 0L);
 
 InsertReq insertReq = InsertReq.builder()
         .collectionName("test")

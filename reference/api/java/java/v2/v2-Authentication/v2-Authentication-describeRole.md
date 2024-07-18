@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Authentication-describeRole
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: NVKMdnlOeoz770xHlt0cDHtgnym
+token: Fs7qdzeHZo305txlj45cgqoVnUf
 sidebar_position: 3
 displayed_sidebar: javaSidebar
 

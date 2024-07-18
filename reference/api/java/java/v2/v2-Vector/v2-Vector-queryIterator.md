@@ -1,11 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
-slug: /java/java/v2-Vector-query
+slug: /java/java/v2-Vector-queryIterator
 beta: false
 notebook: false
 type: docx
-token: Oy7PdvBJ7omRcKxvRvUcbWLcn1d
-sidebar_position: 5
+token: ByLVdf2nRocLcxxwH3Gc9CyFnbb
+sidebar_position: 6
 displayed_sidebar: javaSidebar
 
 ---
@@ -13,28 +13,26 @@ displayed_sidebar: javaSidebar
 import Admonition from '@theme/Admonition';
 
 
-# query()
+# queryIterator()
 
-This operation conducts a scalar filtering with a specified boolean expression.
+This method returns a query iterator to iterate data.
 
 ```java
-public QueryResp query(QueryReq request)
+public QueryIterator queryIterator(QueryIteratorReq request)
 ```
 
 ## Request Syntax{#request-syntax}
 
 ```java
-query(QueryReq.builder()
-    .collectionName(String collectionName)
-    .partitionNames(List<String> partitionNames)
-    .outputFields(List<String> outputFields)
-    .ids(List<Object> ids)
-    .filter(String filter)
-    .consistencyLevel(ConsistencyLevel consistencyLevel)
-    .offset(long offset)
-    .limit(long limit)
-    .build()
-)
+queryIterator(QueryIteratorReq.builder()
+        .collectionName(String collectionName)
+        .outputFields(List<String> outputFields)
+        .expr(String expr)
+        .batchSize(long size)
+        .consistencyLevel(ConsistencyLevel consistencyLevel)
+        .offset(long offset)
+        .limit(long limit)
+        .build());
 ```
 
 **BUILDER METHODS:**
@@ -43,25 +41,21 @@ query(QueryReq.builder()
 
     The name of an existing collection.
 
-- `partitionNames(List<String> partitionNames)`
-
-    A list of partition names.
-
 - `outputFields(List<String> outputFields)`
 
     A list of field names to include in each entity in return.
 
     The value defaults to **None**. If left unspecified, all fields in the collection are selected as the output fields.
 
-- `ids(List<Object> ids)`
-
-    The IDs of entities to query.
-
-- `filter(String filter)`
+- `expr(String expr)`
 
     A scalar filtering condition to filter matching entities. 
 
     You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+
+- `batchSize(long size)`
+
+A value to define the number of entities returned per batch.
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
@@ -95,23 +89,21 @@ query(QueryReq.builder()
 
 **RETURN TYPE:**
 
-*QueryResp*
+*QueryIterator*
 
 **RETURNS:**
 
-A **QueryResp object representing specific query results with the specified output fields
+A *QueryIterator* object to iterate data.
 
-**PARAMETERS:**
+**METHODS:**
 
-- queryResults(List\<QueryResp.QueryResult\>)
+- List\<QueryResultsWrapper.RowRecord> next()
 
-A list of QueryResult objects with each QueryResult representing a queried entity.
+Return a batch of results.
 
-<Admonition type="info" icon="📘" title="Notes">
+- close()
 
-<p>If the number of returned entities is less than expected, duplicate entities may exist in your collection.</p>
-
-</Admonition>
+Release the cache results.
 
 **EXCEPTIONS:**
 
@@ -122,13 +114,27 @@ A list of QueryResult objects with each QueryResult representing a queried entit
 ## Example{#example}
 
 ```java
-//query by filter "id < 10"
-QueryReq queryReq = QueryReq.builder()
-        .collectionName("test")
-        .filter("id < 10")
-        .build();
-QueryResp queryResp = client.query(queryReq);
-for (QueryResp.QueryResult result : queryResp.getGetResults()) {
-    System.out.println(result.getEntity());
+QueryIterator queryIterator = client.queryIterator(QueryIteratorReq.builder()
+        .collectionName(COLLECTION_NAME)
+        .expr("id < 300")
+        .outputFields(Lists.newArrayList("id", "vector"))
+        .batchSize(50L)
+        .offset(5)
+        .limit(400)
+        .consistencyLevel(ConsistencyLevel.BOUNDED)
+        .build());
+
+while (true) {
+    List<QueryResultsWrapper.RowRecord> res = queryIterator.next();
+    if (res.isEmpty()) {
+        System.out.println("query iteration finished, close");
+        queryIterator.close();
+        break;
+    }
+
+    for (QueryResultsWrapper.RowRecord record : res) {
+        System.out.println(record);
+    }
 }
 ```
+

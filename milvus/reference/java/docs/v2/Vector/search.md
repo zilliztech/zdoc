@@ -16,7 +16,7 @@ search(SearchReq.builder()
     .topK(int topK)
     .filter(String filter)
     .outputFields(List<String> outputFields)
-    .data(List<BaseVector> data)
+    .data(List<Object> data)
     .offset(long offset)
     .limit(long limit)
     .roundDecimal(int roundDecimal)
@@ -25,6 +25,7 @@ search(SearchReq.builder()
     .gracefulTime(long gracefulTime)
     .consistencyLevel(ConsistencyLevel consistencyLevel)
     .ignoreGrowing(boolean ignoreGrowing)
+    .groupByFieldName(String fieldName)
     .build()
 )
 ```
@@ -63,39 +64,11 @@ search(SearchReq.builder()
 
     The value defaults to **None**. If left unspecified, all fields are selected as the output fields.
 
-- `data(List<BaseVector> data)`
+- `data(List<Object> data)`
 
     A list of vector embeddings.
 
     Milvus searches for the most similar vector embeddings to the specified ones.
-
-    BaseVector is a base class for abstract vector classes. The following classes are derived from BaseVector. Choose the correct class as input according to DataType of the vector field.
-
-    <div class="admonition note">
-
-    <p><b>notes</b></p>
-
-    <p>In Java SDK v2.3.7 or earlier versions, this method is named <code>distance</code>. Since Java SDK v2.3.8, this method is renamed as <code>score</code>.</p>
-
-    </div>
-
-    <table>
-       <tr>
-         <th><p><strong>Class Name</strong></p></th>
-         <th><p><strong>Constructors</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>FloatVec</p></td>
-         <td><p>FloatVec(List\<Float> data)FloatVec(float[] data)</p></td>
-         <td><p>For DataType.FloatVector type field.</p></td>
-       </tr>
-       <tr>
-         <td><p>BinaryVec</p></td>
-         <td><p>BinaryVec(ByteBuffer data)BinaryVec(byte[] data)</p></td>
-         <td><p>For DataType.BinaryVector type field.</p></td>
-       </tr>
-    </table>
 
 - `offset(long offset)`
 
@@ -185,7 +158,11 @@ search(SearchReq.builder()
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    Whether to ignore growing segments during similarity searches.
+Whether to ignore growing segments during similarity searches.
+
+- `groupByFieldName(String fieldName)`
+
+Sets the field name to do grouping for results.
 
 **RETURN TYPE:**
 

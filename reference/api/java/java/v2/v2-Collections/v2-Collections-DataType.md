@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Collections-DataType
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: P85rdatjZosvEfxCq7TcFRy0nBe
+token: QYPIdgWL7oDWrWxVUx0clo32nz4
 sidebar_position: 7
 displayed_sidebar: javaSidebar
 
@@ -50,10 +50,6 @@ This is an enumeration that provides the following constants.
 - Double(11)
 
     Sets the data type to **Double**.
-
-- String(20)
-
-    Sets the data type to **String**.
 
 - VarChar(21)
 

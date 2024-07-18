@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Partitions-releasePartitions
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: GrBmdR0LeoNkwJxwZmOcUAIrnIM
+token: VsyQdDkXnoloWYxfjXNchc0dnng
 sidebar_position: 6
 displayed_sidebar: javaSidebar
 

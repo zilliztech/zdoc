@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Collections-renameCollection
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: A9XDdBOWEolZ8lxmvcwcNrRInke
+token: CtTvdQVMoo2ec5xbWTPcSzjNnQc
 sidebar_position: 16
 displayed_sidebar: javaSidebar
 

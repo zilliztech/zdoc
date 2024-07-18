@@ -3,7 +3,7 @@ slug: /java/v2-Authentication
 beta: false
 notebook: false
 type: folder
-token: NX2nfYbWXlBEeyd1gQhcsnDGnQe
+token: U16KfBnGVlNp5edR7DycvFF1nfy
 sidebar_position: 1
 displayed_sidebar: javaSidebar
 ---

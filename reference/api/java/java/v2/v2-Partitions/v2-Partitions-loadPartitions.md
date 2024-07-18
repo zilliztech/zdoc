@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Partitions-loadPartitions
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: R8BCd0rePoAMjixwJo9ceziqnjf
+token: Jei2dpJMuoyOF5xTIuccfzcinOh
 sidebar_position: 5
 displayed_sidebar: javaSidebar
 

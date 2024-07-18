@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Vector-get
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: XeXxd6ylAoSZ05xkXEqcS84XnIc
+token: UcacdecoZoAyxsxJzOGcTqWzn7d
 sidebar_position: 2
 displayed_sidebar: javaSidebar
 

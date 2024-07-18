@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Management-IndexType
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: HsHBdbiqEoRoTsxfcKbcMPPSnRc
+token: EATSdak5wokQhCx6k3tcCoAqn3P
 sidebar_position: 6
 displayed_sidebar: javaSidebar
 
@@ -55,10 +55,6 @@ This is an enumeration that provides the following constants.
 
     Sets the index type to **SCANN**.
 
-- GPU_BRUTE_FORCE
-
-    Sets the index type to **GPU_BRUTE_FORCE**. This applies to GPU indexes only.
-
 - GPU_IVF_FLAT(50)
 
     Sets the index type to **GPU_IVF_FLAT**. This applies to GPU indexes only.
@@ -67,7 +63,11 @@ This is an enumeration that provides the following constants.
 
     Sets the index type to **GPU_IVF_PQ**. This applies to GPU indexes only.
 
-- GPU_CAGRA
+- GPU_BRUTE_FORCE(52)
+
+    Sets the index type to **GPU_BRUTE_FORCE**. This applies to GPU indexes only.
+
+- GPU_CAGRA(53)
 
     Sets the index type to **GPU_CAGRA**. This applies to GPU indexes only.
 
@@ -94,4 +94,8 @@ This is an enumeration that provides the following constants.
 - STL_SORT(200)
 
     Sets the index type to **STL_SORT**. This applies to scalar fields only.
+
+- INVERTED(201)
+
+     Sets the index type to **INVERTED**. This applies to all scalar fields except JSON type fields.
 

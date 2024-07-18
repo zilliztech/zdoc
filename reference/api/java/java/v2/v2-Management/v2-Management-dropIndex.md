@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Management-dropIndex
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: S8BXdtrunoTPiJxR8wScnzncnKh
+token: KdFEdP8ZToYvZ1xmmQgcE62unUf
 sidebar_position: 3
 displayed_sidebar: javaSidebar
 

@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Collections-createAlias
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: VU1odD6KIoV6kWxTJHScVhDRnkb
+token: NMAOdxhL1oo0E7xcFqXcF6yPnBg
 sidebar_position: 4
 displayed_sidebar: javaSidebar
 

@@ -3,7 +3,7 @@ slug: /java/v2-Client
 beta: false
 notebook: false
 type: folder
-token: GD2QfAetplDekjdxJDYcTIwAnIg
+token: YEBjfrOXWl8s00dDTvdcMiYDn0d
 sidebar_position: 2
 displayed_sidebar: javaSidebar
 ---

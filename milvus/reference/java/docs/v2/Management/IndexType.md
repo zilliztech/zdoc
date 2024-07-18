@@ -48,6 +48,14 @@ This is an enumeration that provides the following constants.
 
     Sets the index type to **GPU_IVF_PQ**. This applies to GPU indexes only.
 
+- GPU_BRUTE_FORCE(52)
+
+    Sets the index type to **GPU_BRUTE_FORCE**. This applies to GPU indexes only.
+
+- GPU_CAGRA(53)
+
+    Sets the index type to **GPU_CAGRA**. This applies to GPU indexes only.
+
 - BIN_FLAT(80)
 
     Sets the index type to **BIN_FLAT**. This applies to binary vectors only.
@@ -71,4 +79,8 @@ This is an enumeration that provides the following constants.
 - STL_SORT(200)
 
     Sets the index type to **STL_SORT**. This applies to scalar fields only.
+
+- INVERTED(201)
+
+     Sets the index type to **INVERTED**. This applies to all scalar fields except JSON type fields.
 

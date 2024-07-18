@@ -1,10 +1,10 @@
 ---
 displayed_sidbar: javaSidebar
 slug: /java/java/v2-Collections-describeCollection
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
-token: DTbJdZHWMourJqxOn4rcMWrmn1f
+token: Lc03dk5YVo8Ilvx4XINcv5KBn9e
 sidebar_position: 9
 displayed_sidebar: javaSidebar
 

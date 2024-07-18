@@ -3,8 +3,8 @@ displayed_sidbar: javaSidebar
 slug: /java/java/v2-Collections-CollectionSchema
 beta: false
 notebook: false
-type: folder
-token: EfYXfQjt7lz77odlUj7cjJZVnMh
+type: docx
+token: FxUxdWGz2oUh1ixyquZcAndBnAf
 sidebar_position: 2
 displayed_sidebar: javaSidebar
 
@@ -71,8 +71,3 @@ collectionSchema.addField(AddFieldReq.builder().fieldName("vector").dataType(Dat
 
 The following are the methods of the `CollectionSchema` class:
 
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />
