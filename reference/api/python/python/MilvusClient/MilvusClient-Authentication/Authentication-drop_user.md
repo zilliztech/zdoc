@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Authentication-drop_user
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: WtyZdeFKMoSv5exaYRxcPLCSndg
 sidebar_position: 6

@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Collection-release
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: CBwkdDs7MoKkVKx0kJgcPUNxn6s
 sidebar_position: 24

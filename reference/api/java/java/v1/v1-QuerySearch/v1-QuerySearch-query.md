@@ -43,6 +43,11 @@ Methods of `QueryParam.Builder`:
         <td><p>collectionName: The target collection name.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withConsistencyLevel(ConsistencyLevelEnum consistencyLevel)</p></td>
         <td><p>Sets the search consistency level(Optional).<br/>If the level is not set, will use the default consistency level of the collection.</p></td>
         <td><p>consistencyLevel: The consistency level used in the query.</p></td>
@@ -159,7 +164,7 @@ Methods of `FieldDataWrapper`:
      <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td><p>isVectorField()<br/></p></td>
+     <td><p>isVectorField()</p></td>
      <td><p>Tell the user if this field is a vector field or a scalar field.</p></td>
      <td><p>boolean</p></td>
    </tr>
@@ -185,10 +190,8 @@ Methods of `FieldDataWrapper`:
    </tr>
    <tr>
      <td><p>getFieldData()</p></td>
-     <td><p>Returns the field data according to field type.<br/></p></td>
-     <td><ul>
-<li>Return List\<List\<Float>gt; for FloatVector field.<br/> - Return List\<ByteBuffer> for BinaryVector/Float16Vector/BFloatVector field.<br/> - Return List\<SortedMap\<Long, Float>gt; for SparseFloatVector field.<br/> - Return List\<Long> for Int64 field.<br/> - Return List\<Integer> for Int32/Int16/Int8 field.<br/> - Return List\<Boolean> for Bool field.<br/> - Return List\<Float> for Float field.<br/> - Return List\<Double> for Double field.<br/> - Return List\<String> for Varchar field.<br/> - Return List\<ByteString> for JSON field.</li>
-</ul></td>
+     <td><p>Returns the field data according to field type.</p></td>
+     <td><ul><li><p>Return List\<List\<Float>gt; for FloatVector field.</p></li><li><p>Return List\<ByteBuffer> for BinaryVector/Float16Vector/BFloatVector field.</p></li><li><p>Return List\<SortedMap\<Long, Float>gt; for SparseFloatVector field.</p></li><li><p>Return List\<Long> for Int64 field.</p></li><li><p>Return List\<Integer> for Int32/Int16/Int8 field.</p></li><li><p>Return List\<Boolean> for Bool field.</p></li><li><p>Return List\<Float> for Float field.</p></li><li><p>Return List\<Double> for Double field.</p></li><li><p>Return List\<String> for Varchar field.</p></li><li><p>Return List\<ByteString> for JSON field.</p></li></ul></td>
    </tr>
 </table>
 
@@ -205,13 +208,13 @@ Methods of `RowRecord`:
      <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td><p>put(String keyName, Object obj)<br/></p></td>
+     <td><p>put(String keyName, Object obj)</p></td>
      <td><p>For internal use. Set a key-value pair for the row.</p></td>
      <td><p>boolean</p></td>
    </tr>
    <tr>
      <td><p>get(String keyName)</p></td>
-     <td><p>Get a value by a key name. If the key name is a field name, return the value of this field.<br/>If the key name is in the dynamic field, return the value from the dynamic field.<br/>Throws ParamException if the key name doesn't exist.</p></td>
+     <td><p>Get a value by a key name. If the key name is a field name, return the value of this field.If the key name is in the dynamic field, return the value from the dynamic field.Throws ParamException if the key name doesn't exist.</p></td>
      <td><p>Object</p></td>
    </tr>
 </table>

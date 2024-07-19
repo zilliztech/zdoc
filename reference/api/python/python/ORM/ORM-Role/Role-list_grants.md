@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Role-list_grants
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: YRoGdgQmWoIEaJx84ICcHTILnMe
 sidebar_position: 8

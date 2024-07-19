@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Role-is_exist
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: F8WOdIoz4okn5OxMEymcXNuRnkb
 sidebar_position: 6

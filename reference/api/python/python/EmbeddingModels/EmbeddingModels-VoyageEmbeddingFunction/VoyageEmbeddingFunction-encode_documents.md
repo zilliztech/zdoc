@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/VoyageEmbeddingFunction-encode_documents
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: S9zrdw1etovCFKx0gcic6AiVn0e
 sidebar_position: 1

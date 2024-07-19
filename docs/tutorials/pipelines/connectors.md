@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: UcAvwL6N0iAq7bkuDcQcJgWqn3b
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - connect
+  - data
 
 ---
 
@@ -89,15 +95,15 @@ Zilliz Cloud Pipelines provides flexible options when you create a connector. On
            </tr>
            <tr>
              <td><p>Object Storage Service</p></td>
-             <td><p>Select the object storage service of your data source. Available options include: <br/> - AWS S3<br/> - Google Cloud Storage.</p></td>
+             <td><p>Select the object storage service of your data source. Available options include: </p><ul><li><p>AWS S3</p></li><li><p>Google Cloud Storage.</p></li></ul></td>
            </tr>
            <tr>
              <td><p>Bucket URL</p></td>
-             <td><p>Provide the bucket URL used for accessing your source data. Please make sure you enter the URL of the file directory instead of a specific file.<br/> To learn more about how to obtain the URL, please refer to:<br/> - <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html">Accessing and listing an Amazon S3 bucket</a><br/> - <a href="https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object">Discover object storage with the Google Cloud console</a></p></td>
+             <td><p>Provide the bucket URL used for accessing your source data. Please make sure you enter the URL of the file directory instead of a specific file.</p><p>To learn more about how to obtain the URL, please refer to:</p><ul><li><p><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html">Accessing and listing an Amazon S3 bucket</a></p></li><li><p><a href="https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object">Discover object storage with the Google Cloud console</a></p></li></ul></td>
            </tr>
            <tr>
              <td><p>Access Keys for authorization (optional)</p></td>
-             <td><p>Provide the following information for authorization if necessary:<br/> - For AWS S3, please provide the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey">access key and secret key</a>.<br/> - For Google Cloud Storage, please provide the <a href="https://cloud.google.com/storage/docs/authentication/managing-hmackeys">access key ID and secret access key</a>.</p></td>
+             <td><p>Provide the following information for authorization if necessary:</p><ul><li><p>For AWS S3, please provide the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey">access key and secret key</a>.</p></li><li><p>For Google Cloud Storage, please provide the <a href="https://cloud.google.com/storage/docs/authentication/managing-hmackeys">access key ID and secret access key</a>.</p></li></ul></td>
            </tr>
         </table>
 
@@ -136,7 +142,7 @@ Zilliz Cloud Pipelines provides flexible options when you create a connector. On
            </tr>
            <tr>
              <td><p>Frequency</p></td>
-             <td><p>Set how often the system performs scans.<br/> - Daily: Choose any number from 1 to 7.<br/> - Hourly: Options are 1, 6, 12, or 18 hours.</p></td>
+             <td><p>Set how often the system performs scans.</p><ul><li><p>Daily: Choose any number from 1 to 7.</p></li><li><p>Hourly: Options are 1, 6, 12, or 18 hours.</p></li></ul></td>
            </tr>
            <tr>
              <td><p>Next Run at</p></td>
@@ -216,3 +222,6 @@ Monitor connector activities and troubleshoot issues:
 
 1. An `abnormal` status indicates an error. Click the "?" icon next to the status for detailed error messages.
 
+### View related connectors in a pipeline{#view-related-connectors-in-a-pipeline}
+
+To view all the linked connectors in a pipeline, please [check the pipeline details](./pipelines-text-data#view-pipeline).  

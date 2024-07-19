@@ -5,6 +5,11 @@ notebook: FALSE
 type: origin
 token: GanXwLnJkiymKVkNPhecdi9MnGf
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - release notes
 
 ---
 
@@ -65,7 +70,7 @@ For details, check out the [Use Binary Vector](./use-binary-vector), [Index Scal
 
 You can now aggregate the search results by the values in a specific scalar field. This helps RAG applications to implement document-level recall. Consider a collection of documents, each document splits into various passages. Each passage is represented by one vector embedding and belongs to one document. To find the most relevant documents instead of scattering passages, you can include the **group_by_field** argument in the **search()** operation to group results by the document ID.
 
-For details, check out the [Grouping Search](./single-vector-search#grouping-search-lessinclude-targetzillizgreaterlesssupgreaterbetalesssupgreaterlessincludegreater) guide and the example code in [example_group_by.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/example_group_by.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
+For details, check out the [Grouping Search](./single-vector-search#grouping-search-beta) guide and the example code in [example_group_by.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/example_group_by.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
 
 ### Float16 and BFloat- Vector DataType{#float16-and-bfloat-vector-datatype}
 

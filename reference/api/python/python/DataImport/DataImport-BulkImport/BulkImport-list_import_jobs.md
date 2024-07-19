@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/BulkImport-list_import_jobs
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: P0vxdEVBPoTNKLxkKIzcznlYnNc
 sidebar_position: 3

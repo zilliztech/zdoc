@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Vector-upsert
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: WRYFdoDe8ofrlDxxTxQcdoJjnAh
 sidebar_position: 6

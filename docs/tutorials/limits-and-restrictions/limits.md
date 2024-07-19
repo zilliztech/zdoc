@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - limits
 
 ---
 
@@ -120,15 +126,15 @@ The following table lists the limits on different types of pipelines you can cre
    </tr>
    <tr>
      <td><p>Ingestion Pipeline</p></td>
-     <td><p>10</p></td>
+     <td><p>100</p></td>
    </tr>
    <tr>
      <td><p>Deletion Pipeline</p></td>
-     <td><p>10</p></td>
+     <td><p>100</p></td>
    </tr>
    <tr>
      <td><p>Search Pipeline</p></td>
-     <td><p>10</p></td>
+     <td><p>100</p></td>
    </tr>
 </table>
 
@@ -368,7 +374,7 @@ The rate limit that applies varies with the cluster types and the number of CUs 
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
-     <td><p>100 MB/s</p></td>
+     <td><p>10 MB/s</p></td>
    </tr>
    <tr>
      <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
@@ -491,7 +497,11 @@ Each search request/response should be no greater than **64** MB.
 
 Each search request carries no more than **16,384** query vectors (usually known as **nq**).
 
-Each search response carries no more than 16,384 entities in return (usually known as **topK**).
+The number that each search response carries (usually known as **topK**) varies with your subscription plan:
+
+- For Free and Serverless clusters, the **topK** is no greater than **1,024** entities in return.
+
+- For dedicated clusters, the **topK** is no greater than **16,384** entities in return.
 
 ### Query{#query}
 
@@ -546,7 +556,9 @@ For details, refer to [Prepare Source Data](./prepare-source-data).
 
 ## Backup on Console{#backup-on-console}
 
-Zilliz Cloud provides free storage for backup snapshots for up to 30 days. 
+Backup snapshots can be retained for up to 30 days.
+
+For more information about the backup costs, please refer to [Understand Cost](./understand-cost#backup-costs).
 
 ## Restore on Console{#restore-on-console}
 

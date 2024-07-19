@@ -3,9 +3,9 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/ORM-Partition
 beta: false
 notebook: false
-type: folder
-token: Ed0CftM6Mlb5e4dUYApc9syJnDb
-sidebar_position: 6
+type: docx
+token: X9scdVMmxoBTuUxlKhecJXEunHd
+sidebar_position: 7
 displayed_sidebar: pythonSidebar
 
 ---
@@ -96,8 +96,3 @@ partition = Partition(collection, "novel", "")
 
 The following are the members of the `Partition` class:
 
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

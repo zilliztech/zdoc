@@ -48,6 +48,11 @@ Methods of `ShowCollectionsParam.Builder`:
         <td><p>collectionName: The name of the collection to show.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>build()</p></td>
         <td><p>Constructs a ShowCollectionsParam object.</p></td>
         <td><p>N/A</p></td>
@@ -94,8 +99,8 @@ Methods of `ShowCollResponseWrapper`:
    </tr>
    <tr>
      <td><p>getCollectionInfoByName(String collectionName)</p></td>
-     <td><p>Gets a CollectionInfo object by collection name.<br/></p></td>
-     <td><p><code>collectionName</code>: The collection name.</p></td>
+     <td><p>Gets a CollectionInfo object by collection name.</p></td>
+     <td><p>collectionName: The collection name.</p></td>
      <td><p>CollectionInfo</p></td>
    </tr>
 </table>
@@ -128,8 +133,8 @@ Methods of `ShowCollResponseWrapper.CollectionInfo`:
      <td><p>long</p></td>
    </tr>
    <tr>
-     <td><p>getInMemoryPercentage()<br/></p></td>
-     <td><p>Load percentage on query node.<br/></p></td>
+     <td><p>getInMemoryPercentage()</p></td>
+     <td><p>Load percentage on query node.</p></td>
      <td><p>long</p></td>
    </tr>
 </table>

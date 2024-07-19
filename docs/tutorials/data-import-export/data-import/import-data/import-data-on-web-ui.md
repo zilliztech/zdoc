@@ -6,12 +6,17 @@ notebook: FALSE
 type: origin
 token: KkdswLx2bi4bgCkY6bEc7Do9neh
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data import
+  - console
 
 ---
 
 import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
 
 # Import Data (Console)
 
@@ -35,7 +40,10 @@ Once data files are ready, you can import them directly from your local drive or
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You can have up to 10 running or pending import jobs in a collection.</p>
+<ul>
+<li><p>You can have up to 10 running or pending import jobs in a collection.</p></li>
+<li><p>The web console supports uploading a local JSON file of up to 1 GB. For larger files, it is recommended to <a href="./import-data-on-web-ui#remote-files-from-an-object-storage-bucket">upload from an object storage</a> instead. If you have any difficulties with data import, please <a href="https://support.zilliz.com/hc/en-us">create a support ticket</a>.</p></li>
+</ul>
 
 </Admonition>
 
@@ -59,165 +67,13 @@ Once you have uploaded the prepared files to a remote bucket, select the object 
 
 ![data-import-on-console-remote](/img/data-import-on-console-remote.png)
 
-### Supported object paths{#supported-object-paths}
+## Verify resultes{#verify-resultes}
 
-The following table lists applicable remote bucket URIs and some quick examples for you to build a valid import path.
+You can view the progress and status of the import job on the [Jobs](./job-center) page.
 
-<Tabs defaultValue="aws" values={[{"label":"AWS","value":"aws"},{"label":"GCP","value":"gcs"},{"label":"Azure","value":"azure"}]}>
+## Supported object paths{#supported-object-paths}
 
-<TabItem value="aws">
-
-- **Object access URIs**
-
-    <table>
-       <tr>
-         <th><p><strong>URI Style</strong></p></th>
-         <th><p><strong>URI Format</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><strong>AWS S3 URI</strong></p></td>
-         <td><p><code>s3://bucket-name/object-name</code></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
-         <td><p><code>https://bucket-name.s3.region-code.amazonaws.com/object-name</code></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>AWS Object URL, path-style</strong></p></td>
-         <td><p><code>https://s3.region-code.amazonaws.com/bucket-name/object-name</code></p></td>
-       </tr>
-    </table>
-
-    For more details, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
-
-- **Quick examples**
-
-    <table>
-       <tr>
-         <th><p><strong>File Type</strong></p></th>
-         <th><p><strong>Quick Examples</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s3://bucket-name/json-folder/</code><br/> <code>s3://bucket-name/json-folder/data.json</code></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s3://bucket-name/numpy_folder/</code><br/> <code>s3://bucket-name/folder/*.npy</code></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>s3://bucket-name/parquet-folder/</code><br/> <code>s3://bucket-name/parquet-folder/data.parquet</code></p></td>
-       </tr>
-    </table>
-
-- **Required permissions**
-
-    - `s3:GetObject`
-
-    - `s3:ListBucket`
-
-    - `s3:GetBucketLocation`
-
-</TabItem>
-
-<TabItem value="gcs">
-
-- **Object access URIs**
-
-    <table>
-       <tr>
-         <th><p><strong>URI Style</strong></p></th>
-         <th><p><strong>URI Format</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><strong>GCS public URL</strong></p></td>
-         <td><p><code>https://storage.googleapis.com/bucket_name/object_name</code></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>GCS gsutil URI</strong></p></td>
-         <td><p><code>gs://bucket_name/object_name</code></p></td>
-       </tr>
-    </table>
-
-    For more details, see [Share the object](https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object).
-
-- **Quick examples**
-
-    <table>
-       <tr>
-         <th><p><strong>File Type</strong></p></th>
-         <th><p><strong>Quick Examples</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><strong>JSON</strong></p></td>
-         <td><p><code>gs://bucket-name/json-folder/</code><br/> <code>gs://bucket-name/json-folder/data.json</code></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>gs://bucket-name/numpy-folder/</code><br/> <code>gs://bucket-name/numpy-folder/*.npy</code></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>gs://bucket-name/parquet-folder/</code><br/> <code>gs://bucket-name/parquet-folder/data.parquet</code></p></td>
-       </tr>
-    </table>
-
-- **Required permissions**
-
-    - `storage.objects.get`
-
-    - `storage.objects.list`
-
-</TabItem>
-
-<TabItem value="azure">
-
-- **Object access URIs**
-
-    <table>
-       <tr>
-         <th><p><strong>URI Style</strong></p></th>
-         <th><p><strong>URI Format</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><strong>Azure storage blob URI</strong></p></td>
-         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/object-name</code></p></td>
-       </tr>
-    </table>
-
-    For more details, see [Resource URI Syntax](https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata#resource-uri-syntax).
-
-- **Quick examples**
-
-    <table>
-       <tr>
-         <th><p><strong>File Type</strong></p></th>
-         <th><p><strong>Quick Examples</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><strong>JSON</strong></p></td>
-         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/*.npy</code></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></p></td>
-       </tr>
-    </table>
-
-</TabItem>
-
-</Tabs>
-
-## Verify the result{#verify-the-result}
-
-After the import is complete, you will receive the following information. At this point, you can view job details or start exploring the imported data for what interests you.
-
-![data_import_complete](/img/data_import_complete.png)
+For applicable object paths, refer to [Tips on Import Paths](./prepare-source-data#tips-on-import-paths).
 
 ## Related topics{#related-topics}
 

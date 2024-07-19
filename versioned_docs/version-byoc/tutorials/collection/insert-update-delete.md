@@ -5,6 +5,13 @@ notebook: FALSE
 type: origin
 token: Zn0MwWVCVibCPHkD063cNfOkn8d
 sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - insert
+  - upsert
+  - delete
 
 ---
 
@@ -618,6 +625,12 @@ The output is a dictionary containing the statistics on the affected entities. F
 If an entity is no longer needed, you can delete it from the collection. Zilliz Cloud offers two ways for you to identify the entities to delete.
 
 - **Delete entities by filter.**
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>When using filter expressions to delete entities, ensure the collection has been loaded. Otherwise, Zilliz Cloud will return an error.</p>
+
+    </Admonition>
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
     <TabItem value='python'>

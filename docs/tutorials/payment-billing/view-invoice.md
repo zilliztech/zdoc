@@ -6,6 +6,12 @@ notebook: FALSE
 type: origin
 token: PBEbwjRu9iyyaFkZnuzcINHCnke
 sidebar_position: 7
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - invoice
+  - view
 
 ---
 
@@ -60,6 +66,8 @@ To view your billing records, navigate to **Billing** in the left sidebar and se
 ![view-invoices](/img/view-invoices.png)
 
 To view specific details for an invoice, click on the respective billing period entry. This will bring you to a detailed page where you have the options to download the invoice as a PDF file or print the invoice directly.
+
+For a more detailed explanation of each billing item, refer to [Understand Cost](./understand-cost).
 
 ![billing-details-en](/img/billing-details-en.png)
 

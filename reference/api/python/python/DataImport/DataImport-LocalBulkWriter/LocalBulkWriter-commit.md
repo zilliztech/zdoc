@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/LocalBulkWriter-commit
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: EtBDdoGaFo3bOExKxCHcKgpenib
 sidebar_position: 2

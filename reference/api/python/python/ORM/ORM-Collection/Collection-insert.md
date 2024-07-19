@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Collection-insert
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: CbCodEGY9o6pKuxowNdctUppn7d
 sidebar_position: 19

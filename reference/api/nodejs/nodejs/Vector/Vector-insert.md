@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Vector-insert
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: WUZwdRNXIoS0tSxCrw6coaa2nzf
 sidebar_position: 3

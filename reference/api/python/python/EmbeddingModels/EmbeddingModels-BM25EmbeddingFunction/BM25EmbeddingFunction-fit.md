@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/BM25EmbeddingFunction-fit
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: Gj5bdBIMToImOvxXHIlcqFxjnTf
 sidebar_position: 4

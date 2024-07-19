@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: TqMFwNyDbiY9qekBfPNcbpuvnib
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - schema
+  - milvus
 
 ---
 
@@ -172,7 +178,7 @@ Zilliz Cloud supports the following field data types. The available data types v
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Currently, the vector field types <code>FLOAT16_VECTOR</code>, <code>BFLOAT16_VECTOR</code>, <code>SPARSE_FLOAT_VECTOR</code>, and <code>BINARY_VECTOR</code> are available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+    <p>Currently, the vector field types <code>FLOAT16_VECTOR</code>, <code>BFLOAT16_VECTOR</code>, <code>SPARSE_FLOAT_VECTOR</code>, and <code>BINARY_VECTOR</code> are available exclusively for clusters that have been upgraded to the Beta version.</p>
 
     </Admonition>
 

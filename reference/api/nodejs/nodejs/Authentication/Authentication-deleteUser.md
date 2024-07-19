@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Authentication-deleteUser
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: Cl5PdhU5jouHnrxyYXLcOQAZneb
 sidebar_position: 3

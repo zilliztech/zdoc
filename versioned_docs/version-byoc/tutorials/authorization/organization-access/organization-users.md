@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: DDvMwPjZkiPgzMkNa3fc6lrfnGb
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - organizations
+  - users
 
 ---
 

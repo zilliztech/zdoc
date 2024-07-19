@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Vector-delete
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: PNtoddjsMoYuqcxCWK4c3IWKnde
 sidebar_position: 1
@@ -26,7 +26,7 @@ delete(data): Promise<MutationResult>
 
 This method has the following alternatives.
 
-### With DeleteByIdsReq {#with-deletebyidsreq}
+### With DeleteByIdsReq{#with-deletebyidsreq}
 
 ```javascript
 milvusClient.delete({

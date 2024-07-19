@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/FieldSchema-to_dict
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: G1gsdGWwuoPOPrxJdABcfa76nUd
 sidebar_position: 3

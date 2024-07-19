@@ -43,6 +43,11 @@ Methods of `LoadCollectionParam.Builder`:
         <td><p>collectionName: The name of the collection to load.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withSyncLoad(Boolean syncLoad)</p></td>
         <td><p>Enables sync mode when loading a collection. With sync mode enabled, the client keeps waiting until all segments of the collection are successfully loaded. If sync mode is disabled, the client returns instantly after <code>loadCollection()</code> is called.<br/>Sync mode is enabled by default.</p></td>
         <td><p>syncLoad:A boolean value to indicate if sync mode is enabled. If the value is set to <code>True</code>, this means sync mode is enabled.</p></td>

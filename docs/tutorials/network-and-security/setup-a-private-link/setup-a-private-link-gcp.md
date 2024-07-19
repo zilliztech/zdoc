@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: IojuwADAwiRK0hkl4pgcvC2QnQd
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - private link
+  - gcp
 
 ---
 
@@ -14,6 +20,12 @@ import Admonition from '@theme/Admonition';
 # Set up a Private Link (GCP)
 
 This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different GCP VPCs.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud does not charge you for private links. However, your cloud provider may <a href="https://cloud.google.com/vpc/pricing#psc-forwarding-rule-service">charge you for each endpoint</a> that you create to access Zilliz Cloud.</p>
+
+</Admonition>
 
 ## Before you start{#before-you-start}
 

@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: GJi1wGLKOiNW0OkBe9Ecsj9snob
 sidebar_position: 10
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - sparse vector
+  - milvus
 
 ---
 
@@ -33,7 +39,7 @@ To see sparse vectors in action, refer  to [hello_sparse](https://github.com/mil
 
 <p></p>
 <p></p>
-<p>Currently, this feature is available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+<p>Currently, this feature is available exclusively for clusters that have been upgraded to the Beta version.</p>
 <p></p>
 
 </Admonition>
@@ -272,7 +278,7 @@ When using sparse vectors in Zilliz Cloud, consider the following limits:
 
 - Currently, only the **IP** distance metric is supported for sparse vectors.
 
-- Currently, [range search](./single-vector-search#range-search), [grouping search](./single-vector-search#grouping-search-lessinclude-targetzillizgreaterlesssupgreaterbetalesssupgreaterlessincludegreater), and [search iterator](./with-iterators) are not supported for sparse vectors.
+- Currently, [range search](./single-vector-search#range-search), [grouping search](./single-vector-search#grouping-search-beta), and [search iterator](./with-iterators) are not supported for sparse vectors.
 
 ## FAQ{#faq}
 

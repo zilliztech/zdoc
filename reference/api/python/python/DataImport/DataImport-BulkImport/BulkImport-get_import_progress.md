@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/BulkImport-get_import_progress
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: MkWNdU1tvoqlBRxI05Rcu09cnEc
 sidebar_position: 2

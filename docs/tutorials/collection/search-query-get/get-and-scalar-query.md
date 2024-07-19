@@ -5,6 +5,13 @@ notebook: FALSE
 type: origin
 token: RCBVwuDlyiHDFwkg4UWcO8gOnqb
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - get
+  - scalar query
+  - milvus
 
 ---
 
@@ -1652,7 +1659,7 @@ A **boolean expression** is always **a string comprising field names joined by o
    </tr>
    <tr>
      <td><p><strong>like</strong></p></td>
-     <td><p>Compares a value to similar values using wildcard operators.<br/> For example, like "prefix%" matches strings that begin with "prefix".</p></td>
+     <td><p>Compares a value to similar values using wildcard operators.</p><p>For example, like "prefix%" matches strings that begin with "prefix".</p></td>
    </tr>
    <tr>
      <td><p><strong>in</strong></p></td>

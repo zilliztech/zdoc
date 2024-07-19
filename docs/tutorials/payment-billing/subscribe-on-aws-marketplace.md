@@ -6,6 +6,12 @@ notebook: FALSE
 type: origin
 token: LDlOweEzmiLkdQkvPFec5lrcnbf
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - marketplace
+  - aws
 
 ---
 
@@ -36,7 +42,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribing to Zilliz Cloud as follows:
 
-1. Search for **Zilliz Cloud** in the search box, or [click here](https://aws.amazon.com/marketplace/search/results?searchTerms=zilliz+cloud) to view Zilliz Cloud on AWS.
+1. Search for **Zilliz Cloud** in the search box, or [go to AWS Marketplace](https://aws.amazon.com/marketplace/search/results?searchTerms=zilliz+cloud) to view the Zilliz Cloud portal page.
 
     ![search_for_zilliz_on_aws](/img/search_for_zilliz_on_aws.png)
 
@@ -50,13 +56,21 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
     ![aws_flash_message](/img/aws_flash_message.png)
 
-1. If you already have a Zilliz Cloud account, simply log in. If not, choose a [sign-up option](./register-with-zilliz-cloud) and follow the process. Ensure all query strings in the URL are retained to link your AWS identity to your Zilliz Cloud account.
+1.  In the new tab, follow the steps below to complete subscription.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    1. If you already have a Zilliz Cloud account, simply log in. If not, choose a [sign-up option](./register-with-zilliz-cloud) and follow the process. Ensure all query strings in the URL are retained to link your AWS identity to your Zilliz Cloud account.
 
-    <p>AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.</p>
+        <Admonition type="info" icon="📘" title="Notes">
 
-    </Admonition>
+        <p>AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.</p>
+
+        </Admonition>
+
+    1. Link your subscription to an existing Zilliz Cloud organization.
+
+        ![aws-marketplace-dialog](/img/aws-marketplace-dialog.png)
+
+    1. Complete authorization.
 
 1. Go to **Billing** to ensure your AWS Marketplace subscription is set as your payment method.
 
@@ -102,11 +116,39 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
 ## Cancel AWS Marketplace subscription{#cancel-aws-marketplace-subscription}
 
-To cancel your AWS Marketplace subscription, you need to open the AWS Marketplace console and follow the instructions [here](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html).
+To cancel your AWS Marketplace subscription, you need to open the AWS Marketplace console and follow the instructions [in the AWS guides](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html).
 
 ## AWS Marketplace pricing terms{#aws-marketplace-pricing-terms}
 
 Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more information.
+
+## Troubleshooting{#troubleshooting}
+
+**What I can do if I encounter issues when linking a marketplace subscription to Zilliz Cloud?**
+
+There are several possible reasons:
+
+1. **Insufficient permissions** (UI prompt: Insufficient Permissions)
+
+    To link an organization with a marketplace subscription, you must be an organization owner. But if you are an organization member, you do not have the required permissions. Please contact the organization owner for assistance.
+
+1. **All organizations have already been successfully linked to a Marketplace subscription** (UI prompt: Marketplace Linked)
+
+    1. If you need to update an existing marketplace subscription, please [unlink](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription) the current subscription of the organization first and then set up a new subscription.
+
+    1. If you need multiple organizations for different Marketplace subscription, you can:
+
+        1. [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-join-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
+
+        1. [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+
+1. **No organizations in the list**
+
+    This can happen if your account has been closed or if you have left all organizations. In this case, you can:
+
+    1. Ask other users to [invite](./organization-users#invite-a-user-to-join-your-organization) you to their organization as an organization owner.
+
+    1. [Submit a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 
 ## Related topics{#related-topics}
 

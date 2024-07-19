@@ -48,6 +48,16 @@ Methods of `RenameCollectionParam.Builder`:
         <td><p>newCollectionName: The new name of the collection to rename.</p></td>
     </tr>
     <tr>
+        <td><p>withOldDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name of the old collection. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
+        <td><p>withNewDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name of the new collection. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>build()</p></td>
         <td><p>Constructs a RenameCollectionParam object.</p></td>
         <td><p>N/A</p></td>

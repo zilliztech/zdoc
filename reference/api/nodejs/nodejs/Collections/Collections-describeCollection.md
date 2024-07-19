@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Collections-describeCollection
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: TjqHdZqO1oSwwYxuny2cchWzn6S
 sidebar_position: 6

@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Client-MilvusClient
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: SiL3ds1HPo2bOxx4iWwcxgg8nvd
 sidebar_position: 2

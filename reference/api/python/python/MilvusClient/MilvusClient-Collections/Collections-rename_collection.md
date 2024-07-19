@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Collections-rename_collection
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: IeiIdJ71Pox2OjxMiOzczUTenud
 sidebar_position: 15

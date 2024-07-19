@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: LMfdwRwKIiJtywkwbHVcGnOFnRf
 sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - free trial
+  - milvus
 
 ---
 

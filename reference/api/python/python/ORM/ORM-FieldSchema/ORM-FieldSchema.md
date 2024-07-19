@@ -3,9 +3,9 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/ORM-FieldSchema
 beta: false
 notebook: false
-type: folder
-token: RV1nfeylFlUftwd2w4Wc40TYn6d
-sidebar_position: 5
+type: docx
+token: EVKhdy0vwoSLSux2RW2c660unjh
+sidebar_position: 2
 displayed_sidebar: pythonSidebar
 
 ---
@@ -140,7 +140,3 @@ A **FieldSchema** object.
 ## Methods{#methods}
 
 The following are the methods of the `FieldSchema` class:
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

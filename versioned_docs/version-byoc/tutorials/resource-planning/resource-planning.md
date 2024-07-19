@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: NM2OwCcfVijX8DkNsIxcdajEnr7
 sidebar_position: 10
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - resource
+  - planning
 
 ---
 

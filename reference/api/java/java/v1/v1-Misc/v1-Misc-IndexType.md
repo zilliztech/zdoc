@@ -58,7 +58,7 @@ public enum IndexType
      <td><p>Works for FloatVector/Float16Vector/BFloat16Vector type field.</p></td>
    </tr>
    <tr>
-     <td><p>DISKANN<br/></p></td>
+     <td><p>DISKANN</p></td>
      <td><p>10</p></td>
      <td><p>Works for FloatVector/Float16Vector/BFloat16Vector type field.</p></td>
    </tr>
@@ -120,7 +120,7 @@ public enum IndexType
    <tr>
      <td><p>SPARSE<em>INVERTED</em>INDEX</p></td>
      <td><p>300</p></td>
-     <td><p>Only for SparseFloatVector type field.<br/></p></td>
+     <td><p>Only for SparseFloatVector type field.</p></td>
    </tr>
    <tr>
      <td><p>SPARSE_WAND</p></td>

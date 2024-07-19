@@ -43,6 +43,11 @@ Methods of `AlterAliasParam.Builder`:
         <td><p>collectionName: The name of the target collection to alter the alias to.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withAlias(String alias)</p></td>
         <td><p>Sets the collection alias to alter. Collection alias cannot be empty or null.</p></td>
         <td><p>alias: The alias to alter.</p></td>

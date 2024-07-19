@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Collections-createAlias
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: MPuIdwujBoXM6rx7Okfc3lhZnUd
 sidebar_position: 2

@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: CWHGw3g9Ui9GEHkjhu2cHBOInXf
 sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - ann search
+  - milvus
 
 ---
 

@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/utility-get_server_type
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: UOIddRBUXotHvyx4Yyocer0mnId
 sidebar_position: 15

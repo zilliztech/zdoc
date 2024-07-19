@@ -5,6 +5,11 @@ notebook: FALSE
 type: origin
 token: CA04wUpF0id2sckrZjqcAOZGnnz
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - resource hierarchy
 
 ---
 

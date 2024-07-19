@@ -3,9 +3,9 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/EmbeddingModels-OpenAIEmbeddingFunction
 beta: false
 notebook: false
-type: folder
-token: E4slfDkKPlWEmXdq36GcPtAKnMg
-sidebar_position: 6
+type: docx
+token: QPcodlsnAoSMvIxEFmlcMNPbntd
+sidebar_position: 3
 displayed_sidebar: pythonSidebar
 
 ---
@@ -67,8 +67,3 @@ openai_ef = model.dense.OpenAIEmbeddingFunction(
     dimensions=512 # Set the embedding dimensionality according to MRL feature.
 )
 ```
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/OpenAIEmbeddingFunction-encode_documents
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: UrG5delwyok3RPx0UBlcdBQ5nZd
 sidebar_position: 1

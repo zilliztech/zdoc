@@ -31,13 +31,15 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 ### How many collections are allowed in a single cluster?{#how-many-collections-are-allowed-in-a-single-cluster}
 
-A free cluster can have up to 2 collections.  If you have reached the upper limit and need to create more collections, please [migrate to a dedicated cluster](./migrate-between-clusters#from-dedicated-cluster-to-serverless-cluster).
+A free cluster can have up to 2 collections.  If you have reached the upper limit and need to create more collections, please [upgrade](./manage-cluster#upgrade-plan) the cluster plan.
 
-The number of collections allowed in a dedicated cluster varies with the cluster CU size. For clusters with 8 CUs or less, you can create a maximum of 32 collections. For clusters with more than 8 CUs,  you can create a maximum of 256 collections. For more information about the limits, please see [Zilliz Cloud Limits](./limits).
+A Serverless cluster can have up to 10 collections.
+
+The number of collections allowed in a Dedicated cluster varies with the cluster CU size. For more information, please refer to [Zilliz Cloud Limits](./limits#collections).
 
 If you have reached the maximum number of collections allowed in a cluster, you can:
 
-1. Scale your cluster to larger CU sizes. See [Manage Cluster](./manage-cluster#manage-and-configure-clusters).
+1. [Scale](./manage-cluster) your cluster to larger CU sizes.
 
 1. [Drop](./manage-collections-sdks#drop-a-collection) unused collections.
 
@@ -85,7 +87,7 @@ Currently, the rate limit for loading collection requests on Zilliz Cloud is 1 p
 
 ### Why do I fail to load collections? What can I do?{#why-do-i-fail-to-load-collections-what-can-i-do}
 
-The failure is caused due to insufficient memory in your cluster. Please try scaling up your cluster to larger CU sizes.
+The failure is caused due to insufficient memory in your cluster. Please try [scaling up](./manage-cluster#manage-and-configure-clusters) your cluster to larger CU sizes.
 
 ### Is there any limit to the number of fields I can add in a collection?{#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection}
 

@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Vector-search
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: D74JdcitKobd7cxNdDdcGAz6nuf
 sidebar_position: 5

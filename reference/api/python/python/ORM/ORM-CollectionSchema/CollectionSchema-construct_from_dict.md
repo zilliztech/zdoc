@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/CollectionSchema-construct_from_dict
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: DYuUdc503o1TANxuGozcXhCmnRN
 sidebar_position: 3

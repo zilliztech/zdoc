@@ -5,6 +5,14 @@ notebook: FALSE
 type: origin
 token: D7f6wXR2iiSBS2kuPilcZjD5n8d
 sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - search
+  - query
+  - iterators
+  - milvus
 
 ---
 

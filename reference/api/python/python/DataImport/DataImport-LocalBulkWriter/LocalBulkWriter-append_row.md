@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/LocalBulkWriter-append_row
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: WCxIdVwCpoIaMUxbabWcSRCkn2g
 sidebar_position: 1

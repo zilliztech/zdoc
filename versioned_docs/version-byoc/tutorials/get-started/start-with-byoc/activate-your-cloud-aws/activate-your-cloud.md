@@ -5,6 +5,13 @@ notebook: FALSE
 type: origin
 token: X08WweRsXiz0MPk4DIbcXYaInjc
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - aws
+  - license
+  - activate
+  - milvus
 
 ---
 

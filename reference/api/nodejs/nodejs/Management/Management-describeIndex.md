@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Management-describeIndex
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 2

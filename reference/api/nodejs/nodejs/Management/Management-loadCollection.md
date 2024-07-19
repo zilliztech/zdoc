@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Management-loadCollection
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: LoNvdRK80oWllFxV0H6co0HrnBe
 sidebar_position: 6

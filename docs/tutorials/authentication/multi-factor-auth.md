@@ -5,6 +5,11 @@ notebook: FALSE
 type: origin
 token: KHAMwm0HUiU6qdkH2LOcu0FFnug
 sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - mfa
 
 ---
 

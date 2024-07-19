@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/utility-hybridts_to_datetime
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: EBAFdcmoKoNJISxM8i1cqXzRn9H
 sidebar_position: 19

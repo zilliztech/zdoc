@@ -3,9 +3,9 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/ORM-Role
 beta: false
 notebook: false
-type: folder
-token: O8YAfe5P0lZ0TZdUOqNcDHEunCe
-sidebar_position: 7
+type: docx
+token: LZL1d0kckouPXNxJLCmcwbCTnkG
+sidebar_position: 11
 displayed_sidebar: pythonSidebar
 
 ---
@@ -81,8 +81,3 @@ role = Role(
 
 The following are the methods of the `Role` class:
 
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

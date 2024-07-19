@@ -54,6 +54,11 @@ Methods of `FlushParam.Builder`:
         <td><p>collectionName: The name of the collection to be flushed.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withSyncFlush(Boolean syncFlush)</p></td>
         <td><p>Sets the flush function to sync mode. With sync mode enabled, the client keeps waiting until all segments of the collection are successfully flushed. If sync mode is disabled, the client immediately returns the result after flush() is called.</p></td>
         <td><p>syncFlush: A Boolean value to indicate if sync mode is enabled. Sync mode is enabled if the value is set to True.</p></td>

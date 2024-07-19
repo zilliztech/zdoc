@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Collections-create_collection
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: TziHdCu4VoURrfxAMsUcsRhQnub
 sidebar_position: 3

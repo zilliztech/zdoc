@@ -2,8 +2,8 @@
 displayed_sidbar: pythonSidebar
 slug: /python/python/OpenAIEmbeddingFunction-__call__
 sidebar_label: __call__()
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: FieTdj7WDoVbBVxp5xjcqO02nrh
 sidebar_position: 4

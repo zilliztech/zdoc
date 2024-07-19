@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - quickstart
+  - cloud
+  - milvus
 
 ---
 
@@ -15,6 +21,8 @@ import TabItem from '@theme/TabItem';
 # Quickstart
 
 This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes.
+
+To obtain information on the process of setting up your BYOC cluster, refer to [Start with BYOC](./start-with-byoc).
 
 ## Install an SDK{#install-an-sdk}
 
@@ -63,7 +71,7 @@ To obtain the cloud region and project ID, refer to [On Zilliz Cloud Console](./
 
 Once your cluster is running, you will be prompted with the [cluster credentials](./cluster-credentials) for once. Download and save it in a safe place. You will need it to connect to your cluster later.
 
-## Connect to Zilliz Cloud cluster{#connect-to-zilliz-cloud-cluster}
+## Connect to Zilliz Cloud clusterMilvus{#connect-to-zilliz-cloud-clustermilvus}
 
 Once you have obtained the cluster credentials, you can use it to connect to your cluster now.
 

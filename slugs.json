@@ -1,560 +1,551 @@
 {
-  "U16KfBnGVlNp5edR7DycvFF1nfy": {
+  "H1JWfZh74lkVhgdfGiKcQfsinPg": {
     "slug": [
       {
-        "text": "v2-Authentication",
+        "text": "Authentication",
         "type": "text"
       }
     ],
     "title": "Authentication"
   },
-  "V0xwdLOrhog7OBxTX76cQGQknSb": {
+  "SDoYdccLWo1W3PxkNFncibwDnch": {
     "slug": [
       {
-        "text": "v2-Authentication-createRole",
+        "text": "Authentication-createRole",
         "type": "text"
       }
     ],
     "title": "createRole()"
   },
-  "OTMXd9uNWoMwe4xvg70cg49Pnmh": {
+  "JNZxdKEX3ohBl2xud7Wckhq7nVh": {
     "slug": [
       {
-        "text": "v2-Authentication-createUser",
+        "text": "Authentication-createUser",
         "type": "text"
       }
     ],
     "title": "createUser()"
   },
-  "Fs7qdzeHZo305txlj45cgqoVnUf": {
+  "Cl5PdhU5jouHnrxyYXLcOQAZneb": {
     "slug": [
       {
-        "text": "v2-Authentication-describeRole",
+        "text": "Authentication-deleteUser",
+        "type": "text"
+      }
+    ],
+    "title": "deleteUser()"
+  },
+  "ItZPd1o4uoodqtx1sxIcq38hn7e": {
+    "slug": [
+      {
+        "text": "Authentication-describeRole",
         "type": "text"
       }
     ],
     "title": "describeRole()"
   },
-  "YLQJdvVA8odibAx7mQscYwMVn8g": {
+  "Da9KdvvWroKX9cxOwsmcLRBxnVb": {
     "slug": [
       {
-        "text": "v2-Authentication-describeUser",
+        "text": "Authentication-describeUser",
         "type": "text"
       }
     ],
     "title": "describeUser()"
   },
-  "OLVbdsTOAoQwybx7oLPcZE3wnCf": {
+  "AnkUdEHXmob3Vwx9GIWcDOQanng": {
     "slug": [
       {
-        "text": "v2-Authentication-dropRole",
+        "text": "Authentication-dropRole",
         "type": "text"
       }
     ],
     "title": "dropRole()"
   },
-  "RFv2dtZ1qoP9XQxJEGqcgLGUnhc": {
+  "AqXNdlJA4ow0VxxI8QHcictdnQh": {
     "slug": [
       {
-        "text": "v2-Authentication-dropUser",
-        "type": "text"
-      }
-    ],
-    "title": "dropUser()"
-  },
-  "OjPkdoUiLo7R5fx6UcdcamQqnkg": {
-    "slug": [
-      {
-        "text": "v2-Authentication-grantPrivilege",
+        "text": "Authentication-grantPrivilege",
         "type": "text"
       }
     ],
     "title": "grantPrivilege()"
   },
-  "JB90dbBNRoz1I2xZY5rcSmJ1nSb": {
+  "LPJsdEnvwo6apcxjhZgc3rpDnuc": {
     "slug": [
       {
-        "text": "v2-Authentication-grantRole",
+        "text": "Authentication-grantRole",
         "type": "text"
       }
     ],
     "title": "grantRole()"
   },
-  "XIIyd3bMzoAVx3xVsoLcnQ2pnKh": {
+  "HSIDdxQGEoPdyaxkMDjcAWGQnpd": {
     "slug": [
       {
-        "text": "v2-Authentication-listRoles",
+        "text": "Authentication-listGrant",
+        "type": "text"
+      }
+    ],
+    "title": "listGrant()"
+  },
+  "CJ9DdmU1ooquOnxcK5AciA3sn3g": {
+    "slug": [
+      {
+        "text": "Authentication-listGrants",
+        "type": "text"
+      }
+    ],
+    "title": "listGrants()"
+  },
+  "GIeMdvjlMoLwGrxUOu3cFw7bnWc": {
+    "slug": [
+      {
+        "text": "Authentication-listRoles",
         "type": "text"
       }
     ],
     "title": "listRoles()"
   },
-  "EfM3drSXlo4Yzyxq2GpcmvoHnTm": {
+  "Z0EOd1PXooNeowx4SQgcq3synBc": {
     "slug": [
       {
-        "text": "v2-Authentication-listUsers",
+        "text": "Authentication-listUsers",
         "type": "text"
       }
     ],
     "title": "listUsers()"
   },
-  "Lvl9dsIf7oWnA4xpsNDc7hNOnwe": {
+  "QXmsdHFTsooJNYxHTsocplFCns1": {
     "slug": [
       {
-        "text": "v2-Authentication-revokePrivilege",
+        "text": "Authentication-revokePrivilege",
         "type": "text"
       }
     ],
     "title": "revokePrivilege()"
   },
-  "Znb7dcNoeobIkkxGLGfcpVfUnIX": {
+  "W7XJdZDHnoFECDxCYoMcrZqrnnd": {
     "slug": [
       {
-        "text": "v2-Authentication-revokeRole",
+        "text": "Authentication-revokeRole",
         "type": "text"
       }
     ],
     "title": "revokeRole()"
   },
-  "GQH8dgqlPoRY1sxFhCRcLlgInNc": {
+  "BCGKdCttdotF32xUJTec8UFlndg": {
     "slug": [
       {
-        "text": "v2-Authentication-updatePassword",
+        "text": "Authentication-updatePassword",
         "type": "text"
       }
     ],
     "title": "updatePassword()"
   },
-  "YEBjfrOXWl8s00dDTvdcMiYDn0d": {
+  "YIWifhm0HlwT5ldC40fc8tAOnXd": {
     "slug": [
       {
-        "text": "v2-Client",
+        "text": "Client",
         "type": "text"
       }
     ],
     "title": "Client"
   },
-  "Y4qvdMEeioKXShxxNmncvnJ2nJf": {
+  "SkLsdMpB7oiZLMx8T04cCd9Knqf": {
     "slug": [
       {
-        "text": "v2-Client-MilvusClientV2",
+        "text": "Client-connect",
         "type": "text"
       }
     ],
-    "title": "MilvusClientV2"
+    "title": "connect()"
   },
-  "KzitfU6c4lFXdodYOQJcupB2nJe": {
+  "SiL3ds1HPo2bOxx4iWwcxgg8nvd": {
     "slug": [
       {
-        "text": "v2-Collections",
+        "text": "Client-MilvusClient",
+        "type": "text"
+      }
+    ],
+    "title": "MilvusClient"
+  },
+  "WKkof79XQltPmgdgU18c2tLUnOd": {
+    "slug": [
+      {
+        "text": "Collections",
         "type": "text"
       }
     ],
     "title": "Collections"
   },
-  "QasfdVW4voAzfwxfSc1civsHnVf": {
+  "DXTLdtFCso7fo6xJHShc7XLpngh": {
     "slug": [
       {
-        "text": "v2-Collections-alterAlias",
+        "text": "Collections-alterAlias",
         "type": "text"
       }
     ],
     "title": "alterAlias()"
   },
-  "NMAOdxhL1oo0E7xcFqXcF6yPnBg": {
+  "MPuIdwujBoXM6rx7Okfc3lhZnUd": {
     "slug": [
       {
-        "text": "v2-Collections-createAlias",
+        "text": "Collections-createAlias",
         "type": "text"
       }
     ],
     "title": "createAlias()"
   },
-  "LtCFdAg8FoxWmBxOInfcUSagnHb": {
+  "AudsdfQ5hoDyKKxXSowcb3S6nfb": {
     "slug": [
       {
-        "text": "v2-Collections-createCollection",
+        "text": "Collections-createCollection",
         "type": "text"
       }
     ],
     "title": "createCollection()"
   },
-  "V5KXdwdO0oqkhnxsKb9c3xaKn4c": {
+  "VUp6d9FvcoBV0AxYJmvcq9DAnUg": {
     "slug": [
       {
-        "text": "v2-Collections-createSchema",
-        "type": "text"
-      }
-    ],
-    "title": "createSchema()"
-  },
-  "B57cdiaEkotJQnxl7I9cJqotnPb": {
-    "slug": [
-      {
-        "text": "v2-Collections-describeAlias",
-        "type": "text"
-      }
-    ],
-    "title": "describeAlias()"
-  },
-  "Lc03dk5YVo8Ilvx4XINcv5KBn9e": {
-    "slug": [
-      {
-        "text": "v2-Collections-describeCollection",
-        "type": "text"
-      }
-    ],
-    "title": "describeCollection()"
-  },
-  "MBy3dDXFbo0buwxkh0IczwLInPf": {
-    "slug": [
-      {
-        "text": "v2-Collections-dropAlias",
-        "type": "text"
-      }
-    ],
-    "title": "dropAlias()"
-  },
-  "PsAGd1CNqosvirxDJ5ncIHudnSg": {
-    "slug": [
-      {
-        "text": "v2-Collections-dropCollection",
-        "type": "text"
-      }
-    ],
-    "title": "dropCollection()"
-  },
-  "XgfcdpBWCof3pfxhUudcRZajnPc": {
-    "slug": [
-      {
-        "text": "v2-Collections-getCollectionStats",
-        "type": "text"
-      }
-    ],
-    "title": "getCollectionStats()"
-  },
-  "Vs26d4WrYoJ3moxuLifcyP2enyh": {
-    "slug": [
-      {
-        "text": "v2-Collections-hasCollection",
-        "type": "text"
-      }
-    ],
-    "title": "hasCollection()"
-  },
-  "RvZDdxU1howmQ7x2V31c8eC7nJb": {
-    "slug": [
-      {
-        "text": "v2-Collections-listAliases",
-        "type": "text"
-      }
-    ],
-    "title": "listAliases()"
-  },
-  "CtTvdQVMoo2ec5xbWTPcSzjNnQc": {
-    "slug": [
-      {
-        "text": "v2-Collections-renameCollection",
-        "type": "text"
-      }
-    ],
-    "title": "renameCollection()"
-  },
-  "QYPIdgWL7oDWrWxVUx0clo32nz4": {
-    "slug": [
-      {
-        "text": "v2-Collections-DataType",
+        "text": "Collections-DataType",
         "type": "text"
       }
     ],
     "title": "DataType"
   },
-  "Q8IidbqKMopplgxSxaicS2o9nwc": {
+  "YCzNdg5yWoeZVrxj7jGcb1UXnBd": {
     "slug": [
       {
-        "text": "v2-Collections-ConsistencyLevel",
+        "text": "Collections-describeAlias",
         "type": "text"
       }
     ],
-    "title": "ConsistencyLevel"
+    "title": "describeAlias()"
   },
-  "FxUxdWGz2oUh1ixyquZcAndBnAf": {
+  "TjqHdZqO1oSwwYxuny2cchWzn6S": {
     "slug": [
       {
-        "text": "v2-Collections-CollectionSchema",
+        "text": "Collections-describeCollection",
         "type": "text"
       }
     ],
-    "title": "CollectionSchema"
+    "title": "describeCollection()"
   },
-  "ST5xdgZ9YoXYiJx7Ex6czstHnij": {
+  "FubcdxJ0LoyQiJxmUMjcZnbjnbc": {
     "slug": [
       {
-        "text": "v2-CollectionSchema-addField",
+        "text": "Collections-dropAlias",
         "type": "text"
       }
     ],
-    "title": "addField()"
+    "title": "dropAlias()"
   },
-  "AXWod56QkoprlXxOXkwcPXfonHg": {
+  "KLknda2VtocQSBx7PKVc6F9Nnug": {
     "slug": [
       {
-        "text": "v2-CollectionSchema-getField",
+        "text": "Collections-dropCollection",
         "type": "text"
       }
     ],
-    "title": "getField()"
+    "title": "dropCollection()"
   },
-  "A467dTwvJoLJClxXEZ5ctRlNnYf": {
+  "LQMGdRHjKogdeMxekCtcdBLqnNf": {
     "slug": [
       {
-        "text": "v2-FieldSchema",
+        "text": "Collections-getCollectionStatistics",
         "type": "text"
       }
     ],
-    "title": "FieldSchema"
+    "title": "getCollectionStatistics()"
   },
-  "PohgfmtiBlwuPRdcACmc9JDZnve": {
+  "FhbbdNrlNouBXJxHIdKctXVKnmf": {
     "slug": [
       {
-        "text": "v2-Management",
+        "text": "Collections-hasCollection",
         "type": "text"
       }
     ],
-    "title": "Management"
+    "title": "hasCollection()"
   },
-  "OCjUdfc6eo0VihxNUGmcqb7FnTh": {
+  "Of5xdscL1o5Svzxy8yOckqaMnzg": {
     "slug": [
       {
-        "text": "v2-Management-createIndex",
-        "type": "text"
-      }
-    ],
-    "title": "createIndex()"
-  },
-  "WUgedTmyZoW4clxSgHVcl1ZtnZl": {
-    "slug": [
-      {
-        "text": "v2-Management-describeIndex",
-        "type": "text"
-      }
-    ],
-    "title": "describeIndex()"
-  },
-  "KdFEdP8ZToYvZ1xmmQgcE62unUf": {
-    "slug": [
-      {
-        "text": "v2-Management-dropIndex",
-        "type": "text"
-      }
-    ],
-    "title": "dropIndex()"
-  },
-  "QcaFdMJE9oHX1Axe11rcqfiynEd": {
-    "slug": [
-      {
-        "text": "v2-Management-getLoadState",
-        "type": "text"
-      }
-    ],
-    "title": "getLoadState()"
-  },
-  "XEWvdbuFHoLOo7xKrAJcqip6n5J": {
-    "slug": [
-      {
-        "text": "v2-Management-loadCollection",
-        "type": "text"
-      }
-    ],
-    "title": "loadCollection()"
-  },
-  "BA9edMrWMosYWFxwTBAcl2WOnff": {
-    "slug": [
-      {
-        "text": "v2-Management-releaseCollection",
-        "type": "text"
-      }
-    ],
-    "title": "releaseCollection()"
-  },
-  "QecOdXKyfo9JtMxkHZxcLNqknxh": {
-    "slug": [
-      {
-        "text": "v2-Management-IndexParam",
-        "type": "text"
-      }
-    ],
-    "title": "IndexParam"
-  },
-  "EATSdak5wokQhCx6k3tcCoAqn3P": {
-    "slug": [
-      {
-        "text": "v2-Management-IndexType",
+        "text": "Collections-IndexType",
         "type": "text"
       }
     ],
     "title": "IndexType"
   },
-  "KIYUdM0oVo0dQmxTgS2c8Mxxn4v": {
+  "KeoKdlitaog6n1xpX8McIIIrnWb": {
     "slug": [
       {
-        "text": "v2-Management-MetricType",
+        "text": "Collections-listAliases",
         "type": "text"
       }
     ],
-    "title": "MetricType"
+    "title": "listAliases()"
   },
-  "YkL6fqkaNlgeWXdNaWLcltkZnRc": {
+  "Djg7dlb5NoINz9xOAs1cyY67nsh": {
     "slug": [
       {
-        "text": "v2-Partitions",
+        "text": "Collections-listCollections",
+        "type": "text"
+      }
+    ],
+    "title": "listCollections()"
+  },
+  "LSwVdMg4SorzZ5xSHHVcQeVDnfh": {
+    "slug": [
+      {
+        "text": "Collections-renameCollection",
+        "type": "text"
+      }
+    ],
+    "title": "renameCollection()"
+  },
+  "WLCxfLtfylemvudOJa7cDBXdnsh": {
+    "slug": [
+      {
+        "text": "Database",
+        "type": "text"
+      }
+    ],
+    "title": "Database"
+  },
+  "LhOCdpDOlor6mbxsI90caXsTnPb": {
+    "slug": [
+      {
+        "text": "Database-createDatabase",
+        "type": "text"
+      }
+    ],
+    "title": "createDatabase()"
+  },
+  "FIqudtw53o5TrPxk2VdceBQbnhg": {
+    "slug": [
+      {
+        "text": "Database-dropDatabase",
+        "type": "text"
+      }
+    ],
+    "title": "dropDatabase()"
+  },
+  "IgUndv7TCoRpWOxS5hkcXrypndd": {
+    "slug": [
+      {
+        "text": "Database-listDatabases",
+        "type": "text"
+      }
+    ],
+    "title": "listDatabases()"
+  },
+  "SddwdNBoMo3RAfxgcgBc0Akwnih": {
+    "slug": [
+      {
+        "text": "Database-useDatabase",
+        "type": "text"
+      }
+    ],
+    "title": "useDatabase()"
+  },
+  "GNR6fiDGqlnQ9BdWimJc9pnSnyl": {
+    "slug": [
+      {
+        "text": "Management",
+        "type": "text"
+      }
+    ],
+    "title": "Management"
+  },
+  "WFRodQlfKoPHTUxbBYzcLug8nsd": {
+    "slug": [
+      {
+        "text": "Management-createIndex",
+        "type": "text"
+      }
+    ],
+    "title": "createIndex()"
+  },
+  "PePIdiq9po6cplxAoF6ca5C2ntb": {
+    "slug": [
+      {
+        "text": "Management-describeIndex",
+        "type": "text"
+      }
+    ],
+    "title": "describeIndex()"
+  },
+  "UBbndftiQo2HdOxUNtocIISnnVh": {
+    "slug": [
+      {
+        "text": "Management-dropIndex",
+        "type": "text"
+      }
+    ],
+    "title": "dropIndex()"
+  },
+  "J17ZdPNwqo4nt3x5b8pc0H5Nnph": {
+    "slug": [
+      {
+        "text": "Management-getLoadState",
+        "type": "text"
+      }
+    ],
+    "title": "getLoadState()"
+  },
+  "LoNvdRK80oWllFxV0H6co0HrnBe": {
+    "slug": [
+      {
+        "text": "Management-loadCollection",
+        "type": "text"
+      }
+    ],
+    "title": "loadCollection()"
+  },
+  "UxOXdeKF1oOIBuxTjPhcKBtPnRb": {
+    "slug": [
+      {
+        "text": "Management-releaseCollection",
+        "type": "text"
+      }
+    ],
+    "title": "releaseCollection()"
+  },
+  "JfB5fh16rl1R1qdNVgec1Kdongc": {
+    "slug": [
+      {
+        "text": "Partitions",
         "type": "text"
       }
     ],
     "title": "Partitions"
   },
-  "CadTdZ5YGocDymxaIOvcr08pnxd": {
+  "PPLtdSbtfomgF1x5MHncKPgPnSf": {
     "slug": [
       {
-        "text": "v2-Partitions-createPartition",
+        "text": "Partitions-createPartition",
         "type": "text"
       }
     ],
     "title": "createPartition()"
   },
-  "JTdSdyToooA6Srx2HolcmTPunoe": {
+  "BBmsddqZEozxWyxkoADcFfzpncW": {
     "slug": [
       {
-        "text": "v2-Partitions-dropPartition",
+        "text": "Partitions-dropPartition",
         "type": "text"
       }
     ],
     "title": "dropPartition()"
   },
-  "NS1xdv6f4oQlN4xqnOGc6ssWnTf": {
+  "XDXid6aZ8oCHnVxxFpPcKAB9n0c": {
     "slug": [
       {
-        "text": "v2-Partitions-hasPartition",
+        "text": "Partitions-getPartitionStatistics",
+        "type": "text"
+      }
+    ],
+    "title": "getPartitionStatistics()"
+  },
+  "TVWPdTw2WoPAJYxsbGMc7MX6nEf": {
+    "slug": [
+      {
+        "text": "Partitions-hasPartition",
         "type": "text"
       }
     ],
     "title": "hasPartition()"
   },
-  "RJcgdJpGDouomlxPTqZc5S8Lngc": {
+  "JNPwdFI1zoleD7x9LRIc0eqcnof": {
     "slug": [
       {
-        "text": "v2-Partitions-listPartitions",
+        "text": "Partitions-listPartitions",
         "type": "text"
       }
     ],
     "title": "listPartitions()"
   },
-  "Jei2dpJMuoyOF5xTIuccfzcinOh": {
+  "Pyh3dttWKoBqcBx8FGhcArhAnqg": {
     "slug": [
       {
-        "text": "v2-Partitions-loadPartitions",
+        "text": "Partitions-loadPartitions",
         "type": "text"
       }
     ],
     "title": "loadPartitions()"
   },
-  "VsyQdDkXnoloWYxfjXNchc0dnng": {
+  "Sqoed1lkwo8umixJJO1cvKIxnZc": {
     "slug": [
       {
-        "text": "v2-Partitions-releasePartitions",
+        "text": "Partitions-releasePartitions",
         "type": "text"
       }
     ],
     "title": "releasePartitions()"
   },
-  "I78jfSEHvl292Tdwoy7cO2KVn0g": {
+  "XhBJfuQ6slBh8Tdj7BEc4Mp6n4b": {
     "slug": [
       {
-        "text": "v2-Vector",
+        "text": "Vector",
         "type": "text"
       }
     ],
     "title": "Vector"
   },
-  "NOX7dAR3zodEH3xinMecMjq5n4S": {
+  "PNtoddjsMoYuqcxCWK4c3IWKnde": {
     "slug": [
       {
-        "text": "v2-Vector-delete",
+        "text": "Vector-delete",
         "type": "text"
       }
     ],
     "title": "delete()"
   },
-  "UcacdecoZoAyxsxJzOGcTqWzn7d": {
+  "IbxXdvdZlonJk9xnlk2cZlIinCh": {
     "slug": [
       {
-        "text": "v2-Vector-get",
+        "text": "Vector-get",
         "type": "text"
       }
     ],
     "title": "get()"
   },
-  "P0XRd2Mgfo1uG6xk47icWRd4n6b": {
+  "WUZwdRNXIoS0tSxCrw6coaa2nzf": {
     "slug": [
       {
-        "text": "v2-Vector-insert",
+        "text": "Vector-insert",
         "type": "text"
       }
     ],
     "title": "insert()"
   },
-  "Oy7PdvBJ7omRcKxvRvUcbWLcn1d": {
+  "AJ96d6Aguos3FAxWMDxcjzqpnSg": {
     "slug": [
       {
-        "text": "v2-Vector-query",
+        "text": "Vector-query",
         "type": "text"
       }
     ],
     "title": "query()"
   },
-  "RycIdCl3LoLMAMxNOEhcgMutnig": {
+  "BIlNdgI2foFEaoxmn12cLO6Jndb": {
     "slug": [
       {
-        "text": "v2-Vector-search",
+        "text": "Vector-search",
         "type": "text"
       }
     ],
     "title": "search()"
   },
-  "A0UBd45iyoGah2xaFjQc4bp6n2b": {
+  "MErAdudCloVawFxpxoWcgqZonLc": {
     "slug": [
       {
-        "text": "v2-Vector-upsert",
+        "text": "Vector-upsert",
         "type": "text"
       }
     ],
     "title": "upsert()"
-  },
-  "PemMdzGFnovhaWxOzFzceaH3ncd": {
-    "slug": [
-      {
-        "text": "v2-Vector-hybridSearch",
-        "type": "text"
-      }
-    ],
-    "title": "hybridSearch()"
-  },
-  "ByLVdf2nRocLcxxwH3Gc9CyFnbb": {
-    "slug": [
-      {
-        "text": "v2-Vector-queryIterator",
-        "type": "text"
-      }
-    ],
-    "title": "queryIterator()"
-  },
-  "M4IqdsRCNotiM4xdOA0cWSnUngb": {
-    "slug": [
-      {
-        "text": "v2-Vector-searchIterator",
-        "type": "text"
-      }
-    ],
-    "title": "searchIterator()"
   }
 }

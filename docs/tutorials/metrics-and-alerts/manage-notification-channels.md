@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: ARpTwYXlIi7ZLtkEHx5ciUK6nuc
 sidebar_position: 5
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - notification
+  - channels
 
 ---
 
@@ -29,6 +35,8 @@ Currently, Zilliz Cloud offers four main types of notification channels:
 
 - [Slack](./manage-notification-channels#slack): Integrate with a Slack app using a webhook URL.
 
+- [Lark](./manage-notification-channels#lark): Integrate with a Lark group using a webhook URL.
+
 - [Webhook](./manage-notification-channels#webhook): Integrate with custom services or applications using a valid webhook URL.
 
 You can access the management page of notification channels in the **Edit Alert** or **Create Alert** dialog box in the Zilliz Cloud console.
@@ -49,7 +57,9 @@ To set up email notifications,
 
     </Admonition>
 
-1. In the **Send To** field of the dialog box, select user roles or email addresses of individual users to receive alert notifications.
+1. In the **Send to** field of the dialog box, select user roles or email addresses of individual users to receive alert notifications.
+
+1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
 
 For more information, refer to [Manage Organization Alerts](./manage-organization-alerts) or [Manage Project Alerts](./manage-project-alerts).
 
@@ -73,9 +83,11 @@ To integrate with a PagerDuty service,
 
         </Admonition>
 
-    1. In the dialog box that appears, click **+ Channel** in the **Send To** field and choose **PagerDuty** from the dropdown list.
+    1. In the dialog box that appears, click **+ Channel** in the **Send to** field and choose **PagerDuty** from the dropdown list.
 
     1. Enter the PagerDuty integration key obtained and select the service region hosting your PagerDuty account. For more information on PagerDuty service regions, refer to [Service Regions](https://support.pagerduty.com/docs/service-regions).
+
+    1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
 
 ### Slack{#slack}
 
@@ -97,9 +109,35 @@ To set up Slack integration,
 
         </Admonition>
 
-    1. In the dialog box that appears, click **+ Channel** in the **Send To** field and choose **Slack** from the dropdown list.
+    1. In the dialog box that appears, click **+ Channel** in the **Send to** field and choose **Slack** from the dropdown list.
 
     1. Enter the webhook URL obtained.
+
+    1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
+
+### Lark{#lark}
+
+To set up Lark integration,
+
+1. Enter the target Lark group, invite your custom bot to the group, and then obtain the webhook URL corresponding to the robot. For detailed steps, refer to [Custom bot usage guide](https://open.larksuite.com/document/client-docs/bot-v3/add-custom-bot).
+
+1. In the [Zilliz Cloud console](https://cloud.zilliz.com/signup), configure the Lark notification channel.
+
+    1. Navigate to the **Alert Settings** tab on the organization or project alert page.
+
+    1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to <a href="./manage-organization-alerts">Manage Organization Alerts</a>.</p>
+
+        </Admonition>
+
+    1. In the dialog box that appears, click **+ Channel** in the **Send to** field and choose **Lark** from the dropdown list.
+
+    1. Enter the webhook URL obtained.
+
+    1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
 
 ### Webhook{#webhook}
 
@@ -119,9 +157,11 @@ The **Webhook** option offered by Zilliz Cloud allows you to set up a custom not
 
         </Admonition>
 
-    1. In the dialog box that appears, click **+ Channel** in the **Send To** field and choose **Webhook** from the dropdown list.
+    1. In the dialog box that appears, click **+ Channel** in the **Send to** field and choose **Webhook** from the dropdown list.
 
     1. Enter the webhook URL of your service.
+
+    1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
 
 Example webhook notification:
 

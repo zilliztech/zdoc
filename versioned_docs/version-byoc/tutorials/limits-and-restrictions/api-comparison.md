@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: DAk8w3GCJiuUTTkms6IcMtnAnMf
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - api availability
 
 ---
 
@@ -400,9 +406,9 @@ The table below provides a comparison of API availability across various service
      <td rowspan="10"><p>Role-based access control (RBAC)</p></td>
      <td><p>addUserToRole()</p></td>
      <td><p>✔︎</p></td>
-     <td><p>✘<br/></p></td>
-     <td><p>✘<br/></p></td>
-     <td><p>✔︎<br/></p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
    </tr>
    <tr>
      <td><p>createRole()</p></td>

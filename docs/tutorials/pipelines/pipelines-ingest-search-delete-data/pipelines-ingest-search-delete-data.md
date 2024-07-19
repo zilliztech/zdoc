@@ -6,6 +6,14 @@ notebook: FALSE
 type: origin
 token: ZSPVwfZyTilSfKkuVxWcCG58nzb
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - pipelines
+  - ingest
+  - search
+  - delete
 
 ---
 

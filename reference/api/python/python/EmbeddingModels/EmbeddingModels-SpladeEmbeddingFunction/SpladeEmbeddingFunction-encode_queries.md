@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/SpladeEmbeddingFunction-encode_queries
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: S9zPdiLkpokjfkxfZ68cWIFynnd
 sidebar_position: 2

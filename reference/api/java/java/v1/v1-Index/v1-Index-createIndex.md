@@ -43,6 +43,11 @@ Methods of `CreateIndexParam.Builder`:
         <td><p>collectionName: The name of the target collection to create an index for.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withFieldName(String fieldName)</p></td>
         <td><p>Set the target field name. Field name cannot be empty or null.</p></td>
         <td><p>fieldName: The target field name</p></td>

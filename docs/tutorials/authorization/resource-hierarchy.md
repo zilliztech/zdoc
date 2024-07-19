@@ -5,6 +5,11 @@ notebook: FALSE
 type: origin
 token: CA04wUpF0id2sckrZjqcAOZGnnz
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - resource hierarchy
 
 ---
 
@@ -35,7 +40,7 @@ In an organization, you can create several projects and manage organization-leve
 
 Projects are logical containers within an organization that group clusters and other associated resources.
 
-In a project, you can create several clusters and manage cluster-level resources, including [clusters](./manage-cluster), [project collaborators](./project-access), [pipelines](./pipelines), [security](./network-and-security), and [project alerts](./manage-project-alerts).
+In a project, you can create several clusters and manage cluster-level resources, including [clusters](./manage-cluster), [project collaborators](./project-access), [pipelines](./undefined), [security](./network-and-security), and [project alerts](./manage-project-alerts).
 
 ![a-panorama-view-3](/img/a-panorama-view-3.png)
 

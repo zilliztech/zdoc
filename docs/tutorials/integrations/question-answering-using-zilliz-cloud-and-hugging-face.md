@@ -6,6 +6,12 @@ notebook: FALSE
 type: origin
 token: RWxKwfwFniNU1skCVCgcrKHbnCd
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - huggingface
 
 ---
 

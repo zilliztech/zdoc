@@ -47,6 +47,11 @@ Methods of `DropCollectionParam.Builder`:
         <td><p>collectionName: The name of the collection to drop.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>build()</p></td>
         <td><p>Constructs a DropCollectionParam object</p></td>
         <td><p>N/A</p></td>

@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Partitions-createPartition
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: PPLtdSbtfomgF1x5MHncKPgPnSf
 sidebar_position: 1

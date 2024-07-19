@@ -43,6 +43,11 @@ Methods of `GetLoadStateParam.Builder`:
         <td><p>collectionName: The name of the collection to get state.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withPartitionNames(List\<String> partitionNames)</p></td>
         <td><p>Sets partition names list to specify query scope (Optional).</p></td>
         <td><p>partitionNames: <br/>A name list of partition to get state.</p></td>

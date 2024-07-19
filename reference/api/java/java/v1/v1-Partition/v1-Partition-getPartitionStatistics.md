@@ -43,6 +43,11 @@ Methods of `GetPartitionStatisticsParam.Builder`:
         <td><p>collectionName: The target collection name.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withPartitionName(String partitionName)</p></td>
         <td><p>Sets the partition name. Partition name cannot be empty or null.</p></td>
         <td><p>partitionName: The target partition name.</p></td>
@@ -92,7 +97,7 @@ Methods of `GetPartStatResponseWrapper`:
    </tr>
    <tr>
      <td><p>getRowCount()</p></td>
-     <td><p>Get the row count of a partition.<br/>Throw NumberFormatException if the row count string is illegal.</p></td>
+     <td><p>Get the row count of a partition.Throw NumberFormatException if the row count string is illegal.</p></td>
      <td><p>long</p></td>
    </tr>
 </table>

@@ -1,11 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/utility-wait_for_loading_complete
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: PLKXdUB1EoNX8gxKHruc9GcEnsg
-sidebar_position: 43
+sidebar_position: 44
 displayed_sidebar: pythonSidebar
 
 ---

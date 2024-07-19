@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/utility-mkts_from_datetime
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: LCQTdebkConhUqxwnk7c3EbPnWh
 sidebar_position: 34

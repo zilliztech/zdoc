@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: PharwAysCiBzvgkuqqecmNzunQf
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - cluster
+  - manage
 
 ---
 
@@ -63,7 +69,7 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
     In the **Backups** tab, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
 
-- **Data migrations**
+- **Migrations**
 
     In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**.
 
@@ -85,9 +91,58 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
 ### Manage and configure clusters{#manage-and-configure-clusters}
 
+- **Scale cluster**
+
+    Scaling a cluster involves adjusting the number of [CUs](./cu-types-explained) to match workload fluctuations or storage requirements. You can enhance your cluster's performance by scaling up CUs in response to increased CPU or memory usage, and scale down to conserve expenses during periods of low demand.
+
+    Methods for scaling your cluster:
+
+    - **Scaling on web UI**
+
+        To manually scale up a cluster, navigate to the **Summary** area of the [Zilliz Cloud console](https://cloud.zilliz.com/signup) and click **Scale** next to the **CU** **Size** to access the scaling options. Here, you can adjust the CU count within the same type and cloud region. For Dedicated-Standard clusters, you can scale up the size of a cluster up to 32 CUs. For Dedicated-Enterprise clusters, you can scale up the size of a cluster up to 256 CUs. If you require a larger scale, please [reach out](https://support.zilliz.com/hc/en-us) to our team.
+
+        <Admonition type="caution" icon="🚧" title="Warning">
+
+        <p>The scaling may lead to slight service jitter. Please exercise caution.</p>
+
+        </Admonition>
+
+        To scale down the cluster CU size, please [submit a support ticket](https://support.zilliz.com/hc/en-us).
+
+    - **Scaling via API requests**
+
+        Make an API request to scale your cluster. For more information, refer to [Modify Cluster](/reference/restful/modify-cluster).
+
+    - **[Private Preview] Auto-scaling**
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>Auto-scaling is currently in private preview and is only available to Dedicated (Enterprise) clusters. To enable this feature, please <a href="https://zilliz.com/contact-sales">contact us</a>.</p>
+
+        </Admonition>
+
+        Auto-scaling is designed for businesses with rapidly changing needs. It can prevent restrictions on user write access caused by insufficient cluster CU sizes and can reduce operational burden, thereby minimizing disruption to business operations.
+
+        You can specify the maximum CU size that a cluster can automatically scale up to. Downward auto-scaling is currently not supported.
+
+        After enabling this feature, you can configure auto-scaling options when a cluster is successfully created.
+
+        ![configure_autoscaling](/byoc/configure_autoscaling.png)
+
+        Auto-scaling is triggered primarily based on the **CU Capacity Threshold**. Zilliz Cloud checks the cluster [CU capacity](./metrics-alerts-reference#cluster-metrics) every 1 minute. If it has exceeded the specified threshold (currently set at 70%) for the past 2 minutes, a scaling process is automatically initiated. For more information about the increment increase of the CU sizes during auto-scaling, refer to [Pricing Calculator](./pricing-calculator#considerations).
+
+    <Admonition type="caution" icon="🚧" title="Warning">
+
+    <ul>
+    <li><p><strong>Operational Continuity</strong>: Even during scaling, your cluster's read/write operations will persist without disruption. A brief service fluctuation is possible, but rest assured of sustained high availability.</p></li>
+    <li><p><strong>Sizing Caution</strong>: When scaling down, consider if a smaller CU size can handle your data volume. Use our <a href="https://zilliz.com/pricing#calculator">CU calculator</a> to estimate the minimum CU size necessary for your workload.</p></li>
+    </ul>
+
+    </Admonition>
+
 - **Scale up cluster**
 
-    In the **Summary** section, click **Scale** right to the CU **Size** to open the **Scale Cluster** dialog box. You can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. You can scale the size of a cluster up to 256 CUs in the dialog box. Contact us if you need a larger CU.
+    In the **Summary** section, click **Scale** right to the **CU** **Size** to open the **Scale Cluster** dialog box. You can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. For Dedicated (Standard) clusters, you can scale up the size of a cluster up to 32 CUs. For Dedicated (Enterprise) clusters, you can scale up the size of a cluster up to 256 CUs. [Contact us](https://zilliz.com/contact-sales) if you need a larger CU size.
 
     For details on CU types and how to select an appropriate one, refer to [Select the Right CU](./cu-types-explained).
 
@@ -95,7 +150,7 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
     <Admonition type="caution" icon="🚧" title="Warning">
 
-    <p>Scaling up a cluster may cause several minutes of downtime. Please exercise caution.</p>
+    <p>The scaling may lead to slight service jitter. Please exercise caution.</p>
 
     </Admonition>
 
@@ -108,8 +163,6 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
     <p>Please use the <a href="https://zilliz.com/pricing#calculator">CU calculator</a> to estimate the minimum CU size needed for your data. Otherwise, scaling may fail.</p>
 
     </Admonition>
-
-    To scale down the cluster CU size, please [submit a request](https://support.zilliz.com/hc/en-us).
 
 - **Suspend & resume cluster**
 

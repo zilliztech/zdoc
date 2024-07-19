@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/utility-list_bulk_insert_tasks
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: T1CGdXeVkoG2yAxkualc1jVonRb
 sidebar_position: 23

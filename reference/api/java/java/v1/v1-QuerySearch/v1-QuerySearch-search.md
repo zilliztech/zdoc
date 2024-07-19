@@ -43,6 +43,11 @@ Methods of `SearchParam.Builder`:
         <td><p>collectionName: The target collection name.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withConsistencyLevel(ConsistencyLevelEnum consistencyLevel)</p></td>
         <td><p>Consistency level used in the search. If the level is not set, will use the default consistency level of the collection.</p></td>
         <td><p>consistencyLevel: The consistency level used in the search.</p></td>
@@ -69,8 +74,7 @@ Methods of `SearchParam.Builder`:
     </tr>
     <tr>
         <td><p>withExpr(String expr)</p></td>
-        <td><p>Set the expression to filter scalar fields before searching(Optional).
-For more information please refer to <a href="https://milvus.io/docs/v2.1.x/boolean.md">this doc</a>.</p></td>
+        <td><p>Set the expression to filter scalar fields before searching(Optional).For more information please refer to <a href="https://milvus.io/docs/v2.1.x/boolean.md">this doc</a>.</p></td>
         <td><p>expr: The expression to filter scalar fields.</p></td>
     </tr>
     <tr>
@@ -179,21 +183,19 @@ Methods of `SearchResultsWrapper`:
    </tr>
    <tr>
      <td><p>getFieldData(String fieldName, int indexOfTarget)</p></td>
-     <td><p>Gets data for an output field which is specified by SearchParam.<br/> Throws ParamException if the field doesn't exist or indexOfTarget is illegal.<br/></p></td>
-     <td><p>fieldName: A field name which is specified by the withOutFields() of SearchParam.<br/> indexOfTarget: The order number of a target vector.<br/></p></td>
-     <td><ul>
-<li>Return List\<List\<Float>gt; for FloatVector field.<br/>- Return List\<ByteBuffer> for BinaryVector/Float16Vector/BFloat16Vector field.<br/> - Return List\<SortedMap[Long, Float]> for SparseFloatVector field.<br/>- Return List\<Long> for Int64 field.<br/>- Return List\<Integer> for Int32/Int16/Int8 field.<br/>- Return List\<Boolean> for Bool field.<br/>- Return List\<Float> for Float field.<br/>- Return List\<Double> for Double field.<br/>- Return List\<String> for Varchar field.<br/></li>
-</ul></td>
+     <td><p>Gets data for an output field which is specified by SearchParam.</p><p>Throws ParamException if the field doesn't exist or indexOfTarget is illegal.</p></td>
+     <td><p>fieldName: A field name which is specified by the withOutFields() of SearchParam.</p><p>indexOfTarget: The order number of a target vector.</p></td>
+     <td><ul><li><p>Return List\<List\<Float>gt; for FloatVector field.</p></li><li><p>Return List\<ByteBuffer> for BinaryVector/Float16Vector/BFloat16Vector field.</p></li><li><p>Return List\<SortedMap[Long, Float]> for SparseFloatVector field.</p></li><li><p>Return List\<Long> for Int64 field.</p></li><li><p>Return List\<Integer> for Int32/Int16/Int8 field.</p></li><li><p>Return List\<Boolean> for Bool field.</p></li><li><p>Return List\<Float> for Float field.</p></li><li><p>Return List\<Double> for Double field.</p></li><li><p>Return List\<String> for Varchar field.</p></li></ul></td>
    </tr>
    <tr>
-     <td><p>getIDScore(int indexOfTarget)<br/></p></td>
-     <td><p>Gets ID-score pairs returned by search().<br/> Throws ParamException if the indexOfTarget is illegal.<br/>Throws IllegalResponseException if the returned results are illegal.</p></td>
-     <td><p>indexOfTarget: The order number of a target vector.<br/></p></td>
+     <td><p>getIDScore(int indexOfTarget)</p></td>
+     <td><p>Gets ID-score pairs returned by search().</p><p>Throws ParamException if the indexOfTarget is illegal.Throws IllegalResponseException if the returned results are illegal.</p></td>
+     <td><p>indexOfTarget: The order number of a target vector.</p></td>
      <td><p>List\<IDScore></p></td>
    </tr>
    <tr>
      <td><p>getRowRecords(int indexOfTarget)</p></td>
-     <td><p>Gets row records from the search result.<br/> The ID is put into a QueryResultsWrapper.RowRecord with key "id".<br/> The distance is put into a QueryResultsWrapper.RowRecord with key "distance".</p></td>
+     <td><p>Gets row records from the search result.</p><p>The ID is put into a QueryResultsWrapper.RowRecord with key "id".</p><p>The distance is put into a QueryResultsWrapper.RowRecord with key "distance".</p></td>
      <td><p>indexOfTarget: The order number of a target vector.</p></td>
      <td><p>List\<QueryResultsWrapper.RowRecord></p></td>
    </tr>
@@ -212,9 +214,9 @@ Methods of `SearchResultsWrapper.IDScore`:
      <th><p><strong>Returns</strong></p></th>
    </tr>
    <tr>
-     <td><p>getLongID()<br/></p></td>
+     <td><p>getLongID()</p></td>
      <td><p>Get integer ID if the primary key type is Int64.</p></td>
-     <td><p>long<br/></p></td>
+     <td><p>long</p></td>
    </tr>
    <tr>
      <td><p>getStrID()</p></td>
@@ -228,7 +230,7 @@ Methods of `SearchResultsWrapper.IDScore`:
    </tr>
    <tr>
      <td><p>get(String keyName)</p></td>
-     <td><p>Get a value by a key name. If the key name is a field name, return the value of this field.<br/>If the key name is in the dynamic field, return the value from the dynamic field.<br/>Throws ParamException if the key name doesn't exist.</p></td>
+     <td><p>Get a value by a key name. If the key name is a field name, return the value of this field.If the key name is in the dynamic field, return the value from the dynamic field.Throws ParamException if the key name doesn't exist.</p></td>
      <td><p>Object</p></td>
    </tr>
 </table>

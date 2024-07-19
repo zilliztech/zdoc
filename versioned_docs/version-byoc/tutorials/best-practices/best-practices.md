@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: HWzCwbjfci51HHk4BvTcfbiHn1d
 sidebar_position: 18
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - best practices
 
 ---
 

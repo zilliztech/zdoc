@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Management-dropIndex
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
 sidebar_position: 3

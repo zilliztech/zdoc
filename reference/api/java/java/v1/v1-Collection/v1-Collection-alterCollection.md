@@ -43,6 +43,11 @@ Methods of `AlterCollectionParam.Builder`:
         <td><p>collectionName: The name of the collection to alter properties.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. Database name can be null for default database.</p></td>
+        <td><p>databaseName: The name of the database.</p></td>
+    </tr>
+    <tr>
         <td><p>withTTL(Integer ttlSeconds)</p></td>
         <td><p>Collection time to live (TTL) is the expiration time of data in a collection. Expired data in the collection will be cleaned up and will not be involved in searches or queries. Specify TTL in the unit of seconds.<br/>This method internally calls the withProperty() to set value.</p></td>
         <td><p>ttlSeconds: The time to live value. The value should be 0 or greater.</p></td>

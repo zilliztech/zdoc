@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Collection-hybrid_search
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: Bzb6dwkckop6XfxVm2lclXG2nJg
 sidebar_position: 17

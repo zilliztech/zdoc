@@ -3,8 +3,8 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/DataImport-LocalBulkWriter
 beta: false
 notebook: false
-type: folder
-token: SzykfW0E7lSK4sdsvhOcAhkan0b
+type: docx
+token: Tn2jd8OH1oMukFxJDsgcOSxCnrg
 sidebar_position: 3
 displayed_sidebar: pythonSidebar
 
@@ -118,8 +118,3 @@ A **LocalBulkWriter** object.
 
 The following are the methods of the **LocalBulkWriter** class:
 
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Authentication-revoke_role
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: JJOId59ePoMLefxz1ChcBZ6inOh
 sidebar_position: 12

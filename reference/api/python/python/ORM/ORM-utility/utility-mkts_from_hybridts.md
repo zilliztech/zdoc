@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/utility-mkts_from_hybridts
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: GRarduHPSoFY3Yx9EWRcdcTfn1g
 sidebar_position: 35

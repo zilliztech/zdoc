@@ -43,9 +43,19 @@ Methods of `DescribeIndexParam.Builder`:
         <td><p>collectionName: The target collection name.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withIndexName(String indexName)</p></td>
         <td><p>Set the target index name. If no index name is specified, the default index name is empty string which means let the server determine it.</p></td>
         <td><p>indexName: The name of the index.</p></td>
+    </tr>
+    <tr>
+        <td><p>withFieldName(String fieldName)</p></td>
+        <td><p>Sets the target field name. Field name can be empty or null.<br/>If no field name is specified, then return all this collection indexes.</p></td>
+        <td><p>fieldName: The field name.</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
@@ -93,7 +103,7 @@ Methods of `DescIndexResponseWrapper`:
      <td><p>List\<IndexDesc></p></td>
    </tr>
    <tr>
-     <td><p>getIndexDescByFieldName(String fieldName)<br/></p></td>
+     <td><p>getIndexDescByFieldName(String fieldName)</p></td>
      <td><p>Get index description by field name. Return null if the field doesn't exist.</p></td>
      <td><p>fieldName: A field name</p></td>
      <td><p>IndexDesc</p></td>

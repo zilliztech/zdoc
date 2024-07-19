@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: YVxQwnj23iS9sNkUTcmcPKzNnQh
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - byoc
+  - start
+  - milvus
 
 ---
 

@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Vector-search
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: BIlNdgI2foFEaoxmn12cLO6Jndb
 sidebar_position: 5

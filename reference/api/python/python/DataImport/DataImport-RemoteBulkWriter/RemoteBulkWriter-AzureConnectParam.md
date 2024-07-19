@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/RemoteBulkWriter-AzureConnectParam
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: C2YSddNqZoDNmNxWqqEcuzhKn4f
 sidebar_position: 2

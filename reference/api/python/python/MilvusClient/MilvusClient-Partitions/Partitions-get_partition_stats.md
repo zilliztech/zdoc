@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Partitions-get_partition_stats
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: Jjbsd2I8doQ9pBxBp57ckRdZnZd
 sidebar_position: 3

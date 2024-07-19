@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Vector-upsert
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: MErAdudCloVawFxpxoWcgqZonLc
 sidebar_position: 6

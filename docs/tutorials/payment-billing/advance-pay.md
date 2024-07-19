@@ -6,6 +6,11 @@ notebook: FALSE
 type: origin
 token: K8hFwmeBQiCSO4ktT9ScD9zMnua
 sidebar_position: 6
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - advance pay
 
 ---
 

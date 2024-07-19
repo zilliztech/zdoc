@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/BM25EmbeddingFunction-encode_documents
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: AjFZd2XYVoyAKPxokSHcoanRn5b
 sidebar_position: 2

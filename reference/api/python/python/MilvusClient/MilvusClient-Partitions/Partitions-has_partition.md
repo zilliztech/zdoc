@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Partitions-has_partition
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: MxTAd0haboKnRrxQvoOckGghn1T
 sidebar_position: 4

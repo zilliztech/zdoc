@@ -2,8 +2,8 @@
 displayed_sidbar: pythonSidebar
 slug: /python/python/VoyageRerankFunction-__call__
 sidebar_label: __call__()
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: N2aHdla1Uohk1HxGyPHcdG4lnnb
 sidebar_position: 2

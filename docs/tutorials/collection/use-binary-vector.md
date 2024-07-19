@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: PFArwxRkjiL6wMknUieczYgUnuh
 sidebar_position: 11
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - binary vector
+  - milvus
 
 ---
 
@@ -17,7 +23,7 @@ Binary vectors are a type of data representation where each element is either 0 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, this feature is available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+<p>Currently, this feature is available exclusively for clusters that have been upgraded to the Beta version.</p>
 
 </Admonition>
 

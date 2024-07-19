@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Management-refresh_load
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 9

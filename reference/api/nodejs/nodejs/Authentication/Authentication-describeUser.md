@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Authentication-describeUser
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
 sidebar_position: 5

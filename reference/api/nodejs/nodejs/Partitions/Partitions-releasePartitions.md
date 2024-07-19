@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Partitions-releasePartitions
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
 sidebar_position: 7

@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Collections-get_collection_stats
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: VVyNdx038oECxNxMQavc9vssnoh
 sidebar_position: 10

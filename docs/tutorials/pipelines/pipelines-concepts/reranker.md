@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: DOcRwUYLPi1C5bkiTq8c5dEQnP9
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - concepts
+  - rerankers
 
 ---
 

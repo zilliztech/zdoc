@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Partitions-drop_partition
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: EMI8dM8uooIAFPxVfffcoqRwnZf
 sidebar_position: 2

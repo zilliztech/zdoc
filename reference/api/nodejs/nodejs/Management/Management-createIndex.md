@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Management-createIndex
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: WFRodQlfKoPHTUxbBYzcLug8nsd
 sidebar_position: 1

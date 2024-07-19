@@ -3,9 +3,9 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/EmbeddingModels-VoyageEmbeddingFunction
 beta: false
 notebook: false
-type: folder
-token: UaedfEts7lWlFEdq2WNcVAczn6d
-sidebar_position: 9
+type: docx
+token: HEyLd2lxzo3bl4xqVBOco8vWn1c
+sidebar_position: 3
 displayed_sidebar: pythonSidebar
 
 ---
@@ -57,8 +57,3 @@ voyage_ef = VoyageEmbeddingFunction(
     api_key='YOUR_API_KEY' # Replace with your own Voyage API key
 )
 ```
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

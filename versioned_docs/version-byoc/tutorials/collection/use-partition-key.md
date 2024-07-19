@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: SbP2wIzHIiRFxwkmojHc02zknsk
 sidebar_position: 7
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - partition key
+  - milvus
 
 ---
 

@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/DataImport-BulkFileType
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: CROadSmHNoV2CuxREnccTkaen0e
 sidebar_position: 1

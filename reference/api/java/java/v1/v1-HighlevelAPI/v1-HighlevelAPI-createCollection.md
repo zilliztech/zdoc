@@ -20,7 +20,7 @@ A MilvusClient interface. This method creates a collection with simple parameter
 R<RpcStatus> createCollection(CreateSimpleCollectionParam requestParam);
 ```
 
-#### CreateCollectionParam{#createcollectionparam}
+#### CreateSimpleCollectionParam{#createsimplecollectionparam}
 
 Use the `CreateSimpleCollectionParam.Builder` to construct a `CreateSimpleCollectionParam` object.
 

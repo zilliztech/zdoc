@@ -3,9 +3,9 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/Rerankers-CrossEncoderRerankFunction
 beta: false
 notebook: false
-type: folder
-token: JLCvfKlhXlYqcHdhyUwcSOWQn0f
-sidebar_position: 3
+type: docx
+token: HVGNdMYOvojQoXxvDmEcnHYanMh
+sidebar_position: 1
 displayed_sidebar: pythonSidebar
 
 ---
@@ -68,8 +68,3 @@ ce_rf = CrossEncoderRerankFunction(
     device="cpu" # Specify the device to use, e.g., 'cpu' or 'cuda:0'
 )
 ```
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

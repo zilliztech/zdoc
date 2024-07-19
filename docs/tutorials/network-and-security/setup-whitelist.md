@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: FnS1wY0iuia4qgkMycVclZyHnOf
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - whitelist
+  - setup
 
 ---
 

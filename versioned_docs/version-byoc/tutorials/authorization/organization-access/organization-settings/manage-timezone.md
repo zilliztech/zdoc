@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: MLIRwRbrtiawJgkMEdOcPQnRnVf
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - timezone
+  - manage
 
 ---
 

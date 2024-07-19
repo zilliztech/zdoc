@@ -3,9 +3,9 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/EmbeddingModels-SentenceTransformerEmbeddingFunction
 beta: false
 notebook: false
-type: folder
-token: FRtcfXVZ7lXohcdc0Q6cbKEJn1c
-sidebar_position: 7
+type: docx
+token: JOFedA4h8otTjHxsYQ7cnjsunHd
+sidebar_position: 3
 displayed_sidebar: pythonSidebar
 
 ---
@@ -77,8 +77,3 @@ sentence_transformer_ef = model.dense.SentenceTransformerEmbeddingFunction(
     device='cpu' # Specify the device to use, e.g., 'cpu' or 'cuda:0'
 )
 ```
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

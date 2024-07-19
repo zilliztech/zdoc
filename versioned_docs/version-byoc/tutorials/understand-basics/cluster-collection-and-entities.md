@@ -5,6 +5,13 @@ notebook: FALSE
 type: origin
 token: KfI3wa2ZCiEJyzkkvKSc5FennId
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cluster
+  - collection
+  - entities
+  - milvus
 
 ---
 

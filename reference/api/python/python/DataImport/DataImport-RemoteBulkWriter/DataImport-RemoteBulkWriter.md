@@ -3,8 +3,8 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/DataImport-RemoteBulkWriter
 beta: false
 notebook: false
-type: folder
-token: Yhy1fHTMnlLKvydKzsIcnfPdnmb
+type: docx
+token: G77zdbzpPo4pOaxTDcccgRNfnVc
 sidebar_position: 4
 displayed_sidebar: pythonSidebar
 
@@ -122,7 +122,3 @@ The following are the classes of the `RemoteBulkWriter` class:
 ## Methods{#methods}
 
 The following are the methods of the `RemoteBulkWriter` class:
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

@@ -43,6 +43,11 @@ Methods of `ReleaseCollectionParam.Builder`:
         <td><p>collectionName: The name of the collection to release.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>build()</p></td>
         <td><p>Constructs a ReleaseCollectionParam object.</p></td>
         <td><p>N/A</p></td>

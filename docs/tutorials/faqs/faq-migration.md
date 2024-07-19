@@ -15,7 +15,7 @@ This topic lists the possible issues that you may encounter while you migrate da
 ## Contents
 
 - [How to migrate data from Elasticsearch to Zilliz Cloud?](#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud)
-- [Can I migrate data from a free cluster to a serverless or dedicated cluster?](#can-i-migrate-data-from-a-free-cluster-to-a-serverless-or-dedicated-cluster)
+- [Can I upgrade a free cluster to a Serverless or Dedicated cluster?](#can-i-upgrade-a-free-cluster-to-a-serverless-or-dedicated-cluster)
 
 ## FAQs
 
@@ -68,8 +68,8 @@ You can follow the steps below to import data from Elasticsearch to Zilliz Cloud
     print(f"Number of entities in Milvus: {hello_milvus.num_entities}")
     ```
 
-Alternatively, you can also import data from Elasticsearch on the Zilliz Cloud web console. For more information, see [Migrate from Elasticsearch](./migrate-from-elasticsearch) .
+Alternatively, you can also migrate data from Elasticsearch on the Zilliz Cloud web console. For more information, see [Migrate from Elasticsearch](./migrate-from-elasticsearch) .
 
-### Can I migrate data from a free cluster to a serverless or dedicated cluster?{#can-i-migrate-data-from-a-free-cluster-to-a-serverless-or-dedicated-cluster}
+### Can I upgrade a free cluster to a Serverless or Dedicated cluster?{#can-i-upgrade-a-free-cluster-to-a-serverless-or-dedicated-cluster}
 
-Yes. Zilliz Cloud supports migrating data from a free cluster to a serverless or dedicated cluster. For more information about how to migrate data, please refer to [Migrate Between Clusters](./migrate-between-clusters).
+Yes. For more information , please refer to [Manage Cluster](./manage-cluster#upgrade-plan).

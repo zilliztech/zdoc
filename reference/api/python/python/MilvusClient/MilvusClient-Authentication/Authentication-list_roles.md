@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Authentication-list_roles
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: MApVdDl17oU8OixzbMPcgceKnOh
 sidebar_position: 9

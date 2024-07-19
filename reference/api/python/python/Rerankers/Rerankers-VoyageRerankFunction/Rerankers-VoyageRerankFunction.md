@@ -3,9 +3,9 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/Rerankers-VoyageRerankFunction
 beta: false
 notebook: false
-type: folder
-token: FqAOfnQW5lXhmZdJvS7clWKZnIb
-sidebar_position: 5
+type: docx
+token: Smobd2lIho2yQPxtRhLcLcKznCf
+sidebar_position: 1
 displayed_sidebar: pythonSidebar
 
 ---
@@ -53,8 +53,3 @@ voyage_rf = VoyageRerankFunction(
     api_key=VOYAGE_API_KEY # Replace with your Voyage API key
 )
 ```
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

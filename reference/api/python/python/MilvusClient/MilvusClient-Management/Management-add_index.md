@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Management-add_index
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: ZplAdphtooqHJkxo8GCcOFecngd
 sidebar_position: 1

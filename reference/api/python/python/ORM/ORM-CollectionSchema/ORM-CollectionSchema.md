@@ -3,8 +3,8 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/ORM-CollectionSchema
 beta: false
 notebook: false
-type: folder
-token: SeaffVvutlNtvTdpV17cy78un5T
+type: docx
+token: WToudUwm4oVXeKxLg3jcj3IAnjh
 sidebar_position: 2
 displayed_sidebar: pythonSidebar
 
@@ -165,8 +165,3 @@ schema = CollectionSchema(
 
 The following are the methods of the `CollectionSchema` class:
 
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

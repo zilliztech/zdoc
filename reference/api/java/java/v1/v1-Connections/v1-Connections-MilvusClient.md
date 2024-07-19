@@ -32,25 +32,25 @@ Methods of MilvusClient for connection:
    </tr>
    <tr>
      <td><p>withTimeout(long timeout, TimeUnit timeoutUnit)</p></td>
-     <td><p>Timeout setting for RPC call.<br/></p></td>
-     <td><p>timeout: The timeout period when invoking a method.<br/> timeoutUnit: The unit for timeout.</p></td>
-     <td><p>MilvusClient<br/></p></td>
+     <td><p>Timeout setting for RPC call.</p></td>
+     <td><p>timeout: The timeout period when invoking a method.</p><p>timeoutUnit: The unit for timeout.</p></td>
+     <td><p>MilvusClient</p></td>
    </tr>
    <tr>
      <td><p>withRetry(RetryParam retryParam)</p></td>
-     <td><p>Sets the parameters for retry.<br/></p></td>
+     <td><p>Sets the parameters for retry.</p></td>
      <td><p>retryParam: Parameter for retry on failure.</p></td>
      <td><p>MilvusClient</p></td>
    </tr>
    <tr>
-     <td><p>close(long maxWaitSeconds)<br/></p></td>
-     <td><p>Disconnects from a Milvus server with a configurable timeout value. Call this method before the application terminates.<br/>This method throws an <code>InterruptedException</code> exception if it is interrupted.</p></td>
+     <td><p>close(long maxWaitSeconds)</p></td>
+     <td><p>Disconnects from a Milvus server with a configurable timeout value. Call this method before the application terminates.This method throws an <code>InterruptedException</code> exception if it is interrupted.</p></td>
      <td><p>maxWaitSeconds: The timeout period to wait for the RPC channel to close.</p></td>
-     <td><p>N/A<br/></p></td>
+     <td><p>N/A</p></td>
    </tr>
    <tr>
-     <td><p>setLogLevel(LogLevel level)<br/></p></td>
-     <td><p>Set log level in runtime.<br/>Note: this method cannot change the log level configured by log4j configurations. It only hides some logs inside the MilvusClient class.</p></td>
+     <td><p>setLogLevel(LogLevel level)</p></td>
+     <td><p>Set log level in runtime.Note: this method cannot change the log level configured by log4j configurations. It only hides some logs inside the MilvusClient class.</p></td>
      <td><p>level: A log level</p></td>
      <td><p>N/A</p></td>
    </tr>
@@ -84,6 +84,21 @@ Methods of `ConnectParam.Builder`:
         <td><p>port: The connection port.</p></td>
     </tr>
     <tr>
+        <td><p>withUri(String uri)</p></td>
+        <td><p>Sets the uri of remote service.</p></td>
+        <td><p>uri: The uri of remote service.</p></td>
+    </tr>
+    <tr>
+        <td><p>withToken(String token)</p></td>
+        <td><p>Sets the token of remote service.</p></td>
+        <td><p>token: serving as the key for identification and authentication purposes.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withConnectTimeout(long connectTimeout, TimeUnit timeUnit)</p></td>
         <td><p>Sets the connection timeout value of client channel. The timeout value must be greater than zero. The default value is 10 seconds.</p></td>
         <td><p>connectTimeout: The connection timeout period.<br/>timeUnit: The unit of timeout.</p></td>
@@ -114,6 +129,11 @@ Methods of `ConnectParam.Builder`:
         <td><p>idleTimeout: The idle timeout period of the client channel.<br/>timeUnit: The unit of timeout.</p></td>
     </tr>
     <tr>
+        <td><p>withRpcDeadline(long deadline, TimeUnit timeUnit)</p></td>
+        <td><p>Set a deadline for how long you are willing to wait for a reply from the server.<br/>With a deadline setting, the client will wait when encounter fast RPC fail caused by network fluctuations.<br/>The deadline value must be larger than or equal to zero. Default value is 0, deadline is disabled.</p></td>
+        <td><p>deadline: deadline value<br/>timeUnit: deadline unit</p></td>
+    </tr>
+    <tr>
         <td><p>withAuthorization(String username, String password)</p></td>
         <td><p>Sets the username and password for this connection.</p></td>
         <td><p>username: The username of the current user.<br/>password: The password corresponding to the username.</p></td>
@@ -137,6 +157,11 @@ Methods of `ConnectParam.Builder`:
         <td><p>withServerPemPath(String serverPemPath)</p></td>
         <td><p>Set the server.pem path for tls one-way authentication, only takes effect when "secure" is True.</p></td>
         <td><p>serverPemPath: The local path of server.pem</p></td>
+    </tr>
+    <tr>
+        <td><p>withServerName(String serverName)</p></td>
+        <td><p>Set target name override for SSL host name checking, only takes effect when "secure" is True.<br/>Note: this value is passed to grpc.ssl<em>target</em>name_override</p></td>
+        <td><p>serverName: The override name for SSL host.</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>

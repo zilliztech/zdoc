@@ -1,11 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/utility-wait_for_index_building_complete
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: MfR8dw5TioPvw3xvrstcgYixnUb
-sidebar_position: 42
+sidebar_position: 43
 displayed_sidebar: pythonSidebar
 
 ---

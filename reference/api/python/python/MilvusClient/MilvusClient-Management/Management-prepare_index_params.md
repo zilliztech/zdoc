@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Management-prepare_index_params
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
 sidebar_position: 8

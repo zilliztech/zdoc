@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: QpFSwxXbni8lM9kj22uc8THsnzg
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - pipelines
+  - image data
 
 ---
 
@@ -22,7 +28,7 @@ This guide walks you through the necessary steps to create image pipelines, cond
 
 - Ensure you have created a cluster deployed in us-west1 on Google Cloud Platform (GCP).
 
-- In one project, you can only create up to 10 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits#pipelines).
+- In one project, you can only create up to 100 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits#pipelines).
 
 ## Ingest image data{#ingest-image-data}
 
@@ -85,11 +91,11 @@ To ingest any data, you need to first create an ingestion pipeline and then run 
              <th><p><strong>Description</strong></p></th>
            </tr>
            <tr>
-             <td><p>zilliz/vit-base-patch16-224</p></td>
+             <td><p>zilliz/<a href="https://huggingface.co/google/vit-base-patch16-224">vit-base-patch16-224</a></p></td>
              <td><p>The Vision Transformer (ViT) is a transformer encoder model (BERT-like) open-sourced by Google. The model is pretrained on a large collection of images to embed the semantic of image content to a vector space. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
            </tr>
            <tr>
-             <td><p>zilliz/clip-vit-base-patch32</p></td>
+             <td><p>zilliz/<a href="https://huggingface.co/openai/clip-vit-base-patch32">clip-vit-base-patch32</a></p></td>
              <td><p>A multi-modal model released by OpenAI. This vision model and its pairing text model are capable of embedding images and texts into the same vector space, enabling semantic search between visual and textual information. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
            </tr>
         </table>
@@ -146,7 +152,7 @@ curl --request POST \
     -d '{
         "name": "my_image_ingestion_pipeline",
         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-        "projectId": "proj-xxxx"，
+        "projectId": "proj-xxxx",
         "collectionName": "my_collection",
         "description": "A pipeline that converts an image into vector embeddings and store in efficient index for search.",
         "type": "INGESTION",  
@@ -230,10 +236,14 @@ Below is an example output.
     "pipelineId": "pipe-xxxx",
     "name": "my_image_ingestion_pipeline",
     "type": "INGESTION",
+    "createTimestamp": 1721187300000,
     "clusterId": "in03-***************",
     "collectionName": "my_collection"
     "description": "A pipeline that converts an image into vector embeddings and store in efficient index for search.",
     "status": "SERVING",
+    "totalUsage": {
+      "embedding": 0
+    },
     "functions": [
       {
         "action": "INDEX_IMAGE",
@@ -259,9 +269,9 @@ This collection contains three fields:  two output fields of the **INDEX_IMAGE**
 
 <table>
    <tr>
-     <th><p>image_id<br/> (Data Type: Int64)</p></th>
-     <th><p>embedding<br/> (Data type: FLOAT_VECTOR)</p></th>
-     <th><p>image_title<br/> (Data type: VarChar)</p></th>
+     <th><p>image_id</p><p>(Data Type: Int64)</p></th>
+     <th><p>embedding</p><p>(Data type: FLOAT_VECTOR)</p></th>
+     <th><p>image_title</p><p>(Data type: VarChar)</p></th>
    </tr>
 </table>
 
@@ -333,6 +343,12 @@ Below is an example response.
 }
 ```
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
+
 </TabItem>
 
 </Tabs>
@@ -341,7 +357,11 @@ Below is an example response.
 
 To search any data, you need to first create a search pipeline and then run it. Unlike Ingestion and Deletion pipelines, when creating a Search pipeline, the cluster and collection are defined at the function level instead of the pipeline level. This is because Zilliz Cloud allows you to search from multiple collections at a time.
 
-### Create image search pipeline{#create-image-search-pipeline}
+There are two ways to search image data: [conduct a reverse image search](./pipelines-image-data#conduct-a-reverse-image-search) or [search image by text](./pipelines-image-data#search-image-by-text).
+
+### Conduct a reverse image search{#conduct-a-reverse-image-search}
+
+#### Create image search pipeline{#create-image-search-pipeline}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
@@ -434,7 +454,7 @@ The parameters in the above code are described as follows:
 
     - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
 
-    - `action`: The type of the function to add. Currently, available options include `SEARCH_DOC_CHUNK`, `SEARCH_TEXT`, `SEARCH_IMAGE_BY_IMAGE`.
+    - `action`: The type of the function to add. Currently, available options include `SEARCH_DOC_CHUNK`, `SEARCH_TEXT`, `SEARCH_IMAGE_BY_IMAGE`, and `SEARCH_IMAGE_BY_TEXT`.
 
     - `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a cluster deployed in us-west1 on GCP. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
 
@@ -451,8 +471,12 @@ Below is an example output.
     "pipelineId": "pipe-xxxx",
     "name": "my_image_search_pipeline",
     "type": "SEARCH",
+    "createTimestamp": 1721187300000,
     "description": "A pipeline that searches image by image.",
     "status": "SERVING",
+    "totalUsage": {
+      "embedding": 0
+    },
     "functions": 
       {
         "action": "SEARCH_IMAGE_BY_IMAGE",
@@ -470,7 +494,7 @@ Below is an example output.
 
 </Tabs>
 
-### Run image search pipeline{#run-image-search-pipeline}
+#### Run image search pipeline{#run-image-search-pipeline}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
@@ -507,9 +531,9 @@ curl --request POST \
           "limit": 1,
           "offset": 0,
           "outputFields": ["image_id", "image_title"],
-          "filter": "id >= 0", 
+          "filter": "id >= 0"
       }
-    }
+    }'
 ```
 
 The parameters in the above code are described as follows:
@@ -518,7 +542,7 @@ The parameters in the above code are described as follows:
 
 - `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
 
-- `query_text`: The query text used to conduct a semantic search.
+- `query_image_url`: The URL of the query image used to conduct a similarity search.
 
 - `params`: The search parameters to configure.
 
@@ -552,6 +576,248 @@ Below is an example response.
   }
 }
 ```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
+
+</TabItem>
+
+</Tabs>
+
+### Search image by text{#search-image-by-text}
+
+#### Create image search pipeline{#create-image-search-pipeline}
+
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
+
+1. Navigate to your project.
+
+1. Click on **Pipelines** from the navigation panel. Then switch to the **Overview** tab and click **Pipelines**. To create a pipeline, click **+ Pipeline**.
+
+1. Choose the type of pipeline to create. Click on **+ Pipeline** button in the **Search Pipeline** column.
+
+    ![create-search-pipeline](/img/create-search-pipeline.png)
+
+1. Configure the Search pipeline you wish to create.
+
+    <table>
+       <tr>
+         <th><p><strong>Parameters</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>Pipeline Name</p></td>
+         <td><p>The name of the new Search pipeline. It should only contain lowercase letters, numbers, and underscores only.</p></td>
+       </tr>
+       <tr>
+         <td><p>Description (Optional)</p></td>
+         <td><p>The description of the new Search pipeline.</p></td>
+       </tr>
+    </table>
+
+    ![configure-search-pipeline](/img/configure-search-pipeline.png)
+
+1. Add a function to the Search pipeline by clicking **+ Function**. You can add exactly one function.
+
+    1. Enter function name.
+
+    1. Choose **Target Cluster** and **Target collection**. The **Target Cluster** must be a cluster deployed in **us-west1 on Google Cloud Platform (GCP)**. and the **Target Collection** must be created by an Ingestion pipeline, otherwise the Search pipeline will not be compatible.
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>The SEARCH<em>IMAGE</em>BY_TEXT function is only available when there is a compatible image ingestion pipeline using the multimodal image model service <code>zilliz/clip-vit-base-patch32</code>.</p>
+
+        </Admonition>
+
+    1. Select **SEARCH_IMAGE_BY_TEXT** as the **Function Type**. A **SEARCH_IMAGE_BY_TEXT** function can convert the query text to a vector embedding and retrieve topK most similar images.
+
+        If you choose the **SEARCH_IMAGE_BY_TEXT** function, the  multimodal text embedding service `zilliz/clip-vit-base-patch32-multilingual-v1` will be used by default to match the corresponding ingestion pipeline and target collection.
+
+        ![add-search-image-by-text-function](/img/add-search-image-by-text-function.png)
+
+    1. Click **Add** to save your function.
+
+1. Click **Create Search Pipeline**.
+
+</TabItem>
+
+<TabItem value="Bash">
+
+The following example creates a Search pipeline named `my_image_search_pipeline` with a **SEARCH_IMAGE_BY_TEXT** function added. 
+
+```bash
+curl --request POST \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
+    -d '{
+        "projectId": "proj-xxxx",       
+        "name": "my_image_search_pipeline",
+        "description": "A pipeline that searches image by image.",
+        "type": "SEARCH",
+        "functions": [
+            {
+                "name": "search_image_by_text",
+                "action": "SEARCH_IMAGE_BY_TEXT",
+                "embedding": "zilliz/clip-vit-base-patch32-multilingual-v1",
+                "clusterId": "inxx-xxxxxxxxxxxxxxx",
+                "collectionName": "my_collection"
+            }
+        ]
+    }'
+```
+
+The parameters in the above code are described as follows:
+
+- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+
+- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+
+- `projectId`: The ID of the project in which you want to create a pipeline. Learn more about [How Can I Obtain the Project ID?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+
+- `name`: The name of the pipeline to create. The pipeline name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+
+- `description` (optional): The description of the pipeline to create.
+
+- `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
+
+- `functions`: The function(s) to add in the pipeline. **A Search pipeline can only have one function.**
+
+    - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+
+    - `action`: The type of the function to add. Currently, available options include `SEARCH_DOC_CHUNK`, `SEARCH_TEXT`, `SEARCH_IMAGE_BY_IMAGE`, and `SEARCH_IMAGE_BY_TEXT`.
+
+    - `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a cluster deployed in us-west1 on GCP. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+
+    - `collectionName`: The name of the collection in which you want to create a pipeline.
+
+    - `embedding`: The embedding model used during vector search. Here, you should use the embedding model `zilliz/clip-vit-base-patch32-multilingual-v1`. This model is a multi-lingual variant of OpenAI's [CLIP-ViT-B32](https://huggingface.co/openai/clip-vit-base-patch32) model. It is designed to work together with `zilliz/clip-vit-base-patch32` vision model and can process text in more than 50 languages.
+
+Below is an example output.
+
+```bash
+{
+  "code": 200,
+  "data": {
+    "pipelineId": "pipe-xxxx",
+    "name": "my_image_search_pipeline",
+    "type": "SEARCH",
+    "createTimestamp": 1721187300000,
+    "description": "A pipeline that searches image by image.",
+    "status": "SERVING",
+    "totalUsage": {
+      "embedding": 0
+    },
+    "functions": 
+      {
+        "action": "SEARCH_IMAGE_BY_TEXT",
+        "name": "search_image_by_text",
+        "inputFields": ["query_text"],
+        "clusterId": "in03-***************",
+        "collectionName": "my_collection",
+        "embedding": "zilliz/clip-vit-base-patch32-multilingual-v1"
+      }
+  }
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+#### Run image search pipeline{#run-image-search-pipeline}
+
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
+
+1. Click the "▶︎" button next to your Search pipeline. Alternatively, you can also click on the **Playground** tab.
+
+    ![run-pipeline](/img/run-pipeline.png)
+
+1. Input the query text. Click **Run**.
+
+    ![run-image-search-by-text-pipeline](/img/run-image-search-by-text-pipeline.png)
+
+1. Check the results.
+
+1. Enter a new query text to rerun the pipeline.
+
+</TabItem>
+
+<TabItem value="Bash">
+
+The following example runs the Search pipeline named `my_image_search_pipeline`. 
+
+```bash
+curl --request POST \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}/run" \
+    -d '{
+      "data": {
+        "query_text": "Can you show me the image of a cat?",
+      },
+      "params":{
+          "limit": 1,
+          "offset": 0,
+          "outputFields": ["image_id", "image_title"],
+          "filter": "id >= 0"
+      }
+    }'
+```
+
+The parameters in the above code are described as follows:
+
+- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+
+- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+
+- `query_text`: The query text used to conduct a similarity search.
+
+- `params`: The search parameters to configure.
+
+    - `limit`: The maximum number of entities to return. The value should be an integer ranging from **1** to **100**. The sum of this value of that of `offset` should be less than **1024**.
+
+    - `offset`: The number of entities to skip in the search results.
+
+        The sum of this value and that of `limit` should not be greater than **1024**.The maximum value is **1024**.
+
+    - `outputFields`: An array of fields to return along with the search results. Note that `id`（entity ID）, `distance` will be returned in the search result by default. If you need other output fields in the returned result, you can configure this parameter.
+
+    - `filter`: The [filter](./single-vector-search#filtered-search) in boolean expression used to find matches for the search
+
+Below is an example response.
+
+```bash
+{
+  "code": 200,
+  "data": {
+    "result": [
+      {
+        "id": "my-img-123456",
+        "distance": 0.40448662638664246,
+        "image_id": "my-img-123456",
+        "image_title": "A cute yellow cat"
+      }
+    ],
+    "usage": {
+      "embedding": 1
+    }
+  }
+}
+```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
 
 </TabItem>
 
@@ -670,6 +936,7 @@ Below is an example output.
         "id": 0,
         "name": "my_image_deletion_pipeline",
         "type": "DELETION",
+        "createTimestamp": 1721187655000,
         "description": "A pipeline that deletes image by id",
         "status": "SERVING",
         "functions": [
@@ -756,9 +1023,19 @@ The following are relevant operations that manages the created pipelines in the 
 
 <TabItem value="Cloud Console">
 
-Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You will see all the available pipelines and their detailed information. 
+Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You will see all the available pipelines. 
 
 ![view-pipelines-on-web-ui](/img/view-pipelines-on-web-ui.png)
+
+Click on a specific pipeline to view its detailed information including its basic information, total usage, functions, and related connectors.
+
+![view-pipeline-details](/img/view-pipeline-details.png)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
 
 You can also check the pipeline activities on the web UI.
 
@@ -791,10 +1068,14 @@ You can call the API to list all existing pipelines or view the details of a par
           "pipelineId": "pipe-xxxx",
           "name": "my_text_ingestion_pipeline",
           "type": "INGESTION",
+          "createTimestamp": 1721187655000,
           "clusterId": "in03-***************",
           "collectionName": "my_collection"
           "description": "A pipeline that generates text embeddings and stores additional fields.",
           "status": "SERVING",
+          "totalUsage": {
+            "embedding": 0
+            },
           "functions": [
             {
               "action": "INDEX_TEXT",
@@ -816,8 +1097,13 @@ You can call the API to list all existing pipelines or view the details of a par
           "pipelineId": "pipe-xxxx",
           "name": "my_text_search_pipeline",
           "type": "SEARCH",
+          "createTimestamp": 1721187655000,
           "description": "A pipeline that receives text and search for semantically similar texts",
           "status": "SERVING",
+          "totalUsage": {
+            "embedding": 0,
+            "rerank": 0
+            },
           "functions": 
             {
               "action": "SEARCH_TEXT",
@@ -833,6 +1119,7 @@ You can call the API to list all existing pipelines or view the details of a par
           "pipelineId": "pipe-xxxx",
           "name": "my_text_deletion_pipeline",
           "type": "DELETION",
+          "createTimestamp": 1721187655000,
           "description": "A pipeline that deletes entities by expression",
           "status": "SERVING",
           "functions": 
@@ -865,29 +1152,33 @@ You can call the API to list all existing pipelines or view the details of a par
     {
       "code": 200,
       "data": {
-        "pipelineId": "pipe-xxxx",
+        "pipelineId": "pipe-xxx",
         "name": "my_text_ingestion_pipeline",
         "type": "INGESTION",
-        "clusterId": "in03-***************",
-        "collectionName": "my_collection"
+        "createTimestamp": 1721187300000,
         "description": "A pipeline that generates text embeddings and stores additional fields.",
         "status": "SERVING",
+        "totalUsage": {
+          "embedding": 0
+        },
         "functions": [
           {
-            "action": "INDEX_TEXT",
             "name": "index_my_text",
+            "action": "INDEX_TEXT",
             "inputFields": ["text_list"],
             "language": "ENGLISH",
             "embedding": "zilliz/bge-base-en-v1.5"
           },
           {
-            "action": "PRESERVE",
             "name": "keep_text_info",
+            "action": "PRESERVE",
             "inputField": "source",
             "outputField": "source",
             "fieldType": "VarChar"
           }
-        ]
+        ],
+        "clusterId": "inxx-xxxx",
+        "collectionName": "my_collection"
       }
     }
     ```
@@ -936,30 +1227,33 @@ The following is an example output.
 {
   "code": 200,
   "data": {
-    "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
-    "name": "my_doc_ingestion_pipeline",
+    "pipelineId": "pipe-xxx",
+    "name": "my_text_ingestion_pipeline",
     "type": "INGESTION",
-    "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+    "createTimestamp": 1721187300000,
+    "description": "A pipeline that generates text embeddings and stores additional fields.",
     "status": "SERVING",
+    "totalUsage": {
+      "embedding": 0
+    },
     "functions": [
       {
-        "action": "INDEX_DOC",
-        "name": "index_my_doc",
-        "inputField": "doc_url",
+        "name": "index_my_text",
+        "action": "INDEX_TEXT",
+        "inputFields": ["text_list"],
         "language": "ENGLISH",
-        "chunkSize": 500,
         "embedding": "zilliz/bge-base-en-v1.5"
       },
       {
+        "name": "keep_text_info",
         "action": "PRESERVE",
-        "name": "keep_doc_info",
-        "inputField": "publish_year",
-        "outputField": "publish_year",
-        "fieldType": "Int16"
+        "inputField": "source",
+        "outputField": "source",
+        "fieldType": "VarChar"
       }
     ],
-    "clusterId": "in03-***************",
-    "newCollectionName": "my_collection"
+    "clusterId": "inxx-xxxx",
+    "collectionName": "my_collection"
   }
 }
 ```

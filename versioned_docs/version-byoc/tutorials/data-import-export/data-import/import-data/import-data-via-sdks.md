@@ -6,6 +6,12 @@ notebook: FALSE
 type: origin
 token: MvgAwL4HIiuRRJkH0FwcJhxSnld
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data import
+  - sdk
 
 ---
 

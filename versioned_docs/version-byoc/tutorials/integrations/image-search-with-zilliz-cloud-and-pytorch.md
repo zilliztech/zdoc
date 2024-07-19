@@ -6,6 +6,12 @@ notebook: FALSE
 type: origin
 token: XnWswbO9Zi4sykkgRzec8el8nyd
 sidebar_position: 5
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - pytorch
 
 ---
 

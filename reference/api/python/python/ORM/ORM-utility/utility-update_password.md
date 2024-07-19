@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/utility-update_password
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: SGjed7w9toewDlxmXHKc7BFancf
 sidebar_position: 41

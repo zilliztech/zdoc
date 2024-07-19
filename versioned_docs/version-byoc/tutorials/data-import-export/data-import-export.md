@@ -5,6 +5,13 @@ notebook: FALSE
 type: origin
 token: Oh3VwT15Yi03bRkOtoXcZpurnWe
 sidebar_position: 6
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data import
+  - export
+  - milvus
 
 ---
 

@@ -6,6 +6,12 @@ notebook: FALSE
 type: origin
 token: KPlpwDwupiZu0ZkYOu3cY3EWn7f
 sidebar_position: 7
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - sentence transformers
 
 ---
 

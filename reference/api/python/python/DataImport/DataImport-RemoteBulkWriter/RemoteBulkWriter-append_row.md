@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/RemoteBulkWriter-append_row
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: F1MFdP8VvoMu17x4Vg9cH6ztnqb
 sidebar_position: 1

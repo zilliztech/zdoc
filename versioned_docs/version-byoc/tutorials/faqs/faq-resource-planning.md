@@ -50,7 +50,9 @@ Since your collection's schema may differ from the ones in the simple guide abov
 
 ### Which type of CU should I pick?{#which-type-of-cu-should-i-pick}
 
-Select the Performance-optimized CU if you require high throughput and low latency for demanding use cases. Alternatively, choose the Capacity-optimized CU if your priority is to host large volumes of data with less concern for throughput and latency, as it offers a better balance of performance and cost.
+Select the Performance-optimized CU if you require high throughput and low latency for demanding use cases. Alternatively, choose the Capacity-optimized CU if your priority is to host large volumes of data with less concern for throughput and latency, as it offers a better balance of performance and cost. 
+
+For more information, please refer to [Select the Right CU](./cu-types-explained).
 
 ### What's the difference between Performance-optimized CU and Capacity-optimized CU?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
 

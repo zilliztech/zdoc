@@ -6,6 +6,12 @@ notebook: FALSE
 type: origin
 token: MejAw3lkkiA6uhkxcAqcMxOSnEb
 sidebar_position: 6
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - llamaindex
 
 ---
 

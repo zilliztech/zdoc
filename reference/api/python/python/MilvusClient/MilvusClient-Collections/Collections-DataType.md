@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Collections-DataType
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: JiN3dU8zwoPdgBxxpw6c0JkUnze
 sidebar_position: 5
@@ -43,9 +43,6 @@ Sets the data type to **Float**.
 - DOUBLE = 11
 Sets the data type to **Double**.
 
-- STRING = 20
-Sets the data type to **String**.
-
 - VARCHAR = 21
 Sets the data type to **Varchar**.
 
@@ -55,11 +52,23 @@ Sets the data type to **Array**.
 - JSON = 23
 Sets the data type to **JSON**.
 
+- FLOAT_VECTOR = 101
+Sets the data type to **Float Vector**.
+
 - BINARY_VECTOR = 100
 Sets the data type to **Binary Vector**.
 
-- FLOAT_VECTOR = 101
-Sets the data type to **Float Vector**.
+- FLOAT16_VECTOR = 102
+
+    Sets the data type to **Float16 Vector**.
+
+- BFLOAT16_VECTOR = 103
+
+    Sets the data type to **BFloat16 Vector**.
+
+- SPARSE_FLOAT_VECTOR = 104
+
+    Sets the data type to **Sparse Vector**.
 
 - UNKNOWN = 999
 Sets the data type to **Unknown**.

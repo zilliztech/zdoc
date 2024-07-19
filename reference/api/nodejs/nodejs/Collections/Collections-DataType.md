@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Collections-DataType
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: VUp6d9FvcoBV0AxYJmvcq9DAnUg
 sidebar_position: 4
@@ -57,6 +57,18 @@ Sets the data type to **Binary Vector**.
 
 - FloatVector = 101
 Sets the data type to **Float Vector**.
+
+- Float16Vector = 102
+
+    Sets the data type to **Float16 Vector**.
+
+- BFloat16Vector = 103
+
+    Sets the data type to **BFloat16 Vector**.
+
+- SparseFloatVector = 104
+
+    Sets the data type to **Sparse Vector**.
 
 ## Example{#example}
 

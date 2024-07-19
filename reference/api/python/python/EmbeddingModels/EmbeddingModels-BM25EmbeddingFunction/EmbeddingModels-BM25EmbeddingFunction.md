@@ -3,9 +3,9 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/EmbeddingModels-BM25EmbeddingFunction
 beta: false
 notebook: false
-type: folder
-token: LzlXfa9Tflwxi0dGbOWc7HvTnNf
-sidebar_position: 2
+type: docx
+token: SOSedRXpcoGr0sx8RF1caGdjnyb
+sidebar_position: 1
 displayed_sidebar: pythonSidebar
 
 ---
@@ -79,8 +79,3 @@ corpus = [
 
 bm25_ef = BM25EmbeddingFunction(analyzer)
 ```
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

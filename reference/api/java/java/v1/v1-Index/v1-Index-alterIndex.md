@@ -43,6 +43,11 @@ Methods of `AlterIndexParam.Builder`:
         <td><p>collectionName: The target collection name.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withIndexName(String indexName)</p></td>
         <td><p>Set the target index name. If no index name is specified,the default index name is empty string which means let the server determine it.</p></td>
         <td><p>indexName: The name of the index.</p></td>

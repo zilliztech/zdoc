@@ -49,8 +49,7 @@ Methods of `SearchSimpleParam.Builder`:
     </tr>
     <tr>
         <td><p>withFilter(String filter)</p></td>
-        <td><p>Set the expression to filter scalar fields before searching(Optional).
-For more information please refer to <a href="https://milvus.io/docs/v2.1.x/boolean.md">this doc</a>.</p></td>
+        <td><p>Set the expression to filter scalar fields before searching(Optional).For more information please refer to <a href="https://milvus.io/docs/v2.1.x/boolean.md">this doc</a>.</p></td>
         <td><p>filter: The expression to filter scalar fields</p></td>
     </tr>
     <tr>

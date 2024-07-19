@@ -5,6 +5,13 @@ notebook: FALSE
 type: origin
 token: DbPIw4jLOiEabCk5uptc6EZ1nbf
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - metrics
+  - alerts
+  - view
 
 ---
 
@@ -107,7 +114,7 @@ To view metric charts for performance, select the **Metrics** tab and refer to t
 
     - **QPS**: The number of write requests (insert, bulk insert, upset, and delete) per second.
 
-    - **VPS**: The number of write requests (insert, upset, and delete) on vectors per second.
+    - **VPS**: The number of write requests (insert, bulk insert, upset, and delete) on vectors per second.
 
 - **Latency (Read)**: The time elapsed between a client sending a read request (search and query) to a server and the client receiving a response. It includes an average latency and a P99 latency.
 

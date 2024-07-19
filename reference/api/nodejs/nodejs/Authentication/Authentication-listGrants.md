@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: nodeSidebar
 slug: /node/node/Authentication-listGrants
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 10

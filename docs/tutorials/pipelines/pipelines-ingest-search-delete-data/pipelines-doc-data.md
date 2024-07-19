@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: N7vtw2NiviYxvTkDs1lcAoZtnag
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - pipelines
+  - doc data
 
 ---
 
@@ -22,7 +28,7 @@ This guide walks you through the necessary steps to create doc pipelines, conduc
 
 - Ensure you have created a cluster deployed in us-west1 on Google Cloud Platform (GCP).
 
-- In one project, you can only create up to 10 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits#pipelines).
+- In one project, you can only create up to 100 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits#pipelines).
 
 ## Ingest doc data{#ingest-doc-data}
 
@@ -89,23 +95,23 @@ To ingest any data, you need to first create an ingestion pipeline and then run 
              <td><p>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency.</p></td>
            </tr>
            <tr>
-             <td><p>voyageai/voyage-2</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-2</a></p></td>
              <td><p>Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>voyageai/voyage-code-2</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-code-2</a></p></td>
              <td><p>Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>voyageai/voyage-large-2</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-large-2</a></p></td>
              <td><p>Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>openai/text-embedding-3-small</p></td>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">openai/text-embedding-3-small </a></p></td>
              <td><p>Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>openai/text-embedding-3-large</p></td>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">openai/text-embedding-3-large</a></p></td>
              <td><p>Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
@@ -234,19 +240,23 @@ The parameters in the above code are described as follows:
              <td><p>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency.</p></td>
            </tr>
            <tr>
-             <td><p>voyageai/voyage-2</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-2</a></p></td>
              <td><p>Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>voyageai/voyage-code-2</p></td>
-             <td><p>Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-code-2</a></p></td>
+             <td><p>Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>openai/text-embedding-3-small</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-large-2</a></p></td>
+             <td><p>Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
+           </tr>
+           <tr>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">openai/text-embedding-3-small </a></p></td>
              <td><p>Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>openai/text-embedding-3-large</p></td>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">openai/text-embedding-3-large</a></p></td>
              <td><p>Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
@@ -255,40 +265,9 @@ The parameters in the above code are described as follows:
            </tr>
         </table>
 
-    - `chunkSize` (optional): The INDEX_DOC function segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size for custom chunking strategies. Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size. *(This parameter is only used in the `INDEX_DOC` function.)*
+    - `chunkSize` (optional): The INDEX_DOC function segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size for custom chunking strategies. For more information about the supported chunk size range of each embedding model, please refer to [Zilliz Cloud Limits](./limits#ingestion).
 
-        The following table lists the mapping relationship between applicable models and their corresponding chunk sizes.
-
-        <table>
-           <tr>
-             <th><p><strong>Model</strong></p></th>
-             <th><p><strong>Chunk Size Range (tokens)</strong></p></th>
-           </tr>
-           <tr>
-             <td><p>zilliz/bge-base-en-v1.5</p></td>
-             <td><p>20-500 tokens</p></td>
-           </tr>
-           <tr>
-             <td><p>zilliz/bge-base-zh-v1.5</p></td>
-             <td><p>20-500 tokens</p></td>
-           </tr>
-           <tr>
-             <td><p>voyageai/voyage-2</p></td>
-             <td><p>20-3,000   tokens</p></td>
-           </tr>
-           <tr>
-             <td><p>voyageai/voyage-code-2</p></td>
-             <td><p>20-12,000 tokens</p></td>
-           </tr>
-           <tr>
-             <td><p>openai/text-embedding-3-small</p></td>
-             <td><p>250-8,191 tokens</p></td>
-           </tr>
-           <tr>
-             <td><p>openai/text-embedding-3-large</p></td>
-             <td><p>250-8,191 tokens</p></td>
-           </tr>
-        </table>
+        Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size. *(This parameter is only used in the `INDEX_DOC` function.)*
 
     - `splitBy` (optional): Splitters are used to split the document based on a list of separators in order until the chunks are small enough - smaller or equal to the defined chunk size. By default, Zilliz Cloud Pipelines uses `["\n\n", "\n", " ", ""]` as separators. *(This parameter is only used in the `INDEX_DOC` function.)*
 
@@ -314,8 +293,12 @@ Below is an example output.
     "pipelineId": "pipe-xxxx",
     "name": "my_doc_ingestion_pipeline",
     "type": "INGESTION",
+    "createTimestamp": 1721187300000,
     "description": "A pipeline that splits a doc file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
     "status": "SERVING",
+    "totalUsage": {
+      "embedding": 0
+    },
     "functions": [
       {
         "action": "INDEX_DOC",
@@ -346,12 +329,12 @@ This collection contains six fields: one ID field that is automatically generate
 
 <table>
    <tr>
-     <th><p>id<br/> (Data Type: Int64)</p></th>
-     <th><p>doc_name<br/> (Data type: VarChar)</p></th>
-     <th><p>chunk_id<br/> (Data type: Int64)</p></th>
-     <th><p>chunk_text<br/> (Data type: VarChar)</p></th>
-     <th><p>embedding<br/> (Data type: FLOAT_VECTOR)</p></th>
-     <th><p>publish_year<br/> (Data type: Int16)</p></th>
+     <th><p>id</p><p>(Data Type: Int64)</p></th>
+     <th><p>doc_name</p><p>(Data type: VarChar)</p></th>
+     <th><p>chunk_id</p><p>(Data type: Int64)</p></th>
+     <th><p>chunk_text</p><p>(Data type: VarChar)</p></th>
+     <th><p>embedding</p><p>(Data type: FLOAT_VECTOR)</p></th>
+     <th><p>publish_year</p><p>(Data type: Int16)</p></th>
    </tr>
 </table>
 
@@ -389,7 +372,7 @@ This collection contains six fields: one ID field that is automatically generate
 
 You can either run ingestion pipeline with a file from an object storage or run with a local file.
 
-#### Run ingestion pipeline with a file in an object storage {#run-ingestion-pipeline-with-a-file-in-an-object-storage}
+#### Run ingestion pipeline with a file in an object storage{#run-ingestion-pipeline-with-a-file-in-an-object-storage}
 
 1. Before running the pipeline, upload your document to [AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html) or [Google Cloud Storage (GCS)](https://cloud.google.com/storage/docs/uploads-downloads). Supported file types include `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`.
 
@@ -436,7 +419,10 @@ You can either run ingestion pipeline with a file from an object storage or run 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>doc_name</code> field in the output  will play a crucial role. If identical documents are assigned different <code>doc_name</code> values, they will be ingested as separate entities. This means the same content could be stored twice in the database.</p>
+<ul>
+<li><p>The <code>doc_name</code> field in the output  will play a crucial role. If identical documents are assigned different <code>doc_name</code> values, they will be ingested as separate entities. This means the same content could be stored twice in the database.</p></li>
+<li><p>The usage data could delay by a few hours due to technical limitation.</p></li>
+</ul>
 
 </Admonition>
 
@@ -478,6 +464,12 @@ Below is an example response.
     "num_chunks": 3
   }
 ```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
 
 </TabItem>
 
@@ -594,7 +586,7 @@ The parameters in the above code are described as follows:
 
     - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
 
-    - `action`: The type of the function to add. Currently, available options include `SEARCH_DOC_CHUNK`, `SEARCH_TEXT`, and `SEARCH_IMAGE_BY_IMAGE`.
+    - `action`: The type of the function to add. Currently, available options include `SEARCH_DOC_CHUNK`, `SEARCH_TEXT`, `SEARCH_IMAGE_BY_IMAGE`, and `SEARCH_IMAGE_BY_TEXT`.
 
     - `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a cluster deployed on GCP us-west1. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
 
@@ -613,8 +605,13 @@ Below is an example output.
     "pipelineId": "pipe-84e6d9dba930e035150972",
     "name": "my_text_search_pipeline",
     "type": "SEARCH",
+    "createTimestamp": 1721187655000,
     "description": "A pipeline that receives text and search for semantically similar doc chunks",
     "status": "SERVING",
+    "totalUsage": {
+      "embedding": 0,
+      "rerank": 0
+    },
     "functions": 
       {
         "action": "SEARCH_DOC_CHUNK",
@@ -731,6 +728,12 @@ Below is an example response.
   }
 }
 ```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
 
 </TabItem>
 
@@ -850,6 +853,7 @@ Below is an example output.
     "pipelineId": "pipe-ab2874d8138c8554375bb0",
     "name": "my_doc_deletion_pipeline",
     "type": "DELETION",
+    "createTimestamp": 1721187655000,
     "description": "A pipeline that deletes all info associated with a doc",
     "status": "SERVING",
     "functions": [
@@ -936,9 +940,19 @@ The following are relevant operations that manages the created pipelines in the 
 
 <TabItem value="Cloud Console">
 
-Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You will see all the available pipelines and their detailed information. 
+Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You will see all the available pipelines. 
 
 ![view-pipelines-on-web-ui](/img/view-pipelines-on-web-ui.png)
+
+Click on a specific pipeline to view its detailed information including its basic information, total usage, functions, and related connectors.
+
+![view-pipeline-details](/img/view-pipeline-details.png)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
 
 You can also check the pipeline activities on the web UI.
 
@@ -969,62 +983,70 @@ You can call the API to list all existing pipelines or view the details of a par
       "data": [
         {
           "pipelineId": "pipe-xxxx",
-          "name": "my_doc_ingestion_pipeline",
+          "name": "my_text_ingestion_pipeline",
           "type": "INGESTION",
-          "description": "A pipeline that splits a doc file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+          "createTimestamp": 1721187655000,
+          "clusterId": "in03-***************",
+          "collectionName": "my_collection"
+          "description": "A pipeline that generates text embeddings and stores additional fields.",
           "status": "SERVING",
+          "totalUsage": {
+            "embedding": 0
+            },
           "functions": [
             {
-              "action": "INDEX_DOC",
-              "name": "index_my_doc",
-              "inputField": "doc_url",
+              "action": "INDEX_TEXT",
+              "name": "index_my_text",
+              "inputFields": ["text_list"],
               "language": "ENGLISH",
-              "chunkSize": 500,
               "embedding": "zilliz/bge-base-en-v1.5"
             },
             {
               "action": "PRESERVE",
-              "name": "keep_doc_info",
-              "inputField": "publish_year",
-              "outputField": "publish_year",
-              "fieldType": "Int16"
-            }
-          ],
-          "clusterId": "in03-***************",
-          "newCollectionName": "my_collection"
-        },
-        {
-          "pipelineId": "pipe-xxxx",
-          "name": "my_text_search_pipeline",
-          "type": "SEARCH",
-          "description": "A pipeline that receives text and search for semantically similar doc chunks",
-          "status": "SERVING",
-          "functions": [
-            {
-              "action": "SEARCH_DOC_CHUNK",
-              "name": "search_chunk_text_and_title",
-              "inputField": "query_text",
-              "clusterId": "in03-***************",
-              "collectionName": "my_collection",
-              "embedding": "zilliz/bge-base-en-v1.5"
+              "name": "keep_text_info",
+              "inputField": "source",
+              "outputField": "source",
+              "fieldType": "VarChar"
             }
           ]
         },
         {
           "pipelineId": "pipe-xxxx",
-          "name": "my_doc_deletion_pipeline",
-          "type": "DELETION",
-          "description": "A pipeline that deletes all info associated with a doc",
+          "name": "my_text_search_pipeline",
+          "type": "SEARCH",
+          "createTimestamp": 1721187655000,
+          "description": "A pipeline that receives text and search for semantically similar texts",
           "status": "SERVING",
-          "functions": [
+          "totalUsage": {
+            "embedding": 0,
+            "rerank": 0
+            },
+          "functions": 
             {
-              "action": "PURGE_DOC_INDEX",
-              "name": "purge_chunks_by_doc_name",
-              "inputField": "doc_name"
+              "action": "SEARCH_TEXT",
+              "name": "search_text",
+              "inputFields": "query_text",
+              "clusterId": "in03-***************",
+              "collectionName": "my_collection",
+              "embedding": "zilliz/bge-base-en-v1.5",
+              "reranker": "zilliz/bge-reranker-base"
             }
-          ],
-          "clusterId": "in03-***************",
-          "collectionName": "my_collection"
+        },
+        {
+          "pipelineId": "pipe-xxxx",
+          "name": "my_text_deletion_pipeline",
+          "type": "DELETION",
+          "createTimestamp": 1721187655000,
+          "description": "A pipeline that deletes entities by expression",
+          "status": "SERVING",
+          "functions": 
+            {
+            "action": "PURGE_BY_EXPRESSION",
+            "name": "purge_data_by_expression",
+            "inputFields": ["expression"]
+            },
+        "clusterId": "in03-***************",
+        "collectionName": "my_collection"
         }
       ]
     }
@@ -1047,30 +1069,33 @@ You can call the API to list all existing pipelines or view the details of a par
     {
       "code": 200,
       "data": {
-        "pipelineId": "pipe-xxxx",
-        "name": "my_doc_ingestion_pipeline",
+        "pipelineId": "pipe-xxx",
+        "name": "my_text_ingestion_pipeline",
         "type": "INGESTION",
-        "description": "A pipeline that splits a doc file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+        "createTimestamp": 1721187300000,
+        "description": "A pipeline that generates text embeddings and stores additional fields.",
         "status": "SERVING",
+        "totalUsage": {
+          "embedding": 0
+        },
         "functions": [
           {
-            "action": "INDEX_DOC",
-            "name": "index_my_doc",
-            "inputField": "doc_url",
+            "name": "index_my_text",
+            "action": "INDEX_TEXT",
+            "inputFields": ["text_list"],
             "language": "ENGLISH",
-            "chunkSize": 500,
             "embedding": "zilliz/bge-base-en-v1.5"
           },
           {
+            "name": "keep_text_info",
             "action": "PRESERVE",
-            "name": "keep_doc_info",
-            "inputField": "publish_year",
-            "outputField": "publish_year",
-            "fieldType": "Int16"
+            "inputField": "source",
+            "outputField": "source",
+            "fieldType": "VarChar"
           }
         ],
-        "clusterId": "in03-***************",
-        "newCollectionName": "my_collection"
+        "clusterId": "inxx-xxxx",
+        "collectionName": "my_collection"
       }
     }
     ```
@@ -1119,30 +1144,33 @@ The following is an example output.
 {
   "code": 200,
   "data": {
-    "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
-    "name": "my_doc_ingestion_pipeline",
+    "pipelineId": "pipe-xxx",
+    "name": "my_text_ingestion_pipeline",
     "type": "INGESTION",
-    "description": "A pipeline that splits a doc file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+    "createTimestamp": 1721187300000,
+    "description": "A pipeline that generates text embeddings and stores additional fields.",
     "status": "SERVING",
+    "totalUsage": {
+      "embedding": 0
+    },
     "functions": [
       {
-        "action": "INDEX_DOC",
-        "name": "index_my_doc",
-        "inputField": "doc_url",
+        "name": "index_my_text",
+        "action": "INDEX_TEXT",
+        "inputFields": ["text_list"],
         "language": "ENGLISH",
-        "chunkSize": 500,
         "embedding": "zilliz/bge-base-en-v1.5"
       },
       {
+        "name": "keep_text_info",
         "action": "PRESERVE",
-        "name": "keep_doc_info",
-        "inputField": "publish_year",
-        "outputField": "publish_year",
-        "fieldType": "Int16"
+        "inputField": "source",
+        "outputField": "source",
+        "fieldType": "VarChar"
       }
     ],
-    "clusterId": "in03-***************",
-    "newCollectionName": "my_collection"
+    "clusterId": "inxx-xxxx",
+    "collectionName": "my_collection"
   }
 }
 ```

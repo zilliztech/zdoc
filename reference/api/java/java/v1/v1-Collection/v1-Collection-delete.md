@@ -43,6 +43,11 @@ Methods of `DeleteParam.Builder`:
         <td><p>collectionName: The name of the collection to delete the entity or entities from.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withPartitionName(String partitionName)</p></td>
         <td><p>Sets the target partition name (Optional).</p></td>
         <td><p>partitionName: The name of the partition to delete the entity or entities from.</p></td>

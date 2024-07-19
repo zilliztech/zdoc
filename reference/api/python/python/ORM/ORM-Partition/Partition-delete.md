@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Partition-delete
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: V9BidASNqoWYrmxo11ecuN99neg
 sidebar_position: 1

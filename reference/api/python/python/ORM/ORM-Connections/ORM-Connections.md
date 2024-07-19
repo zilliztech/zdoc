@@ -3,8 +3,8 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/ORM-Connections
 beta: false
 notebook: false
-type: folder
-token: Jy4gf9SrBlUSnpdXg2VcTuwhn4g
+type: docx
+token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
 displayed_sidebar: pythonSidebar
 
@@ -70,7 +70,3 @@ connections.connect(
 ## Methods{#methods}
 
 The following are the methods of the `connections` singleton instance:
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

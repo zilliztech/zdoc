@@ -6,6 +6,12 @@ notebook: FALSE
 type: origin
 token: N6fZwCUXqiqoJEkFiVNcvDJEnnc
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data export
+  - iterator
 
 ---
 

@@ -3,9 +3,9 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/EmbeddingModels-SpladeEmbeddingFunction
 beta: false
 notebook: false
-type: folder
-token: KhHLfDpyyl4rEKdPnQjcjd8cnOf
-sidebar_position: 8
+type: docx
+token: UdeRd0YVhoDBeVxrQaBcoikVnAI
+sidebar_position: 3
 displayed_sidebar: pythonSidebar
 
 ---
@@ -82,8 +82,3 @@ splade_ef = model.sparse.SpladeEmbeddingFunction(
     device="cpu"
 )
 ```
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

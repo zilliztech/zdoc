@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Authentication-grant_role
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: DsnpdZuDGo77TYxFuYvcDpOgnIf
 sidebar_position: 8

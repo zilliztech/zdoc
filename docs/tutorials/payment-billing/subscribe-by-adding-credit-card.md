@@ -6,6 +6,12 @@ notebook: FALSE
 type: origin
 token: TVnkwXupUiX3zDkzYPWcxKP3nvg
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - credit card
+  - subscribe
 
 ---
 
@@ -122,9 +128,9 @@ To update your billing profile, click on the pencil icon in the **Billing Profil
 
 ![edit-billing-profile](/img/edit-billing-profile.png)
 
-### **Switch to AWS Marketplace subscription**{#switch-to-aws-marketplace-subscription}
+### **Switch to Marketplace subscription**{#switch-to-marketplace-subscription}
 
-For those who prefer to transition from a credit card payment method to an AWS Marketplace subscription, visit the AWS Marketplace and subscribe to Zilliz Cloud services. Reference our guide on [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace) for detailed instructions.
+For those who prefer to transition from a credit card payment method to an AWS, GCP, or Azure Marketplace subscription, visit the corresponding Marketplace and subscribe to Zilliz Cloud services. Reference our guide on [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace), [Subscribe on GCP Marketplace](./subscribe-on-gcp-marketplace), and [Subscribe on Azure Marketplace](./subscribe-on-azure-marketplace) for detailed instructions.
 
 Upon successful subscription via AWS Marketplace, your existing credit card information will be automatically replaced. You can verify the update in your **Billing Overview** page.
 

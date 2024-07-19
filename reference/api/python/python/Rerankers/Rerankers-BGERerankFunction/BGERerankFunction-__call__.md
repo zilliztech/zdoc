@@ -2,8 +2,8 @@
 displayed_sidbar: pythonSidebar
 slug: /python/python/BGERerankFunction-__call__
 sidebar_label: __call__()
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: C2AbdIReZos7HwxiZXIcyW8nnm1
 sidebar_position: 2

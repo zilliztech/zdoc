@@ -5,6 +5,12 @@ notebook: FALSE
 type: origin
 token: N985w1llIi7z1SkhTH5cAoKcnKb
 sidebar_position: 5
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - pricing
+  - calculator
 
 ---
 
@@ -87,7 +93,7 @@ Dedicated plan clusters are charged by the number of CUs consumed. A compute uni
 
 ## Considerations{#considerations}
 
-For dedicated plans, when the estimated CU size is less than 8, the increment increase of CU size is 2CUs, which means the CU sizes will increase in the sequence of 1, 2, 4, 6, 8 CUs. When the estimated CU size is greater than 8, the increment increase becomes 4 CUs, meaning the sequence of CU sizes will be 8, 12, 16, 20, 24, 28, 32, and so on.
+For dedicated plans, when the estimated CU size is less than 8, the increment increase of CU size is 2 CUs, which means the CU sizes will increase in the sequence of 1, 2, 4, 6, 8 CUs. When the estimated CU size is greater than 8, the increment increase becomes 4 CUs, meaning the sequence of CU sizes will be 8, 12, 16, 20, 24, 28, 32, and so on.
 
 Our calculator is designed to estimate costs for clusters up to 256 [CUs](./cu-types-explained). If your needs surpass this, feel free to [contact us](https://zilliz.com/contact-sales) for a tailored pricing breakdown.
 

@@ -3,9 +3,9 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/Rerankers-CohereRerankFunction
 beta: false
 notebook: false
-type: folder
-token: Dc5lfx80VloZvpdaKOicG8V8ndd
-sidebar_position: 2
+type: docx
+token: GAWOdft83oZPvHxtxzZcjrQunGg
+sidebar_position: 1
 displayed_sidebar: pythonSidebar
 
 ---
@@ -53,8 +53,3 @@ cohere_rf = CohereRerankFunction(
     api_key=COHERE_API_KEY # Replace with your Cohere API key
 )
 ```
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

@@ -67,4 +67,4 @@ You can follow the steps below to import data from Elasticsearch to Zilliz Cloud
     print(f"Number of entities in Milvus: {hello_milvus.num_entities}")
     ```
 
-Alternatively, you can also import data from Elasticsearch on the Zilliz Cloud web console. For more information, see [Migrate from Elasticsearch](./migrate-from-elasticsearch) .
+Alternatively, you can also migrate data from Elasticsearch on the Zilliz Cloud web console. For more information, see [Migrate from Elasticsearch](./migrate-from-elasticsearch) .

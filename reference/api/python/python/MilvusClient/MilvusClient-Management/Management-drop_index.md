@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/Management-drop_index
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 4

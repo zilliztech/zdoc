@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: pythonSidebar
 slug: /python/python/utility-get_bulk_insert_state
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: XzHhd3AdCo9DCsxawYycr69CnAb
 sidebar_position: 13

@@ -2,8 +2,8 @@
 displayed_sidbar: pythonSidebar
 slug: /python/python/CohereRerankFunction-__call__
 sidebar_label: __call__()
-beta: FALSE
-notebook: FALSE
+beta: false
+notebook: false
 type: docx
 token: M7pWdbu8foKkJAxY3uBcMfHrnrh
 sidebar_position: 2

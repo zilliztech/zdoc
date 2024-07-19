@@ -3,8 +3,8 @@ displayed_sidbar: pythonSidebar
 slug: /python/python/ORM-Collection
 beta: false
 notebook: false
-type: folder
-token: ZGbAfWoUjl0Z3xdgyItc8wYXngf
+type: docx
+token: OSehdj15Ao3AUvxOIJucXzU8nWW
 sidebar_position: 1
 displayed_sidebar: pythonSidebar
 
@@ -137,8 +137,3 @@ collection = Collection(
 
 The following are the members of the `Collection` class:
 
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

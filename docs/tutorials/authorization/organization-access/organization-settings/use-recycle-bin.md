@@ -5,6 +5,11 @@ notebook: FALSE
 type: origin
 token: Tr5lwpgrCiETZzkaFSYcBTDjnlz
 sidebar_position: 6
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - recycle bin
 
 ---
 
