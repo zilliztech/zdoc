@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists all clusters in the specified cloud region.
 
-<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/clusters" />
+<RestHeader method="get" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/clusters" />
 
 ---
 

@@ -58,7 +58,7 @@ class refGen {
         const page_method = method.toLowerCase()
         const host = lang === 'zh-CN' ? 'cloud.zilliz.com.cn' : 'zillizcloud.com'
         const condition = (page_slug.includes('cloud') || page_slug.includes('cluster') || page_slug.includes('import') || page_slug.includes('pipeline')) || page_slug.includes('project') || page_slug.includes('metrics')
-        const server = condition && page_slug.includes('v1') ? `https://controller.api.\${CLOUD_REGION}.${host}` : condition && page_slug.includes('v2') ? 'https://api.cloud.zilliz.com' : "https://\${CLUSTER_ENDPOINT}"
+        const server = condition && page_slug.includes('v2') ? 'https://api.cloud.zilliz.com' : condition ? `https://controller.\${CLOUD_REGION}.${host}` : "https://\${CLUSTER_ENDPOINT}"
 
         if (specifications.paths[page_url][method].parameters) {
           for (const param of specifications.paths[page_url][method].parameters) {

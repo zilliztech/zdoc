@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 List all pipelines in a project.
 
-<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/pipelines" />
+<RestHeader method="get" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/pipelines" />
 
 ---
 

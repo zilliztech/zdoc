@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Imports data from files stored in a specified object storage bucket.
 
-<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/vector/collections/import" />
+<RestHeader method="post" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import" />
 
 ---
 

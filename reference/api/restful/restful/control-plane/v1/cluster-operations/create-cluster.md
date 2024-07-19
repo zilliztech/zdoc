@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Creates a new cluster.
 
-<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/clusters/create" />
+<RestHeader method="post" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/clusters/create" />
 
 ---
 

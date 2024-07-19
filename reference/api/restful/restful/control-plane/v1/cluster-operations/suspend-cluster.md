@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Suspend a specified cluster. This operation will only stop the cluster and your data will remain intact.
 
-<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/clusters/{CLUSTER_ID}/suspend" />
+<RestHeader method="post" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/clusters/{CLUSTER_ID}/suspend" />
 
 ---
 

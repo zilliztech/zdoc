@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 This runs a pipeline.
 
-<RestHeader method="post" endpoint="https://${CLUSTER_ENDPOINT}/v1/pipeline/{PIPELINE_ID}/run" />
+<RestHeader method="post" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/pipeline/{PIPELINE_ID}/run" />
 
 ---
 

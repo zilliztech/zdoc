@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Retrieves the progress of a specified import task.
 
-<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/vector/collections/import/get" />
+<RestHeader method="get" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/vector/collections/import/get" />
 
 ---
 

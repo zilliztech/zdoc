@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists all cloud providers available on Zilliz Cloud.
 
-<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/clouds" />
+<RestHeader method="get" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/clouds" />
 
 ---
 

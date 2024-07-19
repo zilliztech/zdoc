@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Describe a cluster in detail.
 
-<RestHeader method="get" endpoint="https://${CLUSTER_ENDPOINT}/v1/clusters/{CLUSTER_ID}" />
+<RestHeader method="get" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/clusters/{CLUSTER_ID}" />
 
 ---
 
