@@ -306,13 +306,13 @@ Additionally, the rate limit for creating collections is **1** collection/s per 
    </tr>
    <tr>
      <td><p>Free cluster</p></td>
-     <td><p>64</p></td>
-     <td><p>You can create up to 64 partitions per collection in a free cluster.</p></td>
+     <td><p>1,024</p></td>
+     <td><p>You can create up to 1,024 partitions per collection in a free cluster.</p></td>
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
-     <td><p>64</p></td>
-     <td><p>You can create up to 64 partitions per collection in a serverless cluster.</p></td>
+     <td><p>1,024</p></td>
+     <td><p>You can create up to 1,024 partitions per collection in a serverless cluster.</p></td>
    </tr>
    <tr>
      <td><p>Dedicated cluster</p></td>

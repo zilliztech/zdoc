@@ -24,7 +24,7 @@ The cost of running pipelines is measured by tokens. Similar to Large Language M
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This tool uses a Byte-Pair Encoding (BPE) tokenizer and the estimated usage may vary by 30% based on different processing strategy. Therefore, you should only use the estimated usage as a reference. For actual usage, please refer to the <a href="./undefined#view-pipeline">Pipelines list</a>.</p>
+<p>This tool uses a Byte-Pair Encoding (BPE) tokenizer and the estimated usage may vary by 30% based on different processing strategy. Therefore, you should only use the estimated usage as a reference. For actual usage, please refer to the <a href="./pipelines-ingest-search-delete-data">Pipelines list</a>.</p>
 
 </Admonition>
 

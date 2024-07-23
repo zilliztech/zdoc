@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # Using Pipelines in LlamaIndex
 
-[Zilliz Cloud Pipelines](./undefined) is a scalable API service for retrieval. You can use Zilliz Cloud Pipelines as managed indexes in [LLamaIndex](https://docs.llamaindex.ai/en/stable/examples/managed/zcpDemo.html). This service can transform documents into vector embeddings and store them in Zilliz Cloud for effective semantic search.
+[Zilliz Cloud Pipelines](./pipelines) is a scalable API service for retrieval. You can use Zilliz Cloud Pipelines as managed indexes in [LLamaIndex](https://docs.llamaindex.ai/en/stable/examples/managed/zcpDemo.html). This service can transform documents into vector embeddings and store them in Zilliz Cloud for effective semantic search.
 
 ## Before you start{#before-you-start}
 

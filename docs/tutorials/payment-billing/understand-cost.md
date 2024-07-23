@@ -106,7 +106,7 @@ Only migrations between dedicated clusters incur charges based on the size of th
 
 Using the migration between two AWS-hosted dedicated clusters as an example, migrating the data of 20 GB between these clusters incur **$0.025 x 20 = $0.5**.
 
-Migrations from Milvus, ElasticSearch, and free clusters do not incur any charges.
+Migrations from Milvus, ElasticSearch, as well as free and serverless clusters do not incur any charges.
 
 For more details, refer to the [Pricing Plan](https://zilliz.com/pricing).
 

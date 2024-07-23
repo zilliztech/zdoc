@@ -33,13 +33,34 @@ Once you have set up a cluster on Zilliz Cloud, this is the Zilliz Cloud console
 
 ![free_cluster_details](/img/free_cluster_details.png)
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The endpoint of a free cluster is similar to the following:</p>
+<p><code>https://in03-xxxxxxxxxxxxxxx.api.gcp-us-west1.cloud.zilliz.com</code></p>
+
+</Admonition>
+
 ### Serverless cluster details{#serverless-cluster-details}
 
 ![serverless_cluster_details](/img/serverless_cluster_details.png)
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The endpoint of a serverless cluster is similar to the following:</p>
+<p><code>https://in03-xxxxxxxxxxxxxxx.serverless.gcp-us-west1.cloud.zilliz.com</code></p>
+
+</Admonition>
+
 ### Dedicated cluster details{#dedicated-cluster-details}
 
 ![dedicated_cluster](/img/dedicated_cluster.png)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The endpoint of a dedicated cluster is similar to the following:</p>
+<p><code>https://in03-xxxxxxxxxxxxxxx.aws-us-west-2.vectordb.zillizcloud.com:19534</code></p>
+
+</Admonition>
 
 ## Project IDs{#project-ids}
 
