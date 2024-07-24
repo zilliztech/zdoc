@@ -21,11 +21,13 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="Notes">
     
-You can use either of the following ways to authorize:
+<p>You can use either of the following ways to authorize:</p>
 <ul>
 <li> An API Key with appropriate permissions.</li>
 <li>A colon-joined username and password of the target cluster. For example, `username:passowrd`.</li>
 </ul>
+
+<p>Any clusters compatible with Milvus 2.4.x or those created after the latest release (Jul 23, 2024) support this API. For clusters created before the latest release, contact us for further assistance.</p>
     
 </Admonition>
 You can choose between a quick setup or a custom setup as follows:

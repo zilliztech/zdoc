@@ -113,24 +113,6 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
         Make an API request to scale your cluster. For more information, refer to [Modify Cluster](/reference/restful/modify-cluster).
 
-    - **[Private Preview] Auto-scaling**
-
-        <Admonition type="info" icon="📘" title="Notes">
-
-        <p>Auto-scaling is currently in private preview and is only available to Dedicated (Enterprise) clusters. To enable this feature, please <a href="https://zilliz.com/contact-sales">contact us</a>.</p>
-
-        </Admonition>
-
-        Auto-scaling is designed for businesses with rapidly changing needs. It can prevent restrictions on user write access caused by insufficient cluster CU sizes and can reduce operational burden, thereby minimizing disruption to business operations.
-
-        You can specify the maximum CU size that a cluster can automatically scale up to. Downward auto-scaling is currently not supported.
-
-        After enabling this feature, you can configure auto-scaling options when a cluster is successfully created.
-
-        ![configure_autoscaling](/byoc/configure_autoscaling.png)
-
-        Auto-scaling is triggered primarily based on the **CU Capacity Threshold**. Zilliz Cloud checks the cluster [CU capacity](./metrics-alerts-reference#cluster-metrics) every 1 minute. If it has exceeded the specified threshold (currently set at 70%) for the past 2 minutes, a scaling process is automatically initiated. For more information about the increment increase of the CU sizes during auto-scaling, refer to [Pricing Calculator](./pricing-calculator#considerations).
-
     <Admonition type="caution" icon="🚧" title="Warning">
 
     <ul>

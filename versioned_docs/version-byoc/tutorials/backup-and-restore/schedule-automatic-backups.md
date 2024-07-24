@@ -39,15 +39,9 @@ To create a backup schedule, follow these steps:
 
 ![create-snapshot-schedule](/byoc/create-snapshot-schedule.png)
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>For more information about backup cost, please refer to <a href="./understand-cost#backup-costs">Understand Cost</a>.</p>
-
-</Admonition>
-
 ## Adjust automated backup schedule{#adjust-automated-backup-schedule}
 
-The automated backup schedule settings are cluster-specific and disabled by default. Since there is a [cost](./understand-cost#backup-costs) for storing backup files, you can determine when and how Zilliz Cloud creates backup files on your behalf.
+The automated backup schedule settings are cluster-specific and disabled by default.
 
 The default setting configures that Zilliz Cloud automatically creates a backup file for your cluster every day (**Frequency**) between 8 a.m. and 10 a.m. (**Time Period**), and keeps the backup file for 7 days (**Retention Period**). Change the settings as you see fit.
 
