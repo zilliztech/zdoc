@@ -218,7 +218,7 @@ The parameters in the above code are described as follows:
 
 - `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
 
-- `functions`: The function(s) to add in the pipeline. **An Ingestion pipeline can have only one INDEX function and up to five PRESERVE functions.**
+- `functions`: The function(s) to add in the pipeline. **An Ingestion pipeline can have only one INDEX function and up to 50 PRESERVE functions.**
 
     - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
 
@@ -313,6 +313,12 @@ Below is an example output.
 }
 ```
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
+
 A collection named `my_collection` will be automatically if it does not exist in the cluster. However, if it exists, Zililz Cloud Pipelines will check whether the collection schema is consistent with the schema defined in the pipeline. 
 
 This collection contains four fields:  three output fields of the **INDEX_TEXT** function, and one output field for each **PRESERVE** function. The collection schema is as follows.
@@ -397,12 +403,6 @@ Below is an example response.
   }
 }
 ```
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>The usage data could delay by a few hours due to technical limitation.</p>
-
-</Admonition>
 
 </TabItem>
 
@@ -562,6 +562,12 @@ Below is an example output.
 }
 ```
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
+
 </TabItem>
 
 </Tabs>
@@ -618,7 +624,7 @@ The parameters in the above code are described as follows:
 
 - `params`: The search parameters to configure.
 
-    - `limit`: The maximum number of entities to return. The value should be an integer ranging from **1** to **100**. The sum of this value of that of `offset` should be less than **1024**.
+    - `limit`: The maximum number of entities to return. The value should be an integer ranging from **1** to **500**. The sum of this value of that of `offset` should be less than **1024**.
 
     - `offset`: The number of entities to skip in the search results.
 
@@ -648,12 +654,6 @@ Below is an example response.
   }
 }
 ```
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>The usage data could delay by a few hours due to technical limitation.</p>
-
-</Admonition>
 
 </TabItem>
 
@@ -863,7 +863,7 @@ Click on a specific pipeline to view its detailed information including its basi
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The usage data could delay by a few hours due to technical limitation.</p>
+<p>The total usage data could delay by a few hours due to technical limitation.</p>
 
 </Admonition>
 
@@ -965,6 +965,12 @@ You can call the API to list all existing pipelines or view the details of a par
     }
     ```
 
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+    </Admonition>
+
 - **View the details of a specific pipeline**
 
     Follow the example below to view the details of a pipeline.
@@ -1012,6 +1018,12 @@ You can call the API to list all existing pipelines or view the details of a par
       }
     }
     ```
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+    </Admonition>
 
 </TabItem>
 
@@ -1087,6 +1099,12 @@ The following is an example output.
   }
 }
 ```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
 
 </TabItem>
 

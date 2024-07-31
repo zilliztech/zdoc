@@ -198,7 +198,7 @@ curl --request POST \
             }
         ],
         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-        "newCollectionName": "my_collection"
+        "collectionName": "my_collection"
     }'
 ```
 
@@ -318,10 +318,16 @@ Below is an example output.
       }
     ],
     "clusterId": "in03-***************",
-    "newCollectionName": "my_collection"
+    "collectionName": "my_collection"
   }
 }
 ```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
 
 When the Ingestion pipeline is created, a collection named `my_collection` is automatically created.
 
@@ -417,14 +423,11 @@ You can either run ingestion pipeline with a file from an object storage or run 
       }
     ```
 
-<Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>The <code>doc_name</code> field in the output  will play a crucial role. If identical documents are assigned different <code>doc_name</code> values, they will be ingested as separate entities. This means the same content could be stored twice in the database.</p></li>
-<li><p>The usage data could delay by a few hours due to technical limitation.</p></li>
-</ul>
+    <p>The <code>doc_name</code> field in the output  will play a crucial role. If identical documents are assigned different <code>doc_name</code> values, they will be ingested as separate entities. This means the same content could be stored twice in the database.</p>
 
-</Admonition>
+    </Admonition>
 
 #### Run ingestion pipeline with a local file{#run-ingestion-pipeline-with-a-local-file}
 
@@ -626,6 +629,12 @@ Below is an example output.
 }
 ```
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
+
 </TabItem>
 
 </Tabs>
@@ -682,7 +691,7 @@ The parameters in the above code are described as follows:
 
 - `params`: The search parameters to configure.
 
-    - `limit`: The maximum number of entities to return. The value should be an integer ranging from **1** to **100**. The sum of this value of that of `offset` should be less than **1024**.
+    - `limit`: The maximum number of entities to return. The value should be an integer ranging from **1** to **500**. The sum of this value of that of `offset` should be less than **1024**.
 
     - `offset`: The number of entities to skip in the search results.
 
@@ -728,12 +737,6 @@ Below is an example response.
   }
 }
 ```
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>The usage data could delay by a few hours due to technical limitation.</p>
-
-</Admonition>
 
 </TabItem>
 
@@ -950,7 +953,7 @@ Click on a specific pipeline to view its detailed information including its basi
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The usage data could delay by a few hours due to technical limitation.</p>
+<p>The total usage data could delay by a few hours due to technical limitation.</p>
 
 </Admonition>
 
@@ -1052,6 +1055,12 @@ You can call the API to list all existing pipelines or view the details of a par
     }
     ```
 
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+    </Admonition>
+
 - **View the details of a specific pipeline**
 
     Follow the example below to view the details of a pipeline.
@@ -1099,6 +1108,12 @@ You can call the API to list all existing pipelines or view the details of a par
       }
     }
     ```
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+    </Admonition>
 
 </TabItem>
 
@@ -1174,6 +1189,12 @@ The following is an example output.
   }
 }
 ```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
 
 </TabItem>
 
