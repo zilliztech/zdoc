@@ -97,7 +97,7 @@ const OpenInButtonLink = ({
 export default function HeadingWrapper(props) {
   try {
     const { frontMatter } = useDoc();
-    const { beta, notebook } = frontMatter;
+    const { beta, notebook, tags } = frontMatter;
 
     if (props.as === 'h1' && beta) {
       props = {
@@ -112,6 +112,7 @@ export default function HeadingWrapper(props) {
   
     return (
       <>
+        { tags.length > 0 && <span style={{ fontWeight: '400', color: 'rgb(18, 17, 66)'  }}>{tags[0]}</span> }
         <Heading {...props} />
   
         {
