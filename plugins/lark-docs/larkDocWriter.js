@@ -599,10 +599,6 @@ class larkDocWriter {
     }
 
     __front_matters (title, suffix, slug, beta, notebook, type, token, sidebar_position=undefined, sidebar_label="", keywords="", displayed_sidebar=this.displayedSidebar, description="") {
-        if (sidebar_label !== "") {
-            sidebar_label = `sidebar_label: ${sidebar_label}\n`
-        }
-
         if (keywords !== "") {
             keywords = "keywords: \n  - " + keywords.split(',').map(item => item.trim()).join('\n  - ') + '\n'
         }
@@ -617,7 +613,7 @@ class larkDocWriter {
         let front_matter = '---\n' + 
         `title: ${title} | ${suffix}` + '\n' +
         `slug: /${slug}` + '\n' +
-        sidebar_label +
+        `sidebar_label: ${sidebar_label ? sidebar_label : title}` + '\n'
         `beta: ${beta ? beta : 'FALSE'}` + '\n' +
         `notebook: ${notebook ? notebook : 'FALSE'}` + '\n' +
         `description: ${description} | ${suffix}` + '\n' +
