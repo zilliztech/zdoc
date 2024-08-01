@@ -613,7 +613,7 @@ class larkDocWriter {
         let front_matter = '---\n' + 
         `title: ${title} | ${suffix}` + '\n' +
         `slug: /${slug}` + '\n' +
-        `sidebar_label: ${sidebar_label !== "" ? sidebar_label : title}` + '\n'
+        `sidebar_label: ${sidebar_label !== "" ? sidebar_label : title}` + '\n' +
         `beta: ${beta ? beta : 'FALSE'}` + '\n' +
         `notebook: ${notebook ? notebook : 'FALSE'}` + '\n' +
         `description: ${description} | ${suffix}` + '\n' +
