@@ -120,16 +120,18 @@ class larkDriveWriter extends larkDocWriter {
                     page = this.page_blocks.filter(block => block.block_type == 1)[0] 
                 } else {
                     const slug = `${this.displayedSidebar.replace('Sidebar', '')}/${page_slug}`
-                    const labels = sidebar_label ? `sidebar_label: ${sidebar_label}\n` : ''
+                    const labels = sidebar_label ? sidebar_label : page_title
 
                     var markdown = '---\n' +
+                        'title: ' + page_title + `| ${this.__title_suffix(current_path)}` + '\n' +
                         'slug: /' + slug + '\n' +
                         'beta: ' + page_beta + '\n' +
                         'notebook: ' + notebook + '\n' +
+                        'description: ' + `${page_description} | ${this.__title_suffix(current_path)}`  + '\n'
                         'type: ' + page_type + '\n' +
                         'token: ' + page_token + '\n' +
                         'sidebar_position: ' + sidebar_position + '\n' +
-                        labels +
+                        'sidebar_label: ' + labels + '\n' +
                         'displayed_sidebar: ' + this.displayedSidebar + '\n' +
                         '---\n\n' +
                         '# ' + page_title + '\n\n' +
@@ -152,6 +154,8 @@ class larkDriveWriter extends larkDocWriter {
                 const slug = `${this.displayedSidebar.replace('Sidebar', '')}/${page_slug}`
 
                 var {front_matter, imports, markdown} = await this.__write_page({
+                    title: page_title,
+                    suffix: this.__title_suffix(current_path),
                     slug: slug,
                     beta: page_beta,
                     notebook: notebook,

@@ -296,6 +296,8 @@ class larkDocWriter {
                 return this.__retrieve_block_by_id(child)
             })
             await this.__write_page({
+                title: page_title,
+                suffix: this.__title_suffix(path),
                 slug: page_slug,
                 beta: page_beta,
                 notebook: notebook,
@@ -310,9 +312,54 @@ class larkDocWriter {
         }
     }
 
+    __title_suffix(path) {
+        var suffix = 'Cloud'
+        
+        if (path.includes('byoc')) {
+            suffix = 'BYOC'
+        } else if (path.includes('go/v1')) {
+            suffix = 'Go | v1'
+        } else if (path.includes('go/v2')) {
+            suffix = 'Go | v2'
+        } else if (path.includes('go')) {
+            suffix = 'Go'
+        } else if (path.includes('python/MilvusClient')) {
+            suffix = 'Python | MilvusClient'
+        } else if (path.includes('python/ORM')) {
+            suffix = 'Python | ORM'
+        } else if (path.includes('python')) {
+            suffix = 'Python'
+        } else if (path.includes('java/v1')) {
+            suffix = 'Java | v1'
+        } else if (path.includes('java/v2')) {
+            suffix = 'Java | v2'
+        } else if (path.includes('java')) {
+            suffix = 'Java'
+        } else if (path.includes('nodejs')) {
+            suffix = 'Node.js'
+        } else if (path.includes('restful/control-plane/v1')) {
+            suffix = 'RESTful | Control Plane | v1'
+        } else if (path.includes('restful/control-plane/v2')) {
+            suffix = 'RESTful | Control Plane | v2'
+        } else if (path.includes('restful/control-plane')) {
+            suffix = 'RESTful | Control Plane'
+        } else if (path.includes('restful/data-plane/v1')) {
+            suffix = 'RESTful | Data Plane | v1'
+        } else if (path.includes('restful/data-plane/v2')) {
+            suffix = 'RESTful | Data Plane | v2'
+        } else if (path.includes('restful/data-plane')) {
+            suffix = 'RESTful | Data Plane'
+        } else if (path.includes('restful')) {
+            suffix = 'RESTful'
+        }
+
+        return suffix
+    }
+
     async write_faqs (path) {
         const source = this.__fetch_doc_source('title', 'FAQs')
         const blocks = source.blocks.items
+        const suffix = path.includes('byoc') ? 'BYOC' : 'CLOUD'
 
         if (blocks) {
             this.page_blocks = blocks
@@ -345,7 +392,7 @@ class larkDocWriter {
             // Write FAQs root page
             let title = 'FAQs'
             let slug = 'faqs'
-            let front_matter = this.__front_matters(slug, null, null, source.node_type, source.node_token, 999, "", "", this.displayedSidebar)
+            let front_matter = this.__front_matters('FAQs', suffix, slug, null, null, source.node_type, source.node_token, 999, "", "", this.displayedSidebar, "Frequently Asked Questions")
             const markdown = `${front_matter}\n\n# ${title}` + "\n\nimport DocCardList from '@theme/DocCardList';\n\n<DocCardList />"
             fs.writeFileSync(`${path}/${slug}.md`, markdown)
 
@@ -353,7 +400,7 @@ class larkDocWriter {
                 let title = sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
                 let short_description = sub_page.filter(line => line.length > 0)[1]
                 let slug = slugify(title, {lower: true, strict: true})
-                let front_matter = this.__front_matters(slug, null, null, source.node_type, source.node_token, index+1, "", "", this.displayedSidebar)
+                let front_matter = this.__front_matters(title, suffix, slug, null, null, source.node_type, source.node_token, index+1, "", "", this.displayedSidebar, short_description)
                 let links = []
 
                 sub_page = sub_page.map(line => {
@@ -504,8 +551,19 @@ class larkDocWriter {
         return returns
     }
 
-    async __write_page({slug, beta, notebook, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
-        let front_matter = this.__front_matters(slug, beta, notebook, type, token, sidebar_position, sidebar_label, keywords, this.displayedSidebar)
+    __extract_description(markdown) {
+        const content = markdown.split('\n')
+        const title = content.filter(line => line.startsWith('# '))
+        var description = "<placeholder>"
+
+        if (title.length > 0) {
+            description = content[content.indexOf(title[0])+2]
+        }
+
+        return description.trim().replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace('**', '')
+    }
+
+    async __write_page({title, suffix, slug, beta, notebook, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.targets)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
@@ -513,11 +571,15 @@ class larkDocWriter {
         markdown = markdown.replace(/\s*<tr>\n(\s*<td>(<br\/>)*<\/td>\n)*\s*<\/tr>/g, '')
         markdown = this.__mdx_patches(markdown)
 
+        const description = this.__extract_description(markdown)
+
+        let front_matter = this.__front_matters(title, suffix, slug, beta, notebook, type, token, sidebar_position, sidebar_label, keywords, this.displayedSidebar, description)
+
         let tabs = markdown.split('\n').filter(line => {
             return line.trim().startsWith("<Tab")
         }).length
 
-        let imports = await this.__imports(tabs > 0)
+        let imports = this.__imports(tabs > 0)
 
         if (doc_card_list) {
             markdown += "\n\nimport DocCardList from '@theme/DocCardList';\n\n<DocCardList />"
@@ -536,7 +598,7 @@ class larkDocWriter {
         }
     }
 
-    __front_matters (slug, beta, notebook, type, token, sidebar_position=undefined, sidebar_label="", keywords="", displayed_sidebar=this.displayedSidebar) {
+    __front_matters (title, suffix, slug, beta, notebook, type, token, sidebar_position=undefined, sidebar_label="", keywords="", displayed_sidebar=this.displayedSidebar, description="") {
         if (sidebar_label !== "") {
             sidebar_label = `sidebar_label: ${sidebar_label}\n`
         }
@@ -553,10 +615,12 @@ class larkDocWriter {
         }
 
         let front_matter = '---\n' + 
+        `title: ${title} | ${suffix}` + '\n' +
         `slug: /${slug}` + '\n' +
         sidebar_label +
         `beta: ${beta ? beta : 'FALSE'}` + '\n' +
         `notebook: ${notebook ? notebook : 'FALSE'}` + '\n' +
+        `description: ${description} | ${suffix}` + '\n' +
         `type: ${type}` + '\n' +
         `token: ${token}` + '\n' +
         `sidebar_position: ${sidebar_position}` + '\n' +
