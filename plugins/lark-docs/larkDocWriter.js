@@ -554,10 +554,10 @@ class larkDocWriter {
     __extract_description(markdown) {
         const content = markdown.split('\n')
         const title = content.filter(line => line.startsWith('# '))
-        var description = "<placeholder>"
+        var description = "(placeholder)"
 
         if (title.length > 0) {
-            description = content[content.indexOf(title[0])+2]
+            description = content[content.indexOf(title[0])+2] ? content[content.indexOf(title[0])+2].trim() : "(placeholder)"
         }
 
         return description.trim().replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace('**', '')
