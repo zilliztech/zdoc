@@ -392,7 +392,7 @@ class larkDocWriter {
             // Write FAQs root page
             let title = 'FAQs'
             let slug = 'faqs'
-            let front_matter = this.__front_matters('FAQs', suffix, slug, null, null, source.node_type, source.node_token, 999, "", "", this.displayedSidebar, "Frequently Asked Questions")
+            let front_matter = this.__front_matters('FAQs', suffix, slug, null, null, source.node_type, source.node_token, 999, "", "", this.displayedSidebar, `"Frequently asked questions | ${suffix}"`)
             const markdown = `${front_matter}\n\n# ${title}` + "\n\nimport DocCardList from '@theme/DocCardList';\n\n<DocCardList />"
             fs.writeFileSync(`${path}/${slug}.md`, markdown)
 
@@ -400,7 +400,7 @@ class larkDocWriter {
                 let title = sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
                 let short_description = sub_page.filter(line => line.length > 0)[1]
                 let slug = slugify(title, {lower: true, strict: true})
-                let front_matter = this.__front_matters(title, suffix, slug, null, null, source.node_type, source.node_token, index+1, "", "", this.displayedSidebar, short_description)
+                let front_matter = this.__front_matters(title, suffix, slug, null, null, source.node_type, source.node_token, index+1, "", "", this.displayedSidebar, `"${short_description.replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace('**', '')} | ${suffix}"`)
                 let links = []
 
                 sub_page = sub_page.map(line => {
@@ -616,7 +616,7 @@ class larkDocWriter {
         `sidebar_label: "${sidebar_label !== "" ? sidebar_label : title}"` + '\n' +
         `beta: ${beta ? beta : 'FALSE'}` + '\n' +
         `notebook: ${notebook ? notebook : 'FALSE'}` + '\n' +
-        `description: ${description} | ${suffix}` + '\n' +
+        `description: "${description} | ${suffix}"` + '\n' +
         `type: ${type}` + '\n' +
         `token: ${token}` + '\n' +
         `sidebar_position: ${sidebar_position}` + '\n' +

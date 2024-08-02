@@ -123,15 +123,15 @@ class larkDriveWriter extends larkDocWriter {
                     const labels = sidebar_label ? sidebar_label : page_title
 
                     var markdown = '---\n' +
-                        'title: ' + page_title + `| ${this.__title_suffix(current_path)}` + '\n' +
+                        'title: ' + `"${page_title}"` + `| ${this.__title_suffix(current_path)}` + '\n' +
                         'slug: /' + slug + '\n' +
                         'beta: ' + page_beta + '\n' +
                         'notebook: ' + notebook + '\n' +
-                        'description: ' + `${page_description} | ${this.__title_suffix(current_path)}`  + '\n'
+                        'description: ' + `"${page_description.replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace('**', '')} | ${this.__title_suffix(current_path)}"`  + '\n'
                         'type: ' + page_type + '\n' +
                         'token: ' + page_token + '\n' +
                         'sidebar_position: ' + sidebar_position + '\n' +
-                        'sidebar_label: ' + labels + '\n' +
+                        'sidebar_label: ' + `"${labels}"` + '\n' +
                         'displayed_sidebar: ' + this.displayedSidebar + '\n' +
                         '---\n\n' +
                         '# ' + page_title + '\n\n' +
