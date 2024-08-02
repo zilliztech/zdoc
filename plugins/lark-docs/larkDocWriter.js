@@ -392,7 +392,7 @@ class larkDocWriter {
             // Write FAQs root page
             let title = 'FAQs'
             let slug = 'faqs'
-            let front_matter = this.__front_matters('FAQs', suffix, slug, null, null, source.node_type, source.node_token, 999, "", "", this.displayedSidebar, `"Frequently asked questions | ${suffix}"`)
+            let front_matter = this.__front_matters('FAQs', suffix, slug, null, null, source.node_type, source.node_token, 999, "", "", this.displayedSidebar, "Frequently asked questions")
             const markdown = `${front_matter}\n\n# ${title}` + "\n\nimport DocCardList from '@theme/DocCardList';\n\n<DocCardList />"
             fs.writeFileSync(`${path}/${slug}.md`, markdown)
 
@@ -400,7 +400,7 @@ class larkDocWriter {
                 let title = sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
                 let short_description = sub_page.filter(line => line.length > 0)[1]
                 let slug = slugify(title, {lower: true, strict: true})
-                let front_matter = this.__front_matters(title, suffix, slug, null, null, source.node_type, source.node_token, index+1, "", "", this.displayedSidebar, `"${short_description.replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace('**', '')} | ${suffix}"`)
+                let front_matter = this.__front_matters(title, suffix, slug, null, null, source.node_type, source.node_token, index+1, "", "", this.displayedSidebar, short_description)
                 let links = []
 
                 sub_page = sub_page.map(line => {
@@ -560,7 +560,7 @@ class larkDocWriter {
             description = content[content.indexOf(title[0])+2] ? content[content.indexOf(title[0])+2].trim() : "(placeholder)"
         }
 
-        return description.trim().replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace('**', '')
+        return description
     }
 
     async __write_page({title, suffix, slug, beta, notebook, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
@@ -608,6 +608,10 @@ class larkDocWriter {
         } else {
             slug = `${displayed_sidebar.replace('Sidebar', '').trim()}/${slug}`
             displayed_sidebar = `displayed_sidebar: ${displayed_sidebar}\n`
+        }
+
+        if (description) {
+            description = description.trim().replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace(/\*+|_+/g, '')
         }
 
         let front_matter = '---\n' + 
