@@ -123,7 +123,7 @@ class larkDriveWriter extends larkDocWriter {
                     const labels = sidebar_label ? sidebar_label : page_title
 
                     var markdown = '---\n' +
-                        'title: ' + `"${page_title}"` + `| ${this.__title_suffix(current_path)}` + '\n' +
+                        'title: ' + `"${page_title} | ${this.__title_suffix(current_path)}"` + '\n' +
                         'slug: /' + slug + '\n' +
                         'beta: ' + page_beta + '\n' +
                         'notebook: ' + notebook + '\n' +
