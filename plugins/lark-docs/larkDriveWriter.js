@@ -127,7 +127,7 @@ class larkDriveWriter extends larkDocWriter {
                         'slug: /' + slug + '\n' +
                         'beta: ' + page_beta + '\n' +
                         'notebook: ' + notebook + '\n' +
-                        'description: ' + `"${page_description.replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace('**', '')} | ${this.__title_suffix(current_path)}"`  + '\n'
+                        'description: ' + `"${page_description.replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace('**', '')} | ${this.__title_suffix(current_path)}"`  + '\n' +
                         'type: ' + page_type + '\n' +
                         'token: ' + page_token + '\n' +
                         'sidebar_position: ' + sidebar_position + '\n' +

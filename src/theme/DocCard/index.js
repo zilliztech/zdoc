@@ -5,23 +5,27 @@ import {
   findFirstSidebarItemLink,
   useDocById,
 } from '@docusaurus/theme-common/internal';
+import {usePluralForm} from '@docusaurus/theme-common';
 import isInternalUrl from '@docusaurus/isInternalUrl';
+import {translate} from '@docusaurus/Translate';
+import Heading from '@theme/Heading';
 import styles from './styles.module.css';
-
-function findCategoryDocId(item, level=0) {
-  var docId;
-  if (item.type === 'category') {
-    level -= 1;
-    if (item.items[0].type === 'link') {
-      docId = item.items[0].docId.split('/').slice(0, level).join('/') + '/' + item.items[0].docId.split('/').slice(0, level).pop();
-    } else {
-      docId = findCategoryDocId(item.items[0], level);
-    }
-  }
-
-  return docId;
+function useCategoryItemsPlural() {
+  const {selectMessage} = usePluralForm();
+  return (count) =>
+    selectMessage(
+      count,
+      translate(
+        {
+          message: '1 item|{count} items',
+          id: 'theme.docs.DocCard.categoryDescription.plurals',
+          description:
+            'The default description for a category card in the generated index about how many items this category includes',
+        },
+        {count},
+      ),
+    );
 }
-
 function CardContainer({href, children}) {
   return (
     <Link
@@ -32,11 +36,18 @@ function CardContainer({href, children}) {
   );
 }
 function CardLayout({href, icon, title, description}) {
+  if (description && description.includes('|')) {
+    description = description.split('|')[0];
+  }
+
   return (
     <CardContainer href={href}>
-      <h2 className={clsx('text--truncate', styles.cardTitle)} title={title}>
-        {title} <span class="tooltip">[READ MORE]</span>
-      </h2>
+      <Heading
+        as="h2"
+        className={clsx('text--truncate', styles.cardTitle)}
+        title={title}>
+        {icon} {title}
+      </Heading>
       {description && (
         <p
           className={clsx('text--truncate', styles.cardDescription)}
@@ -49,30 +60,17 @@ function CardLayout({href, icon, title, description}) {
 }
 function CardCategory({item}) {
   const href = findFirstSidebarItemLink(item);
+  const categoryItemsPlural = useCategoryItemsPlural();
   // Unexpected: categories that don't have a link have been filtered upfront
   if (!href) {
     return null;
   }
-
-  var docId = findCategoryDocId(item);
-
   return (
     <CardLayout
       href={href}
       icon="🗃️"
       title={item.label}
-      description={
-        item.description ?? useDocById(docId ?? undefined) ?.description
-        // translate(
-        //   {
-        //     message: '{count} items',
-        //     id: 'theme.docs.DocCard.categoryDescription',
-        //     description:
-        //       'The default description for a category card in the generated index about how many items this category includes',
-        //   },
-        //   {count: item.items.length},
-        // )
-      }
+      description={item.description ?? categoryItemsPlural(item.items.length)}
     />
   );
 }
