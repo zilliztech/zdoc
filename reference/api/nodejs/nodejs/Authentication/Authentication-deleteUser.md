@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "deleteUser() | Node.js"
 slug: /node/node/Authentication-deleteUser
-beta: FALSE
-notebook: FALSE
+sidebar_label: "deleteUser()"
+beta: false
+notebook: false
+description: "This operation drops a user. | Node.js"
 type: docx
 token: Cl5PdhU5jouHnrxyYXLcOQAZneb
 sidebar_position: 3

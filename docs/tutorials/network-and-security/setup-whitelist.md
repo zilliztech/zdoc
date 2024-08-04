@@ -1,10 +1,19 @@
 ---
+title: "Set up Whitelist | Cloud"
 slug: /setup-whitelist
+sidebar_label: "Set up Whitelist"
 beta: FALSE
 notebook: FALSE
+description: "Whitelisting on Zilliz Cloud serves as a robust security layer at the project level, extending its benefits to every cluster within a specified project. By implementing a whitelist, you effectively narrow down access to your project’s clusters to a select group of IP addresses, substantially mitigating the risk of malicious attacks. | Cloud"
 type: origin
 token: FnS1wY0iuia4qgkMycVclZyHnOf
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - whitelist
+  - setup
 
 ---
 

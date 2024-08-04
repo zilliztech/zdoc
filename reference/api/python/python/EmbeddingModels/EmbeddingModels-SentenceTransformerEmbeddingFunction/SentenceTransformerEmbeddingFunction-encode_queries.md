@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "encode_queries() | Python"
 slug: /python/python/SentenceTransformerEmbeddingFunction-encode_queries
-beta: FALSE
-notebook: FALSE
+sidebar_label: "encode_queries()"
+beta: false
+notebook: false
+description: "This operation takes in a list of query strings and encodes each query into a vector embedding. | Python"
 type: docx
 token: HTx1dgoAloCELUxWLGxc0GPlno6
 sidebar_position: 2

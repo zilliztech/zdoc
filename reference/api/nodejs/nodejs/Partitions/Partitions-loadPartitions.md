@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "loadPartitions() | Node.js"
 slug: /node/node/Partitions-loadPartitions
-beta: FALSE
-notebook: FALSE
+sidebar_label: "loadPartitions()"
+beta: false
+notebook: false
+description: "This operation loads a specific set of partitions in a specified collection into memory. | Node.js"
 type: docx
 token: Pyh3dttWKoBqcBx8FGhcArhAnqg
 sidebar_position: 6

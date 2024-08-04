@@ -1,7 +1,10 @@
 ---
+title: "searchIterator() | Java | v1"
 slug: /java/v1-QuerySearch-searchIterator
+sidebar_label: "searchIterator()"
 beta: FALSE
 notebook: FALSE
+description: "MilvusClient interface. This method returns a Python iterator for you to iterate over the search results. It is useful especially when the search result contains a large volume of data. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#CaeGd0ApXo1nEOxr3rDcCGLengf
 sidebar_position: 7
@@ -43,6 +46,11 @@ Methods of `SearchIteratorParam.Builder`:
         <td><p>collectionName: The target collection name.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withConsistencyLevel(ConsistencyLevelEnum consistencyLevel)</p></td>
         <td><p>Sets the search consistency level(Optional).<br/>If the level is not set, will use the default consistency level of the collection.</p></td>
         <td><p>consistencyLevel: The consistency level used in the search.</p></td>
@@ -69,8 +77,7 @@ Methods of `SearchIteratorParam.Builder`:
     </tr>
     <tr>
         <td><p>withExpr(String expr)</p></td>
-        <td><p>Set the expression to filter scalar fields before searching(Optional).
-For more information please refer to <a href="https://milvus.io/docs/v2.3.x/boolean.md">this doc</a>.</p></td>
+        <td><p>Set the expression to filter scalar fields before searching(Optional).For more information please refer to <a href="https://milvus.io/docs/v2.3.x/boolean.md">this doc</a>.</p></td>
         <td><p>expr: The expression to filter scalar fields.</p></td>
     </tr>
     <tr>
@@ -121,7 +128,7 @@ For more information please refer to <a href="https://milvus.io/docs/v2.3.x/bool
     <tr>
         <td><p>withRoundDecimal(Integer decimal)</p></td>
         <td><p>Specifies the decimal place for returned distance.<br/>Avaiable range: [-1, 6]<br/>Default value is -1, return all digits.</p></td>
-        <td><p>decimal: How many digits reserved after the decimal point.</p></td>
+        <td><p>decimal: How many digits are reserved after the decimal point.</p></td>
     </tr>
     <tr>
         <td><p>withParams(String params)</p></td>

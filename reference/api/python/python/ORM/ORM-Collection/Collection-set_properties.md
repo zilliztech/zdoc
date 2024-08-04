@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "set_properties() | Python | ORM"
 slug: /python/python/Collection-set_properties
-beta: FALSE
-notebook: FALSE
+sidebar_label: "set_properties()"
+beta: false
+notebook: false
+description: "This operation sets properties for the collection. | Python | ORM"
 type: docx
 token: ECmAdaYKboPTNlxqkLxcUEZ4nrh
 sidebar_position: 27

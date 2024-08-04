@@ -1,7 +1,10 @@
 ---
+title: "selectGrantForRole() | Java | v1"
 slug: /java/v1-RBAC-selectGrantForRole
+sidebar_label: "selectGrantForRole()"
 beta: FALSE
 notebook: FALSE
+description: "MilvusClient interface. This method lists grant info for the role and the specific object. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#KCaSdcBzDoKKmRxwcxbcrlQYnle
 sidebar_position: 9
@@ -41,6 +44,11 @@ Methods of `SelectGrantForRoleParam.Builder`:
         <td><p>withRoleName(String roleName)</p></td>
         <td><p>Sets the roleName. RoleName cannot be empty or null.</p></td>
         <td><p>roleName: The role name used to create the privilege.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>

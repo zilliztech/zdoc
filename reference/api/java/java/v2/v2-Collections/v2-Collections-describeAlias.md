@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "describeAlias() | Java | v2"
 slug: /java/java/v2-Collections-describeAlias
+sidebar_label: "describeAlias()"
 beta: false
 notebook: false
+description: "This operation displays the details of an alias. | Java | v2"
 type: docx
 token: B57cdiaEkotJQnxl7I9cJqotnPb
 sidebar_position: 8

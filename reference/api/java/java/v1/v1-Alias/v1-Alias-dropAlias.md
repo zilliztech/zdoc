@@ -1,7 +1,10 @@
 ---
+title: "dropAlias() | Java | v1"
 slug: /java/v1-Alias-dropAlias
+sidebar_label: "dropAlias()"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method drops an alias for the specified collection. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#JDjWdxsRvolNjfxfpAacty3Hn4O
 sidebar_position: 2
@@ -41,6 +44,11 @@ Methods of `DropAliasParam.Builder`:
         <td><p>withAlias(String alias)</p></td>
         <td><p>Sets the collection alias. <br/>The alias cannot be empty or null.</p></td>
         <td><p>alias: The alias to drop.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>

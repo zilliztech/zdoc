@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "createAlias() | Java | v2"
 slug: /java/java/v2-Collections-createAlias
+sidebar_label: "createAlias()"
 beta: false
 notebook: false
+description: "This operation creates an alias for an existing collection. | Java | v2"
 type: docx
 token: NMAOdxhL1oo0E7xcFqXcF6yPnBg
 sidebar_position: 4

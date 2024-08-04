@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "hasPartition() | Node.js"
 slug: /node/node/Partitions-hasPartition
-beta: FALSE
-notebook: FALSE
+sidebar_label: "hasPartition()"
+beta: false
+notebook: false
+description: "This operation checks whether the specified partition exists in the specified collection. | Node.js"
 type: docx
 token: TVWPdTw2WoPAJYxsbGMc7MX6nEf
 sidebar_position: 4

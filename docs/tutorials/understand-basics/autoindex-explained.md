@@ -1,10 +1,19 @@
 ---
+title: "AUTOINDEX Explained | Cloud"
 slug: /autoindex-explained
+sidebar_label: "AUTOINDEX Explained"
 beta: FALSE
 notebook: FALSE
+description: "Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, AUTOINDEX comes into play. | Cloud"
 type: origin
 token: EA2twSf5oiERMDkriKScU9GInc4
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - autoindex
+  - milvus
 
 ---
 

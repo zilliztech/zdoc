@@ -1,19 +1,34 @@
 ---
+title: "Set up a Private Service Connect (GCP) | Cloud"
 slug: /setup-a-private-link-gcp
+sidebar_label: "Set up a Private Service Connect (GCP)"
 beta: FALSE
 notebook: FALSE
+description: "This guide demonstrates the procedure for setting up a private endpoint from a Zilliz Cloud cluster to your service hosted in different GCP VPCs. | Cloud"
 type: origin
 token: IojuwADAwiRK0hkl4pgcvC2QnQd
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - private link
+  - gcp
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Set up a Private Link (GCP)
+# Set up a Private Service Connect (GCP)
 
-This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different GCP VPCs.
+This guide demonstrates the procedure for setting up a private endpoint from a Zilliz Cloud cluster to your service hosted in different GCP VPCs.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud does not charge you for private links. However, your cloud provider may <a href="https://cloud.google.com/vpc/pricing#psc-forwarding-rule-service">charge you for each endpoint</a> that you create to access Zilliz Cloud.</p>
+
+</Admonition>
 
 ## Before you start{#before-you-start}
 
@@ -23,15 +38,15 @@ Make sure the following conditions are met:
 
 - A cluster has been created. For information on how to create a cluster, see [Create Cluster](./create-cluster).
 
-## Add a private link{#add-a-private-link}
+## Add a private endpoint{#add-a-private-endpoint}
 
-Zilliz Cloud offers you an intuitive wizard to add a private link. On the **Private Link** tab in your project, click **+ Add Private Link** and configure the settings.
+Zilliz Cloud offers you an intuitive wizard to add a private endpoint. On the **Private Endpoint** tab in your project, click **+ Add Private Endpoint** and configure the settings.
 
 Setting up a private link is project-level. When you configure a private link for a cluster, it applies to its neighboring clusters in the same project deployed in the same cloud region.
 
 ### Select a cloud provider and region{#select-a-cloud-provider-and-region}
 
-To create a private link for a cluster deployed in a Google Cloud region, select **Google Cloud** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions).
+To create a private endpoint for a cluster deployed in a Google Cloud region, select **Google Cloud** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions).
 
 ![enter_vpc_endpoint_gcp](/img/enter_vpc_endpoint_gcp.png)
 
@@ -83,7 +98,7 @@ For your convenience, you are required to set an endpoint prefix in **Private Se
 
 ### Obtain a private service endpoint{#obtain-a-private-service-endpoint}
 
-Copy the command generated at the bottom of the **Add Private Link** dialog box on Zilliz Cloud, and run this command in your GCP CloudShell to create a Private Service Connect Endpoint.
+Copy the command generated at the bottom of the **Add Private Endpoint** dialog box on Zilliz Cloud, and run this command in your GCP CloudShell to create a Private Service Connect Endpoint.
 
 In the returned message, copy the endpoint name listed on [this page](https://console.cloud.google.com/net-services/psc/list/consumers).
 

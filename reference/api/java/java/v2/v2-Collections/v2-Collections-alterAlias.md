@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "alterAlias() | Java | v2"
 slug: /java/java/v2-Collections-alterAlias
+sidebar_label: "alterAlias()"
 beta: false
 notebook: false
+description: "This operation reassigns the alias of one collection to another. | Java | v2"
 type: docx
 token: QasfdVW4voAzfwxfSc1civsHnVf
 sidebar_position: 1

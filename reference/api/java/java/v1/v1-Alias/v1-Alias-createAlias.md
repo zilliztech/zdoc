@@ -1,7 +1,10 @@
 ---
+title: "createAlias() | Java | v1"
 slug: /java/v1-Alias-createAlias
+sidebar_label: "createAlias()"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method creates an alias for a collection. Alias cannot be duplicated. The same alias cannot be assigned to different collections. Instead, you can specify multiple aliases for each collection. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#MdbJddBe1osFqRxlhL0cLvtxnVh
 sidebar_position: 1
@@ -41,6 +44,11 @@ Methods of `CreateAliasParam.Builder`:
         <td><p>withCollectionName(<br/>String collectionName)</p></td>
         <td><p>Sets the target collection name. <br/>Collection name cannot be empty or null.</p></td>
         <td><p>collectionName: The name of the target collection to create an alias for.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>withAlias(String alias)</p></td>

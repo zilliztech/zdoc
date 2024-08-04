@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "DataType | Java | v2"
 slug: /java/java/v2-Collections-DataType
+sidebar_label: "DataType"
 beta: false
 notebook: false
+description: "This is an enumeration that provides the following constants. | Java | v2"
 type: docx
 token: QYPIdgWL7oDWrWxVUx0clo32nz4
 sidebar_position: 7

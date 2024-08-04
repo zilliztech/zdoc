@@ -1,10 +1,19 @@
 ---
+title: "Index Scalar Fields | BYOC"
 slug: /index-scalar-fields
+sidebar_label: "Index Scalar Fields"
 beta: FALSE
 notebook: FALSE
+description: "On Zilliz Cloud, a scalar index is used to speed up meta filtering by a specific non-vector field value, similar to a traditional database index. This guide will walk you through creating and configuring scalar indexes for fields such as integers, strings, etc. | BYOC"
 type: origin
 token: XCCwwOLqKi2nYGkfy5Gc0Vnfnpb
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - scalar field
+  - index
 
 ---
 

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "getPartitionStatistics() | Node.js"
 slug: /node/node/Partitions-getPartitionStatistics
-beta: FALSE
-notebook: FALSE
+sidebar_label: "getPartitionStatistics()"
+beta: false
+notebook: false
+description: "This operation displays the statistics collected on a specific partition. | Node.js"
 type: docx
 token: XDXid6aZ8oCHnVxxFpPcKAB9n0c
 sidebar_position: 3

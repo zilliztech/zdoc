@@ -1,7 +1,10 @@
 ---
+title: "removeUserFromRole() | Java | v1"
 slug: /java/v1-RBAC-removeUserFromRole
+sidebar_label: "removeUserFromRole()"
 beta: FALSE
 notebook: FALSE
+description: "MilvusClient interface. This method removes a user from a role. The user will remove permissions that the role is allowed to perform operations. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#BxKjdyAvpoUDDYxanhBcykrKncc
 sidebar_position: 4

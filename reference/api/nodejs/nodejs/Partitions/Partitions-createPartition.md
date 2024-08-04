@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "createPartition() | Node.js"
 slug: /node/node/Partitions-createPartition
-beta: FALSE
-notebook: FALSE
+sidebar_label: "createPartition()"
+beta: false
+notebook: false
+description: "This operation creates a partition in the target collection. | Node.js"
 type: docx
 token: PPLtdSbtfomgF1x5MHncKPgPnSf
 sidebar_position: 1

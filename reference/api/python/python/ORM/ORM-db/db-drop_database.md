@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "drop_database() | Python | ORM"
 slug: /python/python/db-drop_database
-beta: FALSE
-notebook: FALSE
+sidebar_label: "drop_database()"
+beta: false
+notebook: false
+description: "This operation drops a database using the provided database name. | Python | ORM"
 type: docx
 token: Y7pOdKR4MoqmvVxcS1TcjqUynMc
 sidebar_position: 2

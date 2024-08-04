@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "get_partition_stats() | Python | MilvusClient"
 slug: /python/python/Partitions-get_partition_stats
-beta: FALSE
-notebook: FALSE
+sidebar_label: "get_partition_stats()"
+beta: false
+notebook: false
+description: "This operation displays the statistics collected on a specific partition. | Python | MilvusClient"
 type: docx
 token: Jjbsd2I8doQ9pBxBp57ckRdZnZd
 sidebar_position: 3

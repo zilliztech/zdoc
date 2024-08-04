@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "describe() | Python | ORM"
 slug: /python/python/Collection-describe
-beta: FALSE
-notebook: FALSE
+sidebar_label: "describe()"
+beta: false
+notebook: false
+description: "This operation describes the current collection. | Python | ORM"
 type: docx
 token: EZwsd887JojFjLxbMByckhW0nxg
 sidebar_position: 7

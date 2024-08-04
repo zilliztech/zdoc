@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "wait_for_compaction_completed() | Python | ORM"
 slug: /python/python/Collection-wait_for_compaction_completed
-beta: FALSE
-notebook: FALSE
+sidebar_label: "wait_for_compaction_completed()"
+beta: false
+notebook: false
+description: "This operation blocks the current session until the compaction request is completed. | Python | ORM"
 type: docx
 token: VFKIdx0tDoeAzSx4Ud6c3u5Snsf
 sidebar_position: 29

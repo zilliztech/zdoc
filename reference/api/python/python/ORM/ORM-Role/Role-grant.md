@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "grant() | Python | ORM"
 slug: /python/python/Role-grant
-beta: FALSE
-notebook: FALSE
+sidebar_label: "grant()"
+beta: false
+notebook: false
+description: "This operation grants a privilege to the current role. | Python | ORM"
 type: docx
 token: BapSdVXjQoQXnbxnRYScCagAn1f
 sidebar_position: 5

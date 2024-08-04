@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_roles() | Python | MilvusClient"
 slug: /python/python/Authentication-list_roles
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_roles()"
+beta: false
+notebook: false
+description: "This operation lists all custom roles. | Python | MilvusClient"
 type: docx
 token: MApVdDl17oU8OixzbMPcgceKnOh
 sidebar_position: 9

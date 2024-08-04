@@ -1,10 +1,19 @@
 ---
+title: "Manage Timezone | BYOC"
 slug: /manage-timezone
+sidebar_label: "Manage Timezone"
 beta: FALSE
 notebook: FALSE
+description: "The system time zone is set to where your first login occurs and applies to all time strings displayed on Zilliz Cloud. | BYOC"
 type: origin
 token: MLIRwRbrtiawJgkMEdOcPQnRnVf
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - timezone
+  - manage
 
 ---
 

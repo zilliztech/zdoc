@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "is_exist() | Python | ORM"
 slug: /python/python/Role-is_exist
-beta: FALSE
-notebook: FALSE
+sidebar_label: "is_exist()"
+beta: false
+notebook: false
+description: "This operation checks whether the current role exists. | Python | ORM"
 type: docx
 token: F8WOdIoz4okn5OxMEymcXNuRnkb
 sidebar_position: 6

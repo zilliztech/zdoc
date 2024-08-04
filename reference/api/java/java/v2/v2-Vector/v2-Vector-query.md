@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "query() | Java | v2"
 slug: /java/java/v2-Vector-query
+sidebar_label: "query()"
 beta: false
 notebook: false
+description: "This operation conducts a scalar filtering with a specified boolean expression. | Java | v2"
 type: docx
 token: Oy7PdvBJ7omRcKxvRvUcbWLcn1d
 sidebar_position: 5

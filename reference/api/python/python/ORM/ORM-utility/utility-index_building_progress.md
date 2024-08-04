@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "index_building_progress() | Python | ORM"
 slug: /python/python/utility-index_building_progress
-beta: FALSE
-notebook: FALSE
+sidebar_label: "index_building_progress()"
+beta: false
+notebook: false
+description: "This operation returns the progress of the index-building process. | Python | ORM"
 type: docx
 token: OVfodiKa6o3qTGxadYicI975nhh
 sidebar_position: 21

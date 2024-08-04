@@ -1,7 +1,10 @@
 ---
+title: "getCollectionStatistics() | Java | v1"
 slug: /java/v1-Collection-getCollectionStatistics
+sidebar_label: "getCollectionStatistics()"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method shows the statistical information of the specified collection. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#OJl3dURMVoXJ20xPVa7c3HAunhf
 sidebar_position: 8
@@ -45,6 +48,11 @@ Methods of `GetCollectionStatisticsParam.Builder`:
         <td><p>withCollectionName(String collectionName)</p></td>
         <td><p>Sets the collection name. Collection name cannot be empty or null.</p></td>
         <td><p>collectionName: The name of the collection whose statistical information needs to be checked.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>withFlush(Boolean flush)</p></td>
@@ -93,7 +101,7 @@ Methods of `GetCollStatResponseWrapper`:
    <tr>
      <td><p>getRowCount()</p></td>
      <td><p>Gets the row count of a collection. Note that due to technical reasons, the deleted entities are not counted in the row count.</p></td>
-     <td><p>N/A<br/></p></td>
+     <td><p>N/A</p></td>
      <td><p>long</p></td>
    </tr>
 </table>

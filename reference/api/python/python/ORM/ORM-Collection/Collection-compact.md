@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "compact() | Python | ORM"
 slug: /python/python/Collection-compact
-beta: FALSE
-notebook: FALSE
+sidebar_label: "compact()"
+beta: false
+notebook: false
+description: "This operation compacts and merges small segments in the current collection. | Python | ORM"
 type: docx
 token: BHx6dnSmPoaqHAxKCvncbuk9nWb
 sidebar_position: 2

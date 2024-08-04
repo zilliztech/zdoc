@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_database() | Python | ORM"
 slug: /python/python/db-list_database
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_database()"
+beta: false
+notebook: false
+description: "This operation returns a list of database names from the connected Milvus instance. | Python | ORM"
 type: docx
 token: PV1PdliWZooAB8xAE5scZO2Nn6K
 sidebar_position: 3

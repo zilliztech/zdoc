@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "queryIterator() | Java | v2"
 slug: /java/java/v2-Vector-queryIterator
+sidebar_label: "queryIterator()"
 beta: false
 notebook: false
+description: "This method returns a query iterator to iterate data. | Java | v2"
 type: docx
 token: ByLVdf2nRocLcxxwH3Gc9CyFnbb
 sidebar_position: 6

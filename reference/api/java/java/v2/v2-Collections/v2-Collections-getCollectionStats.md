@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "getCollectionStats() | Java | v2"
 slug: /java/java/v2-Collections-getCollectionStats
+sidebar_label: "getCollectionStats()"
 beta: false
 notebook: false
+description: "This operation lists the statistics collected on a specific collection. | Java | v2"
 type: docx
 token: XgfcdpBWCof3pfxhUudcRZajnPc
 sidebar_position: 13

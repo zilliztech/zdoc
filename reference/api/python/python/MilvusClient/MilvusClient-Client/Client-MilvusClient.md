@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "MilvusClient | Python | MilvusClient"
 slug: /python/python/Client-MilvusClient
-beta: FALSE
-notebook: FALSE
+sidebar_label: "MilvusClient"
+beta: false
+notebook: false
+description: "A MilvusClient instance represents a Python client that connects to a specific Zilliz Cloud cluster. | Python | MilvusClient"
 type: docx
 token: TUrSdmskuoGdFRxFT75c6xhinzc
 sidebar_position: 2

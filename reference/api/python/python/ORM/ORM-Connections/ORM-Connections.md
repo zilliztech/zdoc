@@ -1,10 +1,13 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "Connections | Python | ORM"
 slug: /python/python/ORM-Connections
+sidebar_label: "Connections"
 beta: false
 notebook: false
-type: folder
-token: Jy4gf9SrBlUSnpdXg2VcTuwhn4g
+description: "A Connections instance represents a pool of connections to your Zilliz Cloud clusters. | Python | ORM"
+type: docx
+token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
 displayed_sidebar: pythonSidebar
 
@@ -70,7 +73,3 @@ connections.connect(
 ## Methods{#methods}
 
 The following are the methods of the `connections` singleton instance:
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

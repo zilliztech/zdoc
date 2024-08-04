@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "release_partitions() | Python | MilvusClient"
 slug: /python/python/Partitions-release_partitions
-beta: FALSE
-notebook: FALSE
+sidebar_label: "release_partitions()"
+beta: false
+notebook: false
+description: "This operation releases the partitions in a specified collection from memory. | Python | MilvusClient"
 type: docx
 token: VblKdUEU4o4t31xcFiicIGtjn9g
 sidebar_position: 7

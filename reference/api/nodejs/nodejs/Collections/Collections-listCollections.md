@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "listCollections() | Node.js"
 slug: /node/node/Collections-listCollections
-beta: FALSE
-notebook: FALSE
+sidebar_label: "listCollections()"
+beta: false
+notebook: false
+description: "This operation lists all existing collections. | Node.js"
 type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 13

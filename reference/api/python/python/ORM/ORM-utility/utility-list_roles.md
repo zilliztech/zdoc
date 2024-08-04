@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_roles() | Python | ORM"
 slug: /python/python/utility-list_roles
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_roles()"
+beta: false
+notebook: false
+description: "This operation lists the information about all existing roles. | Python | ORM"
 type: docx
 token: ClLXdDs64oixJBxlIrCcEB2dngb
 sidebar_position: 27

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "load() | Python"
 slug: /python/python/BM25EmbeddingFunction-load
-beta: FALSE
-notebook: FALSE
+sidebar_label: "load()"
+beta: false
+notebook: false
+description: "This operation loads BM25 model parameters from a JSON file. | Python"
 type: docx
 token: Vqw7d0U1qoVXozxrCMtcJGZ8nkh
 sidebar_position: 5

@@ -1,10 +1,18 @@
 ---
+title: "Release Notes (June 11, 2023) | Cloud"
 slug: /release-notes-200
+sidebar_label: "Release Notes (June 11, 2023)"
 beta: FALSE
 notebook: FALSE
+description: "The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, cost-optimized CU, organization and collaboration support, RBAC support, partition key, dynamic schema, and JSON type support. Try out this game-changing update today! | Cloud"
 type: origin
 token: BcXMwUYQ3iD7mEkWKFhcU5PUnB5
-sidebar_position: 11
+sidebar_position: 12
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - release notes
 
 ---
 
@@ -51,7 +59,7 @@ We are excited to announce that Zilliz Cloud now offers sophisticated organizati
 
 This major update is supported by the integration of Role-Based Access Control (RBAC), which allows fine-grained control over who can access specific resources. This ensures both security and flexibility, enabling teams to work together more efficiently while maintaining a high degree of data protection.
 
-This enhancement not only offers greater control over project access but also streamlines the collaborative process, making it easier for teams to manage their vector database in a more secure and organized environment. Dive into this feature today and experience a new level of collaborative efficiency with Zilliz Cloud. [Learn more](./authorization).
+This enhancement not only offers greater control over project access but also streamlines the collaborative process, making it easier for teams to manage their vector database in a more secure and organized environment. Dive into this feature today and experience a new level of collaborative efficiency with Zilliz Cloud. For details, refer to [Authorization](./authorization).
 
 ## Partition Key{#partition-key}
 

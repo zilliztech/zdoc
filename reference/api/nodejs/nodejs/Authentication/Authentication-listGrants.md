@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "listGrants() | Node.js"
 slug: /node/node/Authentication-listGrants
-beta: FALSE
-notebook: FALSE
+sidebar_label: "listGrants()"
+beta: false
+notebook: false
+description: "This operation lists the privileges granted to the specified role. | Node.js"
 type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 10

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "encode_documents() | Python"
 slug: /python/python/OpenAIEmbeddingFunction-encode_documents
-beta: FALSE
-notebook: FALSE
+sidebar_label: "encode_documents()"
+beta: false
+notebook: false
+description: "This operation takes in documents and encodes them into vector embeddings. | Python"
 type: docx
 token: UrG5delwyok3RPx0UBlcdBQ5nZd
 sidebar_position: 1

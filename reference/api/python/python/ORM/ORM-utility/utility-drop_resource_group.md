@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "drop_resource_group() | Python | ORM"
 slug: /python/python/utility-drop_resource_group
-beta: FALSE
-notebook: FALSE
+sidebar_label: "drop_resource_group()"
+beta: false
+notebook: false
+description: "This operation drops a resource group. | Python | ORM"
 type: docx
 token: EofGdftYjoQ9E6x8mxLcpbG1nhc
 sidebar_position: 11

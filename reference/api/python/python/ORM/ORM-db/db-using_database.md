@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "using_database() | Python | ORM"
 slug: /python/python/db-using_database
-beta: FALSE
-notebook: FALSE
+sidebar_label: "using_database()"
+beta: false
+notebook: false
+description: "This operation sets a database as the default for the current connection. | Python | ORM"
 type: docx
 token: GXXTd7JIgoUKhzxiI6ncWtwjnVc
 sidebar_position: 4

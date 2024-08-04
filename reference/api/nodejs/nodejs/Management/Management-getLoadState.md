@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "getLoadState() | Node.js"
 slug: /node/node/Management-getLoadState
-beta: FALSE
-notebook: FALSE
+sidebar_label: "getLoadState()"
+beta: false
+notebook: false
+description: "This operation displays whether a specified collection or partition is loaded or not. | Node.js"
 type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
 sidebar_position: 4

@@ -1,11 +1,14 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "SpladeEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-SpladeEmbeddingFunction
+sidebar_label: "SpladeEmbeddingFunction"
 beta: false
 notebook: false
-type: folder
-token: KhHLfDpyyl4rEKdPnQjcjd8cnOf
-sidebar_position: 8
+description: "SpladeEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using SPLADE models to support embedding retrieval in Milvus. | Python"
+type: docx
+token: UdeRd0YVhoDBeVxrQaBcoikVnAI
+sidebar_position: 3
 displayed_sidebar: pythonSidebar
 
 ---
@@ -82,8 +85,3 @@ splade_ef = model.sparse.SpladeEmbeddingFunction(
     device="cpu"
 )
 ```
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

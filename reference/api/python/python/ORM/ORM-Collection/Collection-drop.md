@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "drop() | Python | ORM"
 slug: /python/python/Collection-drop
-beta: FALSE
-notebook: FALSE
+sidebar_label: "drop()"
+beta: false
+notebook: false
+description: "This operation drops the current collection. | Python | ORM"
 type: docx
 token: L8UTdDNkPoeew0x6LoDcfHx4nof
 sidebar_position: 8

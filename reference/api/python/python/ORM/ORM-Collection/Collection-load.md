@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "load() | Python | ORM"
 slug: /python/python/Collection-load
-beta: FALSE
-notebook: FALSE
+sidebar_label: "load()"
+beta: false
+notebook: false
+description: "This operation loads the data of the current collection into memory. | Python | ORM"
 type: docx
 token: HQDndiGwloWKIexgPCUcEZGenOh
 sidebar_position: 20

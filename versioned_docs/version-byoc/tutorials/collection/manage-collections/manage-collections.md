@@ -1,10 +1,19 @@
 ---
+title: "Manage Collections | BYOC"
 slug: /manage-collections
+sidebar_label: "Manage Collections"
 beta: FALSE
 notebook: FALSE
+description: "Learn about how to manipulate collections on the Zilliz Cloud console or via SDKs. | BYOC"
 type: origin
 token: XzguwvYt9ipFpkkNdNzcgMnOnJe
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - collection
+  - manage
 
 ---
 

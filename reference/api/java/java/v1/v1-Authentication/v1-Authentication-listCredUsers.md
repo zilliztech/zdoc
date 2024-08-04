@@ -1,7 +1,10 @@
 ---
+title: "listCredUsers() | Java | v1"
 slug: /java/v1-Authentication-listCredUsers
+sidebar_label: "listCredUsers()"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method lists all user names. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#Th34dgQQaoByE8xLVv4cvUEInne
 sidebar_position: 4

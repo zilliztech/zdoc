@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "delete() | Python | ORM"
 slug: /python/python/Collection-delete
-beta: FALSE
-notebook: FALSE
+sidebar_label: "delete()"
+beta: false
+notebook: false
+description: "This operation deletes entities with a boolean expression. | Python | ORM"
 type: docx
 token: TJMVdi4U2oBFnAxO95jctzVAnzg
 sidebar_position: 6

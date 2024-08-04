@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "get_users() | Python | ORM"
 slug: /python/python/Role-get_users
-beta: FALSE
-notebook: FALSE
+sidebar_label: "get_users()"
+beta: false
+notebook: false
+description: "This operation lists all users associated with the current role. | Python | ORM"
 type: docx
 token: CCOhd671iog6rRxu8aOcaPncnLK
 sidebar_position: 4

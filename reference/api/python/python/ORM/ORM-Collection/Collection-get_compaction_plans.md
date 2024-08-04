@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "get_compaction_plans() | Python | ORM"
 slug: /python/python/Collection-get_compaction_plans
-beta: FALSE
-notebook: FALSE
+sidebar_label: "get_compaction_plans()"
+beta: false
+notebook: false
+description: "This operation gets the current compaction plans. | Python | ORM"
 type: docx
 token: D6Q7dq4USotLS3xxMP0cFiGLnsf
 sidebar_position: 12

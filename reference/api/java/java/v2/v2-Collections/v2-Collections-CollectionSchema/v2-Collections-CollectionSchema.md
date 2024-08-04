@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "CollectionSchema | Java | v2"
 slug: /java/java/v2-Collections-CollectionSchema
+sidebar_label: "CollectionSchema"
 beta: false
 notebook: false
+description: "A CollectionSchema instance represents the schema of a collection. A schema sketches the structure of a collection. | Java | v2"
 type: docx
 token: FxUxdWGz2oUh1ixyquZcAndBnAf
 sidebar_position: 2

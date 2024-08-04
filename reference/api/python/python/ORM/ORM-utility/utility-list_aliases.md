@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_aliases() | Python | ORM"
 slug: /python/python/utility-list_aliases
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_aliases()"
+beta: false
+notebook: false
+description: "This operation lists all existing aliases for a specific collection. | Python | ORM"
 type: docx
 token: XBwxdP96Go8ITyx7UuNcL7EonPd
 sidebar_position: 22

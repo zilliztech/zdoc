@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "drop_user() | Python | MilvusClient"
 slug: /python/python/Authentication-drop_user
-beta: FALSE
-notebook: FALSE
+sidebar_label: "drop_user()"
+beta: false
+notebook: false
+description: "This operation drops a user. | Python | MilvusClient"
 type: docx
 token: WtyZdeFKMoSv5exaYRxcPLCSndg
 sidebar_position: 6

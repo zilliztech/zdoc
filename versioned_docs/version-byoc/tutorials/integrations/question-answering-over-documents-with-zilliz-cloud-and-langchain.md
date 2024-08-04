@@ -1,11 +1,19 @@
 ---
+title: "Question Answering over Documents with Zilliz Cloud and LangChain | BYOC"
 slug: /question-answering-over-documents-with-zilliz-cloud-and-langchain
-sidebar_label: With LangChain
+sidebar_label: "With LangChain"
 beta: FALSE
 notebook: FALSE
+description: "This guide demonstrates how to build an LLM-driven question-answering application using Zilliz Cloud and LangChain. | BYOC"
 type: origin
 token: VSL7w4qDdiW0onkmrpucHCiBnIC
 sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - langchain
 
 ---
 

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "dropIndex() | Java | v2"
 slug: /java/java/v2-Management-dropIndex
+sidebar_label: "dropIndex()"
 beta: false
 notebook: false
+description: "This operation drops an index from a specific collection. | Java | v2"
 type: docx
 token: KdFEdP8ZToYvZ1xmmQgcE62unUf
 sidebar_position: 3

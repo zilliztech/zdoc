@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "search() | Java | v2"
 slug: /java/java/v2-Vector-search
+sidebar_label: "search()"
 beta: false
 notebook: false
+description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Java | v2"
 type: docx
 token: RycIdCl3LoLMAMxNOEhcgMutnig
 sidebar_position: 7

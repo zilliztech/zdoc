@@ -1,10 +1,20 @@
 ---
+title: "Prepare Source Data | Cloud"
 slug: /prepare-source-data
+sidebar_label: "Prepare Source Data"
 beta: FALSE
 notebook: FALSE
+description: "This page shows you the basic requirements for the source data you need to observe when performing an import on Zilliz Cloud. | Cloud"
 type: origin
 token: AYoywCl7yiAcrHkSVogcfyPLn7m
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data import
+  - prepare
+  - source
 
 ---
 
@@ -123,7 +133,7 @@ A valid JSON file has a root key named **rows**, the corresponding value of whic
    </tr>
    <tr>
      <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total<br/> Serverless and Dedicated cluster:<br/> - Individual file size: 10 GB<br/> - Total file size: 100 GB</p></td>
+     <td><p>Free cluster: 512 MB in total</p><p>Serverless and Dedicated cluster:</p><ul><li><p>Individual file size: 10 GB</p></li><li><p>Total file size: 100 GB</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>Applicable data file locations</strong></p></td>
@@ -158,7 +168,7 @@ You can either rebuild your data on your own by referring to [Prepare the data f
    </tr>
    <tr>
      <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total<br/> Serverless &amp; Dedicated cluster<br/> - Individual file size: 10 GB<br/> - Total file size: 100 GB</p></td>
+     <td><p>Free cluster: 512 MB in total</p><p>Serverless &amp; Dedicated cluster</p><ul><li><p>Individual file size: 10 GB</p></li><li><p>Total file size: 100 GB</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>Applicable data file locations</strong></p></td>
@@ -197,7 +207,7 @@ A valid set of NumPy files should be named after the fields in the schema of the
    </tr>
    <tr>
      <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total<br/> Serverless &amp; Dedicated cluster:<br/> - Total file size in each first-level subfolder: 10 GB<br/> - Total file size: 100 GB<br/></p></td>
+     <td><p>Free cluster: 512 MB in total</p><p>Serverless &amp; Dedicated cluster:</p><ul><li><p>Total file size in each first-level subfolder: 10 GB</p></li><li><p>Total file size: 100 GB</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>Applicable data file locations</strong></p></td>
@@ -277,15 +287,15 @@ Zilliz Cloud also supports data import from a bucket on **AWS S3**, **Google GCS
        </tr>
        <tr>
          <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s3://bucket-name/json-folder/</code><br/> <code>s3://bucket-name/json-folder/data.json</code></p></td>
+         <td><p><code>s3://bucket-name/json-folder/</code></p><p><code>s3://bucket-name/json-folder/data.json</code></p></td>
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s3://bucket-name/numpy_folder/</code><br/> <code>s3://bucket-name/folder/*.npy</code></p></td>
+         <td><p><code>s3://bucket-name/numpy_folder/</code></p><p><code>s3://bucket-name/folder/*.npy</code></p></td>
        </tr>
        <tr>
          <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>s3://bucket-name/parquet-folder/</code><br/> <code>s3://bucket-name/parquet-folder/data.parquet</code></p></td>
+         <td><p><code>s3://bucket-name/parquet-folder/</code></p><p><code>s3://bucket-name/parquet-folder/data.parquet</code></p></td>
        </tr>
     </table>
 
@@ -329,15 +339,15 @@ Zilliz Cloud also supports data import from a bucket on **AWS S3**, **Google GCS
        </tr>
        <tr>
          <td><p><strong>JSON</strong></p></td>
-         <td><p><code>gs://bucket-name/json-folder/</code><br/> <code>gs://bucket-name/json-folder/data.json</code></p></td>
+         <td><p><code>gs://bucket-name/json-folder/</code></p><p><code>gs://bucket-name/json-folder/data.json</code></p></td>
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>gs://bucket-name/numpy-folder/</code><br/> <code>gs://bucket-name/numpy-folder/*.npy</code></p></td>
+         <td><p><code>gs://bucket-name/numpy-folder/</code></p><p><code>gs://bucket-name/numpy-folder/*.npy</code></p></td>
        </tr>
        <tr>
          <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>gs://bucket-name/parquet-folder/</code><br/> <code>gs://bucket-name/parquet-folder/data.parquet</code></p></td>
+         <td><p><code>gs://bucket-name/parquet-folder/</code></p><p><code>gs://bucket-name/parquet-folder/data.parquet</code></p></td>
        </tr>
     </table>
 
@@ -375,15 +385,15 @@ Zilliz Cloud also supports data import from a bucket on **AWS S3**, **Google GCS
        </tr>
        <tr>
          <td><p><strong>JSON</strong></p></td>
-         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
+         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/*.npy</code></p></td>
+         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/*.npy</code></p></td>
        </tr>
        <tr>
          <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code><br/> <code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></p></td>
+         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></p></td>
        </tr>
     </table>
 

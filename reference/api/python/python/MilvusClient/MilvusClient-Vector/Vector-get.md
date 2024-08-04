@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "get() | Python | MilvusClient"
 slug: /python/python/Vector-get
-beta: FALSE
-notebook: FALSE
+sidebar_label: "get()"
+beta: false
+notebook: false
+description: "This operation gets specific entities by their IDs. | Python | MilvusClient"
 type: docx
 token: TEUDde2xbo0JT7xtVvtcF53Nnub
 sidebar_position: 2

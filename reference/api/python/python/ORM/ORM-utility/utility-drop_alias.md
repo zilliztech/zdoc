@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "drop_alias() | Python | ORM"
 slug: /python/python/utility-drop_alias
-beta: FALSE
-notebook: FALSE
+sidebar_label: "drop_alias()"
+beta: false
+notebook: false
+description: "This operation drops a specified collection alias. | Python | ORM"
 type: docx
 token: V7BWdrC39oPAauxoWBzcaldwnVc
 sidebar_position: 9

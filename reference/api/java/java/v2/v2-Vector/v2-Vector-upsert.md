@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "upsert() | Java | v2"
 slug: /java/java/v2-Vector-upsert
-beta: FALSE
-notebook: FALSE
+sidebar_label: "upsert()"
+beta: false
+notebook: false
+description: "This operation inserts or updates data in a specific collection. | Java | v2"
 type: docx
 token: A0UBd45iyoGah2xaFjQc4bp6n2b
 sidebar_position: 9

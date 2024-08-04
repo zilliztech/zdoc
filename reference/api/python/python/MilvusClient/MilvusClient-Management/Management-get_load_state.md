@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "get_load_state() | Python | MilvusClient"
 slug: /python/python/Management-get_load_state
-beta: FALSE
-notebook: FALSE
+sidebar_label: "get_load_state()"
+beta: false
+notebook: false
+description: "This operation displays whether a specified collection or partition is loaded or not. | Python | MilvusClient"
 type: docx
 token: KEPYdKup1o3nHdxKbjvcQUzwnnd
 sidebar_position: 5

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "alterAlias() | Node.js"
 slug: /node/node/Collections-alterAlias
-beta: FALSE
-notebook: FALSE
+sidebar_label: "alterAlias()"
+beta: false
+notebook: false
+description: "This operation reassigns the alias of one collection to another. | Node.js"
 type: docx
 token: DXTLdtFCso7fo6xJHShc7XLpngh
 sidebar_position: 1

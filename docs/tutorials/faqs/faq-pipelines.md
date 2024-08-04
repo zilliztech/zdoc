@@ -1,7 +1,10 @@
 ---
+title: "FAQ: Pipelines | CLOUD"
 slug: /faq-pipelines
+sidebar_label: "FAQ: Pipelines"
 beta: FALSE
 notebook: FALSE
+description: "This topic lists the possible issues you may encounter while using pipelines. | CLOUD"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 5
@@ -10,7 +13,7 @@ sidebar_position: 5
 
 # FAQ: Pipelines
 
-**How can Zilliz Cloud Pipelines enhance my semantic search capabilities?**
+This topic lists the possible issues you may encounter while using pipelines.
 
 ## Contents
 
@@ -25,6 +28,8 @@ sidebar_position: 5
 ## FAQs
 
 
+
+
 ### How can Zilliz Cloud Pipelines enhance my semantic search capabilities?{#how-can-zilliz-cloud-pipelines-enhance-my-semantic-search-capabilities}
 
 Pipelines help create high-quality vector embeddings, which serve as the foundation for relevant semantic search results.
@@ -35,7 +40,7 @@ Zilliz Cloud Pipeline is available on all tiers as long as you have created a cl
 
 ### Which embedding model does Zilliz Cloud Pipelines use?{#which-embedding-model-does-zilliz-cloud-pipelines-use}
 
-The text doc ingestion and search pipelines support various embedding models.
+The text and doc ingestion and search pipelines support various embedding models.
 
 - **For English:**
 
@@ -69,9 +74,23 @@ The text doc ingestion and search pipelines support various embedding models.
 
         Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model.
 
+The image ingestion and search pipelines support the following embedding models:
+
+- zilliz/vit-base-patch16-224
+
+    The Vision Transformer (ViT) is a transformer encoder model (BERT-like) open-sourced by Google. The model is pretrained on a large collection of images to embed the semantic of image content to a vector space. The model is hosted on Zilliz Cloud to provide the best latency.
+
+- zilliz/clip-vit-base-patch32
+
+    A multi-modal model released by OpenAI. This vision model and its pairing text model are capable of embedding images and texts into the same vector space, enabling semantic search between visual and textual information. The model is hosted on Zilliz Cloud to provide the best latency.
+
+- zilliz/clip-vit-base-patch32-multilingual-v1
+
+    A multi-lingual variant of OpenAI's CLIP-ViT-B32 model. It is designed to work together with CLIP-ViT-B32's vision model and can process text in more than 50 languages. This model is hosted on Zilliz Cloud to provide the best latency.
+
 ### How is Zilliz Cloud Pipelines charged?{#how-is-zilliz-cloud-pipelines-charged}
 
-Currently, Zilliz Cloud Pipelines is free to use. You only need to pay for the cluster usage.
+Currently, Zilliz Cloud Pipelines offer free quotas. Your initial spend of $20 is complimentary. For more details, please refer to [Pricing](https://zilliz.com/pricing).
 
 ### Can I use Zilliz Cloud Pipelines standalone?{#can-i-use-zilliz-cloud-pipelines-standalone}
 

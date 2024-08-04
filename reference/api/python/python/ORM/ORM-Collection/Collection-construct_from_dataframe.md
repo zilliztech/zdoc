@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "construct_from_dataframe() | Python | ORM"
 slug: /python/python/Collection-construct_from_dataframe
-beta: FALSE
-notebook: FALSE
+sidebar_label: "construct_from_dataframe()"
+beta: false
+notebook: false
+description: "This operation creates a collection with the specified dataframe. | Python | ORM"
 type: docx
 token: ISZadjHwyopWr5xRdJ2cqxVanEg
 sidebar_position: 3

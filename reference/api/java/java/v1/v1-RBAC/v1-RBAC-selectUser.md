@@ -1,7 +1,10 @@
 ---
+title: "selectUser() | Java | v1"
 slug: /java/v1-RBAC-selectUser
+sidebar_label: "selectUser()"
 beta: FALSE
 notebook: FALSE
+description: "MilvusClient interface. This method gets all roles the user has. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#KkFWd37sBoF0XrxMhNHcGWDVnYg
 sidebar_position: 6

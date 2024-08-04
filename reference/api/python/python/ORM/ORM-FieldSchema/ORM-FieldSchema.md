@@ -1,11 +1,14 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "FieldSchema | Python | ORM"
 slug: /python/python/ORM-FieldSchema
+sidebar_label: "FieldSchema"
 beta: false
 notebook: false
-type: folder
-token: RV1nfeylFlUftwd2w4Wc40TYn6d
-sidebar_position: 5
+description: "A FieldSchema instance defines the data type and related attributes of a specific field in a collection. | Python | ORM"
+type: docx
+token: EVKhdy0vwoSLSux2RW2c660unjh
+sidebar_position: 2
 displayed_sidebar: pythonSidebar
 
 ---
@@ -140,7 +143,3 @@ A **FieldSchema** object.
 ## Methods{#methods}
 
 The following are the methods of the `FieldSchema` class:
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

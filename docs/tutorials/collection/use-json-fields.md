@@ -1,10 +1,19 @@
 ---
+title: "Use JSON Fields | Cloud"
 slug: /use-json-fields
+sidebar_label: "Use JSON Fields"
 beta: FALSE
 notebook: FALSE
+description: "This guide explains how to use the JSON fields, such as inserting JSON values as well as searching and querying in JSON fields with basic and advanced operators. | Cloud"
 type: origin
 token: LTa6we6DziWCb9kmpm5cIRL0nld
 sidebar_position: 8
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - json field
+  - milvus
 
 ---
 
@@ -1760,7 +1769,7 @@ The following table assumes that the value of a JSON field named `json_key` has 
    <tr>
      <td><p><strong>!=</strong></p></td>
      <td><p><code>'json_field["A"][0]' != "abc"'</code></p></td>
-     <td><p>This expression evaluates to true if<br/> - <code>json_field</code> does not have a key named <code>A</code>.<br/> - <code>json_field</code> has a key named <code>A</code> but <code>json_field["A"]</code> is not an array.<br/> - <code>json_field["A"]</code> is an empty array.<br/> - <code>json_field["A"]</code> is an array but the first element is not <code>abc</code>.</p></td>
+     <td><p>This expression evaluates to true if</p><ul><li><p><code>json_field</code> does not have a key named <code>A</code>.</p></li><li><p><code>json_field</code> has a key named <code>A</code> but <code>json_field["A"]</code> is not an array.</p></li><li><p><code>json_field["A"]</code> is an empty array.</p></li><li><p><code>json_field["A"]</code> is an array but the first element is not <code>abc</code>.</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>\<=</strong></p></td>
@@ -1775,7 +1784,7 @@ The following table assumes that the value of a JSON field named `json_key` has 
    <tr>
      <td><p><strong>not</strong></p></td>
      <td><p><code>'not json_field["A"] == 1'</code></p></td>
-     <td><p>This expression evaluates to true if<br/> - <code>json_field</code> does not have a key named <code>A</code>.<br/> - <code>json_field["A"]</code> is not equal to <code>1</code>.<br/></p></td>
+     <td><p>This expression evaluates to true if</p><ul><li><p><code>json_field</code> does not have a key named <code>A</code>.</p></li><li><p><code>json_field["A"]</code> is not equal to <code>1</code>.</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>in</strong></p></td>

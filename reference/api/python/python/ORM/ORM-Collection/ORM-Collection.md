@@ -1,10 +1,13 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "Collection | Python | ORM"
 slug: /python/python/ORM-Collection
+sidebar_label: "Collection"
 beta: false
 notebook: false
-type: folder
-token: ZGbAfWoUjl0Z3xdgyItc8wYXngf
+description: "A Collection instance represents a Milvus collection. | Python | ORM"
+type: docx
+token: OSehdj15Ao3AUvxOIJucXzU8nWW
 sidebar_position: 1
 displayed_sidebar: pythonSidebar
 
@@ -137,8 +140,3 @@ collection = Collection(
 
 The following are the members of the `Collection` class:
 
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

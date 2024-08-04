@@ -1,10 +1,20 @@
 ---
+title: "BYOC Components | BYOC"
 slug: /byoc-components
+sidebar_label: "BYOC Components"
 beta: FALSE
 notebook: FALSE
+description: "This topic introduces the set of system components you need to understand in order to utilize the Zilliz Cloud Bring Your Own Cloud (BYOC) solution effectively. | BYOC"
 type: origin
 token: RK4EwHdo7iu3RAk2pmOcnpRSnob
 sidebar_position: 8
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - byoc
+  - components
+  - milvus
 
 ---
 

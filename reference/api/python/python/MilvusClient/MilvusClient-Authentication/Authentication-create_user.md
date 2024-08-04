@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "create_user() | Python | MilvusClient"
 slug: /python/python/Authentication-create_user
-beta: FALSE
-notebook: FALSE
+sidebar_label: "create_user()"
+beta: false
+notebook: false
+description: "This operation creates a user. | Python | MilvusClient"
 type: docx
 token: BDupd28JqoNY9HxVOTfcv86enRe
 sidebar_position: 2

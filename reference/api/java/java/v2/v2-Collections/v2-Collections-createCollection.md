@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "createCollection() | Java | v2"
 slug: /java/java/v2-Collections-createCollection
+sidebar_label: "createCollection()"
 beta: false
 notebook: false
+description: "This operation creates a collection either with default or customized settings. | Java | v2"
 type: docx
 token: LtCFdAg8FoxWmBxOInfcUSagnHb
 sidebar_position: 5

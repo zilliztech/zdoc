@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "createSchema() | Java | v2"
 slug: /java/java/v2-Collections-createSchema
+sidebar_label: "createSchema()"
 beta: false
 notebook: false
+description: "This operation creates a collection schema. | Java | v2"
 type: docx
 token: V5KXdwdO0oqkhnxsKb9c3xaKn4c
 sidebar_position: 6

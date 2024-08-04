@@ -1,10 +1,19 @@
 ---
+title: "Example Dataset | Cloud"
 slug: /example-dataset
+sidebar_label: "Example Dataset"
 beta: FALSE
 notebook: FALSE
+description: "In this user guide series, we'll explore an example dataset comprising details of over 5,000 Medium articles. These were published between January 2020 and August 2020 in notable publications. | Cloud"
 type: origin
 token: FCgWwFVtQiUy9GkDlQNcA0xZnPa
 sidebar_position: 6
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - example dataset
+  - milvus
 
 ---
 

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "insert() | Python | ORM"
 slug: /python/python/Collection-insert
-beta: FALSE
-notebook: FALSE
+sidebar_label: "insert()"
+beta: false
+notebook: false
+description: "This operation inserts data into the current collection. | Python | ORM"
 type: docx
 token: CbCodEGY9o6pKuxowNdctUppn7d
 sidebar_position: 19

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_connections() | Python | ORM"
 slug: /python/python/Connections-list_connections
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_connections()"
+beta: false
+notebook: false
+description: "This operation returns a list of all connection names and handler objects. | Python | ORM"
 type: docx
 token: DyPldeRNXo4nMqxQeE0cMnd2nEf
 sidebar_position: 7

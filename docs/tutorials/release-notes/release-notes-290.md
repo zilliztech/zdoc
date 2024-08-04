@@ -1,10 +1,18 @@
 ---
+title: "Release Notes (June 18, 2024) | Cloud"
 slug: /release-notes-290
+sidebar_label: "Release Notes (June 18, 2024)"
 beta: FALSE
 notebook: FALSE
+description: "In this release, Zilliz Cloud has unveiled an array of new features backed by Milvus 2.4, including sparse vector support, enhanced multi-vector and hybrid search, an inverted index and fuzzy matching for faster queries, and grouping search for document-level recall. It also introduces Float16 and BFloat16 data types for improved search efficiency. In addition, the Pipelines feature now tracks token usage stats with every data ingestion and search request, streamlining performance monitoring. You can find detailed stats on the invoice page. | Cloud"
 type: origin
 token: GanXwLnJkiymKVkNPhecdi9MnGf
-sidebar_position: 1
+sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - release notes
 
 ---
 
@@ -65,7 +73,7 @@ For details, check out the [Use Binary Vector](./use-binary-vector), [Index Scal
 
 You can now aggregate the search results by the values in a specific scalar field. This helps RAG applications to implement document-level recall. Consider a collection of documents, each document splits into various passages. Each passage is represented by one vector embedding and belongs to one document. To find the most relevant documents instead of scattering passages, you can include the **group_by_field** argument in the **search()** operation to group results by the document ID.
 
-For details, check out the [Grouping Search](./single-vector-search#grouping-search-lessinclude-targetzillizgreaterlesssupgreaterbetalesssupgreaterlessincludegreater) guide and the example code in [example_group_by.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/example_group_by.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
+For details, check out the [Grouping Search](./single-vector-search#grouping-search-beta) guide and the example code in [example_group_by.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/example_group_by.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
 
 ### Float16 and BFloat- Vector DataType{#float16-and-bfloat-vector-datatype}
 

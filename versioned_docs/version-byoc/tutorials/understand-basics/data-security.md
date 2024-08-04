@@ -1,10 +1,19 @@
 ---
+title: "Data Security | BYOC"
 slug: /data-security
+sidebar_label: "Data Security"
 beta: FALSE
 notebook: FALSE
+description: "Data security is a crucial aspect of any cloud platform, and Zilliz Cloud is no exception. To safeguard data, Zilliz Cloud provides robust measures in various aspects, including authorization and authentication, network isolation, encryption, and backup and restoration. | BYOC"
 type: origin
 token: SIhBwKFJri4u2CkyD3ucnO7an3g
 sidebar_position: 7
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data
+  - security
 
 ---
 

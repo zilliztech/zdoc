@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "insert() | Python | MilvusClient"
 slug: /python/python/Vector-insert
-beta: FALSE
-notebook: FALSE
+sidebar_label: "insert()"
+beta: false
+notebook: false
+description: "This operation inserts data into a specific collection. | Python | MilvusClient"
 type: docx
 token: QI87dhVnioL9JLxnNKxcM8jWnkh
 sidebar_position: 3

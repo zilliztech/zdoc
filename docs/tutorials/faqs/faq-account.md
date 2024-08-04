@@ -1,7 +1,10 @@
 ---
+title: "FAQ: Account | CLOUD"
 slug: /faq-account
+sidebar_label: "FAQ: Account"
 beta: FALSE
 notebook: FALSE
+description: "This topic lists the possible issues about accounts that you may encounter on Zilliz Cloud and the corresponding solution. | CLOUD"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 11
@@ -28,17 +31,7 @@ This topic lists the possible issues about accounts that you may encounter on Zi
 
 ### How can I change my account email address?{#how-can-i-change-my-account-email-address}
 
-Currently, Zilliz Cloud does not support changing your account email address directly. However, you can try the following workaround plan.
-
-1. Log in to your account with the current email address.
-
-1. Invite your new email address to your organization with Organization Owner role granted.
-
-1. Log out your Zilliz Cloud.
-
-1. Check the inbox of your new email address, find the invitation email and accept the invitation.
-
-1. Follow the instructions and log in to Zilliz Cloud with your new email address.
+For more information, please refer to [Email Accounts](./email-accounts#update-account-email-address).
 
 ### Why is my account locked and how to unlock it?{#why-is-my-account-locked-and-how-to-unlock-it}
 
@@ -66,6 +59,8 @@ To unlink your Zilliz Cloud account from Google, please
 
 1. Check your email inbox for detailed instructions on how to unlink from Google and set up your new Zilliz Cloud account.
 
+For more details, refer to [Email Accounts](./email-accounts#unlink-from-third-party-authentication).
+
 ### How to delete my account?{#how-to-delete-my-account}
 
 Zilliz Cloud supports deleting account on the web console. For more information, see [Manage Your Account](./email-accounts#close-your-account).
@@ -80,6 +75,6 @@ If you already added a payment method, your organization can be frozen due to ov
 
 If you are an organization member, you can only contact your organization owner to perform the operations and unfreeze the organization.
 
-If you are an organization owner, you unfreeze your organization by paying a bill or adding a payment method. The solution depends on whether you are a free trial user or a paid user.
+If you are an organization owner, you can unfreeze your organization by paying the overdue bill or adding a payment method. The solution depends on whether you are a free trial user or a paid user.
 
 If you are still unable to unfreeze your organization after trying the above operations, please[ submit a request](https://support.zilliz.com/hc/en-us).

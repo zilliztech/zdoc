@@ -1,10 +1,19 @@
 ---
+title: "Use BulkWriter | Cloud"
 slug: /use-bulkwriter
+sidebar_label: "Use BulkWriter"
 beta: FALSE
 notebook: FALSE
+description: "If your data format does not meet the requirements on Prepare Source Data, you can use BulkWriter, a data processing tool in pymilvus and Milvus' Java SDK, to prepare your data. | Cloud"
 type: origin
 token: QyjpwAaKuihAeJkNBUJcdFesn9e
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data import
+  - bulk writer
 
 ---
 
@@ -374,7 +383,7 @@ There are two types of **BulkWriter**s available.
 
     The parameters for creating a **RemoteBulkWriter** are barely the same as those for a **LocalBulkWriter**, except **connect_param**.  For details on parameter settings, refer to **RemoteBulkWriter** and **ConnectParam** in the SDK reference.
 
-### Start writing {#start-writing}
+### Start writing{#start-writing}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 
@@ -626,15 +635,15 @@ Possible folder structures are as follows:
        </tr>
        <tr>
          <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
        </tr>
        <tr>
          <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</code></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</code></p></td>
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
        </tr>
     </table>
 
@@ -687,7 +696,7 @@ Possible folder structures are as follows:
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code><br/> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
        </tr>
     </table>
 

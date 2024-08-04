@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "create_index() | Python | MilvusClient"
 slug: /python/python/Management-create_index
-beta: FALSE
-notebook: FALSE
+sidebar_label: "create_index()"
+beta: false
+notebook: false
+description: "This operation creates an index for a specific collection. | Python | MilvusClient"
 type: docx
 token: B3n3db0idoia02xXxJfcONK8nRh
 sidebar_position: 2

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "releaseCollection() | Node.js"
 slug: /node/node/Management-releaseCollection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "releaseCollection()"
+beta: false
+notebook: false
+description: "This operation releases the data of a specific collection from memory. | Node.js"
 type: docx
 token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
 sidebar_position: 7

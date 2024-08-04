@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "load_collection() | Python | MilvusClient"
 slug: /python/python/Management-load_collection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "load_collection()"
+beta: false
+notebook: false
+description: "This operation loads the data of a specific collection into memory. | Python | MilvusClient"
 type: docx
 token: FLmWdFP9Zo3JcixOEgucU8JMnLc
 sidebar_position: 7

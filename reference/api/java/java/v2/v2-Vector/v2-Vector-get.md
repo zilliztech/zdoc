@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "get() | Java | v2"
 slug: /java/java/v2-Vector-get
+sidebar_label: "get()"
 beta: false
 notebook: false
+description: "This operation gets specific entities by their IDs. | Java | v2"
 type: docx
 token: UcacdecoZoAyxsxJzOGcTqWzn7d
 sidebar_position: 2

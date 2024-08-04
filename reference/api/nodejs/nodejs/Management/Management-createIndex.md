@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "createIndex() | Node.js"
 slug: /node/node/Management-createIndex
-beta: FALSE
-notebook: FALSE
+sidebar_label: "createIndex()"
+beta: false
+notebook: false
+description: "This operation creates an index for a specific collection. | Node.js"
 type: docx
 token: WFRodQlfKoPHTUxbBYzcLug8nsd
 sidebar_position: 1

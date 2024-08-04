@@ -1,7 +1,10 @@
 ---
+title: "updateCredential() | Java | v1"
 slug: /java/v1-Authentication-updateCredential
+sidebar_label: "updateCredential()"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method updates the password corresponding to a given username. The original username and password must be provided to check if the update operation is valid. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#GqZldXhBwoOd1Vx1k36co7scnEL
 sidebar_position: 2

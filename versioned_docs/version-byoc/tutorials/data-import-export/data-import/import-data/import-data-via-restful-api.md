@@ -1,11 +1,19 @@
 ---
+title: "Import Data (RESTful API) | BYOC"
 slug: /import-data-via-restful-api
-sidebar_label: RESTful API
+sidebar_label: "RESTful API"
 beta: FALSE
 notebook: FALSE
+description: "This page introduces how to import the prepared data via the Zilliz Cloud RESTful API. | BYOC"
 type: origin
 token: ZOikw2pIUiAZj9kuLYRcdhLnnoc
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data import
+  - restful
 
 ---
 

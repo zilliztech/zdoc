@@ -1,10 +1,19 @@
 ---
+title: "Hybrid Search | Cloud"
 slug: /hybrid-search
+sidebar_label: "Hybrid Search"
 beta: TRUE
 notebook: FALSE
+description: "Zilliz Cloud introduced multi-vector support and a hybrid search framework, which means users can bring in several vector fields into a single collection. These vectors in different columns represent diverse facets of data, originating from different embedding models or undergoing distinct processing methods. The results of hybrid searches are integrated using reranking strategies, such as Reciprocal Rank Fusion (RRF) and Weighted Scoring. To learn more about reranking strategies, refer to Reranking. | Cloud"
 type: origin
 token: XCyUwoOmQiQyZIkSGvqcrYexneg
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - hybrid search
+  - milvus
 
 ---
 
@@ -13,13 +22,13 @@ import Admonition from '@theme/Admonition';
 
 # Hybrid Search
 
-Zilliz Cloud introduced multi-vector support and a hybrid search framework, which means users can bring in several vector fields into a single collection. These vectors in different columns represent diverse facets of data, originating from different embedding models or undergoing distinct processing methods. The results of hybrid searches are integrated using reranking strategies, such as Reciprocal Rank Fusion (RRF) and Weighted Scoring.
+Zilliz Cloud introduced multi-vector support and a hybrid search framework, which means users can bring in several vector fields into a single collection. These vectors in different columns represent diverse facets of data, originating from different embedding models or undergoing distinct processing methods. The results of hybrid searches are integrated using reranking strategies, such as Reciprocal Rank Fusion (RRF) and Weighted Scoring. To learn more about reranking strategies, refer to [Reranking](./reranking).
 
 This feature is particularly useful in comprehensive search scenarios, such as identifying the most similar person in a vector library based on various attributes like pictures, voice, fingerprints, etc.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, this feature is available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+<p>Currently, this feature is available exclusively for clusters that have been upgraded to the Beta version.</p>
 
 </Admonition>
 
@@ -39,7 +48,7 @@ In this tutorial, you will learn how to:
 
 ## Preparations{#preparations}
 
-Before starting a hybrid search, ensure you have a collection with multiple vector fields.
+Before starting a hybrid search, ensure you have a collection with multiple vector fields. Currently, Zilliz Cloud introduces a default of four vector fields per collection.
 
 Below is an example of creating a collection named `test_collection` with two vector fields, `filmVector` and `posterVector`, and inserting random entities into it.
 

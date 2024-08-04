@@ -1,11 +1,14 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "wait_for_index_building_complete() | Python | ORM"
 slug: /python/python/utility-wait_for_index_building_complete
-beta: FALSE
-notebook: FALSE
+sidebar_label: "wait_for_index_building_complete()"
+beta: false
+notebook: false
+description: "This operation blocks the current process until the specified index has been built. | Python | ORM"
 type: docx
 token: MfR8dw5TioPvw3xvrstcgYixnUb
-sidebar_position: 42
+sidebar_position: 43
 displayed_sidebar: pythonSidebar
 
 ---

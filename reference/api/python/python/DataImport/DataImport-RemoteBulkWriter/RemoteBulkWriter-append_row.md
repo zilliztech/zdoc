@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "append_row() | Python"
 slug: /python/python/RemoteBulkWriter-append_row
-beta: FALSE
-notebook: FALSE
+sidebar_label: "append_row()"
+beta: false
+notebook: false
+description: "This operation appends records to the writer. | Python"
 type: docx
 token: F1MFdP8VvoMu17x4Vg9cH6ztnqb
 sidebar_position: 1

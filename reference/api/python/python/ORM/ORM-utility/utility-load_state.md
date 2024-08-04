@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "load_state() | Python | ORM"
 slug: /python/python/utility-load_state
-beta: FALSE
-notebook: FALSE
+sidebar_label: "load_state()"
+beta: false
+notebook: false
+description: "This operation returns the load status of a specific collection. | Python | ORM"
 type: docx
 token: BJysdlj1MoksHZxNRxicHn9fnSh
 sidebar_position: 33

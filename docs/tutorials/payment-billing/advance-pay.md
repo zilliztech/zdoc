@@ -1,11 +1,18 @@
 ---
+title: "Use Advance Pay | Cloud"
 slug: /advance-pay
-sidebar_label: Advance Pay
+sidebar_label: "Advance Pay"
 beta: FALSE
 notebook: FALSE
+description: "Zilliz Cloud also accepts advance pay (bank transfer) as the payment method in alternative to adding a credit card or subscribing on AWS Marketplace. | Cloud"
 type: origin
 token: K8hFwmeBQiCSO4ktT9ScD9zMnua
 sidebar_position: 6
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - advance pay
 
 ---
 

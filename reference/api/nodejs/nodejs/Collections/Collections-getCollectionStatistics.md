@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "getCollectionStatistics() | Node.js"
 slug: /node/node/Collections-getCollectionStatistics
-beta: FALSE
-notebook: FALSE
+sidebar_label: "getCollectionStatistics()"
+beta: false
+notebook: false
+description: "This operation lists the statistics collected on a specific collection. | Node.js"
 type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
 sidebar_position: 9

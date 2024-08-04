@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "has_partition() | Python | ORM"
 slug: /python/python/Collection-has_partition
-beta: FALSE
-notebook: FALSE
+sidebar_label: "has_partition()"
+beta: false
+notebook: false
+description: "This operation checks whether the specified partition exists in the current collection. | Python | ORM"
 type: docx
 token: QsOsda2lRoJP32xNSLWcbgMOnKI
 sidebar_position: 16

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "listPartitions() | Node.js"
 slug: /node/node/Partitions-listPartitions
-beta: FALSE
-notebook: FALSE
+sidebar_label: "listPartitions()"
+beta: false
+notebook: false
+description: "This operation lists the partitions in a specified collection. | Node.js"
 type: docx
 token: JNPwdFI1zoleD7x9LRIc0eqcnof
 sidebar_position: 5

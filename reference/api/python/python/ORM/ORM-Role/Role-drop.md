@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "drop() | Python | ORM"
 slug: /python/python/Role-drop
-beta: FALSE
-notebook: FALSE
+sidebar_label: "drop()"
+beta: false
+notebook: false
+description: "This operation drops an existing role. The operation will succeed if the specified role exists. Otherwise, this operation will fail. | Python | ORM"
 type: docx
 token: KEzNdJPoDoHOjlx2FC8cNcHqngg
 sidebar_position: 3

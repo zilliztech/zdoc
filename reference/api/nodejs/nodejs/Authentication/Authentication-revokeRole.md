@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "revokeRole() | Node.js"
 slug: /node/node/Authentication-revokeRole
-beta: FALSE
-notebook: FALSE
+sidebar_label: "revokeRole()"
+beta: false
+notebook: false
+description: "This operation revokes the role assigned to a user. | Node.js"
 type: docx
 token: W7XJdZDHnoFECDxCYoMcrZqrnnd
 sidebar_position: 14

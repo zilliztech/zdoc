@@ -1,10 +1,19 @@
 ---
+title: "Manage Cluster Credentials (SDK) | Cloud"
 slug: /cluster-credentials-sdk
+sidebar_label: "Manage Cluster Credentials (SDK)"
 beta: FALSE
 notebook: FALSE
+description: "In addition to managing cluster credentials on web UI, Zilliz Cloud extends its functionality by offering SDKs for credential management. This integration enhances flexibility and provides more customization options than the web UI alone. | Cloud"
 type: origin
 token: NGvbww7DpirhxOknAWncOrmqnNJ
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - cluster credentials
+  - sdk
 
 ---
 

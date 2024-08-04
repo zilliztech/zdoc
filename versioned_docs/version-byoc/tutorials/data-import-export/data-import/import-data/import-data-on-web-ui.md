@@ -1,11 +1,19 @@
 ---
+title: "Import Data (Console) | BYOC"
 slug: /import-data-on-web-ui
-sidebar_label: Console
+sidebar_label: "Console"
 beta: FALSE
 notebook: FALSE
+description: "This page introduces how to import the prepared data on the Zilliz Cloud console. | BYOC"
 type: origin
 token: KkdswLx2bi4bgCkY6bEc7Do9neh
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data import
+  - console
 
 ---
 
@@ -34,7 +42,10 @@ Once data files are ready, you can upload them to an object storage bucket for d
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You can have up to 10 running or pending import jobs in a collection.</p>
+<ul>
+<li><p>You can have up to 10 running or pending import jobs in a collection.</p></li>
+<li><p>The web console supports uploading a local JSON file of up to 1 GB. For larger files, it is recommended to <a href="./import-data-on-web-ui#remote-files-from-an-object-storage-bucket">upload from an object storage</a> instead. If you have any difficulties with data import, please <a href="https://support.zilliz.com/hc/en-us">create a support ticket</a>.</p></li>
+</ul>
 
 </Admonition>
 
@@ -52,67 +63,13 @@ Once you have uploaded the prepared files to a remote bucket, select the object 
 
 ![byoc-data-import-on-console-remote](/byoc/byoc-data-import-on-console-remote.png)
 
-### Supported object paths{#supported-object-paths}
+## Verify resultes{#verify-resultes}
 
-The following table lists applicable remote bucket URIs and some quick examples for you to build a valid import path.
+You can view the progress and status of the import job on the [Jobs](./job-center) page.
 
-- **Object access URIs**
+## Supported object paths{#supported-object-paths}
 
-    <table>
-       <tr>
-         <th><p><strong>URI Style</strong></p></th>
-         <th><p><strong>URI Format</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><strong>AWS S3 URI</strong></p></td>
-         <td><p><code>s3://bucket-name/object-name</code></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
-         <td><p><code>https://bucket-name.s3.region-code.amazonaws.com/object-name</code></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>AWS Object URL, path-style</strong></p></td>
-         <td><p><code>https://s3.region-code.amazonaws.com/bucket-name/object-name</code></p></td>
-       </tr>
-    </table>
-
-    For more details, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
-
-- **Quick examples**
-
-    <table>
-       <tr>
-         <th><p><strong>File Type</strong></p></th>
-         <th><p><strong>Quick Examples</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s3://bucket-name/json-folder/</code><br/> <code>s3://bucket-name/json-folder/data.json</code></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s3://bucket-name/numpy_folder/</code><br/> <code>s3://bucket-name/folder/*.npy</code></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>s3://bucket-name/parquet-folder/</code><br/> <code>s3://bucket-name/parquet-folder/data.parquet</code></p></td>
-       </tr>
-    </table>
-
-- **Required permissions**
-
-    - `s3:GetObject`
-
-    - `s3:ListBucket`
-
-    - `s3:GetBucketLocation`
-
-## Verify the result{#verify-the-result}
-
-After the import is complete, you will receive the following information. At this point, you can view job details or start exploring the imported data for what interests you.
-
-![data_import_complete](/byoc/data_import_complete.png)
+For applicable object paths, refer to [Tips on Import Paths](./prepare-source-data#tips-on-import-paths).
 
 ## Related topics{#related-topics}
 

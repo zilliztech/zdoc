@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "add_user() | Python | ORM"
 slug: /python/python/Role-add_user
-beta: FALSE
-notebook: FALSE
+sidebar_label: "add_user()"
+beta: false
+notebook: false
+description: "This operation adds an existing user to the current role. Once added, the user gets permissions allowed for the current role and can perform certain operations. | Python | ORM"
 type: docx
 token: W7GJdpYrYoYhSaxW6uzcVAZinYf
 sidebar_position: 1

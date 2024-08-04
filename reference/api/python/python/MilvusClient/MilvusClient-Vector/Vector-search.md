@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "search() | Python | MilvusClient"
 slug: /python/python/Vector-search
-beta: FALSE
-notebook: FALSE
+sidebar_label: "search()"
+beta: false
+notebook: false
+description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Python | MilvusClient"
 type: docx
 token: D74JdcitKobd7cxNdDdcGAz6nuf
 sidebar_position: 5

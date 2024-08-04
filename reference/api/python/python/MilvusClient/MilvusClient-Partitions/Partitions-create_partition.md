@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "create_partition() | Python | MilvusClient"
 slug: /python/python/Partitions-create_partition
-beta: FALSE
-notebook: FALSE
+sidebar_label: "create_partition()"
+beta: false
+notebook: false
+description: "This operation creates a partition in the target collection. | Python | MilvusClient"
 type: docx
 token: I6hvdlYUuoUaw3xWqSnce4Fin9g
 sidebar_position: 1

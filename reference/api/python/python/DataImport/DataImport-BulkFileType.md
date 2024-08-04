@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "BulkFileType | Python"
 slug: /python/python/DataImport-BulkFileType
-beta: FALSE
-notebook: FALSE
+sidebar_label: "BulkFileType"
+beta: false
+notebook: false
+description: "This is an enumeration that provides the following constants. | Python"
 type: docx
 token: CROadSmHNoV2CuxREnccTkaen0e
 sidebar_position: 1

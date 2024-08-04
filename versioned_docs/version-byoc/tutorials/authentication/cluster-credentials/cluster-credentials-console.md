@@ -1,10 +1,19 @@
 ---
+title: "Manage Cluster Credentials (Console) | BYOC"
 slug: /cluster-credentials-console
+sidebar_label: "Manage Cluster Credentials (Console)"
 beta: FALSE
 notebook: FALSE
+description: "In Zilliz Cloud, a cluster credential consists of a username and password pair, utilized to authenticate and authorize your requests for cluster interaction. | BYOC"
 type: origin
 token: Ha8jwqxnniC8mDkXM4RcN4SFnKf
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - cluster credentials
+  - console
 
 ---
 

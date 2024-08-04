@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "add_index() | Python | MilvusClient"
 slug: /python/python/Management-add_index
-beta: FALSE
-notebook: FALSE
+sidebar_label: "add_index()"
+beta: false
+notebook: false
+description: "This operation adds index parameters for a specific field in a collection. | Python | MilvusClient"
 type: docx
 token: ZplAdphtooqHJkxo8GCcOFecngd
 sidebar_position: 1

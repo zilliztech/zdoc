@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "IndexParam | Java | v2"
 slug: /java/java/v2-Management-IndexParam
+sidebar_label: "IndexParam"
 beta: false
 notebook: false
+description: "This operation prepares index parameters to build indexes for a specific collection. | Java | v2"
 type: docx
 token: QecOdXKyfo9JtMxkHZxcLNqknxh
 sidebar_position: 5

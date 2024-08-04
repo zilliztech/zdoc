@@ -1,10 +1,19 @@
 ---
+title: "Resource Manager | BYOC"
 slug: /resource-manager
+sidebar_label: "Resource Manager"
 beta: FALSE
 notebook: FALSE
+description: "The Resource Manager is pivotal for monitoring your Bring Your Own Cloud (BYOC) resources. This module ensures you have complete visibility and control over the cloud resources within your infrastructure. | BYOC"
 type: origin
 token: HLkQwRiK2i6dFukrOB2cRdFTnR7
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - resource
+  - manager
 
 ---
 

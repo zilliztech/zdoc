@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "describeIndex() | Node.js"
 slug: /node/node/Management-describeIndex
-beta: FALSE
-notebook: FALSE
+sidebar_label: "describeIndex()"
+beta: false
+notebook: false
+description: "This operation describes a specific index. | Node.js"
 type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 2

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "update_password() | Python | MilvusClient"
 slug: /python/python/Authentication-update_password
-beta: FALSE
-notebook: FALSE
+sidebar_label: "update_password()"
+beta: false
+notebook: false
+description: "This operation updates the password of a specific user. | Python | MilvusClient"
 type: docx
 token: WGDod7Qehou4GWx4Co2cJ34VnKb
 sidebar_position: 13

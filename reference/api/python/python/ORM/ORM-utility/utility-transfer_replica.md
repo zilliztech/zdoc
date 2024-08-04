@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "transfer_replica() | Python | ORM"
 slug: /python/python/utility-transfer_replica
-beta: FALSE
-notebook: FALSE
+sidebar_label: "transfer_replica()"
+beta: false
+notebook: false
+description: "This operation transfers a specific number of replicas between resource groups. | Python | ORM"
 type: docx
 token: SuePdciB0o4du5xtpIhcMVyYnPb
 sidebar_position: 40

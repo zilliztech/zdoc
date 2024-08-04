@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "upsert() | Node.js"
 slug: /node/node/Vector-upsert
-beta: FALSE
-notebook: FALSE
+sidebar_label: "upsert()"
+beta: false
+notebook: false
+description: "This operation inserts or updates data in a specific collection. | Node.js"
 type: docx
 token: MErAdudCloVawFxpxoWcgqZonLc
 sidebar_position: 6

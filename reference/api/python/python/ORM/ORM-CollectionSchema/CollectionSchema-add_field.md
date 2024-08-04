@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "add_field() | Python | ORM"
 slug: /python/python/CollectionSchema-add_field
-beta: FALSE
-notebook: FALSE
+sidebar_label: "add_field()"
+beta: false
+notebook: false
+description: "This operation adds a field to the schema of a collection. | Python | ORM"
 type: docx
 token: TG3Rd9aM5offvFxKy2CcKXn9nWc
 sidebar_position: 1

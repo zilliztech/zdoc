@@ -1,10 +1,20 @@
 ---
+title: "Cluster, Collection & Entities | Cloud"
 slug: /cluster-collection-and-entities
+sidebar_label: "Cluster, Collection & Entities"
 beta: FALSE
 notebook: FALSE
+description: "A Zilliz Cloud cluster is a managed Milvus instance associated with certain computing resources. You can create collections in the cluster and insert entities into them. In comparison to a relational database, a collection in a cluster is similar to a table in the database, and an entity in a collection is similar to a record in the table. | Cloud"
 type: origin
 token: KfI3wa2ZCiEJyzkkvKSc5FennId
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cluster
+  - collection
+  - entities
+  - milvus
 
 ---
 

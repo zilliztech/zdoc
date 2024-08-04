@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "dropAlias() | Node.js"
 slug: /node/node/Collections-dropAlias
-beta: FALSE
-notebook: FALSE
+sidebar_label: "dropAlias()"
+beta: false
+notebook: false
+description: "This operation drops a specified collection alias. | Node.js"
 type: docx
 token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
 sidebar_position: 7

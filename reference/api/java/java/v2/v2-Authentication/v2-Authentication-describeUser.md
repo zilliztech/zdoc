@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "describeUser() | Java | v2"
 slug: /java/java/v2-Authentication-describeUser
+sidebar_label: "describeUser()"
 beta: false
 notebook: false
+description: "This operation describes a specific user. | Java | v2"
 type: docx
 token: YLQJdvVA8odibAx7mQscYwMVn8g
 sidebar_position: 4

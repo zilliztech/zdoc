@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "drop_alias() | Python | MilvusClient"
 slug: /python/python/Collections-drop_alias
-beta: FALSE
-notebook: FALSE
+sidebar_label: "drop_alias()"
+beta: false
+notebook: false
+description: "This operation drops a specified collection alias. | Python | MilvusClient"
 type: docx
 token: FpWXdmIuforYz9xUCsqclyCXnLe
 sidebar_position: 8

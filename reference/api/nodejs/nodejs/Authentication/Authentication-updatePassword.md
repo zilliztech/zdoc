@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "updatePassword() | Node.js"
 slug: /node/node/Authentication-updatePassword
-beta: FALSE
-notebook: FALSE
+sidebar_label: "updatePassword()"
+beta: false
+notebook: false
+description: "This operation updates the password of a specific user. | Node.js"
 type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 15

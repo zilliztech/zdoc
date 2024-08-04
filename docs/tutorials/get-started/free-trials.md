@@ -1,10 +1,19 @@
 ---
+title: "Free Trials | Cloud"
 slug: /free-trials
+sidebar_label: "Free Trials"
 beta: FALSE
 notebook: FALSE
+description: "Zilliz Cloud offers four subscription plans Free, Serverless, Dedicated (Standard), and Dedicated (Enterprise). In addition to the Free plan, Zilliz Cloud also offers free trials for the Serverless and Dedicated plans. | Cloud"
 type: origin
 token: LMfdwRwKIiJtywkwbHVcGnOFnRf
 sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - free trial
+  - milvus
 
 ---
 
@@ -49,7 +58,7 @@ This plan is designed for serverless applications with variable or sporadic quer
 
 - **Cost**
 
-    Charged based on the read and write workload you run. Free for a limited time.
+    Charged based on the read and write workload you run. This plan is free until 09/01/2024.
 
 - **Configuration**
 
@@ -120,7 +129,7 @@ This plan is crafted for production applications with customizable workload mana
    <tr>
      <td><p>Cost</p></td>
      <td><p>Free</p></td>
-     <td><p>Free for a limited time</p></td>
+     <td><p>Free until 09/01/2024</p></td>
      <td><p>Deducted from free credits</p></td>
      <td><p>Deducted from free credits</p></td>
    </tr>

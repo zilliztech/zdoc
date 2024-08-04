@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "dropAlias() | Java | v2"
 slug: /java/java/v2-Collections-dropAlias
+sidebar_label: "dropAlias()"
 beta: false
 notebook: false
+description: "This operation drops a specified collection alias. | Java | v2"
 type: docx
 token: MBy3dDXFbo0buwxkh0IczwLInPf
 sidebar_position: 10

@@ -1,10 +1,19 @@
 ---
+title: "On Zilliz Cloud Console | BYOC"
 slug: /on-zilliz-cloud-console
+sidebar_label: "On Zilliz Cloud Console"
 beta: FALSE
 notebook: FALSE
+description: "The Zilliz Cloud console is an intuitive command center for you to manipulate almost everything on Zilliz Cloud. This page aims to provide tips on finding the information you need on the Zilliz Cloud console. | BYOC"
 type: origin
 token: JRdOwTnJUiCdCMkw3ZBcBO5Dnke
 sidebar_position: 7
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - console
+  - milvus
 
 ---
 

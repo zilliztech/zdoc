@@ -1,10 +1,19 @@
 ---
+title: "Understand Cost | Cloud"
 slug: /understand-cost
+sidebar_label: "Understand Cost"
 beta: FALSE
 notebook: FALSE
+description: "This page explains the cost of using Zilliz Cloud regarding the type of cluster you are using. | Cloud"
 type: origin
 token: Pt17wz7kZiNRiHkpzo9c0POqnmg
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - cost
+  - understand
 
 ---
 
@@ -14,6 +23,24 @@ import Admonition from '@theme/Admonition';
 # Understand Cost
 
 This page explains the cost of using Zilliz Cloud regarding the type of cluster you are using.
+
+## Dedicated clusters{#dedicated-clusters}
+
+Unlike a serverless cluster, a dedicated cluster offers enhanced performance with customizable workload management and advanced configuration options. 
+
+Zilliz Cloud uses CU to measure the resources consumed by dedicated clusters. Additionally, you will also be charged for the data storage used.
+
+### CU costs{#cu-costs}
+
+A CU is the basic unit of resources used for parallel data processing. Zilliz Cloud offers two types of CUs, each consisting of different combinations of CPU, memory, and storage. For guidance on selecting the appropriate CU type, refer to [Select the Right CU](./cu-types-explained).
+
+Zilliz Cloud calculates the CU costs based on your subscription plan, CU size, and the running time of your cluster.
+
+### Storage{#storage}
+
+A dedicated cluster stores both raw data, including the scalar and vector fields, and index files. These index files are generated to optimize search performance. The pricing terms for data storage in a serverless cluster differ from those in a dedicated cluster. 
+
+For more details, refer to the [Pricing Plan](https://zilliz.com/pricing).
 
 ## Serverless clusters{#serverless-clusters}
 
@@ -60,43 +87,31 @@ A serverless cluster stores both raw data, including the scalar and vector field
 
 For more details, refer to the [Pricing Plan](https://zilliz.com/pricing).
 
-## Dedicated clusters{#dedicated-clusters}
-
-Unlike a serverless cluster, a dedicated cluster offers enhanced performance with customizable workload management and advanced configuration options. 
-
-Zilliz Cloud uses CU to measure the resources consumed by dedicated clusters. Additionally, you will also be charged for the data storage used.
-
-### CU costs{#cu-costs}
-
-A CU is the basic unit of resources used for parallel data processing. Zilliz Cloud offers two types of CUs, each consisting of different combinations of CPU, memory, and storage. For guidance on selecting the appropriate CU type, refer to [Select the Right CU](./cu-types-explained).
-
-Zilliz Cloud calculates the CU costs based on your subscription plan, CU size, and the running time of your cluster.
-
-### Storage{#storage}
-
-A dedicated cluster stores both raw data, including the scalar and vector fields, and index files. These index files are generated to optimize search performance. The pricing terms for data storage in a serverless cluster differ from those in a dedicated cluster. 
-
-For more details, refer to the [Pricing Plan](https://zilliz.com/pricing).
-
 ## Value-added services{#value-added-services}
 
 Zilliz Cloud also provides value-added services, such as data backup and migration.
 
 ### Backup costs{#backup-costs}
 
-Each snapshot you create for your Zilliz Cloud cluster incurs a one-time fee to compensate for the data transfer costs. 
+Your backups are billed by the gigabyte-month (GB-month) on Zilliz Cloud. The GB-month is a measure of how many gigabytes of storage that you have used for your backups. It is also a measure of how long Zilliz Cloud holds your backups. A GB-month is one GB of storage for a month. You only pay for what you use. 
 
-Using an AWS-hosted cluster as an example, the one-time data transfer cost is priced at **$0.025/GB**. For example, a 20 GB snapshot will incur a one-time data-transfer charge of **$0.025 x 20 = $0.5**. 
+Using an AWS-hosted cluster as an example, a 20 GB backup saved on Zilliz Cloud for 45 days will incur **$0.025 x 20 x 1.5 = $0.75**. 
 
-Currently, a snapshot can live on Zilliz Cloud for up to 30 days free of charge and will be removed after that. Restoring a snapshot does not incur any charges.
+For more details, refer to the [Pricing Plan](https://zilliz.com/pricing).
+
+Restoring a snapshot does not incur any charges.
 
 ### Migration costs{#migration-costs}
 
 Zilliz Cloud allows you to migrate data from various sources and between your Zilliz Cloud clusters.
 
-Migrations between serverless and dedicated clusters, as well as between dedicated clusters, incur charges based on the size of the data migrated. If the source and target clusters are located in different cloud regions, additional fees will apply.
+Only migrations between dedicated clusters incur charges based on the size of the data migrated. If the source and target clusters are located in different cloud regions, additional fees will apply.
 
-Migrations from Milvus, ElasticSearch, and free clusters do not incur any charges.
+Using the migration between two AWS-hosted dedicated clusters as an example, migrating the data of 20 GB between these clusters incur **$0.025 x 20 = $0.5**.
+
+Migrations from Milvus, ElasticSearch, as well as free and serverless clusters do not incur any charges.
+
+For more details, refer to the [Pricing Plan](https://zilliz.com/pricing).
 
 ### Pipelines costs{#pipelines-costs}
 

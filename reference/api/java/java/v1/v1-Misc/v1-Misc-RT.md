@@ -1,7 +1,10 @@
 ---
+title: "R<T> | Java | v1"
 slug: /java/v1-Misc-RT
+sidebar_label: "R<T>"
 beta: FALSE
 notebook: FALSE
+description: "A template class to hold the status code, error message, and the response returned by each client interface. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#An4sdhbC8oSxHZxQLzZcGfz1n4f
 sidebar_position: 1

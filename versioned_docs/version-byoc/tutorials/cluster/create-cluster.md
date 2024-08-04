@@ -1,10 +1,19 @@
 ---
+title: "Create Cluster | BYOC"
 slug: /create-cluster
+sidebar_label: "Create Cluster"
 beta: FALSE
 notebook: FALSE
+description: "This topic describes how to create a cluster. | BYOC"
 type: origin
 token: KrbjwFhy3iojF3k97XmcvvXMnW7
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - cluster
+  - create
 
 ---
 
@@ -24,7 +33,7 @@ Ensure:
 
 - Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [User Roles](./user-roles).
 
-## Create a cluster{#create-a-cluster}
+## Create a dedicated cluster{#create-a-dedicated-cluster}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 

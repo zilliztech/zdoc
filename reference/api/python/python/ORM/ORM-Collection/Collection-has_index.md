@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "has_index() | Python | ORM"
 slug: /python/python/Collection-has_index
-beta: FALSE
-notebook: FALSE
+sidebar_label: "has_index()"
+beta: false
+notebook: false
+description: "This operation checks whether the current collection has a built index. | Python | ORM"
 type: docx
 token: WDk4dXY8IoV3SJxp9e7c3aq1nBh
 sidebar_position: 15

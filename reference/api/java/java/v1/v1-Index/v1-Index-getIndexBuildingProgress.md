@@ -1,7 +1,10 @@
 ---
+title: "getIndexBuildingProgress() | Java | v1"
 slug: /java/v1-Index-getIndexBuildingProgress
+sidebar_label: "getIndexBuildingProgress()"
 beta: FALSE
 notebook: FALSE
+description: "MilvusClient interface. This method shows the index-building progress, such as how many rows are indexed. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#Nyr0dduGzo2U93xqMqRcBux9nJf
 sidebar_position: 5
@@ -41,6 +44,11 @@ Methods of `GetIndexBuildProgressParam.Builder`:
         <td><p>withCollectionName(collectionName)</p></td>
         <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
         <td><p>collectionName: The target collection name.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>withIndexName(String indexName)</p></td>

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "delete_user() | Python | ORM"
 slug: /python/python/utility-delete_user
-beta: FALSE
-notebook: FALSE
+sidebar_label: "delete_user()"
+beta: false
+notebook: false
+description: "This operation deletes an existing user. | Python | ORM"
 type: docx
 token: E7zOdU2JpoqaU5xNYXvcAjgPnNh
 sidebar_position: 6

@@ -1,10 +1,19 @@
 ---
+title: "Start with BYOC | BYOC"
 slug: /start-with-byoc
+sidebar_label: "Start with BYOC"
 beta: FALSE
 notebook: FALSE
+description: "This tutorial will guide you through the process of getting started with BYOC on Zilliz Cloud. | BYOC"
 type: origin
 token: YVxQwnj23iS9sNkUTcmcPKzNnQh
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - byoc
+  - start
+  - milvus
 
 ---
 

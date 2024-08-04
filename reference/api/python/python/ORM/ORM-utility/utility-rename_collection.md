@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "rename_collection() | Python | ORM"
 slug: /python/python/utility-rename_collection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "rename_collection()"
+beta: false
+notebook: false
+description: "This operation renames an existing collection and optionally moves the collection to a new database. | Python | ORM"
 type: docx
 token: M0qRdF1cLokrxvxyrXScJ64FnEe
 sidebar_position: 37

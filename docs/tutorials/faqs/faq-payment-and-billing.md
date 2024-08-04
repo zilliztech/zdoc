@@ -1,7 +1,10 @@
 ---
+title: "FAQ: Payment & Billing | CLOUD"
 slug: /faq-payment-and-billing
+sidebar_label: "FAQ: Payment & Billing"
 beta: FALSE
 notebook: FALSE
+description: "This topic lists the possible issues about payment and billing on Zilliz Cloud and the corresponding solution. | CLOUD"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 13

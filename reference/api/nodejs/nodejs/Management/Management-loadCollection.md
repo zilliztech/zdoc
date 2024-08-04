@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "loadCollection() | Node.js"
 slug: /node/node/Management-loadCollection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "loadCollection()"
+beta: false
+notebook: false
+description: "This operation loads the data of a specific collection into memory. | Node.js"
 type: docx
 token: LoNvdRK80oWllFxV0H6co0HrnBe
 sidebar_position: 6

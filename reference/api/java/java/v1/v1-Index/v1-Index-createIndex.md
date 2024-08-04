@@ -1,7 +1,10 @@
 ---
+title: "createIndex() | Java | v1"
 slug: /java/v1-Index-createIndex
+sidebar_label: "createIndex()"
 beta: FALSE
 notebook: FALSE
+description: "The MilvusClient interface. This method creates an index on a field in the specified collection. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#DITJd9ZMboinkqxpf9lcE6itnlh
 sidebar_position: 1
@@ -41,6 +44,11 @@ Methods of `CreateIndexParam.Builder`:
         <td><p>withCollectionName(<br/>String collectionName)</p></td>
         <td><p>Set the target collection name. Collection name cannot be empty or null.</p></td>
         <td><p>collectionName: The name of the target collection to create an index for.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>withFieldName(String fieldName)</p></td>

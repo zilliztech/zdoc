@@ -1,10 +1,18 @@
 ---
+title: "Single Sign-On | Cloud"
 slug: /single-sign-on
+sidebar_label: "Single Sign-On"
 beta: TRUE
 notebook: FALSE
+description: "With the single sign-on (SSO) feature, you can conveniently access the Zilliz Cloud console using a single set of login credentials. This eliminates the need for a separate Zilliz Cloud account. By implementing SSO, you can simplify user access and reinforce security by centralizing the authentication process. | Cloud"
 type: origin
 token: V1ZdwbZNHin5x5kNUZEcJj2GnEd
 sidebar_position: 7
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - sso
 
 ---
 

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "get_replicas() | Python | ORM"
 slug: /python/python/Partition-get_replicas
-beta: FALSE
-notebook: FALSE
+sidebar_label: "get_replicas()"
+beta: false
+notebook: false
+description: "This operation gets information about the current loaded replica. | Python | ORM"
 type: docx
 token: YKwldu59qosZBsxdRdSc0l9Hnoe
 sidebar_position: 4

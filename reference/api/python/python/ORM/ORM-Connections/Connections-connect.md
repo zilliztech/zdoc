@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "connect() | Python | ORM"
 slug: /python/python/Connections-connect
-beta: FALSE
-notebook: FALSE
+sidebar_label: "connect()"
+beta: false
+notebook: false
+description: "This operation establishes a connection to a Zilliz Cloud cluster using the provided alias, address, and authentication parameters. | Python | ORM"
 type: docx
 token: KzCXdTVVSoOmkbxuFjsccDlXnff
 sidebar_position: 2
@@ -24,7 +27,7 @@ connect(
     alias: str,
     user: str | "",
     password: str | "",
-    db_name: str | "default",
+    
     token: str | "",
     **kwargs
 )
@@ -58,10 +61,6 @@ connect(
     A valid password used to connect to the specified Zilliz Cloud cluster.
 
     This should be used along with **user**.
-
-- **db_name** (*string*) -
-
-    The name of the database to which the target Zilliz Cloud cluster belongs.
 
 - **token** (*string*) -
 

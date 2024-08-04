@@ -1,7 +1,10 @@
 ---
+title: "FAQ: Users & Roles | BYOC"
 slug: /faq-users-and-roles
+sidebar_label: "FAQ: Users & Roles"
 beta: FALSE
 notebook: FALSE
+description: "This topic lists the possible issues about users, roles, and access that you may encounter on Zilliz Cloud and the corresponding solution. | BYOC"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 8

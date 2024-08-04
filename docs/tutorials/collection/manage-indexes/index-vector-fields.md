@@ -1,10 +1,19 @@
 ---
+title: "Index Vector Fields | Cloud"
 slug: /index-vector-fields
+sidebar_label: "Index Vector Fields"
 beta: FALSE
 notebook: FALSE
+description: "This guide walks you through the basic operations on creating and managing indexes on vector fields in a collection. | Cloud"
 type: origin
 token: Qc0SwFomWiEXvMkDAH9cMAhlnIh
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - vector field
+  - index
 
 ---
 
@@ -24,7 +33,7 @@ Zilliz Cloud employs [AUTOINDEX](./autoindex-explained) to enable efficient simi
 
 It is recommended to create indexes for both the vector field and scalar fields that are frequently accessed.
 
-If your collection contains more than one vector field, you can create an index for each vector field separately. For more information, refer to [With multiple vector fields](./manage-collections-sdks#with-multiple-vector-fields-lesssupgreaterbetalesssupgreater).
+If your collection contains more than one vector field, you can create an index for each vector field separately. For more information, refer to [With multiple vector fields](./manage-collections-sdks#with-multiple-vector-fields-beta).
 
 ## Preparations{#preparations}
 

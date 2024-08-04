@@ -1,7 +1,10 @@
 ---
+title: "showPartitions() | Java | v1"
 slug: /java/v1-Partition-showPartitions
+sidebar_label: "showPartitions()"
 beta: FALSE
 notebook: FALSE
+description: "MilvusClient interface. This method shows all partitions in the specified collection. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#IdiRd3KOxoQR7Jxs9P4clGjdnOh
 sidebar_position: 7
@@ -41,6 +44,11 @@ Methods of `ShowPartitionsParam.Builder`:
         <td><p>withCollectionName(String collectionName)</p></td>
         <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
         <td><p>collectionName: The target collection name.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>withPartitionNames(List\<String> partitionNames)</p></td>
@@ -98,7 +106,7 @@ Methods of `ShowPartitionsResponse`:
      <td><p>List\<PartitionInfo></p></td>
    </tr>
    <tr>
-     <td><p>getPartitionInfoByName(String partitionName)<br/></p></td>
+     <td><p>getPartitionInfoByName(String partitionName)</p></td>
      <td><p>Return a PartitionInfo object by a partition name.</p></td>
      <td><p>partitionName: The target partition name.</p></td>
      <td><p>PartitionInfo</p></td>

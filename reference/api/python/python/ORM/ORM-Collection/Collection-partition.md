@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "partition() | Python | ORM"
 slug: /python/python/Collection-partition
-beta: FALSE
-notebook: FALSE
+sidebar_label: "partition()"
+beta: false
+notebook: false
+description: "This operation gets the specified partition in the current collection. | Python | ORM"
 type: docx
 token: SvCrdEJIdosGQYxQZhrc2OAXnpd
 sidebar_position: 21

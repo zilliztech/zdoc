@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "listRoles() | Java | v2"
 slug: /java/java/v2-Authentication-listRoles
+sidebar_label: "listRoles()"
 beta: false
 notebook: false
+description: "This operation lists all custom roles. | Java | v2"
 type: docx
 token: XIIyd3bMzoAVx3xVsoLcnQ2pnKh
 sidebar_position: 9

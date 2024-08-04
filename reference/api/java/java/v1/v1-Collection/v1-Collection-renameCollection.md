@@ -1,7 +1,10 @@
 ---
+title: "renameCollection() | Java | v1"
 slug: /java/v1-Collection-renameCollection
+sidebar_label: "renameCollection()"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method renames the specified collection. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#C617dmut8o2d4dxQj4dct7gkn5g
 sidebar_position: 6
@@ -46,6 +49,16 @@ Methods of `RenameCollectionParam.Builder`:
         <td><p>withNewCollectionName(String newCollectionName)</p></td>
         <td><p>Sets the new collection name. New collection name cannot be empty or null.</p></td>
         <td><p>newCollectionName: The new name of the collection to rename.</p></td>
+    </tr>
+    <tr>
+        <td><p>withOldDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name of the old collection. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
+        <td><p>withNewDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name of the new collection. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>

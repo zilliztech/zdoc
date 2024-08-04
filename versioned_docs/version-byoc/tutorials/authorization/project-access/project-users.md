@@ -1,10 +1,18 @@
 ---
+title: "Project Users | BYOC"
 slug: /project-users
+sidebar_label: "Project Users"
 beta: FALSE
 notebook: FALSE
+description: "This topic describes how to manage project users. | BYOC"
 type: origin
 token: DXbRwHM79iK5VDkV5E8cW6N7nxb
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - project users
 
 ---
 
@@ -17,7 +25,7 @@ This topic describes how to manage project users.
 
 ## Invite a user to join a project{#invite-a-user-to-join-a-project}
 
-To invite a user to join a project, you must be an [Organization Owner](./resource-hierarchy) or a [Project Owner](./resource-hierarchy).
+To invite a user to join a project, you must be an [Organization Owner](./user-roles#organization-roles) or a [Project Owner](./user-roles#project-roles).
 
 Enter the email addresses of the users you wish to invite. They will receive an invitation via email, which must be accepted within 48 hours to join the project. You can [revoke or resend this invitation](./project-access) anytime before it's accepted.
 
@@ -33,7 +41,7 @@ Enter the email addresses of the users you wish to invite. They will receive an 
 
 When you invite an existing organization member to a project within the same organization, they automatically gain access to the project without receiving a separate invitation. However, if you invite someone to a project within an organization they are not already a part of, they will receive an invitation to join the organization, which also grants them access to the specified project.
 
-To revoke or resend the invitation, you must be an [Organization Owner](./resource-hierarchy) or a [Project Owner](./resource-hierarchy).
+To revoke or resend the invitation, you must be an [Organization Owner](./user-roles#organization-roles) or a [Project Owner](./resource-hierarchy).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -47,7 +55,7 @@ To revoke or resend the invitation, you must be an [Organization Owner](./resour
 
 After a user accepts the invitation, the user becomes a project collaborator.
 
-To edit a collaborator's role or remove a project collaborator, you must be an [Organization Owner](./resource-hierarchy) or a [Project Owner](./resource-hierarchy).
+To edit a collaborator's role or remove a project collaborator, you must be an [Organization Owner](./user-roles#organization-roles) or a [Project Owner](./resource-hierarchy).
 
 ![byoc-edit-user-role-or-remove-project-user](/byoc/byoc-edit-user-role-or-remove-project-user.png)
 

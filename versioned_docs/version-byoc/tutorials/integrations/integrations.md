@@ -1,10 +1,18 @@
 ---
+title: "Integrations | BYOC"
 slug: /integrations
+sidebar_label: "Integrations"
 beta: FALSE
 notebook: FALSE
+description: "Still do not know how to integrate great open-source and third-party services with Zilliz Cloud? Use these guides to start with. | BYOC"
 type: origin
 token: M1PDwYLKsi4TQRka9xUcDhMjnzc
 sidebar_position: 17
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - integrations
 
 ---
 

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_import_jobs() | Python"
 slug: /python/python/BulkImport-list_import_jobs
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_import_jobs()"
+beta: false
+notebook: false
+description: "This operation lists all bulk-import jobs of a specific cluster. | Python"
 type: docx
 token: P0vxdEVBPoTNKLxkKIzcznlYnNc
 sidebar_position: 3

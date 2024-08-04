@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "dropCollection() | Node.js"
 slug: /node/node/Collections-dropCollection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "dropCollection()"
+beta: false
+notebook: false
+description: "This operation drops a collection. | Node.js"
 type: docx
 token: KLknda2VtocQSBx7PKVc6F9Nnug
 sidebar_position: 8

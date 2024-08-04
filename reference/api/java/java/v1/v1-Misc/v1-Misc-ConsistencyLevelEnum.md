@@ -1,7 +1,10 @@
 ---
+title: "ConsistencyLevelEnum | Java | v1"
 slug: /java/v1-Misc-ConsistencyLevelEnum
+sidebar_label: "ConsistencyLevelEnum"
 beta: FALSE
 notebook: FALSE
+description: "The enumeration for consistency level during a search/query. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#L7rWd3NvuonDAUxNVjTce9rAnXd
 sidebar_position: 5

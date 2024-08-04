@@ -1,7 +1,10 @@
 ---
+title: "FAQ: Monitors & Metrics | CLOUD"
 slug: /faq-monitors-and-metrics
+sidebar_label: "FAQ: Monitors & Metrics"
 beta: FALSE
 notebook: FALSE
+description: "This topic lists the possible issues about monitors and metrics that you may encounter on Zilliz Cloud and the corresponding solution. | CLOUD"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 10
@@ -26,7 +29,7 @@ This topic lists the possible issues about monitors and metrics that you may enc
 
 You can try the following two methods.
 
-1. Scale up your cluster to a larger CU size. Clusters with larger CU sizes can handle more data.
+1. [Scale up](./manage-cluster#manage-and-configure-clusters) your cluster to a larger CU size. Clusters with larger CU sizes can handle more data.
 
 1. Release loaded collections that are not frequently used to save memory usage.
 

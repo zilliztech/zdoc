@@ -1,7 +1,10 @@
 ---
+title: "hybridSearch() | Java | v1"
 slug: /java/v1-QuerySearch-hybridSearch
+sidebar_label: "hybridSearch()"
 beta: FALSE
 notebook: FALSE
+description: "The MilvusClient interface. This method conducts an approximate nearest neighbor (ANN) search on multiple vector fields and returns search results after reranking. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#QC0Yd0dhsodbfPxse7wcpyQSnke
 sidebar_position: 5
@@ -41,6 +44,11 @@ Methods of `HybridSearchParam.Builder`:
         <td><p>withCollectionName(collectionName)</p></td>
         <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
         <td><p>collectionName: The target collection name.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>withConsistencyLevel(ConsistencyLevelEnum consistencyLevel)</p></td>
@@ -119,8 +127,7 @@ Methods of `AnnSearchParam.Builder`:
     </tr>
     <tr>
         <td><p>withExpr(String expr)</p></td>
-        <td><p>Set the expression to filter scalar fields before searching(Optional).
-For more information please refer to <a href="https://milvus.io/docs/v2.3.x/boolean.md">this doc</a>.</p></td>
+        <td><p>Set the expression to filter scalar fields before searching(Optional).For more information please refer to <a href="https://milvus.io/docs/v2.3.x/boolean.md">this doc</a>.</p></td>
         <td><p>expr: The expression to filter scalar fields.</p></td>
     </tr>
     <tr>

@@ -1,9 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "\_\_call\_\_() | Python"
 slug: /python/python/VoyageRerankFunction-__call__
-sidebar_label: __call__()
-beta: FALSE
-notebook: FALSE
+sidebar_label: "__call__()"
+beta: false
+notebook: false
+description: "This operation in VoyageRerankFunction takes in a query and document strings and returns a list of `RerankResult` objects with the top k documents ranked by score. | Python"
 type: docx
 token: N2aHdla1Uohk1HxGyPHcdG4lnnb
 sidebar_position: 2

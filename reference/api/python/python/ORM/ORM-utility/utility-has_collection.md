@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "has_collection() | Python | ORM"
 slug: /python/python/utility-has_collection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "has_collection()"
+beta: false
+notebook: false
+description: "This operation checks whether a collection exists. | Python | ORM"
 type: docx
 token: TWOxdwDYRo4CCHxDdZbc7IOznCg
 sidebar_position: 17

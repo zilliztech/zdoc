@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "to_dict() | Python | ORM"
 slug: /python/python/CollectionSchema-to_dict
-beta: FALSE
-notebook: FALSE
+sidebar_label: "to_dict()"
+beta: false
+notebook: false
+description: "This operation converts a CollectionSchema object to a dictionary representation. | Python | ORM"
 type: docx
 token: GfTadfqhAo64XDxc643ci4Zwnwb
 sidebar_position: 4

@@ -1,10 +1,19 @@
 ---
+title: "Quickstart | Cloud"
 slug: /quick-start
+sidebar_label: "Quickstart"
 beta: FALSE
 notebook: FALSE
+description: "This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes. | Cloud"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - quickstart
+  - cloud
+  - milvus
 
 ---
 
@@ -119,7 +128,7 @@ Once your cluster is running, you will be prompted with the [cluster credentials
 
 Alternatively, you can [create an API key](./manage-api-keys) instead of using the cluster credentials for the connection.
 
-## Connect to Zilliz Cloud cluster{#connect-to-zilliz-cloud-cluster}
+## Connect to Zilliz Cloud clusterMilvus{#connect-to-zilliz-cloud-clustermilvus}
 
 Once you have obtained the cluster credentials or an API key, you can use it to connect to your cluster now.
 

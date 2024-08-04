@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "close() | Python | MilvusClient"
 slug: /python/python/Client-close
-beta: FALSE
-notebook: FALSE
+sidebar_label: "close()"
+beta: false
+notebook: false
+description: "This operation closes the current Milvus client. | Python | MilvusClient"
 type: docx
 token: CWZGd48FJoFHXYx40NMcTd2FnKc
 sidebar_position: 1

@@ -1,7 +1,10 @@
 ---
+title: "IndexType | Java | v1"
 slug: /java/v1-Misc-IndexType
+sidebar_label: "IndexType"
 beta: FALSE
 notebook: FALSE
+description: "The enumeration for available index types. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#YvosdUhmtokAqRxV8hdctSUznCv
 sidebar_position: 3
@@ -58,7 +61,7 @@ public enum IndexType
      <td><p>Works for FloatVector/Float16Vector/BFloat16Vector type field.</p></td>
    </tr>
    <tr>
-     <td><p>DISKANN<br/></p></td>
+     <td><p>DISKANN</p></td>
      <td><p>10</p></td>
      <td><p>Works for FloatVector/Float16Vector/BFloat16Vector type field.</p></td>
    </tr>
@@ -120,7 +123,7 @@ public enum IndexType
    <tr>
      <td><p>SPARSE<em>INVERTED</em>INDEX</p></td>
      <td><p>300</p></td>
-     <td><p>Only for SparseFloatVector type field.<br/></p></td>
+     <td><p>Only for SparseFloatVector type field.</p></td>
    </tr>
    <tr>
      <td><p>SPARSE_WAND</p></td>

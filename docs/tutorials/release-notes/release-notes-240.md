@@ -1,10 +1,18 @@
 ---
+title: "Release Notes (Dec 11, 2023) | Cloud"
 slug: /release-notes-240
+sidebar_label: "Release Notes (Dec 11, 2023)"
 beta: FALSE
 notebook: FALSE
+description: "Now Zilliz Cloud services are available on Azure, starting with the East US region. Additionally, we introduce Zilliz Cloud Pipelines (Beta) which transforms unstructured data into vector embeddings for ingestion and retrieval. The release also brings improved RBAC and credential management within Clusters, with three predefined roles (admin, read-write, read-only) for user administration. Other updates include enhanced error message content and stability improvements for more reliable service. | Cloud"
 type: origin
 token: A5lpwIZcZiTLqakdt6rcCmPcnEe
-sidebar_position: 6
+sidebar_position: 7
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - release notes
 
 ---
 

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "listAliases() | Node.js"
 slug: /node/node/Collections-listAliases
-beta: FALSE
-notebook: FALSE
+sidebar_label: "listAliases()"
+beta: false
+notebook: false
+description: "This is a method template. | Node.js"
 type: docx
 token: KeoKdlitaog6n1xpX8McIIIrnWb
 sidebar_position: 12

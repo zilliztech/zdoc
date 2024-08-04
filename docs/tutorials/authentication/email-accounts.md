@@ -1,10 +1,18 @@
 ---
+title: "Email Accounts | Cloud"
 slug: /email-accounts
+sidebar_label: "Email Accounts"
 beta: FALSE
 notebook: FALSE
+description: "Once you have registered an account with Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account. | Cloud"
 type: origin
 token: GMdhwQQCRi2QaLkimNOcc3qNnbh
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - email accounts
 
 ---
 

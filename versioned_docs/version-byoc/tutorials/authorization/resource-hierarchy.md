@@ -1,10 +1,18 @@
 ---
+title: "Resource Hierarchy | BYOC"
 slug: /resource-hierarchy
+sidebar_label: "Resource Hierarchy"
 beta: FALSE
 notebook: FALSE
+description: "Zilliz Cloud facilitates access control across three distinct scopes | BYOC"
 type: origin
 token: CA04wUpF0id2sckrZjqcAOZGnnz
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - resource hierarchy
 
 ---
 

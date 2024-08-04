@@ -1,7 +1,10 @@
 ---
+title: "FAQ: Collection | BYOC"
 slug: /faq-collection
+sidebar_label: "FAQ: Collection"
 beta: FALSE
 notebook: FALSE
+description: "This topic lists the possible issues that you may encounter while you use Zilliz Cloud collections and the corresponding solution. | BYOC"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 3
@@ -31,11 +34,11 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 ### How many collections are allowed in a single cluster?{#how-many-collections-are-allowed-in-a-single-cluster}
 
-The number of collections allowed in a  cluster varies with the cluster CU size. For clusters with 8 CUs or less, you can create a maximum of 32 collections. For clusters with more than 8 CUs,  you can create a maximum of 256 collections. For more information about the limits, please see [Zilliz Cloud Limits](./limits).
+The number of collections allowed in a  cluster varies with the cluster CU size. For more information, please refer to [Zilliz Cloud Limits](./limits#collections).
 
 If you have reached the maximum number of collections allowed in a cluster, you can:
 
-1. Scale your cluster to larger CU sizes. See [Manage Cluster](./manage-cluster#manage-and-configure-clusters).
+1. [Scale](./manage-cluster) your cluster to larger CU sizes.
 
 1. [Drop](./manage-collections-sdks#drop-a-collection) unused collections.
 
@@ -83,7 +86,7 @@ Currently, the rate limit for loading collection requests on Zilliz Cloud is 1 p
 
 ### Why do I fail to load collections? What can I do?{#why-do-i-fail-to-load-collections-what-can-i-do}
 
-The failure is caused due to insufficient memory in your cluster. Please try scaling up your cluster to larger CU sizes.
+The failure is caused due to insufficient memory in your cluster. Please try [scaling up](./manage-cluster#manage-and-configure-clusters) your cluster to larger CU sizes.
 
 ### Is there any limit to the number of fields I can add in a collection?{#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection}
 

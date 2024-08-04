@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "renameCollection() | Java | v2"
 slug: /java/java/v2-Collections-renameCollection
+sidebar_label: "renameCollection()"
 beta: false
 notebook: false
+description: "This operation renames an existing collection. | Java | v2"
 type: docx
 token: CtTvdQVMoo2ec5xbWTPcSzjNnQc
 sidebar_position: 16

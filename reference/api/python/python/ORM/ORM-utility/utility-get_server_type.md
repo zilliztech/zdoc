@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "get_server_type() | Python | ORM"
 slug: /python/python/utility-get_server_type
-beta: FALSE
-notebook: FALSE
+sidebar_label: "get_server_type()"
+beta: false
+notebook: false
+description: "This operation checks the type of the Zilliz Cloud cluster. | Python | ORM"
 type: docx
 token: UOIddRBUXotHvyx4Yyocer0mnId
 sidebar_position: 15

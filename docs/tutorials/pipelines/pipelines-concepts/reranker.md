@@ -1,10 +1,19 @@
 ---
+title: "Reranker | Cloud"
 slug: /reranker
+sidebar_label: "Reranker"
 beta: FALSE
 notebook: FALSE
+description: "In information retrieval, a reranker rearranges results from intial retrieval. Compared to using only vector Approximate Nearest Neighbor (ANN) search for retrieval, adding reranker can improve search quality as it can better judge the semantic relevancy between docs and the query. Using a reranker can also enhance accuracy of generated answer in RAG applications, as fewer but higher quality docs are put in the context. Note that rerankers can be computationally heavy, leading to higher costs and longer query latency. | Cloud"
 type: origin
 token: DOcRwUYLPi1C5bkiTq8c5dEQnP9
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - concepts
+  - rerankers
 
 ---
 

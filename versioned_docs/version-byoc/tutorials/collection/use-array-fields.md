@@ -1,10 +1,19 @@
 ---
+title: "Use Array Fields | BYOC"
 slug: /use-array-fields
+sidebar_label: "Use Array Fields"
 beta: FALSE
 notebook: FALSE
+description: "This guide explains how to use the array fields, such as inserting array values as well as searching and querying in array fields with basic and advanced operators. | BYOC"
 type: origin
 token: LhipwL7FPirSNVk7apxcxSCen63
 sidebar_position: 9
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - array field
+  - milvus
 
 ---
 

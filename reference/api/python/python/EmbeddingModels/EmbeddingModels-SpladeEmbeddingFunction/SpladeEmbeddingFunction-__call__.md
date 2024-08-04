@@ -1,9 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "\_\_call\_\_() | Python"
 slug: /python/python/SpladeEmbeddingFunction-__call__
-sidebar_label: __call__()
-beta: FALSE
-notebook: FALSE
+sidebar_label: "__call__()"
+beta: false
+notebook: false
+description: "This operation in SpladeEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
 type: docx
 token: LJqud2x3AojxV4xKONocTe4YnFb
 sidebar_position: 4

@@ -1,10 +1,18 @@
 ---
+title: "Organizations | BYOC"
 slug: /organizations
+sidebar_label: "Organizations"
 beta: FALSE
 notebook: FALSE
+description: "In Zilliz Cloud, each organization can handle multiple projects. Once you sign up for Zilliz Cloud, you automatically become the owner of your own organization. While you can't create new organizations, you can join others by invitation. | BYOC"
 type: origin
 token: BX8nwr7eHiZY3CkHnuYcGCj1n4e
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - organizations
 
 ---
 

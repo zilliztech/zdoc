@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "hybrid_search() | Python | ORM"
 slug: /python/python/Collection-hybrid_search
-beta: FALSE
-notebook: FALSE
+sidebar_label: "hybrid_search()"
+beta: false
+notebook: false
+description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Python | ORM"
 type: docx
 token: Bzb6dwkckop6XfxVm2lclXG2nJg
 sidebar_position: 17

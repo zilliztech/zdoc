@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "get() | Node.js"
 slug: /node/node/Vector-get
-beta: FALSE
-notebook: FALSE
+sidebar_label: "get()"
+beta: false
+notebook: false
+description: "This operation gets specific entities by their IDs. | Node.js"
 type: docx
 token: IbxXdvdZlonJk9xnlk2cZlIinCh
 sidebar_position: 2

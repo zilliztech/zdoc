@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "fit() | Python"
 slug: /python/python/BM25EmbeddingFunction-fit
-beta: FALSE
-notebook: FALSE
+sidebar_label: "fit()"
+beta: false
+notebook: false
+description: "This operation fits various statistics that are required to calculate BM25 ranking score using the corpus given. | Python"
 type: docx
 token: Gj5bdBIMToImOvxXHIlcqFxjnTf
 sidebar_position: 4

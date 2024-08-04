@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_partitions() | Python | MilvusClient"
 slug: /python/python/Partitions-list_partitions
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_partitions()"
+beta: false
+notebook: false
+description: "This operation lists the partitions in a specified collection. | Python | MilvusClient"
 type: docx
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
 sidebar_position: 5

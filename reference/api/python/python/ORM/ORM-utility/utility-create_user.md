@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "create_user() | Python | ORM"
 slug: /python/python/utility-create_user
-beta: FALSE
-notebook: FALSE
+sidebar_label: "create_user()"
+beta: false
+notebook: false
+description: "This operation creates a new user with a corresponding password. | Python | ORM"
 type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5

@@ -1,35 +1,35 @@
 ---
+title: "View Backup Files | Cloud"
 slug: /view-snapshot-details
+sidebar_label: "View Backup Files"
 beta: FALSE
 notebook: FALSE
+description: "This guide walks you through how to view automatically or manually created backup files. | Cloud"
 type: origin
 token: Fob2w8LZaifGSHkxjoZcHcTtngf
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - backup
+  - files
+  - view
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# View Snapshot Details
+# View Backup Files
 
-This guide walks you through how to check the details of automatically or manually created snapshots.
+This guide walks you through how to view automatically or manually created backup files.
 
-## Snapshot status{#snapshot-status}
+## View all backup files{#view-all-backup-files}
 
-The status of a snapshot can vary, and the possible statuses are as follows:
+![view_all_backups](/img/view_all_backups.png)
 
-- **CREATING**
-
-    If a snapshot is in this status, you cannot create another snapshot. However, you can click **...** in the **Actions** column and choose **Cancel** to terminate the process.
-
-- **AVAILABLE**
-
-    After the status changes to this, you can click **...** in the Actions column to
-
-If the status of your snapshot is neither of the two, errors may occur. Please try again. If you continue to experience errors, please contact us without hesitation.
-
-## View snapshot details{#view-snapshot-details}
+## View backup file details{#view-backup-file-details}
 
 ![view_snapshot_details](/img/view_snapshot_details.png)
 

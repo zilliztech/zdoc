@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "get_compaction_state() | Python | ORM"
 slug: /python/python/Collection-get_compaction_state
-beta: FALSE
-notebook: FALSE
+sidebar_label: "get_compaction_state()"
+beta: false
+notebook: false
+description: "This operation gets the current compaction state. | Python | ORM"
 type: docx
 token: AXcMd0xiOovIX6xR4ZrcKA15nwh
 sidebar_position: 13

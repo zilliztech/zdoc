@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "do_bulk_insert() | Python | ORM"
 slug: /python/python/utility-do_bulk_insert
-beta: FALSE
-notebook: FALSE
+sidebar_label: "do_bulk_insert()"
+beta: false
+notebook: false
+description: "This operation bulk-inserts data from specified files. | Python | ORM"
 type: docx
 token: BpqpdBWdyoxbmzx0GGCcQxksnBc
 sidebar_position: 8

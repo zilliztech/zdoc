@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "describeAlias() | Node.js"
 slug: /node/node/Collections-describeAlias
-beta: FALSE
-notebook: FALSE
+sidebar_label: "describeAlias()"
+beta: false
+notebook: false
+description: "This operation describes a specific alias. | Node.js"
 type: docx
 token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
 sidebar_position: 5

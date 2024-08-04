@@ -1,10 +1,18 @@
 ---
+title: "Projects | BYOC"
 slug: /projects
+sidebar_label: "Projects"
 beta: FALSE
 notebook: FALSE
+description: "This guide will walk you through the steps of managing projects. | BYOC"
 type: origin
 token: YxhewvSpMiYEBRkKfivc1x6inhg
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - projects
 
 ---
 

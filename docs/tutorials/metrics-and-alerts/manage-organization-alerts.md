@@ -1,10 +1,19 @@
 ---
+title: "Manage Organization Alerts | Cloud"
 slug: /manage-organization-alerts
+sidebar_label: "Manage Organization Alerts"
 beta: FALSE
 notebook: FALSE
+description: "Zilliz Cloud offers two types of alerts for resource monitoring Organization Alerts for billing-related matters and Project Alerts for operational performance of clusters in specific projects. For a quick reference, refer to Metrics & Alerts Reference. | Cloud"
 type: origin
 token: UPg7wiU71ioeELk8I8KcLDYqncb
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - organization
+  - alerts
 
 ---
 
@@ -42,7 +51,7 @@ When an alert in an **ON** status, the specified recipients will receive notific
      <td><p>Day</p></td>
      <td><p>Monitor the remaining days until the credit card's expiration to ensure uninterrupted service.</p></td>
      <td><p>Renew or update credit card information before the expiration date.</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts within 30 days of card expiration.<br/> <strong>CRITICAL</strong>: Trigger alerts within 7 days of card expiration.</p></td>
+     <td><p><strong>WARNING</strong>: Trigger alerts within 30 days of card expiration.</p><p><strong>CRITICAL</strong>: Trigger alerts within 7 days of card expiration.</p></td>
    </tr>
    <tr>
      <td><p>Remaining Credits</p></td>

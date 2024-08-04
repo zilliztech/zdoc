@@ -1,10 +1,18 @@
 ---
+title: "Release Notes (April 3, 2024) | Cloud"
 slug: /release-notes-270
+sidebar_label: "Release Notes (April 3, 2024)"
 beta: FALSE
 notebook: FALSE
+description: "This update introduces powerful tools and enhancements to Zilliz Cloud new Connectors for easy data ingestion from sources like Object Storage, Rerankers to improve search relevance, a Metrics Monitoring API for in-depth system state analytics, and a Cross Cloud Data Import feature allowing direct import from AWS S3, Google Cloud Storage, and Azure Blob Storage to vector database instances. These features combine to elevate data ingestion, search precision, and operational insight, streamlining the management of vector databases in the cloud. | Cloud"
 type: origin
 token: S7PMwgqGOiURCpkTFT4cTnTjnAc
-sidebar_position: 3
+sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - release notes
 
 ---
 
@@ -25,7 +33,7 @@ Zilliz Cloud is now available on the Azure Marketplace, making it simpler than e
 
 ### Connectors{#connectors}
 
-Connectors are built-in tools designed for streaming data into Zilliz Cloud from multiple data sources, encompassing Object Storage, Kafka (with support arriving shortly), and beyond. For instance, the Object Storage connector has the capability to monitor a given object storage bucket, and automatically synchronize files like PDFs and HTMLs to Zilliz Cloud Ingestion Pipelines. This process facilitates the conversion of these files into vector representations, allowing them to be efficiently loaded in our vector database for enhanced search capabilities. [Learn more](./connectors).
+Connectors are built-in tools designed for streaming data into Zilliz Cloud from multiple data sources, encompassing Object Storage, Kafka (with support arriving shortly), and beyond. For instance, the Object Storage connector has the capability to monitor a given object storage bucket, and automatically synchronize files like PDFs and HTMLs to Zilliz Cloud Ingestion Pipelines. This process facilitates the conversion of these files into vector representations, allowing them to be efficiently loaded in our vector database for enhanced search capabilities. For details, see [Connect to Your Data](./connectors).
 
 ### Rerankers{#rerankers}
 

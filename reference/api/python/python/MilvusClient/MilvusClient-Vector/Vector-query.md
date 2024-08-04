@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "query() | Python | MilvusClient"
 slug: /python/python/Vector-query
-beta: FALSE
-notebook: FALSE
+sidebar_label: "query()"
+beta: false
+notebook: false
+description: "This operation conducts a scalar filtering with a specified boolean expression. | Python | MilvusClient"
 type: docx
 token: LkmSddW2NolgitxLhy9cx22Dnpe
 sidebar_position: 4

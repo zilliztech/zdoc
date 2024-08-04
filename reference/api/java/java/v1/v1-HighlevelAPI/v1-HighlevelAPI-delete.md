@@ -1,7 +1,10 @@
 ---
+title: "delete() | Java | v1"
 slug: /java/v1-HighlevelAPI-delete
+sidebar_label: "delete()"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method deletes entity(s) based on the primary key ids. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#G46mdTMB4oIR4fxWz5kcZ9GhnKc
 sidebar_position: 4

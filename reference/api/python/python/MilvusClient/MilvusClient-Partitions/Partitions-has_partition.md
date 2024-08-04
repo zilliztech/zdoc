@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "has_partition() | Python | MilvusClient"
 slug: /python/python/Partitions-has_partition
-beta: FALSE
-notebook: FALSE
+sidebar_label: "has_partition()"
+beta: false
+notebook: false
+description: "This operation checks whether the specified partition exists in the specified collection. | Python | MilvusClient"
 type: docx
 token: MxTAd0haboKnRrxQvoOckGghn1T
 sidebar_position: 4

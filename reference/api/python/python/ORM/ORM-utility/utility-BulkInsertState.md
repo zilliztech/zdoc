@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "BulkInsertState | Python | ORM"
 slug: /python/python/utility-BulkInsertState
-beta: FALSE
-notebook: FALSE
+sidebar_label: "BulkInsertState"
+beta: false
+notebook: false
+description: "This is an enumeration that provides the following constants. | Python | ORM"
 type: docx
 token: Arn1dIKgwoISFoxT7xVc3UrBnAf
 sidebar_position: 2

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "save() | Python"
 slug: /python/python/BM25EmbeddingFunction-save
-beta: FALSE
-notebook: FALSE
+sidebar_label: "save()"
+beta: false
+notebook: false
+description: "This operation saves the BM25 model parameters to a JSON file at the given path. | Python"
 type: docx
 token: YScUdNEpmobwhbxbOQQcsc8Wnie
 sidebar_position: 6

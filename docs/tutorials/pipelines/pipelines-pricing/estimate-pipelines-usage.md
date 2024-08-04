@@ -1,10 +1,20 @@
 ---
+title: "Estimate Pipeline Usage | Cloud"
 slug: /estimate-pipelines-usage
+sidebar_label: "Estimate Pipeline Usage"
 beta: FALSE
 notebook: FALSE
+description: "The cost of running pipelines is measured by tokens. Similar to Large Language Model (LLM) that uses token as a basic unit, pipelines process documents and search queries by parsing and embedding the text as a series of tokens. To understand the cost of a pipeline run, you can use our Estimate Pipeline Usage tool to count tokens of a file or a text string. | Cloud"
 type: origin
 token: LNuqwIPPai9GUYk5U4ccAQhQn1b
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - pipelines
+  - pricing
+  - usage
 
 ---
 
@@ -17,7 +27,7 @@ The cost of running pipelines is measured by tokens. Similar to Large Language M
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This tool uses a Byte-Pair Encoding (BPE) tokenizer and the estimated usage may vary by 30% based on different processing strategy. Therefore, you should only use the estimated usage as a reference. For actual usage, please refer to the <a href="./manage-pipelines#view-pipeline">Pipelines list</a>.</p>
+<p>This tool uses a Byte-Pair Encoding (BPE) tokenizer and the estimated usage may vary by 30% based on different processing strategy. Therefore, you should only use the estimated usage as a reference. For actual usage, please refer to the <a href="./pipelines-ingest-search-delete-data">Pipelines list</a>.</p>
 
 </Admonition>
 

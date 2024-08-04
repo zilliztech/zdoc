@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "load() | Python | ORM"
 slug: /python/python/Partition-load
-beta: FALSE
-notebook: FALSE
+sidebar_label: "load()"
+beta: false
+notebook: false
+description: "This operation loads the data of the current partition into memory. | Python | ORM"
 type: docx
 token: TWxddf6iboyM15xK4Kzc8ASknRb
 sidebar_position: 6

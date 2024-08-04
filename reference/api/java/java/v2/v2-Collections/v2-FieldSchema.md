@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "FieldSchema | Java | v2"
 slug: /java/java/v2-FieldSchema
+sidebar_label: "FieldSchema"
 beta: false
 notebook: false
+description: "A FieldSchema instance defines the data type and related attributes of a specific field in a collection. | Java | v2"
 type: docx
 token: WeXmdv8bioJ7AEx9sEtct6kgnUd
 sidebar_position: 12

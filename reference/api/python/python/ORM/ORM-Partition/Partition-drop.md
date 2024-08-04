@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "drop() | Python | ORM"
 slug: /python/python/Partition-drop
-beta: FALSE
-notebook: FALSE
+sidebar_label: "drop()"
+beta: false
+notebook: false
+description: "This operation drops the current partition. | Python | ORM"
 type: docx
 token: D3sndK8DgoqDkUxaNGcctwcSnuE
 sidebar_position: 2

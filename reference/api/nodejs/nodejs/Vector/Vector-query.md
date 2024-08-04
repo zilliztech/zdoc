@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "query() | Node.js"
 slug: /node/node/Vector-query
-beta: FALSE
-notebook: FALSE
+sidebar_label: "query()"
+beta: false
+notebook: false
+description: "This operation conducts a scalar filtering with a specified boolean expression. | Node.js"
 type: docx
 token: AJ96d6Aguos3FAxWMDxcjzqpnSg
 sidebar_position: 4

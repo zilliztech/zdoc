@@ -1,10 +1,19 @@
 ---
+title: "Manage Project Alerts | BYOC"
 slug: /manage-project-alerts
+sidebar_label: "Manage Project Alerts"
 beta: FALSE
 notebook: FALSE
+description: "Zilliz Cloud offers two types of alerts for resource monitoring Organization Alerts for license-related matters and Project Alerts for operational performance of clusters in specific projects. For a quick reference, refer to Metrics & Alerts Reference. | BYOC"
 type: origin
 token: NvDLw4kFji0xeWkc4Hpc9wUfnRh
 sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - project
+  - alerts
 
 ---
 
@@ -34,12 +43,12 @@ For more information about recommended actions, refer to [Metrics & Alerts Refer
    <tr>
      <td><p>CU Computation</p></td>
      <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes.<br/> <strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</p></td>
+     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</p></td>
    </tr>
    <tr>
      <td><p>CU Capacity</p></td>
      <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized CU capacity for 10+ minutes.<br/> <strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized CU capacity for 10+ minutes.</p></td>
+     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized CU capacity for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized CU capacity for 10+ minutes.</p></td>
    </tr>
    <tr>
      <td><p>Search (QPS)</p></td>

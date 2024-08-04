@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "create_partition() | Python | ORM"
 slug: /python/python/Collection-create_partition
-beta: FALSE
-notebook: FALSE
+sidebar_label: "create_partition()"
+beta: false
+notebook: false
+description: "This operation creates a partition in the target collection. | Python | ORM"
 type: docx
 token: Sh7HdgJOIoJipXx5AoNcicjMnyd
 sidebar_position: 5

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "construct_from_dict() | Python | ORM"
 slug: /python/python/CollectionSchema-construct_from_dict
-beta: FALSE
-notebook: FALSE
+sidebar_label: "construct_from_dict()"
+beta: false
+notebook: false
+description: "This operation constructs a CollectionSchema object from a dictionary representation. | Python | ORM"
 type: docx
 token: DYuUdc503o1TANxuGozcXhCmnRN
 sidebar_position: 3

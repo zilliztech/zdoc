@@ -1,7 +1,10 @@
 ---
+title: "FAQ: Resource Planning | CLOUD"
 slug: /faq-resource-planning
+sidebar_label: "FAQ: Resource Planning"
 beta: FALSE
 notebook: FALSE
+description: "This topic lists the possible issues that you may encounter while planning your resources on Zilliz Cloud and the corresponding solution. | CLOUD"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 7
@@ -55,7 +58,7 @@ Yes. Zilliz Cloud now supports deployment on Azure. See [Cloud Providers & Regio
 
 ### How can I request a new cloud region?{#how-can-i-request-a-new-cloud-region}
 
-To request a new cloud service provider region for Zilliz Cloud, please submit a request [here](https://z2-dev.zilliz.cc/cloud-region-request).
+To request a new cloud service provider region for Zilliz Cloud, please [fill out the form](https://zilliz.com/cloud-region-request).
 
 ### How can I know which plan I am on?{#how-can-i-know-which-plan-i-am-on}
 
@@ -73,7 +76,9 @@ Since your collection's schema may differ from the ones in the simple guide abov
 
 ### Which type of CU should I pick?{#which-type-of-cu-should-i-pick}
 
-Select the Performance-optimized CU if you require high throughput and low latency for demanding use cases. Alternatively, choose the Capacity-optimized CU if your priority is to host large volumes of data with less concern for throughput and latency, as it offers a better balance of performance and cost.
+Select the Performance-optimized CU if you require high throughput and low latency for demanding use cases. Alternatively, choose the Capacity-optimized CU if your priority is to host large volumes of data with less concern for throughput and latency, as it offers a better balance of performance and cost. 
+
+For more information, please refer to [Select the Right CU](./cu-types-explained).
 
 ### What's the difference between Performance-optimized CU and Capacity-optimized CU?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
 

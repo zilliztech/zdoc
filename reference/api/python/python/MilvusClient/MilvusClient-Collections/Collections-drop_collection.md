@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "drop_collection() | Python | MilvusClient"
 slug: /python/python/Collections-drop_collection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "drop_collection()"
+beta: false
+notebook: false
+description: "This operation drops a collection. | Python | MilvusClient"
 type: docx
 token: QNB4d2q2ZorIApxpnzqczW2HnL7
 sidebar_position: 9

@@ -1,10 +1,19 @@
 ---
+title: "View Activities | BYOC"
 slug: /view-activities
+sidebar_label: "View Activities"
 beta: FALSE
 notebook: FALSE
+description: "The Zilliz Cloud Activities feature provides a comprehensive view of events associated with a specific Zilliz Cloud organization, encompassing  access events. | BYOC"
 type: origin
 token: UfqGwAVleiNu7FkH28JcnlgOnpf
 sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - activities
+  - view
 
 ---
 
@@ -48,15 +57,15 @@ To enhance your control and ease in navigating through the organization activiti
        </tr>
        <tr>
          <td><p>Info</p></td>
-         <td><p>General information related to clusters, access, or billing. <br/> Eg. Cluster in01-xxxxxxxxxxxxxxx was created.</p></td>
+         <td><p>General information related to clusters, access, or billing. </p><p>Eg. Cluster in01-xxxxxxxxxxxxxxx was created.</p></td>
        </tr>
        <tr>
          <td><p>Warning</p></td>
-         <td><p>Updates regarding resource states that necessitate your attention.<br/>  E.g., "Cluster in01-xxxxxxxxxxxxxxx was deleted."</p></td>
+         <td><p>Updates regarding resource states that necessitate your attention.</p><p>E.g., "Cluster in01-xxxxxxxxxxxxxxx was deleted."</p></td>
        </tr>
        <tr>
          <td><p>Error</p></td>
-         <td><p>Notifications of payment failures or other system malfunctions requiring immediate attention or action. <br/> E.g., "The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed."</p></td>
+         <td><p>Notifications of payment failures or other system malfunctions requiring immediate attention or action. </p><p>E.g., "The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed."</p></td>
        </tr>
     </table>
 

@@ -1,7 +1,10 @@
 ---
+title: "getPartitionStatistics() | Java | v1"
 slug: /java/v1-Partition-getPartitionStatistics
+sidebar_label: "getPartitionStatistics()"
 beta: FALSE
 notebook: FALSE
+description: "MilvusClient interface. This method shows the statistical information of a partition. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#AfAjdyxETo9c4QxPIcJcOnbpnyf
 sidebar_position: 3
@@ -41,6 +44,11 @@ Methods of `GetPartitionStatisticsParam.Builder`:
         <td><p>withCollectionName(String collectionName)</p></td>
         <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
         <td><p>collectionName: The target collection name.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>withPartitionName(String partitionName)</p></td>
@@ -92,7 +100,7 @@ Methods of `GetPartStatResponseWrapper`:
    </tr>
    <tr>
      <td><p>getRowCount()</p></td>
-     <td><p>Get the row count of a partition.<br/>Throw NumberFormatException if the row count string is illegal.</p></td>
+     <td><p>Get the row count of a partition.Throw NumberFormatException if the row count string is illegal.</p></td>
      <td><p>long</p></td>
    </tr>
 </table>

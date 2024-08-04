@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "alter_alias() | Python | MilvusClient"
 slug: /python/python/Collections-alter_alias
-beta: FALSE
-notebook: FALSE
+sidebar_label: "alter_alias()"
+beta: false
+notebook: false
+description: "This operation reassigns the alias of one collection to another. | Python | MilvusClient"
 type: docx
 token: CBc3d1mrdoYqmDxe4Kcc9zxAnzh
 sidebar_position: 1

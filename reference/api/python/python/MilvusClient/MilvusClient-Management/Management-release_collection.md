@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "release_collection() | Python | MilvusClient"
 slug: /python/python/Management-release_collection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "release_collection()"
+beta: false
+notebook: false
+description: "This operation releases the data of a specific collection from memory. | Python | MilvusClient"
 type: docx
 token: PRR7dRfi8o1s61xFRovccAdRnHe
 sidebar_position: 10

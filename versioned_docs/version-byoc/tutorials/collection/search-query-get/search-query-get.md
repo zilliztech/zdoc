@@ -1,10 +1,21 @@
 ---
+title: "Search, Query & Get | BYOC"
 slug: /search-query-get
+sidebar_label: "Search, Query & Get"
 beta: FALSE
 notebook: FALSE
+description: "This series of guides demonstrate similarity searches and scalar queries in a Zilliz Cloud collection. | BYOC"
 type: origin
 token: AAJnwIbLViyZzgk6el3c3DERnpf
 sidebar_position: 5
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - search
+  - query
+  - get
+  - milvus
 
 ---
 

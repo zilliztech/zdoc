@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "remove_user() | Python | ORM"
 slug: /python/python/Role-remove_user
-beta: FALSE
-notebook: FALSE
+sidebar_label: "remove_user()"
+beta: false
+notebook: false
+description: "This operation removes a user from the current role. Once removed, the user will lose the permissions allowed for the current role. | Python | ORM"
 type: docx
 token: SlmSdaD7rocMJsxThNHcOtEknVd
 sidebar_position: 9

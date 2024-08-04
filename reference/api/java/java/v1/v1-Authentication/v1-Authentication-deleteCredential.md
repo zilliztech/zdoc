@@ -1,7 +1,10 @@
 ---
+title: "deleteCredential() | Java | v1"
 slug: /java/v1-Authentication-deleteCredential
+sidebar_label: "deleteCredential()"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method deletes the credentials of a corresponding username. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#BImddM2M9oepyDxuwcEcXZvOnfe
 sidebar_position: 3

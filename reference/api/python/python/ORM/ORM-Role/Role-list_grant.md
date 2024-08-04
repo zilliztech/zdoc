@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_grant() | Python | ORM"
 slug: /python/python/Role-list_grant
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_grant()"
+beta: false
+notebook: false
+description: "This operation lists the relationship between the current role and the specified object. | Python | ORM"
 type: docx
 token: JXNXdQuwhoYmZQxSohNcdxtwnzh
 sidebar_position: 7

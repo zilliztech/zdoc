@@ -1,10 +1,19 @@
 ---
+title: "Connect to Cluster | Cloud"
 slug: /connect-to-cluster
+sidebar_label: "Connect to Cluster"
 beta: FALSE
 notebook: FALSE
+description: "This article offers a systematic guide on connecting to a cluster. | Cloud"
 type: origin
 token: IVFfws0lJi8gIVkRvrvc9aXvnNe
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - cluster
+  - connect
 
 ---
 

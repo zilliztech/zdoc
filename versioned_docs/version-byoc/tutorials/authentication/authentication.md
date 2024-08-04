@@ -1,10 +1,18 @@
 ---
+title: "Authentication | BYOC"
 slug: /authentication
+sidebar_label: "Authentication"
 beta: FALSE
 notebook: FALSE
+description: "Learn more about the management of email accounts, cluster credentials, and multi-factor authentication (MFA) measures. | BYOC"
 type: origin
 token: XiOsw8A3eibZInk1aJNceBqznLb
 sidebar_position: 12
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - authentication
 
 ---
 

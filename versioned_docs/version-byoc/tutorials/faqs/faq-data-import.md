@@ -1,7 +1,10 @@
 ---
+title: "FAQ: Data Import | BYOC"
 slug: /faq-data-import
+sidebar_label: "FAQ: Data Import"
 beta: FALSE
 notebook: FALSE
+description: "This topic lists the possible issues that you may encounter while you import data on Zilliz Cloud and the corresponding solution. | BYOC"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 4
@@ -24,7 +27,7 @@ This topic lists the possible issues that you may encounter while you import dat
 
 ### Can I bulk insert data into the Zilliz Cloud vector databases?{#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases}
 
-Yes. But currently, you can only bulk insert data into the vector databases by using the Zilliz Cloud UI. Please refer to [Import Data on Web UI](./import-data-on-web-ui) for more information.
+Yes. Please refer to [Data Import](./data-import) for more information.
 
 ### What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
 

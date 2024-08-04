@@ -1,10 +1,18 @@
 ---
+title: "Release Notes (Jan 18, 2024) | Cloud"
 slug: /release-notes-250
+sidebar_label: "Release Notes (Jan 18, 2024)"
 beta: FALSE
 notebook: FALSE
+description: "Zilliz Cloud now officially supports the Bring-Your-Own-Cloud (BYOC) subscription plan. Additionally, we have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism. | Cloud"
 type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
-sidebar_position: 5
+sidebar_position: 6
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - release notes
 
 ---
 
@@ -35,7 +43,7 @@ For more details of Zilliz Cloud BYOC, see *Ensuring Vector Data Security with Z
 
 ## Data Import{#data-import}
 
-We are excited to announce support for the Parquet data format in our latest release. To enhance user experience, we've introduced the PyMilvus writer utility, a powerful tool designed to assist our users in effortlessly creating files in JSON or Parquet formats for seamless data import. Dive into the details and explore the new possibilities *[here](./data-import)*.
+We are excited to announce support for the Parquet data format in our latest release. To enhance user experience, we've introduced the PyMilvus writer utility, a powerful tool designed to assist our users in effortlessly creating files in JSON or Parquet formats for seamless data import. Dive into the details and explore the new possibilities at [Data Import](./data-import).
 
 ## API Key{#api-key}
 

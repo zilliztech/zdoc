@@ -1,10 +1,18 @@
 ---
+title: "Manage Partitions | BYOC"
 slug: /manage-partitions
+sidebar_label: "Manage Partitions"
 beta: FALSE
 notebook: FALSE
+description: "This guide walks you through how to create and manage partitions in a collection. | BYOC"
 type: origin
 token: LcEdwc5sWiMMzdke2UWcQ105nqd
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - partition
 
 ---
 

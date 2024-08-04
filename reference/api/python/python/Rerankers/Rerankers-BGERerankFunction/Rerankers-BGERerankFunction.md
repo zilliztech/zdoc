@@ -1,10 +1,13 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "BGERerankFunction | Python"
 slug: /python/python/Rerankers-BGERerankFunction
+sidebar_label: "BGERerankFunction"
 beta: false
 notebook: false
-type: folder
-token: NeUZfRa99lNgBfdI5UOcz02Onuf
+description: "BGERerankFunction is a class in milvusmodel that takes a query and document as input and directly returns a similarity score instead of embeddings. This functionality uses the underlying BGE reranking model. | Python"
+type: docx
+token: GxAZd9O9gozzhExhMHWcMnXPngh
 sidebar_position: 1
 displayed_sidebar: pythonSidebar
 
@@ -68,8 +71,3 @@ bge_rf = BGERerankFunction(
     device="cpu" # Specify the device to use, e.g., 'cpu' or 'cuda:0'
 )
 ```
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

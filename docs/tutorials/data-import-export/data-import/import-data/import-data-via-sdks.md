@@ -1,11 +1,19 @@
 ---
+title: "Import Data (SDK) | Cloud"
 slug: /import-data-via-sdks
-sidebar_label: SDKs
+sidebar_label: "SDKs"
 beta: FALSE
 notebook: FALSE
+description: "This guide helps you learn how to use our SDKs to import data into a collection with the bulk-writer and bulk-import APIs. | Cloud"
 type: origin
 token: MvgAwL4HIiuRRJkH0FwcJhxSnld
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data import
+  - sdk
 
 ---
 

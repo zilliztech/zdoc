@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "query() | Python | ORM"
 slug: /python/python/Collection-query
-beta: FALSE
-notebook: FALSE
+sidebar_label: "query()"
+beta: false
+notebook: false
+description: "This operation conducts a scalar filtering with a specified boolean expression. | Python | ORM"
 type: docx
 token: JzcYdBQ5zoU4KpxPqUHcPLQonKd
 sidebar_position: 22

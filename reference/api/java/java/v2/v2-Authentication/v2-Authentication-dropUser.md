@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "dropUser() | Java | v2"
 slug: /java/java/v2-Authentication-dropUser
+sidebar_label: "dropUser()"
 beta: false
 notebook: false
+description: "This operation drops a user. | Java | v2"
 type: docx
 token: RFv2dtZ1qoP9XQxJEGqcgLGUnhc
 sidebar_position: 6

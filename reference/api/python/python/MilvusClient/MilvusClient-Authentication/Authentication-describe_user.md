@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "describe_user() | Python | MilvusClient"
 slug: /python/python/Authentication-describe_user
-beta: FALSE
-notebook: FALSE
+sidebar_label: "describe_user()"
+beta: false
+notebook: false
+description: "This operation describes a specific user. | Python | MilvusClient"
 type: docx
 token: Wz3HdtvPCoEquvxFY7PcDHxcnEe
 sidebar_position: 4

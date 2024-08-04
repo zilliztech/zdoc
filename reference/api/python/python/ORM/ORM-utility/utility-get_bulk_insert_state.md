@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "get_bulk_insert_state() | Python | ORM"
 slug: /python/python/utility-get_bulk_insert_state
-beta: FALSE
-notebook: FALSE
+sidebar_label: "get_bulk_insert_state()"
+beta: false
+notebook: false
+description: "This operation returns the state of a specified bulk-insert task. | Python | ORM"
 type: docx
 token: XzHhd3AdCo9DCsxawYycr69CnAb
 sidebar_position: 13

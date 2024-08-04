@@ -1,7 +1,10 @@
 ---
+title: "showCollections() | Java | v1"
 slug: /java/v1-Collection-showCollections
+sidebar_label: "showCollections()"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method lists all the collections or gets the collection loading status. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#K1DldJyVaojBaHxesiLc2z9fnxf
 sidebar_position: 9
@@ -46,6 +49,11 @@ Methods of `ShowCollectionsParam.Builder`:
         <td><p>addCollectionName(String collectionName)</p></td>
         <td><p>Adds a collection name. Collection name cannot be empty or null.</p></td>
         <td><p>collectionName: The name of the collection to show.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
@@ -94,8 +102,8 @@ Methods of `ShowCollResponseWrapper`:
    </tr>
    <tr>
      <td><p>getCollectionInfoByName(String collectionName)</p></td>
-     <td><p>Gets a CollectionInfo object by collection name.<br/></p></td>
-     <td><p><code>collectionName</code>: The collection name.</p></td>
+     <td><p>Gets a CollectionInfo object by collection name.</p></td>
+     <td><p>collectionName: The collection name.</p></td>
      <td><p>CollectionInfo</p></td>
    </tr>
 </table>
@@ -128,8 +136,8 @@ Methods of `ShowCollResponseWrapper.CollectionInfo`:
      <td><p>long</p></td>
    </tr>
    <tr>
-     <td><p>getInMemoryPercentage()<br/></p></td>
-     <td><p>Load percentage on query node.<br/></p></td>
+     <td><p>getInMemoryPercentage()</p></td>
+     <td><p>Load percentage on query node.</p></td>
      <td><p>long</p></td>
    </tr>
 </table>

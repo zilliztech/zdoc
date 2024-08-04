@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_users() | Python | MilvusClient"
 slug: /python/python/Authentication-list_users
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_users()"
+beta: false
+notebook: false
+description: "This operation lists the names of all existing users. | Python | MilvusClient"
 type: docx
 token: EZ2YdBHoDoRTlxx91tscffm1nSb
 sidebar_position: 10

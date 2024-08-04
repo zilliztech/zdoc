@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "dropPartition() | Node.js"
 slug: /node/node/Partitions-dropPartition
-beta: FALSE
-notebook: FALSE
+sidebar_label: "dropPartition()"
+beta: false
+notebook: false
+description: "This operation drops a specified partition from the current collection. | Node.js"
 type: docx
 token: BBmsddqZEozxWyxkoADcFfzpncW
 sidebar_position: 2

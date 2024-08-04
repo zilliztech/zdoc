@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "create_alias() | Python | MilvusClient"
 slug: /python/python/Collections-create_alias
-beta: FALSE
-notebook: FALSE
+sidebar_label: "create_alias()"
+beta: false
+notebook: false
+description: "This operation creates an alias for an existing collection. | Python | MilvusClient"
 type: docx
 token: Kqlodu0AWoefKvxczcxc1c36nlf
 sidebar_position: 2

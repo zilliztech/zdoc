@@ -1,10 +1,13 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "RemoteBulkWriter | Python"
 slug: /python/python/DataImport-RemoteBulkWriter
+sidebar_label: "RemoteBulkWriter"
 beta: false
 notebook: false
-type: folder
-token: Yhy1fHTMnlLKvydKzsIcnfPdnmb
+description: "A RemoteBulkWriter instance writes your raw data in a format that Zilliz Cloud understands into an AWS-S3-compatible bucket. | Python"
+type: docx
+token: G77zdbzpPo4pOaxTDcccgRNfnVc
 sidebar_position: 4
 displayed_sidebar: pythonSidebar
 
@@ -122,7 +125,3 @@ The following are the classes of the `RemoteBulkWriter` class:
 ## Methods{#methods}
 
 The following are the methods of the `RemoteBulkWriter` class:
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

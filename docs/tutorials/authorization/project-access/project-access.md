@@ -1,10 +1,19 @@
 ---
+title: "Project Access | Cloud"
 slug: /project-access
+sidebar_label: "Project Access"
 beta: FALSE
 notebook: FALSE
+description: "Learn about how to manage projects and project users. | Cloud"
 type: origin
 token: O3rEwwCCTiu0k1kAyygcKYwhnzg
 sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - project
+  - access
 
 ---
 

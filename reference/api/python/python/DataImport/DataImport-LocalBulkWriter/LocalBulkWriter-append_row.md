@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "append_row() | Python"
 slug: /python/python/LocalBulkWriter-append_row
-beta: FALSE
-notebook: FALSE
+sidebar_label: "append_row()"
+beta: false
+notebook: false
+description: "This operation appends records to the writer. | Python"
 type: docx
 token: WCxIdVwCpoIaMUxbabWcSRCkn2g
 sidebar_position: 1

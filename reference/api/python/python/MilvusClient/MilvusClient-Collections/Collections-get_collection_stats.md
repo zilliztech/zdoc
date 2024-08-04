@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "get_collection_stats() | Python | MilvusClient"
 slug: /python/python/Collections-get_collection_stats
-beta: FALSE
-notebook: FALSE
+sidebar_label: "get_collection_stats()"
+beta: false
+notebook: false
+description: "This operation lists the statistics collected on a specific collection. | Python | MilvusClient"
 type: docx
 token: VVyNdx038oECxNxMQavc9vssnoh
 sidebar_position: 10

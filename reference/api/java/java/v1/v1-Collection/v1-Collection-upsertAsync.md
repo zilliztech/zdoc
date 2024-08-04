@@ -1,7 +1,10 @@
 ---
+title: "upsertAsync | Java | v1"
 slug: /java/v1-Collection-upsertAsync
+sidebar_label: "upsertAsync"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method inserts new entities into a specified collection, and replaces them if the entities already exist. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#L9dudvetmoHTKxxoPx5c4QSInhe
 sidebar_position: 14
@@ -28,12 +31,14 @@ This method uses the same parameter as `upsert()`, it invokes the RPC interface 
 import io.milvus.param.*;
 import io.milvus.response.MutationResultWrapper;
 import io.milvus.grpc.MutationResult;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 List<List<Float>> vectors = generateFloatVectors(1);
-List<JSONObject> rows = new ArrayList<>();
-JSONObject row = new JSONObject();
-row.put("id", 1L);
-row.put("vec", vectors.get(0);
+List<JsonObject> rows = new ArrayList<>();
+JsonObject row = new JsonObject();
+row.addProperty("id", (long)i);
+row.add("vector", gson.toJsonTree(vectors.get(0)));
 rows.add(row);
 
 UpsertParam param = UpsertParam.newBuilder()

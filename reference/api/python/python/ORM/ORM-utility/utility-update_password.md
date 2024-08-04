@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "update_password() | Python | ORM"
 slug: /python/python/utility-update_password
-beta: FALSE
-notebook: FALSE
+sidebar_label: "update_password()"
+beta: false
+notebook: false
+description: "This operation updates the password for a specific user. | Python | ORM"
 type: docx
 token: SGjed7w9toewDlxmXHKc7BFancf
 sidebar_position: 41

@@ -1,10 +1,19 @@
 ---
+title: "Create Cluster | Cloud"
 slug: /create-cluster
+sidebar_label: "Create Cluster"
 beta: FALSE
 notebook: FALSE
+description: "Zilliz Cloud provides various cluster plan tiers to accommodate the distinct business needs of users. For guidance on selecting an appropriate cluster type, consult Free Trials](./free-trials) and [Understand Cluster ](./select-zilliz-cloud-service-plans)[Plans. | Cloud"
 type: origin
 token: KrbjwFhy3iojF3k97XmcvvXMnW7
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - cluster
+  - create
 
 ---
 

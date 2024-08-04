@@ -1,11 +1,20 @@
 ---
+title: "Manage Collections (SDKs) | BYOC"
 slug: /manage-collections-sdks
-sidebar_label: SDKs
+sidebar_label: "SDKs"
 beta: FALSE
 notebook: FALSE
+description: "This guide walks you through creating and managing collections using the SDK of your choice, which is more flexible and customizable when compared with the operations on the intuitive Web UI of the Zilliz Cloud console. | BYOC"
 type: origin
 token: USQ2w6yj0i3WN1k3eEYciscinkc
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - collection
+  - manage
+  - sdk
 
 ---
 
@@ -35,7 +44,7 @@ Additionally, you can view, load, release, and drop a collection when necessary.
 
 ## Create Collection{#create-collection}
 
-You can create a collection in either of the following manners:
+You can create a collection in one of the following ways:
 
 - **Quick setup**
 
@@ -47,7 +56,7 @@ You can create a collection in either of the following manners:
 
 - **With multiple vector fields** <sup>(Beta)</sup>
 
-    Zilliz Cloud enables multi-vector support, allowing you to add a maximum of 4 vector fields per collection. Currently, this feature is in Beta, exclusively available for Dedicated clusters that have been upgraded to the Beta version. For details, refer to [With multiple vector fields](./manage-collections-sdks#with-multiple-vector-fields-lesssupgreaterbetalesssupgreater).
+    Zilliz Cloud enables multi-vector support, allowing you to add a maximum of 4 vector fields per collection. Currently, this feature is in Beta, exclusively available for clusters that have been upgraded to the Beta version. For details, refer to [With multiple vector fields](./manage-collections-sdks#with-multiple-vector-fields-beta).
 
 ### Quick setup{#quick-setup}
 
@@ -590,13 +599,13 @@ You have the option to create a collection and an index file separately or to cr
     </TabItem>
     </Tabs>
 
-### With multiple vector fields <sup>(Beta)</sup>{#with-multiple-vector-fields-lesssupgreaterbetalesssupgreater}
+### With multiple vector fields (Beta){#with-multiple-vector-fields-beta}
 
 The process for creating a collection with multiple vector fields keeps consistent with that for [customized setup](./manage-collections-sdks#customized-setup). To create a collection with multiple vector fields (up to 4), you need to define the configuration of all the vector fields you want to store in the collection. Each vector field in the collection has its own name and distant metric type used to measure how similar the entities are. For more information on vector data types and metrics, refer to [Similarity Metrics Explained](./search-metrics-explained) and [Schema Explained](./schema-explained#data-types).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, this feature is in Beta, exclusively available for Dedicated clusters that have been upgraded to the Beta version.</p>
+<p>Currently, this feature is in Beta, exclusively available for clusters that have been upgraded to the Beta version.</p>
 
 </Admonition>
 

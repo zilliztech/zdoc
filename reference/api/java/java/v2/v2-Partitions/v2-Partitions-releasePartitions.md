@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "releasePartitions() | Java | v2"
 slug: /java/java/v2-Partitions-releasePartitions
+sidebar_label: "releasePartitions()"
 beta: false
 notebook: false
+description: "This operation releases the partitions in a specified collection from memory. | Java | v2"
 type: docx
 token: VsyQdDkXnoloWYxfjXNchc0dnng
 sidebar_position: 6

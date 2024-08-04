@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "upsert() | Python | ORM"
 slug: /python/python/Collection-upsert
-beta: FALSE
-notebook: FALSE
+sidebar_label: "upsert()"
+beta: false
+notebook: false
+description: "This operation inserts new records into the database or updates existing ones. | Python | ORM"
 type: docx
 token: AQ1ydMXbOog5VJxITgUc4GFvnVe
 sidebar_position: 28

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "listRoles() | Node.js"
 slug: /node/node/Authentication-listRoles
-beta: FALSE
-notebook: FALSE
+sidebar_label: "listRoles()"
+beta: false
+notebook: false
+description: "This operation lists all custom roles. | Node.js"
 type: docx
 token: GIeMdvjlMoLwGrxUOu3cFw7bnWc
 sidebar_position: 11

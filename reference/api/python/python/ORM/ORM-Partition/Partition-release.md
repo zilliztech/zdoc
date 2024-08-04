@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "release() | Python | ORM"
 slug: /python/python/Partition-release
-beta: FALSE
-notebook: FALSE
+sidebar_label: "release()"
+beta: false
+notebook: false
+description: "This operation releases the data of the current partition from memory. | Python | ORM"
 type: docx
 token: ZQ2RdE2AOoH9bfx4k3Sc3Ny0ngb
 sidebar_position: 9

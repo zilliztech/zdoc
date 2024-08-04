@@ -1,11 +1,19 @@
 ---
+title: "Question Answering Using Zilliz Cloud and HuggingFace | BYOC"
 slug: /question-answering-using-zilliz-cloud-and-hugging-face
-sidebar_label: With HuggingFace
+sidebar_label: "With HuggingFace"
 beta: FALSE
 notebook: FALSE
+description: "This page illustrates how to build a question-answering system using Zilliz Cloud as the vector database and Hugging Face as the embedding system. | BYOC"
 type: origin
 token: RWxKwfwFniNU1skCVCgcrKHbnCd
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - huggingface
 
 ---
 

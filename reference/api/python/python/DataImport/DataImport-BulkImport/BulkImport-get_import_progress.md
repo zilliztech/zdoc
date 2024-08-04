@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "get_import_progress() | Python"
 slug: /python/python/BulkImport-get_import_progress
-beta: FALSE
-notebook: FALSE
+sidebar_label: "get_import_progress()"
+beta: false
+notebook: false
+description: "This operation gets the progress of the specified bulk-import job. | Python"
 type: docx
 token: MkWNdU1tvoqlBRxI05Rcu09cnEc
 sidebar_position: 2

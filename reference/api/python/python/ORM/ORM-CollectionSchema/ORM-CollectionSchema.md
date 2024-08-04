@@ -1,10 +1,13 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "CollectionSchema | Python | ORM"
 slug: /python/python/ORM-CollectionSchema
+sidebar_label: "CollectionSchema"
 beta: false
 notebook: false
-type: folder
-token: SeaffVvutlNtvTdpV17cy78un5T
+description: "A CollectionSchema instance represents the schema of a collection. A schema sketches the structure of a collection. | Python | ORM"
+type: docx
+token: WToudUwm4oVXeKxLg3jcj3IAnjh
 sidebar_position: 2
 displayed_sidebar: pythonSidebar
 
@@ -165,8 +168,3 @@ schema = CollectionSchema(
 
 The following are the methods of the `CollectionSchema` class:
 
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

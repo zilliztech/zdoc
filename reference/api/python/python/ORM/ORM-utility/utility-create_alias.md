@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "create_alias() | Python | ORM"
 slug: /python/python/utility-create_alias
-beta: FALSE
-notebook: FALSE
+sidebar_label: "create_alias()"
+beta: false
+notebook: false
+description: "This operation creates an alias for an existing collection. | Python | ORM"
 type: docx
 token: DthMdlg8Lozw89xNz4TcBv1LnOe
 sidebar_position: 3

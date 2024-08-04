@@ -1,7 +1,10 @@
 ---
+title: "loadPartitions() | Java | v1"
 slug: /java/v1-Partition-loadPartitions
+sidebar_label: "loadPartitions()"
 beta: FALSE
 notebook: FALSE
+description: "MilvusClient interface. This method loads partitions' data into query nodes' memory before the search or query. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#UBPYdCwZDoNGybxZsXTc8lobnwd
 sidebar_position: 5
@@ -41,6 +44,11 @@ Methods of `LoadPartitionsParam.Builder`:
         <td><p>withCollectionName(String collectionName)</p></td>
         <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
         <td><p>collectionName: The target collection name.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>withPartitionNames(List\<String> partitionNames)</p></td>

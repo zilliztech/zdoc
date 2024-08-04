@@ -1,10 +1,19 @@
 ---
+title: "Text Data | Cloud"
 slug: /pipelines-text-data
+sidebar_label: "Text Data"
 beta: FALSE
 notebook: FALSE
+description: "The Zilliz Cloud web UI provides a simplified and intuitive way of creating, running, and managing Pipelines while the RESTful API offers more flexibility and customization compared to the Web UI. | Cloud"
 type: origin
 token: ISAjwB6VLiAdS5kGoXYcdPBJnbf
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - pipelines
+  - text data
 
 ---
 
@@ -22,7 +31,7 @@ This guide walks you through the necessary steps to create text pipelines, condu
 
 - Ensure you have created a cluster deployed in us-west1 on Google Cloud Platform (GCP).
 
-- In one project, you can only create up to 10 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits#pipelines).
+- In one project, you can only create up to 100 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits#pipelines).
 
 ## Ingest text data{#ingest-text-data}
 
@@ -89,23 +98,23 @@ To ingest any data, you need to first create an ingestion pipeline and then run 
              <td><p>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency.</p></td>
            </tr>
            <tr>
-             <td><p>voyageai/voyage-2</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-2</a></p></td>
              <td><p>Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>voyageai/voyage-code-2</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-code-2</a></p></td>
              <td><p>Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>voyageai/voyage-large-2</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-large-2</a></p></td>
              <td><p>Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>openai/text-embedding-3-small</p></td>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">openai/text-embedding-3-small </a></p></td>
              <td><p>Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>openai/text-embedding-3-large</p></td>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">openai/text-embedding-3-large</a></p></td>
              <td><p>Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
@@ -212,7 +221,7 @@ The parameters in the above code are described as follows:
 
 - `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
 
-- `functions`: The function(s) to add in the pipeline. **An Ingestion pipeline can have only one INDEX function and up to five PRESERVE functions.**
+- `functions`: The function(s) to add in the pipeline. **An Ingestion pipeline can have only one INDEX function and up to 50 PRESERVE functions.**
 
     - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
 
@@ -232,19 +241,23 @@ The parameters in the above code are described as follows:
              <td><p>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency.</p></td>
            </tr>
            <tr>
-             <td><p>voyageai/voyage-2</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-2</a></p></td>
              <td><p>Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>voyageai/voyage-code-2</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-code-2</a></p></td>
              <td><p>Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>openai/text-embedding-3-small</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-large-2</a></p></td>
+             <td><p>Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
+           </tr>
+           <tr>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">openai/text-embedding-3-small </a></p></td>
              <td><p>Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
-             <td><p>openai/text-embedding-3-large</p></td>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">openai/text-embedding-3-large</a></p></td>
              <td><p>Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
            </tr>
            <tr>
@@ -272,32 +285,42 @@ Below is an example output.
 {
   "code": 200,
   "data": {
-    "pipelineId": "pipe-xxxx",
+    "pipelineId": "pipe-xxx",
     "name": "my_text_ingestion_pipeline",
     "type": "INGESTION",
-    "clusterId": "in03-***************",
-    "collectionName": "my_collection"
+    "createTimestamp": 1721187300000,
     "description": "A pipeline that generates text embeddings and stores additional fields.",
     "status": "SERVING",
+    "totalUsage": {
+      "embedding": 0
+    },
     "functions": [
       {
-        "action": "INDEX_TEXT",
         "name": "index_my_text",
+        "action": "INDEX_TEXT",
         "inputFields": ["text_list"],
         "language": "ENGLISH",
         "embedding": "zilliz/bge-base-en-v1.5"
       },
       {
-        "action": "PRESERVE",
         "name": "keep_text_info",
+        "action": "PRESERVE",
         "inputField": "source",
         "outputField": "source",
         "fieldType": "VarChar"
       }
-    ]
+    ],
+    "clusterId": "inxx-xxxx",
+    "collectionName": "my_collection"
   }
 }
 ```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
 
 A collection named `my_collection` will be automatically if it does not exist in the cluster. However, if it exists, Zililz Cloud Pipelines will check whether the collection schema is consistent with the schema defined in the pipeline. 
 
@@ -305,10 +328,10 @@ This collection contains four fields:  three output fields of the **INDEX_TEXT**
 
 <table>
    <tr>
-     <th><p>id<br/> (Data Type: Int64)</p></th>
-     <th><p>text<br/> (Data type: VarChar)</p></th>
-     <th><p>embedding<br/> (Data type: FLOAT_VECTOR)</p></th>
-     <th><p>source<br/> (Data type: VarChar)</p></th>
+     <th><p>id</p><p>(Data Type: Int64)</p></th>
+     <th><p>text</p><p>(Data type: VarChar)</p></th>
+     <th><p>embedding</p><p>(Data type: FLOAT_VECTOR)</p></th>
+     <th><p>source</p><p>(Data type: VarChar)</p></th>
    </tr>
 </table>
 
@@ -499,7 +522,7 @@ The parameters in the above code are described as follows:
 
     - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
 
-    - `action`: The type of the function to add. Currently, available options include `SEARCH_DOC_CHUNK`, `SEARCH_TEXT`, and `SEARCH_IMAGE_BY_IMAGE`.
+    - `action`: The type of the function to add. Currently, available options include `SEARCH_DOC_CHUNK`, `SEARCH_TEXT`, `SEARCH_IMAGE_BY_IMAGE`, and `SEARCH_IMAGE_BY_TEXT`.
 
     - `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a cluster deployed in us-west1 on GCP. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
 
@@ -518,21 +541,35 @@ Below is an example output.
     "pipelineId": "pipe-xxxx",
     "name": "my_text_search_pipeline",
     "type": "SEARCH",
+    "createTimestamp": 1721187655000,
     "description": "A pipeline that receives text and search for semantically similar texts",
     "status": "SERVING",
-    "functions": 
+    "totalUsage": {
+      "embedding": 0,
+      "rerank": 0
+    },
+    "functions": [
       {
-        "action": "SEARCH_TEXT",
         "name": "search_text",
-        "inputFields": "query_text",
-        "clusterId": "in03-***************",
+        "action": "SEARCH_TEXT",
+        "inputFields": [
+          "query_text"
+        ],
+        "clusterId": "inxx-xxxx",
         "collectionName": "my_collection",
-        "embedding": "zilliz/bge-base-en-v1.5",
-        "reranker": "zilliz/bge-reranker-base"
+        "reranker": "zilliz/bge-reranker-base",
+        "embedding": "zilliz/bge-base-en-v1.5"
       }
+    ]
   }
 }
 ```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
 
 </TabItem>
 
@@ -590,7 +627,7 @@ The parameters in the above code are described as follows:
 
 - `params`: The search parameters to configure.
 
-    - `limit`: The maximum number of entities to return. The value should be an integer ranging from **1** to **100**. The sum of this value of that of `offset` should be less than **1024**.
+    - `limit`: The maximum number of entities to return. The value should be an integer ranging from **1** to **500**. The sum of this value of that of `offset` should be less than **1024**.
 
     - `offset`: The number of entities to skip in the search results.
 
@@ -732,6 +769,7 @@ Below is an example output.
     "pipelineId": "pipe-xxxx",
     "name": "my_text_deletion_pipeline",
     "type": "DELETION",
+    "createTimestamp": 1721187655000,
     "description": "A pipeline that deletes entities by expression",
     "status": "SERVING",
     "functions": [
@@ -818,9 +856,19 @@ The following are relevant operations that manages the created pipelines in the 
 
 <TabItem value="Cloud Console">
 
-Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You will see all the available pipelines and their detailed information. 
+Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You will see all the available pipelines. 
 
 ![view-pipelines-on-web-ui](/img/view-pipelines-on-web-ui.png)
+
+Click on a specific pipeline to view its detailed information including its basic information, total usage, functions, and related connectors.
+
+![view-pipeline-details](/img/view-pipeline-details.png)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
 
 You can also check the pipeline activities on the web UI.
 
@@ -853,10 +901,14 @@ You can call the API to list all existing pipelines or view the details of a par
           "pipelineId": "pipe-xxxx",
           "name": "my_text_ingestion_pipeline",
           "type": "INGESTION",
+          "createTimestamp": 1721187655000,
           "clusterId": "in03-***************",
           "collectionName": "my_collection"
           "description": "A pipeline that generates text embeddings and stores additional fields.",
           "status": "SERVING",
+          "totalUsage": {
+            "embedding": 0
+            },
           "functions": [
             {
               "action": "INDEX_TEXT",
@@ -878,8 +930,13 @@ You can call the API to list all existing pipelines or view the details of a par
           "pipelineId": "pipe-xxxx",
           "name": "my_text_search_pipeline",
           "type": "SEARCH",
+          "createTimestamp": 1721187655000,
           "description": "A pipeline that receives text and search for semantically similar texts",
           "status": "SERVING",
+          "totalUsage": {
+            "embedding": 0,
+            "rerank": 0
+            },
           "functions": 
             {
               "action": "SEARCH_TEXT",
@@ -895,6 +952,7 @@ You can call the API to list all existing pipelines or view the details of a par
           "pipelineId": "pipe-xxxx",
           "name": "my_text_deletion_pipeline",
           "type": "DELETION",
+          "createTimestamp": 1721187655000,
           "description": "A pipeline that deletes entities by expression",
           "status": "SERVING",
           "functions": 
@@ -909,6 +967,12 @@ You can call the API to list all existing pipelines or view the details of a par
       ]
     }
     ```
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+    </Admonition>
 
 - **View the details of a specific pipeline**
 
@@ -927,32 +991,42 @@ You can call the API to list all existing pipelines or view the details of a par
     {
       "code": 200,
       "data": {
-        "pipelineId": "pipe-xxxx",
+        "pipelineId": "pipe-xxx",
         "name": "my_text_ingestion_pipeline",
         "type": "INGESTION",
-        "clusterId": "in03-***************",
-        "collectionName": "my_collection"
+        "createTimestamp": 1721187300000,
         "description": "A pipeline that generates text embeddings and stores additional fields.",
         "status": "SERVING",
+        "totalUsage": {
+          "embedding": 0
+        },
         "functions": [
           {
-            "action": "INDEX_TEXT",
             "name": "index_my_text",
+            "action": "INDEX_TEXT",
             "inputFields": ["text_list"],
             "language": "ENGLISH",
             "embedding": "zilliz/bge-base-en-v1.5"
           },
           {
-            "action": "PRESERVE",
             "name": "keep_text_info",
+            "action": "PRESERVE",
             "inputField": "source",
             "outputField": "source",
             "fieldType": "VarChar"
           }
-        ]
+        ],
+        "clusterId": "inxx-xxxx",
+        "collectionName": "my_collection"
       }
     }
     ```
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+    </Admonition>
 
 </TabItem>
 
@@ -998,32 +1072,42 @@ The following is an example output.
 {
   "code": 200,
   "data": {
-    "pipelineId": "pipe-xxxx",
+    "pipelineId": "pipe-xxx",
     "name": "my_text_ingestion_pipeline",
     "type": "INGESTION",
-    "clusterId": "in03-***************",
-    "collectionName": "my_collection"
+    "createTimestamp": 1721187300000,
     "description": "A pipeline that generates text embeddings and stores additional fields.",
     "status": "SERVING",
+    "totalUsage": {
+      "embedding": 0
+    },
     "functions": [
       {
-        "action": "INDEX_TEXT",
         "name": "index_my_text",
+        "action": "INDEX_TEXT",
         "inputFields": ["text_list"],
         "language": "ENGLISH",
         "embedding": "zilliz/bge-base-en-v1.5"
       },
       {
-        "action": "PRESERVE",
         "name": "keep_text_info",
+        "action": "PRESERVE",
         "inputField": "source",
         "outputField": "source",
         "fieldType": "VarChar"
       }
-    ]
+    ],
+    "clusterId": "inxx-xxxx",
+    "collectionName": "my_collection"
   }
 }
 ```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The total usage data could delay by a few hours due to technical limitation.</p>
+
+</Admonition>
 
 </TabItem>
 

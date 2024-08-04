@@ -1,19 +1,34 @@
 ---
+title: "Set up a PrivateLink (AWS) | Cloud"
 slug: /setup-a-private-link-aws
+sidebar_label: "Set up a PrivateLink (AWS)"
 beta: FALSE
 notebook: FALSE
+description: "This guide demonstrates the procedure for setting up a private endpoint from a Zilliz Cloud cluster to your service hosted in different AWS VPCs. | Cloud"
 type: origin
 token: GBY6wbUmwi9lLjkXSuKccODgnne
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - private link
+  - aws
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Set up a Private Link (AWS)
+# Set up a PrivateLink (AWS)
 
-This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different AWS VPCs.
+This guide demonstrates the procedure for setting up a private endpoint from a Zilliz Cloud cluster to your service hosted in different AWS VPCs.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud does not charge you for creating and using private endpoints. However, your cloud provider may <a href="https://aws.amazon.com/privatelink/pricing/">charge you for each endpoint</a> that you create to access Zilliz Cloud.</p>
+
+</Admonition>
 
 ## Before you start{#before-you-start}
 
@@ -23,9 +38,9 @@ Make sure the following conditions are met:
 
 - A cluster has been created. For information on how to create a cluster, see [Create Cluster](./create-cluster).
 
-## Add a private link{#add-a-private-link}
+## Add a private endpoint{#add-a-private-endpoint}
 
-Zilliz Cloud offers you an intuitive wizard to add a private link. On the **Private Link** tab in your project, click **+ Add Private Link** and configure the settings.
+Zilliz Cloud offers you an intuitive wizard to add a private endpoint. On the **Private Endpoint** tab in your project, click **+ Add Private Endpoint** and configure the settings.
 
 Setting up a private link is project-level. When you configure a private link for a cluster, it applies to its neighboring clusters in the same project deployed in the same cloud region.
 

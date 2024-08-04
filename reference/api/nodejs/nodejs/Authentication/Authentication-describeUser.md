@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "describeUser() | Node.js"
 slug: /node/node/Authentication-describeUser
-beta: FALSE
-notebook: FALSE
+sidebar_label: "describeUser()"
+beta: false
+notebook: false
+description: "This is a method template. | Node.js"
 type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
 sidebar_position: 5

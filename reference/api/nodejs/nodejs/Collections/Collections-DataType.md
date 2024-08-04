@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "DataType | Node.js"
 slug: /node/node/Collections-DataType
-beta: FALSE
-notebook: FALSE
+sidebar_label: "DataType"
+beta: false
+notebook: false
+description: "This is an enumeration that provides the following constants. | Node.js"
 type: docx
 token: VUp6d9FvcoBV0AxYJmvcq9DAnUg
 sidebar_position: 4
@@ -57,6 +60,18 @@ Sets the data type to **Binary Vector**.
 
 - FloatVector = 101
 Sets the data type to **Float Vector**.
+
+- Float16Vector = 102
+
+    Sets the data type to **Float16 Vector**.
+
+- BFloat16Vector = 103
+
+    Sets the data type to **BFloat16 Vector**.
+
+- SparseFloatVector = 104
+
+    Sets the data type to **Sparse Vector**.
 
 ## Example{#example}
 

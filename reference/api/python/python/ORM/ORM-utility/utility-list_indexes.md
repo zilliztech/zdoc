@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_indexes() | Python | ORM"
 slug: /python/python/utility-list_indexes
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_indexes()"
+beta: false
+notebook: false
+description: "This operation lists all indexes of a specific collection. | Python | ORM"
 type: docx
 token: XLepdUCcTow6rpx5vxxcbLXZnyb
 sidebar_position: 25

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "describeRole() | Node.js"
 slug: /node/node/Authentication-describeRole
-beta: FALSE
-notebook: FALSE
+sidebar_label: "describeRole()"
+beta: false
+notebook: false
+description: "This operation describes a specific role. | Node.js"
 type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
 sidebar_position: 4

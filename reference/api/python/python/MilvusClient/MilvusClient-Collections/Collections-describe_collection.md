@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "describe_collection() | Python | MilvusClient"
 slug: /python/python/Collections-describe_collection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "describe_collection()"
+beta: false
+notebook: false
+description: "This operation lists detailed information about a specific collection. | Python | MilvusClient"
 type: docx
 token: MCkjdiRNKo2HCCxzHReclrgAnbg
 sidebar_position: 7

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "listUsers() | Java | v2"
 slug: /java/java/v2-Authentication-listUsers
+sidebar_label: "listUsers()"
 beta: false
 notebook: false
+description: "This operation lists the names of all existing users. | Java | v2"
 type: docx
 token: EfM3drSXlo4Yzyxq2GpcmvoHnTm
 sidebar_position: 10

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "addField() | Java | v2"
 slug: /java/java/v2-CollectionSchema-addField
+sidebar_label: "addField()"
 beta: false
 notebook: false
+description: "This operation adds a vector field to the schema of a collection. | Java | v2"
 type: docx
 token: ST5xdgZ9YoXYiJx7Ex6czstHnij
 sidebar_position: 1

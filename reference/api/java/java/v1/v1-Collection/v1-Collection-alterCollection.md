@@ -1,7 +1,10 @@
 ---
+title: "alterCollection() | Java | v1"
 slug: /java/v1-Collection-alterCollection
+sidebar_label: "alterCollection()"
 beta: FALSE
 notebook: FALSE
+description: "Alter collection properties. Currently, it supports modifying the time to live (TTL) of a collection's data and enabling MMap of a collection. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#Ms4Udr3rPo9BEmxRpF9cdk9hnbg
 sidebar_position: 7
@@ -41,6 +44,11 @@ Methods of `AlterCollectionParam.Builder`:
         <td><p>withCollectionName(String collectionName)</p></td>
         <td><p>Sets the collection name. Collection name cannot be empty or null.</p></td>
         <td><p>collectionName: The name of the collection to alter properties.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. Database name can be null for default database.</p></td>
+        <td><p>databaseName: The name of the database.</p></td>
     </tr>
     <tr>
         <td><p>withTTL(Integer ttlSeconds)</p></td>

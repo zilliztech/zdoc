@@ -1,10 +1,18 @@
 ---
+title: "License | BYOC"
 slug: /license
+sidebar_label: "License"
 beta: FALSE
 notebook: FALSE
+description: "The Zilliz Cloud Bring Your Own Cloud (BYOC) solution offers a subscription model enabling you to deploy Zilliz Cloud services on your cloud infrastructure for enhanced security. This topic explores the BYOC license, emphasizing its usage, monitoring, and implications for users. | BYOC"
 type: origin
 token: YXwjweT1Mi8hLckPrjdckUHdnMd
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - license
 
 ---
 

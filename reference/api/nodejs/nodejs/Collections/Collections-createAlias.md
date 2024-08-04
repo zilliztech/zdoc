@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "createAlias() | Node.js"
 slug: /node/node/Collections-createAlias
-beta: FALSE
-notebook: FALSE
+sidebar_label: "createAlias()"
+beta: false
+notebook: false
+description: "This operation creates an alias for an existing collection. | Node.js"
 type: docx
 token: MPuIdwujBoXM6rx7Okfc3lhZnUd
 sidebar_position: 2

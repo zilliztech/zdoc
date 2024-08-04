@@ -1,10 +1,18 @@
 ---
+title: "Release Notes (Sept 27, 2023) | Cloud"
 slug: /release-notes-221
+sidebar_label: "Release Notes (Sept 27, 2023)"
 beta: FALSE
 notebook: FALSE
+description: "We are excited to announce the launch of Zilliz Cloud. With this release, we are introducing a range of enhancements and features, including increased flexibility with a New CU Size Option, the support for advance pay, and more AWS regions. | Cloud"
 type: origin
 token: YtxBwrPfBiuFDdk10GVcYY1DnGg
-sidebar_position: 8
+sidebar_position: 9
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - release notes
 
 ---
 

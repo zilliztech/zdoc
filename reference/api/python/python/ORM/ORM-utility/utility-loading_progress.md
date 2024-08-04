@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "loading_progress() | Python | ORM"
 slug: /python/python/utility-loading_progress
-beta: FALSE
-notebook: FALSE
+sidebar_label: "loading_progress()"
+beta: false
+notebook: false
+description: "This operation returns the load progress of a specific collection. | Python | ORM"
 type: docx
 token: HQiHd82orov0XvxAzLWcl5xRnzc
 sidebar_position: 31

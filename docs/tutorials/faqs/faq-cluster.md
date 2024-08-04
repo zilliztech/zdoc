@@ -1,7 +1,10 @@
 ---
+title: "FAQ: Cluster | CLOUD"
 slug: /faq-cluster
+sidebar_label: "FAQ: Cluster"
 beta: FALSE
 notebook: FALSE
+description: "This topic lists the possible issues that you may encounter while you use Zilliz Cloud clusters and the corresponding solution. | CLOUD"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 2
@@ -36,7 +39,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 Generally, a free cluster can handle 1 million 768-dimensional vectors. However, the actual capacity depends on your schema. 
 
-If your data exceeds the maximum capacity of a free cluster, please [upgrade](./select-zilliz-cloud-service-plans#select-a-cluster-plan) to Serverless or Dedicated plan to create a new cluster and [migrate your data](./migrate-between-clusters#from-dedicated-cluster-to-serverless-cluster) there. For more information about the capacity of a  cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
+If your data exceeds the maximum capacity of a free cluster, please [upgrade](./select-zilliz-cloud-service-plans#select-a-cluster-plan) to Serverless or Dedicated plan to create a new cluster and [migrate your data](./migrate-between-clusters) there. For more information about the capacity of a  cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
 
 ### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
 
@@ -44,7 +47,7 @@ When inserting or upserting data, you will receive this error because your data 
 
 To address this issue, you can follow the instructions below.
 
-- If you are using a free cluster, please upgrade to Serverless or Dedicated plan.
+- If you are using a free cluster, please [upgrade](./manage-cluster#upgrade-plan) to Serverless or Dedicated plan.
 
 - If you are using a Dedicated cluster, please [scale up your cluster](./manage-cluster#manage-and-configure-clusters) by increasing the CU size.
 

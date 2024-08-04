@@ -1,11 +1,19 @@
 ---
+title: "Similarity Search with Zilliz Cloud and OpenAI | BYOC"
 slug: /similarity-search-with-zilliz-cloud-and-openai
-sidebar_label: With OpenAI
+sidebar_label: "With OpenAI"
 beta: FALSE
 notebook: FALSE
+description: "This page discusses integrating vector databases with OpenAI's embedding API. | BYOC"
 type: origin
 token: SeQxwhBEaimlzykxXLacoJuTnAb
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - openai
 
 ---
 
@@ -22,7 +30,7 @@ We will demonstrate how to use [OpenAI's Embedding API](https://beta.openai.com/
 
 To follow along, you'll need an API key from the [OpenAI website](https://openai.com/api/). Also, be sure to visit our [cloud landing page](https://zilliz.com/cloud) for $100 free credits that you can use to spin up a new cluster if you don’t have one already.
 
-We'll also need to prepare the data for this example. You can obtain the book titles from [here](https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks). Let's create a function that loads book titles from our CSV.
+We'll also need to prepare the data for this example. You can obtain the book titles from [this kaggle page.](https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks) Let's create a function that loads book titles from our CSV.
 
 ```python
 import csv
@@ -74,7 +82,7 @@ openai.api_key = 'YOUR_OPENAI_API_KEY'  # Use your own Open AI API Key here
 
 </Admonition>
 
-The following snippet deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it. For more information on how to set up and use Zilliz Cloud, refer to this [link](./quick-start).
+The following snippet deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it. For more information on how to set up and use Zilliz Cloud, refer to this [the quickstart guide](./quick-start).
 
 ```python
 # Connect to Zilliz Cloud and create a collection
@@ -196,7 +204,7 @@ You should see the following as the output:
 # [39, 0.41171979904174805, 'Wonderful Life: The Burgess Shale and the Nature of History']
 ```
 
-A full example of this is available [here](https://colab.research.google.com/drive/1bAX1Ah7ub4uVibQIT82LvdPmrRCzCXKM?usp=sharing).
+A full example of this is available [in this colab notebook.](https://colab.research.google.com/drive/1bAX1Ah7ub4uVibQIT82LvdPmrRCzCXKM?usp=sharing)
 
 ## Related integrations{#related-integrations}
 

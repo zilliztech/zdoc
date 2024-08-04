@@ -1,10 +1,20 @@
 ---
+title: "Set up Maintenance Window | BYOC"
 slug: /setup-maintenance-window
+sidebar_label: "Set up Maintenance Window"
 beta: FALSE
 notebook: FALSE
+description: "You can set up a maintenance window to allow Zilliz Cloud to schedule maintenance for your hosted cluster. This makes impactful maintenance events more predictable and less disruptive for your workload. | BYOC"
 type: origin
 token: FUtxwSaoSiDKFikcDw8cKngKn1f
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - maintenance
+  - window
+  - setup
 
 ---
 

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "search() | Python | ORM"
 slug: /python/python/Collection-search
-beta: FALSE
-notebook: FALSE
+sidebar_label: "search()"
+beta: false
+notebook: false
+description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Python | ORM"
 type: docx
 token: OaM5dkbPjohKhNxHvKNcfnYMnVb
 sidebar_position: 25

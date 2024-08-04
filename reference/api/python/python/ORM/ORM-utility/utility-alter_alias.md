@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "alter_alias() | Python | ORM"
 slug: /python/python/utility-alter_alias
-beta: FALSE
-notebook: FALSE
+sidebar_label: "alter_alias()"
+beta: false
+notebook: false
+description: "This operation reassigns the alias of one collection to another. | Python | ORM"
 type: docx
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
 sidebar_position: 1

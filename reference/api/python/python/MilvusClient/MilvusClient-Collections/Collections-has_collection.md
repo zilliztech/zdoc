@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "has_collection() | Python | MilvusClient"
 slug: /python/python/Collections-has_collection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "has_collection()"
+beta: false
+notebook: false
+description: "This operation checks whether a specific collection exists. | Python | MilvusClient"
 type: docx
 token: SSQ6dFGdxouy7hxRwCOcatnEn0e
 sidebar_position: 11

@@ -1,7 +1,10 @@
 ---
+title: "createCredential() | Java | v1"
 slug: /java/v1-Authentication-createCredential
+sidebar_label: "createCredential()"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method creates a credential using the given username and password. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#UqkRdXxUhoXGjSxCm9BcFNwPnod
 sidebar_position: 1

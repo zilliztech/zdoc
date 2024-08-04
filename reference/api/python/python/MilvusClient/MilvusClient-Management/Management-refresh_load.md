@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "refresh_load() | Python | MilvusClient"
 slug: /python/python/Management-refresh_load
-beta: FALSE
-notebook: FALSE
+sidebar_label: "refresh_load()"
+beta: false
+notebook: false
+description: "This operation loads the unloaded data of a loaded collection into memory. | Python | MilvusClient"
 type: docx
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 9

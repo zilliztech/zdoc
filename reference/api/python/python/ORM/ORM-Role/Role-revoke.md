@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "revoke() | Python | ORM"
 slug: /python/python/Role-revoke
-beta: FALSE
-notebook: FALSE
+sidebar_label: "revoke()"
+beta: false
+notebook: false
+description: "This operation revokes a privilege granted to the current role. | Python | ORM"
 type: docx
 token: UUJWdoEnjoXx69xahsScdMVSnzf
 sidebar_position: 10

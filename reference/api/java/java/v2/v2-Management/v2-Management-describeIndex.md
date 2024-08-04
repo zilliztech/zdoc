@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "describeIndex() | Java | v2"
 slug: /java/java/v2-Management-describeIndex
+sidebar_label: "describeIndex()"
 beta: false
 notebook: false
+description: "This operation describes a specific index. | Java | v2"
 type: docx
 token: WUgedTmyZoW4clxSgHVcl1ZtnZl
 sidebar_position: 2

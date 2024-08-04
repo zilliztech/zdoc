@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "reset_password() | Python | ORM"
 slug: /python/python/utility-reset_password
-beta: FALSE
-notebook: FALSE
+sidebar_label: "reset_password()"
+beta: false
+notebook: false
+description: "This operation resets the password for a specific user. | Python | ORM"
 type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38

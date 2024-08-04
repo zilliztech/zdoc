@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "drop_index() | Python | ORM"
 slug: /python/python/Collection-drop_index
-beta: FALSE
-notebook: FALSE
+sidebar_label: "drop_index()"
+beta: false
+notebook: false
+description: "This operation deletes index from the current collection. | Python | ORM"
 type: docx
 token: AtkDdtMAWodFzExARxnco5xLnsg
 sidebar_position: 9

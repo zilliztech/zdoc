@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "searchIterator() | Java | v2"
 slug: /java/java/v2-Vector-searchIterator
+sidebar_label: "searchIterator()"
 beta: false
 notebook: false
+description: "This method returns a search iterator to iterate search results. | Java | v2"
 type: docx
 token: M4IqdsRCNotiM4xdOA0cWSnUngb
 sidebar_position: 8

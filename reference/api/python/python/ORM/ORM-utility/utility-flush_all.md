@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "flush_all() | Python | ORM"
 slug: /python/python/utility-flush_all
-beta: FALSE
-notebook: FALSE
+sidebar_label: "flush_all()"
+beta: false
+notebook: false
+description: "This operation seals all segments. | Python | ORM"
 type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12

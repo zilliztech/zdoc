@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "create_schema() | Python | MilvusClient"
 slug: /python/python/Collections-create_schema
-beta: FALSE
-notebook: FALSE
+sidebar_label: "create_schema()"
+beta: false
+notebook: false
+description: "This operation creates a collection schema. | Python | MilvusClient"
 type: docx
 token: RxU7dBjGlop0e1xZShYcZ4qCnnh
 sidebar_position: 4

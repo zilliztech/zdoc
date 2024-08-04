@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "AzureConnectParam | Python"
 slug: /python/python/RemoteBulkWriter-AzureConnectParam
-beta: FALSE
-notebook: FALSE
+sidebar_label: "AzureConnectParam"
+beta: false
+notebook: false
+description: "An AzureConnectParam instance sets connection parameters for a RemoteBulkWriter instance. | Python"
 type: docx
 token: C2YSddNqZoDNmNxWqqEcuzhKn4f
 sidebar_position: 2

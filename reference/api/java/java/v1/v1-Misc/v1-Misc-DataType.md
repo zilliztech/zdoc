@@ -1,7 +1,10 @@
 ---
+title: "DataType | Java | v1"
 slug: /java/v1-Misc-DataType
+sidebar_label: "DataType"
 beta: FALSE
 notebook: FALSE
+description: "The enum for available data types, defined by RPC proto. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#MdMXdCNstouL1fxstYbcfzc9nTc
 sidebar_position: 2

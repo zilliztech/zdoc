@@ -1,35 +1,49 @@
 ---
+title: "View Backup Files | BYOC"
 slug: /view-snapshot-details
+sidebar_label: "View Backup Files"
 beta: FALSE
 notebook: FALSE
+description: "This guide walks you through how to view automatically or manually created backup files. | BYOC"
 type: origin
 token: Fob2w8LZaifGSHkxjoZcHcTtngf
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - backup
+  - files
+  - view
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# View Snapshot Details
+# View Backup Files
 
-This guide walks you through how to check the details of automatically or manually created snapshots.
+This guide walks you through how to view automatically or manually created backup files.
 
-## Snapshot status{#snapshot-status}
+## Backup file status{#backup-file-status}
 
-The status of a snapshot can vary, and the possible statuses are as follows:
+The status of a backup file can vary, and the possible statuses are as follows:
 
 - **CREATING**
 
-    If a snapshot is in this status, you cannot create another snapshot. However, you can click **...** in the **Actions** column and choose **Cancel** to terminate the process.
+    If a backup file is in this status, you cannot create another one within the same cluster. However, you go to the [Jobs](./job-center) page can click **...** in the **Actions** column and choose **Cancel** to [terminate the process](./job-center#cancel-job).
 
 - **AVAILABLE**
 
     After the status changes to this, you can click **...** in the Actions column to
 
-If the status of your snapshot is neither of the two, errors may occur. Please try again. If you continue to experience errors, please contact us without hesitation.
+If the status of your backup file is neither of the two, errors may occur. Please try again. If you continue to experience errors, please contact us without hesitation.
 
-## View snapshot details{#view-snapshot-details}
+## View all backup files{#view-all-backup-files}
+
+![view_all_backups](/byoc/view_all_backups.png)
+
+## View backup file details{#view-backup-file-details}
 
 ![view_snapshot_details](/byoc/view_snapshot_details.png)
 

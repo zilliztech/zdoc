@@ -1,10 +1,19 @@
 ---
+title: "Use Binary Vector | BYOC"
 slug: /use-binary-vector
+sidebar_label: "Use Binary Vector"
 beta: TRUE
 notebook: FALSE
+description: "Binary vectors are a type of data representation where each element is either 0 or 1. These are particularly useful in contexts such as similarity search in large datasets, where the binary nature allows for efficient computation of similarities using metrics like Hamming or Jaccard distance. This guide will demonstrate how to use binary vectors in Zilliz Cloud. | BYOC"
 type: origin
 token: PFArwxRkjiL6wMknUieczYgUnuh
 sidebar_position: 11
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - binary vector
+  - milvus
 
 ---
 
@@ -17,7 +26,7 @@ Binary vectors are a type of data representation where each element is either 0 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, this feature is available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+<p>Currently, this feature is available exclusively for clusters that have been upgraded to the Beta version.</p>
 
 </Admonition>
 

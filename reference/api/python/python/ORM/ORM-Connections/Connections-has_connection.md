@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "has_connection() | Python | ORM"
 slug: /python/python/Connections-has_connection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "has_connection()"
+beta: false
+notebook: false
+description: "This operation checks if a connection with the given alias has already been established. | Python | ORM"
 type: docx
 token: XeZwdeK64oGD8rx9DA3ciqNinnh
 sidebar_position: 6

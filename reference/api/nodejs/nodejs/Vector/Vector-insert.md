@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "insert() | Node.js"
 slug: /node/node/Vector-insert
-beta: FALSE
-notebook: FALSE
+sidebar_label: "insert()"
+beta: false
+notebook: false
+description: "This operation inserts data into a specific collection. | Node.js"
 type: docx
 token: WUZwdRNXIoS0tSxCrw6coaa2nzf
 sidebar_position: 3

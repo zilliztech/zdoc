@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "search() | Node.js"
 slug: /node/node/Vector-search
-beta: FALSE
-notebook: FALSE
+sidebar_label: "search()"
+beta: false
+notebook: false
+description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Node.js"
 type: docx
 token: BIlNdgI2foFEaoxmn12cLO6Jndb
 sidebar_position: 5

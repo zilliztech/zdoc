@@ -1,11 +1,19 @@
 ---
+title: "Select the Right CU | Cloud"
 slug: /cu-types-explained
-sidebar_label: CU Types
+sidebar_label: "CU Types"
 beta: FALSE
 notebook: FALSE
+description: "Selecting the right Compute Unit (CU) is a crucial step when creating a cluster in Zilliz Cloud. A CU is the basic unit of compute resources used for parallel processing of data, and different CU types comprise varying combinations of CPU, memory, and storage. | Cloud"
 type: origin
 token: UgqvwKh2QiKE1kkYNLJcaHt0nkg
 sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - cu
+  - select
 
 ---
 
@@ -59,7 +67,9 @@ Factor in data volume, performance expectations, and budgets while selecting the
 
 ### Assess capacity{#assess-capacity}
 
-The table below illustrates the load capacity for each CU type, taking into account the vector dimensions and the total vector count.
+The number of entities a cluster can accommodate depends on the CU capacity of a cluster.
+
+The reference table below illustrates the capacity of a cluster with 1 performance-optimized CU and 1 capacity-optimized CU, taking into account the vector dimensions and the total vector count. For an estimation of the CU sizes needed for your data volume, please use [our calculator](https://zilliz.com/pricing#calculator).
 
 <table>
    <tr>
@@ -139,13 +149,13 @@ The following table shows the test result of how each CU type performs in terms 
 <table>
    <tr>
      <th><p>top_k</p></th>
-     <th><p>Latency of Performance-optimized CU (768-dim 1M vectors)<br/></p></th>
-     <th><p>Latency of Capacity-optimized CU (768-dim 5M vectors)<br/></p></th>
+     <th><p>Latency of Performance-optimized CU (768-dim 1M vectors)</p></th>
+     <th><p>Latency of Capacity-optimized CU (768-dim 5M vectors)</p></th>
    </tr>
    <tr>
      <td><p>10</p></td>
      <td><p>&lt; 10 ms</p></td>
-     <td><p>< 50 ms<br/></p></td>
+     <td><p>&lt; 50 ms</p></td>
    </tr>
    <tr>
      <td><p>100</p></td>

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "search_iterator() | Python | ORM"
 slug: /python/python/Collection-search_iterator
-beta: FALSE
-notebook: FALSE
+sidebar_label: "search_iterator()"
+beta: false
+notebook: false
+description: "This operation returns a Python iterator for you to iterate over the search results. It is useful especially when the search result contains a large volume of data. | Python | ORM"
 type: docx
 token: HrnndnWtKoPuenxvsXBchF1wnnh
 sidebar_position: 26

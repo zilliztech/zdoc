@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "createUser() | Node.js"
 slug: /node/node/Authentication-createUser
-beta: FALSE
-notebook: FALSE
+sidebar_label: "createUser()"
+beta: false
+notebook: false
+description: "This operation creates a user. | Node.js"
 type: docx
 token: JNZxdKEX3ohBl2xud7Wckhq7nVh
 sidebar_position: 2

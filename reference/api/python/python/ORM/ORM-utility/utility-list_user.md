@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_user() | Python | ORM"
 slug: /python/python/utility-list_user
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_user()"
+beta: false
+notebook: false
+description: "This operation lists the information of a specific user. | Python | ORM"
 type: docx
 token: JeG6d5Sg2oPmXPxEhnyciq4snNd
 sidebar_position: 28

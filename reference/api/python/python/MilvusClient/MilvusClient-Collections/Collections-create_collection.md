@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "create_collection() | Python | MilvusClient"
 slug: /python/python/Collections-create_collection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "create_collection()"
+beta: false
+notebook: false
+description: "This operation supports creating a collection in two distinct ways quick setup or custom setup. | Python | MilvusClient"
 type: docx
 token: TziHdCu4VoURrfxAMsUcsRhQnub
 sidebar_position: 3

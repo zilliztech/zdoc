@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "hybridts_to_unixtime() | Python | ORM"
 slug: /python/python/utility-hybridts_to_unixtime
-beta: FALSE
-notebook: FALSE
+sidebar_label: "hybridts_to_unixtime()"
+beta: false
+notebook: false
+description: "This operation converts a hybrid timestamp to a UNIX epoch timestamp | Python | ORM"
 type: docx
 token: HbMMdqtQGoQqwixsyrjcTTh0nu5
 sidebar_position: 20

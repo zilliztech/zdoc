@@ -1,10 +1,19 @@
 ---
+title: "GCP | BYOC"
 slug: /activate-your-cloud-gcp
+sidebar_label: "GCP"
 beta: FALSE
 notebook: FALSE
+description: "The Zilliz Cloud Bring Your Own Cloud (BYOC) solution allows you to create and run a Zilliz Cloud cluster within your own cloud infrastructure. This enhances data security, reduces data breach risks, and improves performance and scalability. | BYOC"
 type: origin
 token: ZGZmwC34di7Hx6k4omOcWxOLnLg
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - gcp
+  - cloud
+  - milvus
 
 ---
 
@@ -56,7 +65,7 @@ Before starting the deployment process, ensure that the following prerequisites 
 1. Copy the provided command. Paste and run this command in your **GCP Cloud Shell** to authorize Zilliz Cloud to deploy the necessary components for you on GCP.
 
     ```shell
-    $ gcloud projects add-iam-policy-binding zilliz-byoc-user-prj1 --member=serviceAccount:org-flhzhmlonnykqxkgnbfoup@zilliz-byoc.iam.gserviceaccount.com --role=roles/owner
+    $ gcloud projects add-iam-policy-binding zilliz-byoc-user-prj1 --member=serviceAccount:org-xxxxxxxxxxxxxxxxxxxxxx@zilliz-byoc.iam.gserviceaccount.com --role=roles/owner
     ```
 
     To run this command, you may need to authorize Google Cloud Shell properly. When prompted to select a condition to bind, enter **2**, indicating that **None** condition will apply.
@@ -146,32 +155,32 @@ The following table lists the minimum resources required for BYOC deployment.
    </tr>
    <tr>
      <td><p>Virtual Machine</p></td>
-     <td><p>Instance<br/></p></td>
-     <td><p>80 vCPU, 448 GiB in total:<br/> - n2-standard-8 * 4<br/> - n2-standard-4 * 4<br/> - n2-highmem-16 * 1<br/></p></td>
+     <td><p>Instance</p></td>
+     <td><p>80 vCPU, 448 GiB in total:</p><ul><li><p>n2-standard-8 * 4</p></li><li><p>n2-standard-4 * 4</p></li><li><p>n2-highmem-16 * 1</p></li></ul></td>
      <td><p>The instance is created by the machine group and is used to run Zilliz Cloud services.</p></td>
    </tr>
    <tr>
-     <td><p>Object Storage<br/></p></td>
+     <td><p>Object Storage</p></td>
      <td><p>Bucket</p></td>
-     <td><p>2 buckets<br/></p></td>
-     <td><p>Stores Milvus data.<br/></p></td>
+     <td><p>2 buckets</p></td>
+     <td><p>Stores Milvus data.</p></td>
    </tr>
    <tr>
-     <td><p>Block Storage<br/></p></td>
+     <td><p>Block Storage</p></td>
      <td><p>Persistent disk</p></td>
      <td><p>1 TB  or more</p></td>
      <td><p>Local storage such as etcd and pulsar to store Milvus indexes.</p></td>
    </tr>
    <tr>
-     <td><p>Public IP address<br/></p></td>
-     <td><p>Public IP<br/></p></td>
-     <td><p>1 public IP address<br/></p></td>
+     <td><p>Public IP address</p></td>
+     <td><p>Public IP</p></td>
+     <td><p>1 public IP address</p></td>
      <td><p>For NAT gateway.</p></td>
    </tr>
    <tr>
-     <td><p>Private network<br/></p></td>
+     <td><p>Private network</p></td>
      <td><p>Private Network VPC</p></td>
-     <td><p>1 private network (VPC)<br/></p></td>
+     <td><p>1 private network (VPC)</p></td>
      <td><p>Deploys BYOC cloud environment with individual VPC.</p></td>
    </tr>
    <tr>
@@ -181,9 +190,9 @@ The following table lists the minimum resources required for BYOC deployment.
      <td><p>Used by Zilliz to interact with BYOC environment, send control requests, and receive alerts.</p></td>
    </tr>
    <tr>
-     <td><p>DNS<br/></p></td>
      <td><p>DNS</p></td>
-     <td><p>1<br/></p></td>
+     <td><p>DNS</p></td>
+     <td><p>1</p></td>
      <td><p>For the setup of a private link to send alerts to Zilliz Cloud.</p></td>
    </tr>
    <tr>

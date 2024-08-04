@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "renameCollection() | Node.js"
 slug: /node/node/Collections-renameCollection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "renameCollection()"
+beta: false
+notebook: false
+description: "This operation renames an existing collection. | Node.js"
 type: docx
 token: LSwVdMg4SorzZ5xSHHVcQeVDnfh
 sidebar_position: 14

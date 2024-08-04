@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "rename_collection() | Python | MilvusClient"
 slug: /python/python/Collections-rename_collection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "rename_collection()"
+beta: false
+notebook: false
+description: "This operation renames an existing collection. | Python | MilvusClient"
 type: docx
 token: IeiIdJ71Pox2OjxMiOzczUTenud
 sidebar_position: 15

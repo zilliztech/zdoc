@@ -1,11 +1,14 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "SentenceTransformerEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-SentenceTransformerEmbeddingFunction
+sidebar_label: "SentenceTransformerEmbeddingFunction"
 beta: false
 notebook: false
-type: folder
-token: FRtcfXVZ7lXohcdc0Q6cbKEJn1c
-sidebar_position: 7
+description: "SentenceTransformerEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Sentence Transformer models to support embedding retrieval in Milvus. | Python"
+type: docx
+token: JOFedA4h8otTjHxsYQ7cnjsunHd
+sidebar_position: 3
 displayed_sidebar: pythonSidebar
 
 ---
@@ -77,8 +80,3 @@ sentence_transformer_ef = model.dense.SentenceTransformerEmbeddingFunction(
     device='cpu' # Specify the device to use, e.g., 'cpu' or 'cuda:0'
 )
 ```
-
-
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />

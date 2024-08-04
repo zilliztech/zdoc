@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "S3ConnectParam | Python"
 slug: /python/python/RemoteBulkWriter-S3ConnectParam
-beta: FALSE
-notebook: FALSE
+sidebar_label: "S3ConnectParam"
+beta: false
+notebook: false
+description: "An S3ConnectParam instance sets connection parameters for a RemoteBulkWriter instance. | Python"
 type: docx
 token: CSpOd0XgWoVAhzx5xbVcpCVfnPg
 sidebar_position: 5

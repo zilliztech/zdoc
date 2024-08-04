@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "releasePartitions() | Node.js"
 slug: /node/node/Partitions-releasePartitions
-beta: FALSE
-notebook: FALSE
+sidebar_label: "releasePartitions()"
+beta: false
+notebook: false
+description: "This operation releases the partitions in a specified collection from memory. | Node.js"
 type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
 sidebar_position: 7

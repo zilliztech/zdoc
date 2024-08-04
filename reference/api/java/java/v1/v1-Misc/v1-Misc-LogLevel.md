@@ -1,7 +1,10 @@
 ---
+title: "LogLevel | Java | v1"
 slug: /java/v1-Misc-LogLevel
+sidebar_label: "LogLevel"
 beta: FALSE
 notebook: FALSE
+description: "The enumeration for setting log level in runtime. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#GqbrdhNhkooVlLxepyPcCB0unhg
 sidebar_position: 6

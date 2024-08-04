@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "grantRole() | Node.js"
 slug: /node/node/Authentication-grantRole
-beta: FALSE
-notebook: FALSE
+sidebar_label: "grantRole()"
+beta: false
+notebook: false
+description: "This operation grants a role to a user. | Node.js"
 type: docx
 token: LPJsdEnvwo6apcxjhZgc3rpDnuc
 sidebar_position: 8

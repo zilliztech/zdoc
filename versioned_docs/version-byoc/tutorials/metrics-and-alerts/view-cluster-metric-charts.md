@@ -1,10 +1,20 @@
 ---
+title: "View Cluster Metric Charts | BYOC"
 slug: /view-cluster-metric-charts
+sidebar_label: "View Cluster Metric Charts"
 beta: FALSE
 notebook: FALSE
+description: "Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To access this feature, navigate to the Metrics tab within one of your clusters. | BYOC"
 type: origin
 token: DbPIw4jLOiEabCk5uptc6EZ1nbf
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - metrics
+  - alerts
+  - view
 
 ---
 
@@ -59,85 +69,29 @@ The **Metrics** tab allows for two types of window sizes.
 
 ## View metric charts{#view-metric-charts}
 
-Zilliz Cloud offers metric charts for monitoring cluster performance from various aspects.  For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
+Zilliz Cloud offers metric charts for monitoring cluster performance from various aspects.
 
 ### Pod resources{#pod-resources}
 
-To effectively track pod resource consumption, select the **Metrics** tab and refer to the **Pod Resources** area. Here, you'll find succinct graphs that display CPU, storage, and network usage for each pod.
-
-- **CPU Usage**: The CPU usage of pods.
-
-- **CPU Usage Rate for Limit**: The percentage of the pod CPU usage in the value of limit.
-
-- **Memory Usage**: The memory usage of containers in the pod (with cache excluded).
-
-- **Memory Usage Rate for Limit**: The percentage of the pod memory usage in the value of limit.
-
-- **Network Inbound Flow**: The network inbound flow of pod.
-
-- **Network Outbound Flow**: The network outbound flow of pod.
+To effectively track pod resource consumption, select the **Metrics** tab and refer to the **Pod Resources** area. Here, you'll find succinct graphs that display CPU, storage, and network usage for each pod. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#cluster-metrics).
 
 ![MWoDbnsw0ouYwBxj4hycOjC2n5e](/byoc/MWoDbnsw0ouYwBxj4hycOjC2n5e.png)
 
 ### Resources{#resources}
 
-To view metric charts for resource usage, select the **Metrics** tab and refer to the **Resources** area. These charts provide a snapshot of the cluster's resource usage, including computation, capacity, and storage.
-
-- **CU Computation**: Measures computational power usage relative to the total.
-
-    - 70%-80%: Prepare for [scaling out](./manage-cluster).
-
-    - 90% or more: [Scale out](./manage-cluster) immediately to avoid service disruptions.
-
-- **CU Capacity**: Indicates used capacity as a percentage of total, measured per second over time.
-
-    - 70%-80%: Prepare for [scaling out](./manage-cluster).
-
-    - 90%-99%: [Scale out](./manage-cluster) immediately to avoid service disruptions.
-
-    - 100%: When the used CU capacity hits 100%, Zilliz Cloud disables data writing and triggers SDK errors. To restore normal functionality, [scale out](./manage-cluster) your cluster immediately.
-
-- **Storage**: Shows total persistent storage consumed by data and indexes, calculated in GB over a selected period.
+To view metric charts for resource usage, select the **Metrics** tab and refer to the **Resources** area. These charts provide a snapshot of the cluster's resource usage, including computation, capacity, and storage. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#cluster-metrics).
 
 ![byob_view_metric_charts_resources](/byoc/byob_view_metric_charts_resources.png)
 
 ### Performance{#performance}
 
-To view metric charts for performance, select the **Metrics** tab and refer to the **Performance** area. These charts provide a snapshot of cluster performance, including QPS, VPS, latency, and request.
-
-- **QPS/VPS (Read)**
-
-    - **QPS**: The number of read requests (search and query) per second.
-
-    - **VPS**: The number of read requests (search) on vectors per second. VPS is not available for query requests as query operations do not involve vectors.
-
-- **QPS/VPS (Write)**
-
-    - **QPS**: The number of write requests (insert, bulk insert, upset, and delete) per second.
-
-    - **VPS**: The number of write requests (insert, upset, and delete) on vectors per second.
-
-- **Latency (Read)**: The time elapsed between a client sending a read request (search and query) to a server and the client receiving a response. It includes an average latency and a P99 latency.
-
-- **Latency (Write)**: The time elapsed between a client sending a write request (insert, upsert, and delete) to a server and the client receiving a response. It includes an average latency and a P99 latency.
-
-- **Request Failure Rate (Read)**: The percentage of timeout read requests (search and query) in all read requests per second.
-
-- **Request Failure Rate (Write)**: The percentage of timeout write requests (insert, bulk insert, upsert, and delete) in all write requests per second.
-
-- **Slow Query Count**: The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries.
+To view metric charts for performance, select the **Metrics** tab and refer to the **Performance** area. These charts provide a snapshot of cluster performance, including QPS, VPS, latency, and request. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#cluster-metrics).
 
 ![byoc_view_metric_charts_performance](/byoc/byoc_view_metric_charts_performance.png)
 
 ### Data{#data}
 
-To view metric charts for business data, select the **Metrics** tab and refer to the **Data** area. These charts provide a snapshot of the cluster's entity data by indicating the number of collections, entities, and loaded entities in the cluster.
-
-- **Collection Count**: The count of collections created in the cluster.
-
-- **Entity Count**: The count of entities inserted into a cluster. Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.
-
-- **Loaded Entities**: The number of entities loaded (actively served) by a cluster. Selecting a specific collection from the expanded dropdown menu on the right displays the number of loaded entities at the collection level.
+To view metric charts for business data, select the **Metrics** tab and refer to the **Data** area. These charts provide a snapshot of the cluster's entity data by indicating the number of collections, entities, and loaded entities in the cluster. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#cluster-metrics).
 
 ![byoc_view_metric_charts_entity](/byoc/byoc_view_metric_charts_entity.png)
 

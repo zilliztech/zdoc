@@ -1,10 +1,20 @@
 ---
+title: "Single-Vector Search | BYOC"
 slug: /single-vector-search
+sidebar_label: "Single-Vector Search"
 beta: FALSE
 notebook: FALSE
+description: "After your data is inserted, the next step is to send a `search` request to search for vectors that are similar to your query vector. A single-vector search compares your query vector against the existing vectors in your collection to find the most similar entities, returning their IDs and the distances between them. This process can optionally return the vector values and metadata of the results. | BYOC"
 type: origin
 token: Ri1IwbgN6ilzMrkoIjycmpkZn9d
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - single vector
+  - search
+  - milvus
 
 ---
 
@@ -26,7 +36,7 @@ There are a variety of search types to meet different requirements:
 
 - [Range search](./single-vector-search#range-search): Finds vectors within a specific distance range from the query vector.
 
-- [Grouping search](./single-vector-search#grouping-search-lessinclude-targetzillizgreaterlesssupgreaterbetalesssupgreaterlessincludegreater): Groups search results based on a specific field to ensure diversity in the results.
+- [Grouping search](./single-vector-search#grouping-search-beta): Groups search results based on a specific field to ensure diversity in the results.
 
 ## Preparations{#preparations}
 
@@ -1932,16 +1942,33 @@ The parameter settings for `radius` and `range_filter` vary with the metric type
    <tr>
      <td><p><code>L2</code></p></td>
      <td><p>Smaller L2 distances indicate higher similarity.</p></td>
-     <td><p>To exclude the closest vectors from results, ensure that:<br/> <code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
    </tr>
    <tr>
      <td><p><code>IP</code></p></td>
      <td><p>Larger IP distances indicate higher similarity.</p></td>
-     <td><p>To exclude the closest vectors from results, ensure that:<br/> <code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
+     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>COSINE</code></p></td>
+     <td><p>Larger cosine value indicates higher similarity.</p></td>
+     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>JACCARD</code> <sup>(Beta)</sup></p></td>
+     <td><p>Smaller Jaccard distances indicate higher similarity.</p></td>
+     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>HAMMING</code> <sup>(Beta)</sup></p></td>
+     <td><p>Smaller Hamming distances indicate higher similarity.</p></td>
+     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
    </tr>
 </table>
 
-## Grouping search <sup>(Beta)</sup>{#grouping-search-lesssupgreaterbetalesssupgreater}
+To learn more about distance metric types, refer to [Similarity Metrics Explained](./search-metrics-explained).
+
+## Grouping search (Beta){#grouping-search-beta}
 
 In Zilliz Cloud, grouping search by a specific field can avoid redundancy of the same field item in the results. You can get a varied set of results for the specific field. 
 
@@ -1949,7 +1976,7 @@ Consider a collection of documents, each document splits into various passages. 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, this feature is available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+<p>Currently, this feature is available exclusively for clusters that have been upgraded to the Beta version.</p>
 
 </Admonition>
 
@@ -2056,23 +2083,23 @@ The following table lists all possible settings in the search parameters.
    </tr>
    <tr>
      <td><p><code>metric_type</code></p></td>
-     <td><p>How to measure similarity between vector embeddings.<br/> Possible values are <code>IP</code>, <code>L2</code>, and <code>COSINE</code>, and defaults to that of the loaded index file.</p></td>
+     <td><p>How to measure similarity between vector embeddings.</p><p>Possible values are <code>IP</code>, <code>L2</code>, <code>COSINE</code>, <code>JACCARD</code>, and <code>HAMMING</code>, and defaults to that of the loaded index file.</p></td>
    </tr>
    <tr>
      <td><p><code>params.nprobe</code></p></td>
-     <td><p>Number of units to query during the search.<br/> The value falls in the range [1, nlist<sub>[1]</sub>].</p></td>
+     <td><p>Number of units to query during the search.</p><p>The value falls in the range [1, nlist<sub>[1]</sub>].</p></td>
    </tr>
    <tr>
      <td><p><code>params.level</code></p></td>
-     <td><p>Search precision level.<br/> Possible values are <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, and <code>5</code>, and defaults to <code>1</code>. Higher values yield more accurate results but slower performance.</p></td>
+     <td><p>Search precision level.</p><p>Possible values are <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, and <code>5</code>, and defaults to <code>1</code>. Higher values yield more accurate results but slower performance.</p></td>
    </tr>
    <tr>
      <td><p><code>params.radius</code></p></td>
-     <td><p>Minimum similarity between the query vector and candidate vectors.<br/> The value falls in the range [1, nlist<sub>[1]</sub>].</p></td>
+     <td><p>Defines the outer boundary of your search space. Only vectors that are within this distance from the query vector are considered potential matches.</p><p>The value range is determined by the <code>metric_type</code> parameter. For instance, if <code>metric_type</code> is set to <code>L2</code>, the valid value range is <code>[0, ∞]</code>. If <code>metric_type</code> is set to <code>COSINE</code>, the valid value range is <code>[-1, 1]</code>. For more information, refer to <a href="./search-metrics-explained">Similarity Metrics Explained</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>params.range_filter</code></p></td>
-     <td><p>A similarity range, optionally refining the search for vectors that fall in the range.<br/> The value falls in the range [top-K<sub>[2]</sub>, ∞].</p></td>
+     <td><p>While <code>radius</code> sets the outer limit of the search, <code>range_filter</code> can be optionally used to define an inner boundary, creating a distance range within which vectors must fall to be considered matches.</p><p>The value range is determined by the <code>metric_type</code> parameter. For instance, if <code>metric_type</code> is set to <code>L2</code>, the valid value range is <code>[0, ∞]</code>. If <code>metric_type</code> is set to <code>COSINE</code>, the valid value range is <code>[-1, 1]</code>. For more information, refer to <a href="./search-metrics-explained">Similarity Metrics Explained</a>.</p></td>
    </tr>
 </table>
 

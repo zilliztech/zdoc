@@ -1,11 +1,14 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "wait_for_loading_complete() | Python | ORM"
 slug: /python/python/utility-wait_for_loading_complete
-beta: FALSE
-notebook: FALSE
+sidebar_label: "wait_for_loading_complete()"
+beta: false
+notebook: false
+description: "This operation blocks the current process until the specified collection has been loaded. | Python | ORM"
 type: docx
 token: PLKXdUB1EoNX8gxKHruc9GcEnsg
-sidebar_position: 43
+sidebar_position: 44
 displayed_sidebar: pythonSidebar
 
 ---

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "grant_role() | Python | MilvusClient"
 slug: /python/python/Authentication-grant_role
-beta: FALSE
-notebook: FALSE
+sidebar_label: "grant_role()"
+beta: false
+notebook: false
+description: "This operation grants a role to a user. | Python | MilvusClient"
 type: docx
 token: DsnpdZuDGo77TYxFuYvcDpOgnIf
 sidebar_position: 8

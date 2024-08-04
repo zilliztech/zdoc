@@ -1,10 +1,19 @@
 ---
+title: "Enable Dynamic Field | BYOC"
 slug: /enable-dynamic-field
+sidebar_label: "Enable Dynamic Field"
 beta: FALSE
 notebook: FALSE
+description: "This page explains how to use the dynamic field in a collection for flexible data insertion and retrieval. | BYOC"
 type: origin
 token: DzxkwMyxzifAFxkXZiqcErjtnke
 sidebar_position: 6
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - dynamic field
+  - milvus
 
 ---
 

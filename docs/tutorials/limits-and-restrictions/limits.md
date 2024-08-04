@@ -1,10 +1,19 @@
 ---
+title: "Zilliz Cloud Limits | Cloud"
 slug: /limits
+sidebar_label: "Zilliz Cloud Limits"
 beta: FALSE
 notebook: FALSE
+description: "This page provides information about limits on the Zilliz Cloud platform. Submit a request to us if you need to report issues related to these limits. | Cloud"
 type: origin
 token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - limits
 
 ---
 
@@ -120,15 +129,15 @@ The following table lists the limits on different types of pipelines you can cre
    </tr>
    <tr>
      <td><p>Ingestion Pipeline</p></td>
-     <td><p>10</p></td>
+     <td><p>100</p></td>
    </tr>
    <tr>
      <td><p>Deletion Pipeline</p></td>
-     <td><p>10</p></td>
+     <td><p>100</p></td>
    </tr>
    <tr>
      <td><p>Search Pipeline</p></td>
-     <td><p>10</p></td>
+     <td><p>100</p></td>
    </tr>
 </table>
 
@@ -300,13 +309,13 @@ Additionally, the rate limit for creating collections is **1** collection/s per 
    </tr>
    <tr>
      <td><p>Free cluster</p></td>
-     <td><p>64</p></td>
-     <td><p>You can create up to 64 partitions per collection in a free cluster.</p></td>
+     <td><p>1,024</p></td>
+     <td><p>You can create up to 1,024 partitions per collection in a free cluster.</p></td>
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
-     <td><p>64</p></td>
-     <td><p>You can create up to 64 partitions per collection in a serverless cluster.</p></td>
+     <td><p>1,024</p></td>
+     <td><p>You can create up to 1,024 partitions per collection in a serverless cluster.</p></td>
    </tr>
    <tr>
      <td><p>Dedicated cluster</p></td>
@@ -368,7 +377,7 @@ The rate limit that applies varies with the cluster types and the number of CUs 
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
-     <td><p>100 MB/s</p></td>
+     <td><p>10 MB/s</p></td>
    </tr>
    <tr>
      <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
@@ -467,7 +476,11 @@ Index types vary with field types. The following table lists the indexable field
 
 ### Flush{#flush}
 
-The rate limit for flush requests is **1** req/s per cluster.
+The rate limit for flush requests is 0.1 requests per second, imposed at the collection level for specific cluster types. This rate limit applies to:
+
+- Serverless clusters compatible with Milvus 2.4.x or later.
+
+- Dedicated clusters upgraded to the beta version, compatible with Milvus 2.4.x or later.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -491,7 +504,11 @@ Each search request/response should be no greater than **64** MB.
 
 Each search request carries no more than **16,384** query vectors (usually known as **nq**).
 
-Each search response carries no more than 16,384 entities in return (usually known as **topK**).
+The number that each search response carries (usually known as **topK**) varies with your subscription plan:
+
+- For Free and Serverless clusters, the **topK** is no greater than **1,024** entities in return.
+
+- For dedicated clusters, the **topK** is no greater than **16,384** entities in return.
 
 ### Query{#query}
 
@@ -546,7 +563,9 @@ For details, refer to [Prepare Source Data](./prepare-source-data).
 
 ## Backup on Console{#backup-on-console}
 
-Zilliz Cloud provides free storage for backup snapshots for up to 30 days. 
+Backup snapshots can be retained for up to 30 days.
+
+For more information about the backup costs, please refer to [Understand Cost](./understand-cost#backup-costs).
 
 ## Restore on Console{#restore-on-console}
 

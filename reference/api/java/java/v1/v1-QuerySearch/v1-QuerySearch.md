@@ -1,10 +1,13 @@
 ---
+title: "Query/Search | Java | v1"
 slug: /java/v1-QuerySearch
+sidebar_label: "Query/Search"
 beta: FALSE
 notebook: FALSE
+description: "(placeholder) | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#IrjWdbfDuocFeCxL96IcTFl4nvA
-sidebar_position: 13
+sidebar_position: 14
 displayed_sidebar: javaSidebar
 
 ---

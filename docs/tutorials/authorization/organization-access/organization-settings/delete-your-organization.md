@@ -1,10 +1,19 @@
 ---
+title: "Delete Your Organization | Cloud"
 slug: /delete-your-organization
+sidebar_label: "Delete Your Organization"
 beta: FALSE
 notebook: FALSE
+description: "This topic describes how to delete an organization in Zilliz Cloud. Once the organization is deleted, all its data will be cleaned permanently and cannot be recovered. | Cloud"
 type: origin
 token: OCc5wCndbipOkzk8tkUc9IuJnle
 sidebar_position: 5
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - organizations
+  - delete
 
 ---
 

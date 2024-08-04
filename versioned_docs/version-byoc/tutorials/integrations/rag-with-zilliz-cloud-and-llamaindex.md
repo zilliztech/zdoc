@@ -1,11 +1,19 @@
 ---
+title: "Retrieval-Augmented Generation (RAG) with Zilliz Cloud and LlamaIndex | BYOC"
 slug: /rag-with-zilliz-cloud-and-llamaindex
-sidebar_label: With LlamaIndex
+sidebar_label: "With LlamaIndex"
 beta: FALSE
 notebook: FALSE
+description: "This guide demonstrates how to build a Retrieval-Augmented Generation (RAG) system using LlamaIndex and Milvus. | BYOC"
 type: origin
 token: MejAw3lkkiA6uhkxcAqcMxOSnEb
 sidebar_position: 6
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - llamaindex
 
 ---
 

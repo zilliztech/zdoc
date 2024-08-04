@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_collections() | Python | MilvusClient"
 slug: /python/python/Collections-list_collections
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_collections()"
+beta: false
+notebook: false
+description: "This operation lists all existing collections. | Python | MilvusClient"
 type: docx
 token: BHyidrVcyoPwxexHLrnceOSAnRe
 sidebar_position: 14

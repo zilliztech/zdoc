@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "get_query_segment_info() | Python | ORM"
 slug: /python/python/utility-get_query_segment_info
-beta: FALSE
-notebook: FALSE
+sidebar_label: "get_query_segment_info()"
+beta: false
+notebook: false
+description: "This operation gets information about the sealed and growing segments in the query cluster. | Python | ORM"
 type: docx
 token: CB9edh2ySoJyWhxBoLcchPj9nxg
 sidebar_position: 14

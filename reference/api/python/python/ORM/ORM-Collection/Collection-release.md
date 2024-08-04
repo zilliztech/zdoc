@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "release() | Python | ORM"
 slug: /python/python/Collection-release
-beta: FALSE
-notebook: FALSE
+sidebar_label: "release()"
+beta: false
+notebook: false
+description: "This operation releases the data of the current collection from memory. | Python | ORM"
 type: docx
 token: CBwkdDs7MoKkVKx0kJgcPUNxn6s
 sidebar_position: 24

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "describe_role() | Python | MilvusClient"
 slug: /python/python/Authentication-describe_role
-beta: FALSE
-notebook: FALSE
+sidebar_label: "describe_role()"
+beta: false
+notebook: false
+description: "This operation describes a specific role. | Python | MilvusClient"
 type: docx
 token: JJz3dFrE2oJP3AxySWYcJlf4nMh
 sidebar_position: 3

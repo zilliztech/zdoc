@@ -1,10 +1,19 @@
 ---
+title: "Consistency Level | BYOC"
 slug: /consistency-level
+sidebar_label: "Consistency Level"
 beta: FALSE
 notebook: FALSE
+description: "In distributed databases, consistency ensures that every node or replica offers the same data view during read or write operations. Zilliz Cloud provides three consistency levels Strong, Bounded Staleness, and Eventually, with Bounded Staleness set as the default. | BYOC"
 type: origin
 token: Wva2wn8LoiMBwAksAsbc3lMInub
 sidebar_position: 6
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - consistency
+  - milvus
 
 ---
 

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "drop_partition() | Python | MilvusClient"
 slug: /python/python/Partitions-drop_partition
-beta: FALSE
-notebook: FALSE
+sidebar_label: "drop_partition()"
+beta: false
+notebook: false
+description: "This operation drops a specified partition from the current collection. | Python | MilvusClient"
 type: docx
 token: EMI8dM8uooIAFPxVfffcoqRwnZf
 sidebar_position: 2

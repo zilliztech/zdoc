@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "index() | Python | ORM"
 slug: /python/python/Collection-index
-beta: FALSE
-notebook: FALSE
+sidebar_label: "index()"
+beta: false
+notebook: false
+description: "This operation gets the specified index of the current collection. | Python | ORM"
 type: docx
 token: RkQ8dnWDHo3DiDxiCVRcP1xPnob
 sidebar_position: 18

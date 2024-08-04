@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "verify() | Python | ORM"
 slug: /python/python/CollectionSchema-verify
-beta: FALSE
-notebook: FALSE
+sidebar_label: "verify()"
+beta: false
+notebook: false
+description: "This operation performs final validation checks on the CollectionSchema to detect any obvious problems. | Python | ORM"
 type: docx
 token: KSECdBDcUoIkL7xI4KOc29Ukn1g
 sidebar_position: 5

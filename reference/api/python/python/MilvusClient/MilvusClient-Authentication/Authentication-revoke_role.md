@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "revoke_role() | Python | MilvusClient"
 slug: /python/python/Authentication-revoke_role
-beta: FALSE
-notebook: FALSE
+sidebar_label: "revoke_role()"
+beta: false
+notebook: false
+description: "This operation revokes the role assigned to a user. | Python | MilvusClient"
 type: docx
 token: JJOId59ePoMLefxz1ChcBZ6inOh
 sidebar_position: 12

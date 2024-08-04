@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "describeCollection() | Node.js"
 slug: /node/node/Collections-describeCollection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "describeCollection()"
+beta: false
+notebook: false
+description: "This operation lists detailed information about a specific collection. | Node.js"
 type: docx
 token: TjqHdZqO1oSwwYxuny2cchWzn6S
 sidebar_position: 6

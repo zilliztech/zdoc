@@ -1,11 +1,19 @@
 ---
+title: "Image Search with Zilliz Cloud and PyTorch | BYOC"
 slug: /image-search-with-zilliz-cloud-and-pytorch
-sidebar_label: With PyTorch
+sidebar_label: "With PyTorch"
 beta: FALSE
 notebook: FALSE
+description: "On this page, we are going to go over a simple image search example using Zilliz Cloud. The dataset we are searching through is the Impressionist-Classifier Dataset found on Kaggle. For this example, we have re-hosted the data in a public google drive. | BYOC"
 type: origin
 token: XnWswbO9Zi4sykkgRzec8el8nyd
 sidebar_position: 5
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - pytorch
 
 ---
 

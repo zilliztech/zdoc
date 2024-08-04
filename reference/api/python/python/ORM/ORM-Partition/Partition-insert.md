@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "insert() | Python | ORM"
 slug: /python/python/Partition-insert
-beta: FALSE
-notebook: FALSE
+sidebar_label: "insert()"
+beta: false
+notebook: false
+description: "This operation inserts data into the current partition. | Python | ORM"
 type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5

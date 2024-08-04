@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "query() | Python | ORM"
 slug: /python/python/Partition-query
-beta: FALSE
-notebook: FALSE
+sidebar_label: "query()"
+beta: false
+notebook: false
+description: "This operation conducts a query on the entity scalar field(s) with a boolean expression. | Python | ORM"
 type: docx
 token: N97pdfkjlo9j61xrtL2cbB79nKe
 sidebar_position: 8

@@ -1,10 +1,19 @@
 ---
+title: "Use Partition Key | Cloud"
 slug: /use-partition-key
+sidebar_label: "Use Partition Key"
 beta: FALSE
 notebook: FALSE
+description: "This guide walks you through using the partition key to accelerate data retrieval from your collection. | Cloud"
 type: origin
 token: SbP2wIzHIiRFxwkmojHc02zknsk
 sidebar_position: 7
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - partition key
+  - milvus
 
 ---
 

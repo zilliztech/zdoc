@@ -1,10 +1,19 @@
 ---
+title: "Schema Explained | Cloud"
 slug: /schema-explained
+sidebar_label: "Schema Explained"
 beta: FALSE
 notebook: FALSE
+description: "Defining a data schema is the process of creating a clear and organized data structure for storing information in a cluster. A data schema also illustrates how the data is connected. The objective of a data schema is to recognize all the data components in a dataset, demonstrate how they are linked, and determine the most effective ways to represent these relationships. | Cloud"
 type: origin
 token: TqMFwNyDbiY9qekBfPNcbpuvnib
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - schema
+  - milvus
 
 ---
 
@@ -172,7 +181,7 @@ Zilliz Cloud supports the following field data types. The available data types v
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Currently, the vector field types <code>FLOAT16_VECTOR</code>, <code>BFLOAT16_VECTOR</code>, <code>SPARSE_FLOAT_VECTOR</code>, and <code>BINARY_VECTOR</code> are available exclusively for Dedicated clusters that have been upgraded to the Beta version.</p>
+    <p>Currently, the vector field types <code>FLOAT16_VECTOR</code>, <code>BFLOAT16_VECTOR</code>, <code>SPARSE_FLOAT_VECTOR</code>, and <code>BINARY_VECTOR</code> are available exclusively for clusters that have been upgraded to the Beta version.</p>
 
     </Admonition>
 

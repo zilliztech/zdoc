@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "delete() | Python | ORM"
 slug: /python/python/Partition-delete
-beta: FALSE
-notebook: FALSE
+sidebar_label: "delete()"
+beta: false
+notebook: false
+description: "This operation deletes entities from a partition with a boolean expression. | Python | ORM"
 type: docx
 token: V9BidASNqoWYrmxo11ecuN99neg
 sidebar_position: 1

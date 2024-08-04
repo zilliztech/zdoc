@@ -1,10 +1,19 @@
 ---
+title: "Register with Zilliz Cloud | BYOC"
 slug: /register-with-zilliz-cloud
+sidebar_label: "Register with Zilliz Cloud"
 beta: FALSE
 notebook: FALSE
+description: "This guide provides comprehensive instructions on how to create an account for accessing Zilliz Cloud services. | BYOC"
 type: origin
 token: HriHwEU3qiQrgskz3a0cdkcpnyf
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - register
+  - cloud
+  - milvus
 
 ---
 

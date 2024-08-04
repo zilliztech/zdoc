@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "MilvusClient | Node.js"
 slug: /node/node/Client-MilvusClient
-beta: FALSE
-notebook: FALSE
+sidebar_label: "MilvusClient"
+beta: false
+notebook: false
+description: "A MilvusClient instance represents a Node.js client that connects to a specific Zilliz Cloud cluster. | Node.js"
 type: docx
 token: SiL3ds1HPo2bOxx4iWwcxgg8nvd
 sidebar_position: 2

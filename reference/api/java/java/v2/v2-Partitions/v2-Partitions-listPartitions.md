@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "listPartitions() | Java | v2"
 slug: /java/java/v2-Partitions-listPartitions
+sidebar_label: "listPartitions()"
 beta: false
 notebook: false
+description: "This operation lists the partitions in a specified collection. | Java | v2"
 type: docx
 token: RJcgdJpGDouomlxPTqZc5S8Lngc
 sidebar_position: 4

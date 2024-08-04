@@ -1,10 +1,19 @@
 ---
+title: "Manage Cluster | Cloud"
 slug: /manage-cluster
+sidebar_label: "Manage Cluster"
 beta: FALSE
 notebook: FALSE
+description: "This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals. | Cloud"
 type: origin
 token: PharwAysCiBzvgkuqqecmNzunQf
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - cluster
+  - manage
 
 ---
 
@@ -41,33 +50,35 @@ In addition to the web UI, you can also make an API request to drop a cluster. F
 
 ### Upgrade plan{#upgrade-plan}
 
-When the used CU capacity of your serverless cluster hits 100%, Zilliz Cloud disables data writing and triggers SDK errors. To restore normal functionality, you can upgrade your cluster plan to Serverless or Dedicated.
+By upgrading your cluster, you can unlock a wide range of enterprise features, manage larger datasets, and enjoy enhanced performance. You can switch to a paid cluster plan when any of these conditions are met:
 
-In the **Actions** drop-down button, select **Upgrade Plan**.
+- Your account has sufficient credits;
 
-On the page that opens,
+- You have added a valid payment method;
 
-- Select the subscription plan and **Target Project**,
+- Your account has a positive balance
 
-- Enter the **Cluster Name** and password,
+To upgrade your plan, follow these steps:
 
-- Specify the **Cloud Provider** and **Cloud Region**, and
+1. In the **Actions** drop-down button, select **Upgrade Plan**.
 
-- Determine the **CU settings**. Note that this step is only available when the subscription plan is Dedicated.
+1. On the page that opens, complete the following:
 
-- Set up your **Payment Method**.
+    - Select the subscription plan and **Target Project**,
+
+    - Enter the **Cluster Name** and password,
+
+    - Specify the **Cloud Provider** and **Cloud Region**, and
+
+    - Determine the **CU settings**. Note that this step is only available when the subscription plan is Dedicated.
+
+    - Set up your **Payment Method**.
 
 ![migrate-to-dedicated](/img/migrate-to-dedicated.png)
 
-After you complete the form and click on **Upgrade**, Zilliz Cloud creates a new paid cluster based on the specified settings and migrates data from the original free cluster.
+After you complete the form and click **Upgrade**, Zilliz Cloud will create a new paid cluster with your specified settings. Your data will be migrated from the original free cluster, and the free cluster will remain unchanged and available.
 
 The cluster status will switch from **CREATING** to **RESTORING**, and finally to **RUNNING**. Once this is complete, you can connect to the new paid cluster and manipulate the restored data.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This feature is available once you set up your payment method.</p>
-
-</Admonition>
 
 ## Serverless cluster{#serverless-cluster}
 
@@ -105,17 +116,9 @@ For details, refer to [Connect to Cluster](./connect-to-cluster).
 
 ### Users and access control{#users-and-access-control}
 
-On the **Users** tab, you can add users, reset their passwords, and drop them.
-
-For details, refer to [Manage Cluster Credentials (Console)](./cluster-credentials-console).
+Each serverless cluster comes with a single default user. You can't add or drop users, but you can reset the default user's password.
 
 ![manage-users](/img/manage-users.png)
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>You cannot drop <b>db_admin</b>. Zilliz Cloud grants access permissions to all collections in the cluster to any added users.</p>
-
-</Admonition>
 
 ### Drop cluster{#drop-cluster}
 
@@ -161,9 +164,9 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
     In the **Backups** tab, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
 
-- **Data migrations**
+- **Migrations**
 
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster).
+    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters).
 
 ### Users and access control{#users-and-access-control}
 
@@ -191,23 +194,73 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
 ### Manage and configure clusters{#manage-and-configure-clusters}
 
-- **Scale up cluster**
+- **Scale cluster**
 
-    In the **Summary** section, click **Scale** right to the CU **Size** to open the **Scale Cluster** dialog box. You can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. You can scale the size of a cluster up to 256 CUs in the dialog box. Contact us if you need a larger CU.
+    Scaling a cluster involves adjusting the number of [CUs](./cu-types-explained) to match workload fluctuations or storage requirements. You can enhance your cluster's performance by scaling up CUs in response to increased CPU or memory usage, and scale down to conserve expenses during periods of low demand.
 
-    For details on CU types and how to select an appropriate one, refer to [Select the Right CU](./cu-types-explained).
+    Methods for scaling your cluster:
 
-    In addition to the web UI, you can also make an API request to scale up a cluster. For details, refer to [Modify Cluster](/reference/restful/modify-cluster).
+    - **Scaling on web UI**
 
-    <Admonition type="caution" icon="🚧" title="Warning">
+        - **Scale up cluster**
 
-    <p>Scaling up a cluster may cause several minutes of downtime. Please exercise caution.</p>
+            In the **Summary** section, click **Scale** right to the **CU** **Size** to open the **Scale Cluster** dialog box. You can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. For Dedicated (Standard) clusters, you can scale up the size of a cluster up to 32 CUs. For Dedicated (Enterprise) clusters, you can scale up the size of a cluster up to 256 CUs. [Contact us](https://zilliz.com/contact-sales) if you need a larger CU size.
 
-    </Admonition>
+            For details on CU types and how to select an appropriate one, refer to [Select the Right CU](./cu-types-explained).
 
-- **Scale down cluster**
+            In addition to the web UI, you can also make an API request to scale up a cluster. For details, refer to [Modify Cluster](/reference/restful/modify-cluster).
 
-    To scale down the cluster CU size, please [submit a request](https://support.zilliz.com/hc/en-us).
+            <Admonition type="caution" icon="🚧" title="Warning">
+
+            <p>The scaling may lead to slight service jitter. Please exercise caution.</p>
+
+            </Admonition>
+
+        - **Scale down cluster**
+
+            To scale down the cluster CU size, please navigate to the overview page of the target cluster and click **Scale** next to the CU size. Select the desired CU size in the dialog window. Once you click **Scale**, Zilliz Cloud will check the cluster data volume and collection numbers. A scaling will be successfully triggered only when both of the following two conditions are met:
+
+            - Current data volume < 80% of the CU capacity of the new CU size.
+
+            - Current number of collections < the [maximum number of collections](./limits#collections) allowed in the new CU size.
+
+            <Admonition type="caution" icon="🚧" title="Warning">
+
+            <p>The scaling may lead to slight service jitter. Please exercise caution.</p>
+
+            </Admonition>
+
+            The time it takes to complete the process depends on the data volume in your cluster.
+
+    - **Scaling via API requests**
+
+        Make an API request to scale your cluster. For more information, refer to [Modify Cluster](/reference/restful/modify-cluster).
+
+    - **[Private Preview] Auto-scaling**
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>Auto-scaling is currently in private preview and is only available to Dedicated (Enterprise) clusters. To enable this feature, please <a href="https://zilliz.com/contact-sales">contact us</a>.</p>
+
+        </Admonition>
+
+        Auto-scaling is designed for businesses with rapidly changing needs. It can prevent restrictions on user write access caused by insufficient cluster CU sizes and can reduce operational burden, thereby minimizing disruption to business operations.
+
+        You can specify the maximum CU size that a cluster can automatically scale up to. Downward auto-scaling is currently not supported.
+
+        After enabling this feature, you can configure auto-scaling options when a cluster is successfully created.
+
+        ![configure_autoscaling](/img/configure_autoscaling.png)
+
+        Auto-scaling is triggered primarily based on the **CU Capacity Threshold**. Zilliz Cloud checks the cluster [CU capacity](./metrics-alerts-reference#cluster-metrics) every 1 minute. If it has exceeded the specified threshold (currently set at 70%) at all sampling points for the past 2 minutes, a scaling process is automatically initiated. For more information about the increment increase of the CU sizes during auto-scaling, refer to [Pricing Calculator](./pricing-calculator#considerations).
+
+        Note that there is a cooldown period of 10 minutes between two automatic scaling events. The time it takes to complete the auto-scaling process varies based on the data volume in the cluster.
+
+        <Admonition type="caution" icon="🚧" title="Warning">
+
+        <p>During the scaling process, if your cluster's CU Capacity reaches 100%, write prohibition will be triggered. During auto-scaling, you may encounter slight service jitter for a few minutes. However, read and write operations are still allowed during this period if CU Capacity is below 100%.</p>
+
+        </Admonition>
 
 - **Upgrade service plan**
 

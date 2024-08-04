@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "dropIndex() | Node.js"
 slug: /node/node/Management-dropIndex
-beta: FALSE
-notebook: FALSE
+sidebar_label: "dropIndex()"
+beta: false
+notebook: false
+description: "This operation drops an index from a specific collection. | Node.js"
 type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
 sidebar_position: 3

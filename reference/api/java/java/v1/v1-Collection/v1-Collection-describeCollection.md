@@ -1,7 +1,10 @@
 ---
+title: "describeCollection() | Java | v1"
 slug: /java/v1-Collection-describeCollection
+sidebar_label: "describeCollection()"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method shows the details of a collection, e.g. name, schema. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#L4XLdP8yyoKRuNxBM7ScYodznke
 sidebar_position: 5
@@ -41,6 +44,11 @@ Methods of `DescribeCollectionParam.Builder`:
         <td><p>withCollectionName(String collectionName)</p></td>
         <td><p>Sets the collection name. Collection name cannot be empty or null.</p></td>
         <td><p>collectionName: The name of the collection to release.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
@@ -103,13 +111,13 @@ Methods of `DescCollResponseWrapper`:
      <td><p>getShardNumber()</p></td>
      <td><p>Get the shard number of the collection.</p></td>
      <td><p>N/A</p></td>
-     <td><p>int<br/></p></td>
+     <td><p>int</p></td>
    </tr>
    <tr>
      <td><p>getCreatedUtcTimestamp()</p></td>
      <td><p>Get UTC timestamp when the collection is created.</p></td>
-     <td><p>N/A<br/></p></td>
-     <td><p>long<br/></p></td>
+     <td><p>N/A</p></td>
+     <td><p>long</p></td>
    </tr>
    <tr>
      <td><p>getAliases()</p></td>
@@ -125,7 +133,7 @@ Methods of `DescCollResponseWrapper`:
    </tr>
    <tr>
      <td><p>getFieldByName(String fieldName)</p></td>
-     <td><p>Get the schema of a field by name.<br/>Return null if the field doesn't exist.</p></td>
+     <td><p>Get the schema of a field by name.Return null if the field doesn't exist.</p></td>
      <td><p>fieldName: The name of a field</p></td>
      <td><p>FieldType</p></td>
    </tr>
@@ -137,7 +145,7 @@ Methods of `DescCollResponseWrapper`:
    </tr>
    <tr>
      <td><p>getPartitionKeyField()</p></td>
-     <td><p>Get the partition key field.<br/>Return null if the partition key field doesn't exist.</p></td>
+     <td><p>Get the partition key field.Return null if the partition key field doesn't exist.</p></td>
      <td><p>N/A</p></td>
      <td><p>FieldType</p></td>
    </tr>

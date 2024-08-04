@@ -1,11 +1,19 @@
 ---
+title: "Export Data Using Iterators | Cloud"
 slug: /export-data-iterators
-sidebar_label: Using Iterators
+sidebar_label: "Using Iterators"
 beta: FALSE
 notebook: FALSE
+description: "This guide provides an example of how to export data from a Zilliz Cloud collection. | Cloud"
 type: origin
 token: N6fZwCUXqiqoJEkFiVNcvDJEnnc
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data export
+  - iterator
 
 ---
 

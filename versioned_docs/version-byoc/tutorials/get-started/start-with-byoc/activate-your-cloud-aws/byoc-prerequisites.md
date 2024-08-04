@@ -1,10 +1,19 @@
 ---
+title: "Prerequisites | BYOC"
 slug: /byoc-prerequisites
+sidebar_label: "Prerequisites"
 beta: FALSE
 notebook: FALSE
+description: "This topic details the prerequisites required for activating the Zilliz Cloud Bring Your Own Cloud (BYOC) license. It's essential to ensure these initial steps are completed before proceeding to the detailed activation steps provided in Activate Your License. The prerequisites outlined here are foundational for a successful and efficient activation process. | BYOC"
 type: origin
 token: Bw7dwervZiOLHBk6OuWc3RylnKc
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - aws
+  - prerequisites
+  - milvus
 
 ---
 
@@ -98,14 +107,12 @@ Refer to the table below for the necessary cloud resources and services for Zill
    <tr>
      <th><p><strong>Resource Type</strong></p></th>
      <th><p><strong>Instance</strong></p></th>
-     <th><p>Min. Config<br/></p></th>
+     <th><p>Min. Config</p></th>
    </tr>
    <tr>
-     <td><p>Virtual Machine<br/></p></td>
-     <td><p>EC2<br/></p></td>
-     <td><ul>
-<li>(m6i.xlarge) * 4<br/> - (m6i.2xlarge) * 4<br/> - (r6id.8xlarge) * 1<br/> <strong>Total</strong>: 80 vCPUs, 448 GiB</li>
-</ul></td>
+     <td><p>Virtual Machine</p></td>
+     <td><p>EC2</p></td>
+     <td><ul><li><p>(m6i.xlarge) * 4</p></li><li><p>(m6i.2xlarge) * 4</p></li><li><p>(r6id.8xlarge) * 1</p><p><strong>Total</strong>: 80 vCPUs, 448 GiB</p></li></ul></td>
    </tr>
    <tr>
      <td><p>Object Storage</p></td>
@@ -124,7 +131,7 @@ Refer to the table below for the necessary cloud resources and services for Zill
    </tr>
    <tr>
      <td><p>Private Network</p></td>
-     <td><p>VPC<br/></p></td>
+     <td><p>VPC</p></td>
      <td><p>2</p></td>
    </tr>
    <tr>
@@ -204,7 +211,7 @@ In the table, the **Terraform Resource Identifier** column lists the internal na
      <td><p>Secures role assumption, featuring conditions like external ID verification, and is specifically geared for management tasks within the <strong>zilliz-byoc</strong> framework.</p></td>
    </tr>
    <tr>
-     <td><p><strong>aws<em>iam</em>role<em>policy</em>attachment.bootstrap_attachment</strong><br/></p></td>
+     <td><p><strong>aws<em>iam</em>role<em>policy</em>attachment.bootstrap_attachment</strong></p></td>
      <td><p><strong>zilliz-bootstrap-role</strong></p></td>
      <td><p>Attaches a specific policy to the role <strong>zilliz-bootstrap-role</strong>, enabling the assignment of predefined permissions to this role.</p></td>
    </tr>

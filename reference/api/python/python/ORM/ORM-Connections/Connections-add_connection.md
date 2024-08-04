@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "add_connection() | Python | ORM"
 slug: /python/python/Connections-add_connection
-beta: FALSE
-notebook: FALSE
+sidebar_label: "add_connection()"
+beta: false
+notebook: false
+description: "This operation adds connections to multiple Zilliz Cloud clusters for different purposes in a batch. | Python | ORM"
 type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1

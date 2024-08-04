@@ -1,11 +1,20 @@
 ---
+title: "Manage Collections (Console) | BYOC"
 slug: /manage-collections-console
-sidebar_label: Console
+sidebar_label: "Console"
 beta: FALSE
 notebook: FALSE
+description: "This guide provides step-by-step instructions for creating and managing collections in Zilliz Cloud. It is intended for users who prefer a visual interface. If you are familiar with SDKs, you can also create and manage collections through them. For more information, refer to Manage Collections (SDKs). | BYOC"
 type: origin
 token: CmR5wFcybi3iMokOJBxcXDQcntg
 sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - collection
+  - manage
+  - console
 
 ---
 
@@ -24,7 +33,7 @@ Zilliz Cloud offers three methods to create a collection, each catering to diffe
 
 - **[Use Example Data](./manage-collections-console#method-2-use-example-data)**: Ideal for users who are new to Zilliz Cloud seeking a quick setup. Zilliz Cloud offers a sample collection with a schema matching the [example dataset](./example-dataset). This method is hassle-free, but it does not allow configuration modifications.
 
-- **[Copy Existing Collection](./manage-collections-console#method-3-copy-existing-collection)**: Suitable for duplicating existing collections, saving time and effort in setup.
+- **[Clone Existing Collection](./manage-collections-console#method-3-clone-existing-collection)**: Suitable for duplicating existing collections within the cluster, saving time and effort in setup.
 
 ### Method 1: Use your own data{#method-1-use-your-own-data}
 
@@ -38,7 +47,7 @@ For complete control over your collection, follow these steps.
 
     - **Primary key field**: Available types are **Int64** or **VarChar**. When the field type is set to **VarChar**, specify **Max Length** for the field. If **Auto ID** is enabled, you do not need to configure the primary key field.
 
-    - **Vector field**: Vector field in the collection. For Dedicated clusters that have been upgraded to the Beta version, you can add one or more vector fields to a collection, with a maximum of 4 vector fields per collection. When using multiple vector fields, you can set the same or different data types for these fields. For example, combine `FLOAT_VECTOR` and `BFLOAT16_VECTOR` <sup>(Beta)</sup>. For more information on vector field types, refer to [Schema Explained](./schema-explained).
+    - **Vector field**: Vector field in the collection. For clusters that have been upgraded to the Beta version, you can add one or more vector fields to a collection, with a maximum of 4 vector fields per collection. When using multiple vector fields, you can set the same or different data types for these fields. For example, combine `FLOAT_VECTOR` and `BFLOAT16_VECTOR` <sup>(Beta)</sup>. For more information on vector field types, refer to [Schema Explained](./schema-explained).
 
         - **Dimension**: The dimension value of a vector field. The requirement for the **Dimension** value varies depending on the type of the vector field:
 
@@ -72,11 +81,25 @@ Select **Create Sample Collection** from the **Actions** menu, review the preset
 
 ![create_sample_collection](/byoc/create_sample_collection.png)
 
-### Method 3: Copy existing collection{#method-3-copy-existing-collection}
+### Method 3: Clone existing collection{#method-3-clone-existing-collection}
 
-Choose **Copy Collection** from the **Actions** menu, set the new collection's name and description, and create.
+Choose **Clone Collection** from the **Actions** menu.
 
-![copy_collection](/byoc/copy_collection.png)
+1. Enter the new collection's name and description.
+
+1. Select the scope of the clone action. You can either clone both the schema and existing data of a collection or just the collection schema without data in the current cluster.
+
+1. Click **Clone**.
+
+    ![copy_collection](/byoc/copy_collection.png)
+
+1. You can check the clone progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, a new collection with the specified attributes is created in the current cluster.
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>A job record will be generated only if you choose clone collection with both data and schema. Cloning a collection with schema only will not trigger a job record.</p>
+
+    </Admonition>
 
 ## View collections{#view-collections}
 

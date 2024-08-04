@@ -1,11 +1,19 @@
 ---
+title: "Subscribe on Azure Marketplace | Cloud"
 slug: /subscribe-on-azure-marketplace
-sidebar_label: Azure Marketplace
+sidebar_label: "Azure Marketplace"
 beta: FALSE
 notebook: FALSE
+description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace. | Cloud"
 type: origin
 token: LbFXwpruviFWWokwtkhcVmnhnFh
 sidebar_position: 5
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - marketplace
+  - azure
 
 ---
 
@@ -32,7 +40,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and start subscribing to Zilliz Cloud as follows:
 
-1. Search for **Zilliz Cloud** in the search box, or click [here](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview) to view Zilliz Cloud on Azure Marketplace.
+1. Search for **Zilliz Cloud** in the search box, or [go to the Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview) to view the Zilliz Cloud portal page.
 
     ![search_for_zilliz_on_azure](/img/search_for_zilliz_on_azure.png)
 
@@ -121,6 +129,34 @@ For more information about how to cancel subscription on Azure Marketplace, see 
 ## Azure Marketplace pricing terms{#azure-marketplace-pricing-terms}
 
 Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more information.
+
+## Troubleshooting{#troubleshooting}
+
+**What I can do if I encounter issues when linking a marketplace subscription to Zilliz Cloud?**
+
+There are several possible reasons:
+
+1. **Insufficient permissions** (UI prompt: Insufficient Permissions)
+
+    To link an organization with a marketplace subscription, you must be an organization owner. But if you are an organization member, you do not have the required permissions. Please contact the organization owner for assistance.
+
+1. **All organizations have already been successfully linked to a Marketplace subscription** (UI prompt: Marketplace Linked)
+
+    1. If you need to update an existing marketplace subscription, please [unlink](./subscribe-on-azure-marketplace#cancel-azure-marketplace-subscription) the current subscription of the organization first and then set up a new subscription.
+
+    1. If you need multiple organizations for different Marketplace subscription, you can:
+
+        1. [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-join-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
+
+        1. [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+
+1. **No organizations in the list**
+
+    This can happen if your account has been closed or if you have left all organizations. In this case, you can:
+
+    1. Ask other users to [invite](./organization-users#invite-a-user-to-join-your-organization) you to their organization as an organization owner.
+
+    1. [Submit a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 
 ## Related topics{#related-topics}
 

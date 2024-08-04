@@ -1,9 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "\_\_call\_\_() | Python"
 slug: /python/python/SentenceTransformerEmbeddingFunction-__call__
-sidebar_label: __call__()
-beta: FALSE
-notebook: FALSE
+sidebar_label: "__call__()"
+beta: false
+notebook: false
+description: "This operation in SentenceTransformerEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
 type: docx
 token: ZWLCdBWwOo4OSVxfnNRcDrv5nhe
 sidebar_position: 4

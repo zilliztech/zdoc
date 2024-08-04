@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: nodeSidebar
+title: "delete() | Node.js"
 slug: /node/node/Vector-delete
-beta: FALSE
-notebook: FALSE
+sidebar_label: "delete()"
+beta: false
+notebook: false
+description: "This operation deletes entities by their IDs or with a boolean expression. | Node.js"
 type: docx
 token: PNtoddjsMoYuqcxCWK4c3IWKnde
 sidebar_position: 1
@@ -26,7 +29,7 @@ delete(data): Promise<MutationResult>
 
 This method has the following alternatives.
 
-### With DeleteByIdsReq {#with-deletebyidsreq}
+### With DeleteByIdsReq{#with-deletebyidsreq}
 
 ```javascript
 milvusClient.delete({

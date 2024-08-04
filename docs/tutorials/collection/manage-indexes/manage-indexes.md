@@ -1,10 +1,19 @@
 ---
+title: "Manage Indexes | Cloud"
 slug: /manage-indexes
+sidebar_label: "Manage Indexes"
 beta: FALSE
 notebook: FALSE
+description: "Learn how to manipulate indexes on vector and scalar fields via SDKs. | Cloud"
 type: origin
 token: NDLBwtFIuihc5wkq37KchzqLnrc
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - index
+  - manage
 
 ---
 

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "loadPartitions() | Java | v2"
 slug: /java/java/v2-Partitions-loadPartitions
+sidebar_label: "loadPartitions()"
 beta: false
 notebook: false
+description: "This operation releases the partitions in a specified collection from memory. | Java | v2"
 type: docx
 token: Jei2dpJMuoyOF5xTIuccfzcinOh
 sidebar_position: 5
@@ -14,6 +17,8 @@ import Admonition from '@theme/Admonition';
 
 
 # loadPartitions()
+
+This operation releases the partitions in a specified collection from memory.
 
 ```java
 public void loadPartitions(LoadPartitionsReq request)

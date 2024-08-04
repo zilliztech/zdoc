@@ -1,10 +1,19 @@
 ---
+title: "Cloud Providers & Regions | Cloud"
 slug: /cloud-providers-and-regions
+sidebar_label: "Cloud Providers & Regions"
 beta: FALSE
 notebook: FALSE
+description: "Zilliz Cloud is a cloud-based service that offers vector database clusters on public clouds. With our service, you can easily create and manage your own vector database clusters on the public cloud platform of your choice. | Cloud"
 type: origin
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
 sidebar_position: 7
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - providers
+  - regions
 
 ---
 

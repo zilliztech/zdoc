@@ -1,10 +1,21 @@
 ---
+title: "With Iterators | BYOC"
 slug: /with-iterators
+sidebar_label: "With Iterators"
 beta: FALSE
 notebook: FALSE
+description: "Zilliz Cloud provides search and query iterators for iterating results with a large volume of entities. | BYOC"
 type: origin
 token: D7f6wXR2iiSBS2kuPilcZjD5n8d
 sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - search
+  - query
+  - iterators
+  - milvus
 
 ---
 

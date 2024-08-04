@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "hasPartition() | Java | v2"
 slug: /java/java/v2-Partitions-hasPartition
+sidebar_label: "hasPartition()"
 beta: false
 notebook: false
+description: "This operation checks whether the specified partition exists in the specified collection. | Java | v2"
 type: docx
 token: NS1xdv6f4oQlN4xqnOGc6ssWnTf
 sidebar_position: 3

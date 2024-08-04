@@ -1,7 +1,10 @@
 ---
+title: "FAQ: Authentication | CLOUD"
 slug: /faq-authentication
+sidebar_label: "FAQ: Authentication"
 beta: FALSE
 notebook: FALSE
+description: "This topic lists the possible issues that you may encounter while authenticating your identity on Zilliz Cloud and the corresponding solution. | CLOUD"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 12

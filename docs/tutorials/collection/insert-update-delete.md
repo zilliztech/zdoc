@@ -1,10 +1,20 @@
 ---
+title: "Insert, Upsert & Delete | Cloud"
 slug: /insert-update-delete
+sidebar_label: "Insert, Upsert & Delete"
 beta: FALSE
 notebook: FALSE
+description: "This guide walks you through the data manipulation operations within a collection, including insertion, upsertion, and deletion. | Cloud"
 type: origin
 token: Zn0MwWVCVibCPHkD063cNfOkn8d
 sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - insert
+  - upsert
+  - delete
 
 ---
 
@@ -619,6 +629,12 @@ If an entity is no longer needed, you can delete it from the collection. Zilliz 
 
 - **Delete entities by filter.**
 
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>When using filter expressions to delete entities, ensure the collection has been loaded. Otherwise, Zilliz Cloud will return an error.</p>
+
+    </Admonition>
+
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
     <TabItem value='python'>
 
@@ -747,4 +763,64 @@ If an entity is no longer needed, you can delete it from the collection. Zilliz 
     </TabItem>
     </Tabs>
 
-For details on how to use filter expressions, refer to [Get & Scalar Query](./get-and-scalar-query).
+    For details on how to use filter expressions, refer to [Get & Scalar Query](./get-and-scalar-query).
+
+- **Delete entities by partition name.**
+
+    If you want to delete entities from a specific partition, you can specify the partition name with the `partition_name` parameter in the `delete()` method. The following example deletes entities from `partitionA` that have a color starting with `blue`.
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
+    <TabItem value='python'>
+
+    ```python
+    res = client.delete(
+        collection_name='quick_setup',
+        partition_name='partitionA',
+        filter='color like "blue%"'
+    )
+    
+    print("Entities deleted from partitionA: ", res['delete_count'])
+    
+    # Output:
+    # Entities deleted from partitionA:  3
+    ```
+
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    DeleteReq deleteReq = DeleteReq.builder()
+        .collectionName("quick_setup")
+        .filter('color like "blue%"')
+        .partitionName("partitionA")
+        .build();
+    
+    DeleteResponse deleteResp = client.delete(deleteReq);
+    
+    System.out.println(JSONObject.toJSON(deleteResp));
+    
+    // Output:
+    // {"deleteCnt": 3}
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    const res = await client.delete({
+        collection_name: "quick_setup",
+        partition_name: "partitionA",
+        filter: 'color like "blue%"'
+    });
+    
+    console.log("Entities deleted from partitionA: " + res.delete_cnt);
+    
+    // Output:
+    // Entities deleted from partitionA: 3
+    ```
+
+    </TabItem>
+    </Tabs>
+

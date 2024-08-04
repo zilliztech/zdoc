@@ -1,7 +1,10 @@
 ---
+title: "getLoadingProgress() | Java | v1"
 slug: /java/v1-Collection-getLoadingProgress
+sidebar_label: "getLoadingProgress()"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method gets loading collection progress. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#FEPPdW1rEohYZLxEEo0cm3WOnoh
 sidebar_position: 19
@@ -20,7 +23,7 @@ A MilvusClient interface. This method gets loading collection progress.
 R<GetLoadingProgressResponse> getLoadingProgress(GetLoadingProgressParam requestParam);
 ```
 
-#### LoadCollectionParam{#loadcollectionparam}
+#### GetLoadingProgressParam{#getloadingprogressparam}
 
 Use the `GetLoadingProgressParam.Builder` to construct a `GetLoadingProgressParam` object.
 
@@ -43,33 +46,23 @@ Methods of `GetLoadingProgressParam.Builder`:
         <td><p>collectionName: The name of the collection to load.</p></td>
     </tr>
     <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
+    </tr>
+    <tr>
         <td><p>withPartitionNames(List\<String> partitionNames)</p></td>
-        <td><p>Sets partition names list to specify query scope (Optional).</p></td>
+        <td><p>Sets partition names list to specify query scope(optional).</p></td>
         <td><p>partitionNames: <br/>The name list of partitions to be loaded.</p></td>
     </tr>
     <tr>
+        <td><p>addPartitionName(String partitionName)</p></td>
+        <td><p>Adds a partition name to specify query scope(optional).</p></td>
+        <td><p>partitionName: A partition name.</p></td>
+    </tr>
+    <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs a LoadCollectionParam object.</p></td>
-        <td><p>N/A</p></td>
-    </tr>
-    <tr>
-        <td><p><code>withSyncLoadWaitingInterval(Long milliseconds)</code></p></td>
-        <td><p>Sets the waiting interval for sync mode. In sync mode, the client checks the collection load status at intervals. The value must be greater than zero, and cannot be greater than <code>Constant.MAX_WAITING_LOADING_INTERVAL</code>. The default value is <code>500</code> milliseconds</p></td>
-        <td><p><code>milliseconds</code>: The time interval in milliseconds for checking the data load status.</p></td>
-    </tr>
-    <tr>
-        <td><p><code>withSyncLoadWaitingTimeout(Long seconds)</code></p></td>
-        <td><p>Sets the timeout period for sync mode. The value must be greater than zero and cannot be greater than <code>Constant.MAX_WAITING_LOADING_TIMEOUT</code>. The default value is <code>60</code> seconds.</p></td>
-        <td><p><code>seconds</code>: A during of time in seconds to wait till timeout.</p></td>
-    </tr>
-    <tr>
-        <td><p><code>withReplicaNumber(Integer replicaNumber)</code></p></td>
-        <td><p>Specifies the number of replicas to load. The default value is <code>1</code>.</p></td>
-        <td><p><code>replicaNumber</code>: The number of the replicas to load when loading a collection.</p></td>
-    </tr>
-    <tr>
-        <td><p><code>build()</code></p></td>
-        <td><p>Constructs a <code>LoadCollectionParam</code> object</p></td>
+        <td><p>Constructs a GetLoadingProgressParam object</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>

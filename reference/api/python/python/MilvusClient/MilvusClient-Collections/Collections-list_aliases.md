@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_aliases() | Python | MilvusClient"
 slug: /python/python/Collections-list_aliases
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_aliases()"
+beta: false
+notebook: false
+description: "This operation lists all existing aliases for a specific collection. | Python | MilvusClient"
 type: docx
 token: Cpynd2OFJoIXhLx3dQNct7Wgn6f
 sidebar_position: 13

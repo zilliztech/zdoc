@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "MilvusClientV2 | Java | v2"
 slug: /java/java/v2-Client-MilvusClientV2
+sidebar_label: "MilvusClientV2"
 beta: false
 notebook: false
+description: "A MilvusClientV2 instance represents a Java client that connects to a specific Zilliz Cloud cluster. | Java | v2"
 type: docx
 token: Y4qvdMEeioKXShxxNmncvnJ2nJf
 sidebar_position: 1

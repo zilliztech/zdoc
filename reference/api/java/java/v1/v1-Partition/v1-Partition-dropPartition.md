@@ -1,7 +1,10 @@
 ---
+title: "dropPartition() | Java | v1"
 slug: /java/v1-Partition-dropPartition
+sidebar_label: "dropPartition()"
 beta: FALSE
 notebook: FALSE
+description: "MilvusClient interface. This method drops a partition. Note that this method drops all data in this partition and the default partition cannot be dropped. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#JAvtdqfVFonHDqxKvTrcYUqtnQc
 sidebar_position: 2
@@ -41,6 +44,11 @@ Methods of `DropPartitionParam.Builder`:
         <td><p>withCollectionName(String collectionName)</p></td>
         <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
         <td><p>collectionName: The target collection name.</p></td>
+    </tr>
+    <tr>
+        <td><p>withDatabaseName(String databaseName)</p></td>
+        <td><p>Sets the database name. database name can be null for default database.</p></td>
+        <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
         <td><p>withPartitionName(String partitionName)</p></td>

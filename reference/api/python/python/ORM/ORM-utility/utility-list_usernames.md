@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_usernames() | Python | ORM"
 slug: /python/python/utility-list_usernames
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_usernames()"
+beta: false
+notebook: false
+description: "This operation lists the names of all existing users. | Python | ORM"
 type: docx
 token: RXi3dgtNYogU0cxmTsgcdT72nsc
 sidebar_position: 29

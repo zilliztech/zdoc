@@ -1,10 +1,20 @@
 ---
+title: "Activate Your License | BYOC"
 slug: /activate-your-cloud
+sidebar_label: "Activate Your License"
 beta: FALSE
 notebook: FALSE
+description: "The Zilliz Cloud Bring Your Own Cloud (BYOC) solution allows you to create and run a Zilliz Cloud cluster within your own cloud infrastructure. This enhances data security, reduces data breach risks, and improves performance and scalability. This guide will help you through the BYOC license activation process. | BYOC"
 type: origin
 token: X08WweRsXiz0MPk4DIbcXYaInjc
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - aws
+  - license
+  - activate
+  - milvus
 
 ---
 

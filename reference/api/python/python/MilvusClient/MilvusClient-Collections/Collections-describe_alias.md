@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "describe_alias() | Python | MilvusClient"
 slug: /python/python/Collections-describe_alias
-beta: FALSE
-notebook: FALSE
+sidebar_label: "describe_alias()"
+beta: false
+notebook: false
+description: "This operation displays the details of an alias. | Python | MilvusClient"
 type: docx
 token: HN7nddgueo3scIxmPXAcpjkFnDf
 sidebar_position: 6

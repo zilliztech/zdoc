@@ -1,11 +1,19 @@
 ---
+title: "Question Answering Using Zilliz Cloud and Cohere | Cloud"
 slug: /question-answering-using-zilliz-cloud-and-cohere
-sidebar_label: With Cohere
+sidebar_label: "With Cohere"
 beta: FALSE
 notebook: FALSE
+description: "This page illustrates how to create a question-answering system based on the SQuAD dataset using Zilliz Cloud as the vector database and Cohere as the embedding system. | Cloud"
 type: origin
 token: WjZswh3lJi6k5BkyLaNchzodnib
 sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - cohere
 
 ---
 

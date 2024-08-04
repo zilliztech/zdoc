@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_collections() | Python | ORM"
 slug: /python/python/utility-list_collections
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_collections()"
+beta: false
+notebook: false
+description: "This operation lists all collections in the database used in the current connection. | Python | ORM"
 type: docx
 token: QgxEdfBMSodYo6xCg24cH3hInr4
 sidebar_position: 24

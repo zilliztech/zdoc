@@ -1,7 +1,10 @@
 ---
+title: "listCollections() | Java | v1"
 slug: /java/v1-HighlevelAPI-listCollections
+sidebar_label: "listCollections()"
 beta: FALSE
 notebook: FALSE
+description: "A MilvusClient interface. This method lists all the collections. | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#GYyPdMqeZoN3WYxf3OjcbyTsnVb
 sidebar_position: 2

@@ -1,10 +1,19 @@
 ---
+title: "Migrate from Elasticsearch | BYOC"
 slug: /migrate-from-elasticsearch
+sidebar_label: "Migrate from Elasticsearch"
 beta: FALSE
 notebook: FALSE
+description: "This topic offers a step-by-step guide on how to migrate data from Elasticsearch to Zilliz Cloud. By doing so, you can unlock the full potential of business data with enhanced scalability, performance, and ease of use. | BYOC"
 type: origin
 token: Y8nwwbi0KiwtVZkMaSQcsPcwnkf
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - migrations
+  - elasticsearch
 
 ---
 
@@ -69,7 +78,7 @@ In the **Dynamic Schema** section, decide if you want to enable dynamic schema f
 
 ## Verify the migration results{#verify-the-migration-results}
 
-Once the migration status switches from **MIGRATING** to **SUCCESSFUL**, the migration is complete.
+Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the migration is complete.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -77,7 +86,7 @@ Once the migration status switches from **MIGRATING** to **SUCCESSFUL**, the mig
 
 </Admonition>
 
-![verify_collection_es](/byoc/verify_collection_es.png)
+![verify_collection](/byoc/verify_collection.png)
 
 ## Field mapping reference{#field-mapping-reference}
 
@@ -127,6 +136,11 @@ Review the table below to understand how Elasticsearch field types map to Zilliz
    <tr>
      <td><p>boolean</p></td>
      <td><p>Bool</p></td>
+     <td><p>-</p></td>
+   </tr>
+   <tr>
+     <td><p>object</p></td>
+     <td><p>JSON</p></td>
      <td><p>-</p></td>
    </tr>
 </table>

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "flush() | Python | ORM"
 slug: /python/python/Partition-flush
-beta: FALSE
-notebook: FALSE
+sidebar_label: "flush()"
+beta: false
+notebook: false
+description: "This operation seals all segments in the partition. Any insertions after this operation will generate a new segment. | Python | ORM"
 type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3

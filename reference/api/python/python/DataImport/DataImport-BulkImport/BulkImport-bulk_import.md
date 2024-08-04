@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "bulk_import() | Python"
 slug: /python/python/BulkImport-bulk_import
-beta: FALSE
-notebook: FALSE
+sidebar_label: "bulk_import()"
+beta: false
+notebook: false
+description: "This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read Prepare Data Import. | Python"
 type: docx
 token: S9dyd4UwhoqOPux411KcbafDnde
 sidebar_position: 1

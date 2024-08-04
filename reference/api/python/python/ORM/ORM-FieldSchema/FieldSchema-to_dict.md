@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "to_dict() | Python | ORM"
 slug: /python/python/FieldSchema-to_dict
-beta: FALSE
-notebook: FALSE
+sidebar_label: "to_dict()"
+beta: false
+notebook: false
+description: "This operation converts a FieldSchema object to a dictionary representation. | Python | ORM"
 type: docx
 token: G1gsdGWwuoPOPrxJdABcfa76nUd
 sidebar_position: 3

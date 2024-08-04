@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "list_indexes() | Python | MilvusClient"
 slug: /python/python/Management-list_indexes
-beta: FALSE
-notebook: FALSE
+sidebar_label: "list_indexes()"
+beta: false
+notebook: false
+description: "This operation lists all indexes of a specific collection. | Python | MilvusClient"
 type: docx
 token: ZqmudJWyFonUKGxAxXncYrLZn2e
 sidebar_position: 6

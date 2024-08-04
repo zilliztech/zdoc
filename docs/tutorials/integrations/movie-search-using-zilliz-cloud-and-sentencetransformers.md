@@ -1,11 +1,19 @@
 ---
+title: "Movie Search Using Zilliz Cloud and SentenceTransformers | Cloud"
 slug: /movie-search-using-zilliz-cloud-and-sentencetransformers
-sidebar_label: With SentenceTransformers
+sidebar_label: "With SentenceTransformers"
 beta: FALSE
 notebook: FALSE
+description: "In this example, we are going to go over a Wikipedia article search using Zilliz Cloud and the SentenceTransformers library. The dataset we will search through is the Wikipedia-Movie-Plots Dataset found on Kaggle. For this example, we have re-hosted the data in a public Google drive. | Cloud"
 type: origin
 token: KPlpwDwupiZu0ZkYOu3cY3EWn7f
 sidebar_position: 7
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - sentence transformers
 
 ---
 

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "delete() | Python | MilvusClient"
 slug: /python/python/Vector-delete
-beta: FALSE
-notebook: FALSE
+sidebar_label: "delete()"
+beta: false
+notebook: false
+description: "This operation deletes entities by their IDs or with a boolean expression. | Python | MilvusClient"
 type: docx
 token: DWLXdSCYnoPT4ExktRKceEqLnAd
 sidebar_position: 1
@@ -59,6 +62,12 @@ delete(
     The value defaults to an empty string, indicating that no condition applies. Setting both **ids** and **filter** results in a **ParamError** exception.
 
     You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>When using filter expressions to delete entities, ensure the collection has been loaded. Otherwise, Zilliz Cloud will return an error.</p>
+
+    </Admonition>
 
 - **partition_name** (*str* | *""*) -
 

@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: pythonSidebar
+title: "create_database() | Python | ORM"
 slug: /python/python/db-create_database
-beta: FALSE
-notebook: FALSE
+sidebar_label: "create_database()"
+beta: false
+notebook: false
+description: "This operation creates a database using the provided database name. | Python | ORM"
 type: docx
 token: G4Ftde3kxoHAJbxVNXncI7mpngb
 sidebar_position: 1

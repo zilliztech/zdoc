@@ -1,8 +1,11 @@
 ---
 displayed_sidbar: javaSidebar
+title: "IndexType | Java | v2"
 slug: /java/java/v2-Management-IndexType
+sidebar_label: "IndexType"
 beta: false
 notebook: false
+description: "This is an enumeration that provides the following constants. | Java | v2"
 type: docx
 token: EATSdak5wokQhCx6k3tcCoAqn3P
 sidebar_position: 6
