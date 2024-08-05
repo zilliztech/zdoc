@@ -214,8 +214,12 @@ div[role="tabpanel"] .tabs > li.tabs__item--active {
   border: 1px solid rgb(107, 114, 128);
 }
 
-.card {
+a.card {
+  border-width: 0;
+  border-style: none;
   border-radius: 0 !important;
+  border-image: initial;
+  box-shadow: none !important;
 }
 
 section.row > article > a.padding--lg {

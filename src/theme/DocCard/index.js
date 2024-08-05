@@ -10,22 +10,38 @@ import isInternalUrl from '@docusaurus/isInternalUrl';
 import {translate} from '@docusaurus/Translate';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
-function useCategoryItemsPlural() {
-  const {selectMessage} = usePluralForm();
-  return (count) =>
-    selectMessage(
-      count,
-      translate(
-        {
-          message: '1 item|{count} items',
-          id: 'theme.docs.DocCard.categoryDescription.plurals',
-          description:
-            'The default description for a category card in the generated index about how many items this category includes',
-        },
-        {count},
-      ),
-    );
+// function useCategoryItemsPlural() {
+//   const {selectMessage} = usePluralForm();
+//   return (count) =>
+//     selectMessage(
+//       count,
+//       translate(
+//         {
+//           message: '1 item|{count} items',
+//           id: 'theme.docs.DocCard.categoryDescription.plurals',
+//           description:
+//             'The default description for a category card in the generated index about how many items this category includes',
+//         },
+//         {count},
+//       ),
+//     );
+// }
+
+function findCategoryDocId(item, level=0) {
+  var docId;
+  if (item.type === 'category') {
+    level -= 1;
+    if (item.items[0].type === 'link') {
+      docId = item.items[0].docId.split('/').slice(0, level).join('/') + '/' + item.items[0].docId.split('/').slice(0, level).pop();
+    } else {
+      docId = findCategoryDocId(item.items[0], level);
+    }
+  }
+
+  return docId;
 }
+
+
 function CardContainer({href, children}) {
   return (
     <Link
@@ -42,12 +58,9 @@ function CardLayout({href, icon, title, description}) {
 
   return (
     <CardContainer href={href}>
-      <Heading
-        as="h2"
-        className={clsx('text--truncate', styles.cardTitle)}
-        title={title}>
-        {icon} {title}
-      </Heading>
+      <h2 className={clsx('text--truncate', styles.cardTitle)} title={title}>
+        {title} <span className="tooltip">[READ MORE]</span>
+      </h2>
       {description && (
         <p
           className={clsx('text--truncate', styles.cardDescription)}
@@ -60,17 +73,21 @@ function CardLayout({href, icon, title, description}) {
 }
 function CardCategory({item}) {
   const href = findFirstSidebarItemLink(item);
-  const categoryItemsPlural = useCategoryItemsPlural();
+  // const categoryItemsPlural = useCategoryItemsPlural();
   // Unexpected: categories that don't have a link have been filtered upfront
   if (!href) {
     return null;
   }
+
+  var docId = findCategoryDocId(item);
+
   return (
     <CardLayout
       href={href}
       icon="🗃️"
       title={item.label}
-      description={item.description ?? categoryItemsPlural(item.items.length)}
+      //description={item.description ?? categoryItemsPlural(item.items.length)}
+      description={ item.description ?? useDocById(docId ?? undefined) ?.description }
     />
   );
 }
