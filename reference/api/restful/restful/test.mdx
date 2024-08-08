@@ -14,13 +14,13 @@ description: Lists all cloud providers available on Zilliz Cloud.
 
 import RestSpecs from '@site/src/components/RestSpecs';
 
-<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" />
+<RestSpecs specs={specs} endpoint={endpoint} method={method} lang="zh-CN" target="zilliz" />
 
 export const specs = {
 				"summary": "Create Serverless Cluster",
 				"deprecated": false,
 				"description": "Create serverless cluster.",
-				"x-18n": {
+				"x-i18n": {
 					"zh-CN": {
 						"summary": "创建 Serverless 集群",
 						"description": "本接口可创建一个 Serverless 集群。"
@@ -49,7 +49,7 @@ export const specs = {
 						"name": "Accept",
 						"in": "header",
 						"description": "Use `application/json`.",
-						"x-18n": {
+						"x-i18n": {
 							"zh-CN": {
 								"description": "使用 `application/json`。"
 							}
@@ -64,7 +64,7 @@ export const specs = {
 						"name": "Content-Type",
 						"in": "header",
 						"description": "Use `application/json`.",
-						"x-18n": {
+						"x-i18n": {
 							"zh-CN": {
 								"description": "使用 `application/json`。"
 							}
@@ -85,7 +85,7 @@ export const specs = {
 									"clusterName": {
 										"type": "string",
 										"description": "Name of the cluster to create.",
-										"x-18n": {
+										"x-i18n": {
 											"zh-CN": {
 												"description": "待创建集群名称。"
 											}
@@ -94,7 +94,7 @@ export const specs = {
 									"projectId": {
 										"type": "string",
 										"description": "ID of the project to which the cluster belongs.",
-										"x-18n": {
+										"x-i18n": {
 											"zh-CN": {
 												"description": "待创建集群所属项目 ID。"
 											}
@@ -104,7 +104,7 @@ export const specs = {
 									"regionId": {
 										"type": "string",
 										"description": "ID of the cloud region hosting the cluster.",
-										"x-18n": {
+										"x-i18n": {
 											"zh-CN": {
 												"description": "计划托管待创建集群的云地域 ID。"
 											}
@@ -128,7 +128,7 @@ export const specs = {
 				"responses": {
 					"200": {
 						"description": "Returns information about the created cluster in detail.",
-						"x-18n": {
+						"x-i18n": {
 							"zh-CN": {
 								"description": "返回已创建的集群详情。"
 							}
@@ -143,7 +143,7 @@ export const specs = {
 												"code": {
 													"type": "integer",
 													"description": "Response code.",
-													"x-18n": {
+													"x-i18n": {
 														"zh-CN": {
 															"description": "响应码。"
 														}
@@ -155,7 +155,7 @@ export const specs = {
 														"clusterId": {
 															"type": "string",
 															"description": "ID of the cluster created.",
-															"x-18n": {
+															"x-i18n": {
 																"zh-CN": {
 																	"description": "已创建的集群 ID。"
 																}
@@ -164,7 +164,7 @@ export const specs = {
 														"username": {
 															"type": "string",
 															"description": "Name of the cluster administration user.",
-															"x-18n": {
+															"x-i18n": {
 																"zh-CN": {
 																	"description": "已创建集群的管理用户名。"
 																}
@@ -173,7 +173,7 @@ export const specs = {
 														"password": {
 															"type": "string",
 															"description": "Password of the cluster administration user. This password is displayed only once when the cluster is created. It is recommended to record it in a secure place for future use.",
-															"x-18n": {
+															"x-i18n": {
 																"zh-CN": {
 																	"description": "已创建集群的管理用户密码。该密码仅在集群创建成功时显示一次。建议在安全的地方记录它以备后续使用。"
 																}
@@ -182,7 +182,7 @@ export const specs = {
 														"prompt": {
 															"type": "string",
 															"description": "Prompt messages returned.",
-															"x-18n": {
+															"x-i18n": {
 																"zh-CN": {
 																	"description": "返回的提示信息。"
 																}
@@ -196,7 +196,7 @@ export const specs = {
 														"prompt"
 													],
 													"description": "Response payload.",
-													"x-18n": {
+													"x-i18n": {
 														"zh-CN": {
 															"description": "响应负载。"
 														}

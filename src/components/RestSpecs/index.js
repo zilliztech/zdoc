@@ -17,7 +17,7 @@ const BaseURL = ({ endpoint, lang, target }) => {
                 <p>{i18n[lang]['base.url.format.prompt']}</p>
                 <p className={styles.paramName}>{server}</p>
             </div>
-            { prompt && <Admonition type="info" icon="📘" title="Notes">
+            { prompt && <Admonition type="info" icon="📘" title={i18n[lang]["admonition.title"]}>
                 <div dangerouslySetInnerHTML={{__html: prompt}} />
             </Admonition>}
         </section>
@@ -30,7 +30,7 @@ const BaseURL = ({ endpoint, lang, target }) => {
 const Param = ({ name, description, type, format, required, example, inProp, lang, target }) => {
     return (
         <div className={styles.paramContainer}>
-            <div class={styles.paramLabels}>
+            <div className={styles.paramLabels}>
                 <span className={styles.paramName}>{name}</span>
                 <span className={styles.label}>{type + (format ? "\<" + format + "\>" : "")}</span>
                 <span className={styles.label}>{inProp}</span>
@@ -39,7 +39,7 @@ const Param = ({ name, description, type, format, required, example, inProp, lan
             <div dangerouslySetInnerHTML={{__html: description ? textFilter(description, target) : <i>{i18n[lang]["to.be.added.soon"]}</i>}}></div>
             <div>
                 { example && <div>
-                    <span className={styles.paramExample}>Example Value: </span>
+                    <span className={styles.paramExample}>{i18n[lang]['label.example.value']}</span>
                     <span className={styles.label}>{example}</span>
                 </div> }
             </div>
@@ -51,7 +51,7 @@ const Properties = ({ name, description, properties, requiredFields, required, l
     return (
         <>
             { name && <div className={styles.paramContainer}>
-                <div class={styles.paramLabels}>
+                <div className={styles.paramLabels}>
                     <span className={styles.paramName}>{name}</span>
                     <span className={styles.label}>object</span>
                     { required && <span className={styles.required}>required</span> }
@@ -61,12 +61,13 @@ const Properties = ({ name, description, properties, requiredFields, required, l
             <div style={{ margin: name ? '0 0 0 2rem' : '0' }}>
                 { properties && Object.keys(properties).map((propName, index) => {
                     const prop = properties[propName]
+                    const desc = prop["x-i18n"]?.[lang]?.description ? prop["x-i18n"][lang].description : prop.description
                     const requireds = requiredFields instanceof Array ? requiredFields : []
                     if (prop.type === 'object') {
                         return (
                             <Properties key={index} 
                                 name={propName} 
-                                description={prop.description}
+                                description={textFilter(desc, target)}
                                 properties={prop.properties} 
                                 requiredFields={prop.required} 
                                 required={requireds.includes(propName)}
@@ -77,7 +78,7 @@ const Properties = ({ name, description, properties, requiredFields, required, l
                         return (
                             <Items key={index} 
                                 name={propName} 
-                                description={prop.description} 
+                                description={textFilter(desc, target)} 
                                 obj={prop} 
                                 required={requireds.includes(propName)}
                                 lang={lang}
@@ -87,7 +88,7 @@ const Properties = ({ name, description, properties, requiredFields, required, l
                         return (
                             <AnyOf key={index} 
                                 name={propName} 
-                                description={prop.description} 
+                                description={textFilter(desc, target)} 
                                 arr={prop.anyOf} 
                                 required={requireds.includes(propName)}
                                 lang={lang}
@@ -97,7 +98,7 @@ const Properties = ({ name, description, properties, requiredFields, required, l
                         return (
                             <OneOf key={index} 
                                 name={propName} 
-                                description={prop.description} 
+                                description={textFilter(desc, target)} 
                                 arr={prop.oneOf} 
                                 required={requireds.includes(propName)}
                                 lang={lang}
@@ -124,7 +125,7 @@ const Items = ({ name, description, obj, required, lang, target }) => {
     return (
         <>
             { name && <div className={styles.paramContainer}>
-                <div class={styles.paramLabels}>
+                <div className={styles.paramLabels}>
                     <span className={styles.paramName}>{name}</span>
                     <span className={styles.label}>array</span>
                     { required && <span className={styles.required}>required</span> }
@@ -165,12 +166,13 @@ const Items = ({ name, description, obj, required, lang, target }) => {
 }
 
 const Primitive = ({ name, obj, required, lang, target }) => {
-    const { type, description, format, minimum, maximum, defaultValue} = obj;
+    const { type, format, minimum, maximum, defaultValue} = obj;
+    const description = obj["x-i18n"]?.[lang]?.description ? obj["x-i18n"][lang].description : obj.description
     const enums = obj.enum ? obj.enum : []
 
     return (
         <div className={styles.paramContainer}>
-            <div class={styles.paramLabels}>
+            <div className={styles.paramLabels}>
                 <span className={styles.paramName}>{name}</span>
                 <span className={styles.label}>{type + (format ? "\<" + format + "\>" : "")}</span>
                 { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
@@ -201,7 +203,7 @@ const Enums = ({ enums, defaultValue }) => {
 
     return (
         <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem', alignItems: 'center' }}>
-            <label for="enumSelect" className={styles.paramExample}>Possible Values:</label>
+            <label for="enumSelect" className={styles.paramExample}>{i18n[lang]['label.possible.values']}</label>
             <div>
                 <select id="enumSelect" value={enumItem} onChange={handleEnumChange}>
                     {enums.map((enumValue, index) => {
@@ -230,7 +232,7 @@ const Tab = ({ name, id, content, lang, target }) => {
                 id={`tab${id}`} 
                 checked={isChecked}
                 onChange={ e=> {} } />
-            <label className={styles.tabLabel} htmlFor={`tab${id}`} onClick={handleClick}>{ content.label ? content.label : `Option ${id}` }</label>
+            <label className={styles.tabLabel} htmlFor={`tab${id}`} onClick={handleClick}>{ content.label ? content.label : `${i18n[lang]["tab.option"]} ${id}` }</label>
             <div className={styles.tabPanel}>
                 { content?.type === 'object' && <Properties properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
                 { content?.type === 'code' && <CodeBlock className="language-json" children={JSON.stringify(content.value, null, 2)} /> }
@@ -242,7 +244,7 @@ const Tab = ({ name, id, content, lang, target }) => {
 const AnyOf = ({ name, description, arr, required, lang, target }) => {
     return (<>
         { (name && name !== 'responses' && name !== 'requestBody') && <div className={styles.paramContainer}>
-            <div class={styles.paramLabels}>
+            <div className={styles.paramLabels}>
                 <span className={styles.paramName}>{name}</span>
                 <span className={styles.label}>anyOf</span>
                 { required && <span className={styles.required}>required</span> }
@@ -264,7 +266,7 @@ const AnyOf = ({ name, description, arr, required, lang, target }) => {
 const OneOf = ({ name, description, arr, required, lang, target }) => {
     return (<>
         { (name && name !== 'responses' && name !== 'requestBody') && <div className={styles.paramContainer}>
-            <div class={styles.paramLabels}>
+            <div className={styles.paramLabels}>
                 <span className={styles.paramName}>{name}</span>
                 <span className={styles.label}>oneOf</span>
                 { required && <span className={styles.required}>required</span> }
@@ -334,7 +336,7 @@ export default function RestSpecs(props) {
     return (
         <>
             <div>
-                <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '60% 40%' }}>
+                <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '55% 45%' }}>
                     <div>
                         <p>{ short }</p>
                         <RestHeader 
@@ -343,7 +345,7 @@ export default function RestSpecs(props) {
                         />
                     </div>
                 </div>
-                <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '60% 40%' }}>
+                <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '55% 45%' }}>
                     <BaseURL endpoint={props.endpoint} lang={lang} target={target} />
                     { (parameters.length > 0 || requestBody) && <>
                         <section>
@@ -358,7 +360,7 @@ export default function RestSpecs(props) {
                                             lang={lang}
                                             target={target} 
                                             name={param.name} 
-                                            description={ param.i18n?.[lang]?.description ? param.i18n[lang].description : param.description } 
+                                            description={ param["x-i18n"]?.[lang]?.description ? param["x-i18n"]?.[lang]?.description : param.description } 
                                             type={param.schema.type} 
                                             required={param.required} 
                                             example={param.example}
@@ -434,7 +436,7 @@ export default function RestSpecs(props) {
                     </>}
                 </div>
                 
-                { responses && <div  style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '60% 40%' }}>
+                { responses && <div  style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '55% 45%' }}>
                     <section>
                         <div className={styles.sectionHeader} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                             <span>{i18n[lang]['section.responses']}</span>
