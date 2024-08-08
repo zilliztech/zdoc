@@ -1,4 +1,5 @@
 import { i18n } from './i18n'
+import Showdown from 'showdown';
 
 export const getBaseUrl = (endpoint, lang, pubTarget) => {
     const condition = (endpoint.includes('cloud') || endpoint.includes('cluster') || endpoint.includes('import') || endpoint.includes('pipeline')) || endpoint.includes('project') || endpoint.includes('metrics');
@@ -53,11 +54,10 @@ export const textFilter =  (text, targets) => {
         text = textFilter(preText + matchText + postText, targets)
     }
 
-    return text.replace(/(\s*\n){3,}/g, '\n\n')
-        .replace(/<br>/g, '<br/>')
-        .replace(/(<br\/>){2,}/, "<br/>")
-        .replace("<br\/></p>", "</p>")
-        .replace(/\n\s*<tr>\n(\s*<td.*><p><\/p><\/td>\n)*\s*<\/tr>/g, '');
+    const converter = new Showdown.Converter();
+    text = converter.makeHtml(text);
+
+    return text
 }
 
 const matchFilterTags = (text) => {
