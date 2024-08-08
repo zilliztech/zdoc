@@ -12076,7 +12076,7 @@
 		},
 		"/v2/vectordb/jobs/import/create": {
 			"post": {
-				"summary": "Create import Jobs",
+				"summary": "Create Import Jobs",
 				"deprecated": false,
 				"description": "This operation imports the prepared data files to a <include target=\"milvus\">Milvus instance</include><include target=\"zilliz\">Zilliz Cloud cluster</include>. To learn how to prepare your data files, read <include target=\"milvus\">[Prepare Data Import](https://milvus.io/docs/prepare-source-data.md)</include><include target=\"zilliz\">[Prepare Data Import](/docs/prepare-data-import)</include>.",
 				"x-i18n": {
@@ -12093,6 +12093,11 @@
 						"name": "Request-Timeout",
 						"in": "header",
 						"description": "The timeout duration for this operation.\nSetting this to None indicates that this operation timeouts when any response arrives or any error occurs.",
+						"x-i18n": {
+							"zh-CN": {
+								"description": "本操作的超时时长。设置为 None 表示本操作在任何响应或错误发生时超时。"
+							}
+						},
 						"required": false,
 						"example": 0,
 						"schema": {
@@ -12102,11 +12107,16 @@
 					{
 						"name": "Authorization",
 						"in": "header",
-						"description": "The authentication token.",
+						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
 						"required": false,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+							}
 						}
 					}
 				],
@@ -16112,42 +16122,18 @@
 											}
 										}
 									},
+									"partitionName": {
+										"type": "string",
+										"description": "The name of a partition in the current collection. \nIf specified, the data is to be inserted into the specified partition."
+									},
 									"data": {
+										"type": "object | array",
 										"description": "An entity object or an array of entity objects. Note that the keys in an entity object should match the collection schema",
 										"x-i18n": {
 											"zh-CN": {
 												"description": "Entity 对象或 Entity 对象数组。注意，Entity 对象的结构应与 Collection Schema 一致。"
 											}
-										},
-										"oneOf": [
-											{
-												"type": "object",
-												"description": "A single entity, whose structure should match the schema of the target collection.",
-												"x-i18n": {
-													"zh-CN": {
-														"description": "单个 Entity 对象，其结构应与目标 Collection 的 Schema 一致。"
-													}
-												},
-												"properties": {}														
-											},
-											{
-												"type": "array",
-												"items": {
-													"type": "object",
-													"description": "A list of entities, each of which should match the schema of the target collection.",
-													"x-i18n": {
-														"zh-CN": {
-															"description": "Entity 对象列表，每个对象应与目标 Collection 的 Schema 一致。"
-														}
-													},
-													"properties": {}
-												}
-											}
-										]
-									},
-									"partitionName": {
-										"type": "string",
-										"description": "The name of a partition in the current collection. \nIf specified, the data is to be inserted into the specified partition."
+										}
 									}
 								},
 								"required": [
@@ -18004,6 +17990,9 @@
 						"description": "本接口创建一个角色。"
 					}
 				},
+				"x-include-target": [
+					"milvus"
+				],
 				"tags": [
 					"Role Operations (V2)"
 				],
@@ -18917,7 +18906,7 @@
 													"enum": [
 														"Strong",
 														"Bounded",
-														"Session",
+														"<include target=\"milvus\">Session</include>",
 														"Eventual"
 													]
 												},
@@ -22235,6 +22224,9 @@
 						"description": "本操作可撤销当前角色所授予的权限。"
 					}
 				},
+				"x-include-target": [
+					"milvus"
+				],
 				"tags": [
 					"Role Operations (V2)"
 				],

@@ -6,6 +6,8 @@ import { textFilter, getBaseUrl } from './utils'
 import { i18n } from './i18n'
 import styles from'./index.module.css';
 
+const primitiveConstants = ["boolean", "integer", "number", "string"]
+
 const BaseURL = ({ endpoint, lang, target }) => {
     const { server, children, prompt } = getBaseUrl(endpoint, lang, target)
     return (<>
@@ -15,7 +17,7 @@ const BaseURL = ({ endpoint, lang, target }) => {
             </section>
             <div style={{margin: '1rem 0'}}>
                 <p>{i18n[lang]['base.url.format.prompt']}</p>
-                <p className={styles.paramName}>{server}</p>
+                <p className={styles.paramName} style={{ fontSize: '0.9rem' }}>{server}</p>
             </div>
             { prompt && <Admonition type="info" icon="📘" title={i18n[lang]["admonition.title"]}>
                 <div dangerouslySetInnerHTML={{__html: prompt}} />
@@ -38,7 +40,7 @@ const Param = ({ name, description, type, format, required, example, inProp, lan
             </div>
             <div dangerouslySetInnerHTML={{__html: description ? textFilter(description, target) : <i>{i18n[lang]["to.be.added.soon"]}</i>}}></div>
             <div>
-                { example && <div>
+                { (example === 0 || example) && <div>
                     <span className={styles.paramExample}>{i18n[lang]['label.example.value']}</span>
                     <span className={styles.label}>{example}</span>
                 </div> }
@@ -48,6 +50,7 @@ const Param = ({ name, description, type, format, required, example, inProp, lan
 }
 
 const Properties = ({ name, description, properties, requiredFields, required, lang, target }) => {
+    console.log(properties)
     return (
         <>
             { name && <div className={styles.paramContainer}>
@@ -59,7 +62,13 @@ const Properties = ({ name, description, properties, requiredFields, required, l
                 <div dangerouslySetInnerHTML={{__html: description ? textFilter(description, target) : <i>{i18n[lang]["to.be.added.soon"]}</i>}}></div>
             </div> }
             <div style={{ margin: name ? '0 0 0 2rem' : '0' }}>
-                { properties && Object.keys(properties).map((propName, index) => {
+                { properties && Object.keys(properties).filter(key => {
+                    if (Object.keys(properties[key]).includes('x-include-target')) {
+                        return properties[key]['x-include-target'].includes(target)
+                    }
+
+                    return true
+                }).map((propName, index) => {
                     const prop = properties[propName]
                     const desc = prop["x-i18n"]?.[lang]?.description ? prop["x-i18n"][lang].description : prop.description
                     const requireds = requiredFields instanceof Array ? requiredFields : []
@@ -133,29 +142,28 @@ const Items = ({ name, description, obj, required, lang, target }) => {
                 <div dangerouslySetInnerHTML={{__html: description ? textFilter(description, target) : <i>{i18n[lang]["to.be.added.soon"]}</i>}}></div>
             </div> }
             <div style={{ margin: name ? '0 0 0 2rem' : '0' }}>
-                { Object.keys(obj.items).includes('anyOf') && <AnyOf name={`${name}[]`} description={obj.items.description}
+                { obj.items && Object.keys(obj.items).includes('anyOf') && <AnyOf name={`[]${name}`} description={obj.items.description}
                     arr={obj.items.anyOf} required={obj.items.required}
                     lang={lang}
                     target={target} /> }  
-                { Object.keys(obj.items).includes('oneOf') && <OneOf name={`${name}[]`} description={obj.items.description}
+                { obj.items && Object.keys(obj.items).includes('oneOf') && <OneOf name={`[]${name}`} description={obj.items.description}
                     arr={obj.items.oneOf} required={obj.items.required}
                     lang={lang}
                     target={target} /> }
-                { obj.items.type === 'object' && <Properties name={`${name}[]`} 
+                { obj.items?.type === 'object' && <Properties name={`[]${name}`} 
                     description= {obj.items.description}
                     properties={obj.items.properties} 
                     requiredFields={obj.items.required} 
                     required={required}
                     lang={lang}
                     target={target} /> }
-                { obj.items.type === 'array' && <Items name={`${name}[]`}
+                { obj.items?.type === 'array' && <Items name={`[]${name}`}
                     description= {obj.items.description}
                     obj={obj.items.items}
                     required={obj.items.items.required}
                     lang={lang}
                     target={target}  />}
-                { obj.items.type !== 'object' && obj.items.type !== 'array' 
-                && !Object.keys(obj.items).includes('anyOf') && !Object.keys(obj.items).includes('oneOf') && <Primitive name={`${name}[]`}
+                { primitiveConstants.includes(obj.items?.type) && obj.items?.type && <Primitive name={`[]${name}`}
                     obj={obj.items} 
                     required={obj.items.required}
                     lang={lang}
@@ -184,7 +192,7 @@ const Primitive = ({ name, obj, required, lang, target }) => {
                     { minimum &&<span className={styles.label}> obj.exclusiveMinimum ? &gt; {minimum} : &ge; {minimum}</span>}
                     { maximum &&<span className={styles.label}> obj.exclusiveMaximum ? &lt; {maximum} : &le; {maximum}</span>}
                 </div> }
-                { enums.length > 0 && <Enums enums={enums} defaultValue={defaultValue} /> }
+                { enums.length > 0 && <Enums enums={enums} defaultValue={defaultValue} lang={lang} target={target} /> }
                 { defaultValue && <div>
                     <span className={styles.paramExample}>{i18n[lang]['label.default.value']}</span>
                     <span className={styles.label}>{defaultValue}</span>
@@ -194,7 +202,7 @@ const Primitive = ({ name, obj, required, lang, target }) => {
     )
 }
 
-const Enums = ({ enums, defaultValue }) => {
+const Enums = ({ enums, defaultValue, lang, target }) => {
     const [ enumItem, setEnumItem ] = useState(defaultValue ? defaultValue : enums[0])
 
     const handleEnumChange = (e) => {
@@ -206,11 +214,13 @@ const Enums = ({ enums, defaultValue }) => {
             <label for="enumSelect" className={styles.paramExample}>{i18n[lang]['label.possible.values']}</label>
             <div>
                 <select id="enumSelect" value={enumItem} onChange={handleEnumChange}>
-                    {enums.map((enumValue, index) => {
-                        return (
-                            <option key={index} value={enumValue}>{enumValue}</option>
-                        )
-                    })}
+                    {enums.map((enumValue) => textFilter(enumValue, target))
+                        .filter(enumValue => enumValue !== '').map((enumValue, index) => {
+                            enumValue = enumValue.replace(/<\/?p>/g, "")
+                            return (
+                                <option key={index} value={enumValue}>{enumValue}</option>
+                            )
+                        })}
                 </select>
             </div>
         </div>
@@ -235,7 +245,8 @@ const Tab = ({ name, id, content, lang, target }) => {
             <label className={styles.tabLabel} htmlFor={`tab${id}`} onClick={handleClick}>{ content.label ? content.label : `${i18n[lang]["tab.option"]} ${id}` }</label>
             <div className={styles.tabPanel}>
                 { content?.type === 'object' && <Properties properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
-                { content?.type === 'code' && <CodeBlock className="language-json" children={JSON.stringify(content.value, null, 2)} /> }
+                { content?.type === 'code' && <CodeBlock className="language-json" children={JSON.stringify(content.value, null, 4)} /> }
+                { content?.type === 'reqs' && <CodeBlock className="language-bash" children={content.value} /> }
             </div>
         </>
     )
@@ -288,7 +299,17 @@ const OneOf = ({ name, description, arr, required, lang, target }) => {
 const ExampleResponses = ({ examples, lang, target }) => {
     return (
         <div className={styles.tabs} style={{ marginTop: '1rem' }}>
-            {Object.keys(examples).map((key) => {
+            {Object.keys(examples).filter(key => {
+                if (Object.keys(examples[key]).includes('x-include-target')) {
+                    return examples[key]["x-include-target"].includes(target)
+                }
+
+                if (Object.keys(examples[key]).includes('x-target-lang')) {
+                    return examples[key]["x-target-lang"] === lang
+                }
+
+                return true
+            }).map((key) => {
                 return (
                     <Tab key={key} 
                         name="resExamples" 
@@ -300,7 +321,52 @@ const ExampleResponses = ({ examples, lang, target }) => {
             })}
         </div>
     )
+}
 
+const ExampleRequests = ({ endpoint, method, headersExample, queryExample, requestBody, lang, target }) => {
+    const condition = (endpoint.includes('cloud') || endpoint.includes('cluster') || endpoint.includes('import') || endpoint.includes('pipeline')) || endpoint.includes('project') || endpoint.includes('metrics')
+    const token = condition ? 'YOUR_API_KEY' : "db_admin:xxxxxxxxxxxxx"
+    var req = `export TOKEN="${token}"\n\ncurl -X ${method.toUpperCase()} \${BASE_URL}${endpoint}`
+    req = queryExample ? `${req}?${queryExample}` : req
+    req = headersExample ? `${req}\n${headersExample}` : req
+
+    if (requestBody?.content['application/json']?.example) {
+        req = `${req}\n-d '${JSON.stringify(requestBody.content['application/json'].example, null, 4)}'`
+        return (
+            <CodeBlock className="language-bash" children={req} />
+        )
+    }
+
+    if (requestBody?.content['application/json']?.examples) {
+        const examples = requestBody.content['application/json'].examples
+        const validKeys = Object.keys(examples).filter(key => {
+            if (Object.keys(examples[key]).includes('x-include-target')) {
+                return examples[key]["x-include-target"].includes(target)
+            }
+
+            if (Object.keys(examples[key]).includes('x-target-lang')) {
+                return examples[key]["x-target-lang"] === lang
+            }
+
+            return true
+        })
+        return (
+            <div className={styles.tabs} style={{ marginTop: '1rem' }}>
+                {validKeys.length === 1 && <CodeBlock className="language-bash" children={`${req}\n-d '${JSON.stringify(examples[validKeys[0]].value, null, 4)}'`} /> }
+                {validKeys.length > 1 && validKeys.map((key) => {
+
+                    return (
+                        <Tab key={key} 
+                            name="reqExamples" 
+                            id={parseInt(key)} 
+                            content={{ type: 'reqs', label: examples[key].summary, value: `${req}\n-d '${JSON.stringify(examples[key].value, null, 4)}'` }}
+                            lang={lang}
+                            target={target} />
+                    )
+                })}
+            </div>
+        ) 
+    }
 }
 
 export default function RestSpecs(props) {
@@ -318,7 +384,7 @@ export default function RestSpecs(props) {
     const lang = props.lang ? props.lang : 'en-US'
     const endpoint = props.endpoint.replace('{', '${').replace('}', '}')
 
-    const short = description
+    const short = textFilter(description, target)
     const headerParams = parameters ? parameters.filter(param => param.in === 'header') : []
     const headersExample = headerParams.map(param => `-H "${param.name}": "${param.example}"`).join('\n').replace(/{{/g, '${').replace(/}}/g, '}')
     const pathParams = parameters ? parameters.filter(param => param.in === 'path') : []
@@ -332,20 +398,20 @@ export default function RestSpecs(props) {
     var req = `export TOKEN="${token}"\n\ncurl -X ${props.method.toUpperCase()} \${BASE_URL}${props.endpoint}`
     req = queryExample ? `${req}?${queryExample}` : req
     req = headersExample ? `${req}\n${headersExample}` : req
-    req = requestExample ? `${req}\n-d "${JSON.stringify(requestExample, null, 2)}"` : req
+    req = requestExample ? `${req}\n-d "${JSON.stringify(requestExample, null, 4)}"` : req
     return (
         <>
             <div>
-                <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '55% 45%' }}>
+                <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '60% 40%' }}>
                     <div>
-                        <p>{ short }</p>
+                        <div dangerouslySetInnerHTML={{__html: short}} />
                         <RestHeader 
                             method={props.method}
                             endpoint={props.endpoint}
                         />
                     </div>
                 </div>
-                <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '55% 45%' }}>
+                <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '60% 40%' }}>
                     <BaseURL endpoint={props.endpoint} lang={lang} target={target} />
                     { (parameters.length > 0 || requestBody) && <>
                         <section>
@@ -431,12 +497,13 @@ export default function RestSpecs(props) {
                             </section>}
                         </section>
                         <section className={styles.exampleContainer}>
-                            <CodeBlock className="language-bash" children={req} />
+                            {/* <CodeBlock className="language-bash" children={req} /> */}
+                            <ExampleRequests endpoint={endpoint} method={props.method} headersExample={headersExample} queryExample={queryExample} requestBody={requestBody} lang={lang} target={target} />
                         </section>
                     </>}
                 </div>
                 
-                { responses && <div  style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '55% 45%' }}>
+                { responses && <div  style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '60% 40%' }}>
                     <section>
                         <div className={styles.sectionHeader} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                             <span>{i18n[lang]['section.responses']}</span>

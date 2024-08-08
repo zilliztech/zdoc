@@ -33,7 +33,7 @@ export const getBaseUrl = (endpoint, lang, pubTarget) => {
 }
 
 export const textFilter =  (text, targets) => {
-    const matches = matchFilterTags(text)
+    const matches = text ? matchFilterTags(text) : []
 
     if (matches.length > 0) {
         var preText = text.slice(0, matches[0].startIndex)

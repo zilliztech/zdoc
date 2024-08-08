@@ -16,8 +16,7 @@ class refGen {
   }
 
   async write_refs() {
-    const { lang, parents, specifications } = this.options
-
+    const { lang, target, parents, specifications } = this.options
 
     const env = new nunjucks.Environment(
       new nunjucks.FileSystemLoader(`plugins/apifox-docs/templates`),
@@ -25,24 +24,27 @@ class refGen {
         autoescape: false,
       }
     )
-    env.addFilter('prepare_entries', this.prepare_entries)
-    env.addFilter('split_excerpt', this.split_excerpt)
-    env.addFilter('split_example', this.split_example)
 
     const template = env.getTemplate("reference.mdx")
     var idx = 0
     for (const page_url of Object.keys(specifications.paths)) {
       for (const method of Object.keys(specifications.paths[page_url])) {
+        const specification = specifications.paths[page_url][method]
+
+        if (specification?.["x-include-target"] && specification["x-include-target"].includes(target)) {
+          continue
+        }
+        
         const sidebar_position = idx; idx++;
 
-        const page_title = lang === "zh-CN" ? specifications.paths[page_url][method]["x-i18n"][lang].summary : specifications.paths[page_url][method].summary
-        const page_excerpt = this.__filter_content(lang === "zh-CN" ? specifications.paths[page_url][method]["x-i18n"][lang].description : specifications.paths[page_url][method].description, 'zilliz')
-        const page_parent = parents.filter(x => x === specifications.paths[page_url][method].tags[0])[0].split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
+        const page_title = lang === "zh-CN" ? specification["x-i18n"][lang].summary : specification.summary
+        const page_excerpt = this.__filter_content(lang === "zh-CN" ? specification["x-i18n"][lang].description : specification.description, target)
+        const page_parent = parents.filter(x => x === specification.tags[0])[0].split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
         const version = page_parent.includes('v2') ? 'v2' : 'v1'
         const upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('import') || page_parent.startsWith('pipeline') ? 'control-plane' : 'data-plane'
         const page_slug = (this.get_slug(page_title)) + (version === 'v2' ? '-v2' : '')
         const page_method = method.toLowerCase()
-        const specs = JSON.stringify(specifications.paths[page_url][method])
+        const specs = JSON.stringify(specification)
 
         const t = template.render({
           page_title,
