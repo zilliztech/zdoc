@@ -2,15 +2,11 @@ import React, { useState } from 'react';
 import RestHeader from '../RestHeader';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
+import { textFilter, getBaseUrl } from './utils'
 import styles from'./index.module.css';
 
-
-const BaseURL = ({ endpoint }) => {
-    const condition = (endpoint.includes('cloud') || endpoint.includes('cluster') || endpoint.includes('import') || endpoint.includes('pipeline')) || endpoint.includes('project') || endpoint.includes('metrics')
-    const server = condition && endpoint.includes('v1') ? 'https://controller.api.${CLOUD_REGION}.zillizcloud.com' : 
-        condition && endpoint.includes('v2') ? 'https://api.cloud.zilliz.com' : 'https://${CLUSTER_ID}.api.${CLOUD_REGION}.zillizcloud.com:19530'
-    const children = condition && endpoint.includes('v1') ? `export CLOUD_REGION="gcp-us-west1"\nexport BASE_URL="https://controller.api.\${CLOUD_REGION}.zillizcloud.com"` : 
-        condition && endpoint.includes('v2') ? 'export BASE_URL="https://api.cloud.zilliz.com"' : `export CLOUD_REGION="gcp-us-west1"\nexport CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"\nexport BASE_URL="https://\${CLUSTER_ID}.\${CLOUD_REGION}.zillizcloud.com:19530"`
+const BaseURL = ({ endpoint, lang, target }) => {
+    const { server, children, prompt } = getBaseUrl(endpoint, lang, target)
     return (<>
         <section>
             <section className={styles.sectionHeader}>
@@ -20,20 +16,9 @@ const BaseURL = ({ endpoint }) => {
                 <p>The base URL for this API is in the following format:</p>
                 <p className={styles.paramName}>{server}</p>
             </div>
-            { !(condition && endpoint.includes('v2')) && <Admonition type="info" icon="📘" title="Notes">
-                { condition && endpoint.includes('v1') && <>
-                    <p>You need to replace <code>{`\${CLOUD_REGION}`}</code> with the appropriate region for your deployment.</p>
-                    <p>To get the cloud region ID, refer to <a href="/docs/on-zilliz-cloud-console">On Zilliz Cloud Console</a> or <a href="/reference/restful/list-cloud-regions">List Cloud Regions</a>.</p>
-                </>}
-                { !condition && <>
-                    <p>You need to replace <code>{`\${CLOUD_REGION}`}</code> and <code>{`\${CLUSTER_ID}`}</code> with the appropriate values.</p>
-                    <p>You can get these values in either of the following ways: </p>
-                    <ul>
-                        <li>Refer to the instructions on page <a href="/docs/on-zilliz-cloud-console">On Zilliz Cloud Console</a>, or</li>
-                        <li>Refer to the <a href="/reference/restful/list-cloud-regions">List Cloud Regions</a> and <a href="/reference/restful/list-clusters">List Clusters</a> APIs, and extract the values from the responses.</li>
-                    </ul>
-                </>}
-            </Admonition> }
+            { prompt && <Admonition type="info" icon="📘" title="Notes">
+                {prompt}
+            </Admonition>}
         </section>
         <section className={styles.exampleContainer}>
             <CodeBlock className="language-shell" children={children} />
@@ -41,16 +26,16 @@ const BaseURL = ({ endpoint }) => {
     </>)
 }
 
-const Param = ({ name, description, type, required, example, inProp }) => {
+const Param = ({ name, description, type, format, required, example, inProp, target }) => {
     return (
         <div className={styles.paramContainer}>
             <div class={styles.paramLabels}>
                 <span className={styles.paramName}>{name}</span>
-                <span className={styles.label}>{type}</span>
+                <span className={styles.label}>{type + (format ? "\<" + format + "\>" : "")}</span>
                 <span className={styles.label}>{inProp}</span>
                 { required && <span className={styles.required}>required</span> }
             </div>
-            <div>{description}</div>
+            <div>{textFilter(description, target)}</div>
             <div>
                 { example && <div>
                     <span className={styles.paramExample}>Example Value: </span>
@@ -284,11 +269,14 @@ export default function RestSpecs(props) {
         requestBody, 
         responses,
         description, 
-        deprecated 
+        deprecated,
     } = props.specs;
+
+    const target = props.target
+    const lang = props.lang ? props.lang : 'en-US'
     const endpoint = props.endpoint.replace('{', '${').replace('}', '}')
 
-    const short = description.split('## Example')[0]
+    const short = description
     const headerParams = parameters ? parameters.filter(param => param.in === 'header') : []
     const headersExample = headerParams.map(param => `-H "${param.name}": "${param.example}"`).join('\n').replace(/{{/g, '${').replace(/}}/g, '}')
     const pathParams = parameters ? parameters.filter(param => param.in === 'path') : []
@@ -317,7 +305,7 @@ export default function RestSpecs(props) {
                     </div>
                 </div>
                 <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '60% 40%' }}>
-                    <BaseURL endpoint={props.endpoint} />
+                    <BaseURL endpoint={props.endpoint} lang={lang} target={target} />
                     { (parameters.length > 0 || requestBody) && <>
                         <section>
                             { parameters.length > 0 && <section>
@@ -328,8 +316,9 @@ export default function RestSpecs(props) {
                                     return (
                                         <Param 
                                             key={index} 
+                                            target={target} 
                                             name={param.name} 
-                                            description={param.description} 
+                                            description={ param.i18n?.[lang]?.description ? param.i18n[lang].description : param.description } 
                                             type={param.schema.type} 
                                             required={param.required} 
                                             example={param.example}
@@ -340,8 +329,9 @@ export default function RestSpecs(props) {
                                     return (
                                         <Param 
                                             key={index} 
+                                            target={target} 
                                             name={param.name} 
-                                            description={param.description} 
+                                            description={ param.i18n?.[lang]?.description ? param.i18n[lang].description : param.description } 
                                             type={param.schema.type}
                                             required={param.required} 
                                             example={param.example}
@@ -352,8 +342,9 @@ export default function RestSpecs(props) {
                                     return (
                                         <Param 
                                             key={index} 
+                                            target={target} 
                                             name={param.name} 
-                                            description={param.description} 
+                                            description={ param.i18n?.[lang]?.description ? param.i18n[lang].description : param.description } 
                                             type={param.schema.type}
                                             required={param.required} 
                                             example={param.example}
