@@ -509,15 +509,15 @@
   },
   "O5W3wHvmbiVSoLkzKgHcvB9XnUb": {
     "slug": "setup-a-private-link",
-    "title": "Set up a Private Link"
+    "title": "Set up a Private Endpoint"
   },
   "GBY6wbUmwi9lLjkXSuKccODgnne": {
     "slug": "setup-a-private-link-aws",
-    "title": "Set up a Private Link (AWS)"
+    "title": "Set up a PrivateLink (AWS)"
   },
   "IojuwADAwiRK0hkl4pgcvC2QnQd": {
     "slug": "setup-a-private-link-gcp",
-    "title": "Set up a Private Link (GCP)"
+    "title": "Set up a Private Service Connect (GCP)"
   },
   "W2fZwrrhVibvpGkd0MbcQGJQnib": {
     "slug": "setup-a-private-link-azure",
