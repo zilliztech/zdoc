@@ -54,6 +54,11 @@
     flex-wrap: wrap;
 }
 
+.tabs > div {
+    min-width: 100%;
+    max-width: 100%;
+}
+
 .tabLabel {
     display: flex;
     align-items: center;
@@ -96,7 +101,7 @@ input[type=radio]:checked + .tabLabel + .tabPanel {
 
 .exampleContainer {
     margin-top: 4.5rem;
-    font-size: 0.85rem;   
+    font-size: 0.85rem;
 }
 
 .description {

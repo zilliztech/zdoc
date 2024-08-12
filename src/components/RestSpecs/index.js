@@ -495,7 +495,7 @@ export default function RestSpecs(props) {
     return (
         <>
             <div>
-                <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '55% 45%' }}>
+                <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '60% 40%' }}>
                     <div>
                         <div dangerouslySetInnerHTML={{__html: short}} />
                         <RestHeader 
@@ -504,7 +504,7 @@ export default function RestSpecs(props) {
                         />
                     </div>
                 </div>
-                <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '55% 45%' }}>
+                <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '60% 40%' }}>
                     <BaseURL endpoint={props.endpoint} lang={lang} target={target} />
                     { (parameters.length > 0 || requestBody) && <>
                         <section>
@@ -609,7 +609,7 @@ export default function RestSpecs(props) {
                     </>}
                 </div>
                 
-                { responses && <div  style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '55% 45%' }}>
+                { responses && <div  style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '60% 40%' }}>
                     <section>
                         <div className={styles.sectionHeader} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                             <span>{i18n[lang]['section.responses']}</span>
