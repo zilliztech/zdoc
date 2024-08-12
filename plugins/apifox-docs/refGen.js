@@ -31,7 +31,7 @@ class refGen {
       for (const method of Object.keys(specifications.paths[page_url])) {
         const specification = specifications.paths[page_url][method]
 
-        if (specification?.["x-include-target"] && specification["x-include-target"].includes(target)) {
+        if (specification?.["x-include-target"] && !specification["x-include-target"].includes(target)) {
           continue
         }
         

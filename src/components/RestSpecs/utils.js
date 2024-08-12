@@ -3,8 +3,8 @@ import { i18n } from './i18n'
 import Showdown from 'showdown';
 
 export const getBaseUrl = (endpoint, lang, pubTarget) => {
-    const condition = (endpoint.includes('cloud') || endpoint.includes('cluster') || endpoint.includes('import') || endpoint.includes('pipeline')) || endpoint.includes('project') || endpoint.includes('metrics');
-    
+    const condition = (endpoint.includes('cloud') || endpoint.includes('region') || endpoint.includes('cluster') || endpoint.includes('import') || endpoint.includes('pipeline')) || endpoint.includes('project') || endpoint.includes('metrics');
+
     var server = "https://api.cloud.zilliz.com";
     var children = `export BASE_URL="${server}"`
     var prompt = ''
@@ -108,4 +108,16 @@ export const getRandomString = (length) => {
        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
+}
+
+export const chooseParamExample = (param, lang, target) => {
+    if (param.examples) {
+        const validkey = Object.keys(param.examples).filter(key => {
+            return param.examples[key]?.["x-target-lang"] === lang || param.examples[key]?.["x-include-target"]?.includes(target)
+        })[0]
+
+        param.example = param.examples[validkey].value
+    }
+
+    return param
 }

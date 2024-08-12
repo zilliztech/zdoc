@@ -4369,6 +4369,24 @@
 										]
 									}
 								}
+							},
+							"examples": {
+								"1": {
+									"summary": "milvus",
+									"x-include-target": [
+										"milvus"
+									],
+									"value": {
+										"dbName": "_default"
+									}
+								},
+								"2": {
+									"summary": "zilliz",
+									"x-include-target": [
+										"zilliz"
+									],
+									"value": {}
+								}
 							}
 						}
 					}
@@ -4510,6 +4528,7 @@
 						"examples": {
 							"1": {
 								"summary": "Global",
+								"x-target-lang": "en-US",
 								"value": "gcp"
 							},
 							"2": {
@@ -4722,7 +4741,7 @@
 						}
 					},
 					{
-						"name": "CLUSTER_ID",
+						"name": "clusterId",
 						"in": "query",
 						"description": "The ID of a cluster to which this operation applies.",
 						"required": true,
@@ -9783,6 +9802,19 @@
 								"x-i18n-langs": [
 									"zh-CN"
 								]
+							},
+							"example": {
+								"collectionName": "custom_setup_not_indexed",
+								"indexParams": [
+									{
+										"metricType": "L2",
+										"fieldName": "my_vector",
+										"indexName": "my_vector",
+										"indexConfig": {
+											"index_type": "AUTOINDEX"
+										}
+									}
+								]
 							}
 						}
 					}
@@ -9906,11 +9938,11 @@
 				],
 				"parameters": [
 					{
-						"name": "CLUSTER_ID",
+						"name": "clusterId",
 						"in": "query",
 						"description": "The ID of a specific cluster on Zilliz Cloud.",
 						"required": true,
-						"example": "",
+						"example": "inxx-xxxxxxxxxxxxxxx",
 						"schema": {
 							"type": "string"
 						},
@@ -9925,7 +9957,7 @@
 						"in": "query",
 						"description": "The number of records to return at each request.",
 						"required": false,
-						"example": "",
+						"example": "10",
 						"schema": {
 							"type": "string"
 						},
@@ -9940,7 +9972,7 @@
 						"in": "query",
 						"description": "The current page number.",
 						"required": false,
-						"example": "",
+						"example": "1",
 						"schema": {
 							"type": "string"
 						},
@@ -10195,21 +10227,6 @@
 							"zh-CN": {
 								"description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
-						}
-					},
-					{
-						"name": "Content-Type",
-						"in": "header",
-						"description": "Use `application/json`.",
-						"x-i18n": {
-							"zh-CN": {
-								"description": "使用 `application/json`。"
-							}
-						},
-						"required": false,
-						"example": "application/json",
-						"schema": {
-							"type": "string"
 						}
 					}
 				],
@@ -11320,6 +11337,9 @@
 								"required": [
 									"collectionName"
 								]
+							},
+							"example": {
+								"collectionName": "quick_setup"
 							}
 						}
 					}
@@ -12078,6 +12098,10 @@
 									"indexName",
 									"collectionName"
 								]
+							},
+							"example": {
+								"indexName": "vector",
+								"collectionName": "quick_setup"
 							}
 						}
 					}
@@ -14658,6 +14682,7 @@
 							"examples": {
 								"1": {
 									"summary": "Quick setup",
+									"x-target-request": "OPTION 1",
 									"value": {
 										"collectionName": "test_collection",
 										"dimension": 5
@@ -14665,6 +14690,7 @@
 								},
 								"2": {
 									"summary": "Quick setup with custom fields",
+									"x-target-request": "OPTION 1",
 									"value": {
 										"collectionName": "custom_quick_setup",
 										"dimension": 5,
@@ -14680,6 +14706,7 @@
 								},
 								"3": {
 									"summary": "Custom setup",
+									"x-target-request": "OPTION 2",
 									"value": {
 										"collectionName": "custom_setup",
 										"schema": {
@@ -14704,6 +14731,7 @@
 								},
 								"4": {
 									"summary": "Custom setup with index",
+									"x-target-request": "OPTION 2",
 									"x-include-target": [
 										"zilliz"
 									],
@@ -14748,6 +14776,7 @@
 								},
 								"5": {
 									"summary": "Custom setup with index",
+									"x-target-request": "OPTION 2",
 									"x-include-target": [
 										"milvus"
 									],
@@ -15379,11 +15408,11 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-include-target": [
+											"milvus"
+										],
 										"value": {
 											"code": 0,
-											"x-include-target": [
-												"milvus"
-											],
 											"data": [
 												{
 													"dbName": "*",
@@ -15411,11 +15440,11 @@
 									},
 									"2": {
 										"summary": "success",
+										"x-include-target": [
+											"zilliz"
+										],
 										"value": {
 											"code": 0,
-											"x-include-target": [
-												"milvus"
-											],
 											"data": [
 												{
 													"dbName": "*",
@@ -15828,6 +15857,10 @@
 									"indexName",
 									"collectionName"
 								]
+							},
+							"example": {
+								"indexName": "my_vector",
+								"collectionName": "custom_setup_not_indexed"
 							}
 						}
 					}
@@ -18541,6 +18574,10 @@
 									"partitionName",
 									"collectionName"
 								]
+							},
+							"example": {
+								"partitionName": "january",
+								"collectionName": "quick_setup"
 							}
 						}
 					}
@@ -20302,7 +20339,7 @@
 									"2": {
 										"summary": "success",
 										"x-include-target": [
-											"milvus"
+											"zilliz"
 										],
 										"value": {
 											"code": 200,
@@ -20967,21 +21004,6 @@
 						"schema": {
 							"type": "string"
 						}
-					},
-					{
-						"name": "Content-Type",
-						"in": "header",
-						"description": "Use `application/json`.",
-						"x-i18n": {
-							"zh-CN": {
-								"description": "使用 `application/json`。"
-							}
-						},
-						"required": false,
-						"example": "application/json",
-						"schema": {
-							"type": "string"
-						}
 					}
 				],
 				"requestBody": {
@@ -21064,13 +21086,31 @@
 									"cuType"
 								]
 							},
-							"example": {
-								"clusterName": "Cluster-05",
-								"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-								"regionId": "${REGION_ID}",
-								"plan": "Standard",
-								"cuType": "Performance-optimized",
-								"cuSize": 1
+							"examples": {
+								"1": {
+									"summary": "example",
+									"x-target-lang": "zh-CN",
+									"value": {
+										"clusterName": "Cluster-05",
+										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+										"regionId": "ali-cn-hangzhou",
+										"plan": "Standard",
+										"cuType": "Performance-optimized",
+										"cuSize": 1
+									}
+								},
+								"2": {
+									"summary": "example",
+									"x-target-lang": "en-US",
+									"value": {
+										"clusterName": "Cluster-05",
+										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+										"regionId": "aws-us-west-2",
+										"plan": "Standard",
+										"cuType": "Performance-optimized",
+										"cuSize": 1
+									}
+								}
 							}
 						}
 					}
@@ -22248,6 +22288,9 @@
 								"x-i18n-langs": [
 									"zh-CN"
 								]
+							},
+							"example": {
+								"userName": "my_user"
 							}
 						}
 					}
@@ -23711,7 +23754,9 @@
 									"zh-CN"
 								]
 							},
-							"example": ""
+							"example": {
+								"collectionName": "my_collection"
+							}
 						}
 					}
 				},
@@ -24056,21 +24101,6 @@
 						"schema": {
 							"type": "string"
 						}
-					},
-					{
-						"name": "Content-Type",
-						"in": "header",
-						"description": "Use `application/json`.",
-						"x-i18n": {
-							"zh-CN": {
-								"description": "使用 `application/json`。"
-							}
-						},
-						"required": false,
-						"example": "application/json",
-						"schema": {
-							"type": "string"
-						}
 					}
 				],
 				"requestBody": {
@@ -24114,10 +24144,25 @@
 									"regionId"
 								]
 							},
-							"example": {
-								"clusterName": "Serverless-05",
-								"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-								"regionId": "${REGION_ID}"
+							"examples": {
+								"1": {
+									"summary": "global",
+									"x-target-lang": "en-US",
+									"value": {
+										"clusterName": "Serverless-05",
+										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+										"regionId": "aws-us-west-2"
+									}
+								},
+								"2": {
+									"summary": "china",
+									"x-target-lang": "zh-CN",
+									"value": {
+										"clusterName": "Serverless-05",
+										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+										"regionId": "ali-cn-hangzhou"
+									}
+								}
 							}
 						}
 					}
@@ -24590,7 +24635,14 @@
 									"filter"
 								]
 							},
-							"example": ""
+							"example": {
+								"collectionName": "quick_setup",
+								"filter": "color like \"red_%\"",
+								"outputFields": [
+									"color"
+								],
+								"limit": 3
+							}
 						}
 					}
 				},
@@ -25345,6 +25397,10 @@
 									"partitionName",
 									"collectionName"
 								]
+							},
+							"example": {
+								"partitionName": "january",
+								"collectionName": "quick_setup"
 							}
 						}
 					}
@@ -25919,21 +25975,6 @@
 						"schema": {
 							"type": "string"
 						}
-					},
-					{
-						"name": "Content-Type",
-						"in": "header",
-						"description": "Use `application/json`.",
-						"x-i18n": {
-							"zh-CN": {
-								"description": "使用 `application/json`。"
-							}
-						},
-						"required": false,
-						"example": "application/json",
-						"schema": {
-							"type": "string"
-						}
 					}
 				],
 				"requestBody": {
@@ -25976,6 +26017,26 @@
 									"projectId",
 									"regionId"
 								]
+							},
+							"examples": {
+								"1": {
+									"summary": "global",
+									"x-target-lang": "en-US",
+									"value": {
+										"clusterName": "Free-01",
+										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+										"regionId": "aws-us-west-2"
+									}
+								},
+								"2": {
+									"summary": "china",
+									"x-target-lang": "zh-CN",
+									"value": {
+										"clusterName": "Free-01",
+										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+										"regionId": "ali-cn-hangzhou"
+									}
+								}
 							}
 						}
 					}
@@ -26777,6 +26838,10 @@
 								"x-i18n-langs": [
 									"zh-CN"
 								]
+							},
+							"example": {
+								"roleName": "admin",
+								"userName": "milvusAdmin"
 							}
 						}
 					}
@@ -27519,7 +27584,7 @@
 								},
 								"examples": {
 									"1": {
-										"summary": "成功示例",
+										"summary": "success",
 										"value": {
 											"code": 200,
 											"data": [
@@ -27533,7 +27598,7 @@
 										}
 									},
 									"2": {
-										"summary": "异常示例",
+										"summary": "failure",
 										"value": {
 											"code": 80002,
 											"message": "Token not found or unauthorized: The provided token does not exist in our records, or you do not have the necessary permissions to use this token. Please ensure you have the correct token."
@@ -27623,62 +27688,7 @@
 										}
 									},
 									"id": {
-										"oneOf": [
-											{
-												"type": "string",
-												"description": "The ID of the entity to be retrieved",
-												"x-i18n": {
-													"zh-CN": {
-														"description": "需要获取的 Entity ID。"
-													}
-												}
-											},
-											{
-												"type": "array",
-												"items": {
-													"type": "string",
-													"description": "An ID represents an entity.",
-													"x-i18n": {
-														"zh-CN": {
-															"description": "Entity ID。"
-														}
-													}
-												},
-												"description": "An array of IDs of the entities to be retrieved",
-												"x-i18n": {
-													"zh-CN": {
-														"description": "需要获取的 Entity ID 列表。"
-													}
-												}
-											},
-											{
-												"type": "integer",
-												"description": "The ID of entity to be retrieved",
-												"x-i18n": {
-													"zh-CN": {
-														"description": "需要获取的 Entity ID。"
-													}
-												}
-											},
-											{
-												"type": "array",
-												"items": {
-													"type": "integer",
-													"description": "An ID represents an entity.",
-													"x-i18n": {
-														"zh-CN": {
-															"description": "Entity ID。"
-														}
-													}
-												},
-												"description": "An array of IDs of the entities to be retrieved",
-												"x-i18n": {
-													"zh-CN": {
-														"description": "需要获取的 Entity ID 列表。"
-													}
-												}
-											}
-										],
+										"type": "string | integer | string[] | integer[]",
 										"description": "A specific entity ID or a list of entity IDs.",
 										"x-i18n": {
 											"zh-CN": {
@@ -28902,11 +28912,17 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										}
+										},
+										"x-include-target": [
+											"milvus"
+										]
 									},
 									"newDbName": {
 										"type": "string",
-										"description": "The name of the database to which the collection belongs after this operation.\nThe value defaults to **default**. Setting this to a database rather than the one the collection belongs to before this operation moves this collection to the specified database.\nSetting this to a non-existing database results in an error."
+										"description": "The name of the database to which the collection belongs after this operation.\nThe value defaults to **default**. Setting this to a database rather than the one the collection belongs to before this operation moves this collection to the specified database.\nSetting this to a non-existing database results in an error.",
+										"x-include-target": [
+											"milvus"
+										]
 									},
 									"newCollectionName": {
 										"type": "string",
@@ -28917,6 +28933,10 @@
 									"newCollectionName",
 									"collectionName"
 								]
+							},
+							"example": {
+								"collectionName": "test_collection",
+								"newCollectionName": "quick_setup"
 							}
 						}
 					}
@@ -29252,7 +29272,10 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										}
+										},
+										"x-include-target": [
+											"milvus"
+										]
 									},
 									"collectionName": {
 										"type": "string",
@@ -29266,10 +29289,10 @@
 								},
 								"required": [
 									"collectionName"
-								],
-								"x-i18n-langs": [
-									"zh-CN"
 								]
+							},
+							"example": {
+								"collectionName": "quick_setup"
 							}
 						}
 					}
@@ -29422,16 +29445,6 @@
 						"schema": {
 							"type": "string"
 						}
-					},
-					{
-						"name": "Content-Type",
-						"in": "header",
-						"description": "Use `application/json`.",
-						"required": false,
-						"example": "application/json",
-						"schema": {
-							"type": "string"
-						}
 					}
 				],
 				"requestBody": {
@@ -29451,6 +29464,9 @@
 								"required": [
 									"cuSize"
 								]
+							},
+							"example": {
+								"cuSize": 2
 							}
 						}
 					}
@@ -29600,7 +29616,10 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										}
+										},
+										"x-include-target": [
+											"milvus"
+										]
 									},
 									"collectionName": {
 										"type": "string",
@@ -29615,6 +29634,9 @@
 								"required": [
 									"collectionName"
 								]
+							},
+							"example": {
+								"collectionName": "quick_setup"
 							}
 						}
 					}

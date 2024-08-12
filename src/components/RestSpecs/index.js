@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import RestHeader from '../RestHeader';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
-import { textFilter, getBaseUrl, getRandomString } from './utils'
+import { textFilter, getBaseUrl, getRandomString, chooseParamExample } from './utils'
 import { i18n } from './i18n'
 import styles from'./index.module.css';
-import { set } from 'lodash';
+import { cond, set } from 'lodash';
 
 const primitiveConstants = ["boolean", "integer", "number", "string"]
 
@@ -174,6 +174,7 @@ const Items = ({ name, description, obj, required, lang, target }) => {
 }
 
 const Primitive = ({ name, obj, required, lang, target }) => {
+    console.log(obj)
     const { type, format, minimum, maximum, defaultValue} = obj;
     const description = obj["x-i18n"]?.[lang]?.description ? obj["x-i18n"][lang].description : obj.description
     const enums = obj.enum ? obj.enum : []
@@ -243,6 +244,7 @@ const Tab = ({ name, id, content, lang, target, selected, setSelected }) => {
             <div className={styles.tabPanel}>
                 { content?.type === 'object' && <Properties description={content.description} properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
                 { content?.type === 'array' && <Items description={content.description} obj={content.items} required={content.items.required} lang={lang} target={target} /> }
+                { content?.type === 'string' || content?.type === 'number' || content?.type === 'integer' || content?.type === 'boolean' && <Primitive obj={content} lang={lang} target={target} /> }
                 { content?.type === 'code' && <CodeBlock className="language-json" children={JSON.stringify(content.value, null, 4)} /> }
                 { content?.type === 'reqs' && <CodeBlock className="language-bash" children={content.value} /> }
             </div>
@@ -336,25 +338,29 @@ const ExampleResponses = ({ examples, lang, target, selectedResponse }) => {
     const r = getRandomString(5)
 
     const validKeys = Object.keys(examples).filter(key => {
+        var condition = true
+
         if (Object.keys(examples[key]).includes('x-include-target')) {
-            return examples[key]["x-include-target"].includes(target)
+            condition = condition && examples[key]["x-include-target"].includes(target)
         }
 
         if (Object.keys(examples[key]).includes('x-target-lang')) {
-            return examples[key]["x-target-lang"] === lang
+            condition = condition && examples[key]["x-target-lang"] === lang
         }
 
         if (Object.keys(examples[key]).includes('x-target-response')) {
-            return examples[key]["x-target-response"] === selectedResponse
+            condition = condition && examples[key]["x-target-response"] === selectedResponse
         }
 
-        return true
+        return condition
     })
 
     const defaultValue = (examples[validKeys[0]].summary).toUpperCase()
+    const availableLabels = validKeys.map(key => examples[key].summary.toUpperCase())
     const [ selected, setSelected ] = useState(defaultValue)
-    if (defaultValue !== selected) {
-        setSelected(defaultValue)
+
+    if (!availableLabels.includes(selected)) {
+        setSelected(availableLabels[0])
     }
 
     return (
@@ -375,15 +381,15 @@ const ExampleResponses = ({ examples, lang, target, selectedResponse }) => {
     )
 }
 
-const ExampleRequests = ({ endpoint, method, headersExample, queryExample, requestBody, lang, target, selectedRequest }) => {
-    const condition = (endpoint.includes('cloud') || endpoint.includes('cluster') || endpoint.includes('import') || endpoint.includes('pipeline')) || endpoint.includes('project') || endpoint.includes('metrics')
+const ExampleRequests = ({ endpoint, method, headersExample, pathExample, queryExample, requestBody, lang, target, selectedRequest }) => {
+    const condition = (endpoint.includes('cloud') || endpoint.includes('region') || endpoint.includes('cluster') || endpoint.includes('import') || endpoint.includes('pipeline')) || endpoint.includes('project') || endpoint.includes('metrics')
     const token = condition ? 'YOUR_API_KEY' : "db_admin:xxxxxxxxxxxxx"
-    var req = `export TOKEN="${token}"\n\ncurl -X ${method.toUpperCase()} \${BASE_URL}${endpoint}`
-    req = queryExample ? `${req}?${queryExample}` : req
-    req = headersExample ? `${req}\n${headersExample}` : req
+    var req = `export TOKEN="${token}"${pathExample ? "\n"+pathExample : ''}\n\ncurl --request ${method.toUpperCase()} \\\n--url "\${BASE_URL}${endpoint}`
+    req = (queryExample ? `${req}?${queryExample}` : req) + `"`
+    req = headersExample ? `${req} \\\n${headersExample + ` \\\n--header "Content-Type: application/json"`}` : req
 
     if (requestBody?.content['application/json']?.example) {
-        req = `${req}\n-d '${JSON.stringify(requestBody.content['application/json'].example, null, 4)}'`
+        req = `${req} \\\n-d '${JSON.stringify(requestBody.content['application/json'].example, null, 4)}'`
         return (
             <CodeBlock className="language-bash" children={req} />
         )
@@ -399,25 +405,29 @@ const ExampleRequests = ({ endpoint, method, headersExample, queryExample, reque
         const r = getRandomString(5)
         const examples = requestBody.content['application/json'].examples
         const validKeys = Object.keys(examples).filter(key => {
+            var condition = true
+
             if (Object.keys(examples[key]).includes('x-include-target')) {
-                return examples[key]["x-include-target"].includes(target)
+                condition = examples[key]["x-include-target"].includes(target)
             }
 
             if (Object.keys(examples[key]).includes('x-target-lang')) {
-                return examples[key]["x-target-lang"] === lang
+                condition = condition && examples[key]["x-target-lang"] === lang
             }
 
             if (Object.keys(examples[key]).includes('x-target-request')) {
-                return examples[key]["x-target-request"] === selectedRequest
+                condition = condition && examples[key]["x-target-request"] === selectedRequest
             }
 
-            return true
+            return condition
         })
 
         const defaultValue = (examples[validKeys[0]].summary).toUpperCase()
+        const availableLabels = validKeys.map(key => examples[key].summary.toUpperCase())
         const [ selected, setSelected ] = useState(defaultValue)
-        if (defaultValue !== selected) {
-            setSelected(defaultValue)
+
+        if (!availableLabels.includes(selected)) {
+            setSelected(availableLabels[0])
         }
 
         return (
@@ -457,19 +467,18 @@ export default function RestSpecs(props) {
 
     const short = textFilter(description, target)
     const headerParams = parameters ? parameters.filter(param => param.in === 'header') : []
-    const headersExample = headerParams.map(param => `-H "${param.name}": "${param.example}"`).join('\n').replace(/{{/g, '${').replace(/}}/g, '}')
+    const headersExample = headerParams.map(param => `--header "${param.name}: ${param.example}"`).join(' \\\n').replace(/{{/g, '${').replace(/}}/g, '}')
     const pathParams = parameters ? parameters.filter(param => param.in === 'path') : []
+    const pathExample = pathParams.map(param => {
+        param = chooseParamExample(param, lang, target)
+        return `export ${param.name}="${param.example}"`
+    }).join('\n')
     const queryParams = parameters ? parameters.filter(param => param.in === 'query') : []
-    const queryExample = queryParams.map(param => `${param.name}=${param.example}`).join('&')
-    const requestExample = requestBody?.content['application/json']?.example
+    const queryExample = queryParams.map(param => {
+        param = chooseParamExample(param, lang, target)
+        return `${param.name}=${param.example}`
+    }).join('&')
     const responseExample = responses?.['200']?.content['application/json']?.examples
-    
-    const condition = (endpoint.includes('cloud') || endpoint.includes('cluster') || endpoint.includes('import') || endpoint.includes('pipeline')) || endpoint.includes('project') || endpoint.includes('metrics')
-    const token = condition ? 'YOUR_API_KEY' : "db_admin:xxxxxxxxxxxxx"
-    var req = `export TOKEN="${token}"\n\ncurl -X ${props.method.toUpperCase()} \${BASE_URL}${props.endpoint}`
-    req = queryExample ? `${req}?${queryExample}` : req
-    req = headersExample ? `${req}\n${headersExample}` : req
-    req = requestExample ? `${req}\n-d "${JSON.stringify(requestExample, null, 4)}"` : req
 
     const [ selectedRequest, setSelectedRequest ] = useState("OPTION 1")
     const [ selectedResponse, setSelectedResponse ] = useState("OPTION 1")
@@ -503,6 +512,7 @@ export default function RestSpecs(props) {
                                     <span>{i18n[lang]['section.parameters']}</span>
                                 </div>
                                 { headerParams.length > 0 && headerParams.map((param, index) => {
+                                    param = chooseParamExample(param, lang, target)
                                     return (
                                         <Param 
                                             key={index} 
@@ -517,6 +527,7 @@ export default function RestSpecs(props) {
                                     )
                                 })}
                                 { pathParams.length > 0 && pathParams.map((param, index) => {
+                                    param = chooseParamExample(param, lang, target)
                                     return (
                                         <Param 
                                             key={index} 
@@ -531,6 +542,7 @@ export default function RestSpecs(props) {
                                     )
                                 })}
                                 { queryParams.length > 0 && queryParams.map((param, index) => {
+                                    param = chooseParamExample(param, lang, target)
                                     return (
                                         <Param 
                                             key={index} 
@@ -557,7 +569,7 @@ export default function RestSpecs(props) {
                                         requiredFields={requestBody.content['application/json'].schema.required} 
                                         target={target}
                                         lang={lang} /> }
-                                    { requestBody.content['application/json']?.schema?.type === 'array' && <Items name="requestBody[]"
+                                    { requestBody.content['application/json']?.schema?.type === 'array' && <Items name="[]requestBody"
                                         description= {requestBody.content['application/json'].schema.description}
                                         obj={requestBody.content['application/json'].schema.items}
                                         required={requestBody.content['application/json'].schema.items.required}
@@ -586,6 +598,7 @@ export default function RestSpecs(props) {
                             <ExampleRequests endpoint={endpoint}
                                 method={props.method} 
                                 headersExample={headersExample} 
+                                pathExample={pathExample}
                                 queryExample={queryExample} 
                                 requestBody={requestBody} 
                                 lang={lang} 
