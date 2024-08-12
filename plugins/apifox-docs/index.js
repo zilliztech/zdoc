@@ -12,8 +12,10 @@ module.exports = function (context, options) {
                 .option('-l, --lang <lang>', 'Language of the API Reference', 'en-US')
                 .option('-o, --output_path <target_path>', 'Target path of the API Reference', 'reference/api/restful/restful')
                 .option('-i, --strings <strings>', 'Localization strings for Chinese docs')
+                .option('-t, --target <string>', 'Publication target of the API Reference', 'zilliz')
                 .action((opts) => {
                     let lang = opts.lang
+                    let target = opts.target
                     let target_path = opts.output_path
                     let specifications;
                     let strings;
@@ -39,6 +41,7 @@ module.exports = function (context, options) {
                     const refGen = new RefGen({
                         specifications,
                         lang,
+                        target,
                         target_path,
                         strings,
                     })

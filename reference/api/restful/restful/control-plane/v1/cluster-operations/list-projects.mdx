@@ -1,0 +1,20 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_positition: 78
+slug: /restful/list-projects
+title: "List Projects | restful"
+description: "Lists existing projects. | restful"
+hide_table_of_contents: true
+sidebar_label: "List Projects"
+sidebar_custom_props: { badges: ['get']}
+---
+
+# List Projects
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" />
+
+export const specs = {"summary":"List Projects","deprecated":false,"description":"Lists existing projects.","x-i18n":{"zh-CN":{"summary":"查看项目","description":"本接口用于查看当前用户所属的所有项目。"}},"tags":["Cluster Operations"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.","x-i18n":{"zh-CN":{"description":"认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"}},"required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"}}],"responses":{"200":{"description":"Returns a list of projects.","x-i18n":{"zh-CN":{"description":"返回项目详情列表。"}},"content":{"application/json":{"schema":{"oneOf":[{"type":"object","additionalProperties":false,"properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"array","items":{"type":"object","properties":{"createTimeMilli":{"type":"string","description":"A numeric value representing the creation time of the project in milliseconds since the Unix epoch.","x-i18n":{"zh-CN":{"description":"一个数字值，代表项目创建的时间，单位为毫秒，起始时间为 1970 年 1 月 1 日 00:00:00 UTC。"}}},"instanceCount":{"type":"integer","description":"The number of clusters created in the project.","x-i18n":{"zh-CN":{"description":"项目中已创建的集群数量。"}}},"projectId":{"type":"string","description":"The ID of the project.","x-i18n":{"zh-CN":{"description":"项目的 ID。"}}},"projectName":{"type":"string","description":"The name of the project.","x-i18n":{"zh-CN":{"description":"项目的名称。"}}}},"description":"A project.","x-i18n":{"zh-CN":{"description":"项目的相关信息。"}}},"description":"Response payload, which is a list of projects.","x-i18n":{"zh-CN":{"description":"响应返回项目列表。"}}}},"description":"Returns a list of projects."},{"type":"object","additionalProperties":false,"properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}}}},"description":"Returns an error message."}]},"examples":{"1":{"summary":"成功示例","value":{"code":200,"data":[{"createTimeMilli":1685006864000,"instanceCount":0,"projectId":"proj-xxxxxxxxxxxxxxxxxxxxxx","projectName":"Default Project"}]}},"2":{"summary":"异常示例","value":{"code":80002,"message":"Token not found or unauthorized: The provided token does not exist in our records, or you do not have the necessary permissions to use this token. Please ensure you have the correct token."}}}}}}},"security":[]}
+export const endpoint = "/v1/projects"
+export const method = "get"
