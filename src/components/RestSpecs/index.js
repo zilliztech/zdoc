@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import RestHeader from '../RestHeader';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
-import { textFilter, getBaseUrl, getRandomString, chooseParamExample } from './utils'
+import { textFilter, getBaseUrl, getRandomString, chooseParamExample, isControlPlane } from './utils'
 import { i18n } from './i18n'
 import styles from'./index.module.css';
 import { cond, set } from 'lodash';
@@ -14,7 +14,7 @@ const BaseURL = ({ endpoint, lang, target }) => {
     return (<>
         <section>
             <section className={styles.sectionHeader}>
-                <span>Base URL</span>
+                <span>{ isControlPlane(endpoint) ? "Base URL" : i18n[lang]['title.cluster.endpoint'] }</span>
             </section>
             <div style={{margin: '1rem 0'}}>
                 <p>{i18n[lang]['base.url.format.prompt']}</p>
@@ -382,9 +382,10 @@ const ExampleResponses = ({ examples, lang, target, selectedResponse }) => {
 }
 
 const ExampleRequests = ({ endpoint, method, headersExample, pathExample, queryExample, requestBody, lang, target, selectedRequest }) => {
-    const condition = (endpoint.includes('cloud') || endpoint.includes('region') || endpoint.includes('cluster') || endpoint.includes('import') || endpoint.includes('pipeline')) || endpoint.includes('project') || endpoint.includes('metrics')
+    const condition = isControlPlane(endpoint)
+    const baseUrl = condition ? "https://\${BASE_URL}" : "https://\${CLUSTER_ENDPOINT}"
     const token = condition ? 'YOUR_API_KEY' : "db_admin:xxxxxxxxxxxxx"
-    var req = `export TOKEN="${token}"${pathExample ? "\n"+pathExample : ''}\n\ncurl --request ${method.toUpperCase()} \\\n--url "\${BASE_URL}${endpoint}`
+    var req = `export TOKEN="${token}"${pathExample ? "\n"+pathExample : ''}\n\ncurl --request ${method.toUpperCase()} \\\n--url "${baseUrl}${endpoint}`
     req = (queryExample ? `${req}?${queryExample}` : req) + `"`
     req = headersExample ? `${req} \\\n${headersExample + ` \\\n--header "Content-Type: application/json"`}` : req
 

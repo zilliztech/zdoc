@@ -3,22 +3,22 @@ import { i18n } from './i18n'
 import Showdown from 'showdown';
 
 export const getBaseUrl = (endpoint, lang, pubTarget) => {
-    const condition = (endpoint.includes('cloud') || endpoint.includes('region') || endpoint.includes('cluster') || endpoint.includes('import') || endpoint.includes('pipeline')) || endpoint.includes('project') || endpoint.includes('metrics');
+    const condition = isControlPlane(endpoint)
 
     var server = "https://api.cloud.zilliz.com";
     var children = `export BASE_URL="${server}"`
     var prompt = ''
 
     if (condition && endpoint.includes('v1')) {
-        server = lang === "zh-CN" ? "https://controller.${CLOUD_REGION}.vectordb.zilliz.com.cn" : "https://controller.${CLOUD_REGION}.vectordb.zillizcloud.com"
+        server = lang === "zh-CN" ? "https://controller.api.${CLOUD_REGION}.zilliz.com.cn" : "https://controller.api.${CLOUD_REGION}.zillizcloud.com"
         children = lang === "zh-CN" ? `export CLOUD_REGION="ali-cn-hangzhou"\nexport BASE_URL="${server}"` : `export CLOUD_REGION="gcp-us-west1"\nexport BASE_URL="${server}"`
         prompt = i18n[lang]["admonition.cloud.region"]
     }
 
-    if (!condition && endpoint.includes('v2')) {
-        server = lang === "zh-CN" ? "https://${CLUSTER_ID}.${CLOUD_REGION}.vectordb.zilliz.com.cn:19530" : "https://${CLUSTER_ID}.${CLOUD_REGION}.vectordb.zillizcloud.com:19530"
-        children = lang === "zh-CN" ? `export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"\nexport CLOUD_REGION="ali-cn-hangzhou"\nexport BASE_URL="${server}"` : `export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"\nexport CLOUD_REGION="gcp-us-west1"\nexport BASE_URL="${server}"`
-        prompt = i18n[lang]["admonition.region.and.id"]
+    if (!condition) {
+        server = "https://${CLUSTER_ENDPOINT}"
+        children = `export CLUSTER_ENDPOINT=""`
+        prompt = endpoint.includes('v2') ? i18n[lang]["admonition.cluster.endpoint.v2"] : i18n[lang]["admonition.cluster.endpoint.v1"]
     }
 
     if (pubTarget === 'milvus') {
@@ -120,4 +120,8 @@ export const chooseParamExample = (param, lang, target) => {
     }
 
     return param
+}
+
+export const isControlPlane = (endpoint) => {
+    return endpoint.includes('cloud') || endpoint.includes('region') || endpoint.includes('cluster') || endpoint.includes('import') || endpoint.includes('pipeline') || endpoint.includes('project') || endpoint.includes('metrics')
 }
