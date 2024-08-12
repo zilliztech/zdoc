@@ -391,7 +391,7 @@
     "slug": "multi-factor-auth",
     "title": "MFA"
   },
-  "V1ZdwbZNHin5x5kNUZEcJj2GnEd": {
+  "WwEkw6QG2ixbfCkWENicYKBYn3g": {
     "slug": "single-sign-on",
     "title": "Single Sign-On"
   },
@@ -710,5 +710,13 @@
   "XI5awOXYAiU4tgkzWnock6eqnge": {
     "slug": "release-notes-004",
     "title": "Release Notes (July 22, 2022)"
+  },
+  "ExUFwDY1siCa2Bkp4incCvxFnlh": {
+    "slug": "scale-cluster",
+    "title": "Scale Cluster"
+  },
+  "QUC4wfVYTi73ctkMzEec17oVnjh": {
+    "slug": "sso-with-okta",
+    "title": "SSO with Okta"
   }
 }
