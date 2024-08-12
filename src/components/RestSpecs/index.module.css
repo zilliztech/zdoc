@@ -67,6 +67,7 @@
     color: rgb(74, 83, 104);
     background-color: rgba(223, 225, 236, 0.7);
     border-radius: 10px;
+    font-size: 0.85rem;
 }
 
 .tabPanel {
@@ -95,5 +96,14 @@ input[type=radio]:checked + .tabLabel + .tabPanel {
 
 .exampleContainer {
     margin-top: 4.5rem;
-    
+    font-size: 0.85rem;   
+}
+
+.description {
+    font-size: 0.95rem;
+    font-weight: 450;
+}
+
+.description p {
+    line-height: 1.5;
 }

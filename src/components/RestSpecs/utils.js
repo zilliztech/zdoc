@@ -1,3 +1,4 @@
+import { capitalize } from 'lodash';
 import { i18n } from './i18n'
 import Showdown from 'showdown';
 
@@ -97,4 +98,14 @@ const matchFilterTags = (text) => {
     })
 
     return returns
+}
+
+export const getRandomString = (length) => {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 }
