@@ -97,13 +97,13 @@ The maximum number of clusters and CUs varies with your payment method and subsc
        </tr>
        <tr>
          <td><p>Dedicated (Standard)</p></td>
-         <td><p>32 CUs</p></td>
-         <td><p>On the console, you can create up to 32 CUs for a single cluster.</p></td>
+         <td><p>CU size * Replica Count &lt;=32</p></td>
+         <td><p>On the console, you can create up to 32 CUs for a single cluster. </p><p>However, the limit is CU size * Replica Count &lt;=32 if replicas are added.</p></td>
        </tr>
        <tr>
          <td><p>Dedicated (Enterprise)</p></td>
-         <td><p>256 CUs</p></td>
-         <td><p>On the console, you can create up to 256 CUs for a single cluster.</p></td>
+         <td><p>CU size * Replica Count &lt;=256</p></td>
+         <td><p>On the console, you can create up to 256 CUs for a single cluster.</p><p>However, the limit is CU size * Replica Count &lt;=256 if replicas are added.</p></td>
        </tr>
     </table>
 
@@ -316,8 +316,8 @@ Additionally, the rate limit for creating collections is **1** collection/s per 
    </tr>
    <tr>
      <td><p>Dedicated cluster</p></td>
-     <td><p>4,096</p></td>
-     <td><p>You can create up to 4,096 partitions per collection in a dedicated cluster.</p></td>
+     <td><p>1,024</p></td>
+     <td><p>You can create up to 1,024 partitions per collection in a dedicated cluster.</p></td>
    </tr>
 </table>
 
@@ -473,7 +473,11 @@ Index types vary with field types. The following table lists the indexable field
 
 ### Flush{#flush}
 
-The rate limit for flush requests is **1** req/s per cluster.
+The rate limit for flush requests is 0.1 requests per second, imposed at the collection level for specific cluster types. This rate limit applies to:
+
+- Serverless clusters compatible with Milvus 2.4.x or later.
+
+- Dedicated clusters upgraded to the beta version, compatible with Milvus 2.4.x or later.
 
 <Admonition type="info" icon="📘" title="Notes">
 
