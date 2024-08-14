@@ -12471,10 +12471,7 @@
 									},
 									"3": {
 										"summary": "failure",
-										"value": {
-											"code": 0,
-											"message": "The token is illegal."
-										}
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -12816,16 +12813,26 @@
 										"value": {
 											"code": 200,
 											"data": {
-												"jobID": "448300048036249282"
+												"jobID": "job-xxxxxxxxxxxxxxxxxxxxx"
 											}
 										}
 									},
 									"2": {
 										"summary": "failure",
+										"x-include-target": [
+											"milvus"
+										],
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
 										}
+									},
+									"3": {
+										"summary": "failure",
+										"x-include-target": [
+											"zilliz"
+										],
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -13748,10 +13755,7 @@
 									},
 									"2": {
 										"summary": "failure",
-										"value": {
-											"code": 0,
-											"message": "The token is illegal."
-										}
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -14133,10 +14137,7 @@
 									},
 									"2": {
 										"summary": "failure",
-										"value": {
-											"code": 0,
-											"message": "The token is illegal."
-										}
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -15732,7 +15733,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": "0",
+											"code": 0,
 											"data": {
 												"count": 1,
 												"currentPage": 1,
@@ -15740,7 +15741,7 @@
 												"records": [
 													{
 														"collectionName": "test_collection",
-														"jobId": "inxx-xxxxxxxxxxxxxxx",
+														"jobId": "job-xxxxxxxxxxxxxxxxxxxxx",
 														"state": "Completed"
 													}
 												]
@@ -15749,10 +15750,20 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-include-target": [
+											"milvus"
+										],
 										"value": {
 											"code": "0",
 											"message": "The token is illegal."
 										}
+									},
+									"3": {
+										"summary": "failure",
+										"x-include-target": [
+											"zilliz"
+										],
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -17656,10 +17667,7 @@
 									},
 									"4": {
 										"summary": "failure",
-										"value": {
-											"code": 0,
-											"message": "The token is illegal."
-										}
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -17752,7 +17760,7 @@
 							},
 							"example": {
 								"clusterId": "inxx-xxxxxxxxxxxxxxx",
-								"jobId": 44870776388440916
+								"jobId": "job-xxxxxxxxxxxxxxxxxxxxx"
 							}
 						}
 					}
@@ -18001,7 +18009,7 @@
 										"value": {
 											"code": 0,
 											"data": {
-												"jobId": "448761313698322011",
+												"jobId": "job-xxxxxxxxxxxxxxxxxxxxx",
 												"collectionName": "medium_articles",
 												"fileName": "medium_articles_2020_dpr.json",
 												"fileSize": 3279917,
@@ -18025,10 +18033,20 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-include-target": [
+											"milvus"
+										],
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
 										}
+									},
+									"3": {
+										"summary": "failure",
+										"x-include-target": [
+											"zilliz"
+										],
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -18470,10 +18488,7 @@
 									},
 									"3": {
 										"summary": "failure",
-										"value": {
-											"code": 96000,
-											"message": "Invalid CloudId. Please use the ListCloudProviders API to obtain a list of supported cloudIds."
-										}
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -21237,10 +21252,7 @@
 									},
 									"2": {
 										"summary": "failure",
-										"value": {
-											"code": 0,
-											"message": "The token is illegal."
-										}
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -24151,7 +24163,7 @@
 									"value": {
 										"clusterName": "Serverless-05",
 										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-										"regionId": "aws-us-west-2"
+										"regionId": "gcp-us-west1"
 									}
 								},
 								"2": {
@@ -24289,10 +24301,7 @@
 									},
 									"2": {
 										"summary": "failure",
-										"value": {
-											"code": 0,
-											"message": "The token is illegal."
-										}
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -26025,7 +26034,7 @@
 									"value": {
 										"clusterName": "Free-01",
 										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-										"regionId": "aws-us-west-2"
+										"regionId": "gcp-us-west1"
 									}
 								},
 								"2": {
@@ -26163,10 +26172,7 @@
 									},
 									"2": {
 										"summary": "failure",
-										"value": {
-											"code": 96010,
-											"message": "Invalid clusterName. Cluster names can only contain alphanumeric letters and hyphens."
-										}
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -28508,14 +28514,17 @@
 								"examples": {
 									"1": {
 										"summary": "success",
-										"value": "{\n    \"code\": 0,\n    \"data\" {\n        \"clusterId\": \"inxx-xxxxxxxxxxxxxxx\",\n        \"prompt\": \"The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters.\"\n    }\n}"
+										"value": {
+											"code": 0,
+											"data": {
+												"clusterId": "inxx-xxxxxxxxxxxxxxx",
+												"prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."
+											}
+										}
 									},
 									"2": {
 										"summary": "failure",
-										"value": {
-											"code": 96018,
-											"message": "Cluster not found. Please use the ListClusters API to obtain your scoped clusters."
-										}
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -28882,10 +28891,7 @@
 									},
 									"2": {
 										"summary": "failure",
-										"value": {
-											"code": 96018,
-											"message": "Cluster not found. Please use the ListClusters API to obtain your scoped clusters."
-										}
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -29241,10 +29247,7 @@
 									},
 									"2": {
 										"summary": "failure",
-										"value": {
-											"code": 96018,
-											"message": "Cluster not found. Please use the ListClusters API to obtain your scoped clusters."
-										}
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -29589,14 +29592,17 @@
 								"examples": {
 									"1": {
 										"summary": "success",
-										"value": "{\n    \"code\": 0,\n    \"data\" {\n        \"clusterId\": \"inxx-xxxxxxxxxxxxxxx\",\n        \"prompt\": \"successfully submitted. Cluster is being upgraded, which is expected to take several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK.\"\n    }\n}"
+										"value": {
+											"code": 0,
+											"data": {
+												"clusterId": "inxx-xxxxxxxxxxxxxxx",
+												"prompt": "successfully submitted. Cluster is being upgraded, which is expected to take several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+											}
+										}
 									},
 									"2": {
 										"summary": "failure",
-										"value": {
-											"code": 96018,
-											"message": "Cluster not found. Please use the ListClusters API to obtain your scoped clusters."
-										}
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}
@@ -30177,10 +30183,7 @@
 									},
 									"2": {
 										"summary": "failure",
-										"value": {
-											"code": 96018,
-											"message": "Cluster not found. Please use the ListClusters API to obtain your scoped clusters."
-										}
+										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
 							}

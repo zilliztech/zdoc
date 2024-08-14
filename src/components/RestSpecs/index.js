@@ -383,14 +383,14 @@ const ExampleResponses = ({ examples, lang, target, selectedResponse }) => {
 
 const ExampleRequests = ({ endpoint, method, headersExample, pathExample, queryExample, requestBody, lang, target, selectedRequest }) => {
     const condition = isControlPlane(endpoint)
-    const baseUrl = condition ? "https://\${BASE_URL}" : "https://\${CLUSTER_ENDPOINT}"
+    const baseUrl = condition ? "\${BASE_URL}" : "\${CLUSTER_ENDPOINT}"
     const token = condition ? 'YOUR_API_KEY' : "db_admin:xxxxxxxxxxxxx"
     var req = `export TOKEN="${token}"${pathExample ? "\n"+pathExample : ''}\n\ncurl --request ${method.toUpperCase()} \\\n--url "${baseUrl}${endpoint}`
     req = (queryExample ? `${req}?${queryExample}` : req) + `"`
     req = headersExample ? `${req} \\\n${headersExample + ` \\\n--header "Content-Type: application/json"`}` : req
 
     if (requestBody?.content['application/json']?.example) {
-        req = `${req} \\\n-d '${JSON.stringify(requestBody.content['application/json'].example, null, 4)}'`
+        req += ` \\\n-d '${JSON.stringify(requestBody.content['application/json'].example, null, 4)}'`
         return (
             <CodeBlock className="language-bash" children={req} />
         )
@@ -433,13 +433,13 @@ const ExampleRequests = ({ endpoint, method, headersExample, pathExample, queryE
 
         return (
             <div className={styles.tabs} style={{ marginTop: '1rem' }}>
-                {validKeys.length === 1 && <CodeBlock className="language-bash" children={`${req}\n-d '${JSON.stringify(examples[validKeys[0]].value, null, 4)}'`} /> }
+                {validKeys.length === 1 && <CodeBlock className="language-bash" children={`${req} \\\n-d '${JSON.stringify(examples[validKeys[0]].value, null, 4)}'`} /> }
                 {validKeys.length > 1 && validKeys.map((key, index) => {
                     return (
                         <Tab key={index} 
                             name={"reqExamples" + '-' + r}
                             id={parseInt(key)} 
-                            content={{ type: 'reqs', label: examples[key].summary, value: `${req}\n-d '${JSON.stringify(examples[key].value, null, 4)}'` }}
+                            content={{ type: 'reqs', label: examples[key].summary, value: `${req} \\\n-d '${JSON.stringify(examples[key].value, null, 4)}'` }}
                             lang={lang}
                             target={target}
                             selected={selected}
@@ -477,8 +477,8 @@ export default function RestSpecs(props) {
     const queryParams = parameters ? parameters.filter(param => param.in === 'query') : []
     const queryExample = queryParams.map(param => {
         param = chooseParamExample(param, lang, target)
-        return `${param.name}=${param.example}`
-    }).join('&')
+        return (param.required ? `${param.name}=${param.example}` : '')
+    }).filter(param => param !== '').join('&')
     const responseExample = responses?.['200']?.content['application/json']?.examples
 
     const [ selectedRequest, setSelectedRequest ] = useState("OPTION 1")

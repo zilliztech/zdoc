@@ -28,7 +28,7 @@ The control plane provides APIs for **Cloud Meta**, **Cluster Operations**, **Im
     export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
     curl --request GET \
-        --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clouds" \
+        --url "https://api.cloud.zilliz.com/v2/clouds/v1/clouds" \
         --header "Authorization: Bearer ${API_KEY}" \
         --header "accept: application/json" \
         --header "content-type: application/json"
@@ -39,22 +39,20 @@ The control plane provides APIs for **Cloud Meta**, **Cluster Operations**, **Im
     The following is an example of listing all the available collections in the specified cluster.
 
     ```shell
-    export CLOUD_REGION="gcp-us-west1"
-    export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
     export CLUSTER_ENDPOINT="https://${CLUSTER_ID}.api.${CLOUD_REGION}.zillizcloud.com"
-    export CLUSTER_USER="username"
-    export CLUSTER_PASSWORD="password"
+    export TOKEN="db_admin:xxxxxxxxxxxx"
 
     curl --request GET \
-        --url "${CLUSTER_ENDPOINT}/v1/vector/collections" \
-        --header "Authorization: Bearer ${CLUSTER_USER}:${CLUSTER_PASSWORD}" \
+        --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
+        --header "Authorization: Bearer ${TOKEN}" \
         --header "accept: application/json" \
-        --header "content-type: application/json"
+        --header "content-type: application/json" \
+        -d '{}'
     ```
 
 ## API Endpoint Versioning
 
-For all Zilliz Cloud **clusters compatible with Milvus 2.4 and above**, you should use the **v2 endpoints** for all data plane APIs.
+Currently, there are two versions available. You are advised to use the **V2 Version** of these APIs, because new features and improvements will be added to the V2 version later on, and the V1 version will be deprecated soon.
 
 For details, refer to the reference pages below:
 
