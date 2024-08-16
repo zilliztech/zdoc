@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Drop a specific pipeline
 
-<RestHeader method="delete" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/pipelines/{PIPELINE_ID}" />
+<RestHeader method="delete" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines/{PIPELINE_ID}" />
 
 ---
 

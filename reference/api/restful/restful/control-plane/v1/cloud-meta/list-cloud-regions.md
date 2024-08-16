@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists all available cloud regions of a specific cloud provider.
 
-<RestHeader method="get" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/regions" />
+<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/regions" />
 
 ---
 

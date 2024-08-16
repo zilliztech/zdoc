@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Resume a suspended cluster.
 
-<RestHeader method="post" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/clusters/{CLUSTER_ID}/resume" />
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/{CLUSTER_ID}/resume" />
 
 ---
 

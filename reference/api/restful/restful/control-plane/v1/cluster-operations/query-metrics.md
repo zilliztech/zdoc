@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 View metric statistics.
 
-<RestHeader method="post" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/clusters/CLUSTER_ID/metrics/query" />
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/CLUSTER_ID/metrics/query" />
 
 ---
 

@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Describe a specific pipeline by its name.
 
-<RestHeader method="get" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/pipelines/{PIPELINE_ID}" />
+<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/pipelines/{PIPELINE_ID}" />
 
 ---
 

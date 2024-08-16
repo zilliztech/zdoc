@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Deletes a cluster. This operation moves your cluster to the recycle bin. All clusters in the recycle bin are pending permanent deletion in 30 days.
 
-<RestHeader method="delete" endpoint="https://controller.${CLOUD_REGION}.zillizcloud.com/v1/clusters/{CLUSTER_ID}/drop" />
+<RestHeader method="delete" endpoint="https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/{CLUSTER_ID}/drop" />
 
 ---
 
