@@ -256,3 +256,30 @@ li.theme-doc-sidebar-item-category-level-2 a.menu__link.menu__link--sublist {
 div.footer__bottom.text--center {
   display: none;
 }
+
+.header-btn {
+  display: inline-block;
+  color: #fff;
+  background-color: var(--ifm-color-primary);
+  border-radius: 20px;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+.header-btn:hover {
+  color: #fff;
+  background-color: var(--ifm-color-primary-darkest);
+}
+
+.header-search-link::before {
+  content: url('/img/search_icon.svg');;
+  display: flex;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding-right: 1.5rem;
+  border-right: 1px solid rgb(212, 212, 216);
+}
+
+.navbar__search {
+  display: none;
+}
