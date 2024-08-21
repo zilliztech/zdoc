@@ -254,13 +254,13 @@ const config = {
           },
           {
             href: 'https://cloud.zilliz.com/login',
-            label: 'Login',
+            label: 'Log In',
             position: 'right',
             className: 'header-link',
           },
           {
             href: 'https://cloud.zilliz.com/signup',
-            label: 'Signup',
+            label: 'Sign Up Free',
             position: 'right',
             className: 'header-btn',
           },
