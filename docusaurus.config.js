@@ -237,12 +237,32 @@ const config = {
         logo: {
           alt: 'Zilliz Logo',
           src: 'img/logo.svg',
-          href: '/docs/quick-start'
+          href: 'https://zilliz.com'
         },
         items: [
           {
-            type: 'search',
+            href: '/search',
             position: 'right',
+            className: 'header-search-link',
+          },
+          {
+            href: 'https://support.zilliz.com/hc/en-us',
+            icon: '/img/icons/support.svg',
+            label: 'Support',
+            position: 'right',
+            className: 'header-link',
+          },
+          {
+            href: 'https://cloud.zilliz.com/login',
+            label: 'Login',
+            position: 'right',
+            className: 'header-link',
+          },
+          {
+            href: 'https://cloud.zilliz.com/signup',
+            label: 'Signup',
+            position: 'right',
+            className: 'header-btn',
           },
           {
             href: '/docs/quick-start',
@@ -258,7 +278,7 @@ const config = {
           },
           {
             type: 'dropdown',
-            label: 'Reference',
+            label: 'API & SDKs',
             position: 'left',
             items: [
               {
@@ -282,12 +302,6 @@ const config = {
                 to: '/reference/nodejs'
               }
             ]
-          },
-          {
-            href: 'https://zilliz.com/pricing',
-            label: 'Pricing',
-            position: 'left',
-            className: 'header-link',
           },
           {
             type: 'dropdown',
@@ -314,10 +328,16 @@ const config = {
           },
           {
             href: 'https://zilliz.com/use-cases',
-            label: 'Solutions',
+            label: 'Use Cases',
             position: 'left',
             className: 'header-link',
           },
+          {
+            href: 'https://zilliz.com/pricing',
+            label: 'Pricing',
+            position: 'left',
+            className: 'header-link',
+          }
         ],
       },
       footer: {
