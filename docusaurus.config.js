@@ -147,7 +147,7 @@ const config = {
         sourceType: 'onePager',
         version: 'v2.4.x',
         displayedSidebar: 'javaSidebar',
-        docSourceDir: './plugins/lark-docs/meta/sources/java/v2.3.x/v1',
+        docSourceDir: './plugins/lark-docs/meta/sources/java/v2.4.x/v1',
         targets: {
           milvus: {
             outputDir: 'milvus/reference/java/docs/v1',
@@ -162,6 +162,8 @@ const config = {
       javaV2: {
         root: 'Sg3EfIgVtlTkeBdtguJchE9ynne',
         base: 'WqHJb3zimaxXjssk4Kic4GEDnte',
+        // root: 'GYfPfBbdglDhh5dzLH3cYaV1nDf',
+        // base: 'Bp72bJ9wEazV1SsA30lcsuJgnfe',
         sourceType: 'drive',
         version: 'v2.4.x',
         displayedSidebar: 'javaSidebar',

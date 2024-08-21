@@ -1102,7 +1102,7 @@ class larkDocWriter {
 
     async __sheet(sheet, indent) {
         const converter = new showdown.Converter()
-        const merges = sheet.meta.data.sheet.merges;
+        const merges = sheet.meta?.data.sheet.merges;
         const values = sheet.values.data.valueRange.values;
         var result = ' '.repeat(indent) + "<table>" + "\n";
 
