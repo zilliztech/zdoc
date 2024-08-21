@@ -63,7 +63,7 @@ Collection(
 
     The number of shards to create along with the creation of this collection. 
 
-    The value defaults to **2**, indicating that two shards are to be created along with this collection.
+    The value defaults to **1**, indicating that one shard is to be created along with this collection.
 
     <Admonition type="info" icon="📘" title="What is sharding?">
 
