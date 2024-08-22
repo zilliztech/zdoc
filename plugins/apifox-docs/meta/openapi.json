@@ -2321,7 +2321,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -3677,7 +3677,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -3837,7 +3837,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -4063,7 +4063,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"data": {
 
 											}
@@ -4072,7 +4072,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -4114,7 +4114,10 @@
 							"zh-CN": {
 								"description": "操作超时时长。\n设置为 None 表示操作在任何响应返回或任何错误发生时超时。"
 							}
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -4229,6 +4232,15 @@
 														}
 													}
 												},
+												"cost": {
+													"type": "integer",
+													"description": "Cost of this operation.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "当前操作的花费。"
+														}
+													}
+												},
 												"data": {
 													"type": "object",
 													"description": "Response payload which is an empty object.",
@@ -4332,7 +4344,10 @@
 							"zh-CN": {
 								"description": "操作超时时长。设置为 None 表示操作在任何响应返回或任何错误发生时超时。"
 							}
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -4473,7 +4488,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": [
 												"quick_setup_new",
 												"customized_setup_1",
@@ -4696,7 +4711,7 @@
 									"3": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -4941,7 +4956,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -7712,7 +7727,7 @@
 										"summary": "failure",
 										"x-target-response": "OPTION 4",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -9076,7 +9091,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -9309,7 +9324,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -9580,7 +9595,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"data": {
 												"insertCount": 4,
 												"insertIds": [
@@ -9593,7 +9608,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -9635,7 +9650,10 @@
 							"zh-CN": {
 								"description": "操作超时时长。设置为 None 表示操作在任何响应返回或任何错误发生时超时。"
 							}
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -9899,7 +9917,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -10170,7 +10188,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -11246,7 +11264,7 @@
 										"summary": "failure",
 										"x-target-response": "OPTION 4",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -11288,7 +11306,10 @@
 							"zh-CN": {
 								"description": "操作超时时长。设置为 None 表示操作在任何响应返回或任何错误发生时超时。"
 							}
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -11397,7 +11418,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": [
 												"_default"
 											]
@@ -11809,7 +11830,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -11851,7 +11872,10 @@
 							"zh-CN": {
 								"description": "操作超时时长。设置为 None 表示操作在任何响应返回或任何错误发生时超时。"
 							}
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -11971,7 +11995,7 @@
 											"milvus"
 										],
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": [
 												"admin",
 												"public"
@@ -11984,10 +12008,11 @@
 											"zilliz"
 										],
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": [
 												"db_admin",
-												"public"
+												"db_ro",
+												"db_rw"
 											]
 										}
 									},
@@ -12036,7 +12061,10 @@
 							"zh-CN": {
 								"description": "操作超时时长。设置为 None 表示操作在任何响应返回或任何错误发生时超时。"
 							}
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -12269,16 +12297,16 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": [
 												{
 													"failReason": "",
-													"fieldName": "my_vector",
-													"indexName": "my_vector_index",
+													"fieldName": "vector",
+													"indexName": "vector",
 													"indexState": "Finished",
-													"indexType": "IVF_FLAT",
+													"indexType": "",
 													"indexedRows": 0,
-													"metricType": "L2",
+													"metricType": "COSINE",
 													"pendingRows": 0,
 													"totalRows": 0
 												}
@@ -12456,7 +12484,7 @@
 										"summary": "success",
 										"x-target-lang": "zh-CN",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": [
 												{
 													"cloudId": "ali",
@@ -12511,7 +12539,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -12811,7 +12842,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 												"jobID": "job-xxxxxxxxxxxxxxxxxxxxx"
 											}
@@ -12872,7 +12903,10 @@
 							"zh-CN": {
 								"description": "操作超时时长。设置为 None 表示操作在任何响应返回或任何错误发生时超时。"
 							}
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -13201,7 +13235,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 												"insertCount": 10,
 												"insertIds": [
@@ -13264,7 +13298,10 @@
 							"zh-CN": {
 								"description": "操作超时时长。设置为 None 表示操作在任何响应返回或任何错误发生时超时。"
 							}
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -13795,7 +13832,10 @@
 							"zh-CN": {
 								"description": "操作超时时长。设置为 None 表示操作在任何响应返回或任何错误发生时超时。"
 							}
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -14177,7 +14217,10 @@
 							"zh-CN": {
 								"description": "操作超时时长。设置为 None 表示操作在任何响应返回或任何错误发生时超时。"
 							}
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -14901,7 +14944,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -15167,7 +15210,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -15209,7 +15252,10 @@
 							"zh-CN": {
 								"description": "操作超时时长。设置为 None 表示操作在任何响应返回或任何错误发生时超时。"
 							}
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -15806,7 +15852,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -15957,7 +16006,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -16286,7 +16335,7 @@
 											"milvus"
 										],
 										"value": {
-											"code": 0,
+											"code": 200,
 											"data": {
 												"aliases": [
 
@@ -16345,7 +16394,7 @@
 											"zilliz"
 										],
 										"value": {
-											"code": 0,
+											"code": 200,
 											"data": {
 												"aliases": [
 
@@ -16400,7 +16449,7 @@
 									"3": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -16727,7 +16776,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -16769,7 +16818,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -17117,7 +17169,10 @@
 							"zh-CN": {
 								"description": "操作超时时长。设置为 None 表示操作在任何响应返回或任何错误发生时超时。"
 							}
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -17279,7 +17334,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 												"aliasName": "alice",
 												"collectionName": "quick_setup",
@@ -18089,7 +18144,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -18230,7 +18288,7 @@
 										"value": {
 											"code": 0,
 											"data": [
-												"public"
+												"db_admin"
 											]
 										}
 									},
@@ -18242,7 +18300,7 @@
 										"value": {
 											"code": 0,
 											"data": [
-												"admin"
+												"public"
 											]
 										}
 									},
@@ -18531,7 +18589,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -19035,7 +19096,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"data": {
 												"upsertCount": 10,
 												"upsertIds": [
@@ -19056,7 +19117,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -19101,7 +19162,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -19229,7 +19293,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -19407,7 +19471,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -19452,7 +19516,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -19583,7 +19650,7 @@
 											"milvus"
 										],
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": [
 												"root"
 											]
@@ -19595,7 +19662,7 @@
 											"zilliz"
 										],
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": [
 												"db_admin"
 											]
@@ -19649,7 +19716,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -19797,7 +19867,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": [
 												"my_vector_index"
 											]
@@ -19848,7 +19918,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -20298,7 +20371,7 @@
 											"milvus"
 										],
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 												"aliases": [
 
@@ -20357,7 +20430,7 @@
 											"zilliz"
 										],
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 												"aliases": [
 
@@ -20734,7 +20807,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"data": [
 												{
 													"color": "pink_8682",
@@ -20757,7 +20830,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -20802,7 +20875,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -20952,7 +21028,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -21409,7 +21485,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"data": {
 
 											}
@@ -21418,7 +21494,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -21463,7 +21539,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -21677,7 +21756,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -22215,7 +22297,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -22275,7 +22357,10 @@
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					}
 				],
 				"requestBody": {
@@ -22388,7 +22473,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -22442,7 +22527,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -22594,7 +22682,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -22843,7 +22931,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"data": [
 												{
 													"color": "red_7025",
@@ -22863,7 +22951,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -22908,7 +22996,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -23068,7 +23159,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -23252,7 +23343,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -23297,7 +23388,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -23453,7 +23547,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -23507,7 +23601,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -23662,7 +23759,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -23713,7 +23810,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -23843,7 +23943,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -23901,7 +24001,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -24046,7 +24149,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -24344,7 +24447,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -24497,7 +24603,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 												"has": true
 											}
@@ -24548,7 +24654,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -24740,15 +24849,15 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": [
 												{
-													"color": "pink_8682",
-													"id": 448300048035776800
+													"color": "red_8682",
+													"id": 1
 												},
 												{
-													"color": "pink_9298",
-													"id": 448300048035776800
+													"color": "red_9298",
+													"id": 4
 												}
 											]
 										}
@@ -24926,7 +25035,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -24971,7 +25080,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -25022,9 +25134,27 @@
 									"zh-CN"
 								]
 							},
-							"example": {
-								"roleName": "admin",
-								"userName": "milvusAdmin"
+							"examples": {
+								"1": {
+									"summary": "example",
+									"value": {
+										"roleName": "admin",
+										"userName": "milvusAdmin"
+									},
+									"x-include-target": [
+										"milvus"
+									]
+								},
+								"2": {
+									"summary": "example",
+									"value": {
+										"roleName": "db_admin",
+										"userName": "myUser"
+									},
+									"x-include-target": [
+										"zilliz"
+									]
+								}
 							}
 						}
 					}
@@ -25110,7 +25240,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -25164,7 +25294,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -25292,7 +25425,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -25346,7 +25479,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -25499,7 +25635,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 												"rowCount": 0
 											}
@@ -25553,7 +25689,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -25604,7 +25743,6 @@
 								]
 							},
 							"example": {
-								"dbName": "default",
 								"collectionName": "quick_setup"
 							}
 						}
@@ -25695,7 +25833,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 												"has": true
 											}
@@ -26215,7 +26353,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -26363,7 +26504,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -26414,7 +26555,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -26726,7 +26870,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": [
 												{
 													"color": "orange_6781",
@@ -26794,7 +26938,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -26845,9 +26992,27 @@
 									"zh-CN"
 								]
 							},
-							"example": {
-								"roleName": "admin",
-								"userName": "milvusAdmin"
+							"examples": {
+								"1": {
+									"summary": "example",
+									"value": {
+										"roleName": "admin",
+										"userName": "milvusAdmin"
+									},
+									"x-include-target": [
+										"milvus"
+									]
+								},
+								"2": {
+									"summary": "example",
+									"value": {
+										"roleName": "db_admin",
+										"userName": "myUser"
+									},
+									"x-include-target": [
+										"zilliz"
+									]
+								}
 							}
 						}
 					}
@@ -26933,7 +27098,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -26984,7 +27149,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -27648,7 +27816,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -27908,7 +28079,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -28327,7 +28501,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"data": [
 												{
 													"color": "red_7025",
@@ -28347,7 +28521,7 @@
 									"2": {
 										"summary": "failure",
 										"value": {
-											"code": 0,
+											"code": 200,
 											"message": "The token is illegal."
 										}
 									}
@@ -28567,7 +28741,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -28705,7 +28882,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 												"rowCount": 0
 											}
@@ -28929,7 +29106,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -29074,7 +29254,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -29290,7 +29470,10 @@
 							"minimum": 0,
 							"maximum": 3600,
 							"exclusiveMinimum": true
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -29427,7 +29610,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -29642,7 +29825,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -29779,7 +29965,7 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 
 											}
@@ -30223,7 +30409,10 @@
 						"example": 0,
 						"schema": {
 							"type": "integer"
-						}
+						},
+						"x-include-target": [
+							"milvus"
+						]
 					},
 					{
 						"name": "Authorization",
@@ -30336,6 +30525,15 @@
 																	"description": "指定 Collection 的加载进度。"
 																}
 															}
+														},
+														"message": {
+															"type": "string",
+															"description": "Returned message.",
+															"x-i18n": {
+																"zh-CN": {
+																	"description": "返回的消息。"
+																}
+															}
 														}
 													}
 												}
@@ -30379,10 +30577,11 @@
 									"1": {
 										"summary": "success",
 										"value": {
-											"code": 200,
+											"code": 0,
 											"data": {
 												"loadProgress": 100,
-												"loadState": "LoadStateLoaded"
+												"loadState": "LoadStateLoaded",
+												"message": ""
 											}
 										}
 									},
