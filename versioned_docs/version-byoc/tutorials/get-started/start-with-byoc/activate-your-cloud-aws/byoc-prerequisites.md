@@ -96,7 +96,10 @@ Refer to the table below for the necessary cloud resources and services for Zill
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Cloud administrators can monitor resource usage and quotas in the cloud quota dashboard. For details, refer to <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">AWS service quotas</a>.</p>
+<ul>
+<li><p>Cloud administrators can monitor resource usage and quotas in the cloud quota dashboard. For details, refer to <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">AWS service quotas</a>.</p></li>
+<li><p>As your cluster is set up across different Availability Zones (AZs) within your Virtual Private Cloud (VPC), you may have to pay for some internal network traffic. For details, refer to <a href="https://aws.amazon.com/ec2/pricing/on-demand/?nc1=h_ls">AWS EC2 pricing page</a>.</p></li>
+</ul>
 
 </Admonition>
 
@@ -109,12 +112,12 @@ Refer to the table below for the necessary cloud resources and services for Zill
    <tr>
      <td><p>Virtual Machine</p></td>
      <td><p>EC2</p></td>
-     <td><ul><li><p>(m6i.xlarge) * 4</p></li><li><p>(m6i.2xlarge) * 4</p></li><li><p>(r6id.8xlarge) * 1</p><p><strong>Total</strong>: 80 vCPUs, 448 GiB</p></li></ul></td>
+     <td><ul><li><p>(m6i.xlarge) * 4</p></li><li><p>(m6i.2xlarge) * 4</p></li><li><p>(m6id.4xlarge) * 1</p><p><strong>Total</strong>: 64 vCPUs, 256 GiB</p></li></ul></td>
    </tr>
    <tr>
      <td><p>Object Storage</p></td>
      <td><p>S3</p></td>
-     <td><p>1.3 TB</p></td>
+     <td><p>0</p></td>
    </tr>
    <tr>
      <td><p>Block Storage</p></td>

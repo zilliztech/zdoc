@@ -13,7 +13,7 @@
   },
   "LMfdwRwKIiJtywkwbHVcGnOFnRf": {
     "slug": "free-trials",
-    "title": "Free Trials"
+    "title": "Free Trial"
   },
   "J274wT61xiEM4fkYeL8cMb4Pnbd": {
     "slug": "install-sdks",
@@ -299,7 +299,7 @@
     "slug": "migrations",
     "title": "Migrations"
   },
-  "IO4fwm5fJiroaoktKeIcbdkDnRb": {
+  "TDkbwhwMyi7bPykZAoUc5PFfnIb": {
     "slug": "migrate-from-milvus",
     "title": "Migrate from Milvus"
   },
@@ -718,5 +718,25 @@
   "QUC4wfVYTi73ctkMzEec17oVnjh": {
     "slug": "sso-with-okta",
     "title": "SSO with Okta"
+  },
+  "PlX3wo82Di6oWVkg2ercRWCUnvV": {
+    "slug": "via-endpoint",
+    "title": "Via Endpoint"
+  },
+  "IO4fwm5fJiroaoktKeIcbdkDnRb": {
+    "slug": "via-backup-files",
+    "title": "Via Backup Files"
+  },
+  "CiVHwbwPwipX5SkFkqVcLpESnfe": {
+    "slug": "migrate-from-pgvector",
+    "title": "Migrate from pgvector"
+  },
+  "X9HFwIFmRimmatkblgGcAeQgnyd": {
+    "slug": "third-party-services",
+    "title": "Third-party Services"
+  },
+  "Ex99woZlsico4FkfwxGckjRRnqf": {
+    "slug": "prometheus",
+    "title": "Prometheus"
   }
 }
