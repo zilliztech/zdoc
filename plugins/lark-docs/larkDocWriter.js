@@ -60,7 +60,9 @@ class larkDocWriter {
             "okr_key_result",
             "okr_progress",
             "add_ons",
-            "jira_issue"
+            "jira_issue",
+            "wiki_catelog",
+            "board"
         ]
         this.code_langs = [
             null,
@@ -686,6 +688,8 @@ class larkDocWriter {
                 markdown.push(await this.__sheet(block['sheet'], indent));
             } else if (this.block_types[block['block_type']-1] === 'callout') {
                 markdown.push(await this.__callout(block, indent));
+            } else if (this.block_types[block['block_type']-1] === 'board') {
+                markdown.push(await this.__board(block['board'], indent));
             } else if (block['block_type'] === 999 && block['children']) {
                 const children = block['children'].map(child => {
                     return this.__retrieve_block_by_id(child)
@@ -1021,6 +1025,18 @@ class larkDocWriter {
         const root = this.imageDir.replace(/^static\//g, '')
         result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${image["token"]}.png`));
         return `![${image.token}](/${root}/${image["token"]}.png)`;
+    }
+
+    async __board(board, indent) {
+        if (this.skip_image_download) {
+            const root = this.imageDir.replace(/^static\//g, '')
+            return `![${board.token}](/${root}/${board["token"]}.png)`;
+        }
+
+        const result = await this.downloader.__downloadBoardPreview(board.token)
+        const root = this.imageDir.replace(/^static\//g, '')
+        result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${board["token"]}.png`));
+        return `![${board.token}](/${root}/${board["token"]}.png)`;
     }
 
     async __iframe(iframe) {

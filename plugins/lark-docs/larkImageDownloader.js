@@ -5,6 +5,7 @@ const https = require('node:https')
 const fetch = require('node-fetch')
 const Bottleneck = require('bottleneck')
 const process = require('node:process')
+const { method } = require('lodash')
 require('dotenv/config')
 
 class larkImageDownloader {
@@ -101,6 +102,24 @@ class larkImageDownloader {
         }
 
         let res = await fetch(`${process.env.FEISHU_HOST}/open-apis/drive/v1/medias/${image_token}/download`, req)
+
+        return res
+    }
+
+    async __downloadBoardPreview(board_token) {
+        console.log(`BoardToken: ${board_token}`)
+        const fetcher = new tokenFetcher()
+        await fetcher.fetchToken()
+        const token = await fetcher.token() 
+
+        const req = {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+
+        let res = await fetch(`${process.env.FEISHU_HOST}/open-apis/board/v1/whiteboards/${board_token}/download_as_image`, req)
 
         return res
     }
