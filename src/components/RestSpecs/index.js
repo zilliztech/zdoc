@@ -174,7 +174,6 @@ const Items = ({ name, description, obj, required, lang, target }) => {
 }
 
 const Primitive = ({ name, obj, required, lang, target }) => {
-    console.log(obj)
     const { type, format, minimum, maximum, defaultValue} = obj;
     const description = obj["x-i18n"]?.[lang]?.description ? obj["x-i18n"][lang].description : obj.description
     const enums = obj.enum ? obj.enum : []
