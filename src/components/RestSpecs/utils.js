@@ -123,5 +123,16 @@ export const chooseParamExample = (param, lang, target) => {
 }
 
 export const isControlPlane = (endpoint) => {
-    return endpoint.includes('cloud') || endpoint.includes('region') || endpoint.includes('cluster') || endpoint.includes('import') || endpoint.includes('pipeline') || endpoint.includes('project') || endpoint.includes('metrics')
+    
+    return endpoint.includes('cloud') || 
+        endpoint.includes('region') || 
+        endpoint.includes('cluster') || 
+        endpoint.includes('import') || 
+        endpoint.includes('pipeline') || 
+        endpoint.includes('project') || 
+        endpoint.includes('metrics') ||
+        endpoint.includes('migration') ||
+        endpoint.includes('backup') ||
+        endpoint.includes('restore') ||
+        endpoint.includes('job')
 }

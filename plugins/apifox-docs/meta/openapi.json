@@ -133,6 +133,30 @@
 					"name": "User (V2)"
 				}
 			}
+		},
+		{
+			"name": "Cloud Migration (V2)",
+			"x-i18n": {
+				"zh-CN": {
+					"name": "Migration (V2)"
+				}
+			}
+		},
+		{
+			"name": "Backup & Restore (V2)",
+			"x-i18n": {
+				"zh-CN": {
+					"name": "Backup & Restore (V2)"
+				}
+			}
+		},
+		{
+			"name": "Cloud Job (V2)",
+			"x-i18n": {
+				"zh-CN": {
+					"name": "Job (V2)"
+				}
+			}
 		}
 	],
 	"paths": {
@@ -773,7 +797,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -1493,7 +1517,7 @@
 																}
 															}
 														},
-														"clusterID": {
+														"CLUSTER_ID": {
 															"type": "string",
 															"description": "The target cluster to which the pipeline applies.",
 															"x-i18n": {
@@ -2224,7 +2248,7 @@
 															],
 															"description": "Functions in the pipeline. An ingestion pipeline must have one and only one INDEX function and can have 0-50 PRESERVE functions."
 														},
-														"clusterID": {
+														"CLUSTER_ID": {
 															"type": "string",
 															"description": "The target cluster to which the pipeline applies.",
 															"x-i18n": {
@@ -2849,7 +2873,7 @@
 																}
 															}
 														},
-														"clusterID": {
+														"CLUSTER_ID": {
 															"type": "string",
 															"description": "The target cluster to which the pipeline applies.",
 															"x-i18n": {
@@ -3580,7 +3604,7 @@
 															],
 															"description": "Functions in the pipeline. An ingestion pipeline must have one and only one INDEX function and can have 0-50 PRESERVE functions."
 														},
-														"clusterID": {
+														"CLUSTER_ID": {
 															"type": "string",
 															"description": "The target cluster to which the pipeline applies.",
 															"x-i18n": {
@@ -3728,7 +3752,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -3870,7 +3894,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -4123,7 +4147,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -4353,7 +4377,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -4557,7 +4581,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -4774,7 +4798,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -4989,7 +5013,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -6648,7 +6672,7 @@
 																}
 															}
 														},
-														"clusterID": {
+														"CLUSTER_ID": {
 															"type": "string",
 															"description": "The target cluster to which the pipeline applies.",
 															"x-i18n": {
@@ -7383,7 +7407,7 @@
 															},
 															"description": "Functions in the pipeline. An ingestion pipeline must have one and only one INDEX function and can have 0-50 PRESERVE functions."
 														},
-														"clusterID": {
+														"CLUSTER_ID": {
 															"type": "string",
 															"description": "The target cluster to which the pipeline applies.",
 															"x-i18n": {
@@ -7773,7 +7797,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -8218,7 +8242,7 @@
 																}
 															}
 														},
-														"clusterID": {
+														"CLUSTER_ID": {
 															"type": "string",
 															"description": "The target cluster to which the pipeline applies.",
 															"x-i18n": {
@@ -8953,7 +8977,7 @@
 															},
 															"description": "Functions in the pipeline. An ingestion pipeline must have one and only one INDEX function and can have 0-50 PRESERVE functions."
 														},
-														"clusterID": {
+														"CLUSTER_ID": {
 															"type": "string",
 															"description": "The target cluster to which the pipeline applies.",
 															"x-i18n": {
@@ -9124,7 +9148,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -9357,7 +9381,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -9659,7 +9683,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -10004,7 +10028,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -10236,7 +10260,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -11315,7 +11339,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -11478,7 +11502,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -11881,7 +11905,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -12070,7 +12094,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -12349,7 +12373,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -12548,7 +12572,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -12703,8 +12727,9 @@
 									}
 								},
 								"required": [
-									"files",
-									"collectionName"
+									"clusterId",
+									"collectionName",
+									"objectUrl"
 								]
 							},
 							"examples": {
@@ -12912,7 +12937,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -13307,7 +13332,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -13523,7 +13548,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -13841,7 +13866,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -14017,7 +14042,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -14226,7 +14251,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -14986,7 +15011,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -15261,7 +15286,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -15553,7 +15578,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -16085,7 +16110,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -16827,7 +16852,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -17178,7 +17203,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -17393,7 +17418,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -17756,7 +17781,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -18158,7 +18183,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -18366,7 +18391,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -18598,7 +18623,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -18791,7 +18816,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -19176,7 +19201,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -19530,7 +19555,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -19927,7 +19952,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -20523,7 +20548,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥</include> 或用冒号分隔的用户名和密码对，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -20884,7 +20909,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -21070,7 +21095,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -21364,7 +21389,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -21548,7 +21573,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -21765,7 +21790,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -22144,7 +22169,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -22353,7 +22378,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -22536,7 +22561,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -22729,7 +22754,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -23005,7 +23030,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -23402,7 +23427,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -23615,7 +23640,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -23819,7 +23844,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -24010,7 +24035,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -24191,7 +24216,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -24456,7 +24481,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -24650,7 +24675,7 @@
 								"description": "当前操作的超时时间。\n设置为 None 表示本操作在任何响应或错误发生时超时。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": 0,
 						"schema": {
 							"type": "integer"
@@ -25094,7 +25119,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -25308,7 +25333,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -25488,7 +25513,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -25698,7 +25723,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -26097,7 +26122,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -26362,7 +26387,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -26564,7 +26589,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -26952,7 +26977,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -27158,7 +27183,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -27825,7 +27850,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -28088,7 +28113,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -28274,7 +28299,7 @@
 								"description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
 							}
 						},
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -28569,7 +28594,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -28750,7 +28775,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -28939,7 +28964,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -29115,7 +29140,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -29304,7 +29329,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -29479,7 +29504,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -29662,7 +29687,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -29834,7 +29859,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -30022,7 +30047,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be an API key with appropriate privileges.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -30156,9 +30181,6 @@
 									}
 								},
 								"required": [
-									"start",
-									"end",
-									"period",
 									"granularity",
 									"metricQueries"
 								]
@@ -30418,7 +30440,7 @@
 						"name": "Authorization",
 						"in": "header",
 						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
-						"required": false,
+						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
 							"type": "string"
@@ -30601,7 +30623,2097 @@
 
 				]
 			}
-		}
+		},
+		"/v2/migrations/toNewDedicated": {
+			"post": {
+				"summary": "Migrate to New Dedicated Cluster",
+				"deprecated": false,
+				"description": "Create a dedicated cluster and migrate data from the source cluster to the new cluster.",
+				"tags": [
+					"Cloud Migration (V2)"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be an API key with appropriate privileges.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为具备适当权限的 API 密钥。"
+							}
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"source": {
+										"type": "object",
+										"description": "The source cluster information.",
+										"properties": {
+											"clusterId": {
+												"type": "string",
+												"description": "The ID of the source cluster.",
+												"example": "inxx-xxxxxxxxxxxxxxxxx"
+											}
+										},
+										"required": [
+											"clusterId"
+										]
+									},
+									"destination": {
+										"type": "object",
+										"properties": {
+											"clusterName": {
+												"type": "string",
+												"description": "The name of the destination cluster to create."
+											},
+											"projectId": {
+												"type": "string",
+												"description": "The ID of the project to create the destination cluster in."
+											},
+											"regionId": {
+												"type": "string",
+												"description": "The ID of the cloud region to create the destination cluster in."
+											},
+											"plan": {
+												"type": "string",
+												"description": "The subscription plan to use for the destination cluster.",
+												"enum": [
+													"Standard",
+													"Enterprise"
+												]
+											},
+											"cuType": {
+												"type": "string",
+												"description": "The CU type to use for the destination cluster.",
+												"enum": [
+													"Performance-optimized",
+													"Capacity-optimized"
+												]
+											},
+											"cuSize": {
+												"minimum": 1,
+												"maximum": 256,
+												"type": "integer",
+												"description": "The CU size to use for the destination cluster."
+											}
+										},
+										"required": [
+											"clusterName",
+											"projectId",
+											"regionId",
+											"plan",
+											"cuType",
+											"cuSize"
+										]
+									}
+								},
+								"required": [
+									"source",
+									"destination"
+								]
+							},
+							"example": {
+								"source": {
+									"clusterId": "inxx-xxxxxxxxxxxxxx"
+								},
+								"destination": {
+									"clusterName": "Cluster-01",
+									"projectId": "proj-xxxxxxxxxxxxxxxxxxxx",
+									"regionId": "aws-us-west-2",
+									"plan": "Standard",
+									"cuType": "Performance-optimized",
+									"cuSize": 1
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"data": {
+													"type": "object",
+													"properties": {
+														"clusterId": {
+															"type": "string",
+															"description": "The ID of the destination cluster."
+														},
+														"username": {
+															"type": "string",
+															"description": "The username used to access the destination cluster."
+														},
+														"password": {
+															"type": "string",
+															"description": "The password used to access the destination cluster. This will be shown to you only once. You are advised to note down the password and save it in a secure place."
+														}
+													}											
+												}
+											}
+										},
+										{
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"value": {
+											"clusterId": "inxx-xxxxxxxxxxxxxx",
+											"username": "db_admin",
+											"password": "xxxxxxxxx"
+										}
+									},
+									"2": {
+										"summary": "failure",
+										"value": {"code":21119,"message":"The apikey is illegal."}
+									}	
+								}
+							}
+						}
+					}
+				},
+				"security": [
+
+				]
+			}
+		},		
+		"/v2/backups": {
+			"get": {
+				"summary": "List Backups",
+				"deprecated": false,
+				"description": "List all AVAILABLE or CREATING backups.",
+				"tags": [
+					"Backup & Restore (V2)"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be an API key with appropriate privileges.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为具备适当权限的 API 密钥。"
+							}
+						}
+					},
+					{
+						"name": "projectId",
+						"in": "query",
+						"description": "The ID of the project to which the backup belongs.",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "clusterId",
+						"in": "query",
+						"description": "The ID of the cluster to which the backup belongs.",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "creationMethod",
+						"in": "query",
+						"description": "Whether the backup is created manually or automatically.",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"MANUAL",
+								"AUTO"
+							]
+						}
+					},
+					{
+						"name": "backupType",
+						"in": "query",
+						"description": "The type of resources contained in the backup file.",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"CLUSTER",
+								"COLLECTION"
+							]
+						}
+					},
+					{
+						"name": "startTime",
+						"in": "query",
+						"description": "The time at which Zilliz Cloud starts to make this backup.",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "endTime",
+						"in": "query",
+						"description": "The time at which Zilliz Cloud finishes making this backup.",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "pageSize",
+						"in": "query",
+						"description": "The number of records to be displayed per page.",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "currentPage",
+						"in": "query",
+						"description": "The page number to be displayed.",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code."
+												},
+												"data": {
+													"type": "object",
+													"description": "Response payload which is a list of backups.",
+													"properties": {
+														"count": {
+															"type": "integer",
+															"description": "The total number of backups returned."
+														},
+														"currentPage": {
+															"type": "integer",
+															"description": "The current page number."
+														},
+														"pageSize": {
+															"type": "integer",
+															"description": "The number of records per page."
+														},
+														"backups": {
+															"type": "array",
+															"description": "A list of backups.",
+															"items": {
+																"type": "object",
+																"description": "Inforamtion about a backup in detail.",
+																"properties": {
+																	"projectId": {
+																		"type": "string",
+																		"description": "The ID of the project that holds the backup."
+																	},
+																	"backupId": {
+																		"type": "string",
+																		"description": "The ID of the backup."
+																	},
+																	"backupName": {
+																		"type": "string",
+																		"description": "The name of the backup."
+																	},
+																	"backupType": {
+																		"type": "string",
+																		"description": "The type of resources contained in the backup.",
+																		"enum": [
+																			"CLUSTER",
+																			"COLLECTION"
+																		]
+																	},
+																	"creationMethod": {
+																		"type": "string",
+																		"description": "Whether the backup is created manually or automatically.",
+																		"enum": [
+																			"AUTO",
+																			"MANUAL"
+																		]
+																	},
+																	"size": {
+																		"type": "integer",
+																		"description": "The size of the backup in bytes."
+																	},
+																	"expireTime": {
+																		"type": "string",
+																		"description": "The time at which the backup will be automatically deleted."
+																	},
+																	"clusterId": {
+																		"type": "string",
+																		"description": "The ID of the cluster whose data has been backed up."
+																	},
+																	"clusterName": {
+																		"type": "string",
+																		"description": "The name of the cluster whose data has been backed up."
+																	},
+																	"createTime": {
+																		"type": "string",
+																		"description": "The time at which the cluster has been created."
+																	},
+																	"status": {
+																		"type": "string",
+																		"description": "The status of the backup.",
+																		"enum": [
+																			"AVAILABLE",
+																			"CREATING"
+																		]
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										},
+										{
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"value": {
+											"code": 0,
+											"data": {
+											  "count": 1,
+											  "currentPage": 1,
+											  "pageSize": 10, 
+											  "backups": [
+												 {
+												  "projectId": "proj-xxxxxxxxxxxxxxxxxxxx",
+												  "backupId": "backupx_xxxxxxxxxxxxxxxx",
+												  "backupName": "Dedicated-01_backup1",
+												  "backupType": "CLUSTER",
+												  "creationMethod": "AUTO",
+												  "size": 112,
+												  "expireTime": "2024-08-30T16:49:50Z",
+												  "clusterId": "inxx-xxxxxxxxxxxxxx",
+												  "clusterName": "Dedicated-01",
+												  "createTime": "2024-07-30T16:49:50Z",
+												  "status": "AVAILABLE"
+												 }
+											  ]
+											}
+										}
+									},
+									"2": {
+										"summary": "failure",
+										"value": {"code":21119,"message":"The apikey is illegal."}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+
+				]
+			}
+		},
+		"/v2/jobs/{JOB_ID}": {
+			"get": {
+				"summary": "Describe Job",
+				"deprecated": false,
+				"description": "",
+				"tags": [
+					"Cloud Job (V2)"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be an API key with appropriate privileges.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为具备适当权限的 API 密钥。"
+							}
+						}
+					},
+					{
+						"name": "JOB_ID",
+						"in": "path",
+						"description": "The ID of the job that has been submitted.",
+						"required": true,
+						"example": "job-xxxxxxxxxxxxxxxxxx",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "成功",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "object",
+											"properties": {
+												"jobId": {
+													"type": "string",
+													"description": "The ID of the job that has been submitted."
+												},
+												"type": {
+													"type": "string",
+													"description": "The type of the job",
+													"enum": [
+														"IMPORT",
+														"MIGRATION",
+														"BACKUP",
+														"RESTORE",
+														"CLONE_COLLECTION"
+													]
+												},
+												"status": {
+													"type": "string",
+													"description": "The status of the job",
+													"enum": [
+														"PENDING",
+														"IN_PROGRESS",
+														"SUCCESSFUL",
+														"FAILED",
+														"CANCELING"
+													]
+												},
+												"progress": {
+													"type": "string",
+													"description": "The progress of the job"
+												},
+												"startTime": {
+													"type": "string",
+													"description": "The time at which the job starts."
+												},
+												"endTime": {
+													"type": "string",
+													"description": "The time at which the job end."
+												},
+												"reason": {
+													"type": "string",
+													"description": "The message of why the job failed."
+												}
+											}
+										},
+										{
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"value": {
+											"code": 0,
+											"data": {
+											  "jobId": "job-03e1eefbd82dmo2oeb8pe2",
+											  "type": "MIGRATION",
+											  "status": "SUCCESSFUL", 
+											  "progress": "100", 
+											  "startTime": "2024-07-30T16:49:50Z",
+											  "endTime": "2024-07-30T17:30:50Z",
+											  "reason": "" 
+											}
+										}
+									},
+									"2": {
+										"summary": "failure",
+										"value": {"code":21119,"message":"The apikey is illegal."}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+
+				]
+			}
+		},
+		"/v2/migrations/toExisting": {
+			"post": {
+				"summary": "Migrate to Existing Cluster",
+				"deprecated": false,
+				"description": "Migrate data from a cluster to another.",
+				"tags": [
+					"Cloud Migration (V2)"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be an API key with appropriate privileges.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为具备适当权限的 API 密钥。"
+							}
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"source": {
+										"type": "object",
+										"description": "The source cluster information.",
+										"properties": {
+											"clusterId": {
+												"type": "string",
+												"description": "The ID of the source cluster.",
+												"example": "inxx-xxxxxxxxxxxxxxxxx"
+											},
+											"dbCollections": {
+												"type": "array",
+												"description": "The collections that need to be migrated.",
+												"items": {
+													"type": "object",
+													"description": "The collection information.",
+													"properties": {
+														"collectionNames": {
+															"type": "array",
+															"description": "The names of the collections that need to be migrated.",
+															"items": {
+																"type": "string",
+																"description": "A collection name."
+															}
+														}
+													}
+												}
+											}
+										},
+										"required": [
+											"clusterId"
+										]
+									},
+									"destination": {
+										"type": "object",
+										"description": "The destination cluster information.",
+										"properties": {
+											"projectId": {
+												"type": "string",
+												"description": "The ID of the project that holds the destination cluster.",
+												"example": "proj-xxxxxxxxxxxxxxxxxxxx"
+											},
+											"clusterId": {
+												"type": "string",
+												"description": "The ID of the destination cluster.",
+												"example": "inxx-xxxxxxxxxxxxxxxxxx"
+											}
+										},
+										"required": [
+											"projectId",
+											"clusterId"
+										]
+									}
+								},
+								"required": [
+									"source",
+									"destination"
+								]
+							},
+							"example": {
+								"source": {
+									"clusterId": "inxx-xxxxxxxxxxxxxxx",
+									"dbCollections": [
+										{
+											"collectionNames": [
+												"medium_articles"
+											]
+										}
+									]
+								},
+								"destination": {
+									"projectId": "proj-b44a39b0c51cf21791a841",
+									"clusterId": "in01-xxxxx"
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Response ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"data": {
+													"type": "object",
+													"properties": {
+														"jobId": {
+															"type": "string",
+															"description": "The ID of the job that has been created upon your request."
+														}
+													}
+												}
+											}											
+										},
+										{
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}										
+									]
+
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"value": {
+											"code": 0,
+											"data": {
+												"jobId": "job-xxxxxxxxxxxxxxxxxxxxxx"
+											}
+										}
+									},
+									"2": {
+										"summary": "failure",
+										"value": {"code":21119,"message":"The apikey is illegal."}
+									}									
+								}
+							}
+						}
+					}
+				},
+				"security": [
+
+				]
+			}
+		},
+		"/v2/clusters/{CLUSTER_ID}/backups/{BACKUP_ID}": {
+			"get": {
+				"summary": "Describe Backup",
+				"deprecated": false,
+				"description": "List the information about the specified backup in detail.",
+				"tags": [
+					"Backup & Restore (V2)"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be an API key with appropriate privileges.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为具备适当权限的 API 密钥。"
+							}
+						}
+					},
+					{
+						"name": "CLUSTER_ID",
+						"in": "path",
+						"description": "The ID of the cluster whose backup is in concern.",
+						"example": "inxx-xxxxxxxxxxxxxxx",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "BACKUP_ID",
+						"in": "path",
+						"description": "The ID of the backup in concern.",
+						"example": "backx-xxxxxxxxxxxx",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code."
+												},
+												"data": {
+													"type": "object",
+													"description": "Response payload which is the information about the backup in detail.",
+													"properties": {
+														"clusterId": {
+															"type": "string",
+															"description": "The ID of the cluster that holds the backup.",
+															"example": "inxx-xxxxxxxxxxxxxxx"
+														},
+														"clusterName": {
+															"type": "string",
+															"description": "The name of the cluster that holds the backup."
+														},
+														"projectId": {
+															"type": "string",
+															"description": "The ID of the project that holds the backed-up cluster."
+														},
+														"backupId": {
+															"type": "string",
+															"description": "The ID of the backup.",
+															"example": "backx-xxxxxxxxxxxxxxxx"
+														},
+														"backupName": {
+															"type": "string",
+															"description": "The name of the backup."
+														},
+														"backupType": {
+															"type": "string",
+															"description": "The type of resources backed up.",
+															"enum": [
+																"CLUSTER",
+																"COLLECTION"
+															]
+														},
+														"creationMethod": {
+															"type": "string",
+															"description": "Whether the backup was created manually or automatically.",
+															"enum": [
+																"MANUAL",
+																"AUTO"
+															]
+														},
+														"status": {
+															"type": "string",
+															"description": "The current status of the backup.",
+															"enum": [
+																"CREATING",
+																"AVAILABLE",
+																"DELETED"
+															]
+														},
+														"size": {
+															"type": "integer",
+															"description": "The size of the backup in bytes."
+														},
+														"regionId": {
+															"type": "string",
+															"description": "The ID of the cloud region where the backup is located."
+														},
+														"expireTime": {
+															"type": "string",
+															"description": "The expiration time of the backup."
+														},
+														"collections": {
+															"type": "array",
+															"description": "The collections that are included in the backup.",
+															"items": {
+																"type": "object",
+																"description": "The collection information.",
+																"properties": {
+																	"collectionName": {
+																		"type": "string",
+																		"description": "The name of the collection."
+																	},
+																	"description": {
+																		"type": "string",
+																		"description": "The description of the collection."
+																	},
+																	"status": {
+																		"type": "string",
+																		"description": "The loading status of the collection.",
+																		"enum": [
+																			"LOADED",
+																			"UNLOADED"
+																		]
+																	}
+																},
+																"required": [
+																	"collectionName",
+																	"description",
+																	"status"
+																]
+															}
+														},
+														"createTime": {
+															"type": "string",
+															"description": "The time at which the backup was created."
+														}
+													}
+												}
+											}
+										},
+										{
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"value": {
+											"code": 0,
+											"data": {
+											  "clusterId": "in01-31a6b840e50b72d",
+											  "clusterName": "Dediacted-01",
+											  "projectId": "proj-b44a39b0c51cf21791a841",
+											  "backupId": "backup0_1e3c0988ecb7f0d",
+											  "backupName": "Dedicated-01_backup1",
+											  "backupType": "CLUSTER", 
+											  "creationMethod": "MANUAL",
+											  "status": "AVAILABLE",
+											  "size": 112,
+											  "regionId": "aws-us-west-2",
+											  "expireTime": "2024-08-30T16:49:50Z",
+											  "collections": [
+												 {
+													 "collectionName": "medium_articles",
+													 "description": "Sample collection",
+													 "status": "LOADED"
+												 }
+											   ],
+											  "createTime": "2024-07-30T16:49:50Z"
+											}
+										}
+									},
+									"2": {
+										"summary": "failure",
+										"value": {"code":21119,"message":"The apikey is illegal."}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+
+				]
+			},
+			"delete": {
+				"summary": "Delete Backup",
+				"deprecated": false,
+				"description": "Delete the specified backup of a cluster.",
+				"tags": [
+					"Backup & Restore (V2)"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be an API key with appropriate privileges.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为具备适当权限的 API 密钥。"
+							}
+						}
+					},
+					{
+						"name": "CLUSTER_ID",
+						"in": "path",
+						"description": "The ID of the cluster whose backup is to be deleted.",
+						"example": "inxx-xxxxxxxxxxxxxxx",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "BACKUP_ID",
+						"in": "path",
+						"description": "The ID of the backup to be deleted.",
+						"example": "backx-xxxxxxxxxxxx",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code."
+												},
+												"data": {
+													"type": "object",
+													"description": "Response payload which is the information about the deleted backup.",
+													"properties": {
+														"backupId": {
+															"type": "string",
+															"description": "The ID of the backup that has been deleted.",
+															"example": "backupx_xxxxxxxxxxxxxxx"
+														},
+														"backupName": {
+															"type": "string",
+															"description": "The name of the backup that has been deleted."
+														}
+													}
+												}
+											}
+										},
+										{
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"value": {
+											"code": 0,
+											"data": {
+											   "backupId": "backup1_1e9d15560e4f240",
+											   "backupName": "Dedicated-01_backup1"
+											}
+										}
+									},
+									"2": {
+										"summary": "failure",
+										"value": {"code":21119,"message":"The apikey is illegal."}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+
+				]
+			}
+		},
+		"/v2/clusters/{CLUSTER_ID}/backups/create": {
+			"post": {
+				"summary": "Create backup",
+				"deprecated": false,
+				"description": "Back up the specified cluster or collection.",
+				"tags": [
+					"Backup & Restore (V2)"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be an API key with appropriate privileges.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为具备适当权限的 API 密钥。"
+							}
+						}
+					},
+					{
+						"name": "CLUSTER_ID",
+						"in": "path",
+						"description": "The ID of the cluster that needs to be backed up.",
+						"example": "inxx-xxxxxxxxxxxxxxx",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"backupType": {
+										"type": "string",
+										"description": "The type of the resources to be backed up.",
+										"enum": [
+											"CLUSTER",
+											"COLLECTION"
+										]
+									},
+									"dbCollections": {
+										"type": "array",
+										"description": "The collections that need to be backed up.",
+										"items": {
+											"type": "object",
+											"description": "The collection information.",
+											"properties": {
+												"collectionNames": {
+													"type": "array",
+													"description": "The names of the collections to be backed up.",
+													"items": {
+														"type": "string",
+														"description": "A collection name"
+													}
+												}
+											}
+										}
+									}
+								},
+								"required": [
+									"backupType"
+								]
+							},
+							"example": {
+								"backupType": "COLLECTION",
+								"dbCollections": [
+									{"collectionNames": ["medium_articles"]}
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code"
+												},
+												"data": {
+													"type": "object",
+													"properties": {
+														"backupId": {
+															"type": "string",
+															"description": "The ID of the backup that has been created.",
+															"example": "backupx_xxxxxxxxxxxxxxx"
+														},
+														"backupName": {
+															"type": "string",
+															"description": "The name of the backup that has been created."
+														},
+														"jobId": {
+															"type": "string",
+															"description": "The ID of the asynchronous job that has created this backup.",
+															"example": "job-xxxxxxxxxxxxxxxxxxxx"
+														}
+													}
+												}
+											}
+										},
+										{
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"value": {
+											"code": 0,
+											"data": {
+											   "backupId": "backupx_xxxxxxxxxxxxxxx",
+											   "backupName": "Dedicated_01",
+											   "jobId": "job-xxxxxxxxxxxxxxxxxxxxxx"
+											}
+										}
+									},
+									"2": {
+										"summary": "failure",
+										"value": {"code":21119,"message":"The apikey is illegal."}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+
+				]
+			}
+		},
+		"/v2/clusters/{CLUSTER_ID}/backups/policy": {
+			"get": {
+				"summary": "Get Backup Policy",
+				"deprecated": false,
+				"description": "List the backup policy of the specified cluster in detail.",
+				"tags": [
+					"Backup & Restore (V2)"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be an API key with appropriate privileges.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为具备适当权限的 API 密钥。"
+							}
+						}
+					},
+					{
+						"name": "CLUSTER_ID",
+						"in": "path",
+						"description": "The ID of the cluster whose backup is in concern.",
+						"example": "inxx-xxxxxxxxxxxxxxx",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code."
+												},
+												"data": {
+													"type": "object",
+													"description": "Response payload which is the backup policy of the specified cluster.",
+													"properties": {
+														"clusterId": {
+															"type": "string",
+															"description": "The ID of the cluster whose backup policy is in concern."
+														},
+														"status": {
+															"type": "string",
+															"description": "The status of the backup policy.",
+															"enum": [
+																"ENABLED",
+																"DISABLED"
+															]
+														},
+														"startTime": {
+															"type": "string",
+															"description": "The start time is a two hour duration for the backup policy to execute in the format of HH:mm-HH:mm UTC time. When the backup policy is disabled, the value is `null`.",
+															"example": "02:00-04:00"
+														},
+														"frequency": {
+															"type": "string",
+															"description": "The week days on which the backup is performed. The value is a comma-separated list of numbers from 1 to 7, where 1 represents Monday and 7 represents Sunday. When the backup policy is disabled, the value is `null`.",
+															"example": "1,2,5"
+														},
+														"retentionDays": {
+															"type": "integer",
+															"description": "The number of days to retain the backup. When the backup policy is disabled, the value is `0`.",
+															"minimum": 1,
+															"maximum": 30,
+															"example": 7
+														}
+													}
+												}
+											}
+										},
+										{
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}										
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"value": {
+											"code": 0,
+											"data": {
+											  "clusterId": "inxx-xxxxxxxxxxxxxxx",
+											  "status": "ENABLED",        
+											  "startTime": "02:00-04:00", 
+											  "frequency": "1,2,3,5",     
+											  "retentionDays": 7
+											}
+										  }
+
+									},
+									"2": {
+										"summary": "failure",
+										"value": {"code":21119,"message":"The apikey is illegal."}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+
+				]
+			},
+			"post": {
+				"summary": "Set Backup Policy",
+				"deprecated": false,
+				"description": "",
+				"tags": [
+					"Backup & Restore (V2)"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be an API key with appropriate privileges.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为具备适当权限的 API 密钥。"
+							}
+						}
+					},
+					{
+						"name": "CLUSTER_ID",
+						"in": "path",
+						"description": "The ID of the target cluster whose backup is in concern.",
+						"example": "inxx-xxxxxxxxxxxxxxx",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"frequency": {
+										"type": "string",
+										"description": "The week days on which the backup is performed. The value is a comma-separated list of numbers from 1 to 7, where 1 represents Monday and 7 represents Sunday.",
+										"example": "1,2,5"
+									},
+									"startTime": {
+										"type": "string",
+										"description": "The start time is a two-hour duration for the backup policy to execute in the format of HH:mm-HH:mm UTC time.",
+										"example": "02:00-04:00"
+									},
+									"retentionDays": {
+										"type": "integer",
+										"description": "The number of days to retain the backup.",
+										"minimum": 1,
+										"maximum": 30
+									},
+									"enabled": {
+										"type": "boolean",
+										"description": "Whether the backup policy is enabled or disabled."
+									}
+								},
+								"required": [
+									"frequency",
+									"startTime",
+									"retentionDays",
+									"enabled"
+								]
+							},
+							"example": {
+								"frequency": "1,2,3,5",
+								"startTime": "02:00-04:00",
+								"retentionDays": 7,
+								"enabled": true
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code."
+												},
+												"data": {
+													"type": "object",
+													"properties": {
+														"clusterId": {
+															"type": "string",
+															"description": "The ID of the cluster whose backup policy is in concern."
+														},
+														"status": {
+															"type": "string",
+															"description": "The status of the backup policy.",
+															"enum": [
+																"ENABLED",
+																"DISABLED"
+															]
+														}
+													}
+												}
+											}
+										},
+										{
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"value": {
+											"code": 0,
+											"data": {
+											   "clusterId": "inxx-xxxxxxxxxxxxxxx",
+											   "status": "ENABLED"
+											}
+										}
+									},
+									"2": {
+										"summary": "failure",
+										"value": {"code":21119,"message":"The apikey is illegal."}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+
+				]
+			}
+		},	
+		"/v2/clusters/{CLUSTER_ID}/backups/{BACKUP_ID}/restoreCluster": {
+			"post": {
+				"summary": "Restore Cluster Backup",
+				"deprecated": false,
+				"description": "Restore cluster backup to a new same region, same cuType dedicated cluster.",
+				"tags": [
+					"Backup & Restore (V2)"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be an API key with appropriate privileges.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为具备适当权限的 API 密钥。"
+							}
+						}
+					},
+					{
+						"name": "CLUSTER_ID",
+						"in": "path",
+						"description": "The ID of the cluster whose backup is in concern.",
+						"example": "inxx-xxxxxxxxxxxxxxx",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "BACKUP_ID",
+						"in": "path",
+						"description": "The ID of the backup in concern.",
+						"example": "backx-xxxxxxxxxxxx",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"targetProjectId": {
+										"type": "string",
+										"description": "The ID of the project to which the restored cluster belongs."
+									},
+									"clusterName": {
+										"type": "string",
+										"description": "The name of the restored cluster."
+									},
+									"cuSize": {
+										"type": "integer",
+										"description": "The CU size allocated to the restored cluster.",
+										"minimum": 1,
+										"maximum": 256
+									},
+									"collectionStatus": {
+										"type": "string",
+										"description": "The status of the collections in the restored cluster.",
+										"enum": [
+											"KEEP",
+											"RELEASE"
+										]
+									}
+								},
+								"required": [
+									"targetProjectId",
+									"clusterName",
+									"cuSize",
+									"collectionStatus"
+								]
+							},
+							"example": {
+								"targetProjectId": "proj-xxxxxxxxxxxxxxxxxxxx",
+								"clusterName": "Dedicated-12",
+								"cuSize": 2,
+								"collectionStatus": "KEEP"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "reponse",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code."
+												},
+												"data": {
+													"type": "object",
+													"description": "Response payload which is the information of the restored cluster.",
+													"properties": {
+														"clusterId": {
+															"type": "string",
+															"description": "The ID of the restored cluster."
+														},
+														"username": {
+															"type": "string",
+															"description": "The username used to access the restored cluster."
+														},
+														"password": {
+															"type": "string",
+															"description": "The password used to access the restored cluster. This is shown only once. You are advised to note down the password and save it in a secure place."
+														}
+													}
+												}
+											}
+										},
+										{
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"value": {
+											"code": 0,
+											"data": {
+											   "clusterId": "inxx-xxxxxxxxxxxxxxx",
+											   "username":"db_admin",
+											   "password":"xxxxxxxxx"
+											}
+										}
+
+									},
+									"2": {
+										"summary": "failure",
+										"value": {"code":21119,"message":"The apikey is illegal."}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+
+				]
+			}
+		},	
+		"/v2/clusters/{CLUSTER_ID}/backups/{BACKUP_ID}/restoreCollection": {
+			"post": {
+				"summary": "Restore Collection Backup",
+				"deprecated": false,
+				"description": "Restore collection backup to an existing cluster.",
+				"tags": [
+					"Backup & Restore (V2)"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be an API key with appropriate privileges.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为具备适当权限的 API 密钥。"
+							}
+						}
+					},
+					{
+						"name": "CLUSTER_ID",
+						"in": "path",
+						"description": "The ID of the cluster whose collection backup is in concern.",
+						"example": "inxx-xxxxxxxxxxxxxxx",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "BACKUP_ID",
+						"in": "path",
+						"description": "The ID of the backup in concern.",
+						"example": "backx-xxxxxxxxxxxx",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"targetProjectId": {
+										"type": "string",
+										"description": "The ID of the project to which the restored collection belongs."
+									},
+									"targetClusterId": {
+										"type": "string",
+										"description": "The ID of the cluster to which the restored collection belongs."
+									},
+									"dbCollections": {
+										"type": "array",
+										"description": "A list of collection groups.",
+										"items": {
+											"type": "object",
+											"description": "A collection group.",
+											"properties": {
+												"collections": {
+													"type": "array",
+													"description": "A list of collections to restore.",
+													"items": {
+														"type": "object",
+														"description": "A collection to restore.",
+														"properties": {
+															"collectionName": {
+																"type": "string",
+																"description": "The name of the source collection to restore."
+															},
+															"targetCollectionName": {
+																"type": "string",
+																"description": "The name of the target collection."
+															},
+															"targetCollectionStatus": {
+																"type": "string",
+																"description": "The status of the target collection.",
+																"enum": [
+																	"LOADED",
+																	"UNLOADED"
+																]
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								},
+								"required": [
+									"targetProjectId",
+									"targetClusterId"
+								]
+							},
+							"example": {
+								"targetProjectId": "proj-xxxxxxxxxxxxxxxxxxxx",
+								"targetClusterId": "in01-xxxxxxxxxxxxxx",
+								"dbCollections": [
+								   { 
+									"collections": [
+									   {
+										 "collectionName": "medium_articles",
+										 "targetCollectionName": "restore_medium_articles",
+										 "targetCollectionStatus": "LOADED"
+									   }
+									 ]
+								  }
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code."
+												},
+												"data": {
+													"type": "object",
+													"description": "Response payload which is the ID of an asynchronous control-plane job.",
+													"properties": {
+														"jobId": {
+															"type": "string",
+															"description": "The ID of an asynchronous control-plane job."
+														}
+													}
+												}
+											}
+										},
+										{
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"value": {
+											"code": 0,
+											"data": {
+											   "jobId": "job-xxxxxxxxxxxxxxxxxxxxxx"
+											}
+										}
+									},
+									"2": {
+										"summary": "failure",
+										"value": {"code":21119,"message":"The apikey is illegal."}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+
+				]
+			}
+		}						
 	},
 	"components": {
 		"securitySchemes": {

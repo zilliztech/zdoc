@@ -62,5 +62,17 @@
     {
         "name": "import-operations-v2",
         "description": "This set of APIs provides a way to import data into Zilliz Cloud."
+    },
+    {
+        "name": "cloud-migration-v2",
+        "description": "This set of APIs provides a way to migration data into Zilliz Cloud clusters."
+    },
+    {
+        "name": "cloud-job-v2",
+        "description": "This set of APIs provides a way to manipulate control plane jobs in Zilliz Cloud."
+    },
+    {
+        "name": "backup-and-restore-v2",
+        "description": "This set of APIs provides a way to backup and restore data in Zilliz Cloud."
     }
 ]

@@ -1,0 +1,20 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_positition: 93
+slug: /restful/delete-backup-v2
+title: "Delete Backup | restful"
+description: "Delete the specified backup of a cluster. | restful"
+hide_table_of_contents: true
+sidebar_label: "Delete Backup"
+sidebar_custom_props: { badges: ['delete']}
+---
+
+# Delete Backup
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" />
+
+export const specs = {"summary":"Delete Backup","deprecated":false,"description":"Delete the specified backup of a cluster.","tags":["Backup & Restore (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}},{"name":"CLUSTER_ID","in":"path","description":"The ID of the cluster whose backup is to be deleted.","example":"inxx-xxxxxxxxxxxxxxx","required":true,"schema":{"type":"string"}},{"name":"BACKUP_ID","in":"path","description":"The ID of the backup to be deleted.","example":"backx-xxxxxxxxxxxx","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"response","content":{"application/json":{"schema":{"anyOf":[{"type":"object","properties":{"code":{"type":"integer","description":"Response code."},"data":{"type":"object","description":"Response payload which is the information about the deleted backup.","properties":{"backupId":{"type":"string","description":"The ID of the backup that has been deleted.","example":"backupx_xxxxxxxxxxxxxxx"},"backupName":{"type":"string","description":"The name of the backup that has been deleted."}}}}},{"description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}}}}}]},"examples":{"1":{"summary":"success","value":{"code":0,"data":{"backupId":"backup1_1e9d15560e4f240","backupName":"Dedicated-01_backup1"}}},"2":{"summary":"failure","value":{"code":21119,"message":"The apikey is illegal."}}}}}}},"security":[]}
+export const endpoint = "/v2/clusters/{CLUSTER_ID}/backups/{BACKUP_ID}"
+export const method = "delete"

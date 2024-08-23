@@ -39,9 +39,9 @@ class refGen {
 
         const page_title = lang === "zh-CN" ? specification["x-i18n"][lang].summary : specification.summary
         const page_excerpt = this.__filter_content(lang === "zh-CN" ? specification["x-i18n"][lang].description : specification.description, target)
-        const page_parent = parents.filter(x => x === specification.tags[0])[0].split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
+        const page_parent = parents.filter(x => x === specification.tags[0])[0].replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
         const version = page_parent.includes('v2') ? 'v2' : 'v1'
-        const upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('import') || page_parent.startsWith('pipeline') ? 'control-plane' : 'data-plane'
+        const upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('import') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') ? 'control-plane' : 'data-plane'
         const page_slug = (this.get_slug(page_title)) + (version === 'v2' ? '-v2' : '')
         const page_method = method.toLowerCase()
         const specs = JSON.stringify(specification)
@@ -71,10 +71,10 @@ class refGen {
     const template = env.getTemplate("group.mdx")
 
     for (const group of Object.keys(specifications.tags)) {
-      const slug = specifications.tags[group].name.split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
+      const slug = specifications.tags[group].name.replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
       const version = slug.includes('v2') ? 'v2' : 'v1'
-      const upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('import') || slug.startsWith('pipeline') ? 'control-plane' : 'data-plane'
-      const group_name = specifications.tags[group].name.split(' ')[0] + (version === 'v2' ? ' (V2)' : ' (V1)')
+      const upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('import') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') ? 'control-plane' : 'data-plane'
+      const group_name = specifications.tags[group].name + (version === 'v2' ? '' : ' (V1)')
       const descriptions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/descriptions.json', 'utf-8'))
       const description = descriptions.filter(x => x.name === slug)[0].description
       const position = specifications.tags.map(x => x.name).indexOf(specifications.tags[group].name)
@@ -124,7 +124,7 @@ class refGen {
       const titles = JSON.parse(fs.readFileSync(`plugins/apifox-docs/meta/titles.json`, 'utf-8'))
       return titles[page_title]
     } else {
-      return page_title.split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
+      return page_title.replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
     }
   }
 

@@ -30,7 +30,10 @@ const BaseURL = ({ endpoint, lang, target }) => {
     </>)
 }
 
-const Param = ({ name, description, type, format, required, example, inProp, lang, target }) => {
+const Param = ({ name, description, type, format, required, example, inProp, enums, lang, target }) => {
+
+    enums = enums? enums : []
+    
     return (
         <div className={styles.paramContainer}>
             <div className={styles.paramLabels}>
@@ -41,6 +44,7 @@ const Param = ({ name, description, type, format, required, example, inProp, lan
             </div>
             <div className={styles.description} dangerouslySetInnerHTML={{__html: description ? textFilter(description, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
             <div>
+                { enums.length > 0 && <Enums enums={enums} lang={lang} target={target} /> }
                 { (example === 0 || example) && <div>
                     <span className={styles.paramExample}>{i18n[lang]['label.example.value']}</span>
                     <span className={styles.label}>{example}</span>
@@ -174,7 +178,7 @@ const Items = ({ name, description, obj, required, lang, target }) => {
 }
 
 const Primitive = ({ name, obj, required, lang, target }) => {
-    const { type, format, minimum, maximum, defaultValue} = obj;
+    const { type, format, minimum, maximum, defaultValue, example } = obj;
     const description = obj["x-i18n"]?.[lang]?.description ? obj["x-i18n"][lang].description : obj.description
     const enums = obj.enum ? obj.enum : []
 
@@ -196,6 +200,10 @@ const Primitive = ({ name, obj, required, lang, target }) => {
                 { defaultValue && <div>
                     <span className={styles.paramExample}>{i18n[lang]['label.default.value']}</span>
                     <span className={styles.label}>{defaultValue}</span>
+                </div> }
+                { example && <div>
+                    <span className={styles.paramExample}>{i18n[lang]['label.example.value']}</span>
+                    <span className={styles.label}>{example}</span>
                 </div> }
             </div>
         </div>
@@ -463,7 +471,7 @@ export default function RestSpecs(props) {
 
     const target = props.target
     const lang = props.lang ? props.lang : 'en-US'
-    const endpoint = props.endpoint.replace('{', '${').replace('}', '}')
+    const endpoint = props.endpoint.replaceAll('{', '${')
 
     const short = textFilter(description, target)
     const headerParams = parameters ? parameters.filter(param => param.in === 'header') : []
@@ -523,7 +531,8 @@ export default function RestSpecs(props) {
                                             type={param.schema.type} 
                                             required={param.required} 
                                             example={param.example}
-                                            inProp={param.in} />
+                                            inProp={param.in}
+                                            enums={param.schema.enum} />
                                     )
                                 })}
                                 { pathParams.length > 0 && pathParams.map((param, index) => {
@@ -538,7 +547,8 @@ export default function RestSpecs(props) {
                                             type={param.schema.type}
                                             required={param.required} 
                                             example={param.example}
-                                            inProp={param.in} />
+                                            inProp={param.in}
+                                            enums={param.schema.enum} />
                                     )
                                 })}
                                 { queryParams.length > 0 && queryParams.map((param, index) => {
@@ -553,7 +563,8 @@ export default function RestSpecs(props) {
                                             type={param.schema.type}
                                             required={param.required} 
                                             example={param.example}
-                                            inProp={param.in} />
+                                            inProp={param.in}
+                                            enums={param.schema.enum} />
                                     )
                                 })}
                             </section>}
