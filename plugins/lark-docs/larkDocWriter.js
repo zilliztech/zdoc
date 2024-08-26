@@ -6,6 +6,7 @@ const { URL } = require('node:url')
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
 const showdown = require('showdown')
+const Jimp = require("jimp");
 const _ = require('lodash')
 
 class larkDocWriter {
@@ -1035,7 +1036,18 @@ class larkDocWriter {
 
         const result = await this.downloader.__downloadBoardPreview(board.token)
         const root = this.imageDir.replace(/^static\//g, '')
-        result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${board["token"]}.png`));
+        const writeStream = fs.createWriteStream(`${this.downloader.target_path}/${board["token"]}.png`);
+        result.body.pipe(writeStream);
+        writeStream.on('finish', () => {
+            Jimp.read(`${this.downloader.target_path}/${board["token"]}.png`, (err, image) => {
+                if (err) throw err;
+                
+                image.autocrop().quality(100).write(`${this.downloader.target_path}/${board["token"]}.png`, (err) => {
+                    if (err) throw err;
+                    console.log('Image cropped and saved.');
+                });
+            });
+        });
         return `![${board.token}](/${root}/${board["token"]}.png)`;
     }
 
