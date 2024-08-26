@@ -4316,12 +4316,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
-										"value": {
-											"code": 0,
-											"data": {
-
-											}
-										}
+										"value": {"code":0,"cost":0,"data":{}}
 									},
 									"2": {
 										"summary": "failure",
@@ -24873,19 +24868,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
-										"value": {
-											"code": 0,
-											"data": [
-												{
-													"color": "red_8682",
-													"id": 1
-												},
-												{
-													"color": "red_9298",
-													"id": 4
-												}
-											]
-										}
+										"value": {"code":0,"cost":0,"data":[{"color":"red_7025","id":1},{"color":"red_4794","id":4},{"color":"red_9392","id":6}]}
 									},
 									"2": {
 										"summary": "failure",

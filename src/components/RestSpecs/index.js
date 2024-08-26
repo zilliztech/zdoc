@@ -201,7 +201,7 @@ const Primitive = ({ name, obj, required, lang, target }) => {
                     <span className={styles.paramExample}>{i18n[lang]['label.default.value']}</span>
                     <span className={styles.label}>{defaultValue}</span>
                 </div> }
-                { example && <div>
+                { (example === 0 || example) && <div>
                     <span className={styles.paramExample}>{i18n[lang]['label.example.value']}</span>
                     <span className={styles.label}>{example}</span>
                 </div> }
@@ -472,16 +472,17 @@ export default function RestSpecs(props) {
     const target = props.target
     const lang = props.lang ? props.lang : 'en-US'
     const endpoint = props.endpoint.replaceAll('{', '${')
+    const validParams = parameters ? parameters.filter(param => !param?.['x-include-target'] || param?.['x-include-target']?.includes(target)) : []
 
     const short = textFilter(description, target)
-    const headerParams = parameters ? parameters.filter(param => param.in === 'header') : []
+    const headerParams = validParams ? validParams.filter(param => param.in === 'header') : []
     const headersExample = headerParams.map(param => `--header "${param.name}: ${param.example}"`).join(' \\\n').replace(/{{/g, '${').replace(/}}/g, '}')
-    const pathParams = parameters ? parameters.filter(param => param.in === 'path') : []
+    const pathParams = validParams ? validParams.filter(param => param.in === 'path') : []
     const pathExample = pathParams.map(param => {
         param = chooseParamExample(param, lang, target)
         return `export ${param.name}="${param.example}"`
     }).join('\n')
-    const queryParams = parameters ? parameters.filter(param => param.in === 'query') : []
+    const queryParams = validParams ? validParams.filter(param => param.in === 'query') : []
     const queryExample = queryParams.map(param => {
         param = chooseParamExample(param, lang, target)
         return (param.required ? `${param.name}=${param.example}` : '')
