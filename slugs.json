@@ -13,7 +13,7 @@
   },
   "LMfdwRwKIiJtywkwbHVcGnOFnRf": {
     "slug": "free-trials",
-    "title": "Free Trial"
+    "title": "Try Zilliz Cloud For Free"
   },
   "J274wT61xiEM4fkYeL8cMb4Pnbd": {
     "slug": "install-sdks",
@@ -299,13 +299,13 @@
     "slug": "migrations",
     "title": "Migrations"
   },
-  "TDkbwhwMyi7bPykZAoUc5PFfnIb": {
+  "TDkbwhwMyi7bPykZAoUc5PFfnIb?from=from_copylink": {
     "slug": "migrate-from-milvus",
-    "title": "Migrate from Milvus"
+    "title": "Migrate from Milvus to Zilliz Cloud"
   },
-  "Y8nwwbi0KiwtVZkMaSQcsPcwnkf": {
+  "Y8nwwbi0KiwtVZkMaSQcsPcwnkf?from=from_copylink": {
     "slug": "migrate-from-elasticsearch",
-    "title": "Migrate from Elasticsearch"
+    "title": "Migrate from Elasticsearch to Zilliz Cloud"
   },
   "MTqjwwUKhiyns4kGV7Lc7PRlnwb": {
     "slug": "migrate-between-clusters",
@@ -391,9 +391,9 @@
     "slug": "multi-factor-auth",
     "title": "MFA"
   },
-  "WwEkw6QG2ixbfCkWENicYKBYn3g": {
-    "slug": "single-sign-on",
-    "title": "Single Sign-On"
+  "QUC4wfVYTi73ctkMzEec17oVnjh?from=from_copylink": {
+    "slug": "single-sign-on-with-okta",
+    "title": "Single Sign-on with Okta"
   },
   "Ha8jwqxnniC8mDkXM4RcN4SFnKf": {
     "slug": "cluster-credentials-console",
@@ -716,27 +716,27 @@
     "title": "Scale Cluster"
   },
   "QUC4wfVYTi73ctkMzEec17oVnjh": {
-    "slug": "sso-with-okta",
+    "slug": "single-sign-on-with-okta_1",
     "title": "SSO with Okta"
   },
-  "PlX3wo82Di6oWVkg2ercRWCUnvV": {
+  "PlX3wo82Di6oWVkg2ercRWCUnvV?from=from_copylink": {
     "slug": "via-endpoint",
-    "title": "Via Endpoint"
+    "title": "Migrate from Milvus to Zilliz Cloud Via Endpoint"
   },
-  "IO4fwm5fJiroaoktKeIcbdkDnRb": {
+  "IO4fwm5fJiroaoktKeIcbdkDnRb?from=from_copylink": {
     "slug": "via-backup-files",
-    "title": "Via Backup Files"
+    "title": "Migrate from Milvus to Zilliz Cloud Via Backup Files"
   },
-  "CiVHwbwPwipX5SkFkqVcLpESnfe": {
+  "CiVHwbwPwipX5SkFkqVcLpESnfe?from=from_copylink": {
     "slug": "migrate-from-pgvector",
-    "title": "Migrate from pgvector"
+    "title": "Migrate from pgvector to Zilliz Cloud"
   },
-  "X9HFwIFmRimmatkblgGcAeQgnyd": {
-    "slug": "third-party-services",
-    "title": "Third-party Services"
-  },
-  "Ex99woZlsico4FkfwxGckjRRnqf": {
+  "Ex99woZlsico4FkfwxGckjRRnqf?from=from_copylink": {
     "slug": "prometheus",
-    "title": "Prometheus"
+    "title": "Integrate with Prometheus"
+  },
+  "W8Mhwa4faiQqtRkH4t9cdexCnlf": {
+    "slug": "manage-replica",
+    "title": "Manage Replica"
   }
 }
