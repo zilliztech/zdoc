@@ -56,7 +56,7 @@ class refGen {
           sidebar_position
         }).replaceAll(/<br>/g, '<br/>')
         
-        fs.writeFileSync(`${this.options.target_path}/${upper_folder}/${version}/${page_parent}/${page_slug}.mdx`, t)
+        fs.writeFileSync(`${this.options.target_path}/${version}/${upper_folder}/${page_parent}/${page_slug}.mdx`, t)
       }
     }
   }  
@@ -74,7 +74,7 @@ class refGen {
       const slug = specifications.tags[group].name.replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
       const version = slug.includes('v2') ? 'v2' : 'v1'
       const upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('import') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') ? 'control-plane' : 'data-plane'
-      const group_name = specifications.tags[group].name + (version === 'v2' ? '' : ' (V1)')
+      const group_name = version === 'v2' ? specifications.tags[group].name.slice(0, -5) : specifications.tags[group].name
       const descriptions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/descriptions.json', 'utf-8'))
       const description = descriptions.filter(x => x.name === slug)[0].description
       const position = specifications.tags.map(x => x.name).indexOf(specifications.tags[group].name)
@@ -85,33 +85,33 @@ class refGen {
         description
       })
 
-      const folder_path = `${target_path}/${upper_folder}/${version}/${slug}`
+      const folder_path = `${target_path}/${version}/${upper_folder}/${slug}`
 
       if (!fs.existsSync(folder_path)) {
         fs.mkdirSync(folder_path, { recursive: true })
       }
 
-      if (!fs.existsSync(`${target_path}/${upper_folder}/${upper_folder}.md`)) {
-        const title = upper_folder.startsWith('control') ? 'Control Plane' : 'Data Plane'
-        const pos = upper_folder.startsWith('control') ? 1 : 2
-        const desc = upper_folder.startsWith('control') ? 'APIs for managing Zilliz Cloud clusters and resources' : 'APIs for managing data stored in Zilliz Cloud clusters'
-
-        fs.writeFileSync(`${target_path}/${upper_folder}/${upper_folder}.md`, template.render({
-          group_name: title,
-          position: pos,
-          slug: upper_folder,
-          description: desc
-        }))
-      }
-
-      if (!fs.existsSync(`${target_path}/${upper_folder}/${version}/${version}.md`)) {
-        fs.writeFileSync(`${target_path}/${upper_folder}/${version}/${version}.md`, template.render({
+      if (!fs.existsSync(`${target_path}/${version}/${version}.mdx`)) {
+        fs.writeFileSync(`${target_path}/${version}/${version}.mdx`, template.render({
           group_name: version === 'v2' ? 'V2' : 'V1',
           position: version === 'v2' ? 1 : 2,
-          slug: `${upper_folder}-${version}`,
+          slug: version,
           description: ''
         }))
       }
+
+      if (!fs.existsSync(`${target_path}/${version}/${upper_folder}/${upper_folder}.mdx`)) {
+        const title = upper_folder.startsWith('control') ? 'Control Plane' : 'Data Plane'
+        const pos = upper_folder.startsWith('control') ? 1 : 2
+        const desc = upper_folder.startsWith('control') ? 'This provide API endpoints for managing Zilliz Cloud clusters and resources.' : 'This provide API endpoints for managing data stored in Zilliz Cloud clusters.'
+
+        fs.writeFileSync(`${target_path}/${version}/${upper_folder}/${upper_folder}.mdx`, template.render({
+          group_name: title,
+          position: pos,
+          slug: `${upper_folder}-${version}`,
+          description: desc
+        }))
+      }      
 
       fs.writeFileSync(`${folder_path}/${slug}.mdx`, t)
     }

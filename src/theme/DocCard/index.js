@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {
   findFirstSidebarItemLink,
-  useDocById,
+  useDocById
 } from '@docusaurus/theme-common/internal';
 import {usePluralForm} from '@docusaurus/theme-common';
 import isInternalUrl from '@docusaurus/isInternalUrl';

@@ -283,3 +283,7 @@ div.footer__bottom.text--center {
 .navbar__search {
   display: none;
 }
+
+.hidden-sidebar-item {
+  display: none !important;
+}

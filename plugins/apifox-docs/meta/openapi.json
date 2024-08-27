@@ -207,6 +207,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "Returns a list of applicable cloud providers.",
 											"x-i18n": {
 												"zh-CN": {
@@ -268,6 +269,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -304,6 +306,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": [
@@ -324,6 +327,7 @@
 									},
 									"2": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-target-lang": "zh-CN",
 										"value": {
 											"code": 200,
@@ -341,6 +345,7 @@
 									},
 									"3": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 80002,
 											"message": "Token not found or unauthorized: The provided token does not exist in our records, or you do not have the necessary permissions to use this token. Please ensure you have the correct token."
@@ -436,6 +441,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "failure",
 											"description": "Returns a list of clusters.",
 											"type": "object",
 											"properties": {
@@ -644,6 +650,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -680,6 +687,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -721,6 +729,7 @@
 									},
 									"2": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-target-lang": "zh-CN",
 										"value": {
 											"code": 200,
@@ -763,6 +772,7 @@
 									},
 									"3": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 80002,
 											"message": "Token not found or unauthorized: The provided token does not exist in our records, or you do not have the necessary permissions to use this token. Please ensure you have the correct token."
@@ -904,6 +914,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -941,6 +952,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -977,6 +989,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -986,6 +999,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 80002,
 											"message": "Token not found or unauthorized: The provided token does not exist in our records, or you do not have the necessary permissions to use this token. Please ensure you have the correct token."
@@ -1060,6 +1074,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "ingestion",											
 											"type": "object",
 											"properties": {
 												"code": {
@@ -1540,6 +1555,7 @@
 											}
 										},
 										{
+											"x-tab-label": "search",	
 											"type": "object",
 											"properties": {
 												"code": {
@@ -2025,6 +2041,7 @@
 											}
 										},
 										{
+											"x-tab-label": "deletion",	
 											"type": "object",
 											"properties": {
 												"code": {
@@ -2271,6 +2288,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",	
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -2416,6 +2434,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "ingestion",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -2896,6 +2915,7 @@
 											}
 										},
 										{
+											"x-tab-label": "search",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -3381,6 +3401,7 @@
 											}
 										},
 										{
+											"x-tab-label": "deletion",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -3627,6 +3648,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -3772,6 +3794,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -3813,6 +3836,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -3849,6 +3873,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": [
@@ -3860,6 +3885,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -4027,6 +4053,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -4053,6 +4080,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -4086,6 +4114,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -4095,6 +4124,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -4245,6 +4275,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -4280,6 +4311,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -4316,10 +4348,12 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {"code":0,"cost":0,"data":{}}
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -4438,6 +4472,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -4470,6 +4505,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -4506,6 +4542,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": [
@@ -4517,6 +4554,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -4601,6 +4639,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response.",
 											"type": "object",
 											"properties": {
@@ -4666,6 +4705,7 @@
 											]
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -4702,6 +4742,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": [
@@ -4715,6 +4756,7 @@
 									},
 									"2": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-target-lang": "zh-CN",
 										"value": {
 											"code": 200,
@@ -4729,6 +4771,7 @@
 									},
 									"3": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -4818,6 +4861,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -4914,6 +4958,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -4950,6 +4995,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -4974,6 +5020,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -5026,6 +5073,7 @@
 							"schema": {
 								"oneOf": [
 									{
+										"x-tab-label": "ingestion",
 										"type": "object",
 										"properties": {
 											"name": {
@@ -5424,6 +5472,7 @@
 										]
 									},
 									{
+										"x-tab-label": "search",
 										"type": "object",
 										"properties": {
 											"name": {
@@ -5839,6 +5888,7 @@
 										]
 									},
 									{
+										"x-tab-label": "deletion",
 										"type": "object",
 										"properties": {
 											"name": {
@@ -6247,6 +6297,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "ingestion",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -6690,6 +6741,7 @@
 											}
 										},
 										{
+											"x-tab-label": "search",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -7170,6 +7222,7 @@
 											}
 										},
 										{
+											"x-tab-label": "deletion",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -7425,6 +7478,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -7817,6 +7871,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "ingestion",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -8260,6 +8315,7 @@
 											}
 										},
 										{
+											"x-tab-label": "search",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -8740,6 +8796,7 @@
 											}
 										},
 										{
+											"x-tab-label": "deletion",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -8995,6 +9052,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -9271,6 +9329,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -9297,6 +9356,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -9333,6 +9393,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -9342,6 +9403,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -9530,6 +9592,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -9577,6 +9640,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -9613,6 +9677,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -9626,6 +9691,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -9864,6 +9930,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -9899,6 +9966,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -9935,6 +10003,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -9944,6 +10013,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -10048,6 +10118,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -10147,6 +10218,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -10183,6 +10255,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -10205,6 +10278,7 @@
 										}
 									},
 									"2": {
+										"x-target-response": "OPTION 2",
 										"summary": "failure",
 										"value": {
 											"code": 200,
@@ -10273,6 +10347,7 @@
 							"schema": {
 								"oneOf": [
 									{
+										"x-tab-label": "ingestion",
 										"type": "object",
 										"properties": {
 											"data": {
@@ -10382,6 +10457,7 @@
 										]
 									},
 									{
+										"x-tab-label": "search",
 										"type": "object",
 										"properties": {
 											"data": {
@@ -10482,6 +10558,7 @@
 										]
 									},
 									{
+										"x-tab-label": "deletion",
 										"type": "object",
 										"properties": {
 											"data": {
@@ -10668,6 +10745,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "ingestion",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -10840,6 +10918,7 @@
 											}
 										},
 										{
+											"x-tab-label": "search",
 											"type": "object",
 											"additionalProperties": false,
 											"properties": {
@@ -10856,10 +10935,10 @@
 													"type": "object",
 													"properties": {
 														"results": {
-															"description": "Response of a text ingestion pipeline.",
+															"description": "Response of a search pipeline.",
 															"x-i18n": {
 																"zh-CN": {
-																	"description": "当 Pipeline 为 Text Ingestion 类型时的返回结果。"
+																	"description": "当 Pipeline 为 Search 类型时的返回结果。"
 																}
 															},
 															"oneOf": [
@@ -11073,6 +11152,7 @@
 											}
 										},
 										{
+											"x-tab-label": "deletion",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -11115,6 +11195,39 @@
 													"required": [
 														"num_deleted_chunks"
 													]
+												}
+											}
+										},
+										{
+											"x-tab-label": "failure",
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
 												}
 											}
 										}
@@ -11397,6 +11510,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -11429,13 +11543,44 @@
 											}
 										},
 										{
-
+											"x-tab-label": "failure",
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
 										}
 									]
 								},
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": [
@@ -11445,6 +11590,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"summary": "failure",
 											"value": {
@@ -11680,6 +11826,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -11791,6 +11938,7 @@
 											"description": "A success response."
 										},
 										{
+											"x-tab-label": "failure",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -11819,6 +11967,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -11848,6 +11997,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -11946,6 +12096,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -11974,6 +12125,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -12010,6 +12162,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-include-target": [
 											"milvus"
 										],
@@ -12023,6 +12176,7 @@
 									},
 									"2": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-include-target": [
 											"zilliz"
 										],
@@ -12037,6 +12191,7 @@
 									},
 									"3": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -12166,6 +12321,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -12279,6 +12435,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -12315,6 +12472,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": [
@@ -12334,6 +12492,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -12393,6 +12552,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -12445,6 +12605,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -12481,6 +12642,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": [
@@ -12501,6 +12663,7 @@
 									},
 									"2": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-target-lang": "zh-CN",
 										"value": {
 											"code": 0,
@@ -12518,6 +12681,7 @@
 									},
 									"3": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -12781,6 +12945,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -12825,6 +12990,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -12861,6 +13027,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -12870,6 +13037,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 1",
 										"x-include-target": [
 											"milvus"
 										],
@@ -12880,6 +13048,7 @@
 									},
 									"3": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"x-include-target": [
 											"zilliz"
 										],
@@ -13165,6 +13334,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -13218,6 +13388,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -13254,6 +13425,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -13275,6 +13447,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -13396,6 +13569,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -13429,6 +13603,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -13465,6 +13640,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": [
@@ -13474,6 +13650,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -13583,6 +13760,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -13749,6 +13927,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -13785,6 +13964,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -13812,6 +13992,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -13922,6 +14103,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -13958,6 +14140,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -13994,6 +14177,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -14003,6 +14187,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -14077,6 +14262,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -14147,6 +14333,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -14183,6 +14370,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": [
@@ -14197,6 +14385,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -14901,6 +15090,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -14927,6 +15117,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -14963,6 +15154,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -14972,6 +15164,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -15116,6 +15309,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response.",
 											"type": "object",
 											"properties": {
@@ -15181,6 +15375,7 @@
 											]
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -15217,6 +15412,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -15229,6 +15425,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -15352,6 +15549,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -15439,6 +15637,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -15475,6 +15674,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-include-target": [
 											"milvus"
 										],
@@ -15507,6 +15707,7 @@
 									},
 									"2": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-include-target": [
 											"zilliz"
 										],
@@ -15539,6 +15740,7 @@
 									},
 									"3": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -15953,6 +16155,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -15989,6 +16192,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -16025,6 +16229,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -16034,6 +16239,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -16125,6 +16331,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -16315,6 +16522,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -16351,6 +16559,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-include-target": [
 											"milvus"
 										],
@@ -16410,6 +16619,7 @@
 									},
 									"2": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-include-target": [
 											"zilliz"
 										],
@@ -16468,6 +16678,7 @@
 									},
 									"3": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -16542,6 +16753,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response.",
 											"type": "object",
 											"properties": {
@@ -16736,6 +16948,7 @@
 											]
 										},
 										{
+											"x-tab-label": "failures",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -16772,6 +16985,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -16794,6 +17008,7 @@
 										}
 									},
 									"2": {
+										"x-target-response": "OPTION 2",
 										"summary": "failure",
 										"value": {
 											"code": 200,
@@ -17036,6 +17251,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -17089,6 +17305,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -17125,6 +17342,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -17146,6 +17364,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -17261,6 +17480,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -17317,6 +17537,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -17353,6 +17574,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -17364,6 +17586,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -17453,6 +17676,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -17637,6 +17861,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -17673,6 +17898,7 @@
 								"examples": {
 									"1": {
 										"summary": "dedicated",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -17696,6 +17922,7 @@
 									},
 									"2": {
 										"summary": "serverless",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -17719,6 +17946,7 @@
 									},
 									"3": {
 										"summary": "free",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -17742,6 +17970,7 @@
 									},
 									"4": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -17853,6 +18082,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -18045,6 +18275,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -18081,6 +18312,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -18108,6 +18340,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"x-include-target": [
 											"milvus"
 										],
@@ -18118,6 +18351,7 @@
 									},
 									"3": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"x-include-target": [
 											"zilliz"
 										],
@@ -18227,6 +18461,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -18266,6 +18501,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -18302,6 +18538,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-include-target": [
 											"zilliz"
 										],
@@ -18314,6 +18551,7 @@
 									},
 									"2": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-include-target": [
 											"milvus"
 										],
@@ -18326,6 +18564,7 @@
 									},
 									"3": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -18426,6 +18665,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -18487,6 +18727,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -18523,6 +18764,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-target-lang": "en-US",
 										"value": {
 											"code": 0,
@@ -18547,6 +18789,7 @@
 									},
 									"2": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-target-lang": "zh-CN",
 										"value": {
 											"code": 0,
@@ -18566,6 +18809,7 @@
 									},
 									"3": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -18691,6 +18935,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -18727,6 +18972,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -18763,6 +19009,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -18772,6 +19019,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -19026,6 +19274,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -19079,6 +19328,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -19115,6 +19365,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -19136,6 +19387,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -19240,6 +19492,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -19276,6 +19529,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -19312,6 +19566,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -19321,6 +19576,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -19394,6 +19650,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response.",
 											"type": "object",
 											"properties": {
@@ -19444,6 +19701,7 @@
 											]
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -19480,6 +19738,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -19490,6 +19749,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -19591,6 +19851,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -19630,6 +19891,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -19666,6 +19928,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-include-target": [
 											"milvus"
 										],
@@ -19678,6 +19941,7 @@
 									},
 									"2": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-include-target": [
 											"zilliz"
 										],
@@ -19690,6 +19954,7 @@
 									},
 									"3": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -19811,6 +20076,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -19850,6 +20116,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -19886,6 +20153,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": [
@@ -19895,6 +20163,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -20010,6 +20279,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -20351,6 +20621,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -20387,6 +20658,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-include-target": [
 											"milvus"
 										],
@@ -20446,6 +20718,7 @@
 									},
 									"2": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"x-include-target": [
 											"zilliz"
 										],
@@ -20504,6 +20777,7 @@
 									},
 									"3": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -20737,6 +21011,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -20791,6 +21066,7 @@
 										},
 										{
 											"description": "Returns an error message.",
+											"x-tab-label": "failure",
 											"x-i18n": {
 												"zh-CN": {
 													"description": "返回错误消息。"
@@ -20826,6 +21102,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": [
@@ -20849,6 +21126,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -20975,6 +21253,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -21011,6 +21290,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -21047,6 +21327,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -21056,6 +21337,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -21239,6 +21521,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -21300,6 +21583,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -21336,6 +21620,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -21348,6 +21633,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -21442,6 +21728,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -21468,6 +21755,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -21504,6 +21792,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -21513,6 +21802,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -21649,6 +21939,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -21685,6 +21976,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -21721,6 +22013,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -21730,6 +22023,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -21841,6 +22135,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -22052,6 +22347,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -22088,6 +22384,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -22115,6 +22412,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -22220,6 +22518,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response.",
 											"type": "object",
 											"properties": {
@@ -22270,6 +22569,7 @@
 											]
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -22306,6 +22606,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -22316,6 +22617,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -22420,6 +22722,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -22456,6 +22759,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -22492,6 +22796,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -22501,6 +22806,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -22629,6 +22935,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -22665,6 +22972,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -22701,6 +23009,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -22710,6 +23019,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -22879,6 +23189,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -22914,6 +23225,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -22950,6 +23262,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": [
@@ -22970,6 +23283,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -23106,6 +23420,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -23142,6 +23457,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -23178,6 +23494,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -23187,6 +23504,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -23261,6 +23579,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -23316,6 +23635,7 @@
 											]
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -23352,6 +23672,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -23362,6 +23683,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -23494,6 +23816,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -23530,6 +23853,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -23566,6 +23890,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -23575,6 +23900,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -23706,6 +24032,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -23742,6 +24069,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -23778,6 +24106,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -23787,6 +24116,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -23900,6 +24230,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -23926,6 +24257,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -23962,6 +24294,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -23971,6 +24304,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -24097,6 +24431,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -24133,6 +24468,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"x-i18n": {
 												"zh-CN": {
 													"description": "返回错误消息。"
@@ -24168,6 +24504,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -24177,6 +24514,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -24315,6 +24653,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -24376,6 +24715,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -24412,6 +24752,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -24424,6 +24765,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -24551,6 +24893,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -24586,6 +24929,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -24622,6 +24966,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -24631,6 +24976,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -24797,6 +25143,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -24832,6 +25179,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -24868,10 +25216,12 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {"code":0,"cost":0,"data":[{"color":"red_7025","id":1},{"color":"red_4794","id":4},{"color":"red_9392","id":6}]}
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -24946,6 +25296,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response.",
 											"type": "object",
 											"properties": {
@@ -24996,6 +25347,7 @@
 											]
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -25032,6 +25384,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -25042,6 +25395,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -25175,6 +25529,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -25211,6 +25566,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -25247,6 +25603,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -25256,6 +25613,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -25360,6 +25718,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -25396,6 +25755,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -25432,6 +25792,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -25441,6 +25802,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -25571,6 +25933,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -25606,6 +25969,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -25642,6 +26006,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -25651,6 +26016,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -25769,6 +26135,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -25804,6 +26171,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -25840,6 +26208,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -25849,6 +26218,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 1802,
 											"message": "reason for failure"
@@ -25957,6 +26327,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"additionalProperties": false,
 											"properties": {
@@ -26025,6 +26396,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"type": "object",
 											"additionalProperties": false,
 											"properties": {
@@ -26059,6 +26431,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": {
@@ -26071,6 +26444,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 90155,
 											"message": "Invalid serverless plan. The parameter value should be one of ['Free','Serverless']."
@@ -26209,6 +26583,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -26270,6 +26645,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -26306,6 +26682,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -26318,6 +26695,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -26439,6 +26817,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -26475,6 +26854,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -26511,6 +26891,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -26520,6 +26901,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 1802,
 											"message": "reason for failure"
@@ -26807,6 +27189,7 @@
 									"anyOf": [
 										{
 											"type": "object",
+											"x-tab-label": "success",
 											"properties": {
 												"code": {
 													"type": "integer",
@@ -26841,6 +27224,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -26877,6 +27261,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": [
@@ -26900,6 +27285,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 1802,
 											"message": "reason for failure"
@@ -27033,6 +27419,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -27069,6 +27456,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "A failure response.",
 											"x-i18n": {
 												"zh-CN": {
@@ -27105,6 +27493,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -27114,6 +27503,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -27506,6 +27896,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -27541,6 +27932,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -27577,6 +27969,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"cost": 0,
@@ -27607,6 +28000,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -27666,6 +28060,7 @@
 								"schema": {
 									"oneOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"additionalProperties": false,
 											"properties": {
@@ -27738,6 +28133,7 @@
 											"description": "Returns a list of projects."
 										},
 										{
+											"x-tab-label": "failure",
 											"type": "object",
 											"additionalProperties": false,
 											"properties": {
@@ -27767,6 +28163,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": [
@@ -27781,6 +28178,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 80002,
 											"message": "Token not found or unauthorized: The provided token does not exist in our records, or you do not have the necessary permissions to use this token. Please ensure you have the correct token."
@@ -27950,6 +28348,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -27985,6 +28384,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -28021,6 +28421,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": [
@@ -28041,6 +28442,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -28162,6 +28564,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -28198,6 +28601,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -28234,6 +28638,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -28243,6 +28648,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -28437,6 +28843,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -28472,6 +28879,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -28508,6 +28916,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 200,
 											"data": [
@@ -28528,6 +28937,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 200,
 											"message": "The token is illegal."
@@ -28617,6 +29027,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -28660,6 +29071,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -28696,6 +29108,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -28706,6 +29119,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -28818,6 +29232,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -28853,6 +29268,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -28889,6 +29305,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -28898,6 +29315,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -28987,6 +29405,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -29030,6 +29449,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -29066,6 +29486,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -29076,6 +29497,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -29189,6 +29611,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -29225,6 +29648,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -29261,11 +29685,20 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
 
 											}
+										}
+									},
+									"2": {
+										"summary": "failure",
+										"x-target-response": "OPTION 2",
+										"value": {
+											"code": 0,
+											"message": "The token is illegal."
 										}
 									}
 								}
@@ -29352,6 +29785,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -29395,6 +29829,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -29431,10 +29866,18 @@
 								"examples": {
 									"1": {
 										"summary": "success",
-										"value": "{\n    \"code\": 0,\n    \"data\" {\n        \"clusterId\": \"inxx-xxxxxxxxxxxxxxx\",\n        \"prompt\": \"successfully Submitted. Cluster is being resumed, which is expected to takes several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK.\"\n    }\n}"
+										"x-target-response": "OPTION 1",
+										"value": {
+											"code": 0,
+											"data": {
+												"clusterId": "inxx-xxxxxxxxxxxxxxx",
+												"prompt": "successfully Submitted. Cluster is being resumed, which is expected to takes several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+											}
+										}
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -29545,6 +29988,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -29581,6 +30025,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -29617,6 +30062,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -29626,6 +30072,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -29724,6 +30171,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -29747,6 +30195,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -29783,6 +30232,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -29793,6 +30243,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -29900,6 +30351,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"description": "A success response",
 											"x-i18n": {
 												"zh-CN": {
@@ -29936,6 +30388,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -29972,6 +30425,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -29981,6 +30435,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -30195,6 +30650,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -30305,6 +30761,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -30341,6 +30798,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -30374,6 +30832,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -30492,6 +30951,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -30545,6 +31005,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -30581,6 +31042,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -30592,6 +31054,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {
 											"code": 0,
 											"message": "The token is illegal."
@@ -30729,6 +31192,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -30760,6 +31224,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -30796,6 +31261,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"clusterId": "inxx-xxxxxxxxxxxxxx",
 											"username": "db_admin",
@@ -30804,6 +31270,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}	
 								}
@@ -30929,6 +31396,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -31022,6 +31490,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -31058,6 +31527,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -31084,6 +31554,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -31139,6 +31610,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"jobId": {
@@ -31186,6 +31658,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -31222,6 +31695,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -31237,6 +31711,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -31365,6 +31840,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -31388,6 +31864,7 @@
 											}											
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -31425,6 +31902,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -31434,6 +31912,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}									
 								}
@@ -31499,6 +31978,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -31608,6 +32088,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -31644,6 +32125,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -31671,6 +32153,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -31734,6 +32217,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -31758,6 +32242,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -31794,6 +32279,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -31804,6 +32290,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -31905,6 +32392,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -31933,6 +32421,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -31969,6 +32458,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -31980,6 +32470,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -32035,6 +32526,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -32079,6 +32571,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -32115,6 +32608,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -32129,6 +32623,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -32225,6 +32720,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -32251,6 +32747,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -32287,6 +32784,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -32297,6 +32795,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -32407,6 +32906,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -32434,6 +32934,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -32470,6 +32971,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -32482,6 +32984,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}
@@ -32621,6 +33124,7 @@
 								"schema": {
 									"anyOf": [
 										{
+											"x-tab-label": "success",
 											"type": "object",
 											"properties": {
 												"code": {
@@ -32640,6 +33144,7 @@
 											}
 										},
 										{
+											"x-tab-label": "failure",
 											"description": "Returns an error message.",
 											"x-i18n": {
 												"zh-CN": {
@@ -32676,6 +33181,7 @@
 								"examples": {
 									"1": {
 										"summary": "success",
+										"x-target-response": "OPTION 1",
 										"value": {
 											"code": 0,
 											"data": {
@@ -32685,6 +33191,7 @@
 									},
 									"2": {
 										"summary": "failure",
+										"x-target-response": "OPTION 2",
 										"value": {"code":21119,"message":"The apikey is illegal."}
 									}
 								}

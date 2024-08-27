@@ -237,6 +237,7 @@ const Enums = ({ enums, defaultValue, lang, target }) => {
 
 const Tab = ({ name, id, content, lang, target, selected, setSelected }) => {
     const value = (content.label ? content.label : `${i18n[lang]["tab.option"]} ${id}`).toUpperCase()
+    const label = (content?.['x-tab-label'] ? content['x-tab-label'] : value).toUpperCase()
 
     return (
         <>
@@ -247,7 +248,7 @@ const Tab = ({ name, id, content, lang, target, selected, setSelected }) => {
                 checked={selected === value}
                 value={value}
                 onChange={e => { setSelected(e.target.value) }} />
-            <label className={styles.tabLabel} htmlFor={`${name}-tab${id}`}>{value}</label>
+            <label className={styles.tabLabel} htmlFor={`${name}-tab${id}`}>{label}</label>
             <div className={styles.tabPanel}>
                 { content?.type === 'object' && <Properties description={content.description} properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
                 { content?.type === 'array' && <Items description={content.description} obj={content.items} required={content.items.required} lang={lang} target={target} /> }
