@@ -42,7 +42,7 @@ client = MilvusClient(
     token=TOKEN 
 )
 
-index_params = client.create_index_params() # Prepare an empty IndexParams object, without having to specify any index parameters
+index_params = client.prepare_index_params() # Prepare an empty IndexParams object, without having to specify any index parameters
 
 index_params.add_index(
     field_name="scalar_1", # Name of the scalar field to be indexed
