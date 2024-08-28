@@ -1076,7 +1076,7 @@ class larkDocWriter {
     }
 
     async __table(table, indent) {
-        const converter = new showdown.Converter()
+        const converter = new showdown.Converter({ underline: true })
         const cells = table['cells'];
         const cell_blocks = cells.map(cell => {
             return this.__retrieve_block_by_id(cell).children
@@ -1129,7 +1129,7 @@ class larkDocWriter {
     }
 
     async __sheet(sheet, indent) {
-        const converter = new showdown.Converter()
+        const converter = new showdown.Converter({ underline: true })
         const merges = sheet.meta?.data.sheet.merges;
         const values = sheet.values.data.valueRange.values;
         var result = ' '.repeat(indent) + "<table>" + "\n";
