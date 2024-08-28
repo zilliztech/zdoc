@@ -12883,6 +12883,10 @@
 										"x-include-target": [
 											"zilliz"
 										]
+									},
+									"token": {
+										"type": "string",
+										"description": "A temporary token for you to access the object storage service. The token name and the way to obtain it may vary with cloud providers. For details, refer to the document pages listed under []()."
 									}
 								},
 								"required": [
@@ -31218,6 +31222,10 @@
 														"password": {
 															"type": "string",
 															"description": "The password used to access the destination cluster. This will be shown to you only once. You are advised to note down the password and save it in a secure place."
+														},
+														"jobId": {
+															"type": "string",
+															"description": "The ID of the job that has been created upon your request."
 														}
 													}											
 												}
@@ -31287,7 +31295,7 @@
 			"get": {
 				"summary": "List Backups",
 				"deprecated": false,
-				"description": "List all AVAILABLE or CREATING backups.",
+				"description": "List all AVAILABLE or CREATING backups. Note that this API only applies to dedicated clusters.",
 				"tags": [
 					"Backup & Restore (V2)"
 				],
@@ -31763,24 +31771,6 @@
 												"type": "string",
 												"description": "The ID of the source cluster.",
 												"example": "inxx-xxxxxxxxxxxxxxxxx"
-											},
-											"dbCollections": {
-												"type": "array",
-												"description": "The collections that need to be migrated.",
-												"items": {
-													"type": "object",
-													"description": "The collection information.",
-													"properties": {
-														"collectionNames": {
-															"type": "array",
-															"description": "The names of the collections that need to be migrated.",
-															"items": {
-																"type": "string",
-																"description": "A collection name."
-															}
-														}
-													}
-												}
 											}
 										},
 										"required": [
@@ -31791,11 +31781,6 @@
 										"type": "object",
 										"description": "The destination cluster information.",
 										"properties": {
-											"projectId": {
-												"type": "string",
-												"description": "The ID of the project that holds the destination cluster.",
-												"example": "proj-xxxxxxxxxxxxxxxxxxxx"
-											},
 											"clusterId": {
 												"type": "string",
 												"description": "The ID of the destination cluster.",
@@ -31803,9 +31788,33 @@
 											}
 										},
 										"required": [
-											"projectId",
 											"clusterId"
 										]
+									},
+									"dbCollections": {
+										"type": "array",
+										"description": "The collections that need to be migrated.",
+										"items": {
+											"type": "object",
+											"description": "Collection information.",
+											"properties": {
+												"collections": {
+													"type": "array",
+													"description": "The names of the collections that need to be migrated. If this is left unspecified, all collections in the source cluster will be migrated.",
+													"items": {
+														"type": "object",
+														"description": "A list of collection names.",
+														"properties": {
+															"collectionName": {
+																"type": "string",
+																"description": "A collection name."
+															}
+
+														}
+													}
+												}
+											}
+										}
 									}
 								},
 								"required": [
@@ -31815,26 +31824,27 @@
 							},
 							"example": {
 								"source": {
-									"clusterId": "inxx-xxxxxxxxxxxxxxx",
-									"dbCollections": [
-										{
-											"collectionNames": [
-												"medium_articles"
-											]
-										}
-									]
+									"clusterId": "inxx-xxxxxxxxxxxxxxx"
 								},
 								"destination": {
-									"projectId": "proj-b44a39b0c51cf21791a841",
-									"clusterId": "in01-xxxxx"
-								}
+									"clusterId": "inxx-xxxxxxxxxxxxxxx"
+								},
+								"dbCollections": [
+									{
+										"collections": [
+											{
+												"collectionName": "medium_articles"
+											}
+										]
+									}
+								]
 							}
 						}
 					}
 				},
 				"responses": {
 					"200": {
-						"description": "Response ",
+						"description": "Returns a job ID.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -31929,7 +31939,7 @@
 			"get": {
 				"summary": "Describe Backup",
 				"deprecated": false,
-				"description": "List the information about the specified backup in detail.",
+				"description": "List the information about the specified backup in detail. Note that this API only applies to dedicated clusters.",
 				"tags": [
 					"Backup & Restore (V2)"
 				],
@@ -31963,7 +31973,7 @@
 						"name": "BACKUP_ID",
 						"in": "path",
 						"description": "The ID of the backup in concern.",
-						"example": "backx-xxxxxxxxxxxx",
+						"example": "Dedicated-01_backup3",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -32005,7 +32015,7 @@
 														"backupId": {
 															"type": "string",
 															"description": "The ID of the backup.",
-															"example": "backx-xxxxxxxxxxxxxxxx"
+															"example": "Dedicated-01_backup3"
 														},
 														"backupName": {
 															"type": "string",
@@ -32168,7 +32178,7 @@
 			"delete": {
 				"summary": "Delete Backup",
 				"deprecated": false,
-				"description": "Delete the specified backup of a cluster.",
+				"description": "Delete the specified backup of a cluster. Note that this API only applies to dedicated clusters.",
 				"tags": [
 					"Backup & Restore (V2)"
 				],
@@ -32202,7 +32212,7 @@
 						"name": "BACKUP_ID",
 						"in": "path",
 						"description": "The ID of the backup to be deleted.",
-						"example": "backx-xxxxxxxxxxxx",
+						"example": "Dedicated-01_backup3",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -32307,7 +32317,7 @@
 			"post": {
 				"summary": "Create backup",
 				"deprecated": false,
-				"description": "Back up the specified cluster or collection.",
+				"description": "Back up the specified cluster or collection. Note that this API only applies to dedicated clusters.",
 				"tags": [
 					"Backup & Restore (V2)"
 				],
@@ -32487,7 +32497,7 @@
 			"get": {
 				"summary": "Get Backup Policy",
 				"deprecated": false,
-				"description": "List the backup policy of the specified cluster in detail.",
+				"description": "List the backup policy of the specified cluster in detail. Note that this API only applies to dedicated clusters.",
 				"tags": [
 					"Backup & Restore (V2)"
 				],
@@ -32638,7 +32648,7 @@
 			"post": {
 				"summary": "Set Backup Policy",
 				"deprecated": false,
-				"description": "",
+				"description": "Set up the backup policy for the specified cluster so that Zilliz Cloud automatically backs up your cluster at the specified interval. Note that this API only applies to dedicated clusters.",
 				"tags": [
 					"Backup & Restore (V2)"
 				],
@@ -32693,21 +32703,29 @@
 									},
 									"enabled": {
 										"type": "boolean",
-										"description": "Whether the backup policy is enabled or disabled."
+										"description": "Whether automatic backup is enabled or not."
 									}
 								},
 								"required": [
-									"frequency",
-									"startTime",
-									"retentionDays",
 									"enabled"
 								]
 							},
-							"example": {
-								"frequency": "1,2,3,5",
-								"startTime": "02:00-04:00",
-								"retentionDays": 7,
-								"enabled": true
+							"examples": {
+								"1": {
+									"summary": "enable auto backup",
+									"value": {
+										"frequency": "1,2,3,5",
+										"startTime": "02:00-04:00",
+										"retentionDays": 7,
+										"enabled": true
+									}
+								},
+								"2": {
+									"summary": "disable auto backup",
+									"value": {
+										"enabled": false
+									}
+								}
 							}
 						}
 					}
@@ -32812,7 +32830,7 @@
 			"post": {
 				"summary": "Restore Cluster Backup",
 				"deprecated": false,
-				"description": "Restore cluster backup to a new same region, same cuType dedicated cluster.",
+				"description": "Restore cluster backup to a new dedicated cluster of the same CU type in the same cloud region. Note that this API only applies to dedicated clusters.",
 				"tags": [
 					"Backup & Restore (V2)"
 				],
@@ -32846,7 +32864,7 @@
 						"name": "BACKUP_ID",
 						"in": "path",
 						"description": "The ID of the backup in concern.",
-						"example": "backx-xxxxxxxxxxxx",
+						"example": "Dedicated-01_backup3",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -32859,7 +32877,7 @@
 							"schema": {
 								"type": "object",
 								"properties": {
-									"targetProjectId": {
+									"projectId": {
 										"type": "string",
 										"description": "The ID of the project to which the restored cluster belongs."
 									},
@@ -32883,14 +32901,14 @@
 									}
 								},
 								"required": [
-									"targetProjectId",
+									"projectId",
 									"clusterName",
 									"cuSize",
 									"collectionStatus"
 								]
 							},
 							"example": {
-								"targetProjectId": "proj-xxxxxxxxxxxxxxxxxxxx",
+								"projectId": "proj-xxxxxxxxxxxxxxxxxxxx",
 								"clusterName": "Dedicated-12",
 								"cuSize": 2,
 								"collectionStatus": "KEEP"
@@ -32928,6 +32946,10 @@
 														"password": {
 															"type": "string",
 															"description": "The password used to access the restored cluster. This is shown only once. You are advised to note down the password and save it in a secure place."
+														},
+														"jobId": {
+															"type": "string",
+															"description": "The ID of the cluster restoration job created upon this request."
 														}
 													}
 												}
@@ -32977,7 +32999,8 @@
 											"data": {
 											   "clusterId": "inxx-xxxxxxxxxxxxxxx",
 											   "username":"db_admin",
-											   "password":"xxxxxxxxx"
+											   "password":"xxxxxxxxx",
+											   "jobId": "job-xxxxxxxxxxxxxx"
 											}
 										}
 
@@ -33001,7 +33024,7 @@
 			"post": {
 				"summary": "Restore Collection Backup",
 				"deprecated": false,
-				"description": "Restore collection backup to an existing cluster.",
+				"description": "Restore collection backup to an existing cluster. Note that this API only applies to dedicated clusters.",
 				"tags": [
 					"Backup & Restore (V2)"
 				],
@@ -33035,7 +33058,7 @@
 						"name": "BACKUP_ID",
 						"in": "path",
 						"description": "The ID of the backup in concern.",
-						"example": "backx-xxxxxxxxxxxx",
+						"example": "Dedicated-01_backup3",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -33048,11 +33071,7 @@
 							"schema": {
 								"type": "object",
 								"properties": {
-									"targetProjectId": {
-										"type": "string",
-										"description": "The ID of the project to which the restored collection belongs."
-									},
-									"targetClusterId": {
+									"destClusterId": {
 										"type": "string",
 										"description": "The ID of the cluster to which the restored collection belongs."
 									},
@@ -33065,7 +33084,7 @@
 											"properties": {
 												"collections": {
 													"type": "array",
-													"description": "A list of collections to restore.",
+													"description": "Currently, Zilliz Cloud restores only one collection at a time. Therefore, include only one collection name in the list. If this is left unspecified, all collections in the backup will be restored to the target cluster unloaded.",
 													"items": {
 														"type": "object",
 														"description": "A collection to restore.",
@@ -33094,13 +33113,11 @@
 									}
 								},
 								"required": [
-									"targetProjectId",
-									"targetClusterId"
+									"destClusterId"
 								]
 							},
 							"example": {
-								"targetProjectId": "proj-xxxxxxxxxxxxxxxxxxxx",
-								"targetClusterId": "in01-xxxxxxxxxxxxxx",
+								"destClusterId": "in01-xxxxxxxxxxxxxx",
 								"dbCollections": [
 								   { 
 									"collections": [
@@ -33137,7 +33154,7 @@
 													"properties": {
 														"jobId": {
 															"type": "string",
-															"description": "The ID of an asynchronous control-plane job."
+															"description": "The ID of a collection restoration job created upon this request."
 														}
 													}
 												}
