@@ -166,7 +166,7 @@ class larkDocScraper {
 
         this.slugs = slugs
 
-        fs.writeFileSync(`slugs.json`, JSON.stringify(this.slugs, null, 2))
+        // fs.writeFileSync(`slugs.json`, JSON.stringify(this.slugs, null, 2))
     }
 
     __uniquify(arr) {
