@@ -4,7 +4,7 @@ import Heading from '@theme-original/Heading';
 import {useDoc} from '@docusaurus/theme-common/internal';
 import styles from './styles.module.css';
 
-const BetaTagComponent = (children) => (
+const BetaTagComponent = (children, tag) => (
     <span style={{ 
         display: "inline-block",
         verticalAlign: 'center',
@@ -25,9 +25,9 @@ const BetaTagComponent = (children) => (
                 marginBottom: '0.5rem',
                 padding: '2px 12px 2px 12px',
                 borderRadius: '100px',
-                backgroundColor: '#7F47FF',
+                backgroundColor: tag === 'PUBLIC' ? '#175fff' : '#7F47FF',
               }}>
-              BETA
+              { `${tag.toUpperCase().slice(0,1)}${tag.toUpperCase().slice(1).toLowerCase()} Preview` }
           </span>        
         </div>    
 
@@ -103,7 +103,7 @@ export default function HeadingWrapper(props) {
       props = {
         as: "h1",
         id: props.id,
-        children: BetaTagComponent(props.children)
+        children: BetaTagComponent(props.children, beta)
       }
     }
   

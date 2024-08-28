@@ -2,7 +2,7 @@
 title: "Similarity Metrics Explained | Cloud"
 slug: /search-metrics-explained
 sidebar_label: "Similarity Metrics Explained"
-beta: TRUE
+beta: PUBLIC
 notebook: FALSE
 description: "Similarity metrics are used to measure similarities among vectors. Choosing an appropriate distance metric helps improve classification and clustering performance significantly. | Cloud"
 type: origin
