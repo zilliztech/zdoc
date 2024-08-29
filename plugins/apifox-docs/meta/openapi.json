@@ -12886,7 +12886,7 @@
 									},
 									"token": {
 										"type": "string",
-										"description": "A temporary token for you to access the object storage service. The token name and the way to obtain it may vary with cloud providers. For details, refer to the document pages listed under []()."
+										"description": "A temporary token for you to access the object storage service. The token name and the way to obtain it may vary with cloud providers. For details, refer to [the FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)."
 									}
 								},
 								"required": [
@@ -14463,6 +14463,7 @@
 								},
 								"oneOf": [
 									{
+										"x-tab-label": "quick setup",
 										"type": "object",
 										"properties": {
 											"dbName": {
@@ -14554,6 +14555,7 @@
 										]
 									},
 									{
+										"x-tab-label": "custom setup",
 										"type": "object",
 										"properties": {
 											"dbName": {
@@ -18891,7 +18893,10 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										}
+										},
+										"x-include-target": [
+											"milvus"
+										]
 									},
 									"collectionName": {
 										"type": "string",
@@ -21211,7 +21216,10 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										}
+										},
+										"x-include-target": [
+											"milvus"
+										]
 									},
 									"collectionName": {
 										"type": "string",
@@ -28527,7 +28535,10 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										}
+										},
+										"x-include-target": [
+											"milvus"
+										]
 									},
 									"collectionName": {
 										"type": "string",
@@ -29201,7 +29212,10 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										}
+										},
+										"x-include-target": [
+											"milvus"
+										]
 									},
 									"collectionName": {
 										"type": "string",
@@ -30911,7 +30925,10 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										}
+										},
+										"x-include-target": [
+											"milvus"
+										]
 									},
 									"collectionName": {
 										"type": "string",
@@ -31273,7 +31290,8 @@
 										"value": {
 											"clusterId": "inxx-xxxxxxxxxxxxxx",
 											"username": "db_admin",
-											"password": "xxxxxxxxx"
+											"password": "xxxxxxxxx",
+											"jobId": "job-xxxxxxxxxxxxxxxxxxxxxx"
 										}
 									},
 									"2": {
