@@ -16,9 +16,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud offers RESTful APIs for you to manipulate your clusters, collections, and data stored in them. 
 
-Zilliz Cloud uses the control plane to centralize the management of clusters and related resources, while the data plane is responsible for data storage and processing within a specific collection. 
-
-The control plane provides APIs for **Cloud Meta**, **Cluster Operations**, **Import Operations**, and **Pipeline Operations**. The data plane provides APIs for **Collection Operations** and **Vector Operations**.
+Zilliz Cloud uses the control plane to centralize the management of clusters and related resources, while the data plane is responsible for data storage and processing within a specific collection.
 
 - When using the Control Plane APIs, you need to use **a valid API key** to authenticate your requests.
 
