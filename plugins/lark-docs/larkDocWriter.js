@@ -1043,11 +1043,10 @@ class larkDocWriter {
             Jimp.read(`${this.downloader.target_path}/${board["token"]}.png`, (err, image) => {
                 if (err) throw err;
 
-                console.log(this.__crop_image_border(image));
+                this.__crop_image_border(image)
                 
-                image.autocrop().quality(100).write(`${this.downloader.target_path}/${board["token"]}.png`, (err) => {
+                image.write(`${this.downloader.target_path}/${board["token"]}.png`, (err) => {
                     if (err) throw err;
-                    console.log('Image cropped and saved.');
                 });
             });
         });
@@ -1059,38 +1058,43 @@ class larkDocWriter {
         const width = image.bitmap.width;
         const height = image.bitmap.height;
 
-        const full_white_rows = [];
-
-        for (let i = 0; i < width; i++) {
-            const row = []
-            for (let j = 0; j < height; j++) {
-                const pixel = image.getPixelColor(i, j);
-                row.push(pixel)
-            }
-
-            if ([... new Set(row)].length === 1 && row[0] === 4294967295) {
-                full_white_rows.push(i)
-            }
-        }
-
         const full_white_cols = [];
 
-        for (let j = 0; j < height; j++) {
+        for (let i = 0; i < width; i++) {
             const col = []
-            for (let i = 0; i < width; i++) {
+            for (let j = 0; j < height; j++) {
                 const pixel = image.getPixelColor(i, j);
                 col.push(pixel)
             }
 
             if ([... new Set(col)].length === 1 && col[0] === 4294967295) {
-                full_white_cols.push(j)
+                full_white_cols.push(i)
             }
         }
 
-        return {
-            full_white_rows,
-            full_white_cols
-        };
+        const full_white_rows = [];
+
+        for (let j = 0; j < height; j++) {
+            const row = []
+            for (let i = 0; i < width; i++) {
+                const pixel = image.getPixelColor(i, j);
+                row.push(pixel)
+            }
+
+            if ([... new Set(row)].length === 1 && row[0] === 4294967295) {
+                full_white_rows.push(j)
+            }
+        }
+
+        
+        const reverse = full_white_rows.reverse()
+
+        for (let i=0; i<height; i++) {
+            if (reverse[i] !== height - 1 - i) {
+                image.crop(0, 0, width, reverse[i-1])
+                break;
+            }
+        }
     }
 
     async __iframe(iframe) {
