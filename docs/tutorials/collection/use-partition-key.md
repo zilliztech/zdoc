@@ -55,7 +55,7 @@ schema.add_field(
 
 After you have created a collection using the above schema, indexed some vector fields, and loaded the collection, you can conduct searches with a search filter involving the partition key. By doing so, Zilliz Cloud narrows the search scope to only the partitions that contain entities matching the partition key values in the search filter, accelerating search performance by avoiding the need to scan irrelevant partitions. 
 
-![HVUMwjhdQhI77QbcYnjc4eu7n1b](/img/HVUMwjhdQhI77QbcYnjc4eu7n1b.png)
+![WkB0wf0Jshl0hhb2tbzcjNgXnKd](/img/WkB0wf0Jshl0hhb2tbzcjNgXnKd.png)
 
 You can include one or multiple partition key values in the search filter as follows:
 
@@ -75,7 +75,7 @@ filter='partition_key in ["x", "y", "z"] && <other conditions>'
 
 </Admonition>
 
-If all your search filters involve only a single partition key value, consider enabling the **Partition-key Isolation** feature. Specifically, you can either create a collection with this feature automatically enabled or modify an existing collection to enable this feature manually as follows:
+If all your search filters involve only a single partition key value as in the multi-tenancy scenario, consider enabling the **Partition-key Isolation** feature. Specifically, you can enable this feature by  using one of the following methods.
 
 ```python
 # Add properties while creating the collection
@@ -96,7 +96,7 @@ Once you enable this feature in the above created or modified collection and cre
 
 Upon receiving a search request with the search filter involving the partition key, Zilliz Cloud further narrows the search scope to the entities containing the partition key value specified in the search filter.
 
-![JLL1wwVf7hiJiObJIjpcU0i1nVe](/img/JLL1wwVf7hiJiObJIjpcU0i1nVe.png)
+![UpqgweSighrZWvb3CL7cVm8anec](/img/UpqgweSighrZWvb3CL7cVm8anec.png)
 
 After you have enabled Partition-key Isolation in a collection, you can include only one partition key value in the search filter.
 

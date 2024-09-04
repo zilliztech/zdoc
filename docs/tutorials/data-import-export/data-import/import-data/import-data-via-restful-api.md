@@ -38,7 +38,9 @@ Make sure the following conditions are met:
 
 ## Import data using the RESTful API{#import-data-using-the-restful-api}
 
-To import data from files using the RESTful API, you must first upload the files to an object storage bucket, such as AWS S3 or Google Cloud Storage (GCS). Once uploaded, obtain the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. For details on supported object paths, refer to [Import Data (RESTful API)](./import-data-via-restful-api).
+To import data from files using the RESTful API, you must first upload the files to an object storage bucket, such as AWS S3 or Google Cloud Storage (GCS). Once uploaded, obtain the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. For details on supported object paths, refer to [From remote buckets](./prepare-source-data#from-remote-buckets).
+
+Based on your data security requirements, you can use session tokens during data import. Replace the access key and secret key with the session token information. For more details, refer to [the FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -51,34 +53,35 @@ Once the object path and bucket credentials are obtained, call the API as follow
 ```bash
 # replace url and token with your own
 curl --request POST \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import" \
+     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
      -d '{
-       "clusterId": "${CLUSTER_ID}", 
-       "collectionName": "medium_articles",
-       "objectUrl": "gs://publicdataset-zillizcloud-com/medium_articles_2020.json"
-       "accessKey": "your-access-key"
-       "secretKey": "your-secret-key"
-     }'
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "collectionName": "medium_articles",
+        "partitionName": "",
+        "objectUrl": "https://s3.us-west-2.amazonaws.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json",
+        "accessKey": "",
+        "secretKey": ""
+    }'
 ```
-
-In the command above, replace `${CLOUD_REGION_ID}`, `${TOKEN}`, and `${CLUSTER_ID}` with your cloud region identifier, API key, and cluster ID, respectively. 
-
-You can obtain `CLOUD_REGION_ID` and `CLUSTER_ID` from your cluster's public endpoint. For instance, in the public endpoint `https://in03-3bf3c31f4248e22.api.aws-us-east1.zillizcloud.com`, `CLOUD_REGION_ID` is `aws-us-east1` and `CLUSTER_ID` is `in03-3bf3c31f4248e22`. To find your cluster endpoint on the Zilliz Cloud console, refer to [On Zilliz Cloud Console](./on-zilliz-cloud-console).
 
 Upon executing the request, you will receive a job ID. Use this job ID to monitor the import progress with the following command:
 
 ```bash
 curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
+     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/getProgress" \
      --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "jobId": "job-xxxxxxxxxxxxxxxxxxxxx"
+    }'
 ```
 
-For details, see [Import](/reference/restful/import) and [Get Import Progress](/reference/restful/get-import-progress).
+For details, see [Import](/reference/restful/create-import-jobs-v2) and [Get Import Progress](/reference/restful/get-import-job-progress-v2).
 
 ## Verify the result{#verify-the-result}
 
@@ -86,14 +89,14 @@ If the command output is similar as follows, the data is imported successfully:
 
 ```bash
 {
-    "code": 200,
+    "code": 0,
     "data": {
-        "jobId": "string"
+        "jobID": "job-xxxxxxxxxxxxxxxxxxxxx"
     }
 }
 ```
 
-You can also call RESTful APIs to [get the progress of the current import job](/reference/restful/get-import-progress) and [list all import jobs](/reference/restful/list-import-jobs) to get more. As an alternative, you can also go to the Zilliz Cloud console to view the result and job details:
+You can also call RESTful APIs to [get the progress of the current import job](/reference/restful/get-import-job-progress-v2) and [list all import jobs](/reference/restful/list-import-jobs-v2) to get more. As an alternative, you can also go to the Zilliz Cloud console to view the result and job details:
 
 ![data_import_complete_restful](/img/data_import_complete_restful.png)
 

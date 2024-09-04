@@ -80,43 +80,42 @@ Ensure:
 
 <TabItem value="Bash">
 
-Your request should resemble the following example, where `{CLOUD_REGION_ID` is the ID of the cloud region where the cluster resides and `{API_KEY}` is your API key used for authentication.
+Your request should resemble the following example, where `{API_KEY}` is your API key used for authentication.
 
-The following `POST` request takes a request body and creates a free cluster named `cluster-free` in the project with ID `8342669010291064832`.
+The following `POST` request takes a request body and creates a free cluster named `cluster-free` in the project with ID `proj-xxxxxxxxxxxxxxxxxxxxx`.
 
 ```bash
 curl --request POST \
-     --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/createServerless" \
+     --url "https://api.cloud.zilliz.com/v2/clusters/createFree" \
      --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     --data-raw "{
-     \"plan\": \"Free\",
-     \"clusterName\": \"cluster-free\",
-     \"projectId\": \"${PROJECT_ID}\"
- }"
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     --data-raw '{
+        "clusterName": "cluster-free",
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "gcp-us-west1"
+    }'
      
-#   "code": 200,
-#   "data": {
-#       "clusterId": "in03-XXXXXXXXXXXXXXX",
-#       "username": "db_XXXXXXXXXXXXXXX",
-#       "password": "XXXXXXXXXXXXXXXX",
-#       "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
-#   }
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "username": "db_xxxxxxxx",
+#         "password": "*************",
+#         "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
+#     }
 # }
 ```
 
 In the command above,
 
-- `{CLOUD_REGION_ID`: The ID of the cloud region where you want to create a cluster. Currently, free clusters can be created only on GCP. To obtain available cloud region IDs, call the `List Cloud Regions` operation.
-
 - `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
-
-- `plan`: The cluster plan. Valid values: **Free** and **Serverless**.
 
 - `clusterName`: The name of the cluster to create.
 
-- `projectId`: The ID of the project in which you want to create a cluster. To list project IDs, call the `List Projects` operation.
+- `projectId`: The ID of the project in which you want to create a cluster. To list project IDs, call the [List Projects](/reference/restful/list-projects-v2) operation.
+
+- `regionId`: The ID of the cloud region where you want to create a cluster. Currently, free clusters can be created only on GCP. To obtain available cloud region IDs, call the [List Cloud Regions](/reference/restful/list-cloud-regions-v2) operation.
 
 </TabItem>
 
@@ -161,43 +160,42 @@ In the command above,
 
 <TabItem value="Bash">
 
-Your request should resemble the following example, where `{CLOUD_REGION_ID` is the ID of the cloud region where the cluster resides and `{API_KEY}` is your API key used for authentication.
+Your request should resemble the following example, where `{API_KEY}` is your API key used for authentication.
 
-The following `POST` request takes a request body and creates a serverless cluster named `cluster-severless` in the project with ID `8342669010291064832`.
+The following `POST` request takes a request body and creates a serverless cluster named `cluster-severless` in the project with ID `proj-xxxxxxxxxxxxxxxxxxxxx`.
 
 ```bash
 curl --request POST \
-     --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/createServerless" \
+     --url "https://api.cloud.zilliz.com/v2/clusters/createServerless" \
      --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     --data-raw "{
-     \"plan\": \"Serverless\",
-     \"clusterName\": \"cluster-serverless\",
-     \"projectId\": \"${PROJECT_ID}\"
- }"
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     --data-raw '{
+        "clusterName": "cluster-serverless",
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "gcp-us-west1"
+    }'
      
-#   "code": 200,
-#   "data": {
-#       "clusterId": "in03-XXXXXXXXXXXXXXX",
-#       "username": "db_XXXXXXXXXXXXXXX",
-#       "password": "XXXXXXXXXXXXXXXX",
-#       "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
-#   }
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "username": "db_xxxxxxxx",
+#         "password": "***********",
+#         "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
+#     }
 # }
 ```
 
 In the command above,
 
-- `{CLOUD_REGION_ID`: The ID of the cloud region where you want to create a cluster. Currently, serverless clusters can be created only on GCP. To obtain available cloud region IDs, call the `List Cloud Regions` operation.
-
 - `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
-
-- `plan`: The cluster plan. Valid values: **Free** and **Serverless**.
 
 - `clusterName`: The name of the cluster to create.
 
-- `projectId`: The ID of the project in which you want to create a cluster. To list project IDs, call the `List Projects` operation.
+- `projectId`: The ID of the project in which you want to create a cluster. To list project IDs, call the [List Projects](/reference/restful/list-projects-v2) operation.
+
+- `regionId`: The ID of the cloud region where you want to create a cluster. Currently, free clusters can be created only on GCP. To obtain available cloud region IDs, call the [List Cloud Regions](/reference/restful/list-cloud-regions-v2) operation.
 
 </TabItem>
 
@@ -239,50 +237,51 @@ In the command above,
 
 <TabItem value="Bash">
 
-Your request should resemble the following example, where `{CLOUD_REGION_ID` is the ID of the cloud region where the cluster resides and `{API_KEY}` is your API key used for authentication.
+Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication.
 
 The following `POST` request takes a request body and creates a dedicated cluster named `cluster-02` with one Performance-optimized [CU](./cu-types-explained).
 
 ```bash
 curl --request POST \
-     --url "https://controller.api.${CLOUD_REGION}.zillizcloud.com/v1/clusters/create" \
+     --url "https://api.cloud.zilliz.com/v2/clusters/createDedicated" \
      --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     --data-raw "{
-     \"plan\": \"Standard\",
-     \"clusterName\": \"cluster-02\",
-     \"cuSize\": 1,
-     \"cuType\": \"Performance-optimized\",
-     \"projectId\": \"${PROJECT_ID}\"
- }"
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     --data-raw '{
+        "clusterName": "Cluster-02",
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "aws-us-west-2",
+        "plan": "Standard",
+        "cuType": "Performance-optimized",
+        "cuSize": 1
+    }'
      
 # {
-#   "code": 200,
-#   "data": {
-#       "clusterId": "in01-XXXXXXXXXXXXXXX",
-#       "username": "db_admin",
-#       "password": "XXXXXXXXXXXXXXXX",
-#       "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
-#   }
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "username": "db_admin",
+#         "password": "****************",
+#         "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
+#     }
 # }
 ```
 
 In the command above,
 
-- `{CLOUD_REGION_ID`: The ID of the cloud region where you want to create a cluster. To obtain available cloud region IDs, call the `List Cloud Regions` operation.
-
 - `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
-
-- `plan`: The plan tier of the Zilliz Cloud service you subscribe to. Valid values: **Standard** and **Enterprise**.
 
 - `clusterName`: The name of the cluster to create.
 
-- `cuSize`: The size of the CU used for the cluster. Value range: 1 to 256. By calling `Create Cluster`, you can create a cluster with up to 32 CUs. To create a cluster with more than 32 CUs, [contact us](https://zilliz.com/contact-sales).
+- `projectId`: The ID of the project in which you want to create a cluster. To list project IDs, call the [List Projects](/reference/restful/list-projects-v2) operation.
+
+- `regionId`: The ID of the cloud region where you want to create a cluster. To obtain available cloud region IDs, call the [List Cloud Regions](/reference/restful/list-cloud-regions-v2) operation.
+
+- `plan`: The plan tier of the Zilliz Cloud service you subscribe to. Valid values: **Standard** and **Enterprise**.
 
 - `cuType`: The type of the CU used for the cluster. Valid values: **Performance-optimized and **Capacity-optimized**.
 
-- `projectId`: The ID of the project in which you want to create a cluster. To list project IDs, call the `List Projects` operation.
+- `cuSize`: The size of the CU used for the cluster. Value range: 1 to 256. By calling `Create Cluster`, you can create a cluster with up to 32 CUs. To create a cluster with more than 32 CUs, [contact us](https://zilliz.com/contact-sales).
 
 </TabItem>
 

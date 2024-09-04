@@ -1038,9 +1038,12 @@ class larkDocWriter {
         const root = this.imageDir.replace(/^static\//g, '')
         const writeStream = fs.createWriteStream(`${this.downloader.target_path}/${board["token"]}.png`);
         result.body.pipe(writeStream);
+
         writeStream.on('finish', () => {
             Jimp.read(`${this.downloader.target_path}/${board["token"]}.png`, (err, image) => {
                 if (err) throw err;
+
+                console.log(this.__crop_image_border(image));
                 
                 image.autocrop().quality(100).write(`${this.downloader.target_path}/${board["token"]}.png`, (err) => {
                     if (err) throw err;
@@ -1048,7 +1051,46 @@ class larkDocWriter {
                 });
             });
         });
+
         return `![${board.token}](/${root}/${board["token"]}.png)`;
+    }
+
+    __crop_image_border(image) {
+        const width = image.bitmap.width;
+        const height = image.bitmap.height;
+
+        const full_white_rows = [];
+
+        for (let i = 0; i < width; i++) {
+            const row = []
+            for (let j = 0; j < height; j++) {
+                const pixel = image.getPixelColor(i, j);
+                row.push(pixel)
+            }
+
+            if ([... new Set(row)].length === 1 && row[0] === 4294967295) {
+                full_white_rows.push(i)
+            }
+        }
+
+        const full_white_cols = [];
+
+        for (let j = 0; j < height; j++) {
+            const col = []
+            for (let i = 0; i < width; i++) {
+                const pixel = image.getPixelColor(i, j);
+                col.push(pixel)
+            }
+
+            if ([... new Set(col)].length === 1 && col[0] === 4294967295) {
+                full_white_cols.push(j)
+            }
+        }
+
+        return {
+            full_white_rows,
+            full_white_cols
+        };
     }
 
     async __iframe(iframe) {
