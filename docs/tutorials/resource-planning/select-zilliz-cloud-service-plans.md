@@ -1,7 +1,7 @@
 ---
-title: "Select the Right Cluster Plan | Cloud"
+title: "Detailed Plan Comparison | Cloud"
 slug: /select-zilliz-cloud-service-plans
-sidebar_label: "Cluster Plans"
+sidebar_label: "Plan Comparison"
 beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides a range of cluster plans to suit diverse requirements. Whether you're new to vector databases or require robust solutions for enterprise-level tasks, making the right choice ensures optimal performance, scalability, and cost-efficiency. This guide will help you make an informed decision. | Cloud"
@@ -19,7 +19,7 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
-# Select the Right Cluster Plan
+# Detailed Plan Comparison
 
 Zilliz Cloud provides a range of cluster plans to suit diverse requirements. Whether you're new to vector databases or require robust solutions for enterprise-level tasks, making the right choice ensures optimal performance, scalability, and cost-efficiency. This guide will help you make an informed decision. 
 
@@ -30,7 +30,7 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
 <table>
    <tr>
      <th><p>Feature</p></th>
-     <th><p>Starter</p></th>
+     <th><p>Free</p></th>
      <th><p>Serverless</p></th>
      <th><p>Dedicated-Standard</p></th>
      <th><p>Dedicated-Enterprise</p></th>
@@ -121,8 +121,6 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
 ## Related topics{#related-topics}
 
 - [Select the Right CU](./cu-types-explained)
-
-- [Pricing Calculator](./pricing-calculator)
 
 - [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)
 

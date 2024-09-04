@@ -612,7 +612,7 @@ curl --request POST \
           "limit": 1,
           "offset": 0,
           "outputFields": [],
-          "filter": "id >= 0", 
+          "filter": "id >= 0" 
       }
     }'
 ```

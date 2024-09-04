@@ -68,11 +68,9 @@ Zilliz Cloud supports 3 types of metrics.
 
 1. **Cosine** measures the cosine value of the angle between two vectors.
 
-1. *[Beta]* **Jaccard** measures the dissimilarity between data sets and is obtained by subtracting the JACCARD similarity coefficient from 1.
+1. **Jaccard** measures the dissimilarity between data sets and is obtained by subtracting the JACCARD similarity coefficient from 1.
 
-1. *[Beta]* **Hamming** measures binary data strings. The distance between two strings of equal length is the number of bit positions at which the bits are different.
-
-Currently, the Jaccard and Hamming similarity metrics are available exclusively to Dedicated clusters that have been upgraded to the Beta version. For more details, see [Similarity Metrics Explained](./search-metrics-explained).
+1. **Hamming** measures binary data strings. The distance between two strings of equal length is the number of bit positions at which the bits are different.
 
 ### How to set the TTL (time to live) property of a created collection?{#how-to-set-the-ttl-time-to-live-property-of-a-created-collection}
 
@@ -90,7 +88,7 @@ Currently, the rate limit for loading collection requests on Zilliz Cloud is 1 p
 
 ### Why do I fail to load collections? What can I do?{#why-do-i-fail-to-load-collections-what-can-i-do}
 
-The failure is caused due to insufficient memory in your cluster. Please try [scaling up](./manage-cluster#manage-and-configure-clusters) your cluster to larger CU sizes.
+The failure is caused due to insufficient memory in your cluster. Please try [scaling up](./manage-cluster) your cluster to larger CU sizes.
 
 ### Is there any limit to the number of fields I can add in a collection?{#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection}
 

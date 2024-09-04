@@ -53,7 +53,9 @@ Once data files are ready, you can upload them to an object storage bucket for d
 
 To import remote files, you must first upload them to a remote bucket. You can easily convert your raw data into supported formats and upload the result files [using the BulkWriter tool](./use-bulkwriter). 
 
-Once you have uploaded the prepared files to a remote bucket, select the object storage service and fill in the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket.
+Once you have uploaded the prepared files to a remote bucket, select the object storage service and fill in the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. 
+
+Based on your data security requirements, you can use either long-term credentials or session tokens during data import. For more information about using session tokens, refer to [the FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
 
 <Admonition type="info" icon="📘" title="Notes">
 

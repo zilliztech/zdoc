@@ -67,7 +67,9 @@ curl --request POST \
     }'
 ```
 
-Upon executing the request, you will receive a job ID. Use this job ID to monitor the import progress with the following command:
+To import data into a specific partition, you need to include `partitionName` in the request.
+
+After Zilliz Cloud processes the above request, you will receive a job ID. Use this job ID to monitor the import progress with the following command:
 
 ```bash
 curl --request GET \

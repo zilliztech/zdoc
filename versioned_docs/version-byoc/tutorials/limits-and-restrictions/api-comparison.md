@@ -495,7 +495,7 @@ The table below provides a comparison of API availability across various service
 
 ## Related topics{#related-topics}
 
-- [Migrate from Milvus 1.x](./migrate-from-milvus)
+- [Migrate from Milvus 1.x](./via-backup-files)
 
 - [AUTOINDEX Explained](./autoindex-explained)
 

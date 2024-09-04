@@ -2,7 +2,7 @@
 title: "Use Binary Vector | BYOC"
 slug: /use-binary-vector
 sidebar_label: "Use Binary Vector"
-beta: TRUE
+beta: PUBLIC
 notebook: FALSE
 description: "Binary vectors are a type of data representation where each element is either 0 or 1. These are particularly useful in contexts such as similarity search in large datasets, where the binary nature allows for efficient computation of similarities using metrics like Hamming or Jaccard distance. This guide will demonstrate how to use binary vectors in Zilliz Cloud. | BYOC"
 type: origin
@@ -23,12 +23,6 @@ import Admonition from '@theme/Admonition';
 # Use Binary Vector
 
 Binary vectors are a type of data representation where each element is either 0 or 1. These are particularly useful in contexts such as similarity search in large datasets, where the binary nature allows for efficient computation of similarities using metrics like Hamming or Jaccard distance. This guide will demonstrate how to use binary vectors in Zilliz Cloud.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Currently, this feature is available exclusively for clusters that have been upgraded to the Beta version.</p>
-
-</Admonition>
 
 ## Preparations{#preparations}
 
@@ -127,8 +121,7 @@ index_params = client.prepare_index_params()
 index_params.add_index(
     field_name="binary_vector", 
     index_type="AUTOINDEX", 
-    metric_type="HAMMING",  # Use HAMMING or JACCARD metric type for binary vectors
-    params={"nlist": 128}
+    metric_type="HAMMING"  # Use HAMMING or JACCARD metric type for binary vectors
 )
 ```
 
@@ -260,7 +253,7 @@ for hits in res:
 
 - **How do I choose the appropriate index parameters?** 
 
-    Using `AUTOINDEX` simplifies the indexing process by automatically selecting optimal parameters. The `nlist` parameter can be tuned based on your dataset size and search requirements. For more information, refer to [Similarity Metrics Explained](./search-metrics-explained).
+    Using `AUTOINDEX` simplifies the indexing process by automatically selecting optimal parameters. 
 
 - **Can I combine binary vectors with other vector types in a single collection?** 
 

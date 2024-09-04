@@ -7,7 +7,7 @@ notebook: FALSE
 description: "The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, cost-optimized CU, organization and collaboration support, RBAC support, partition key, dynamic schema, and JSON type support. Try out this game-changing update today! | Cloud"
 type: origin
 token: BcXMwUYQ3iD7mEkWKFhcU5PUnB5
-sidebar_position: 12
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database

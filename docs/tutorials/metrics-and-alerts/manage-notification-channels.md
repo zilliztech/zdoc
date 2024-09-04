@@ -26,7 +26,7 @@ Alert notifications in Zilliz Cloud keep you informed about events occurring wit
 
 ## Before you start{#before-you-start}
 
-To manage notification channels, make sure you are an [organization or project owner](./user-roles).
+To manage notification channels, make sure you are an [organization owner or project admin](./user-roles).
 
 ## Set up notification channels{#set-up-notification-channels}
 

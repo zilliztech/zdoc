@@ -100,13 +100,13 @@ The maximum number of clusters and CUs varies with your payment method and subsc
        </tr>
        <tr>
          <td><p>Dedicated (Standard)</p></td>
-         <td><p>32 CUs</p></td>
-         <td><p>On the console, you can create up to 32 CUs for a single cluster.</p></td>
+         <td><p>CU size * Replica Count &lt;=32</p></td>
+         <td><p>On the console, you can create up to 32 CUs for a single cluster. </p><p>However, the limit is CU size * Replica Count &lt;=32 if replicas are added.</p></td>
        </tr>
        <tr>
          <td><p>Dedicated (Enterprise)</p></td>
-         <td><p>256 CUs</p></td>
-         <td><p>On the console, you can create up to 256 CUs for a single cluster.</p></td>
+         <td><p>CU size * Replica Count &lt;=256</p></td>
+         <td><p>On the console, you can create up to 256 CUs for a single cluster.</p><p>However, the limit is CU size * Replica Count &lt;=256 if replicas are added.</p></td>
        </tr>
     </table>
 
@@ -274,19 +274,9 @@ In addition to the limits on the number of collections per cluster, Zilliz Cloud
 General Capacity = 512 x Number of CUs
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="How can I know the general capacity of a cluster?">
 
-<p>The following explains how Zilliz Cloud calculates the consumed capacity and general capacity of a cluster.</p>
-<ul>
-<li><strong>Calculating the consumed capacity in a cluster</strong></li>
-</ul>
-<p>For instance, let's assume that you have created <strong>50</strong> collections in a cluster; each of the first <strong>20</strong> collections has <strong>20</strong> partitions, while each of the remaining <strong>30</strong> collections has <strong>10</strong> partition. The consumed capacity of the cluster can be calculated as follows:</p>
-<p><strong>20 (collections) x 20 (partitions) + 30 (collections) x 10 (partitions) = 400 + 300 = 700</strong></p>
-<p>Based on the above calculation, Zilliz Cloud regards the cluster has a consumed capacity of <strong>700</strong>.</p>
-<ul>
-<li><strong>Calculating the general capacity of a cluster</strong></li>
-</ul>
-<p>The general capacity can be determined using the following formula:</p>
+<p>The general capacity of a cluster indicates the maximum physical resources allocated to the cluster, and it can be determined using the following formula:</p>
 <p><strong>\<= 512 x Number of CUs</strong></p>
 <p>For instance, </p>
 <ul>
@@ -294,6 +284,15 @@ General Capacity = 512 x Number of CUs
 <li><p>In a cluster of <strong>12</strong> CUs, you can create a maximum of <strong>768</strong> collections with a general capacity of <strong>6,144</strong>.</p></li>
 <li><p>In a cluster of <strong>32</strong> CUs or more, you can create a maximum of <strong>4,096</strong> collections with a general capacity of <strong>16,384</strong>. </p></li>
 </ul>
+
+</Admonition>
+
+<Admonition type="info" icon="📘" title="How can I know the consumed capacity of a cluster?">
+
+<p>The consumed capacity of a cluster indicates the physical resources consumed by the cluster. </p>
+<p>For instance, let's assume that you have created <strong>50</strong> collections in a cluster; each of the first <strong>20</strong> collections has <strong>20</strong> partitions, while each of the remaining <strong>30</strong> collections has <strong>10</strong> partition. The consumed capacity of the cluster can be calculated as follows:</p>
+<p><strong>20 (collections) x 20 (partitions) + 30 (collections) x 10 (partitions) = 400 + 300 = 700</strong></p>
+<p>Based on the above calculation, Zilliz Cloud regards the cluster has a consumed capacity of <strong>700</strong>.</p>
 
 </Admonition>
 
@@ -319,8 +318,8 @@ Additionally, the rate limit for creating collections is **1** collection/s per 
    </tr>
    <tr>
      <td><p>Dedicated cluster</p></td>
-     <td><p>4,096</p></td>
-     <td><p>You can create up to 4,096 partitions per collection in a dedicated cluster.</p></td>
+     <td><p>1,024</p></td>
+     <td><p>You can create up to 1,024 partitions per collection in a dedicated cluster.</p></td>
    </tr>
 </table>
 
@@ -332,17 +331,14 @@ When calculating the consumed and general capacity, refer to the notes in [Colle
    <tr>
      <th><p><strong>Item</strong></p></th>
      <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
      <td><p>Fields per collection</p></td>
      <td><p>64</p></td>
-     <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p>Vector fields per collection</p></td>
-     <td><p>1</p></td>
-     <td><p>The support for multiple vector fields is coming soon.</p></td>
+     <td><p>4</p></td>
    </tr>
 </table>
 
@@ -502,13 +498,17 @@ The rate limit for load requests is **1** req/s per cluster.
 
 Each search request/response should be no greater than **64** MB.
 
-Each search request carries no more than **16,384** query vectors (usually known as **nq**).
+The number of query vectors that each search request carries (usually known as **nq**) varies with your subscription plan:
+
+- For Free and Serverless clusters, the **nq** is no greater than **10**.
+
+- For Dedicated clusters, the **nq** is no greater than **16,384**.
 
 The number that each search response carries (usually known as **topK**) varies with your subscription plan:
 
 - For Free and Serverless clusters, the **topK** is no greater than **1,024** entities in return.
 
-- For dedicated clusters, the **topK** is no greater than **16,384** entities in return.
+- For Dedicated clusters, the **topK** is no greater than **16,384** entities in return.
 
 ### Query{#query}
 

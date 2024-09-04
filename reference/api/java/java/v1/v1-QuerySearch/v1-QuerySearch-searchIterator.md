@@ -132,7 +132,7 @@ Methods of `SearchIteratorParam.Builder`:
     </tr>
     <tr>
         <td><p>withParams(String params)</p></td>
-        <td><p>Specifies the parameters of search in JSON format. The followings are valid keys of param:<br/>1. special parameters for index, such as "nprobe", "ef", "search<em>k"<br/>2. metric type with key "metric</em>type" and a string value such as "L2", "IP".<br/>3. offset for pagination with key "offset" and an integer value</p></td>
+        <td><p>Specifies the parameters of search in JSON format. The followings are valid keys of param:<br/>1. special parameters for index, such as "nprobe", "ef", "search_k"<br/>2. metric type with key "metric_type" and a string value such as "L2", "IP".<br/>3. offset for pagination with key "offset" and an integer value</p></td>
         <td><p>params: A JSON format string for extra parameters.</p></td>
     </tr>
     <tr>

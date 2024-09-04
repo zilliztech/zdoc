@@ -34,7 +34,7 @@ Zilliz Cloud uses CU to measure the resources consumed by dedicated clusters. Ad
 
 A CU is the basic unit of resources used for parallel data processing. Zilliz Cloud offers two types of CUs, each consisting of different combinations of CPU, memory, and storage. For guidance on selecting the appropriate CU type, refer to [Select the Right CU](./cu-types-explained).
 
-Zilliz Cloud calculates the CU costs based on your subscription plan, CU size, and the running time of your cluster.
+Zilliz Cloud calculates the CU costs based on your subscription plan, CU size, replica count, and the running time of your cluster.
 
 ### Storage{#storage}
 

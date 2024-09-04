@@ -29,11 +29,11 @@ This guide walks you through the basic operations on creating and managing index
 
 Leveraging the metadata stored in an index file, Zilliz Cloud organizes your data in a specialized structure, facilitating rapid retrieval of requested information during searches or queries.
 
-Zilliz Cloud employs [AUTOINDEX](./autoindex-explained) to enable efficient similarity searches. It also offers these [metric types](./search-metrics-explained): **Cosine Similarity** (COSINE), **Euclidean Distance** (L2), **Inner Product** (IP), **JACCARD** <sup>(Beta)</sup>, and **HAMMING** <sup>(Beta)</sup> to measure the distances between vector embeddings. To learn more about vector field types and metrics, refer to [Similarity Metrics Explained](./search-metrics-explained) and [Schema Explained](./schema-explained).
+Zilliz Cloud employs [AUTOINDEX](./autoindex-explained) to enable efficient similarity searches. It also offers these [metric types](./search-metrics-explained): **Cosine Similarity** (COSINE), **Euclidean Distance** (L2), **Inner Product** (IP), **JACCARD**, and **HAMMING** to measure the distances between vector embeddings. To learn more about vector field types and metrics, refer to [Similarity Metrics Explained](./search-metrics-explained) and [Schema Explained](./schema-explained).
 
 It is recommended to create indexes for both the vector field and scalar fields that are frequently accessed.
 
-If your collection contains more than one vector field, you can create an index for each vector field separately. For more information, refer to [With multiple vector fields](./manage-collections-sdks#with-multiple-vector-fields-beta).
+If your collection contains more than one vector field, you can create an index for each vector field separately. For more information, refer to [With multiple vector fields](./manage-collections-sdks#with-multiple-vector-fields).
 
 ## Preparations{#preparations}
 

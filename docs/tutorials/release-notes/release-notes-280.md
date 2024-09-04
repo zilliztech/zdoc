@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This update to Zilliz Cloud introduces the Serverless plan in BETA. It is designed for applications with variable query volumes, requiring minimal configuration and offering seamless scalability. This plan is now available on GCP us-west1 (Oregon) and includes a free trial during the BETA period. Additionally, new regions are supported for dedicated clusters Germany West Central (Frankfurt) for Azure, and europe-west3 (Frankfurt) and us-east-4 (Virginia) for GCP. This release also introduces several enhancements to monitoring metrics, search precision control, and import jobs. | Cloud"
 type: origin
 token: EL8jwqHsPikz2okhYzXcuLscnhf
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
@@ -33,7 +33,7 @@ The Serverless plan is tailored for applications with variable or sporadic query
 
 Serverless is now provided in **BETA** and available on **GCP us-west1 (Oregon)**. A free trial allows you to create up to one Serverless cluster without needing to add a payment method.
 
-Refer to [Severless Plan](./free-trials#serverless-plan) to get more details.
+Refer to [Severless Plan](./free-trials) to get more details.
 
 ## More Available regions{#more-available-regions}
 

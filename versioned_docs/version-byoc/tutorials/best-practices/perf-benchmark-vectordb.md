@@ -44,8 +44,8 @@ Closely mimicking real-world production environments, VectorDBBench has set up d
      <th><p><strong>Test Scenario</strong></p></th>
    </tr>
    <tr>
-     <td><p>Max<em>load</em>count</p></td>
-     <td><p>The capacity of a vector database. VectorDBBench will keep inserting vector data into the vector database until the database fails or reject the insertion request over 10 times and keep a record of the maximum number of inserted entities.</p><p>Higher Max<em>load</em>count values indicate better vector database performance.</p></td>
+     <td><p>Max_load_count</p></td>
+     <td><p>The capacity of a vector database. VectorDBBench will keep inserting vector data into the vector database until the database fails or reject the insertion request over 10 times and keep a record of the maximum number of inserted entities.</p><p>Higher Max_load_count values indicate better vector database performance.</p></td>
      <td><p>Insertion</p></td>
    </tr>
    <tr>
@@ -64,8 +64,8 @@ Closely mimicking real-world production environments, VectorDBBench has set up d
      <td><p>Search &amp; filtered search</p></td>
    </tr>
    <tr>
-     <td><p>Serial<em>latancy</em>p99</p></td>
-     <td><p>The time that 99% of queries take to complete. VectorDBBench records the search latency of each top-100 searches and uses the 99th percentile average as the final result.</p><p>Lower Serial<em>latancy</em>p99 values indicate better vector database performance.</p></td>
+     <td><p>Serial_latancy_p99</p></td>
+     <td><p>The time that 99% of queries take to complete. VectorDBBench records the search latency of each top-100 searches and uses the 99th percentile average as the final result.</p><p>Lower Serial_latancy_p99 values indicate better vector database performance.</p></td>
      <td><p>Search &amp; filtered search</p></td>
    </tr>
 </table>

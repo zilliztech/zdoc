@@ -138,6 +138,10 @@ search(
 
         The value defaults to **-1**, indicating that Zilliz Cloud skips rounding the calculated distances and returns the raw value.
 
+    - **page_retain_order** (*bool*) -
+
+        Whether to retain the order of the search result when `offset` is provided.
+
 **RETURN TYPE:**
 
 *list[dict]*

@@ -54,9 +54,9 @@ You can create a collection in one of the following ways:
 
     Instead of letting Zilliz Cloud decide almost everything for your collection, you can determine the **schema** and **index parameters** of the collection on your own. For details, refer to [Customized setup](./manage-collections-sdks#customized-setup).
 
-- **With multiple vector fields** <sup>(Beta)</sup>
+- **With multiple vector fields**
 
-    Zilliz Cloud enables multi-vector support, allowing you to add a maximum of 4 vector fields per collection. Currently, this feature is in Beta, exclusively available for clusters that have been upgraded to the Beta version. For details, refer to [With multiple vector fields](./manage-collections-sdks#with-multiple-vector-fields-beta).
+    Zilliz Cloud enables multi-vector support, allowing you to add a maximum of 4 vector fields per collection.
 
 ### Quick setup{#quick-setup}
 
@@ -294,8 +294,7 @@ index_params.add_index(
 index_params.add_index(
     field_name="my_vector", 
     index_type="AUTOINDEX",
-    metric_type="IP",
-    params={ "nlist": 128 }
+    metric_type="IP"
 )
 ```
 
@@ -316,7 +315,6 @@ IndexParam indexParamForVectorField = IndexParam.builder()
     .fieldName("my_vector")
     .indexType(IndexParam.IndexType.AUTOINDEX)
     .metricType(IndexParam.MetricType.L2)
-    .extraParams(Map.of("nlist", 1024))
     .build();
 
 List<IndexParam> indexParams = new ArrayList<>();
@@ -336,8 +334,7 @@ const index_params = [{
 },{
     field_name: "my_vector",
     index_type: "AUTOINDEX",
-    metric_type: "IP",
-    params: { nlist: 1024}
+    metric_type: "IP"
 }]
 ```
 
@@ -579,9 +576,8 @@ You have the option to create a collection and an index file separately or to cr
     res = await client.createIndex({
         collection_name: "customized_setup_2",
         field_name: "my_vector",
-        index_type: "IVF_FLAT",
-        metric_type: "IP",
-        params: { nlist: 1024}
+        index_type: "AUTOINDEX",
+        metric_type: "IP"
     })
     
     res = await client.getLoadState({
@@ -599,15 +595,9 @@ You have the option to create a collection and an index file separately or to cr
     </TabItem>
     </Tabs>
 
-### With multiple vector fields (Beta){#with-multiple-vector-fields-beta}
+### With multiple vector fields{#with-multiple-vector-fields}
 
 The process for creating a collection with multiple vector fields keeps consistent with that for [customized setup](./manage-collections-sdks#customized-setup). To create a collection with multiple vector fields (up to 4), you need to define the configuration of all the vector fields you want to store in the collection. Each vector field in the collection has its own name and distant metric type used to measure how similar the entities are. For more information on vector data types and metrics, refer to [Similarity Metrics Explained](./search-metrics-explained) and [Schema Explained](./schema-explained#data-types).
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Currently, this feature is in Beta, exclusively available for clusters that have been upgraded to the Beta version.</p>
-
-</Admonition>
 
 The example below defines two vector fields, `text_vector` and `image_vector`, in the collection schema.
 
@@ -665,15 +655,13 @@ index_params.add_index(
     # In Zilliz Cloud, the index type should always be `AUTOINDEX`.
     index_type="AUTOINDEX", 
     # For vector of the `BINARY_VECTOR` type, use `HAMMING` or `JACCARD` as the metric type.
-    metric_type="HAMMING", 
-    params={ "nlist": 128 }
+    metric_type="HAMMING"
 )
 
 index_params.add_index(
     field_name="image_vector", 
     index_type="AUTOINDEX",
-    metric_type="IP",
-    params={ "nlist": 128 }
+    metric_type="IP"
 )
 
 client.create_collection(
@@ -1616,32 +1604,45 @@ console.log(res.error_code)
 
 ## Collection Limits{#collection-limits}
 
-For a free cluster, you can create up to two collections. 
-
-For a serverless cluster, you can create up to ten collections.
-
-For a dedicated cluster, the number of collections you can create varies with the CU that your cluster uses.
-
 <table>
    <tr>
-     <th></th>
-     <th><p>Maximum number of collections</p></th>
+     <th><p><strong>Cluster Type</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
      <td><p>Free cluster</p></td>
-     <td><p><strong>2</strong></p></td>
+     <td><p>2</p></td>
+     <td><p>You can create up to 2 collections.</p></td>
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
-     <td><p><strong>10</strong></p></td>
+     <td><p>10</p></td>
+     <td><p>You can create up to 10 collections.</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster (8 CUs and less)</p></td>
-     <td><p><strong>32</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster (More than 8 CUs)</p></td>
-     <td><p><strong>256</strong></p></td>
+     <td><p>Dedicated cluster</p></td>
+     <td><p>64 per CU, and &lt;= 4096</p></td>
+     <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
    </tr>
 </table>
+
+In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity, which indicates the physical resources consumed by your clusters. The following table lists the limits on the general capacity of a cluster.
+
+<table>
+   <tr>
+     <th><p><strong>Number of CUs</strong></p></th>
+     <th><p><strong>General Capacity</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>1-8 CUs</p></td>
+     <td><p>&lt;= 4,096</p></td>
+   </tr>
+   <tr>
+     <td><p>12+ CUs</p></td>
+     <td><p>Min(512 x Number of CUs, 65536)</p></td>
+   </tr>
+</table>
+
+For details on the calculation of general and consumed capacity, refer to [Zilliz Cloud Limits](./limits#collections).
 
