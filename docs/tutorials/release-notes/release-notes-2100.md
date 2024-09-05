@@ -4,10 +4,10 @@ slug: /release-notes-2100
 sidebar_label: "Release Notes (Sept 4, 2024)"
 beta: FALSE
 notebook: FALSE
-description: "This release brings several key updates to Zilliz Cloud, starting with the GA of Zilliz Cloud Serverless, which offers automatic scaling and enables up to 50x cost savings. Milvus 2.4 features are now GA, introducing capabilities such as sparse vectors, multi-embedding hybrid search, and inverted index with fuzzy matching. The release also includes multi-replica functionality in public preview, allowing users to improve query throughput and availability by distributing workloads across replicas in multiple Availability Zones (AZs). Additionally, Zilliz Cloud’s new Migration Service supports seamless migration from open-source Milvus, pgvector, Elasticsearch, and enables intra-organization and cross-organization data migrations within Zilliz Cloud. The expanded RESTful APIs for backup, restore, migration, and job management empower users to build automated operational workflows. Further enhancements include support for Project Read-only roles and the ability to rename clusters and snapshots. | Cloud"
+description: "This release brings several key updates to Zilliz Cloud, starting with the GA of Zilliz Cloud Serverless, which offers automatic scaling and enables up to 50x cost savings. Milvus 2.4 features are now GA, introducing capabilities such as sparse vectors, multi-vector hybrid search, and inverted index with fuzzy matching. This release also includes multi-replica functionality in public preview, allowing users to improve query throughput and availability by distributing workloads across replicas in multiple Availability Zones (AZs). Additionally, Zilliz Cloud’s new Migration Service supports migration from open-source Milvus, pgvector, Elasticsearch, and enables intra-organization and cross-organization data migrations within Zilliz Cloud. The expanded RESTful APIs for backup, restore, migration, and job management empower users to build automated operational workflows. Further enhancements include support for Project Read-only roles and the ability to rename clusters and snapshots. | Cloud"
 type: origin
 token: PJ4hwwD1DiVnv0kWPZBceLrdnSf
-sidebar_position: 0
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
@@ -21,7 +21,7 @@ import Admonition from '@theme/Admonition';
 
 # Release Notes (Sept 4, 2024)
 
-This release brings several key updates to Zilliz Cloud, starting with the **GA of Zilliz Cloud** Serverless, which offers automatic scaling and enables up to 50x cost savings. **Milvus 2.4 features are now GA**, introducing capabilities such as sparse vectors, multi-embedding hybrid search, and inverted index with fuzzy matching. The release also includes **multi-replica** functionality in public preview, allowing users to improve query throughput and availability by distributing workloads across replicas in multiple Availability Zones (AZs). Additionally, Zilliz Cloud’s new **Migration Service** supports seamless migration from open-source Milvus, pgvector, Elasticsearch, and enables intra-organization and cross-organization data migrations within Zilliz Cloud. The **expanded** **RESTful APIs** for backup, restore, migration, and job management empower users to build automated operational workflows. Further enhancements include support for Project Read-only roles and the ability to rename clusters and snapshots.
+This release brings several key updates to Zilliz Cloud, starting with the **GA of Zilliz Cloud Serverless**, which offers automatic scaling and enables up to 50x cost savings. **Milvus 2.4 features** are now GA, introducing capabilities such as sparse vectors, multi-vector hybrid search, and inverted index with fuzzy matching. This release also includes **multi-replica functionality** in public preview, allowing users to improve query throughput and availability by distributing workloads across replicas in multiple Availability Zones (AZs). Additionally, Zilliz Cloud’s new **Migration Service** supports migration from open-source Milvus, pgvector, Elasticsearch, and enables intra-organization and cross-organization data migrations within Zilliz Cloud. The expanded **RESTful APIs** for backup, restore, migration, and job management empower users to build automated operational workflows. Further enhancements include support for Project Read-only roles and the ability to rename clusters and snapshots.
 
 ### Milvus Compatibility{#milvus-compatibility}
 
@@ -29,17 +29,15 @@ This release is compatible with **Milvus 2.4.x**.
 
 ### Serverless GA{#serverless-ga}
 
-After a year of refinement, Zilliz Cloud Serverless is now generally available. 
+After a year of refinement, Zilliz Cloud Serverless is now generally available. Designed as a hassle-free serverless vector database for GenAI applications, Zilliz Cloud Serverless offers automatic scaling that adjusts to your app's demands, delivering up to 50x cost savings. Its cost-efficiency is made possible by a tiered storage system that optimizes data placement across DRAM, SSD, and object storage, ensuring quick access to active data while reducing costs for less frequently used data — all without manual intervention.
 
-Designed as a hassle-free serverless vector database for GenAI applications, Zilliz Cloud Serverless offers automatic scaling that adjusts to your app's demands, delivering up to 50x cost savings. Its cost-efficiency is driven by a tiered storage system that optimizes data placement across DRAM, SSD, and object storage, ensuring quick access to active data while reducing costs for less frequently used information—all without manual intervention.
-
-Unlike dedicated clusters, serverless service ensures you only pay for what you use, eliminating the costs for idle servers. With seamless data portability, you can easily transfer your data from open-source Milvus or to dedicated clusters, as your needs change. 
+Unlike dedicated clusters, the serverless service ensures you only pay for what you use, eliminating the costs for idle servers. With convenient migration features, you can easily transfer your data from open-source Milvus to Zilliz Cloud Serverless, or from Serverless to a Dedicated Cluster, to accommodate your changing needs.
 
 [Learn more or get a free trial.](https://zilliz.com/serverless)
 
 ### Milvus 2.4.x New Features GA on Zilliz Cloud{#milvus-24x-new-features-ga-on-zilliz-cloud}
 
-Milvus 2.4 offers many highly practical capabilities for RAG and multimodal data search. If you want to try these new features, you can update your cluster to BETA. Since Milvus 2.4 has not reached a stable version, be cautious when you adopt Milvus 2.4 features in your production environment.
+Milvus 2.4 offers many highly practical capabilities for RAG and multimodal data search. If you want to try these new features, you can update your cluster to Public Preview. Since Milvus 2.4 has not reached a stable version, be cautious when you adopt Milvus 2.4 features in your production environment.
 
 #### Sparse Vector{#sparse-vector}
 
@@ -47,7 +45,7 @@ Sparse vectors are different from their dense counterparts as they tend to have 
 
 Example code can be found in [hello_sparse.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/hello_sparse.py).
 
-#### Multi Embedding & Hybrid Search{#multi-embedding-and-hybrid-search}
+#### Multi-vector & Hybrid Search{#multi-vector-and-hybrid-search}
 
 Multi-vector support is the cornerstone for applications that require multi-model data processing or a mix of dense and sparse vectors. With multi-vector support, now you can:
 
@@ -59,27 +57,27 @@ Multi-vector support is the cornerstone for applications that require multi-mode
 
 - Experiment with various embedding models to find the optimal model combination.
 
-Multi-vector support allows storing, indexing, and applying reranking strategies to multiple vector fields of different types, such as FLOAT_VECTOR and SPARSE_FLOAT_VECTOR, in a collection. Currently, two reranking strategies are available: **Reciprocal Rank Fusion (RRF)** and **Average Weighted Scoring**. Both strategies combine the search results from different vector fields into a unified result set. The first strategy prioritizes the entities that consistently appear in the search results of different vector fields, while the other strategy assigns weights to the search results of each vector field to determine their importance in the final result set.
+Multi-vector support allows storing, indexing, and applying reranking strategies to multiple vector fields of different types, such as FLOAT_VECTOR and SPARSE_FLOAT_VECTOR, in a collection. Currently, two reranking strategies are available: **Reciprocal Rank Fusion (RRF)** and **Average Weighted Scoring**. Both strategies combine the search results from different vector fields into a unified result set. RRF considers the positions of items in the original rankings, giving higher importance to those that rank higher across multiple lists and prioritizing entities that consistently appear in different vector fields. Average Weighted Scoring assigns weights to the search results of each vector field to determine their importance in the final result set.
 
 Example code can be found in [hybrid_search.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/hybrid_search.py).
 
-#### Inverted Index and Fuzzy Match{#inverted-index-and-fuzzy-match}
+#### Improved Metadata Filtering and Substring Matching{#improved-metadata-filtering-and-substring-matching}
 
-In previous releases of Milvus, memory-based binary search indexes and Marisa Trie indexes were used for scalar field indexing. However, these methods were memory-intensive. The latest release of Zilliz Cloud now employs the Tantivy-based inverted index, which can be applied to all numeric and string data types. This new index dramatically improves scalar query performance, reducing the query of keywords in strings by ten times. In addition, The inverted index consumes less memory, thanks to additional optimizations in data compression and Memory-mapped storage (MMap) mechanism of the internal indexing structure.
+In this release, we made two key improvements to metadata filtering. First, we improved the performance for filtering scalar data types by introducing a new scalar inverted index. Second, we expanded our support for substring matching during metadata filtering
 
-This release also supports fuzzy matches in scalar filtering using prefixes, infixes, and suffixes.
+In previous releases of Milvus, metadata filtering was implemented with memory-based binary search indexes and Marisa Trie indexes. These methods are memory-intensive. The latest release of Zilliz Cloud now employs the Tantivy-based inverted index, which can be applied to all numeric and string data types. This new index improves the performance of scalar query on strings by 10x. It also consumes less memory, by applying data compression and Memory-mapped storage (MMap) mechanism on the internal indexing structure. Example code can be found in [inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py)
 
-Example code can be found in [inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) and [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py).
+This release also adds support for more flexible string matching, including prefix, infix, postfix, and wildcard patterns.
 
 #### Grouping Search{#grouping-search}
 
-You can now aggregate the search results by the values in a specific scalar field. This helps RAG applications to implement document-level recall. Consider a collection of documents, each document splits into various passages. Each passage is represented by one vector embedding and belongs to one document. To find the most relevant documents instead of scattering passages, you can include the group_by_field argument in the search() operation to group results by the document ID.
+You can now aggregate search results by the values in a specific scalar field. This is useful in RAG for retrieving document chunks as well as returning unique document IDs related to the search query. Considering a collection of documents where each document is split into several chunks, with each chunk represented by a vector embedding, you can use the `group_by_field` argument in the `search()` operation to group results by document ID, allowing you to find the list of relevant documents while searching for semantically relevant chunks.
 
 Example code can be found in [example_group_by.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/example_group_by.py).
 
 #### Float16 and BFloat- Vector DataType{#float16-and-bfloat-vector-datatype}
 
-Machine learning and neural networks often use half-precision data types, such as Float16 and BFloat- While these data types can improve query efficiency and reduce memory usage, they come with a tradeoff of reduced accuracy. With this release, Zilliz Cloud now supports these data types for vector fields.
+Machine learning and neural networks often use half-precision data types, such as Float16 and BFloat. These data types can improve query efficiency and reduce memory usage at a cost of reduced accuracy. With this release, Zilliz Cloud now supports these data types for vector fields.
 
 Example code can be found in [float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/float16_example.py) and [bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/bfloat16_example.py).
 
@@ -95,7 +93,7 @@ Currently, the multi-replica feature is in public preview and is available on th
 
 ### Migration Service{#migration-service}
 
-Zilliz Cloud now offers a comprehensive Migration Service, allowing users to seamlessly complete migration tasks. Currently, three types of migrations are supported:
+Zilliz Cloud now offers a comprehensive Migration Service, allowing users to complete migration tasks at ease. Currently, three types of migrations are supported:
 
 - Migrate from open-source Milvus to Zilliz Cloud. The migration target can be a Free Plan instance, Serverless instance, or Dedicated Cluster. For details, refer to [Migrate from Milvus to Zilliz Cloud](./migrate-from-milvus).
 
@@ -111,7 +109,7 @@ These RESTful APIs allow users to build their own automated operational workflow
 
 [Learn more about the API details.](/reference/restful)
 
-### Enhancements{#enhancements}
+### Other Enhancements{#other-enhancements}
 
 This release also includes a series of enhancements:
 
