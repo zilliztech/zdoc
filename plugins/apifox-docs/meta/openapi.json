@@ -12979,7 +12979,7 @@
 															}
 														},
 														"properties": {
-															"jobID": {
+															"jobId": {
 																"type": "string",
 																"description": "The ID of the current bulk-import job.",
 																"x-i18n": {
@@ -13035,7 +13035,7 @@
 										"value": {
 											"code": 0,
 											"data": {
-												"jobID": "job-xxxxxxxxxxxxxxxxxxxxx"
+												"jobId": "job-xxxxxxxxxxxxxxxxxxxxx"
 											}
 										}
 									},
