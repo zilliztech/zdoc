@@ -79,6 +79,14 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
      <td><p>Yes</p></td>
      <td><p>Yes</p></td>
    </tr>
+   <tr>
+     <td><p>ap-northeast-1</p></td>
+     <td><p>Tokyo</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+   </tr>
 </table>
 
 For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
