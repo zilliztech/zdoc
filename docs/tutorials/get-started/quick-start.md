@@ -70,7 +70,7 @@ The following demonstrates how to create a serverless cluster using the RESTful 
 
 ```bash
 curl --request POST \
-    --url "https://api.cloud.zilliz.com/v2/clusters/createFree" \
+    --url "https://api.cloud.zilliz.com/v2/clusters/createServerless" \
     --header "Authorization: Bearer ${API_KEY}" \
     --header "Accept: application/json" \
     --header "Content-Type: application/json" \
@@ -95,7 +95,7 @@ The following demonstrates how to create a  cluster using the RESTful API.
 
 ```bash
 curl --request POST \
-    --url "https://api.cloud.zilliz.com/v2/clusters/createFree" \
+    --url "https://api.cloud.zilliz.com/v2/clusters/createDedicated" \
     --header "Authorization: Bearer ${API_KEY}" \
     --header "Accept: application/json" \
     --header "Content-Type: application/json" \

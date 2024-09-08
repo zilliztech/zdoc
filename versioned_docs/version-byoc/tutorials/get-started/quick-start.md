@@ -47,7 +47,7 @@ The following demonstrates how to create a dedicated cluster using the RESTful A
 
 ```bash
 curl --request POST \
-    --url "https://api.cloud.zilliz.com/v2/clusters/createFree" \
+    --url "https://api.cloud.zilliz.com/v2/clusters/createDedicated" \
     --header "Authorization: Bearer ${API_KEY}" \
     --header "Accept: application/json" \
     --header "Content-Type: application/json" \
