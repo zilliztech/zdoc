@@ -32,7 +32,7 @@ After creating a free cluster, you will see the following in the console.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You have the option to create one free cluster without charge. In addition, you can create up to two collections within the cluster.</p>
+<p>You have the option to create one free cluster without charge. In addition, you can create up to five collections within the cluster.</p>
 
 </Admonition>
 
@@ -41,12 +41,6 @@ After creating a free cluster, you will see the following in the console.
 In the **Connect** section, you can find the **Public Endpoint** and **Token** used to connect to the cluster.
 
 For details, refer to [Connect to Cluster](./connect-to-cluster).
-
-### Drop cluster{#drop-cluster}
-
-In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
-
-In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
 
 ### Upgrade plan{#upgrade-plan}
 
@@ -92,6 +86,12 @@ To upgrade your plan, follow these steps:
         </Admonition>
 
         ![upgrade-to-dedicated](/img/upgrade-to-dedicated.png)
+
+### Drop cluster{#drop-cluster}
+
+In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
+
+In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
 
 ## Serverless cluster{#serverless-cluster}
 
@@ -233,6 +233,10 @@ Once the status changes to **SUSPENDED**, you will only be charged for storage. 
    <tr>
      <td><p>GCP storage</p></td>
      <td><p>$0.020 / GB per month</p></td>
+   </tr>
+   <tr>
+     <td><p>Azure storage</p></td>
+     <td><p>$0.025 / GB per month</p></td>
    </tr>
 </table>
 

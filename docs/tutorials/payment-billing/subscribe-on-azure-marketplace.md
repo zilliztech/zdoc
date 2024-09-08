@@ -26,7 +26,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You can subscribe to our service in Azure Marketplace and choose among AWS, GCP, and Azure to <a href="./create-cluster">create</a> your Zilliz Cloud clusters.</p>
+<p>Once subscribed, you can pay for the usage of Azure clusters via Azure Marketplace. If you have clusters deployed on other cloud providers, you can also use Azure Marketplace to pay.</p>
 
 </Admonition>
 

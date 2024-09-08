@@ -1,7 +1,7 @@
 ---
-title: "Subscribe on GCP Marketplace | Cloud"
+title: "Subscribe on Google Cloud Marketplace | Cloud"
 slug: /subscribe-on-gcp-marketplace
-sidebar_label: "GCP Marketplace"
+sidebar_label: "Google Cloud Marketplace"
 beta: FALSE
 notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on GCP Marketplace. | Cloud"
@@ -20,13 +20,13 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
-# Subscribe on GCP Marketplace
+# Subscribe on Google Cloud Marketplace
 
 This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on GCP Marketplace.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You can subscribe to our service in GCP Marketplace and choose among AWS, GCP, and Azure to <a href="./create-cluster">create</a> your Zilliz Cloud clusters.</p>
+<p>Once subscribed, you can pay for the usage of Google Cloud clusters via Google Cloud Marketplace. If you have clusters deployed on other cloud providers, you can also use Google Cloud Marketplace to pay.</p>
 
 </Admonition>
 
