@@ -89,7 +89,7 @@ For more details, refer to the [Pricing Plan](https://zilliz.com/pricing).
 
 ## Value-added services{#value-added-services}
 
-Zilliz Cloud also provides value-added services, such as data backup and migration.
+Zilliz Cloud also provides value-added services, such as data backup.
 
 ### Backup costs{#backup-costs}
 
@@ -100,18 +100,6 @@ Using an AWS-hosted cluster as an example, a 20 GB backup saved on Zilliz Cloud 
 For more details, refer to the [Pricing Plan](https://zilliz.com/pricing).
 
 Restoring a snapshot does not incur any charges.
-
-### Migration costs{#migration-costs}
-
-Zilliz Cloud allows you to migrate data from various sources and between your Zilliz Cloud clusters.
-
-Only migrations between dedicated clusters incur charges based on the size of the data migrated. If the source and target clusters are located in different cloud regions, additional fees will apply.
-
-Using the migration between two AWS-hosted dedicated clusters as an example, migrating the data of 20 GB between these clusters incur **$0.025 x 20 = $0.5**.
-
-Migrations from Milvus, ElasticSearch, as well as free and serverless clusters do not incur any charges.
-
-For more details, refer to the [Pricing Plan](https://zilliz.com/pricing).
 
 ### Pipelines costs{#pipelines-costs}
 
