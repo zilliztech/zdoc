@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Link from '@docusaurus/Link'
 import Heading from '@theme-original/Heading';
-import {useDoc} from '@docusaurus/theme-common/internal';
+import {useDoc} from '@docusaurus/plugin-content-docs/client';
 import styles from './styles.module.css';
 
 const BetaTagComponent = (children, tag) => (
