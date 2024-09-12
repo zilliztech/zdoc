@@ -34,13 +34,13 @@ Learn about how to manipulate collections on the Zilliz Cloud console or via SDK
    </tr>
    <tr>
      <td><p>Free cluster</p></td>
-     <td><p>2</p></td>
-     <td><p>You can create up to 2 collections.</p></td>
+     <td><p>5</p></td>
+     <td><p>You can create up to 5 collections.</p></td>
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
-     <td><p>10</p></td>
-     <td><p>You can create up to 10 collections.</p></td>
+     <td><p>100</p></td>
+     <td><p>You can create up to 100 collections.</p></td>
    </tr>
    <tr>
      <td><p>Dedicated cluster</p></td>

@@ -56,8 +56,8 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
      <td><p><strong>Cloud provider & region</strong></p></td>
      <td><p>GCP Exclusive</p></td>
      <td><p>GCP Exclusive</p></td>
-     <td><p>AWS, GCP, Azure</p></td>
-     <td><p>AWS, GCP, Azure</p></td>
+     <td><p>AWS, GCP, Azure</p><p>For details, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
+     <td><p>AWS, GCP, Azure</p><p>For details, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
      <td><p>User's VPC</p></td>
    </tr>
    <tr>
