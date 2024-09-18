@@ -27,4 +27,4 @@ broken_links.txt
 test.js
 404s.csv
 redirects.txt
-plugins/**/*.json
+plugins/lark-docs/**/*.json

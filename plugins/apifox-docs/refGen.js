@@ -39,10 +39,25 @@ class refGen {
 
         const page_title = lang === "zh-CN" ? specification["x-i18n"][lang].summary : specification.summary
         const page_excerpt = this.__filter_content(lang === "zh-CN" ? specification["x-i18n"][lang].description : specification.description, target)
-        const page_parent = parents.filter(x => x === specification.tags[0])[0].replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
+        var page_parent = parents.filter(x => x === specification.tags[0])[0].replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
+        if (target === 'milvus') {
+          const descriptions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/descriptions.json', 'utf-8'))
+          const name = descriptions.filter(x => x.name === page_parent)[0]?.milvus?.name
+          if (name) {
+            page_parent = name
+          }
+        }
         const version = page_parent.includes('v2') ? 'v2' : 'v1'
-        const upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('import') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') ? 'control-plane' : 'data-plane'
-        const page_slug = (this.get_slug(page_title)) + (version === 'v2' ? '-v2' : '')
+        var slug_suffix = version === 'v2' ? '-v2' : ''
+        if (target === 'milvus') {
+          slug_suffix = ''
+        }
+        var upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('import') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') ? 'control-plane' : 'data-plane'
+
+        if (target === 'milvus') {
+          upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') ? 'control-plane' : 'data-plane'
+        }
+        var page_slug = (this.get_slug(page_title, target)) + slug_suffix
         const page_method = method.toLowerCase()
         const specs = JSON.stringify(specification)
 
@@ -53,7 +68,9 @@ class refGen {
           page_url,
           page_method,
           specs,
-          sidebar_position
+          sidebar_position,
+          target,
+          lang,
         }).replaceAll(/<br>/g, '<br/>')
         
         fs.writeFileSync(`${this.options.target_path}/${version}/${upper_folder}/${page_parent}/${page_slug}.mdx`, t)
@@ -62,7 +79,7 @@ class refGen {
   }  
 
   make_groups() {
-    const { specifications, target_path } = this.options
+    const { specifications, target, target_path } = this.options
     const env = new nunjucks.Environment(
       new nunjucks.FileSystemLoader(`plugins/apifox-docs/templates`),
       { autoescape: false }
@@ -73,7 +90,10 @@ class refGen {
     for (const group of Object.keys(specifications.tags)) {
       const slug = specifications.tags[group].name.replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
       const version = slug.includes('v2') ? 'v2' : 'v1'
-      const upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('import') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') ? 'control-plane' : 'data-plane'
+      var upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('import') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') ? 'control-plane' : 'data-plane'
+      if (target === 'milvus') {
+        upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') ? 'control-plane' : 'data-plane'
+      }
       const group_name = version === 'v2' ? specifications.tags[group].name.slice(0, -5) : specifications.tags[group].name
       const descriptions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/descriptions.json', 'utf-8'))
       const description = descriptions.filter(x => x.name === slug)[0].description
@@ -85,47 +105,88 @@ class refGen {
         description
       })
 
-      const folder_path = `${target_path}/${version}/${upper_folder}/${slug}`
+      var folder_path = `${target_path}/${version}/${upper_folder}/${slug}`
+
+      if (target === 'milvus') {
+        const name = descriptions.filter(x => x.name === slug)[0]?.milvus?.name
+        if (name) {
+          folder_path = `${target_path}/${version}/${upper_folder}/${name}`
+        }
+      }
 
       if (!fs.existsSync(folder_path)) {
         fs.mkdirSync(folder_path, { recursive: true })
       }
 
-      if (!fs.existsSync(`${target_path}/${version}/${version}.mdx`)) {
-        fs.writeFileSync(`${target_path}/${version}/${version}.mdx`, template.render({
-          group_name: version === 'v2' ? 'V2' : 'V1',
-          position: version === 'v2' ? 1 : 2,
-          slug: version,
-          description: ''
-        }))
+      if (target === 'zilliz') {
+        if (!fs.existsSync(`${target_path}/${version}/${version}.mdx`)) {
+          fs.writeFileSync(`${target_path}/${version}/${version}.mdx`, template.render({
+            group_name: version === 'v2' ? 'V2' : 'V1',
+            position: version === 'v2' ? 1 : 2,
+            slug: version,
+            description: ''
+          }))
+        }
+  
+        if (!fs.existsSync(`${target_path}/${version}/${upper_folder}/${upper_folder}.mdx`)) {
+          const title = upper_folder.startsWith('control') ? 'Control Plane' : 'Data Plane'
+          const pos = upper_folder.startsWith('control') ? 1 : 2
+          const desc = upper_folder.startsWith('control') ? 'This provide API endpoints for managing Zilliz Cloud clusters and resources.' : 'This provide API endpoints for managing data stored in Zilliz Cloud clusters.'
+  
+          fs.writeFileSync(`${target_path}/${version}/${upper_folder}/${upper_folder}.mdx`, template.render({
+            group_name: title,
+            position: pos,
+            slug: `${upper_folder}-${version}`,
+            description: desc
+          }))
+        }      
+  
+        fs.writeFileSync(`${folder_path}/${slug}.mdx`, t)
       }
-
-      if (!fs.existsSync(`${target_path}/${version}/${upper_folder}/${upper_folder}.mdx`)) {
-        const title = upper_folder.startsWith('control') ? 'Control Plane' : 'Data Plane'
-        const pos = upper_folder.startsWith('control') ? 1 : 2
-        const desc = upper_folder.startsWith('control') ? 'This provide API endpoints for managing Zilliz Cloud clusters and resources.' : 'This provide API endpoints for managing data stored in Zilliz Cloud clusters.'
-
-        fs.writeFileSync(`${target_path}/${version}/${upper_folder}/${upper_folder}.mdx`, template.render({
-          group_name: title,
-          position: pos,
-          slug: `${upper_folder}-${version}`,
-          description: desc
-        }))
-      }      
-
-      fs.writeFileSync(`${folder_path}/${slug}.mdx`, t)
     }
   }
 
-  get_slug(page_title) {
+  get_slug(page_title, target) {
     console.log(page_title)
+    var page_slug = 0
     const { lang } = this.options
     if (lang == 'zh-CN') {
       const titles = JSON.parse(fs.readFileSync(`plugins/apifox-docs/meta/titles.json`, 'utf-8'))
-      return titles[page_title]
+      page_slug = titles[page_title]
     } else {
-      return page_title.replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
+      page_slug = page_title.replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
     }
+
+    if (target === 'milvus') {
+      const ruleSet = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/fileNameRuleSet.json', 'utf-8'))
+      var slug = undefined
+      for (let rule of ruleSet) {
+        switch (rule.match) {
+          case 'endsWith':
+            if (page_slug.endsWith(rule.path)) {
+              slug = rule.name
+            }
+            break;
+          case 'contains':
+            if (page_slug.includes(rule.path)) {
+              slug = rule.name
+            }
+            break;
+          case 'removeAndCapitalize':
+            if (page_slug.includes(rule.path)) {
+              slug = page_slug.replace(rule.path, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+            }
+            break;
+        }
+
+        if (slug) {
+          page_slug = slug;
+          break;
+        }
+      }
+    }
+
+    return page_slug
   }
 
   __filter_content (markdown, targets) {

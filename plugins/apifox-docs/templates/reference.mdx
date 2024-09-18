@@ -13,7 +13,7 @@ sidebar_custom_props: { badges: ['{{ page_method }}']}
 
 import RestSpecs from '@site/src/components/RestSpecs';
 
-<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" />
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="{{target}}" lang="{{lang}}" />
 
 export const specs = {{ specs }}
 export const endpoint = "{{ page_url }}"
