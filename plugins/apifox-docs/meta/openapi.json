@@ -12760,7 +12760,10 @@
 									},
 									"token": {
 										"type": "string",
-										"description": "A temporary token for you to access the object storage service. The token name and the way to obtain it may vary with cloud providers. For details, refer to [the FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)."
+										"description": "A temporary token for you to access the object storage service. The token name and the way to obtain it may vary with cloud providers. For details, refer to [the FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).",
+										"x-include-target": [
+											"zilliz"
+										]
 									}
 								},
 								"required": [
@@ -18007,6 +18010,15 @@
 																		"x-i18n": {
 																			"zh-CN": {
 																				"description": "数据文件导入失败原因。当数据文件成功处理时，该值为空。"
+																			}
+																		}
+																	},
+																	"totalRows": {
+																		"type": "integer",
+																		"description": "Number of rows inserted from this file.",
+																		"x-i18n": {
+																			"zh-CN": {
+																				"description": "当前文件在目标 Collection 中插入的 Entity 数量。"
 																			}
 																		}
 																	}

@@ -97,7 +97,7 @@ For details, see [Import](/reference/restful/create-import-jobs-v2) and [Get Imp
 
 ## Verify the result{#verify-the-result}
 
-If the command output is similar as follows, the data is imported successfully:
+If the command output is similar as follows, the import job is successfully submitted:
 
 ```bash
 {

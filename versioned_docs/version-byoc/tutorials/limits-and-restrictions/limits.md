@@ -4,7 +4,7 @@ slug: /limits
 sidebar_label: "Zilliz Cloud Limits"
 beta: FALSE
 notebook: FALSE
-description: "This page provides information about limits on the Zilliz Cloud platform. Submit a request to us if you need to report issues related to these limits. | BYOC"
+description: "This page provides information about limits on the Zilliz Cloud platform. You can use the OPS system that Zilliz provides to tune most of the settings mentioned on this page. You can still contact us if you need further help. | BYOC"
 type: origin
 token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
 sidebar_position: 1
@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 # Zilliz Cloud Limits
 
-This page provides information about limits on the Zilliz Cloud platform. [Submit a request](https://support.zilliz.com/hc/en-us) to us if you need to report issues related to these limits.
+This page provides information about limits on the Zilliz Cloud platform. You can use the OPS system that Zilliz provides to tune most of the settings mentioned on this page. You can still [contact us](https://support.zilliz.com/hc/en-us) if you need further help.
 
 ## Organizations, Projects & Members{#organizations-projects-and-members}
 
