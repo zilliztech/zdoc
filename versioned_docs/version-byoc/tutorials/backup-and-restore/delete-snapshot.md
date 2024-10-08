@@ -18,7 +18,8 @@ keywords:
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Delete Backup File
 
@@ -32,13 +33,45 @@ For automatically created backup files, Zilliz Cloud automatically removes them 
 
 Make sure the following conditions are met:
 
-- You are granted the [Organization Owner](./user-roles) or [Project Owner](./user-roles) role in the target organization.
+- You are granted the [Organization Owner](./user-roles) or [Project Admin](./user-roles#project-roles) role in the target organization.
 
 ## Procedures{#procedures}
+
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
 
 ![delete_backups](/byoc/delete_backups.png)
 
 You will be prompted to verify your request to delete a backup file before Zilliz Cloud actually performs the deletion.
+
+</TabItem>
+<TabItem value="Bash">
+
+Delete a backup file. For details on parameters, refer to [Delete Backup](/reference/restful/delete-backup-v2).
+
+```bash
+curl --request DELETE \
+     --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "Accept: application/json" \
+     --header "Content-type: application/json"
+```
+
+Expected output:
+
+```bash
+{
+  "code": 0,
+  "data": {
+    "backupId": "backup11_dbf5a40a6e5xxxx",
+    "backupName": "medium_articles_backup4"
+  }
+}
+```
+
+</TabItem>
+</Tabs>
 
 ## Related topics{#related-topics}
 

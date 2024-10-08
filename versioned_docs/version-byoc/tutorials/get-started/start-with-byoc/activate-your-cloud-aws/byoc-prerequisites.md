@@ -99,7 +99,10 @@ Refer to the table below for the necessary cloud resources and services for Zill
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Cloud administrators can monitor resource usage and quotas in the cloud quota dashboard. For details, refer to <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">AWS service quotas</a>.</p>
+<ul>
+<li><p>Cloud administrators can monitor resource usage and quotas in the cloud quota dashboard. For details, refer to <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">AWS service quotas</a>.</p></li>
+<li><p>As your cluster is set up across different Availability Zones (AZs) within your Virtual Private Cloud (VPC), you may have to pay for some internal network traffic. For details, refer to <a href="https://aws.amazon.com/ec2/pricing/on-demand/?nc1=h_ls">AWS EC2 pricing page</a>.</p></li>
+</ul>
 
 </Admonition>
 
@@ -112,12 +115,12 @@ Refer to the table below for the necessary cloud resources and services for Zill
    <tr>
      <td><p>Virtual Machine</p></td>
      <td><p>EC2</p></td>
-     <td><ul><li><p>(m6i.xlarge) * 4</p></li><li><p>(m6i.2xlarge) * 4</p></li><li><p>(r6id.8xlarge) * 1</p><p><strong>Total</strong>: 80 vCPUs, 448 GiB</p></li></ul></td>
+     <td><ul><li><p>(m6i.xlarge) * 4</p></li><li><p>(m6i.2xlarge) * 4</p></li><li><p>(m6id.4xlarge) * 1</p><p><strong>Total</strong>: 64 vCPUs, 256 GiB</p></li></ul></td>
    </tr>
    <tr>
      <td><p>Object Storage</p></td>
      <td><p>S3</p></td>
-     <td><p>1.3 TB</p></td>
+     <td><p>0</p></td>
    </tr>
    <tr>
      <td><p>Block Storage</p></td>
@@ -166,57 +169,57 @@ In the table, the **Terraform Resource Identifier** column lists the internal na
      <th><p><strong>Description</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>aws<em>iam</em>policy.aws<em>lb</em>irsa_policy</strong></p></td>
+     <td><p><strong>aws_iam_policy.aws_lb_irsa_policy</strong></p></td>
      <td><p><strong>zilliz-aws-lb-irsa-policy</strong></p></td>
      <td><p>Manages various aspects of ELB, including creation, modification, and deletion of load balancers and target groups, as well as associated security and tagging permissions, with specific conditions applied to certain actions.</p></td>
    </tr>
    <tr>
-     <td><p><strong>aws<em>iam</em>policy.bootstrap_policy</strong></p></td>
+     <td><p><strong>aws_iam_policy.bootstrap_policy</strong></p></td>
      <td><p><strong>zilliz-bootstrap-policy</strong></p></td>
      <td><p>Grants permissions for managing AWS resources including EKS, EC2, S3, and Route 53, with specific restrictions and conditions.</p></td>
    </tr>
    <tr>
-     <td><p><strong>aws<em>iam</em>policy.cluster<em>autoscaler</em>irsa_policy</strong></p></td>
+     <td><p><strong>aws_iam_policy.cluster_autoscaler_irsa_policy</strong></p></td>
      <td><p><strong>zilliz-ca-irsa-policy</strong></p></td>
      <td><p>Allows for managing auto-scaling and EC2 instance operations in AWS, specifically for scaling and termination actions.</p></td>
    </tr>
    <tr>
-     <td><p><strong>aws<em>iam</em>policy.ebs<em>csi</em>irsa_policy</strong></p></td>
+     <td><p><strong>aws_iam_policy.ebs_csi_irsa_policy</strong></p></td>
      <td><p><strong>zilliz-ebs-csi-irsa-policy</strong></p></td>
      <td><p>Manages EC2 volumes and snapshots, including creation, attachment, detachment, and deletion, with specific conditions for tagging and cluster association.</p></td>
    </tr>
    <tr>
-     <td><p><strong>aws<em>iam</em>policy.management_policy</strong></p></td>
+     <td><p><strong>aws_iam_policy.management_policy</strong></p></td>
      <td><p><strong>zilliz-management-policy</strong></p></td>
      <td><p>Allows for managing S3 buckets and objects, creating and tagging IAM policies, scaling EKS node groups, and handling various Elastic Load Balancing (ELB) resources, with restrictions based on specific resource tags and paths.</p></td>
    </tr>
    <tr>
-     <td><p><strong>aws<em>iam</em>policy.permission_boundary</strong></p></td>
+     <td><p><strong>aws_iam_policy.permission_boundary</strong></p></td>
      <td><p><strong>zilliz-permission-boundary-policy</strong></p></td>
      <td><p>Allows actions across various AWS services like ACM, AutoScaling, EC2, EKS, ELB, IAM, Logs, Route 53, S3, and SSM.</p></td>
    </tr>
    <tr>
-     <td><p><strong>aws<em>iam</em>policy.zilliz<em>business</em>irsa_policy</strong></p></td>
+     <td><p><strong>aws_iam_policy.zilliz_business_irsa_policy</strong></p></td>
      <td><p><strong>zilliz-business-irsa-policy</strong></p></td>
      <td><p>Allows specific S3 actions, such as reading, writing, listing, and deleting objects in buckets prefixed with <strong>zilliz-byoc</strong>, reflecting targeted S3 access for business-related operations.</p></td>
    </tr>
    <tr>
-     <td><p><strong>aws<em>iam</em>role.bootstrap_role</strong></p></td>
+     <td><p><strong>aws_iam_role.bootstrap_role</strong></p></td>
      <td><p><strong>zilliz-bootstrap-role</strong></p></td>
      <td><p>Secures role assumption with specific conditions, including external ID verification, primarily intended for controlled access within the <strong>zilliz-byoc</strong> framework.</p></td>
    </tr>
    <tr>
-     <td><p><strong>aws<em>iam</em>role.management_role</strong></p></td>
+     <td><p><strong>aws_iam_role.management_role</strong></p></td>
      <td><p><strong>zilliz-management-role</strong></p></td>
      <td><p>Secures role assumption, featuring conditions like external ID verification, and is specifically geared for management tasks within the <strong>zilliz-byoc</strong> framework.</p></td>
    </tr>
    <tr>
-     <td><p><strong>aws<em>iam</em>role<em>policy</em>attachment.bootstrap_attachment</strong></p></td>
+     <td><p><strong>aws_iam_role_policy_attachment.bootstrap_attachment</strong></p></td>
      <td><p><strong>zilliz-bootstrap-role</strong></p></td>
      <td><p>Attaches a specific policy to the role <strong>zilliz-bootstrap-role</strong>, enabling the assignment of predefined permissions to this role.</p></td>
    </tr>
    <tr>
-     <td><p><strong>aws<em>iam</em>role<em>policy</em>attachment.management_attachment</strong></p></td>
+     <td><p><strong>aws_iam_role_policy_attachment.management_attachment</strong></p></td>
      <td><p><strong>zilliz-management-role</strong></p></td>
      <td><p>Attaches a specific policy to the role <strong>zilliz-management-role</strong>, facilitating the application of predefined permissions to this role.</p></td>
    </tr>

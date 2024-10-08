@@ -192,8 +192,6 @@ In conclusion, for this scenario, the Performance-optimized CU is your best bet.
 
 - [Select Cluster Plans](./select-zilliz-cloud-service-plans)
 
-- [Pricing Calculator](./pricing-calculator)
-
 - [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)
 
 - [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace)

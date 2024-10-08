@@ -42,35 +42,9 @@ load(
 
     The partitions of the current collection to load. If left unspecified, all partitions are to be loaded.
 
-- **replica_number** (*int*) -
-
-    The number of replicas to create. The value defaults to 1 and ranges from 1 to the number of query nodes available. Setting this to `1` indicates that segments in the current collection or any specified partitions are to be loaded onto one query node.
-
-    <Admonition type="info" icon="📘" title="What are the differences between partitions and replicas?">
-
-    <p>Partitioning allows you to further split a collection into multiple partitions, store different data in them, and load or release each of them individually. A collection can have up to 64 partitions. </p>
-    <p>Replication is a mechanism for Zilliz Cloud to load the same segments on multiple query nodes. It is very useful if you have a relatively small dataset but want to increase read-throughput with extra hardware resources.</p>
-
-    </Admonition>
-
 - **timeout** (*float* | *None*)  -
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
-
-- **kwargs** - 
-
-    - **_resource_groups** (*list*) -
-
-        A specific set of resource groups into which the current collection is to be loaded.
-
-        If left unspecified, the default resource group applies.
-
-        <Admonition type="info" icon="📘" title="What is a resource group?">
-
-        <p>A resource group can hold several or all of the query nodes in a Zilliz Cloud cluster.</p>
-        <p>Setting this parameter for this operation makes Zilliz Cloud loads the current collection to the query nodes in the specified resource groups.</p>
-
-        </Admonition>
 
 **RETURN TYPE:**
 

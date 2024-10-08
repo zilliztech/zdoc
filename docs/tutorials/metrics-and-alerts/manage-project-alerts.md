@@ -80,9 +80,9 @@ For more information about recommended actions, refer to [Metrics & Alerts Refer
 
 **Permissions**:
 
-- **View**: Organization owners and project owners or members can view project alerts.
+- **View**: All members can view project alerts in the target organization.
 
-- **Configuration**: Only organization or project owners can configure cluster alerts.
+- **Configuration**: Only organization owners or project admins can configure cluster alerts.
 
 - **Receiving notifications**: Available to any organization member if designated by the owner.
 

@@ -147,7 +147,7 @@ Methods of `AnnSearchParam.Builder`:
     </tr>
     <tr>
         <td><p>withParams(String params)</p></td>
-        <td><p>Specifies the parameters of search in JSON format. The followings are valid keys of param:<br/>1. special parameters for index, such as "nprobe", "ef", "search<em>k"<br/>2. metric type with key "metric</em>type" and a string value such as "L2", "IP".<br/>3. offset for pagination with key "offset" and an integer value</p></td>
+        <td><p>Specifies the parameters of search in JSON format. The followings are valid keys of param:<br/>1. special parameters for index, such as "nprobe", "ef", "search_k"<br/>2. metric type with key "metric_type" and a string value such as "L2", "IP".<br/>3. offset for pagination with key "offset" and an integer value</p></td>
         <td><p>params: A JSON format string for extra parameters.</p></td>
     </tr>
     <tr>
@@ -203,7 +203,7 @@ Methods of `RRFRanker.Builder`:
     </tr>
     <tr>
         <td><p>withK(Integer k)</p></td>
-        <td><p>Sets k factor for RRF. Value cannot be negative. Default value is 60.<br/>score = 1 / (k + float32(rank<em>i+1))<br/>rank</em>i is the rank in each field</p></td>
+        <td><p>Sets k factor for RRF. Value cannot be negative. Default value is 60.<br/>score = 1 / (k + float32(rank_i+1))<br/>rank_i is the rank in each field</p></td>
         <td><p>k: The k factor value.</p></td>
     </tr>
     <tr>
@@ -234,7 +234,7 @@ Methods of `WeightedRanker.Builder`:
     </tr>
     <tr>
         <td><p>withWeights(List\<Float> weights)</p></td>
-        <td><p>Assign weights for each AnnSearchParam. The length of weights must be equal to number of AnnSearchParam.<br/>You can assign any float value for weight, the sum of weight values can exceed 1.<br/>The distance/similarity values of each field will be mapped into a range of [0,1],<br/>and score = sum(weights[i] * distance<em>i</em>in_[0,1]).</p></td>
+        <td><p>Assign weights for each AnnSearchParam. The length of weights must be equal to number of AnnSearchParam.<br/>You can assign any float value for weight, the sum of weight values can exceed 1.<br/>The distance/similarity values of each field will be mapped into a range of [0,1],<br/>and score = sum(weights[i] * distance_i_in_[0,1]).</p></td>
         <td><p>weights: The weight values.</p></td>
     </tr>
     <tr>

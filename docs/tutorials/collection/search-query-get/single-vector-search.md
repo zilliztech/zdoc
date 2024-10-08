@@ -36,7 +36,7 @@ There are a variety of search types to meet different requirements:
 
 - [Range search](./single-vector-search#range-search): Finds vectors within a specific distance range from the query vector.
 
-- [Grouping search](./single-vector-search#grouping-search-beta): Groups search results based on a specific field to ensure diversity in the results.
+- [Grouping search](./single-vector-search#grouping-search): Groups search results based on a specific field to ensure diversity in the results.
 
 ## Preparations{#preparations}
 
@@ -1955,12 +1955,12 @@ The parameter settings for `radius` and `range_filter` vary with the metric type
      <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
    </tr>
    <tr>
-     <td><p><code>JACCARD</code> <sup>(Beta)</sup></p></td>
+     <td><p><code>JACCARD</code></p></td>
      <td><p>Smaller Jaccard distances indicate higher similarity.</p></td>
      <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
    </tr>
    <tr>
-     <td><p><code>HAMMING</code> <sup>(Beta)</sup></p></td>
+     <td><p><code>HAMMING</code></p></td>
      <td><p>Smaller Hamming distances indicate higher similarity.</p></td>
      <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
    </tr>
@@ -1968,17 +1968,11 @@ The parameter settings for `radius` and `range_filter` vary with the metric type
 
 To learn more about distance metric types, refer to [Similarity Metrics Explained](./search-metrics-explained).
 
-## Grouping search (Beta){#grouping-search-beta}
+## Grouping search{#grouping-search}
 
 In Zilliz Cloud, grouping search by a specific field can avoid redundancy of the same field item in the results. You can get a varied set of results for the specific field. 
 
 Consider a collection of documents, each document splits into various passages. Each passage is represented by one vector embedding and belongs to one document. To find relevant documents instead of similar passages, you can include the `group_by_field` argument in the `search()` opeartion to group results by the document ID. This helps return the most relevant and unique documents, rather than separate passages from the same document.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Currently, this feature is available exclusively for clusters that have been upgraded to the Beta version.</p>
-
-</Admonition>
 
 Here is the example code to group search results by field:
 

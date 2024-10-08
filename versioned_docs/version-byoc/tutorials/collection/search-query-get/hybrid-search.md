@@ -2,7 +2,7 @@
 title: "Hybrid Search | BYOC"
 slug: /hybrid-search
 sidebar_label: "Hybrid Search"
-beta: TRUE
+beta: PUBLIC
 notebook: FALSE
 description: "Zilliz Cloud introduced multi-vector support and a hybrid search framework, which means users can bring in several vector fields into a single collection. These vectors in different columns represent diverse facets of data, originating from different embedding models or undergoing distinct processing methods. The results of hybrid searches are integrated using reranking strategies, such as Reciprocal Rank Fusion (RRF) and Weighted Scoring. To learn more about reranking strategies, refer to Reranking. | BYOC"
 type: origin
@@ -25,12 +25,6 @@ import Admonition from '@theme/Admonition';
 Zilliz Cloud introduced multi-vector support and a hybrid search framework, which means users can bring in several vector fields into a single collection. These vectors in different columns represent diverse facets of data, originating from different embedding models or undergoing distinct processing methods. The results of hybrid searches are integrated using reranking strategies, such as Reciprocal Rank Fusion (RRF) and Weighted Scoring. To learn more about reranking strategies, refer to [Reranking](./reranking).
 
 This feature is particularly useful in comprehensive search scenarios, such as identifying the most similar person in a vector library based on various attributes like pictures, voice, fingerprints, etc.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Currently, this feature is available exclusively for clusters that have been upgraded to the Beta version.</p>
-
-</Admonition>
 
 In this tutorial, you will learn how to:
 
@@ -81,8 +75,7 @@ collection = Collection(name="test_collection", schema=schema)
 # Create index for each vector field
 index_params = {
     "metric_type": "L2",
-    "index_type": "AUTOINDEX",
-    "params": {"nlist": 128},
+    "index_type": "AUTOINDEX"
 }
 
 collection.create_index("filmVector", index_params)

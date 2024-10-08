@@ -49,26 +49,26 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td><p>Read vCUs</p></td>
      <td><p>Count</p></td>
-     <td><p>A measure of vCU consumption of search and query operations.</p><p>This metric is available only for Serverless clusters.</p></td>
+     <td><p>A measure of vCU consumption of search and query operations.</p><p>This metric is available only for <strong>Free</strong> or <strong>Serverless</strong> clusters. For more information on cluster plan tiers, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
      <td><p>Write vCUs</p></td>
      <td><p>Count</p></td>
-     <td><p>A measure of vCU consumption of insert, delete, and upsert operations.</p><p>This metric is available only for Serverless clusters.</p></td>
+     <td><p>A measure of vCU consumption of insert, delete, and upsert operations.</p><p>This metric is available only for <strong>Free</strong> or <strong>Serverless</strong> clusters. For more information on cluster plan tiers, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
      <td><p>CU Computation</p></td>
      <td><p>%</p></td>
-     <td><p>A measure of the utilized computational power relative to the total computational capacity of the CU.</p></td>
-     <td><p><strong>70%-80%</strong>: Check service status and prepare for <a href="./manage-cluster#manage-and-configure-clusters">scaling up</a>.</p><p><strong>> 90%</strong>: <a href="./manage-cluster#manage-and-configure-clusters">Scale up</a> immediately to avoid service interruption.</p></td>
+     <td><p>A measure of the utilized computational power relative to the total computational capacity of the CU.</p><p>This metric is available only for <strong>Dedicated</strong> or <strong>BYOC</strong> clusters. For more information on cluster plan tiers, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
+     <td><p><strong>70%-80%</strong>: Check service status and prepare for <a href="./manage-cluster">scaling up</a>.</p><p><strong>> 90%</strong>: <a href="./manage-cluster">Scale up</a> immediately to avoid service interruption.</p></td>
    </tr>
    <tr>
      <td><p>CU Capacity</p></td>
      <td><p>%</p></td>
-     <td><p>A measure of the used capacity relative to the total capacity of the CU.</p><p>This also applies to free clusters.</p></td>
-     <td><p><strong>70%-80%</strong>: Check service status and prepare for scaling up.</p><p><strong>> 90%</strong>: <a href="./manage-cluster#manage-and-configure-clusters">Scale up</a> immediately to avoid service interruption.</p><p><strong>100%</strong>: When CU capacity reaches 100%, you will be unable to write data into the cluster. Please <a href="./manage-cluster#manage-and-configure-clusters">scale up</a> immediately to avoid service interruption.</p></td>
+     <td><p>A measure of the used capacity relative to the total capacity of the CU.</p><p>This metric is available for <strong>Free</strong>, <strong>Dedicated</strong> or <strong>BYOC</strong> clusters. For more information on cluster plan tiers, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
+     <td><p><strong>70%-80%</strong>: Check service status and prepare for scaling up.</p><p><strong>> 90%</strong>: <a href="./manage-cluster">Scale up</a> immediately to avoid service interruption.</p><p><strong>100%</strong>: When CU capacity reaches 100%, you will be unable to write data into the cluster. Please <a href="./manage-cluster">scale up</a> immediately to avoid service interruption.</p></td>
    </tr>
    <tr>
      <td><p>Storage</p></td>
@@ -118,8 +118,20 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td><p>Slow Query Count</p></td>
      <td><p>count/min</p></td>
-     <td><p>The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries.</p><p>This metric type is available only for <a href="./select-zilliz-cloud-service-plans">BYOC</a> clusters or clusters of the <a href="./select-zilliz-cloud-service-plans">Enterprise</a> edition. For more information on cluster types, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
+     <td><p>The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries.</p><p>This metric type is available only for <strong>Dedicated</strong> clusters of the <strong>Enterprise</strong> edition or <strong>BYOC</strong> clusters. For more information on cluster types, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
      <td><p>Identify problematic queries and tune performance by adjusting cluster configuration as necessary.</p></td>
+   </tr>
+   <tr>
+     <td><p>Cluster Write Performance Capacity</p></td>
+     <td><p>%</p></td>
+     <td><p>The current rate of write operations/write rate limit.</p><p>This metric type is available only for <strong>Dedicated</strong> clusters of the <strong>Enterprise</strong> edition or <strong>BYOC</strong> clusters. For more information on cluster types, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
+     <td><p>If the current rate is too high (suggested to be over 80%), it is recommended that you lower the write rate.</p></td>
+   </tr>
+   <tr>
+     <td><p>Number of Flush Operations</p></td>
+     <td><p>count/min</p></td>
+     <td><p>The number of flush operations on a cluster.</p><p>This metric type is available only for <strong>Dedicated</strong> clusters of the <strong>Enterprise</strong> edition or <strong>BYOC</strong> clusters. For more information on cluster types, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
+     <td><p>Performing flush operations too frequently can negatively impact the overall performance of the cluster. For more information, refer to <a href="./limits#flush">Zilliz Cloud Limits</a>.</p></td>
    </tr>
    <tr>
      <td colspan="4"><p><strong>Data</strong></p></td>
@@ -139,8 +151,14 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td><p>Loaded Entities</p></td>
      <td><p>count</p></td>
-     <td><p>The number of entities loaded (actively served) by a cluster.</p><p>Selecting a specific collection from the expanded dropdown menu on the right displays the number of loaded entities at the collection level.</p><p>This metric type is available only for <a href="./select-zilliz-cloud-service-plans">BYOC</a> clusters or dedicated clusters. For more information on cluster types, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
+     <td><p>The number of entities loaded (actively served) by a cluster.</p><p>Selecting a specific collection from the expanded dropdown menu on the right displays the number of loaded entities at the collection level.</p><p>This metric is available only for <strong>Dedicated</strong> or <strong>BYOC</strong> clusters. For more information on cluster plan tiers, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
      <td><p>-</p></td>
+   </tr>
+   <tr>
+     <td><p>Number of Unloaded Collections</p></td>
+     <td><p>count</p></td>
+     <td><p>The number of unloaded collections in a cluster.</p><p>This metric type is available only for <strong>Dedicated</strong> clusters of the <strong>Enterprise</strong> edition or <strong>BYOC</strong> clusters. For more information on cluster types, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
+     <td></td>
    </tr>
 </table>
 
@@ -291,6 +309,10 @@ In addition to the predefined default project alerts , you can also configure cu
    <tr>
      <td><p>Upsert (VPS)</p></td>
      <td><p>Monitor the rate of vector upsert operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
+   </tr>
+   <tr>
+     <td><p>Writes to Cluster Are Disabled</p></td>
+     <td><p>Monitor the write operations to the cluster to ensure they are not prohibited. Please scale out immediately if write prohibition has been triggered.</p></td>
    </tr>
    <tr>
      <td><p><strong>Performance (latency)</strong></p></td>

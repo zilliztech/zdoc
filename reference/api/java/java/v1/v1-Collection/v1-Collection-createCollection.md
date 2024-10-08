@@ -98,7 +98,7 @@ Methods of `CreateCollectionParam.Builder`:
     <tr>
         <td><p>withProperty(String key, String value)</p></td>
         <td><p>Basic method to set a key-value property.<br/>You can use this method to set ttl or mmap for this collection. The withReplicaNumber() and withResourceGroups() actually call this method to pass properties.</p></td>
-        <td><p>key: A property key. <br/>Options:<br/>- Constant.TTL<em>SECONDS<br/>- Constant.MMAP</em>ENABLED<br/>- Constant.COLLECTION<em>REPLICA</em>NUMBER<br/>- Constant.COLLECTION<em>RESOURCE</em>GROUPS<br/>value: Property value.</p></td>
+        <td><p>key: A property key. <br/>Options:<br/>- Constant.TTL_SECONDS<br/>- Constant.MMAP_ENABLED<br/>- Constant.COLLECTION_REPLICA_NUMBER<br/>- Constant.COLLECTION_RESOURCE_GROUPS<br/>value: Property value.</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>

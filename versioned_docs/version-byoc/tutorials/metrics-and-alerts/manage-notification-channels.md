@@ -26,7 +26,7 @@ Alert notifications in Zilliz Cloud keep you informed about events occurring wit
 
 ## Before you start{#before-you-start}
 
-To manage notification channels, make sure you are an [organization or project owner](./user-roles).
+To manage notification channels, make sure you are an [organization owner or project admin](./user-roles).
 
 ## Set up notification channels{#set-up-notification-channels}
 
@@ -38,9 +38,15 @@ Currently, Zilliz Cloud offers four main types of notification channels:
 
 - [Slack](./manage-notification-channels#slack): Integrate with a Slack app using a webhook URL.
 
+- [Opsgenie](./manage-notification-channels): Integrate with Opsgenie by adding an API integration.
+
 - [Lark](./manage-notification-channels#lark): Integrate with a Lark group using a webhook URL.
 
 - [Webhook](./manage-notification-channels#webhook): Integrate with custom services or applications using a valid webhook URL.
+
+- [WeCom](./manage-notification-channels): Receive alert notifications in a WeCom group.
+
+- [DingTalk](./manage-notification-channels): Receive alert notifications in a DingTalk group.
 
 You can access the management page of notification channels in the **Edit Alert** or **Create Alert** dialog box in the Zilliz Cloud console.
 
@@ -118,6 +124,38 @@ To set up Slack integration,
 
     1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
 
+### Opsgenie{#opsgenie}
+
+To set up Opsgenie integration,
+
+1. Obtain your API key in Opsgenie. For details, refer to [Create an API integration](https://support.atlassian.com/opsgenie/docs/create-a-default-api-integration/).
+
+    1. Go to the Opsgenie Integrations page by selecting **Settings** > **Integrations** and click **Add integration**.
+
+    1. Search for and select **API**. Provide a name for this API integration and click **Continue**.
+
+    1. On the API settings page, click **Edit**. By default, all permissions will be selected, and you will want to ensure that **Allow Read Access**, **Allow Create and Update Access**, and **Allow Configuration Access** are selected.
+
+    1. Copy the API key that is generated for you and press **Save**. Review the **Incoming Rules** and press **Turn on integration** to finalize API set up.
+
+1. In the [Zilliz Cloud console](https://cloud.zilliz.com/signup), configure the Opsgenie notification channel.
+
+    1. Navigate to the **Alert Settings** tab on the organization or project alert page.
+
+    1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to <a href="./manage-organization-alerts">Manage Organization Alerts</a>.</p>
+
+        </Admonition>
+
+    1. In the dialog box that appears, click **+ Channel** in the **Send to** field and choose **Opsgenie** from the dropdown list.
+
+    1. Enter the API key obtained in Opsgenie.
+
+    1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
+
 ### Lark{#lark}
 
 To set up Lark integration,
@@ -177,6 +215,74 @@ Example webhook notification:
   "timestamp": "2024-03-22T07:11:00Z"
 }
 ```
+
+### WeCom{#wecom}
+
+To set up WeCom alert notifications, follow these steps:
+
+1. Create a group bot in your WeCom group. For detailed instructions, refer to [Group bot creation](https://open.work.weixin.qq.com/help2/pc/14931?person_id=1&searchData=#%E4%BA%8C%E3%80%81%E7%BE%A4%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%B7%BB%E5%8A%A0%E5%85%A5%E5%8F%A3). 
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>Due to WeCom settings, some groups may not be able to add group bots.</p>
+
+    </Admonition>
+
+1. View the created bot information to obtain the corresponding bot's webhook URL. For detailed instructions, refer to [Obtain the group bot's webhook address](https://open.work.weixin.qq.com/help2/pc/14931?person_id=1&searchData=#%E4%BA%94%E3%80%81%E7%BE%A4%E6%9C%BA%E5%99%A8%E4%BA%BAWebhook%E5%9C%B0%E5%9D%80).
+
+1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/signup) to configure the WeCom alert channel. 
+
+    1. Navigate to the **Alert Settings** tab on the organization or project alert page.
+
+    1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to <a href="./manage-organization-alerts">Manage Organization Alerts</a>.</p>
+
+        </Admonition>
+
+    1. In the dialog box that appears, click **+ Channel** in the **Send to** field and choose **WeCom** from the dropdown list.
+
+    1. Enter the webhook URL obtained.
+
+    1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
+
+### DingTalk{#dingtalk}
+
+To set up DingTalk alert notifications, follow these steps:
+
+1. Create a custom bot in your DingTalk group. For detailed instructions, refer to [Custom bot integration](https://open.dingtalk.com/document/robots/custom-robot-access).
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>When configuring a custom bot, specify <strong>Custom Keywords</strong> in <strong>Security Setting</strong>:</p>
+    <ul>
+    <li><p><strong>Test</strong>: Receive alert notifications for connectivity tests.</p></li>
+    <li><p><strong>Alert</strong>: Receive alert notifications for actual events.</p></li>
+    </ul>
+
+    </Admonition>
+
+1. View the created bot information to obtain the corresponding bot's webhook URL. For detailed instructions, refer to [Obtain custom bot's webhook address](https://open.dingtalk.com/document/orgapp/obtain-the-webhook-address-of-a-custom-robot).
+
+1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/signup) to configure the DingTalk alert channel. 
+
+    1. Navigate to the **Alert Settings** tab on the organization or project alert page.
+
+    1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to <a href="./manage-organization-alerts">Manage Organization Alerts</a>.</p>
+
+        </Admonition>
+
+    1. In the dialog box that appears, click **+ Channel** in the **Send to** field and choose **DingTalk** from the dropdown list.
+
+    1. Enter the webhook URL obtained.
+
+    1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
 
 ## Test connectivity{#test-connectivity}
 

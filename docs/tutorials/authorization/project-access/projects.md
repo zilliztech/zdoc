@@ -35,7 +35,7 @@ To create a project, you must be an [Organization Owner](./resource-hierarchy).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>When you create a project, you are also a <a href="./resource-hierarchy">Project Owner</a> for the project.</p>
+<p>When you create a project, you are also the <a href="./user-roles#project-roles">Project Admin</a> for the project.</p>
 
 </Admonition>
 

@@ -26,7 +26,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You can subscribe to our service in AWS Marketplace and choose among AWS, GCP, and Azure to <a href="./create-cluster">create</a> your Zilliz Cloud clusters.</p>
+<p>Once subscribed, you can pay for the usage of AWS clusters via AWS Marketplace. If you have clusters deployed on other cloud providers, you can also use AWS Marketplace to pay.</p>
 
 </Admonition>
 
@@ -50,13 +50,17 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
 1. Click **Zilliz Cloud**.
 
-    Familiarize yourself with the services and pricing.
+    Familiarize yourself with the services and pricing. Click **View purchase options**.
 
     ![view_purchase_options](/img/view_purchase_options.png)
 
-1. Click **View purchase options**, then **Subscribe**. Follow the prompt to **Set up your account** on Zilliz Cloud.
+1. Scroll down the page and click **Subscribe**. 
 
     ![aws_flash_message](/img/aws_flash_message.png)
+
+1. Follow the prompt to **Set up your account** on Zilliz Cloud.
+
+    ![set-up-account](/img/set-up-account.png)
 
 1.  In the new tab, follow the steps below to complete subscription.
 

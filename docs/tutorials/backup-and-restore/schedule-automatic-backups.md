@@ -18,7 +18,8 @@ keywords:
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Schedule Automatic Backups
 
@@ -28,11 +29,15 @@ Zilliz Cloud allows you to enable automatic backups for your clusters, ensuring 
 
 Make sure the following conditions are met:
 
-- You are granted the [Organization Owner](./user-roles) or [Project Owner](./user-roles) role in the target organization.
+- You are granted the [Organization Owner](./user-roles) or [Project Admin](./user-roles#project-roles) role in the target organization.
 
 - Your cluster runs on the **Dedicated** tier.
 
 ## Create backup schedule{#create-backup-schedule}
+
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
 
 To create a backup schedule, follow these steps:
 
@@ -49,6 +54,42 @@ To create a backup schedule, follow these steps:
 <p>For more information about backup cost, please refer to <a href="./understand-cost#backup-costs">Understand Cost</a>.</p>
 
 </Admonition>
+
+</TabItem>
+<TabItem value="Bash">
+
+You can set a backup policy to enable automatic backups at regular intervals. 
+
+The following code creates a backup policy that will execute backups on 4 specific weekdays (Monday, Tuesday, Wednesday, and Friday). For details on parameters, refer to [Set Backup Policy](/reference/restful/set-backup-policy-v2).
+
+```bash
+curl --request POST \
+     --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/policy" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "Accept: application/json" \
+     --header "Content-type: application/json" \
+     --data-raw '{
+        "frequency": "1,2,3,5",
+        "startTime": "02:00-04:00",
+        "retentionDays": 7,
+        "enabled": true
+      }'
+```
+
+Expected output:
+
+```bash
+{
+  "code": 0,
+  "data": {
+    "clusterId": "in01-3e5ad8adc38xxxx",
+    "status": "ENABLED"
+  }
+}
+```
+
+</TabItem>
+</Tabs>
 
 ## Adjust automated backup schedule{#adjust-automated-backup-schedule}
 

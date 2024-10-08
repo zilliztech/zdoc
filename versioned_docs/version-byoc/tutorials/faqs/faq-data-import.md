@@ -17,6 +17,7 @@ This topic lists the possible issues that you may encounter while you import dat
 
 ## Contents
 
+- [Can I use session tokens when importing data from an object storage service?](#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)
 - [Can I bulk insert data into the Zilliz Cloud vector databases?](#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases)
 - [What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
 
@@ -24,6 +25,26 @@ This topic lists the possible issues that you may encounter while you import dat
 
 
 
+
+### Can I use session tokens when importing data from an object storage service?{#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service}
+
+Yes. Based on your data security requirements, you can use session tokens when importing data from an object storage service. 
+
+1. Generate a session token.
+
+    - Amazon S3: [Using temporary credentials with AWS resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html).
+
+    - Google Cloud Storage: [Create short-lived credentials for a service account](https://cloud.google.com/iam/docs/create-short-lived-credentials-direct)
+
+    - Azure Blog Storage: [Create SAS tokens for storage containers](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/create-sas-tokens?view=doc-intel-4.0.0)
+
+1. Input the following session token information during data import.
+
+    - Amazon S3: `accessKeyId`, `secretAccessKey`, `sessionToken`
+
+    - Google Cloud Storage: `accessToken`
+
+    - Azure Blog Storage: `sasToken`
 
 ### Can I bulk insert data into the Zilliz Cloud vector databases?{#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases}
 

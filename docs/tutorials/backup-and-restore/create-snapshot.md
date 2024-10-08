@@ -17,7 +17,8 @@ keywords:
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Create Backup
 
@@ -29,21 +30,96 @@ Manually created backups are permanently retained on Zilliz Cloud, which means t
 
 Make sure the following conditions are met:
 
-- You are granted the [Organization Owner](./user-roles) or [Project Owner](./user-roles) role in the target organization.
+- You are granted the [Organization Owner](./user-roles) or [Project Admin](./user-roles#project-roles) role in the target organization.
 
 - Your cluster runs on the **Dedicated** tier.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Backups are available only to the <strong>Dedicated</strong> clusters. If your cluster runs on the <strong>Free</strong>, <a href="./manage-cluster#upgrade-plan">upgrade</a> it first. If your cluster runs on the <strong>Serverless</strong> tier, <a href="./migrate-between-clusters#from-serverless-to-dedicated-cluster">migrate</a> it to a dedicated cluster first. Creating backups may incur charges. For more information about backup cost, please refer to <a href="./understand-cost#backup-costs">Understand Cost</a>.</p>
+<p>Backups are available only to the <strong>Dedicated</strong> clusters. If your cluster runs on the <strong>Free</strong>, <a href="./manage-cluster#upgrade-plan">upgrade</a> it first. If your cluster runs on the <strong>Serverless</strong> tier, <a href="./migrate-between-clusters">migrate</a> it to a dedicated cluster first. Creating backups may incur charges. For more information about backup cost, please refer to <a href="./understand-cost#backup-costs">Understand Cost</a>.</p>
 
 </Admonition>
 
 ## Create backup{#create-backup}
 
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
+
 You can create a backup file of your cluster or collection based on the following figure. Your cluster is still in service while Zilliz Cloud is creating the backup file.
 
 ![create-snapshot](/img/create-snapshot.png)
+
+</TabItem>
+<TabItem value="Bash">
+
+You can create a backup for an entire cluster or a specific collection. For details on parameters, refer to [Create Backup](/reference/restful/create-backup-v2).
+
+- Create a backup for an entire cluster.
+
+    ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export CLUSTER_ID="inxx-xxxxxxxxxxxxxx"
+    
+    curl --request POST \
+         --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/create" \
+         --header "Authorization: Bearer ${TOKEN}" \
+         --header "Content-Type: application/json" \
+         --data-raw '{
+                "backupType": "CLUSTER"
+          }'
+    ```
+
+    Expected output:
+
+    ```bash
+    {
+      "code": 0,
+      "data": {
+        "backupId": "backup0_c7b18539b97xxxx",
+        "backupName": "Dedicated-01_backup2",
+        "jobId": "job-031a8e3587ba7zqkadxxxx"
+      }
+    }
+    ```
+
+- Create a backup for a specific collection.
+
+    ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export CLUSTER_ID="inxx-xxxxxxxxxxxxxx"
+    
+    curl --request POST \
+    --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/create" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "backupType": "COLLECTION",
+        "dbCollections": [
+            {
+                "collectionNames": [
+                    "medium_articles"
+                ]
+            }
+        ]
+    }'
+    ```
+
+    Expected output:
+
+    ```bash
+    {
+      "code": 0,
+      "data": {
+        "backupId": "backup11_4adb19e3f9exxxx",
+        "backupName": "medium_articles_bacxxxx",
+        "jobId": "job-039dbc113c5ozfwunvxxxx"
+      }
+    }
+    ```
+
+</TabItem>
+</Tabs>
 
 A backup job will be generated. You can check the backup progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the backup is created successfully.
 

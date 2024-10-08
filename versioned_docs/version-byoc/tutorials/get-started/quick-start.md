@@ -29,7 +29,7 @@ To obtain information on the process of setting up your BYOC cluster, refer to [
 
 ## Install an SDK{#install-an-sdk}
 
-Zilliz Cloud supports the Milvus SDKs and all [RESTful API endpoints](/reference/restful/cloud-meta). You can use the RESTful API directly, or choose one of the following SDKs to start with:
+Zilliz Cloud supports the Milvus SDKs and all [RESTful API endpoints](/reference/restful). You can use the RESTful API directly, or choose one of the following SDKs to start with:
 
 - [Install the Python SDK.](./install-sdks#install-pymilvus-python-sdk)
 
@@ -47,7 +47,7 @@ The following demonstrates how to create a dedicated cluster using the RESTful A
 
 ```bash
 curl --request POST \
-    --url "https://api.cloud.zilliz.com/v2/clusters/createFree" \
+    --url "https://api.cloud.zilliz.com/v2/clusters/createDedicated" \
     --header "Authorization: Bearer ${API_KEY}" \
     --header "Accept: application/json" \
     --header "Content-Type: application/json" \
@@ -348,9 +348,8 @@ const fields = [
 // 3.2 Prepare index parameters
 const index_params = [{
     field_name: "my_vector",
-    index_type: "IVF_FLAT",
-    metric_type: "IP",
-    params: { nlist: 1024}
+    index_type: "AUTOINDEX",
+    metric_type: "IP"
 }]
 
 // 3.3 Create a collection with fields and index parameters
