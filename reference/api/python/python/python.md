@@ -18,7 +18,7 @@ MilvusClient provides a simple and easy-to-use alternative to the legacy ORM app
 You can run the following command in your terminal to install the latest PyMilvus or update your PyMilvus to this version.
 
 ```shell
-pip install --upgrade pymilvus==v2.3.7
+pip install --upgrade pymilvus==v2.4.7
 ```
 
 After the installation, you can check the pymilvus version by running the following
@@ -28,7 +28,7 @@ from pymilvus import __version__
 
 print(__version__)
 
-# v2.3.7
+# v2.4.7
 ```
 
 ## Connect to Cluster
