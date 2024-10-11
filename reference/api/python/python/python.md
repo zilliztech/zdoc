@@ -53,4 +53,4 @@ import DocCardList from '@theme/DocCardList';
 
 ## Examples
 
-In addition to the documents, you can also refer to [the example sets](https://github.com/milvus-io/pymilvus/tree/2.3/examples/milvus_client) in our GitHub repo.
+In addition to the documents, you can also refer to [the example sets](https://github.com/milvus-io/pymilvus/tree/2.4/examples/milvus_client) in our GitHub repo.
