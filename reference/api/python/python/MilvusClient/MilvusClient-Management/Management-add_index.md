@@ -44,7 +44,7 @@ IndexParams.add_index(
 
 - **index_type** (*str*) -
 
-    The name of the algorithm used to arrange data in the specific field. 
+    The name of the algorithm used to arrange data in the specific field. On Zilliz Cloud, the index type is always **AUTOINDEX**. For details, refer to [AUTOINDEX](/docs/autoindex-explained) Explained.
 
 - **metric_type** (*str*) -
 

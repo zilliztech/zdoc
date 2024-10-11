@@ -252,6 +252,7 @@ def retrieval_with_pipeline(question, search_pipe_id, top_k=2, verbose=False):
                 "text",
                 "title"
             ],
+            "filter": 'title == "Milvus Lite"'
         }
     }
     response = requests.post(run_pipeline_url, headers=headers, json=data)
@@ -264,6 +265,8 @@ def retrieval_with_pipeline(question, search_pipe_id, top_k=2, verbose=False):
 question = 'Which Milvus should I choose if I want to use in the jupyter notebook with a small scale of data?'
 retrieval_with_pipeline(question, search_pipe_id, top_k=2, verbose=True)
 ```
+
+In `params`, we specify to retrieve the top k results, filter only the article titled "Milvus Lite", and return only the `text` and `title` fields. For more information about the parameters of search pipeline running, you can refer to [here](/docs/pipelines-text-data#run-text-search-pipeline).
 
 The following is the output.
 
