@@ -113,7 +113,6 @@ section.row > article > a.padding--lg {
 }
 
 section.row > article > a > h2 span.tooltip {
-  visibility: hidden;
   font-size: 0.7rem;
   font-weight: 700;
 }

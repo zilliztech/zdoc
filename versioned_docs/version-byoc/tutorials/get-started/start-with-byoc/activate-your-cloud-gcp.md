@@ -1,10 +1,10 @@
 ---
-title: "GCP | BYOC"
+title: "Deploy BYOC on GCP | BYOC"
 slug: /activate-your-cloud-gcp
-sidebar_label: "GCP"
+sidebar_label: "Deploy BYOC on GCP"
 beta: FALSE
 notebook: FALSE
-description: "The Zilliz Cloud Bring Your Own Cloud (BYOC) solution allows you to create and run a Zilliz Cloud cluster within your own cloud infrastructure. This enhances data security, reduces data breach risks, and improves performance and scalability. | BYOC"
+description: "The Zilliz Cloud Bring Your Own Cloud (BYOC) solution allows you to create and run a Zilliz Cloud cluster within your own cloud infrastructure. This enhances data security, reduces data breach risks, and improves performance and scalability. This topic describes how to deploy BYOC on Google Cloud Platform (GCP). | BYOC"
 type: origin
 token: ZGZmwC34di7Hx6k4omOcWxOLnLg
 sidebar_position: 2
@@ -20,11 +20,9 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
-# GCP
+# Deploy BYOC on GCP
 
-The Zilliz Cloud Bring Your Own Cloud (BYOC) solution allows you to create and run a Zilliz Cloud cluster within your own cloud infrastructure. This enhances data security, reduces data breach risks, and improves performance and scalability.
-
-This topic describes how to deploy BYOC on Google Cloud Platform (GCP).
+The Zilliz Cloud Bring Your Own Cloud (BYOC) solution allows you to create and run a Zilliz Cloud cluster within your own cloud infrastructure. This enhances data security, reduces data breach risks, and improves performance and scalability. This topic describes how to deploy BYOC on Google Cloud Platform (GCP).
 
 ## Before you start{#before-you-start}
 
