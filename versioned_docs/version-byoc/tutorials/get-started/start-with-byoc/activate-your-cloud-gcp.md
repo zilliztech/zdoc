@@ -1,10 +1,10 @@
 ---
-title: "GCP | BYOC"
+title: "Deploy BYOC on GCP | BYOC"
 slug: /activate-your-cloud-gcp
-sidebar_label: "GCP"
+sidebar_label: "Deploy BYOC on GCP"
 beta: FALSE
 notebook: FALSE
-description: "The Zilliz Cloud Bring Your Own Cloud (BYOC) solution allows you to create and run a Zilliz Cloud cluster within your own cloud infrastructure. This enhances data security, reduces data breach risks, and improves performance and scalability. | BYOC"
+description: "The Zilliz Cloud Bring Your Own Cloud (BYOC) solution allows you to create and run a Zilliz Cloud cluster within your own cloud infrastructure. This enhances data security, reduces data breach risks, and improves performance and scalability. This topic describes how to deploy BYOC on Google Cloud Platform (GCP). | BYOC"
 type: origin
 token: ZGZmwC34di7Hx6k4omOcWxOLnLg
 sidebar_position: 2
@@ -20,11 +20,9 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
-# GCP
+# Deploy BYOC on GCP
 
-The Zilliz Cloud Bring Your Own Cloud (BYOC) solution allows you to create and run a Zilliz Cloud cluster within your own cloud infrastructure. This enhances data security, reduces data breach risks, and improves performance and scalability.
-
-This topic describes how to deploy BYOC on Google Cloud Platform (GCP).
+The Zilliz Cloud Bring Your Own Cloud (BYOC) solution allows you to create and run a Zilliz Cloud cluster within your own cloud infrastructure. This enhances data security, reduces data breach risks, and improves performance and scalability. This topic describes how to deploy BYOC on Google Cloud Platform (GCP).
 
 ## Before you start{#before-you-start}
 
@@ -143,6 +141,12 @@ To check the resource usage, you can choose **License** in the left navigation p
 
 The following table lists the minimum resources required for BYOC deployment.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>As your cluster is set up across different Availability Zones (AZs) within your Virtual Private Cloud (VPC), you may have to pay for some internal network traffic. For details, refer to <a href="https://cloud.google.com/vpc/network-pricing">Google Cloud official documentation</a>.</p>
+
+</Admonition>
+
 <table>
    <tr>
      <th rowspan="2"><p><strong>Resource type</strong></p></th>
@@ -156,13 +160,13 @@ The following table lists the minimum resources required for BYOC deployment.
    <tr>
      <td><p>Virtual Machine</p></td>
      <td><p>Instance</p></td>
-     <td><p>80 vCPU, 448 GiB in total:</p><ul><li><p>n2-standard-8 * 4</p></li><li><p>n2-standard-4 * 4</p></li><li><p>n2-highmem-16 * 1</p></li></ul></td>
+     <td><p>64 vCPU, 256 GiB in total:</p><ul><li><p>n2-standard-8 * 4</p></li><li><p>n2-standard-4 * 4</p></li><li><p>n2-standard-16 * 1 +  local SSD * 4</p></li></ul></td>
      <td><p>The instance is created by the machine group and is used to run Zilliz Cloud services.</p></td>
    </tr>
    <tr>
      <td><p>Object Storage</p></td>
      <td><p>Bucket</p></td>
-     <td><p>2 buckets</p></td>
+     <td><p>2 buckets, with 0 size at initialization</p></td>
      <td><p>Stores Milvus data.</p></td>
    </tr>
    <tr>
