@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 # AWS
 
-Learn how to deploy BYOC on AWS. 
+This chapter helps you to learn about the prerequisites and procedures to deploy BYOC on AWS. 
 
 import DocCardList from '@theme/DocCardList';
 
