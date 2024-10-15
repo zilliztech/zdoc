@@ -15692,7 +15692,10 @@
 																"zh-CN": {
 																	"description": "本次返回的记录总数。"
 																}
-															}
+															},
+															"x-include-target": [
+																"zilliz"
+															]
 														},
 														"currentPage": {
 															"type": "integer",
@@ -15701,7 +15704,10 @@
 																"zh-CN": {
 																	"description": "当前页码。"
 																}
-															}
+															},
+															"x-include-target": [
+																"zilliz"
+															]
 														},
 														"pageSize": {
 															"type": "integer",
@@ -15710,7 +15716,10 @@
 																"zh-CN": {
 																	"description": "每次返回包含的最大记录数。"
 																}
-															}
+															},
+															"x-include-target": [
+																"zilliz"
+															]
 														},
 														"records": {
 															"type": "array",
@@ -15748,6 +15757,30 @@
 																			"InProgress",
 																			"Completed",
 																			"Failed"
+																		]
+																	},
+																	"progress": {
+																		"type": "number",
+																		"description": "Progress of this import job.",
+																		"x-i18n": {
+																			"zh-CN": {
+																				"description": "当前导入任务的进度。"
+																			}
+																		},
+																		"x-include-target": [
+																			"milvus"
+																		]
+																	},
+																	"reason": {
+																		"type": "string",
+																		"description": "Reason for the failure of this import job.",
+																		"x-i18n": {
+																			"zh-CN": {
+																				"description": "当前导入任务失败的原因。"
+																			}
+																		},
+																		"x-include-target": [
+																			"milvus"
 																		]
 																	}
 																},
