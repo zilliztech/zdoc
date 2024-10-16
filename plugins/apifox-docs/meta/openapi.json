@@ -12664,10 +12664,7 @@
 											"zh-CN": {
 												"description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
 											}
-										},
-										"x-include-target": [
-											"zilliz"
-										]
+										}
 									},
 									"files": {
 										"type": "array",
