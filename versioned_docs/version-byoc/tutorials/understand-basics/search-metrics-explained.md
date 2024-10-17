@@ -76,6 +76,41 @@ The table below summarizes the mapping between different field types and their c
 
 </Admonition>
 
+The table below summarizes the characteristics of the similarity distance values of all supported metric types and their value range.
+
+<table>
+   <tr>
+     <th><p>Metric Type</p></th>
+     <th><p>Characteristics of the Similarity Distance Values</p></th>
+     <th><p>Similarity Distance Value Range</p></th>
+   </tr>
+   <tr>
+     <td><p><code>L2</code></p></td>
+     <td><p>A smaller value indicates a greater similarity.</p></td>
+     <td><p>[0, ∞)</p></td>
+   </tr>
+   <tr>
+     <td><p><code>IP</code></p></td>
+     <td><p>A greater value indicates a greater similarity.</p></td>
+     <td><p>[-1, 1]</p></td>
+   </tr>
+   <tr>
+     <td><p><code>COSINE</code></p></td>
+     <td><p>A greater value indicates a greater similarity.</p></td>
+     <td><p>[-1, 1]</p></td>
+   </tr>
+   <tr>
+     <td><p><code>JACCARD</code></p></td>
+     <td><p>A smaller value indicates a greater similarity.</p></td>
+     <td><p>[0, 1]</p></td>
+   </tr>
+   <tr>
+     <td><p><code>HAMMING</code></p></td>
+     <td><p>A smaller value indicates a greater similarity.</p></td>
+     <td><p>[0, dim(vector)]</p></td>
+   </tr>
+</table>
+
 ## Euclidean distance (L2){#euclidean-distance-l2}
 
 Essentially, Euclidean distance measures the length of a segment that connects 2 points.

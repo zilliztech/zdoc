@@ -1942,27 +1942,27 @@ The parameter settings for `radius` and `range_filter` vary with the metric type
    <tr>
      <td><p><code>L2</code></p></td>
      <td><p>Smaller L2 distances indicate higher similarity.</p></td>
-     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>0</code> &lt;= <code>range_filter</code> &lt;= distance &lt; <code>radius</code> &lt; <code>∞</code></p></td>
    </tr>
    <tr>
      <td><p><code>IP</code></p></td>
      <td><p>Larger IP distances indicate higher similarity.</p></td>
-     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
+     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>-1</code> &lt;= <code>radius</code> &lt; distance &lt;= <code>range_filter</code> &lt;= <code>1</code></p></td>
    </tr>
    <tr>
      <td><p><code>COSINE</code></p></td>
      <td><p>Larger cosine value indicates higher similarity.</p></td>
-     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
+     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>-1</code> &lt;= <code>radius</code> &lt; <code>distance</code> &lt;= <code>range_filter</code> &lt;= <code>1</code></p></td>
    </tr>
    <tr>
      <td><p><code>JACCARD</code></p></td>
      <td><p>Smaller Jaccard distances indicate higher similarity.</p></td>
-     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>0</code> &lt;= <code>radius</code> &lt; <code>distance</code> &lt;= <code>range_filter</code> &lt;= <code>1</code></p></td>
    </tr>
    <tr>
      <td><p><code>HAMMING</code></p></td>
      <td><p>Smaller Hamming distances indicate higher similarity.</p></td>
-     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+     <td><p>To exclude the closest vectors from results, ensure that:</p><p><code>0</code> &lt;= <code>radius</code> &lt; <code>distance</code> &lt;= <code>range_filter</code> &lt;= <code>dim(vector)</code></p></td>
    </tr>
 </table>
 
