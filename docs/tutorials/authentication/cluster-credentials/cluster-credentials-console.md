@@ -42,7 +42,7 @@ The Zilliz Cloud web UI provides a simplified and intuitive way of creating and 
 
 ## Add a cluster user{#add-a-cluster-user}
 
-To add a cluster user, you must be an [Organization Owner](./resource-hierarchy) or a [Project Owner](./resource-hierarchy).
+To add a cluster user, you must be an [Organization Owner](./user-roles#organization-roles) or a [Project Admin](./user-roles#project-roles).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -56,7 +56,7 @@ Having added a cluster user, you can now connect to the cluster using its userna
 
 ## Edit the role of a cluster user{#edit-the-role-of-a-cluster-user}
 
-To edit the role of a cluster user, you must be an [Organization Owner](./resource-hierarchy) or a [Project Owner](./resource-hierarchy).
+To edit the role of a cluster user, you must be an [Organization Owner](./user-roles#organization-roles) or a [Project Admin](./user-roles#project-roles).
 
 ![edit-cluster-user-role](/img/edit-cluster-user-role.png)
 
@@ -74,7 +74,7 @@ To reset the password of a cluster user, navigate to the cluster details page an
 
 ## Drop a cluster user{#drop-a-cluster-user}
 
-To drop a cluster user, you must be an [Organization Owner](./resource-hierarchy) or a [Project Owner](./resource-hierarchy).
+To drop a cluster user, you must be an [Organization Owner](./user-roles#organization-roles) or a [Project Admin](./user-roles#project-roles).
 
 <Admonition type="info" icon="📘" title="Notes">
 

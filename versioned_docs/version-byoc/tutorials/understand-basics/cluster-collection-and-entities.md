@@ -53,33 +53,7 @@ In the collection shown in Figure 1, the **id** field is the primary key. The fi
 
 Fields have their own properties, such as data types and related constraints for storing data in the field, like vector dimensions and distance metrics. By defining fields and their order, you will get a skeletal data structure termed schema, which shapes a collection in a way that resembles constructing the structure of a data table.
 
-For your reference, Zilliz Cloud supports the following field data types:
-
-- Boolean value (BOOLEAN)
-
-- 8-byte floating-point (DOUBLE)
-
-- 4-byte floating-point (FLOAT)
-
-- Float vector (FLOAT_VECTOR)
-
-- 8-bit integer (INT8)
-
-- 32-bit integer (INT32)
-
-- 64-bit integer (INT64)
-
-- Variable character (VARCHAR)
-
-- [JSON](./use-json-fields)
-
-Zilliz Cloud provides three types of CUs, each of which have its own application scenarios, and they are also the factor that impacts search performance.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p><strong>FLOAT_VECTOR</strong> is the only data type that supports vector embeddings in Zilliz Cloud clusters.</p>
-
-</Admonition>
+For a list of data types supported by Zilliz Cloud, refer to [Schema Explained](./schema-explained#data-types).
 
 ### Index{#index}
 

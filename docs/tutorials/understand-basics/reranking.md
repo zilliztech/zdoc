@@ -2,7 +2,7 @@
 title: "Reranking | Cloud"
 slug: /reranking
 sidebar_label: "Reranking"
-beta: TRUE
+beta: PUBLIC
 notebook: FALSE
 description: "Zilliz Cloud enables hybrid search capabilities using the hybridsearch() API, incorporating sophisticated reranking strategies to refine search results from multiple `AnnSearchRequest` instances. This topic covers the reranking process, explaining its significance and implementation of different reranking strategies in Zilliz Cloud. | Cloud"
 type: origin

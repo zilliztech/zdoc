@@ -92,75 +92,21 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
     </Admonition>
 
-### Manage and configure clusters{#manage-and-configure-clusters}
+### Suspend & resume cluster{#suspend-and-resume-cluster}
 
-- **Scale cluster**
+In the **Actions** drop-down button, select **Suspend** to stop the cluster. Once you confirm this operation in the **Suspend Cluster** dialog box, the cluster status changes from **RUNNING** to **SUSPENDING**, during which you cannot perform other actions to the cluster.
 
-    Scaling a cluster involves adjusting the number of [CUs](./cu-types-explained) to match workload fluctuations or storage requirements. You can enhance your cluster's performance by scaling up CUs in response to increased CPU or memory usage, and scale down to conserve expenses during periods of low demand.
+Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
 
-    Methods for scaling your cluster:
+To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully based on your CU settings and service plan.
 
-    - **Scaling on web UI**
+You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster) and [Resume Cluster](/reference/restful/resume-cluster).
 
-        To manually scale up a cluster, navigate to the **Summary** area of the [Zilliz Cloud console](https://cloud.zilliz.com/signup) and click **Scale** next to the **CU** **Size** to access the scaling options. Here, you can adjust the CU count within the same type and cloud region. For Dedicated-Standard clusters, you can scale up the size of a cluster up to 32 CUs. For Dedicated-Enterprise clusters, you can scale up the size of a cluster up to 256 CUs. If you require a larger scale, please [reach out](https://support.zilliz.com/hc/en-us) to our team.
+### **Drop cluster**{#drop-cluster}
 
-        <Admonition type="caution" icon="🚧" title="Warning">
+In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
 
-        <p>The scaling may lead to slight service jitter. Please exercise caution.</p>
-
-        </Admonition>
-
-        To scale down the cluster CU size, please [submit a support ticket](https://support.zilliz.com/hc/en-us).
-
-        - **Scale up cluster**
-
-            In the **Summary** section, click **Scale** right to the **CU** **Size** to open the **Scale Cluster** dialog box. You can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. For Dedicated (Standard) clusters, you can scale up the size of a cluster up to 32 CUs. For Dedicated (Enterprise) clusters, you can scale up the size of a cluster up to 256 CUs. [Contact us](https://zilliz.com/contact-sales) if you need a larger CU size.
-
-            For details on CU types and how to select an appropriate one, refer to [Select the Right CU](./cu-types-explained).
-
-            In addition to the web UI, you can also make an API request to scale up a cluster. For details, refer to [Modify Cluster](/reference/restful/modify-cluster).
-
-            <Admonition type="caution" icon="🚧" title="Warning">
-
-            <p>The scaling may lead to slight service jitter. Please exercise caution.</p>
-
-            </Admonition>
-
-        - **Scale down cluster**
-
-            To scale down the cluster CU size, please navigate to the overview page of the target cluster and click **Scale** next to the CU size. Select the desired CU size in the dialog window. Once you click **Scale**, Zilliz Cloud will check the cluster data volume and collection numbers. A scaling will be successfully triggered only when both of the following two conditions are met:
-
-            - Current data volume < 80% of the CU capacity of the new CU size.
-
-            - Current number of collections < the [maximum number of collections](./limits#collections) allowed in the new CU size.
-
-            <Admonition type="caution" icon="🚧" title="Warning">
-
-            <p>The scaling may lead to slight service jitter. Please exercise caution.</p>
-
-            </Admonition>
-
-            The time it takes to complete the process depends on the data volume in your cluster.
-
-    - **Scaling via API requests**
-
-        Make an API request to scale your cluster. For more information, refer to [Modify Cluster](/reference/restful/modify-cluster).
-
-- **Suspend & resume cluster**
-
-    In the **Actions** drop-down button, select **Suspend** to stop the cluster. Once you confirm this operation in the **Suspend Cluster** dialog box, the cluster status changes from **RUNNING** to **SUSPENDING**, during which you cannot perform other actions to the cluster.
-
-    Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
-
-    To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully based on your CU settings and service plan.
-
-    You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster) and [Resume Cluster](/reference/restful/resume-cluster).
-
-- **Drop cluster**
-
-    In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
-
-    In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster).
+In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
 
 ## Related topics{#related-topics}
 

@@ -35,13 +35,14 @@ Constructs a LocalBulkWriter object by schema, output path, segment size, and fi
 </Admonition>
 
 ```python
-from pymilvus import CollectionSchema, LocalBulkWriter, BulkFileType
+from pymilvus import CollectionSchema
+from pymilvus.bulk_writer import LocalBulkWriter, BulkFileType
 
 writer = LocalBulkWriter(
     schema=CollectionSchema(),
     local_path="string",
-    segment_size=512*1024*1024,
-    file_type=BulkFileType.NPY
+    chunk_size=512*1024*1024,
+    file_type=BulkFileType.PARQUET
 )
 ```
 
@@ -59,7 +60,7 @@ writer = LocalBulkWriter(
 
     The path to the directory that is to hold the rewritten data.
 
-- **segment_size** (*int*) -
+- **chunk_size** (*int*) -
 
     The maximum size of a file segment.
 
@@ -70,14 +71,7 @@ writer = LocalBulkWriter(
     <Admonition type="info" icon="📘" title="How does BulkWriter segment my data?">
 
     <p>The way <strong>BulkWriter</strong> segments your data varies with the target file type.</p>
-    <ul>
-    <li><strong>JSON_RB</strong> or <strong>Parquet</strong></li>
-    </ul>
     <p>If the generated file exceeds the specified segment size, <strong>BulkWriter</strong> creates multiple files and names them in sequence numbers, each no larger than the segment size.</p>
-    <ul>
-    <li><strong>NPY</strong></li>
-    </ul>
-    <p>If the generated file exceeds the specified segment size, <strong>BulkWriter</strong> creates multiple subdirectories and names them in sequence numbers. Each subdirectory contains all the necessary NumPy files that are no larger than the segment size.</p>
 
     </Admonition>
 
@@ -85,9 +79,9 @@ writer = LocalBulkWriter(
 
     The type of the output file.
 
-    The value defaults to **BulkFileType.NPY**. 
+    The value defaults to **BulkFileType.PARQUET**. 
 
-    Possible options are **BulkFileType.NPY**, **BulkFileType.JSON_RB** and **BulkFileType.PARQUET**.
+    Possible options are **BulkFileType.JSON** and **BulkFileType.PARQUET**.
 
 **RETURN TYPE:**
 

@@ -4,7 +4,7 @@ slug: /limits
 sidebar_label: "Zilliz Cloud Limits"
 beta: FALSE
 notebook: FALSE
-description: "This page provides information about limits on the Zilliz Cloud platform. Submit a request to us if you need to report issues related to these limits. | BYOC"
+description: "This page provides information about limits on the Zilliz Cloud platform. You can use the OPS system that Zilliz provides to tune most of the settings mentioned on this page. You can still contact us if you need further help. | BYOC"
 type: origin
 token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
 sidebar_position: 1
@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 # Zilliz Cloud Limits
 
-This page provides information about limits on the Zilliz Cloud platform. [Submit a request](https://support.zilliz.com/hc/en-us) to us if you need to report issues related to these limits.
+This page provides information about limits on the Zilliz Cloud platform. You can use the OPS system that Zilliz provides to tune most of the settings mentioned on this page. You can still [contact us](https://support.zilliz.com/hc/en-us) if you need further help.
 
 ## Organizations, Projects & Members{#organizations-projects-and-members}
 
@@ -31,23 +31,18 @@ The following table lists the limits on the maximum number of organizations and 
 <table>
    <tr>
      <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Max number</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
      <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Organization member</p></td>
-     <td><p>100</p></td>
-     <td><p>An organization can hold up to 100 members. A user can belong to multiple organizations.</p></td>
    </tr>
    <tr>
      <td><p>Project</p></td>
      <td><p>10</p></td>
-     <td><p>Each user can create 10 projects.</p></td>
+     <td><p>Each user can create up to 10 projects in 1 organization.</p></td>
    </tr>
    <tr>
-     <td><p>Project Member</p></td>
+     <td><p>Organization and Project Member</p></td>
      <td><p>100</p></td>
-     <td><p>A project can hold up to 100 members. A user can belong to multiple projects within their organization.</p></td>
+     <td><p>An organization can hold up to 100 organization and project members in total.</p></td>
    </tr>
 </table>
 
@@ -72,19 +67,9 @@ In addition to the limits on the number of collections per cluster, Zilliz Cloud
 General Capacity = 512 x Number of CUs
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="How can I know the general capacity of a cluster?">
 
-<p>The following explains how Zilliz Cloud calculates the consumed capacity and general capacity of a cluster.</p>
-<ul>
-<li><strong>Calculating the consumed capacity in a cluster</strong></li>
-</ul>
-<p>For instance, let's assume that you have created <strong>50</strong> collections in a cluster; each of the first <strong>20</strong> collections has <strong>20</strong> partitions, while each of the remaining <strong>30</strong> collections has <strong>10</strong> partition. The consumed capacity of the cluster can be calculated as follows:</p>
-<p><strong>20 (collections) x 20 (partitions) + 30 (collections) x 10 (partitions) = 400 + 300 = 700</strong></p>
-<p>Based on the above calculation, Zilliz Cloud regards the cluster has a consumed capacity of <strong>700</strong>.</p>
-<ul>
-<li><strong>Calculating the general capacity of a cluster</strong></li>
-</ul>
-<p>The general capacity can be determined using the following formula:</p>
+<p>The general capacity of a cluster indicates the maximum physical resources allocated to the cluster, and it can be determined using the following formula:</p>
 <p><strong>\<= 512 x Number of CUs</strong></p>
 <p>For instance, </p>
 <ul>
@@ -95,20 +80,40 @@ General Capacity = 512 x Number of CUs
 
 </Admonition>
 
-Additionally, the rate limit for creating collections is **1** collection/s per cluster.
+<Admonition type="info" icon="📘" title="How can I know the consumed capacity of a cluster?">
+
+<p>The consumed capacity of a cluster indicates the physical resources consumed by the cluster. </p>
+<p>For instance, let's assume that you have created <strong>50</strong> collections in a cluster; each of the first <strong>20</strong> collections has <strong>20</strong> partitions, while each of the remaining <strong>30</strong> collections has <strong>10</strong> partition. The consumed capacity of the cluster can be calculated as follows:</p>
+<p><strong>20 (collections) x 20 (partitions) + 30 (collections) x 10 (partitions) = 400 + 300 = 700</strong></p>
+<p>Based on the above calculation, Zilliz Cloud regards the cluster has a consumed capacity of <strong>700</strong>.</p>
+
+</Admonition>
+
+Zilliz Cloud also imposed rate limits on collection operations including creating, loading, releasing, and dropping collections. The following rate limit applies to collections in both Serverless and Dedicated clusters.
+
+<table>
+   <tr>
+     <th></th>
+     <th><p><strong>Rate Limit</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Collection Operation (create, load, release, drop)</p></td>
+     <td><p>5 req/s per cluster</p></td>
+   </tr>
+</table>
 
 ### Partitions{#partitions}
 
 <table>
    <tr>
      <th><p><strong>Cluster Type</strong></p></th>
-     <th><p><strong>Max number (Per collection)</strong></p></th>
+     <th><p><strong>Max Number (Per Collection)</strong></p></th>
      <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
      <td><p>Dedicated cluster</p></td>
-     <td><p>4,096</p></td>
-     <td><p>You can create up to 4,096 partitions per collection in a dedicated cluster.</p></td>
+     <td><p>1,024</p></td>
+     <td><p>You can create up to 1,024 partitions per collection in a dedicated cluster.</p></td>
    </tr>
 </table>
 
@@ -120,17 +125,14 @@ When calculating the consumed and general capacity, refer to the notes in [Colle
    <tr>
      <th><p><strong>Item</strong></p></th>
      <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
      <td><p>Fields per collection</p></td>
      <td><p>64</p></td>
-     <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p>Vector fields per collection</p></td>
-     <td><p>1</p></td>
-     <td><p>The support for multiple vector fields is coming soon.</p></td>
+     <td><p>4</p></td>
    </tr>
 </table>
 
@@ -157,7 +159,7 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 <table>
    <tr>
      <th></th>
-     <th><p>Insert rate limits</p></th>
+     <th><p>Insert Rate Limits</p></th>
    </tr>
    <tr>
      <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
@@ -190,7 +192,7 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 <table>
    <tr>
      <th></th>
-     <th><p>Insert rate limits</p></th>
+     <th><p>Upsert Rate Limits</p></th>
    </tr>
    <tr>
      <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
@@ -262,7 +264,7 @@ The rate limit for flush requests is 0.1 requests per second, imposed at the col
 
 ### Load{#load}
 
-The rate limit for load requests is **1** req/s per cluster.
+The rate limit for load requests is **5** req/s per cluster.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -274,13 +276,17 @@ The rate limit for load requests is **1** req/s per cluster.
 
 Each search request/response should be no greater than **64** MB.
 
-Each search request carries no more than **16,384** query vectors (usually known as **nq**).
+The number of query vectors that each search request carries (usually known as **nq**) varies with your subscription plan:
+
+- For Free and Serverless clusters, the **nq** is no greater than **10**.
+
+- For Dedicated clusters, the **nq** is no greater than **16,384**.
 
 The number that each search response carries (usually known as **topK**) varies with your subscription plan:
 
 - For Free and Serverless clusters, the **topK** is no greater than **1,024** entities in return.
 
-- For dedicated clusters, the **topK** is no greater than **16,384** entities in return.
+- For Dedicated clusters, the **topK** is no greater than **16,384** entities in return.
 
 ### Query{#query}
 
@@ -296,17 +302,13 @@ The rate limit for delete requests is **0.5** MB/s per cluster.
 
 ### Drop{#drop}
 
-The rate limit for drop requests is **1** req/s per cluster.
+The rate limit for drop requests is **5** req/s per cluster.
 
 ### Data import{#data-import}
 
 You can have up to **10** running or pending import jobs in a collection.
 
-## CU Capacity{#cu-capacity}
-
-Read [Select the Right CU](./cu-types-explained) for more.
-
-## Data Import on Console{#data-import-on-console}
+Zilliz Cloud also imposes limits on the files to import on the web console.
 
 <table>
    <tr>
@@ -327,7 +329,7 @@ Read [Select the Right CU](./cu-types-explained) for more.
    <tr>
      <td><p>Parquet</p></td>
      <td><p>Not support</p></td>
-     <td><p>10GB</p></td>
+     <td><p>10 GB</p></td>
    </tr>
 </table>
 
@@ -335,8 +337,26 @@ For details, refer to [Prepare Source Data](./prepare-source-data).
 
 ## Backup on Console{#backup-on-console}
 
-Backup snapshots can be retained for up to 30 days.
+Manually created backups are permanently retained.
+
+The maximum retention period for automatically created backups is 30 days. 
 
 ## Restore on Console{#restore-on-console}
 
 You can restore a snapshot in the same region as the original cluster of the snapshot. The target cluster of the restoration should use the same CU type as the original one.
+
+## IP Access List{#ip-access-list}
+
+<table>
+   <tr>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>IP Address (CIDR)</p></td>
+     <td><p>20</p></td>
+     <td><p>You can add up to 20 IP addresses to the allow list.</p></td>
+   </tr>
+</table>
+

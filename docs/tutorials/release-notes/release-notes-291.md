@@ -1,13 +1,13 @@
 ---
-title: "Release Notes (Jul 23, 2024) | Cloud"
+title: "Release Notes (July 23, 2024) | Cloud"
 slug: /release-notes-291
-sidebar_label: "Release Notes (Jul 23, 2024)"
+sidebar_label: "Release Notes (July 23, 2024)"
 beta: FALSE
 notebook: FALSE
 description: "In this update, Zilliz Cloud now supports Milvus' new RESTful API v2, providing a consistent interface and expanded functionalities. A new documentation chatbot enhances user support. The Job Center introduces an intuitive interface for managing and tracking tasks such as backup, restore, migration, import, and clone collection. Auto-scaling for dedicated clusters, available in private preview, dynamically adjusts capacity based on demand, triggered by the Compute Unit (CU) Capacity Threshold. Other enhancements include more cluster monitoring metrics, a revamped cluster management interface, and improved user email templates. | Cloud"
 type: origin
 token: RlhDw3Fr9iCpWSkylfAcyes1nLh
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
@@ -19,7 +19,7 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (Jul 23, 2024)
+# Release Notes (July 23, 2024)
 
 In this update, Zilliz Cloud now supports Milvus' new RESTful API v2, providing a consistent interface and expanded functionalities. A new documentation chatbot enhances user support. The **Job Center** introduces an intuitive interface for managing and tracking tasks such as backup, restore, migration, import, and clone collection. **Auto-scaling** for dedicated clusters, available in private preview, dynamically adjusts capacity based on demand, triggered by the Compute Unit (CU) Capacity Threshold. Other enhancements include more cluster monitoring metrics, a revamped cluster management interface, and improved user email templates.
 
@@ -57,7 +57,7 @@ See [Manage Project Jobs](./job-center) for details.
 
 Zilliz Cloud introduces auto-scaling, a feature that dynamically adjusts the cluster's capacity based on demand. Auto-scaling is primarily triggered by the CU (Compute Unit) Capacity Threshold. Zilliz Cloud monitors the cluster's CU capacity every minute, and if it exceeds 70% (the default threshold) for two consecutive minutes, the system automatically initiates a scaling process. Users can set a maximum CU size for automatic scaling, though downward auto-scaling is currently not supported.
 
-Auto-scaling is currently in private preview and available only for Dedicated (Enterprise) clusters. To enable this feature, please [contact us](https://zilliz.com/contact-sales?_gl=1*y9u24o*_ga*NDAwNDA1MDY5LjE3MDkxNTcwNzU.*_ga_KKMVYG8YF2*MTcyMTcwNjA5MC4xMjQuMS4xNzIxNzA5OTk3LjAuMC4w*_ga_HT329313WV*MTcyMTcwNjA5MC4zNS4xLjE3MjE3MDk5OTcuMC4wLjA.*_ga_Q1F8R2NWDP*MTcyMTcwNjA5MC4zMy4xLjE3MjE3MDk5OTcuMC4wLjA.*_gcl_au*ODIwMjEwMjY0LjE3MTcwNjEwOTc.). See [Auto-scaling](./manage-cluster#manage-and-configure-clusters) for the usage.
+Auto-scaling is currently in private preview and available only for Dedicated (Enterprise) clusters. To enable this feature, please [contact us](https://zilliz.com/contact-sales?_gl=1*y9u24o*_ga*NDAwNDA1MDY5LjE3MDkxNTcwNzU.*_ga_KKMVYG8YF2*MTcyMTcwNjA5MC4xMjQuMS4xNzIxNzA5OTk3LjAuMC4w*_ga_HT329313WV*MTcyMTcwNjA5MC4zNS4xLjE3MjE3MDk5OTcuMC4wLjA.*_ga_Q1F8R2NWDP*MTcyMTcwNjA5MC4zMy4xLjE3MjE3MDk5OTcuMC4wLjA.*_gcl_au*ODIwMjEwMjY0LjE3MTcwNjEwOTc.). See [Auto-scaling](./manage-cluster) for the usage.
 
 ### Pipelines{#pipelines}
 

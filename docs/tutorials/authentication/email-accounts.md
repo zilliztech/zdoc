@@ -55,6 +55,12 @@ Refer to [MFA](./multi-factor-auth)for more information.
 
 Maintaining a consistent login method with your initial registration is required, but Zilliz Cloud offers flexibility if you need to switch your login method.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>For organization users, you can set up Single Sign-on (SSO) with the identity provider (IdP) Okta. This allows your organization users to authenticate with Okta and then seamlessly access Zilliz Cloud using their business email rather than creating a separate Zilliz Cloud account. For details, refer to <a href="./saml-2-0">Single Sign-on with Okta</a>.</p>
+
+</Admonition>
+
 ### Switch from password login to third-party login{#switch-from-password-login-to-third-party-login}
 
 To switch from password to third-party (Google or GitHub) login, follow the same steps for [linking your Zilliz Cloud account to a third-party service](./register-with-zilliz-cloud#linking-to-google-account), ensuring that [MFA is disabled](./multi-factor-auth#disable-mfa) beforehand.
@@ -111,7 +117,7 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 Ensure you meet the following criteria before proceeding:
 
-- If you are the only project owner in a project with clusters, [delete the project clusters](./manage-cluster).
+- If you are the only project admin in a project with clusters, [delete the project clusters](./manage-cluster).
 
 - If you are the only organization owner, delete the organization.
 

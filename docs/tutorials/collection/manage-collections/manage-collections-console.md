@@ -47,7 +47,7 @@ For complete control over your collection, follow these steps.
 
     - **Primary key field**: Available types are **Int64** or **VarChar**. When the field type is set to **VarChar**, specify **Max Length** for the field. If **Auto ID** is enabled, you do not need to configure the primary key field.
 
-    - **Vector field**: Vector field in the collection. For clusters that have been upgraded to the Beta version, you can add one or more vector fields to a collection, with a maximum of 4 vector fields per collection. When using multiple vector fields, you can set the same or different data types for these fields. For example, combine `FLOAT_VECTOR` and `BFLOAT16_VECTOR` <sup>(Beta)</sup>. For more information on vector field types, refer to [Schema Explained](./schema-explained).
+    - **Vector field**: Vector field in the collection. You can add one or more vector fields to a collection, with a maximum of 4 vector fields per collection. When using multiple vector fields, you can set the same or different data types for these fields. For example, combine `FLOAT_VECTOR` and `BFLOAT16_VECTOR`. For more information on vector field types, refer to [Schema Explained](./schema-explained).
 
         - **Dimension**: The dimension value of a vector field. The requirement for the **Dimension** value varies depending on the type of the vector field:
 
@@ -57,7 +57,7 @@ For complete control over your collection, follow these steps.
 
             - `BINARY_VECTOR`: The dimension must be a multiple of 8, ranging from 8 to 32,768 * 8.
 
-        - **Index** & **Index Parameter**: The index type defaults to **AUTOINDEX** with metrics such as **Cosine**, **IP**, **L2**, **JACCARD** <sup>(Beta)</sup>, and **HAMMING** <sup>(Beta)</sup>. For details, refer to [Similarity Metrics Explained](./search-metrics-explained) and [AUTOINDEX Explained](./autoindex-explained).
+        - **Index** & **Index Parameter**: The index type defaults to **AUTOINDEX** with metrics such as **Cosine**, **IP**, **L2**, **JACCARD**, and **HAMMING**. For details, refer to [Similarity Metrics Explained](./search-metrics-explained) and [AUTOINDEX Explained](./autoindex-explained).
 
     - **Additional fields**: Click **+ Field** below **Schema Preview** to add more fields. For details, refer to [Schema Explained](./schema-explained).
 
@@ -135,13 +135,13 @@ Dropping a collection is a permanent action used when a collection is no longer 
    </tr>
    <tr>
      <td><p>Free cluster</p></td>
-     <td><p>2</p></td>
-     <td><p>You can create up to 2 collections.</p></td>
+     <td><p>5</p></td>
+     <td><p>You can create up to 5 collections.</p></td>
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
-     <td><p>10</p></td>
-     <td><p>You can create up to 10 collections.</p></td>
+     <td><p>100</p></td>
+     <td><p>You can create up to 100 collections.</p></td>
    </tr>
    <tr>
      <td><p>Dedicated cluster</p></td>
@@ -150,7 +150,7 @@ Dropping a collection is a permanent action used when a collection is no longer 
    </tr>
 </table>
 
-In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following table lists the limits on the general capacity of a cluster.
+In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity, which indicates the physical resources consumed by your cluster. The following table lists the limits on the general capacity of a cluster.
 
 <table>
    <tr>

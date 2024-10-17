@@ -36,7 +36,7 @@ When inserting or upserting data, you will receive this error because your data 
 
 To address this issue, you can follow the instructions below.
 
-In such a case, you are advised to  [scale up your cluster](./manage-cluster#manage-and-configure-clusters) by increasing the CU size.
+In such a case, you are advised to  [scale up your cluster](./manage-cluster) by increasing the CU size.
 
 ### Can I change the CU type after my dedicated cluster is created?{#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created}
 

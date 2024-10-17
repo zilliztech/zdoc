@@ -24,6 +24,8 @@ import Admonition from '@theme/Admonition';
 
 This guide demonstrates the procedure for setting up a private endpoint from a Zilliz Cloud cluster to your service hosted in different AWS VPCs.
 
+This feature is exclusively available to Dedicated (Enterprise) clusters.
+
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>Zilliz Cloud does not charge you for creating and using private endpoints. However, your cloud provider may <a href="https://aws.amazon.com/privatelink/pricing/">charge you for each endpoint</a> that you create to access Zilliz Cloud.</p>
@@ -50,7 +52,7 @@ To create a private link for a cluster deployed in an AWS region, select **AWS**
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Once you have created a private link in a project, it applies immediately to its member clusters that have been deployed in the specified region. For those clusters that undergo maintenance then, such as scaling or patch-fixing, the private link applies to them after maintenance.</p>
+<p>Once you have created a private link in a project, it applies immediately to its member Dedicated (Enterprise) clusters that have been deployed in the specified region. For those clusters that undergo maintenance then, such as scaling or patch-fixing, the private link applies to them after maintenance.</p>
 
 </Admonition>
 
@@ -174,6 +176,31 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
     1. Click **Create records**.
 
+## Manage internet access to your clusters{#manage-internet-access-to-your-clusters}
+
+After configuring your private endpoint, you can choose to disable the cluster public endpoints to restrict internet access to your project. Once you have disabled the public endpoint, users can only connect to the cluster using the private link.
+
+To disable public endpoints:
+
+1. Go to the **Cluster Details** page of your target cluster.
+
+1. Navigate to the **Connection** section.
+
+1. Click on the configurations icon next to the cluster public endpoint.
+
+1. Read the information and click **Disable** in the **Disable Public Endpoint** dialog box.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<ul>
+<li><p>Private endpoints only impact <a href="/reference/restful/data-plane-v2">data plane</a> access. <a href="/reference/restful/control-plane-v2">Control plane</a> can still be accessed over the public internet.</p></li>
+<li><p>After you re-enable the public endpoint, you may need to wait until the local DNS cache to expire before you can access the public endpoint.</p></li>
+</ul>
+
+</Admonition>
+
+![disable_public_endpoint](/img/disable_public_endpoint.png)
+
 ## Troubleshooting{#troubleshooting}
 
 ### Why does it always report a timeout when connecting to the private link on AWS?{#why-does-it-always-report-a-timeout-when-connecting-to-the-private-link-on-aws}
@@ -200,13 +227,13 @@ A timeout usually occurs for the following reasons:
 
     You need to properly set the security group rules for the traffic from your EC2 instance to your VPC endpoint in the AWS console. A proper security group within your VPC should allow inbound access from your EC2 instances on the port suffixed to your private link.
 
-    ![ERtlbR2v7oA3Q4xXRlccM3VhnNc](/img/ERtlbR2v7oA3Q4xXRlccM3VhnNc.png)
-
     You can use a `curl` command to test the connectivity of the private link. In a normal case, it returns a 400 response.
 
-    ![KHj0bEy7ZojM6axnR0ocg1LPnue](/img/KHj0bEy7ZojM6axnR0ocg1LPnue.png)
+    ![ERtlbR2v7oA3Q4xXRlccM3VhnNc](/img/ERtlbR2v7oA3Q4xXRlccM3VhnNc.png)
 
     If the `curl` command hangs without any response as in the following screenshot, you need to set up proper security group rules by referring to step 9 in [Create a VPC endpoint](https://docs.amazonaws.cn/en_us/vpc/latest/privatelink/create-interface-endpoint.html).
+
+    ![KHj0bEy7ZojM6axnR0ocg1LPnue](/img/KHj0bEy7ZojM6axnR0ocg1LPnue.png)
 
     <Admonition type="info" icon="📘" title="Notes">
 

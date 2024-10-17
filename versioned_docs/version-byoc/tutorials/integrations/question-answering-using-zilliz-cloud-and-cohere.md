@@ -137,8 +137,7 @@ collection = Collection(
 
 index_params = {
     'metric_type': 'L2',
-    'index_type': 'AUTOINDEX',
-    'params': {'nlist': 1024}
+    'index_type': 'AUTOINDEX'
 }
 
 collection.create_index(
