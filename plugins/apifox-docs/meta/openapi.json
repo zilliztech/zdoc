@@ -27045,7 +27045,7 @@
 												},
 												"enum": [
 													"rrf",
-													"ws"
+													"weighted"
 												]
 											},
 											"params": {
