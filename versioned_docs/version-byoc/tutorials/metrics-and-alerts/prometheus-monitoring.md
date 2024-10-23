@@ -1,13 +1,13 @@
 ---
-title: "Prometheus | Cloud"
-slug: /prometheus
-sidebar_label: "Prometheus"
+title: "Integrate with Prometheus | BYOC"
+slug: /prometheus-monitoring
+sidebar_label: "Integrate with Prometheus"
 beta: FALSE
 notebook: FALSE
-description: "Prometheus is a monitoring system that collects metrics from configured targets at specified intervals, evaluates rule expressions, displays the results, and can trigger alerts based on specific conditions. | Cloud"
+description: "Prometheus is a monitoring system that collects metrics from configured targets at specified intervals, evaluates rule expressions, displays the results, and can trigger alerts based on specific conditions. | BYOC"
 type: origin
 token: Ex99woZlsico4FkfwxGckjRRnqf
-sidebar_position: 1
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
@@ -21,21 +21,17 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
-# Prometheus
+# Integrate with Prometheus
 
 [Prometheus](https://prometheus.io/) is a monitoring system that collects metrics from configured targets at specified intervals, evaluates rule expressions, displays the results, and can trigger alerts based on specific conditions.
 
 By integrating Zilliz Cloud with Prometheus, you can collect and monitor metrics related to your Zilliz Cloud deployment.
 
-## Prerequisites{#prerequisites}
+<Admonition type="info" icon="📘" title="Notes">
 
-Before proceeding with the integration, ensure the following requirements are met:
+<p><a href="https://prometheus.io/">Prometheus</a> integration is supported only for Zilliz Cloud clusters running the <strong>Dedicated-Enterprise</strong> or <strong>BYOC</strong> plan.</p>
 
-- [Prometheus](https://prometheus.io/) integration is supported only for clusters running the **Dedicated-Enterprise** or **BYOC** plan. For more information, refer to [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
-
-- You must have a working Prometheus instance. If you do not have one, follow the [Prometheus Installation Guide](https://prometheus.io/docs/prometheus/latest/installation/) to set it up.
-
-- (Optional) For visualizing your Prometheus metrics, consider setting up [Grafana](https://prometheus.io/docs/visualization/grafana/).
+</Admonition>
 
 ## Configure Prometheus to scrape Zilliz Cloud metrics{#configure-prometheus-to-scrape-zilliz-cloud-metrics}
 
@@ -45,23 +41,21 @@ To monitor Zilliz Cloud clusters with Prometheus, follow these steps:
 
 1. Add the following snippet to the `scrape_configs` section of the `Prometheus.yml` file. Replace the placeholders with the appropriate values:
 
-    - `{{apiKey}}`: Your API key for accessing Zilliz Cloud metrics.
+    - `{{apiKey}}`: Your Zilliz Cloud API key for accessing cluster metrics.
 
     - `{{clusterId}}`: The ID of the Zilliz Cloud cluster you wish to monitor.
 
     ```yaml
     scrape_configs:
-      - job_name: zilliz-cloud
-        authorization:
-          credentials: {{apiKey}}
-        scrape_interval: 1m
+      - job_name: in01-06b8404b623xxxx
         scheme: https
+        metrics_path: /v2/clusters/{{clusterId}}/metrics/export
+        authorization:
+          type: Bearer
+          credentials: {{apiKey}}
+        
         static_configs:
-          - targets:
-              - api.cloud.zilliz.com/v2/clusters/{{cluster1Id}}/metrics/export
-              - api.cloud.zilliz.com/v2/clusters/{{cluster2Id}}/metrics/export
-              - ...
-              - api.cloud.zilliz.com/v2/clusters/{{clusterNId}}/metrics/export
+            - targets: ["api.cloud.zilliz.com"]
     ```
 
     <table>
@@ -74,26 +68,53 @@ To monitor Zilliz Cloud clusters with Prometheus, follow these steps:
          <td><p>Human-readable label assigned to scraped metrics.</p></td>
        </tr>
        <tr>
+         <td><p><code>scheme</code></p></td>
+         <td><p>The protocol scheme used to scrape metrics from the Zilliz Cloud endpoints, which is set to <code>https</code>.</p></td>
+       </tr>
+       <tr>
+         <td><p><code>metrics_path</code></p></td>
+         <td><p>The path on the target service that provides the metric data.</p></td>
+       </tr>
+       <tr>
+         <td><p><code>authorization.type</code></p></td>
+         <td><p>The authentication type used to access the Zilliz Cloud metrics. Set the value to <code>Bearer</code>.</p></td>
+       </tr>
+       <tr>
          <td><p><code>authorization.credentials</code></p></td>
          <td><p>The API key used for authorization to access the Zilliz Cloud metrics endpoints.</p></td>
        </tr>
        <tr>
-         <td><p><code>scrape_interval</code></p></td>
-         <td><p>The interval at which Prometheus will scrape metrics from the Zilliz Cloud clusters.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>scheme</code></p></td>
-         <td><p>The protocol scheme used to scrape metrics from the Zilliz Cloud endpoints, which is set to HTTPS.</p></td>
-       </tr>
-       <tr>
          <td><p><code>static_configs.targets</code></p></td>
-         <td><p>The list of static targets that Prometheus will scrape, each of which should be the <code>/v2/clusters/\{clusterId}/metrics/export</code> RESTful API endpoint for each Zilliz Cloud cluster.</p></td>
+         <td><p>The static target that Prometheus will scrape, which should be <code>api.cloud.zilliz.com</code>, the host address of the Zilliz Cloud RESTful API.</p></td>
        </tr>
     </table>
 
 1. Save the changes to the `Prometheus.yml` file.
 
 For more details, refer to [Prometheus official documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
+
+## Example scraped metrics{#example-scraped-metrics}
+
+The following are example Prometheus metrics scraped from the Zilliz Cloud `/metrics/export` endpoint:
+
+```plaintext
+# HELP zilliz_cluster_capacity Cluster capacity ratio
+# TYPE zilliz_cluster_capacity gauge
+zilliz_cluster_capacity 0.88
+# HELP zilliz_cluster_computation Cluster computation ratio
+# TYPE zilliz_cluster_computation gauge
+zilliz_cluster_computation 0.1
+# HELP zilliz_cluster_storage_bytes Cluster storage usage
+# TYPE zilliz_cluster_storage_bytes gauge
+zilliz_cluster_storage_bytes 8.9342782E7
+# HELP zilliz_request_vectors_total Total number of vectors in requests
+# TYPE zilliz_request_vectors_total counter
+zilliz_request_vectors_total{request_type="bulk_insert"} 1.0
+zilliz_request_vectors_total{request_type="delete"} 1.0
+zilliz_request_vectors_total{request_type="insert"} 1.0
+zilliz_request_vectors_total{request_type="search"} 1.0
+zilliz_request_vectors_total{request_type="upsert"} 1.0
+```
 
 ## Zilliz Cloud metric labels{#zilliz-cloud-metric-labels}
 
@@ -143,7 +164,7 @@ The following table lists the metrics available for Zilliz Cloud, along with the
 
 <table>
    <tr>
-     <th><p>Name</p></th>
+     <th><p>Metric Name</p></th>
      <th><p>Type</p></th>
      <th><p>Description</p></th>
      <th><p>Labels</p></th>
@@ -167,7 +188,7 @@ The following table lists the metrics available for Zilliz Cloud, along with the
      <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_write_capacity</code></p></td>
+     <td><p><code>zilliz_cluster_write_capacity</code></p></td>
      <td><p>Gauge</p></td>
      <td><p>The current write throughput.</p></td>
      <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
@@ -185,13 +206,13 @@ The following table lists the metrics available for Zilliz Cloud, along with the
      <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code></p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_request_duration_seconds</code></p></td>
+     <td><p><code>zilliz_request_duration_seconds_bucket</code></p></td>
      <td><p>Histogram</p></td>
      <td><p>The latency distribution of requests processed.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code>, <code>status</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code></p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_slow_queries</code></p></td>
+     <td><p><code>zilliz_slow_queries_total</code></p></td>
      <td><p>Counter</p></td>
      <td><p>The number of queries exceeding the latency threshold.</p></td>
      <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>

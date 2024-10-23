@@ -32,7 +32,7 @@ After creating a free cluster, you will see the following in the console.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You have the option to create one free cluster without charge. In addition, you can create up to two collections within the cluster.</p>
+<p>You have the option to create one free cluster without charge. In addition, you can create up to five collections within the cluster.</p>
 
 </Admonition>
 
@@ -41,12 +41,6 @@ After creating a free cluster, you will see the following in the console.
 In the **Connect** section, you can find the **Public Endpoint** and **Token** used to connect to the cluster.
 
 For details, refer to [Connect to Cluster](./connect-to-cluster).
-
-### Drop cluster{#drop-cluster}
-
-In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
-
-In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster).
 
 ### Upgrade plan{#upgrade-plan}
 
@@ -60,25 +54,44 @@ By upgrading your cluster, you can unlock a wide range of enterprise features, m
 
 To upgrade your plan, follow these steps:
 
-1. In the **Actions** drop-down button, select **Upgrade Plan**.
+1. On the Cluster Details page, click the **Upgrade** button next to **Cluster Plan**.
 
-1. On the page that opens, complete the following:
+1. Select **Upgrade to Serverless Cluster** or **Upgrade to New Dedicated Cluster**.
 
-    - Select the subscription plan and **Target Project**,
+    - **Upgrade to Severless cluster:**
 
-    - Enter the **Cluster Name** and password,
+        In the dialog box that opens, review the plan information and pricing. Click **Upgrade**. When the upgrade is completed, your Free cluster will be replaced with the Serverless cluster. 
 
-    - Specify the **Cloud Provider** and **Cloud Region**, and
+        <Admonition type="info" icon="📘" title="Notes">
 
-    - Determine the **CU settings**. Note that this step is only available when the subscription plan is Dedicated.
+        <ul>
+        <li><p>During the upgrade, read and write operations to this cluster is not supported.</p></li>
+        <li><p>The upgrade will result in a change to the cluster endpoint. Thus, please ensure to update the cluster endpoint information in your application code. </p></li>
+        </ul>
 
-    - Set up your **Payment Method**.
+        </Admonition>
 
-![migrate-to-dedicated](/img/migrate-to-dedicated.png)
+        ![upgrade-to-serverless](/img/upgrade-to-serverless.png)
 
-After you complete the form and click **Upgrade**, Zilliz Cloud will create a new paid cluster with your specified settings. Your data will be migrated from the original free cluster, and the free cluster will remain unchanged and available.
+    - **Upgrade to New Dedicated cluster:**
 
-The cluster status will switch from **CREATING** to **RESTORING**, and finally to **RUNNING**. Once this is complete, you can connect to the new paid cluster and manipulate the restored data.
+        On the page that opens, complete the following:
+
+        During the upgrade, the original Free cluster will still be retained and keep running. When the upgrade is completed, a new Dedicated cluster will be created and data from the original Free cluster will be automatically migrated to the new Dedicated cluster. 
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>To connect to the new Dedicated cluster, please modify your application code and use the appropriate endpoint and token of the new cluster.</p>
+
+        </Admonition>
+
+        ![upgrade-to-dedicated](/img/upgrade-to-dedicated.png)
+
+### Drop cluster{#drop-cluster}
+
+In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
+
+In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
 
 ## Serverless cluster{#serverless-cluster}
 
@@ -112,7 +125,11 @@ For details, refer to [Connect to Cluster](./connect-to-cluster).
 
 - **Data migrations**
 
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster).
+    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters).
+
+### Migrate to Dedicated cluster{#migrate-to-dedicated-cluster}
+
+For more enterprise-grade features and custom configurations, you are recommended to migrate your Serverless cluster to a Dedicated cluster. For more information, refer to [Cross-Cluster Migrations](./migrate-between-clusters).
 
 ### Users and access control{#users-and-access-control}
 
@@ -124,7 +141,7 @@ Each serverless cluster comes with a single default user. You can't add or drop 
 
 In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
 
-In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster).
+In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
 
 ## Dedicated cluster{#dedicated-cluster}
 
@@ -192,112 +209,46 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
     For details on how to set up the whitelist, refer to [Set up Whitelist](./setup-whitelist).
 
-### Manage and configure clusters{#manage-and-configure-clusters}
+### Upgrade cluster plan{#upgrade-cluster-plan}
 
-- **Scale cluster**
+For Dedicated (Standard) cluster, click **Upgrade** right to the service **Plan** in the **Summary** section to upgrade your plan to **Dedicated (Enterprise)**. Zilliz Cloud upgrades your service plan only after you confirm this operation in the **Upgrade Cluster Plan** dialog box.
 
-    Scaling a cluster involves adjusting the number of [CUs](./cu-types-explained) to match workload fluctuations or storage requirements. You can enhance your cluster's performance by scaling up CUs in response to increased CPU or memory usage, and scale down to conserve expenses during periods of low demand.
+For the differences between all the available subscription plans, refer to [Select Service Tiers](./select-zilliz-cloud-service-plans).
 
-    Methods for scaling your cluster:
+### Suspend & resume cluster{#suspend-and-resume-cluster}
 
-    - **Scaling on web UI**
+In the **Actions** drop-down button, select **Suspend** to stop the cluster. Once you confirm this operation in the **Suspend Cluster** dialog box, the cluster status changes from **RUNNING** to **SUSPENDING**, during which you cannot perform other actions to the cluster.
 
-        - **Scale up cluster**
+Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
 
-            In the **Summary** section, click **Scale** right to the **CU** **Size** to open the **Scale Cluster** dialog box. You can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. For Dedicated (Standard) clusters, you can scale up the size of a cluster up to 32 CUs. For Dedicated (Enterprise) clusters, you can scale up the size of a cluster up to 256 CUs. [Contact us](https://zilliz.com/contact-sales) if you need a larger CU size.
+<table>
+   <tr>
+     <th><p><strong>Cloud Provider</strong></p></th>
+     <th><p><strong>Storage Pricing</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>AWS storage</p></td>
+     <td><p>$0.025 / GB per month</p></td>
+   </tr>
+   <tr>
+     <td><p>GCP storage</p></td>
+     <td><p>$0.020 / GB per month</p></td>
+   </tr>
+   <tr>
+     <td><p>Azure storage</p></td>
+     <td><p>$0.025 / GB per month</p></td>
+   </tr>
+</table>
 
-            For details on CU types and how to select an appropriate one, refer to [Select the Right CU](./cu-types-explained).
+To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully based on your CU settings and service plan.
 
-            In addition to the web UI, you can also make an API request to scale up a cluster. For details, refer to [Modify Cluster](/reference/restful/modify-cluster).
+You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster) and [Resume Cluster](/reference/restful/resume-cluster).
 
-            <Admonition type="caution" icon="🚧" title="Warning">
+### **Drop cluster**{#drop-cluster}
 
-            <p>The scaling may lead to slight service jitter. Please exercise caution.</p>
+In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
 
-            </Admonition>
-
-        - **Scale down cluster**
-
-            To scale down the cluster CU size, please navigate to the overview page of the target cluster and click **Scale** next to the CU size. Select the desired CU size in the dialog window. Once you click **Scale**, Zilliz Cloud will check the cluster data volume and collection numbers. A scaling will be successfully triggered only when both of the following two conditions are met:
-
-            - Current data volume < 80% of the CU capacity of the new CU size.
-
-            - Current number of collections < the [maximum number of collections](./limits#collections) allowed in the new CU size.
-
-            <Admonition type="caution" icon="🚧" title="Warning">
-
-            <p>The scaling may lead to slight service jitter. Please exercise caution.</p>
-
-            </Admonition>
-
-            The time it takes to complete the process depends on the data volume in your cluster.
-
-    - **Scaling via API requests**
-
-        Make an API request to scale your cluster. For more information, refer to [Modify Cluster](/reference/restful/modify-cluster).
-
-    - **[Private Preview] Auto-scaling**
-
-        <Admonition type="info" icon="📘" title="Notes">
-
-        <p>Auto-scaling is currently in private preview and is only available to Dedicated (Enterprise) clusters. To enable this feature, please <a href="https://zilliz.com/contact-sales">contact us</a>.</p>
-
-        </Admonition>
-
-        Auto-scaling is designed for businesses with rapidly changing needs. It can prevent restrictions on user write access caused by insufficient cluster CU sizes and can reduce operational burden, thereby minimizing disruption to business operations.
-
-        You can specify the maximum CU size that a cluster can automatically scale up to. Downward auto-scaling is currently not supported.
-
-        After enabling this feature, you can configure auto-scaling options when a cluster is successfully created.
-
-        ![configure_autoscaling](/img/configure_autoscaling.png)
-
-        Auto-scaling is triggered primarily based on the **CU Capacity Threshold**. Zilliz Cloud checks the cluster [CU capacity](./metrics-alerts-reference#cluster-metrics) every 1 minute. If it has exceeded the specified threshold (currently set at 70%) at all sampling points for the past 2 minutes, a scaling process is automatically initiated. For more information about the increment increase of the CU sizes during auto-scaling, refer to [Pricing Calculator](./pricing-calculator#considerations).
-
-        Note that there is a cooldown period of 10 minutes between two automatic scaling events. The time it takes to complete the auto-scaling process varies based on the data volume in the cluster.
-
-        <Admonition type="caution" icon="🚧" title="Warning">
-
-        <p>During the scaling process, if your cluster's CU Capacity reaches 100%, write prohibition will be triggered. During auto-scaling, you may encounter slight service jitter for a few minutes. However, read and write operations are still allowed during this period if CU Capacity is below 100%.</p>
-
-        </Admonition>
-
-- **Upgrade service plan**
-
-    For Dedicated (Standard) cluster, click **Upgrade** right to the service **Plan** in the **Summary** section to upgrade your plan to **Dedicated (Enterprise)**. Zilliz Cloud upgrades your service plan only after you confirm this operation in the **Upgrade Cluster Plan** dialog box.
-
-    For the differences between all the available subscription plans, refer to [Select Service Tiers](./select-zilliz-cloud-service-plans).
-
-- **Suspend & resume cluster**
-
-    In the **Actions** drop-down button, select **Suspend** to stop the cluster. Once you confirm this operation in the **Suspend Cluster** dialog box, the cluster status changes from **RUNNING** to **SUSPENDING**, during which you cannot perform other actions to the cluster.
-
-    Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
-
-    <table>
-       <tr>
-         <th><p><strong>Cloud Provider</strong></p></th>
-         <th><p><strong>Storage Pricing</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>AWS storage</p></td>
-         <td><p>$0.025 / GB per month</p></td>
-       </tr>
-       <tr>
-         <td><p>GCP storage</p></td>
-         <td><p>$0.020 / GB per month</p></td>
-       </tr>
-    </table>
-
-    To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully based on your CU settings and service plan.
-
-    You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster) and [Resume Cluster](/reference/restful/resume-cluster).
-
-- **Drop cluster**
-
-    In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
-
-    In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster).
+In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
 
 ## Related topics{#related-topics}
 
@@ -307,7 +258,7 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
 - [Migrate Between Clusters](./migrate-between-clusters)
 
-- [Select Service Tiers](./select-zilliz-cloud-service-plans)
+- [Detailed Plan Comparison](./select-zilliz-cloud-service-plans)
 
 - [Set up Whitelist](./setup-whitelist)
 

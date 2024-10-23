@@ -36,9 +36,9 @@ Constructs an **AzureConnectParam** object by a set of parameters, such as **con
 </Admonition>
 
 ```python
-from pymilvus.RemoteBulkWriter import AzureConnectParam
+from pymilvus.bulk_writer import RemoteBulkWriter
 
-connect_param = S3ConnectParam(
+connect_param = RemoteBulkWriter.AzureConnectParam(
     container_name: str,
     conn_str: str,
     account_url: Optional[str] = None,

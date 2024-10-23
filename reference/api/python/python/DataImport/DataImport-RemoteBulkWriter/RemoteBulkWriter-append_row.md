@@ -39,13 +39,8 @@ append_row(
 ## Examples{#examples}
 
 ```python
-from pymilvus import (
-    CollectionSchema, 
-    FieldSchema, 
-    RemoteBulkWriter, 
-    DataType, 
-    BulkFileType
-)
+from pymilvus import CollectionSchema, FieldSchema, DataType
+from pymilvus.bulk_writer import RemoteBulkWriter, BulkFileType
 
 # Set up a schema
 schema = CollectionSchema(fields=[

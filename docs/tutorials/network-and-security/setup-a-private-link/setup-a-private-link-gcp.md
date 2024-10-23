@@ -24,6 +24,8 @@ import Admonition from '@theme/Admonition';
 
 This guide demonstrates the procedure for setting up a private endpoint from a Zilliz Cloud cluster to your service hosted in different GCP VPCs.
 
+This feature is exclusively available to Dedicated (Enterprise) clusters.
+
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>Zilliz Cloud does not charge you for private links. However, your cloud provider may <a href="https://cloud.google.com/vpc/pricing#psc-forwarding-rule-service">charge you for each endpoint</a> that you create to access Zilliz Cloud.</p>
@@ -52,7 +54,7 @@ To create a private endpoint for a cluster deployed in a Google Cloud region, se
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Once you have created a private link in a project, it applies immediately to its member clusters that have been deployed in the specified region. For those clusters that undergo maintenance then, such as scaling or patch-fixing, the private link applies to them after maintenance.</p>
+<p>Once you have created a private link in a project, it applies immediately to its member Dedicated (Enterprise) clusters that have been deployed in the specified region. For those clusters that undergo maintenance then, such as scaling or patch-fixing, the private link applies to them after maintenance.</p>
 
 </Admonition>
 
@@ -153,6 +155,31 @@ Go to [Cloud DNS](https://console.cloud.google.com/net-services/dns/zones) in yo
     ![Uh1sbVdLSok8N6xyRMhcildDn7f](/img/Uh1sbVdLSok8N6xyRMhcildDn7f.png)
 
 1. Click **CREATE**.
+
+## Manage internet access to your clusters{#manage-internet-access-to-your-clusters}
+
+After configuring your private endpoint, you can choose to disable the cluster public endpoints to restrict internet access to your project. Once you have disabled the public endpoint, users can only connect to the cluster using the private link.
+
+To disable public endpoints:
+
+1. Go to the **Cluster Details** page of your target cluster.
+
+1. Navigate to the **Connection** section.
+
+1. Click on the configurations icon next to the cluster public endpoint.
+
+1. Read the information and click **Disable** in the **Disable Public Endpoint** dialog box.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<ul>
+<li><p>Private endpoints only impact <a href="/reference/restful/data-plane-v2">data plane</a> access. <a href="/reference/restful/control-plane-v2">Control plane</a> can still be accessed over the public internet.</p></li>
+<li><p>After you re-enable the public endpoint, you may need to wait until the local DNS cache to expire before you can access the public endpoint.</p></li>
+</ul>
+
+</Admonition>
+
+![disable_public_endpoint](/img/disable_public_endpoint.png)
 
 ## Troubleshooting{#troubleshooting}
 

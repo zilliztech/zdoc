@@ -28,7 +28,7 @@ This guide walks you through how to create and manage partitions in a collection
 
 A partition on Zilliz Cloud represents a sub-division of a collection. This functionality allows the physical storage of a collection to be divided into multiple parts, contributing to improved query performance by narrowing down the focus to a smaller subset of data rather than the entire collection.
 
-Upon the creation of a collection, at least a default partition named **_default** is automatically created. You can create a maximum of 4,096 partitions within a collection.
+Upon the creation of a collection, at least a default partition named **_default** is automatically created. For details on the number of partitions you can create in a collection, refer to [Zilliz Cloud Limits](./limits#partitions).
 
 For a comprehensive understanding of the relationships between clusters, collections, indexes, partitions, and entities, read [Cluster, Collection & Entities](./cluster-collection-and-entities).
 

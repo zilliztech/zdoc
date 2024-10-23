@@ -82,7 +82,7 @@ Methods of `CreateIndexParam.Builder`:
     </tr>
     <tr>
         <td><p>withSyncWaitingInterval(Long milliseconds)</p></td>
-        <td><p>Set the waiting interval in sync mode. With sync mode enabled, the client constantly checks index state by interval. Interval value must be greater than zero, and cannot be greater than Constant.MAX<em>WAITING</em>INDEX_INTERVAL. By default, interval value is 500 milliseconds.</p></td>
+        <td><p>Set the waiting interval in sync mode. With sync mode enabled, the client constantly checks index state by interval. Interval value must be greater than zero, and cannot be greater than Constant.MAX_WAITING_INDEX_INTERVAL. By default, interval value is 500 milliseconds.</p></td>
         <td><p><br/>milliseconds: Sync mode interval value(unit: millisecond)</p></td>
     </tr>
     <tr>

@@ -18,7 +18,8 @@ keywords:
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Restore from Backup Files
 
@@ -28,17 +29,21 @@ This guide walks you through how to restore clusters or collections from a liste
 
 Make sure the following conditions are met:
 
-- You are granted the [Organization Owner](./user-roles) or [Project Owner](./user-roles) role in the target organization.
+- You are granted the [Organization Owner](./user-roles) or [Project Admin](./user-roles#project-roles) role in the target organization.
 
 - Your cluster runs on the **Dedicated** tier.
 
 ## Restore a cluster{#restore-a-cluster}
 
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
+
 Navigate to the **Backups** page, locate your target backup file. If you need to restore a cluster, the type of the target backup file should be **Cluster**. Click **...** in the **Actions** column and select **Restore Cluster**.
 
 Set the attributes for the cluster to be restored from the backup file.
 
-![restore_collection](/img/restore_collection.png)
+![restore_cluster](/img/restore_cluster.png)
 
 While setting these attributes, note that:
 
@@ -48,9 +53,50 @@ While setting these attributes, note that:
 
 - You can rename the target cluster and reset its CU size and password, but not its CU type.
 
+- 
+
 Once you click **Restore**, Zilliz Cloud will start creating the target cluster with the specified attributes and then restore the collections in the backup file to the target cluster. A new restoration job will be generated. You can check the cluster restoration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the restoration is complete.
 
+</TabItem>
+<TabItem value="Bash">
+
+Restore a cluster. For details on parameters, refer to [Restore Cluster Backup](/reference/restful/restore-cluster-backup-v2).
+
+```bash
+curl --request POST \
+     --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}/restoreCluster" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "Accept: application/json" \
+     --header "Content-type: application/json" \
+     --data-raw '{
+        "targetProjectId": "proj-20e13e974c7d659a83xxxx",
+        "clusterName": "Dedicated-01-backup",
+        "cuSize": 1,
+        "collectionStatus": "KEEP"
+      }'
+```
+
+Expected output:
+
+```bash
+{
+  "code": 0,
+  "data": {
+    "clusterId": "in01-4a96cde32afxxxx",
+    "username": "db_admin",
+    "password": "Th0]sT4137WOxxxx"
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
 ## Restore a collection{#restore-a-collection}
+
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
 
 Navigate to the **Backups** page, locate your target backup file. If you need to restore a collection, the type of the target backup file should be **Collection**. Click **...** in the **Actions** column and select **Restore Collection**.
 
@@ -67,6 +113,48 @@ While setting these attributes, note that:
 - You can rename the target collection.
 
 Once you click **Restore**, Zilliz Cloud will start creating the target collection with the specified attributes. A new restoration job will be generated. You can check the collection restoration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the restoration is complete.
+
+</TabItem>
+<TabItem value="Bash">
+
+Restore a collection. For details on parameters, refer to [Restore Collection Backup](/reference/restful/restore-collection-backup-v2).
+
+```bash
+curl --request POST \
+     --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}/restoreCollection" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "Accept: application/json" \
+     --header "Content-type: application/json" \
+     --data-raw '{
+        "targetProjectId": "proj-20e13e974c7d659a83xxxx",
+        "targetClusterId": "in01-3e5ad8adc38xxxx",
+        "dbCollections": [
+           { 
+            "collections": [
+               {
+                 "collectionName": "medium_articles",
+                 "targetCollectionName": "restore_medium_articles",
+                 "targetCollectionStatus": "LOADED"
+               }
+             ]
+          }
+        ]
+      }'
+```
+
+Expected output:
+
+```bash
+{
+  "code": 0,
+  "data": {
+    "jobId": "job-04bf9335838dzkeydpxxxx"
+  }
+}
+```
+
+</TabItem>
+</Tabs>
 
 ## Related topics{#related-topics}
 

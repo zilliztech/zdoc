@@ -4,7 +4,7 @@ slug: /migrations
 sidebar_label: "Migrations"
 beta: FALSE
 notebook: FALSE
-description: "You can migrate your data from self-hosted Milvus, Elasticsearch, and even between Zilliz Cloud clusters. | BYOC"
+description: "Zilliz Cloud provides migration options from external sources such as Milvus, Elasticsearch, and pgvector, as well as cross-cluster migrations within the same or different organizations, enabling efficient data integration and management. | BYOC"
 type: origin
 token: IeNswy8ySiutKAkdphRc4lfynsf
 sidebar_position: 9
@@ -21,7 +21,7 @@ import Admonition from '@theme/Admonition';
 
 # Migrations
 
-You can migrate your data from self-hosted Milvus, Elasticsearch, and even between Zilliz Cloud clusters.
+Zilliz Cloud provides migration options from external sources such as Milvus, Elasticsearch, and pgvector, as well as cross-cluster migrations within the same or different organizations, enabling efficient data integration and management.
 
 
 

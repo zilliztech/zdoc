@@ -74,7 +74,7 @@ The following job information is displayed:
 
 ## View job details{#view-job-details}
 
-To view the details of a job, click **...** in the **Actions** column and then select **View Details**.
+To view the details of a job, click **...** in the **Actions** column and then select **View Details**. Alternatively, you can use the [Describe Job](/reference/restful/describe-job-v2) API to get the details programmatically.
 
 ![view_job_details](/img/view_job_details.png)
 

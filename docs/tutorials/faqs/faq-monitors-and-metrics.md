@@ -29,7 +29,7 @@ This topic lists the possible issues about monitors and metrics that you may enc
 
 You can try the following two methods.
 
-1. [Scale up](./manage-cluster#manage-and-configure-clusters) your cluster to a larger CU size. Clusters with larger CU sizes can handle more data.
+1. [Scale up](./manage-cluster) your cluster to a larger CU size. Clusters with larger CU sizes can handle more data.
 
 1. Release loaded collections that are not frequently used to save memory usage.
 

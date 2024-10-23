@@ -163,7 +163,7 @@ Methods of `ConnectParam.Builder`:
     </tr>
     <tr>
         <td><p>withServerName(String serverName)</p></td>
-        <td><p>Set target name override for SSL host name checking, only takes effect when "secure" is True.<br/>Note: this value is passed to grpc.ssl<em>target</em>name_override</p></td>
+        <td><p>Set target name override for SSL host name checking, only takes effect when "secure" is True.<br/>Note: this value is passed to grpc.ssl_target_name_override</p></td>
         <td><p>serverName: The override name for SSL host.</p></td>
     </tr>
     <tr>
@@ -273,4 +273,3 @@ R<ShowCollectionsResponse> response = client.withTimeout(2, TimeUnit.SECONDS).sh
 
 client.close(1);
 ```
-

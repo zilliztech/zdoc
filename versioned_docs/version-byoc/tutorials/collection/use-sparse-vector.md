@@ -2,7 +2,7 @@
 title: "Use Sparse Vector | BYOC"
 slug: /use-sparse-vector
 sidebar_label: "Use Sparse Vector"
-beta: TRUE
+beta: PUBLIC
 notebook: FALSE
 description: "Sparse vectors represent words or phrases using vector embeddings where most elements are zero, with only one non-zero element indicating the presence of a specific word. Sparse vector models, such as SPLADEv2, outperform dense models in out-of-domain knowledge search, keyword-awareness, and interpretability. They are particularly useful in information retrieval, natural language processing, and recommendation systems, where combining sparse vectors for recall with a large model for ranking can significantly improve retrieval results. | BYOC"
 type: origin
@@ -37,15 +37,6 @@ In this tutorial, you will learn how to:
 - Index the collection and perform ANN search on sparse vectors.
 
 To see sparse vectors in action, refer  to [hello_sparse](https://github.com/milvus-io/pymilvus/blob/master/examples/milvus_client/sparse.py).
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p></p>
-<p></p>
-<p>Currently, this feature is available exclusively for clusters that have been upgraded to the Beta version.</p>
-<p></p>
-
-</Admonition>
 
 ## Prepare sparse vector embeddings{#prepare-sparse-vector-embeddings}
 
@@ -281,7 +272,7 @@ When using sparse vectors in Zilliz Cloud, consider the following limits:
 
 - Currently, only the **IP** distance metric is supported for sparse vectors.
 
-- Currently, [range search](./single-vector-search#range-search), [grouping search](./single-vector-search#grouping-search-beta), and [search iterator](./with-iterators) are not supported for sparse vectors.
+- Currently, [range search](./single-vector-search#range-search), [grouping search](./single-vector-search#grouping-search), and [search iterator](./with-iterators) are not supported for sparse vectors.
 
 ## FAQ{#faq}
 

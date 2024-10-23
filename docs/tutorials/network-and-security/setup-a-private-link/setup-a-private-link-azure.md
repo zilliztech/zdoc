@@ -42,8 +42,6 @@ Make sure the following conditions are met:
 
 Zilliz Cloud offers you an intuitive wizard to add a private link. On the **Private Link** tab in your project, click **+ Add Private Link** and configure the settings.
 
-Setting up a private link is project-level. When you configure a private link for a cluster, it applies to its neighboring clusters in the same project deployed in the same cloud region.
-
 ### Copy your Cluster ID{#copy-your-cluster-id}
 
 On the **Cluster Details** tab in the Zilliz Cloud console, copy your cluster ID.
@@ -173,3 +171,29 @@ In the **Create Private Link** dialog box,
     ![CqAEbOjDUogQGdxl3gjclaPAn1e](/img/CqAEbOjDUogQGdxl3gjclaPAn1e.png)
 
     Now the resources in your Azure virtual network can access the Zilliz Cloud cluster privately.
+
+## Manage internet access to your clusters{#manage-internet-access-to-your-clusters}
+
+After configuring your private endpoint, you can choose to disable the cluster public endpoints to restrict internet access to your project. Once you have disabled the public endpoint, users can only connect to the cluster using the private link.
+
+To disable public endpoints:
+
+1. Go to the **Cluster Details** page of your target cluster.
+
+1. Navigate to the **Connection** section.
+
+1. Click on the configurations icon next to the cluster public endpoint.
+
+1. Read the information and click **Disable** in the **Disable Public Endpoint** dialog box.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<ul>
+<li><p>Private endpoints only impact <a href="/reference/restful/data-plane-v2">data plane</a> access. <a href="/reference/restful/control-plane-v2">Control plane</a> can still be accessed over the public internet.</p></li>
+<li><p>After you re-enable the public endpoint, you may need to wait until the local DNS cache to expire before you can access the public endpoint.</p></li>
+</ul>
+
+</Admonition>
+
+![disable_public_endpoint](/img/disable_public_endpoint.png)
+

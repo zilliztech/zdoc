@@ -76,17 +76,17 @@ public enum IndexType
      <td><p>Works for FloatVector/Float16Vector/BFloat16Vector type field.</p></td>
    </tr>
    <tr>
-     <td><p>GPU<em>IVF</em>FLAT</p></td>
+     <td><p>GPU_IVF_FLAT</p></td>
      <td><p>50</p></td>
      <td><p>Only for FloatVector type field. Only works when the server is GPU mode.</p></td>
    </tr>
    <tr>
-     <td><p>GPU<em>IVF</em>PQ</p></td>
+     <td><p>GPU_IVF_PQ</p></td>
      <td><p>51</p></td>
      <td><p>Only for FloatVector type field. Only works when the server is GPU mode.</p></td>
    </tr>
    <tr>
-     <td><p>GPU<em>BRUTE</em>FORCE</p></td>
+     <td><p>GPU_BRUTE_FORCE</p></td>
      <td><p>52</p></td>
      <td><p>Only for FloatVector type field. Only works when the server is GPU mode.</p></td>
    </tr>
@@ -101,7 +101,7 @@ public enum IndexType
      <td><p>Only for BinaryVector type field.</p></td>
    </tr>
    <tr>
-     <td><p>BIN<em>IVF</em>FLAT</p></td>
+     <td><p>BIN_IVF_FLAT</p></td>
      <td><p>81</p></td>
      <td><p>Only for BinaryVector type field.</p></td>
    </tr>
@@ -121,7 +121,7 @@ public enum IndexType
      <td><p>Works for all scalar fields except JSON type field.</p></td>
    </tr>
    <tr>
-     <td><p>SPARSE<em>INVERTED</em>INDEX</p></td>
+     <td><p>SPARSE_INVERTED_INDEX</p></td>
      <td><p>300</p></td>
      <td><p>Only for SparseFloatVector type field.</p></td>
    </tr>

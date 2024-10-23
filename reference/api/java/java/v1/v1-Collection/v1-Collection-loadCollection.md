@@ -57,12 +57,12 @@ Methods of `LoadCollectionParam.Builder`:
     </tr>
     <tr>
         <td><p>withSyncLoadWaitingInterval(Long milliseconds)</p></td>
-        <td><p>Sets the waiting interval for sync mode. In sync mode, the client checks the collection load status at intervals. The value must be greater than zero, and cannot be greater than Constant.MAX<em>WAITING</em>LOADING_INTERVAL. The default value is 500 milliseconds</p></td>
+        <td><p>Sets the waiting interval for sync mode. In sync mode, the client checks the collection load status at intervals. The value must be greater than zero, and cannot be greater than Constant.MAX_WAITING_LOADING_INTERVAL. The default value is 500 milliseconds</p></td>
         <td><p>milliseconds: The time interval in milliseconds for checking the data load status.</p></td>
     </tr>
     <tr>
         <td><p>withSyncLoadWaitingTimeout(Long seconds)</p></td>
-        <td><p>Sets the timeout period for sync mode. The value must be greater than zero and cannot be greater than Constant.MAX<em>WAITING</em>LOADING_TIMEOUT. The default value is 60 seconds.</p></td>
+        <td><p>Sets the timeout period for sync mode. The value must be greater than zero and cannot be greater than Constant.MAX_WAITING_LOADING_TIMEOUT. The default value is 60 seconds.</p></td>
         <td><p>seconds: A during of time in seconds to wait till timeout.</p></td>
     </tr>
     <tr>

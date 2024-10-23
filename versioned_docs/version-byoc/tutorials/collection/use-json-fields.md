@@ -225,9 +225,8 @@ index_params.add_index(
 
 index_params.add_index(
     field_name="vector",
-    index_type="IVF_FLAT",
-    metric_type="L2",
-    params={"nlist": 1024}
+    index_type="AUTOINDEX",
+    metric_type="L2"
 )
 
 client.create_collection(
@@ -298,9 +297,8 @@ IndexParam indexParamForIdField = IndexParam.builder()
 
 IndexParam indexParamForVectorField = IndexParam.builder()
     .fieldName("vector")
-    .indexType(IndexParam.IndexType.IVF_FLAT)
+    .indexType(IndexParam.IndexType.AUTOINDEX)
     .metricType(IndexParam.MetricType.IP)
-    .extraParams(Map.of("nlist", 1024))
     .build();
 
 List<IndexParam> indexParams = new ArrayList<>();
@@ -366,9 +364,8 @@ const fields = [
 // 2.2 Prepare index parameters
 const index_params = [{
     field_name: "vector",
-    index_type: "IVF_FLAT",
-    metric_type: "IP",
-    params: { nlist: 1024}
+    index_type: "AUTOINDEX",
+    metric_type: "IP"
 }]
 
 // 2.3 Create a collection with fields and index parameters
