@@ -8,9 +8,9 @@ notebook: FALSE
 sidebar_position: 2
 ---
 
-# Error Codes
+# Error Codes (v1)
 
-This page lists the error codes returned by Zilliz Cloud RESTful API.
+This page lists the error codes returned by Zilliz Cloud RESTful API (v1).
 
 
 **80000**
