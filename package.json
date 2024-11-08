@@ -15,9 +15,10 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@docusaurus/core": "^3.5.2",
-    "@docusaurus/preset-classic": "^3.5.2",
-    "@easyops-cn/docusaurus-search-local": "^0.40.1",
+    "@docusaurus/core": "^3.6.0",
+    "@docusaurus/faster": "^3.6.0",
+    "@docusaurus/preset-classic": "^3.6.0",
+    "@easyops-cn/docusaurus-search-local": "^0.45.0",
     "@inkeep/docusaurus": "^1.0.32",
     "@mdx-js/react": "^3.0.0",
     "@node-rs/jieba": "^1.10.0",
@@ -41,8 +42,8 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.5.2",
-    "@docusaurus/types": "^3.5.2",
+    "@docusaurus/module-type-aliases": "^3.6.0",
+    "@docusaurus/types": "^3.6.0",
     "husky": "^9.0.11"
   },
   "browserslist": {

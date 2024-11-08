@@ -33,6 +33,18 @@ const config = {
     locales: ['en'],
   },
 
+  // future settings
+  future: {
+    experimental_faster: {
+      swcJsLoader: true,
+      swcJsMinimizer: true,
+      swcHtmlMinimizer: true,
+      lightningCssMinimizer: true,
+      rspackBundler: true,
+      mdxCrossCompilerCache: true,
+    },
+  },
+
   presets: [
     [
       'classic',
