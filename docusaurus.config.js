@@ -327,6 +327,10 @@ const config = {
                 to: '/docs/quick-start',
               },
               {
+                label: 'Notebooks',
+                to: 'https://zilliz.com/learn/milvus-notebooks',
+              },
+              {
                 label: 'Blogs',
                 href: 'https://zilliz.com/blog',
               },
