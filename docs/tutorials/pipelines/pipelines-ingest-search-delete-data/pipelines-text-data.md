@@ -345,13 +345,11 @@ This collection contains four fields:  three output fields of the **INDEX_TEXT**
 
 <TabItem value="Cloud Console">
 
-1. Click the "▶︎" button next to your Ingestion pipeline. Alternatively, you can also click on the **Playground** tab.
+1. Click the "▶︎" button next to your Ingestion pipeline. 
 
     ![run-pipeline](/img/run-pipeline.png)
 
 1. Input the text or text lists that need to be ingested in the `text_list` field. If you have added a PRESERVE function, enter the value in the defined preserved field as well. Click **Run**.
-
-    ![run-text-ingestion-pipeline](/img/run-text-ingestion-pipeline.png)
 
 1. Check the results.
 
@@ -587,8 +585,6 @@ Below is an example output.
 
 1. Input the query text. Click **Run**.
 
-    ![run-text-search-pipeline](/img/run-text-search-pipeline.png)
-
 1. Check the results.
 
 1. Enter new query text to rerun the pipeline.
@@ -800,8 +796,6 @@ Below is an example output.
     ![run-pipeline](/img/run-pipeline.png)
 
 1. Input the filter expression. Click **Run**.
-
-    ![run-text-deletion-pipeline](/img/run-text-deletion-pipeline.png)
 
 1. Check the results.
 

@@ -94,15 +94,25 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>It takes a few minutes for AWS Marketplace to complete the cancellation process.</p>
+    <p>Please rest assured that canceling the subscription will not delete your Zilliz Cloud data.</p>
 
     </Admonition>
 
+    It takes a few minutes for AWS Marketplace to complete the cancellation process.
+
 1. Sign out of your original AWS account.
 
-1. Sign in to AWS Marketplace with the new AWS account you want to use for the subscription.
+1. Sign in to AWS Marketplace with a different AWS account that you want to use for the subscription.
 
 1. Follow steps 1 to 4 in the [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace#subscribe-on-aws-marketplace) section to complete your subscription to Zilliz Cloud with the new account.
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>When updating AWS Marketplace subscription, you must click the <strong>Set up your account</strong> button to link your new subscription with Zilliz Cloud organization.</p>
+
+    </Admonition>
+
+1. Verify the update in the **Payment Method** section on the **Billing Overview** page. Click on the Subscription ID and verify if the subscription **Account ID** has been updated to the new Marketplace account.
 
 ### Switch to payment credit card{#switch-to-payment-credit-card}
 
@@ -112,13 +122,15 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>It takes a few minutes for AWS Marketplace to complete the cancellation process.</p>
+    <p>Please rest assured that canceling the subscription will not delete your Zilliz Cloud data.</p>
 
     </Admonition>
 
+    It takes a few minutes for AWS Marketplace to complete the cancellation process.
+
 1. Follow the steps in [Add a payment method](./subscribe-by-adding-credit-card#add-a-credit-card) to add a payment credit card.
 
-1. Check out your current payment method in your billing overview.
+1. Verify the update in the **Payment Method** section on the **Billing Overview** page.
 
 ## Cancel AWS Marketplace subscription{#cancel-aws-marketplace-subscription}
 

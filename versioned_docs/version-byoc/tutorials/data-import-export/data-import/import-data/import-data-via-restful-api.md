@@ -28,7 +28,7 @@ This page introduces how to import the prepared data via the Zilliz Cloud RESTfu
 
 Make sure the following conditions are met:
 
-- You have obtained an API key for your cluster. For details, see [API Keys](./manage-api-keys) and [On Zilliz Cloud Console](./on-zilliz-cloud-console).
+- You have obtained an API key for your cluster. For details, see [API Keys](./manage-api-keys).
 
 - You have prepared your data in either of the supported formats. 
 

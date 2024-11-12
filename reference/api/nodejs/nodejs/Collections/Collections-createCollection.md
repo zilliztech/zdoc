@@ -8,7 +8,7 @@ notebook: false
 description: "This operation creates a collection either with default or customized settings. | Node.js"
 type: docx
 token: AudsdfQ5hoDyKKxXSowcb3S6nfb
-sidebar_position: 3
+sidebar_position: 4
 displayed_sidebar: nodeSidebar
 
 ---

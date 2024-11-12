@@ -8,7 +8,7 @@ notebook: false
 description: "This operation checks whether a specific collection exists. | Node.js"
 type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
-sidebar_position: 10
+sidebar_position: 11
 displayed_sidebar: nodeSidebar
 
 ---

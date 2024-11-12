@@ -8,7 +8,7 @@ notebook: false
 description: "This operation drops a collection. | Node.js"
 type: docx
 token: KLknda2VtocQSBx7PKVc6F9Nnug
-sidebar_position: 8
+sidebar_position: 9
 displayed_sidebar: nodeSidebar
 
 ---

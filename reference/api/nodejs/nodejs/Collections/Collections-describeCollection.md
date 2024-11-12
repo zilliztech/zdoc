@@ -8,7 +8,7 @@ notebook: false
 description: "This operation lists detailed information about a specific collection. | Node.js"
 type: docx
 token: TjqHdZqO1oSwwYxuny2cchWzn6S
-sidebar_position: 6
+sidebar_position: 7
 displayed_sidebar: nodeSidebar
 
 ---

@@ -85,11 +85,11 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 1. Click **Unlink from Google**.
 
-1. Read the information in the dialog box and click **Confirm**.
+1. Click **Unlink**. 
 
-1. Set a new password via the link sent to your email.
+    - If you have already set a password, your Google account will be unlinked directly and you can log in with your original email and password.
 
-1. Your login method is now set to your work email and the new password.
+    - If you have not set a password yet, set a new password via the link sent to your email. Once the password is set, your login method is changed to your work email and the new password.
 
 ![unlink_from_google](/byoc/unlink_from_google.png)
 
@@ -99,11 +99,13 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 1. Click **Unlink from GitHub**.
 
-1. Read the information in the dialog box and click **Confirm**.
+1. Click **Unlink**. 
 
-1. Set a new password via the link sent to your email.
+    - If you have already set a password, your GitHub account will be unlinked directly and you can log in with your original email and password.
 
-1. Your login method is now set to your work email and the new password.
+    - If you have not set a password yet, set a new password via the link sent to your email. Once the password is set, your login method is changed to your work email and the new password.
+
+![unlink_from_github](/byoc/unlink_from_github.png)
 
 ## Close your account{#close-your-account}
 
@@ -127,7 +129,7 @@ Ensure you meet the following criteria before proceeding:
 
 1. Click the profile icon in the upper right corner. Click **Account Settings**.
 
-1. In the **Account** **Settings** window, click the **Delete Account** button.
+1. In the **Account** **Settings** window, click the **Close Account** button.
 
 1. Before confirming to delete your account, fill out the feedback form first. Click the button to proceed with the deletion.
 

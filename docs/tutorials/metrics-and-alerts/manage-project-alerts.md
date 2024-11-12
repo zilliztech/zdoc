@@ -126,8 +126,6 @@ For supported custom alert targets, refer to [Metrics & Alerts Reference](./metr
 
 </Admonition>
 
-![edit-project-alert](/img/edit-project-alert.png)
-
 ## Enable or disable a project alert{#enable-or-disable-a-project-alert}
 
 To quickly enable or disable a project alert, select **Enable** or **Disable** from the **Actions** column. 
@@ -137,8 +135,6 @@ To quickly enable or disable a project alert, select **Enable** or **Disable** f
 <p>Once an alert is disabled, you'll no longer receive alert notifications if alert conditions are met.</p>
 
 </Admonition>
-
-![turn-on-or-off-project-alert](/img/turn-on-or-off-project-alert.png)
 
 ## Delete a project alert{#delete-a-project-alert}
 
@@ -150,13 +146,19 @@ Once a project alert is no longer needed, you can delete it.
 
 </Admonition>
 
-![delete-project-alert](/img/delete-project-alert.png)
-
 ## View alert history{#view-alert-history}
 
 View triggered alerts on the **Alert History** tab, with filters for alert target, severity level, and time range.
 
 ![view-project-alert-history](/img/view-project-alert-history.png)
+
+## Configure alert receiver settings{#configure-alert-receiver-settings}
+
+The Alert Receiver Settings feature allows [Project Admins](./user-roles) to create and manage alert templates, providing a structured way to handle notifications for various events within a project.
+
+On the **Alert Settings** page of the project alerts, configure alert receiver settings.incl
+
+![alert-receiver-settings](/img/alert-receiver-settings.png)
 
 ## Related topics{#related-topics}
 

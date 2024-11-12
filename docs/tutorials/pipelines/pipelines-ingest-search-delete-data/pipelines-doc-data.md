@@ -365,11 +365,7 @@ This collection contains six fields: one ID field that is automatically generate
 
     1. If you need to ingest a file in an object storage, you can directly input an [S3 presigned URL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html) or a [GCS](https://cloud.google.com/storage/docs/access-control/signed-urls)[ signed URL](https://cloud.google.com/storage/docs/access-control/signed-urls) in the `doc_url` field in the code.
 
-        ![run-ingestion-pipeline-url](/img/run-ingestion-pipeline-url.png)
-
-    - If you need to upload a local filed, click **Attach File**. In the dialog popup, upload your local file. The file should be no more than 10 MB. Supported file formats include `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`. Once the upload is successful, click **Attach**. If you have added a preserve function to this Ingestion pipeline, please configure the `data` field. 
-
-        ![run-ingestion-pipeline-attach-file](/img/run-ingestion-pipeline-attach-file.png)
+    - If you need to upload a local file, click **Attach File**. In the dialog popup, upload your local file. The file should be no more than 10 MB. Supported file formats include `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`. Once the upload is successful, click **Attach**. If you have added a preserve function to this Ingestion pipeline, please configure the `data` field.
 
 1. Check the results.
 
@@ -654,8 +650,6 @@ Below is an example output.
 
 1. Configure the required parameters. Click **Run**.
 
-    ![run-doc-search-pipeline](/img/run-doc-search-pipeline.png)
-
 1. Check the results.
 
 1. Enter new query text to rerun the pipeline.
@@ -890,8 +884,6 @@ Below is an example output.
     ![run-pipeline](/img/run-pipeline.png)
 
 1. Input the name of the document to delete in the `doc_name` field. Click **Run**.
-
-    ![run-deletion-pipeline-playground](/img/run-deletion-pipeline-playground.png)
 
 1. Check the results.
 

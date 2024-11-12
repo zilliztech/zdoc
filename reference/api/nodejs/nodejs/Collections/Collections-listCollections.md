@@ -8,7 +8,7 @@ notebook: false
 description: "This operation lists all existing collections. | Node.js"
 type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
-sidebar_position: 13
+sidebar_position: 14
 displayed_sidebar: nodeSidebar
 
 ---

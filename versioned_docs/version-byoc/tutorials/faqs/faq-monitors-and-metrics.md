@@ -17,6 +17,7 @@ This topic lists the possible issues about monitors and metrics that you may enc
 
 ## Contents
 
+- [Why does the cluster’s CU capacity and storage usage increase temporarily during frequent insert and delete operations?](#why-does-the-clusters-cu-capacity-and-storage-usage-increase-temporarily-during-frequent-insert-and-delete-operations)
 - [What can I do if my cluster memory quota has been exhausted and I cannot insert data as a result?](#what-can-i-do-if-my-cluster-memory-quota-has-been-exhausted-and-i-cannot-insert-data-as-a-result)
 - [Why doesn't the memory consumption decrease even if I dropped a collection?](#why-doesnt-the-memory-consumption-decrease-even-if-i-dropped-a-collection)
 
@@ -24,6 +25,18 @@ This topic lists the possible issues about monitors and metrics that you may enc
 
 
 
+
+### Why does the cluster’s CU capacity and storage usage increase temporarily during frequent insert and delete operations?{#why-does-the-clusters-cu-capacity-and-storage-usage-increase-temporarily-during-frequent-insert-and-delete-operations}
+
+Frequent insert and delete operations trigger an internal process called *[compaction](https://milvus.io/blog/2022-2-21-compact.md)*.
+
+- **For inserts**: Compaction combines smaller segments into larger ones, which can significantly improve search performance.
+
+- **For deletes**: Data is not immediately deleted; instead, it’s marked for deletion and removed only after compaction.
+
+During compaction, new segments are temporarily created, which may lead to a short-term increase in storage usage and CU capacity. Once garbage collection (GC) occurs, old segments are removed, reducing both storage and CU capacity back to expected levels.
+
+This behavior is normal and does not impact system performance.
 
 ### What can I do if my cluster memory quota has been exhausted and I cannot insert data as a result?{#what-can-i-do-if-my-cluster-memory-quota-has-been-exhausted-and-i-cannot-insert-data-as-a-result}
 

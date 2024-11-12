@@ -30,24 +30,6 @@ To manage notification channels, make sure you are an [organization owner or pro
 
 ## Set up notification channels{#set-up-notification-channels}
 
-Currently, Zilliz Cloud offers four main types of notification channels:
-
-- [Email](./manage-notification-channels#email): Receive notifications at specified email addresses.
-
-- [PagerDuty](./manage-notification-channels#pagerduty): Integrate with a PagerDuty service using an integration key.
-
-- [Slack](./manage-notification-channels#slack): Integrate with a Slack app using a webhook URL.
-
-- [Opsgenie](./manage-notification-channels): Integrate with Opsgenie by adding an API integration.
-
-- [Lark](./manage-notification-channels#lark): Integrate with a Lark group using a webhook URL.
-
-- [Webhook](./manage-notification-channels#webhook): Integrate with custom services or applications using a valid webhook URL.
-
-- [WeCom](./manage-notification-channels): Receive alert notifications in a WeCom group.
-
-- [DingTalk](./manage-notification-channels): Receive alert notifications in a DingTalk group.
-
 You can access the management page of notification channels in the **Edit Alert** or **Create Alert** dialog box in the Zilliz Cloud console.
 
 ![manage-alert-channel](/byoc/manage-alert-channel.png)

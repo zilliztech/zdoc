@@ -94,8 +94,6 @@ Navigate to the **Organization Alert** page to view various license-related aler
 
 </Admonition>
 
-![byoc-edit-organization-alert](/byoc/byoc-edit-organization-alert.png)
-
 ## Enable or disable an organization alert{#enable-or-disable-an-organization-alert}
 
 To quickly enable or disable an organization alert, select **Enable** or **Disable** from the **Actions** column. 
@@ -106,13 +104,9 @@ To quickly enable or disable an organization alert, select **Enable** or **Disab
 
 </Admonition>
 
-![byoc-turn-on-or-off-organization-alert](/byoc/byoc-turn-on-or-off-organization-alert.png)
-
 ## View alert history{#view-alert-history}
 
 View triggered alerts on the **Alert History** tab, with filters for alert target, severity level, and time range.
-
-![byoc_view_alert_history](/byoc/byoc_view_alert_history.png)
 
 ## Related topics{#related-topics}
 

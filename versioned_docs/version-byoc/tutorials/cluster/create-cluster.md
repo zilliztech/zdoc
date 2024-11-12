@@ -43,7 +43,7 @@ Ensure:
 
 1. Enter the desired organization and project.
 
-1. Click **+ Free Cluster**.
+1. Click **Create Free Cluster**.
 
     ![create_serverless_dedicated_cluster_01](/byoc/create_serverless_dedicated_cluster_01.png)
 

@@ -1,34 +1,36 @@
 ---
-title: "Migrate from pgvector to Zilliz Cloud | BYOC"
+title: "Migrate from PostgreSQL to Zilliz Cloud | BYOC"
 slug: /migrate-from-pgvector
-sidebar_label: "Migrate from pgvector"
+sidebar_label: "Migrate from PostgreSQL"
 beta: FALSE
 notebook: FALSE
 description: "PostgreSQL](https//www.postgresql.org/) is a robust, open-source, object-relational database engine renowned for its extensibility, data integrity, and performance. By utilizing the [pgvector extension, PostgreSQL gains the capability to store and manage vector data. | BYOC"
 type: origin
 token: CiVHwbwPwipX5SkFkqVcLpESnfe
-sidebar_position: 3
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
-  - pgvector
+  - postgresql
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Migrate from pgvector to Zilliz Cloud
+# Migrate from PostgreSQL to Zilliz Cloud
 
 [PostgreSQL](https://www.postgresql.org/) is a robust, open-source, object-relational database engine renowned for its extensibility, data integrity, and performance. By utilizing the [pgvector](https://github.com/pgvector/pgvector) extension, PostgreSQL gains the capability to store and manage vector data.
 
 If you have PostgreSQL databases with [pgvector](https://github.com/pgvector/pgvector) installed—whether on-premises or cloud-hosted, you can seamlessly migrate them to your Zilliz Cloud cluster. This migration process involves establishing a connection with your existing source database and replicating its data from the source tables to the corresponding target collections on Zilliz Cloud.
 
-## Limits{#limits}
+## Considerations{#considerations}
 
-- Currently, you can migrate the following PostgreSQL data types: **vector**, **text**/**varchar**/**date**/**time**/**json**, **bigint**, **integer**, **smallint**, **double precision**, **real**, **boolean**, **array**. If your table has fields with unsupported data types, you can choose not to migrate those fields or submit a [support ticket](https://support.zilliz.com/hc/en-us/requests/new). For information on how PostgreSQL data types are mapped to Zilliz Cloud, refer to [Field mapping reference](./migrate-from-pgvector#field-mapping-reference).
+- You can migrate the following PostgreSQL data types: **vector**, **text**/**varchar**/**date**/**time**/**json**, **bigint**, **integer**, **smallint**, **double precision**, **real**, **boolean**, **array**. If your table has fields with unsupported data types, you can choose not to migrate those fields or submit a [support ticket](https://support.zilliz.com/hc/en-us/requests/new). For information on how PostgreSQL data types are mapped to Zilliz Cloud, refer to [Field mapping reference](./migrate-from-pgvector#field-mapping-reference).
+
+- To ensure compatibility, Auto ID will be disabled and cannot be modified for each target collection on Zilliz Cloud.
 
 - For each migration task, you can select only one vector field from each source table.
 
@@ -48,7 +50,7 @@ You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
-1. Go to the target project and select **Migrations** > **From** **pgvector**.
+1. Go to the target project and select **Migrations** > **PostgreSQL**.
 
 1. In the **Connect to Data Source** step, enter the endpoint of the source PostgreSQL database in the **Database Endpoint** field, provide the username and password associated with the database, and click **Next**.
 
@@ -70,9 +72,9 @@ You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided
 
     1. Verify the data mapping between your PostgreSQL data and the corresponding Zilliz Cloud data types. Zilliz Cloud has a default mechanism for mapping PostgreSQL data types to its own, but you can review and make necessary adjustments. Currently, you can rename fields, but cannot change the underlying data types.
 
-    1. (Optional) In **Advanced Settings**, configure **Dynamic Field** and **Partition Key**. For more information, refer to [Dynamic data fields](./schema-explained#dynamic-data-fields) and [Use Partition Key](./use-partition-key).
+    1. In **Advanced Settings**, configure **Dynamic Field** and **Partition Key**. For more information, refer to [Dynamic data fields](./schema-explained#dynamic-data-fields) and [Use Partition Key](./use-partition-key).
 
-    1. (Optional) In **General Information**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
+    1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
 
 1. Click **Migrate**.
 

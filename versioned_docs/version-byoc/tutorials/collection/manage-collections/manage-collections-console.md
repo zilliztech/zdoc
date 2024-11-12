@@ -71,7 +71,7 @@ For complete control over your collection, follow these steps.
 
 ### Method 2: Use example data{#method-2-use-example-data}
 
-Select **Create Sample Collection** from the **Actions** menu, review the preset collection, and confirm creation.
+Select **Load Sample Data**, review the preset collection, and confirm creation.
 
 <Admonition type="info" icon="📘" title="Notes">
 

@@ -84,9 +84,11 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
     1. Complete authorization.
 
-        ![azure_link_subscription_with_account](/img/azure_link_subscription_with_account.png)
+        ![aws-marketplace-dialog](/img/aws-marketplace-dialog.png)
 
 1. Go to **Billing** on Zilliz Cloud to ensure your Azure Marketplace subscription is set as your payment method.
+
+    ![azure-marketplace-success](/img/azure-marketplace-success.png)
 
 ## Update Azure Marketplace subscription{#update-azure-marketplace-subscription}
 
@@ -110,7 +112,7 @@ For more information, please refer to [Change Azure subscription and/or resource
 
 1. Follow the steps in [Subscribe by adding a credit card](./subscribe-by-adding-credit-card#add-a-credit-card) to add a payment credit card.
 
-1. Check out your current payment method in your billing overview on Zilliz Cloud.
+1. Verify the update in the **Payment Method** section on the **Billing Overview** page.
 
 ## Cancel Azure Marketplace subscription{#cancel-azure-marketplace-subscription}
 

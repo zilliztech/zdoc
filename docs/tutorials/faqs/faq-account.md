@@ -47,19 +47,7 @@ To unlock your account, you can choose one of the following methods.
 
 ### How to unlink my account from Google?{#how-to-unlink-my-account-from-google}
 
-To unlink your Zilliz Cloud account from Google, please
-
-1. Go to **Account Settings** on Zilliz Cloud and click the button to unlink from Google.
-
-    ![faq-unlink-from-google-1](/img/faq-unlink-from-google-1.png)
-
-1. Click **Confirm** to continue.
-
-    ![faq-unlink-from-google-2](/img/faq-unlink-from-google-2.png)
-
-1. Check your email inbox for detailed instructions on how to unlink from Google and set up your new Zilliz Cloud account.
-
-For more details, refer to [Email Accounts](./email-accounts#unlink-from-third-party-authentication).
+Please refer to [Email Accounts](./email-accounts#unlink-from-your-google-account) for detailed instructions.
 
 ### How to delete my account?{#how-to-delete-my-account}
 

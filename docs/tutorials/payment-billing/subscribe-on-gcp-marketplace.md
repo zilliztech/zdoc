@@ -82,9 +82,11 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
     1. Complete authorization.
 
-    ![gcp_link_subscription_with_account](/img/gcp_link_subscription_with_account.png)
+    ![aws-marketplace-dialog](/img/aws-marketplace-dialog.png)
 
 1. Go to **Billing** to ensure your GCP Marketplace subscription is set as your payment method.
+
+    ![gcp-marketplace-success](/img/gcp-marketplace-success.png)
 
 ## Update GCP Marketplace subscription{#update-gcp-marketplace-subscription}
 
@@ -98,9 +100,11 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>It takes a few minutes for GCP Marketplace to complete the cancellation process.</p>
+    <p>Please rest assured that canceling the subscription will not delete your Zilliz Cloud data.</p>
 
     </Admonition>
+
+    It takes a few minutes for GCP Marketplace to complete the cancellation process.
 
 1. Sign out of your original GCP account.
 
@@ -114,6 +118,8 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
     </Admonition>
 
+1. Verify the update in the **Payment Method** section on the **Billing Overview** page. Click on the Subscription ID and verify if the subscription **Account Id** has been updated to the new Marketplace account.
+
 ### Switch to payment credit card{#switch-to-payment-credit-card}
 
 1. Sign in to GCP Marketplace with the original GCP account you used for the subscription.
@@ -122,13 +128,15 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>It takes a few minutes for GCP Marketplace to complete the cancellation process.</p>
+    <p>Please rest assured that canceling the subscription will not delete your Zilliz Cloud data.</p>
 
     </Admonition>
 
+    It takes a few minutes for GCP Marketplace to complete the cancellation process.
+
 1. Follow the steps in [Subscribe by adding a credit card](./subscribe-by-adding-credit-card#add-a-credit-card) to add a payment credit card.
 
-1. Check out your current payment method in your billing overview.
+1. Verify the update in the **Payment Method** section on the **Billing Overview** page.
 
 ## Cancel GCP Marketplace subscription{#cancel-gcp-marketplace-subscription}
 

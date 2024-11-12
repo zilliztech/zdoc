@@ -8,7 +8,7 @@ notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Node.js"
 type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
-sidebar_position: 9
+sidebar_position: 10
 displayed_sidebar: nodeSidebar
 
 ---

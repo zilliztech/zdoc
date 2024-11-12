@@ -42,6 +42,12 @@ A dedicated cluster stores both raw data, including the scalar and vector fields
 
 For more details, refer to the [Pricing Plan](https://zilliz.com/pricing).
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Storage usage for each cluster is calculated on an hourly basis. If the data is stored for less than 1 hour, it will still be charged as 1 hour. </p>
+
+</Admonition>
+
 ## Serverless clusters{#serverless-clusters}
 
 A Serverless cluster is structured as a pay-as-you-go service. It is lightweight enough to meet your needs in highly elastic scenarios. 
@@ -87,6 +93,12 @@ A serverless cluster stores both raw data, including the scalar and vector field
 
 For more details, refer to the [Pricing Plan](https://zilliz.com/pricing).
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Storage usage for each cluster is calculated on an hourly basis. If the data is stored for less than 1 hour, it will still be charged as 1 hour. </p>
+
+</Admonition>
+
 ## Value-added services{#value-added-services}
 
 Zilliz Cloud also provides value-added services, such as data backup.
@@ -94,6 +106,12 @@ Zilliz Cloud also provides value-added services, such as data backup.
 ### Backup costs{#backup-costs}
 
 Your backups are billed by the gigabyte-month (GB-month) on Zilliz Cloud. The GB-month is a measure of how many gigabytes of storage that you have used for your backups. It is also a measure of how long Zilliz Cloud holds your backups. A GB-month is one GB of storage for a month. You only pay for what you use. 
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Backup usage for each cluster is calculated on a daily basis. If a backup file is retained for less than 1 day, it will still be charged as 1 day. </p>
+
+</Admonition>
 
 Using an AWS-hosted cluster as an example, a 20 GB backup saved on Zilliz Cloud for 45 days will incur **$0.025 x 20 x 1.5 = $0.75**. 
 

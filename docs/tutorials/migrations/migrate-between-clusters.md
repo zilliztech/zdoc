@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloud allows you to migrate data between clusters, whether they are within the same organization or across different organizations. This capability ensures flexibility in managing and scaling your resources. When migrating data to a cluster in a different organization, you must provide the appropriate authentication credentials, such as an API key or a token consisting of a username and its password. | Cloud"
 type: origin
 token: MTqjwwUKhiyns4kGV7Lc7PRlnwb
-sidebar_position: 4
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
@@ -24,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud allows you to migrate data between clusters, whether they are within the same organization or across different organizations. This capability ensures flexibility in managing and scaling your resources. When migrating data to a cluster in a different organization, you must provide the appropriate authentication credentials, such as an API key or a token consisting of a username and its password.
 
-## Limits{#limits}
+## Considerations{#considerations}
 
 - For optimal performance, migrations from a higher plan tier to a lower one (e.g., **Dedicated** to **Serverless**, **Dedicated** to **Free**, **Free** to **Free** clusters) are not supported.
 
@@ -50,9 +50,9 @@ You can migrate data to either a new or existing cluster within the same organiz
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
-1. Go to the target project and select **Migrations** > **Cluster Migration Within Current Organization**.
+1. Go to the target project and select **Migrations** > **In Current Organization**.
 
-1. In the **Migration Settings** dialog box, configure source and target clusters. Ensure the plan tier of the target cluster is not lower than that of the source cluster (e.g., migration from a **Dedicated** cluster to a **Free** or **Serverless** cluster is not supported). For more information on cluster plans, refer to [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
+1. In the **Migration Settings** dialog box, specify the source and target clusters and click **Confirm**. Ensure the plan tier of the target cluster is not lower than that of the source cluster (e.g., migration from a **Dedicated** cluster to a **Free** or **Serverless** cluster is not supported). For more information on cluster plans, refer to [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -70,7 +70,7 @@ Migrating data across organizations requires you to provide the necessary connec
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
-1. Go to the target project and select **Migrations** > **From a Cluster in an External Organization**.
+1. Go to the target project and select **Migrations** > **In Other Organization**.
 
 1. In the **Connect to Data Source** step, configure connection information for the source cluster. Then, click **Next**.
 

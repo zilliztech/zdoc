@@ -88,13 +88,13 @@ As the [Organization Owner](./resource-hierarchy), you can access and review det
 
 For more details on resource consumption:
 
-Click **View Details** to see CPU core usage by each service and cluster, along with the cloud region where they are deployed.
+Click **Services** or **Clusters** to see CPU core usage by each service and cluster, along with the cloud region where they are deployed.
 
-![view-license-info](/byoc/view-license-info.png)
+![byoc-gcp-4](/byoc/byoc-gcp-4.png)
 
 ## Monitor license usage{#monitor-license-usage}
 
-Check out the **Usage** progress bar on the **License Information** page, which offers a visual guide showing how you're using your license. Please take the appropriate action based on the color indicators:
+Check out the **Usage** chart on the **License Information** page, which offers a visual guide showing how you're using your license. Please take the appropriate action based on the color indicators:
 
 - **Green**: Your license usage is comfortably within limits, with core usage below 70% and over 60 days of validity remaining. Keep monitoring to ensure it stays in this range.
 
@@ -103,8 +103,6 @@ Check out the **Usage** progress bar on the **License Information** page, which 
 - **Red**: A clear signal that immediate action is required, with core usage over 100% or license expiration. Critical to renew or upgrade now to avoid operational disruptions.
 
 Contact our sales for help if you are in the yellow or red zone. We recommend you renew or upgrade your license before it expires or reaches its limit to avoid restrictions like the inability to create new clusters or scale up.
-
-![monitor-license-usage](/byoc/monitor-license-usage.png)
 
 ## License expiration or overuse{#license-expiration-or-overuse}
 

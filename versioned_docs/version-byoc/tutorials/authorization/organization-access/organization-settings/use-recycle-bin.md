@@ -41,17 +41,21 @@ Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of e
 
     1. You can restore the cluster to a different project under this organization, but not in a different cloud region.
 
-    1. You can choose whether to retain the load status of the collections in the cluster.
-
     1. You can rename the cluster and reset its size and password for connection.
 
     1. 
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>The load status of the collections in the cluster will be retained.</p>
+
+    </Admonition>
 
 1. Click **Restore**. Zilliz Cloud will start creating the cluster with the specified attributes and restore your data to the created cluster.
 
 1. A new restoration job will be generated. You can check the cluster restoration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the restoration is complete.
 
-![recycle_bin](/byoc/recycle_bin.png)
+![byoc-use-recycle-bin](/byoc/byoc-use-recycle-bin.png)
 
 ## Related topics{#related-topics}
 

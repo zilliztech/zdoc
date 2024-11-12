@@ -39,7 +39,7 @@ To ensure a smooth experience, make sure you have completed the following setups
 
 - If you have not already, [create a cluster](./create-cluster).
 
-- Gather these details: **Cluster Endpoint**, **API Key**, **Cluster ID**, and **Cloud Region**. You can find these cluster values on the [Zilliz Cloud console](./on-zilliz-cloud-console).
+- Gather these details: **Cluster Endpoint**, **API Key**, **Cluster ID**, and **Cloud Region**.
 
 ### Install dependencies{#install-dependencies}
 

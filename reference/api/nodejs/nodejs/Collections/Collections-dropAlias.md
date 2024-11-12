@@ -8,7 +8,7 @@ notebook: false
 description: "This operation drops a specified collection alias. | Node.js"
 type: docx
 token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
-sidebar_position: 7
+sidebar_position: 8
 displayed_sidebar: nodeSidebar
 
 ---

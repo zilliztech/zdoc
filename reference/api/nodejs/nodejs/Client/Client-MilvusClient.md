@@ -42,8 +42,6 @@ new MilvusClient(config: ClientConfig)
     https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
     ```
 
-    For details on finding information on the Zilliz Cloud console, refer to [On Zilliz Cloud Console](/docs/on-zilliz-cloud-console).
-
 - **configOrAddress** (*ClientConfig*)
 
     - **address** (*string*) -
@@ -55,8 +53,6 @@ new MilvusClient(config: ClientConfig)
         ```plaintext
         https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
         ```
-
-        For details on finding information on the Zilliz Cloud console, refer to [On Zilliz Cloud Console](/docs/on-zilliz-cloud-console).
 
     - **_SKIPCONNECT__** (*boolean*) -
 

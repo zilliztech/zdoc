@@ -7,7 +7,7 @@ notebook: FALSE
 description: "We are excited to announce the launch of Zilliz Cloud. With this release, we are introducing a range of enhancements and features, including increased flexibility with a New CU Size Option, the support for advance pay, and more AWS regions. | Cloud"
 type: origin
 token: YtxBwrPfBiuFDdk10GVcYY1DnGg
-sidebar_position: 10
+sidebar_position: 12
 keywords: 
   - zilliz
   - vector database

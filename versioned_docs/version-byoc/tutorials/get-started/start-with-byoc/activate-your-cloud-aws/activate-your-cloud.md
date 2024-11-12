@@ -112,7 +112,7 @@ Allow about 30 minutes for the activation process to complete. You can review th
 
 Once complete, go to the **License** page to confirm that your license details are accurate. Then, proceed to [deploy a Zilliz Cloud cluster](./create-cluster) on your infrastructure.
 
-![view-license-info](/byoc/view-license-info.png)
+![byoc-gcp-4](/byoc/byoc-gcp-4.png)
 
 ## Related topics{#related-topics}
 
