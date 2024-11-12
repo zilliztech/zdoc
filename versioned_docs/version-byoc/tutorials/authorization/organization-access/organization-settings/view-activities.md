@@ -71,6 +71,10 @@ To enhance your control and ease in navigating through the organization activiti
 
     ![filter-by-activity-type](/byoc/filter-by-activity-type.png)
 
+- **Filter by activity**
+
+    ![filter-by-activity](/byoc/filter-by-activity.png)
+
 ## Related topics{#related-topics}
 
 - [Manage Organization Information](./organizations)

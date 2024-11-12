@@ -62,8 +62,6 @@ ConnectConfig.builder()
     https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
     ```
 
-    To find needed information on the Zilliz Cloud console, refer to [On Zilliz Cloud Console](/docs/on-zilliz-cloud-console).
-
 - `token(String token)`
 
     A valid access token to access the specified Zilliz Cloud cluster. 

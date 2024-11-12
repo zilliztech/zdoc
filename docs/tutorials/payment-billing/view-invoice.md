@@ -119,9 +119,9 @@ Zilliz Cloud offers three cluster types: Free, Serverless, and Dedicated. Charge
 
 Additional charges include:
 
-- **Backup Costs:** Based on the backup file size and retention period. **Backup is billed at a minimum of 1 day, which means if the backup file is created but kept for less than one day, it will still be charged at the rate for one day.**
+- **Backup Costs:** Calculated as `Backup File Size x Backup Retention Period` and measured in  "GB-month", which refers to the usage of 1 GB of backup file retained for 1 month. **Backup is billed at a minimum of 1 day, even for shorter retention period.** This means if the backup file is created but kept for less than one day, it will still be charged at the rate for one day.
 
-- **Storage Costs:** Calculated as `Storage File Size x Cluster Runtime` and measured in "GB-Month". **Storage is billed at a minimum of 1 hour, even for shorter storage durations.**
+- **Storage Costs:** Calculated as `Current Storage Size x Cluster Runtime` and measured in "GB-Hour", which refers to the usage of 1 GB of data stored for 1 hour. **Storage is billed at a minimum of 1 hour, even for shorter storage durations.** 
 
     <Admonition type="info" icon="📘" title="Notes">
 

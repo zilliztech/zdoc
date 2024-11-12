@@ -300,8 +300,6 @@ This collection contains three fields:  two output fields of the **INDEX_IMAGE**
 
 1. Input the query image ID and URL in the `image_id` and `image_url` fields. If you have added a PRESERVE function, enter the value in the defined preserved field as well. Click **Run**.
 
-    ![run-image-ingestion-pipeline](/img/run-image-ingestion-pipeline.png)
-
 1. Check the results.
 
 1. Input other texts to run again.
@@ -514,8 +512,6 @@ Below is an example output.
     ![run-pipeline](/img/run-pipeline.png)
 
 1. Input the query image URL. Click **Run**.
-
-    ![run-image-search-pipeline](/img/run-image-search-pipeline.png)
 
 1. Check the results.
 
@@ -757,8 +753,6 @@ Below is an example output.
 
 1. Input the query text. Click **Run**.
 
-    ![run-image-search-by-text-pipeline](/img/run-image-search-by-text-pipeline.png)
-
 1. Check the results.
 
 1. Enter a new query text to rerun the pipeline.
@@ -982,8 +976,6 @@ Below is an example output.
     ![run-pipeline](/img/run-pipeline.png)
 
 1. Input the filter expression. Click **Run**.
-
-    ![run-image-deletion-pipeline](/img/run-image-deletion-pipeline.png)
 
 1. Check the results.
 

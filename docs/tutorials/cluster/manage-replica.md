@@ -32,7 +32,7 @@ This guide outlines the procedures of configuring replicas for a cluster in Zill
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is currently in public preview and is exclusively available to Dedicated (Enterprise) clusters. </p>
+<p>This feature is currently exclusively available to Dedicated (Enterprise) clusters. </p>
 
 </Admonition>
 

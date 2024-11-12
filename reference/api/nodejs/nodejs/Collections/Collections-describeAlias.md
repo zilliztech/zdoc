@@ -8,7 +8,7 @@ notebook: false
 description: "This operation describes a specific alias. | Node.js"
 type: docx
 token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
-sidebar_position: 5
+sidebar_position: 6
 displayed_sidebar: nodeSidebar
 
 ---

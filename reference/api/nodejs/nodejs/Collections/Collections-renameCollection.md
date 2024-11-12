@@ -8,7 +8,7 @@ notebook: false
 description: "This operation renames an existing collection. | Node.js"
 type: docx
 token: LSwVdMg4SorzZ5xSHHVcQeVDnfh
-sidebar_position: 14
+sidebar_position: 15
 displayed_sidebar: nodeSidebar
 
 ---

@@ -98,11 +98,7 @@ search(
 
         - **range_filter**  (float) -  
 
-            Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**. 
-
-        - **group_by_field** (*str*)
-
-            Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
+            Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
 
         - **level** (*int*)
 
@@ -117,6 +113,10 @@ search(
             This parameter applies only when you also set `radius`.
 
     For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
+
+- **group_by_field** (*str*)
+
+    Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
 
 - **timeout** (*float* | *None*) -
 

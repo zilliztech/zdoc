@@ -27,15 +27,13 @@ Zilliz Cloud offers [Milvus](https://milvus.io/) as a fully managed, cloud-hoste
 
 This topic describes how to migrate from Milvus via database endpoint. For information on how to upload backup files, refer to [Via Backup Files](./via-backup-files).
 
-## Limits{#limits}
+## Considerations{#considerations}
 
 - Each migration task is limited to a single source Milvus database. If you have data in multiple source databases, you can set up separate migration jobs for each one.
 
 - During the migration process, Zilliz Cloud will replicate the exact collection schema from the source Milvus collection. Modifying the schema is not allowed while the migration is in progress.
 
 ## Before you start{#before-you-start}
-
-Make sure the following prerequisites are met:
 
 - The source Milvus instance is running version 2.x or later and is accessible from the public internet.
 
@@ -49,7 +47,7 @@ You can migrate one or more collections from a single Milvus database at a time.
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
-1. Go to the target project and select **Migrations** > **From** **Milvus** > **Via Endpoint**.
+1. Go to the target project and select **Migrations** > **Milvus** > **Via Endpoint**.
 
 1. In the **Database Endpoint** field of the **Connect to Data Source** step, enter the server address of the source Milvus. If [authentication](https://milvus.io/docs/authenticate.md) has been enabled for the source Milvus, enter **Username** and **Password** as access credentials. Then, click **Next**.
 
@@ -59,9 +57,9 @@ You can migrate one or more collections from a single Milvus database at a time.
 
     1. Review the target collections and their field settings in the schema preview.
 
-    1. (Optional) In **Advanced Settings**, verify **Dynamic Field** and **Partition Key** settings, which inherits the settings of the source collection and cannot be altered. For more information, refer to [Dynamic data fields](./schema-explained#dynamic-data-fields) and [Use Partition Key](./use-partition-key).
+    1. In **Advanced Settings**, verify **Dynamic Field** and **Partition Key** settings, which inherits the settings of the source collection and cannot be altered. For more information, refer to [Dynamic data fields](./schema-explained#dynamic-data-fields) and [Use Partition Key](./use-partition-key).
 
-    1. (Optional) In **General Information**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
+    1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
 
 1. Click **Migrate**.
 

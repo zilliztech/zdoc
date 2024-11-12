@@ -13,7 +13,12 @@ keywords:
   - vector database
   - cloud
   - private link
+  - privatelink
+  - private endpoint
+  - private service connect
   - aws
+  - gcp
+  - azure
 
 ---
 
@@ -42,13 +47,15 @@ Make sure the following conditions are met:
 
 ## Add a private endpoint{#add-a-private-endpoint}
 
-Zilliz Cloud offers you an intuitive wizard to add a private endpoint. On the **Private Endpoint** tab in your project, click **+ Add Private Endpoint** and configure the settings.
+Zilliz Cloud offers you an intuitive wizard to add a private endpoint. On the **Cluster Details** tab of any dedicated cluster in your project, click **+ Private Endpoint** and configure the settings.
+
+![setup_private_link_aws_01](/img/setup_private_link_aws_01.png)
 
 Setting up a private link is project-level. When you configure a private link for a cluster, it applies to its neighboring clusters in the same project deployed in the same cloud region.
 
-### Select a cloud provider and region.{#select-a-cloud-provider-and-region}
+### Select a cloud provider and region{#select-a-cloud-provider-and-region}
 
-To create a private link for a cluster deployed in an AWS region, select **AWS** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions).
+To create a private endpoint for a cluster deployed in an AWS region, select **AWS** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions). 
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -56,9 +63,15 @@ To create a private link for a cluster deployed in an AWS region, select **AWS**
 
 </Admonition>
 
-![setup_private_link_02](/img/setup_private_link_02.png)
+### Enter a VPC endpoint{#enter-a-vpc-endpoint}
 
-### Obtain a VPC ID{#obtain-a-vpc-id}
+In the **Create Private Endpoint** dialog box, you also need to fill in your VPC endpoint for us to establish private connections. 
+
+![setup_private_link_aws_02](/img/setup_private_link_aws_02.png)
+
+If you do not have your VPC endpoint, you can click **Don't Have a VPC Endpoint?** to follow the guidance on the console and guidance in the following sections. Otherwise, enter **Your VPC Endpoint**, click **Create**, and go to [Obtain a private link](./setup-a-private-link-aws#obtain-a-private-link).
+
+#### Obtain a VPC ID{#obtain-a-vpc-id}
 
 Before creating a VPC endpoint, you need to have a VPC on your Amazon console. To view your VPCs, do as follows:
 
@@ -72,7 +85,7 @@ Before creating a VPC endpoint, you need to have a VPC on your Amazon console. T
 
 To create a VPC, see [Create a VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#Create-VPC).
 
-### Obtain a subnet ID{#obtain-a-subnet-id}
+#### Obtain a subnet ID{#obtain-a-subnet-id}
 
 Subnets are sub-divisions of your VPC. You need to have a subnet that resides in the same region as the private link to be created. To view your subnets, do as follows:
 
@@ -86,9 +99,11 @@ Subnets are sub-divisions of your VPC. You need to have a subnet that resides in
 
 1. Enter this ID in **Subnet IDs** on Zilliz Cloud. To create a subnet, see [Create a Subnet in Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-subnets.html#create-subnets).
 
-### Obtain a VPC endpoint{#obtain-a-vpc-endpoint}
+#### Obtain a VPC endpoint{#obtain-a-vpc-endpoint}
 
 Copy the command generated at the bottom of the **Add Private Link** dialog box on Zilliz Cloud, and run this command in your Amazon CloudShell to create a VPC endpoint.
+
+![setup_private_link_aws_03](/img/setup_private_link_aws_03.png)
 
 The returned message is similar to the following:
 
@@ -115,7 +130,7 @@ The returned message is similar to the following:
 
 In the returned message, copy the ID and DNS name of the created VPC endpoint.
 
-Then, enter the VPC endpoint ID in **Your VPC Private Link ID** and click **Add**.
+Then, click **Back to Create Private Endpoint** and enter the VPC endpoint ID in **Your VPC Endpoint**.
 
 ### Obtain a private link{#obtain-a-private-link}
 
@@ -184,7 +199,7 @@ To disable public endpoints:
 
 1. Go to the **Cluster Details** page of your target cluster.
 
-1. Navigate to the **Connection** section.
+1. Navigate to the **Connect** section.
 
 1. Click on the configurations icon next to the cluster public endpoint.
 

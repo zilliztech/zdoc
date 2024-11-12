@@ -28,15 +28,15 @@ This guide explains how to manage organization users, including how to invite us
 
 ## Invite a user to join your organization{#invite-a-user-to-join-your-organization}
 
-To invite a user to join your organization, you can either be an [Organization Owner](./user-roles#organization-roles) or an [Organization Member](./user-roles#organization-roles).
+To invite a user to join your organization, you can either be an [Organization Owner](./user-roles#organization-roles), a [Billing Admin](./user-roles#organization-roles), or an [Organization Member](./user-roles#organization-roles).
 
-As an Organization Owner, you can assign invitees as either Organization Owners or Members. However, as an Organization Member, invitees can only be designated as Organization Members.
+As an Organization Owner, you can assign invitees as either Organization Owners or Members. However, as a Billing Admin or an Organization Member, invitees can only be designated as Organization Members.
 
 Enter the email addresses of the users you wish to invite. They will receive an invitation via email, which must be accepted within 48 hours to join the organization. You can [revoke or resend this invitation](./organization-users#revoke-or-resend-an-invitation) anytime before it's accepted.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Each time you can invite one or more users with the same role to the organization. Each organization can have up to 1,000 members.</p>
+<p>Each time you can invite one or more users with the same role to the organization. Each organization can have up to 100 members.</p>
 
 </Admonition>
 

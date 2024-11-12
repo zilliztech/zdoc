@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Milvus is an open-source vector database optimized for scalable similarity search and AI applications. Known for its high performance and ease of use, it is widely used for managing large-scale vector data. | Cloud"
 type: origin
 token: TDkbwhwMyi7bPykZAoUc5PFfnIb
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database

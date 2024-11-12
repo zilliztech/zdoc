@@ -124,7 +124,7 @@ With backup files ready, you can migrate the data from local files directly or f
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
-1. Go to the target project and select **Migrations** > **From Milvus** > **Via Backup Files**.
+1. Go to the target project and select **Migrations** > **Milvus** > **Via Backup Files**.
 
 1. On the **Migrate From Milvus** page,
 

@@ -45,7 +45,7 @@ Ensure:
 
 1. Select the appropriate organization and project.
 
-1. Click **+ Free Cluster**.
+1. Click **Create Free Cluster**.
 
     ![create_cluster_01](/img/create_cluster_01.png)
 
@@ -211,7 +211,7 @@ In the command above,
 
 1. Enter the desired organization and project.
 
-1. Click **+ Free Cluster**.
+1. Click **Create Free Cluster**.
 
     ![create_serverless_dedicated_cluster_01](/img/create_serverless_dedicated_cluster_01.png)
 

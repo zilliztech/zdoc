@@ -51,7 +51,7 @@ Once data files are ready, you can import them directly from your local drive or
 
 ### Local JSON file{#local-json-file}
 
-To import data, you can either drag and drop a local file into the upload area, or click **upload a file** and select the file.
+To import data, you can drag and drop a local file into the upload area and click **Import**.
 
 ![data-import-on-console](/img/data-import-on-console.png)
 

@@ -7,7 +7,7 @@ notebook: FALSE
 description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release adds email notifications and inline guidance for beginners. | Cloud"
 type: origin
 token: E76ywex6GiUKUKkgbFAc95Q0nxe
-sidebar_position: 16
+sidebar_position: 18
 keywords: 
   - zilliz
   - vector database

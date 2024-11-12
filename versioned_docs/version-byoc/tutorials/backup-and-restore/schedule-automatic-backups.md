@@ -39,9 +39,9 @@ Make sure the following conditions are met:
 
 To create a backup schedule, follow these steps:
 
-1. Go to the **Backups** tab of your cluster and click on **Backup Schedule**.
+1. Go to the **Backups** tab of your cluster and click on **Automatic** **Backup**.
 
-1. In the **Edit Backup Schedule** dialog box that appears, switch on **Schedule Automated Backup**.
+1. In the **Automatic Backup Settings** dialog box that appears, switch on **Enable Automatic Backup**.
 
 1. Set the **Frequency**, **Backup Retention Period**, and the time window for automatic backups.
 

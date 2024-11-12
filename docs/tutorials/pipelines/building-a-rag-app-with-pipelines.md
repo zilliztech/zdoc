@@ -69,7 +69,7 @@ This [tutorial](https://github.com/milvus-io/bootcamp/blob/master/bootcamp/RAG/z
 
 #### Obtain cluster information{#obtain-cluster-information}
 
-Obtain the necessary information about the created Free cluster, including cluster ID, cloud region, API key, and project ID. For more information, see [On Zilliz Cloud Console](./on-zilliz-cloud-console).
+Obtain the necessary information about the created Free cluster, including cluster ID, cloud region, API key, and project ID. 
 
 ```bash
 import os

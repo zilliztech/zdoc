@@ -13,7 +13,12 @@ keywords:
   - vector database
   - cloud
   - private link
+  - privatelink
+  - private endpoint
+  - private service connect
+  - aws
   - gcp
+  - azure
 
 ---
 
@@ -42,7 +47,9 @@ Make sure the following conditions are met:
 
 ## Add a private endpoint{#add-a-private-endpoint}
 
-Zilliz Cloud offers you an intuitive wizard to add a private endpoint. On the **Private Endpoint** tab in your project, click **+ Add Private Endpoint** and configure the settings.
+Zilliz Cloud offers you an intuitive wizard to add a private endpoint. On the **Cluster Details** tab of any dedicated cluster in your project, click **+ Private Endpoint** and configure the settings.
+
+![enter_vpc_endpoint_gcp](/img/enter_vpc_endpoint_gcp.png)
 
 Setting up a private link is project-level. When you configure a private link for a cluster, it applies to its neighboring clusters in the same project deployed in the same cloud region.
 
@@ -50,15 +57,21 @@ Setting up a private link is project-level. When you configure a private link fo
 
 To create a private endpoint for a cluster deployed in a Google Cloud region, select **Google Cloud** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions).
 
-![enter_vpc_endpoint_gcp](/img/enter_vpc_endpoint_gcp.png)
-
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>Once you have created a private link in a project, it applies immediately to its member Dedicated (Enterprise) clusters that have been deployed in the specified region. For those clusters that undergo maintenance then, such as scaling or patch-fixing, the private link applies to them after maintenance.</p>
 
 </Admonition>
 
-### Obtain a Google Cloud project ID{#obtain-a-google-cloud-project-id}
+### Enter Your Google Cloud Project ID and Endpoint{#enter-your-google-cloud-project-id-and-endpoint}
+
+In the **Create Private Endpoint** dialog box, you also need to fill in **Google Cloud project ID** and **Your Endpoint** for us to establish private connections. 
+
+![enter_vpc_endpoint_gcp_02](/img/enter_vpc_endpoint_gcp_02.png)
+
+If you do not have this information, you can click Don't Have a VPC Endpoint? to follow the guidance on the console and guidance in the following sections. Otherwise, enter **Your Endpoint** and **Google Cloud Project ID**, click Create, and go to [Obtain a private link](./setup-a-private-link-gcp#obtain-a-private-link).
+
+#### Obtain a Google Cloud project ID{#obtain-a-google-cloud-project-id}
 
 1. Open the [Google Cloud Dashboard](https://console.cloud.google.com/home/dashboard).
 
@@ -66,7 +79,7 @@ To create a private endpoint for a cluster deployed in a Google Cloud region, se
 
 1. Enter this ID in Google Cloud Project ID on Zilliz Cloud.
 
-### Obtain a VPC name{#obtain-a-vpc-name}
+#### Obtain a VPC name{#obtain-a-vpc-name}
 
 Before creating a VPC endpoint, you need to have a VPC on your GCP console. To view your VPCs, do as follows:
 
@@ -80,7 +93,7 @@ Before creating a VPC endpoint, you need to have a VPC on your GCP console. To v
 
 To create a VPC network, see [Create and manage VPC networks](https://cloud.google.com/vpc/docs/create-modify-vpc-networks).
 
-### Obtain a subset name{#obtain-a-subset-name}
+#### Obtain a subset name{#obtain-a-subset-name}
 
 Subnets are sub-divisions of your VPC. You need to have a subnet that resides in the same region as the private link to be created. To view your subnets, do as follows:
 
@@ -94,17 +107,17 @@ Subnets are sub-divisions of your VPC. You need to have a subnet that resides in
 
 1. Enter this name in **Subnet Name** on Zilliz Cloud.
 
-### Set an endpoint prefix{#set-an-endpoint-prefix}
+#### Set an endpoint prefix{#set-an-endpoint-prefix}
 
 For your convenience, you are required to set an endpoint prefix in **Private Service Connect Endpoint prefix** so that any forwarding rules you create will have this prefix.
 
-### Obtain a private service endpoint{#obtain-a-private-service-endpoint}
+#### Obtain a private service endpoint{#obtain-a-private-service-endpoint}
 
 Copy the command generated at the bottom of the **Add Private Endpoint** dialog box on Zilliz Cloud, and run this command in your GCP CloudShell to create a Private Service Connect Endpoint.
 
 In the returned message, copy the endpoint name listed on [this page](https://console.cloud.google.com/net-services/psc/list/consumers).
 
-Then, enter the copied name in **Your Endpoint** and click **Add**.
+Then, click **Back to Create Private Endpoint** and enter the copied name in **Your Endpoint**.
 
 ### Obtain a private link{#obtain-a-private-link}
 

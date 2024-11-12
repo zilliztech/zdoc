@@ -133,9 +133,9 @@ The deployment takes about 30 minutes to complete.
 
 You can review the resources created in your GCP project. For a list of necessary resources, refer to [Understand required resources](./activate-your-cloud-gcp#reference).
 
-To check the resource usage, you can choose **License** in the left navigation pane, and click **View Details** to learn more.
+To check the resource usage, choose **License** in the left navigation pane.
 
-![AUkrbDhhUogJCtxJm2PcMVozn5u](/byoc/AUkrbDhhUogJCtxJm2PcMVozn5u.png)
+![byoc-gcp-4](/byoc/byoc-gcp-4.png)
 
 ## Reference{#reference}
 

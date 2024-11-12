@@ -8,7 +8,7 @@ notebook: false
 description: "This is an enumeration that provides the following constants. | Node.js"
 type: docx
 token: Of5xdscL1o5Svzxy8yOckqaMnzg
-sidebar_position: 11
+sidebar_position: 12
 displayed_sidebar: nodeSidebar
 
 ---

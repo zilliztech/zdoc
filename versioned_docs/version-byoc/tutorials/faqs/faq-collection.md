@@ -46,7 +46,7 @@ If you have reached the maximum number of collections allowed in a cluster, you 
 
 ### How can I know if dynamic schema is enabled for my collection?{#how-can-i-know-if-dynamic-schema-is-enabled-for-my-collection}
 
-You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the **Schema** tab. You can see if dynamic schema is enabled or not in the upper right corner. For more details, see [Enable Dynamic Field](./enable-dynamic-field).
+You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the **Overview** tab. You can see if dynamic schema is enabled or not. For more details, see [Enable Dynamic Field](./enable-dynamic-field).
 
 ![faq_dynamic_schema_enabled](/byoc/faq_dynamic_schema_enabled.png)
 

@@ -13,6 +13,11 @@ keywords:
   - vector database
   - cloud
   - private link
+  - privatelink
+  - private endpoint
+  - aws
+  - gcp
+  - azure
 
 ---
 

@@ -8,7 +8,7 @@ notebook: false
 description: "This operation creates an alias for an existing collection. | Node.js"
 type: docx
 token: MPuIdwujBoXM6rx7Okfc3lhZnUd
-sidebar_position: 2
+sidebar_position: 3
 displayed_sidebar: nodeSidebar
 
 ---

@@ -55,8 +55,6 @@ MilvusClient(
     https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
     ```
 
-    For details on finding information on the Zilliz Cloud console, refer to [On Zilliz Cloud Console](/docs/on-zilliz-cloud-console).
-
 - **user** (*string*) -
 
     A valid username used to connect to the specified Zilliz Cloud cluster.

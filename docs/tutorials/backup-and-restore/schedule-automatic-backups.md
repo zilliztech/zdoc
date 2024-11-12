@@ -33,6 +33,12 @@ Make sure the following conditions are met:
 
 - Your cluster runs on the **Dedicated** tier.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Automatic backups are available only to the <strong>Dedicated</strong> clusters. If your cluster runs on the <strong>Free</strong>, <a href="./manage-cluster#upgrade-plan">upgrade</a> it first. If your cluster runs on the <strong>Serverless</strong> tier, <a href="./migrate-between-clusters">migrate</a> it to a dedicated cluster first. Creating backups may incur charges. For more information about backup cost, please refer to <a href="./understand-cost#backup-costs">Understand Cost</a>.</p>
+
+</Admonition>
+
 ## Create backup schedule{#create-backup-schedule}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
@@ -41,9 +47,9 @@ Make sure the following conditions are met:
 
 To create a backup schedule, follow these steps:
 
-1. Go to the **Backups** tab of your cluster and click on **Backup Schedule**.
+1. Go to the **Backups** tab of your cluster and click on **Automatic** **Backup**.
 
-1. In the **Edit Backup Schedule** dialog box that appears, switch on **Schedule Automated Backup**.
+1. In the **Automatic Backup Settings** dialog box that appears, switch on **Enable Automatic Backup**.
 
 1. Set the **Frequency**, **Backup Retention Period**, and the time window for automatic backups.
 

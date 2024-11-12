@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloud now officially supports the Bring-Your-Own-Cloud (BYOC) subscription plan. Additionally, we have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism. | Cloud"
 type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
-sidebar_position: 7
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database

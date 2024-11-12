@@ -38,7 +38,9 @@ Ensure the following prerequisites are met before proceeding:
 
 1. Navigate to the specific organization and project where the whitelist is to be configured.
 
-1. In the left-side navigation pane, choose **Security** > **+ Add IP Address**.
+1. In the left-side navigation pane, choose **Network** >  **IP Address**.
+
+1. Click **Add IP Address**.
 
 1. In the dialog box that appears, specify **IP Address (CIDR)** and **Description**.
 
