@@ -37,8 +37,6 @@ Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of e
 
     1. You can rename the cluster and reset its size and password for connection.
 
-    1. 
-
     <Admonition type="info" icon="📘" title="Notes">
 
     <p>The load status of the collections in the cluster will be retained.</p>
