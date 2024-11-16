@@ -44,7 +44,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribing to Zilliz Cloud as follows:
 
-1. Search for **Zilliz Cloud** in the search box, or [go to AWS Marketplace](https://aws.amazon.com/marketplace/search/results?searchTerms=zilliz+cloud) to view the Zilliz Cloud portal page.
+1. Search for **Zilliz Cloud** in the search box, or [go to AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?trk=8d276e92-b310-40ce-908f-23a198ca7ffc&sc_channel=el&source=zilliz) to view the Zilliz Cloud portal page.
 
     ![search_for_zilliz_on_aws](/img/search_for_zilliz_on_aws.png)
 
@@ -113,6 +113,14 @@ After successfully subscribing from AWS Marketplace, you can always update your 
     </Admonition>
 
 1. Verify the update in the **Payment Method** section on the **Billing Overview** page. Click on the Subscription ID and verify if the subscription **Account ID** has been updated to the new Marketplace account.
+
+    ![view-aws-subscription-id](/img/view-aws-subscription-id.png)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>We recommend completing the operations within 1 hour to avoid service interruption.</p>
+
+</Admonition>
 
 ### Switch to payment credit card{#switch-to-payment-credit-card}
 
