@@ -15563,6 +15563,13 @@
 												"description": "当前页码。"
 											}
 										}
+									},
+									"dbName": {
+										"type": "string",
+										"description": "Name of the database to which the import job belongs.",
+										"x-include-target": [
+											"zilliz"
+										]
 									}
 								},
 								"required": [
@@ -31146,12 +31153,7 @@
 																						"UNLOADED"
 																					]
 																				}
-																			},
-																			"required": [
-																				"collectionName",
-																				"description",
-																				"status"
-																			]
+																			}
 																		}
 																	}
 																}
