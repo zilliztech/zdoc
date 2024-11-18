@@ -52,7 +52,7 @@ The billing cycle, displayed at the top of your invoice, shows the period during
 
 - **Grace Period:** A 14-day window during which payments can still be made. During this time, daily email reminders are sent, and the invoice status remains “**unpaid**” until successful payment.
 
-- **Overdue Date:** If the payment remains unpaid, the invoice status becomes “**overdue**”. It is recommended to pay promptly, as your organization may be frozen the next day. Without payment within one day of freezing, all clusters (Serverless and Dedicated) will be automatically deleted.
+- **Overdue Date:** If the payment remains unpaid, the invoice status becomes “**overdue**”. It is recommended to pay promptly, as your organization may be frozen the next day. Without payment within one day of freezing, all clusters (Serverless and Dedicated) will be automatically moved to [recycle bin](./use-recycle-bin) and will be retained there for 30 days.
 
 ### Invoice status{#invoice-status}
 
@@ -231,5 +231,9 @@ To download an invoice, click the download icon next to the target invoice.
 
     - When payment is successful, go to Recycle Bin to restore your deleted cluster.
 
-- **Tip:** If you still have problems making the payment or restoring the clusters, please [submit a support ticket](http://support.zilliz.com).
+- **Tip:** 
+
+    - Deleted clusters are retained in the recycle bin for 30 days. If you still need the clusters, pease make the overdue payments within 30 days from cluster deletion.
+
+    - If you have any problems when making the payment or restoring the clusters, please [submit a support ticket](http://support.zilliz.com).
 
