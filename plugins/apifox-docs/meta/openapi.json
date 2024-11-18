@@ -3766,10 +3766,7 @@
 						"example": "default",
 						"schema": {
 							"type": "string"
-						},
-						"x-include-target": [
-							"milvus"
-						]
+						}
 					},
 					{
 						"name": "Authorization",
@@ -3946,10 +3943,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -4019,10 +4013,7 @@
 										"dbName": "default",
 										"collectionName": "my_collection",
 										"id": "4321034832910"
-									},
-									"x-include-target": [
-										"milvus"
-									]
+									}
 								},
 								"2": {
 									"summary": "Option 2",
@@ -4185,10 +4176,7 @@
 											"zh-CN": {
 												"description": "目标数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -4396,29 +4384,13 @@
 											"zh-CN": {
 												"description": "现有数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									}
 								}
 							},
-							"examples": {
-								"1": {
-									"summary": "milvus",
-									"x-include-target": [
-										"milvus"
-									],
-									"value": {
-										"dbName": "_default"
-									}
-								},
-								"2": {
-									"summary": "zilliz",
-									"x-include-target": [
-										"zilliz"
-									],
-									"value": {}
+							"example": {
+								"value": {
+									"dbName": "_default"
 								}
 							}
 						}
@@ -9191,10 +9163,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -9429,10 +9398,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -9716,10 +9682,7 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -11401,10 +11364,7 @@
 											"zh-CN": {
 												"description": "目标数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -12162,10 +12122,7 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -12632,10 +12589,7 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"clusterId": {
 										"type": "string",
@@ -12988,10 +12942,7 @@
 											"zh-CN": {
 												"description": "目标数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -13370,10 +13321,7 @@
 											"zh-CN": {
 												"description": "已存在的数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -13387,24 +13335,9 @@
 									}
 								}
 							},
-							"examples": {
-								"1": {
-									"summary": "example",
-									"x-include-target": [
-										"milvus"
-									],
-									"value": {
-										"dbName": "default"
-									}
-								},
-								"2": {
-									"summary": "example",
-									"x-include-target": [
-										"zilliz"
-									],
-									"value": {
-
-									}
+							"example": {
+								"value": {
+									"dbName": "default"
 								}
 							}
 						}
@@ -14287,10 +14220,7 @@
 													"zh-CN": {
 														"description": "数据库名称。"
 													}
-												},
-												"x-include-target": [
-													"milvus"
-												]
+												}
 											},
 											"collectionName": {
 												"type": "string",
@@ -14379,10 +14309,7 @@
 													"zh-CN": {
 														"description": "数据库名称。"
 													}
-												},
-												"x-include-target": [
-													"milvus"
-												]
+												}
 											},
 											"collectionName": {
 												"type": "string",
@@ -15922,10 +15849,7 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -16111,10 +16035,7 @@
 						"example": "default",
 						"schema": {
 							"type": "string"
-						},
-						"x-include-target": [
-							"milvus"
-						]
+						}
 					},
 					{
 						"name": "Authorization",
@@ -16883,10 +16804,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -17220,10 +17138,7 @@
 											"zh-CN": {
 												"description": "当前别名所属的数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"aliasName": {
 										"type": "string",
@@ -17287,10 +17202,7 @@
 																"zh-CN": {
 																	"description": "当前别名对应的 Collection 所属的数据库名称。"
 																}
-															},
-															"x-include-target": [
-																"milvus"
-															]
+															}
 														},
 														"collectionName": {
 															"type": "string",
@@ -18632,10 +18544,7 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -18826,10 +18735,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -19721,10 +19627,7 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -19909,10 +19812,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -20505,10 +20405,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -20854,10 +20751,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -21340,10 +21234,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -21512,10 +21403,7 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -22654,10 +22542,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -22918,10 +22803,7 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -23691,10 +23573,7 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -23865,10 +23744,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -24298,11 +24174,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"default": "_default",
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -24491,10 +24363,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -25279,10 +25148,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -25471,10 +25337,7 @@
 											"zh-CN": {
 												"description": "待检查 Collection 所在数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -26126,10 +25989,7 @@
 											"zh-CN": {
 												"description": "当前 Collection 所属的数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -26314,10 +26174,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -26877,10 +26734,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -27534,10 +27388,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -27780,10 +27631,7 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -27968,10 +27816,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -28436,10 +28281,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -28800,10 +28642,7 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"newDbName": {
 										"type": "string",
@@ -29160,10 +28999,7 @@
 											"zh-CN": {
 												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -29505,10 +29341,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -30076,10 +29909,7 @@
 											"zh-CN": {
 												"description": "数据库名称。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									},
 									"collectionName": {
 										"type": "string",
