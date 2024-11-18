@@ -30169,6 +30169,23 @@
 											"cuType",
 											"cuSize"
 										]
+									},
+									"dbCollections": {
+										"type": "array",
+										"description": "A list of source- and destination-database pairs in the migration.",
+										"items": {
+											"type": "object",
+											"properties": {
+												"dbName": {
+													"type": "string",
+													"description": "The name of the source database. This is optional. If left unspecified, the default database applies."
+												},
+												"destDbName": {
+													"type": "string",
+													"description": "The name of the destination database."
+												}
+											}
+										}
 									}
 								},
 								"required": [
@@ -30821,9 +30838,17 @@
 											"type": "object",
 											"description": "Collection information.",
 											"properties": {
+												"dbName": {
+													"type": "string",
+													"description": "The name of the source database. This is optional. If left unspecified, the default database applies."
+												},
+												"destDbName": {
+													"type": "string",
+													"description": "The name of the destination database."
+												},
 												"collections": {
 													"type": "array",
-													"description": "The names of the collections that need to be migrated. If this is left unspecified, all collections in the source cluster will be migrated.",
+													"description": "The names of the collections that need to be migrated in the above specified source database. If this is left unspecified, all collections in the source database will be migrated.",
 													"items": {
 														"type": "object",
 														"description": "A list of collection names.",
@@ -31087,35 +31112,49 @@
 															"type": "string",
 															"description": "The expiration time of the backup."
 														},
-														"collections": {
+														"dbCollections": {
 															"type": "array",
-															"description": "The collections that are included in the backup.",
+															"description": "A list of databases and its collections that are included in the backup.",
 															"items": {
 																"type": "object",
-																"description": "The collection information.",
+																"description": "A database and its collections that are included in the backup.",
 																"properties": {
-																	"collectionName": {
+																	"dbName": {
 																		"type": "string",
-																		"description": "The name of the collection."
+																		"description": "The name of the database."
 																	},
-																	"description": {
-																		"type": "string",
-																		"description": "The description of the collection."
-																	},
-																	"status": {
-																		"type": "string",
-																		"description": "The loading status of the collection.",
-																		"enum": [
-																			"LOADED",
-																			"UNLOADED"
-																		]
+																	"collections": {
+																		"type": "array",
+																		"description": "The collections that are included in the backup.",
+																		"items": {
+																			"type": "object",
+																			"description": "The collection information.",
+																			"properties": {
+																				"collectionName": {
+																					"type": "string",
+																					"description": "The name of the collection."
+																				},
+																				"description": {
+																					"type": "string",
+																					"description": "The description of the collection."
+																				},
+																				"status": {
+																					"type": "string",
+																					"description": "The loading status of the collection.",
+																					"enum": [
+																						"LOADED",
+																						"UNLOADED"
+																					]
+																				}
+																			},
+																			"required": [
+																				"collectionName",
+																				"description",
+																				"status"
+																			]
+																		}
 																	}
-																},
-																"required": [
-																	"collectionName",
-																	"description",
-																	"status"
-																]
+																}
 															}
 														},
 														"createTime": {
@@ -31410,6 +31449,10 @@
 											"type": "object",
 											"description": "The collection information.",
 											"properties": {
+												"dbName": {
+													"type": "string",
+													"description": "The name of the database containing the collections listed in the `collectionNames` field."
+												},
 												"collectionNames": {
 													"type": "array",
 													"description": "The names of the collections to be backed up.",
@@ -32147,6 +32190,14 @@
 											"type": "object",
 											"description": "A collection group.",
 											"properties": {
+												"dbName": {
+													"type": "string",
+													"description": "The name of the source database containing the collections listed in the `collectionNames` field."
+												},
+												"destDbName": {
+													"type": "string",
+													"description": "The name of the destination database to which the specified collections will be restored."
+												},
 												"collections": {
 													"type": "array",
 													"description": "Currently, Zilliz Cloud restores only one collection at a time. Therefore, include only one collection name in the list. If this is left unspecified, all collections in the backup will be restored to the target cluster unloaded.",
