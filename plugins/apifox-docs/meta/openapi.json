@@ -21563,7 +21563,7 @@
 				]
 			}
 		},
-		"/v2/vectordb/jobs/import/get_progress": {
+		"/v2/vectordb/jobs/import/describe": {
 			"post": {
 				"summary": "Get Import Job Progress",
 				"deprecated": false,
