@@ -98,8 +98,6 @@ To enhance the usage of the example code, we recommend you use variables to stor
 
 ```python
 ## The value of the URL is fixed.
-## For overseas regions, it is: https://api.cloud.zilliz.com
-## For regions in China, it is: https://api.cloud.zilliz.com.cn
 CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"
 API_KEY=""
 
@@ -121,8 +119,6 @@ SECRET_KEY=""
 ```java
 /**
  * The value of the URL is fixed.
- * For overseas regions, it is: https://api.cloud.zilliz.com
- * For regions in China, it is: https://api.cloud.zilliz.com.cn
  */
 String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
 String API_KEY = "";
@@ -141,7 +137,7 @@ String SECRET_KEY = "";
 </TabItem>
 </Tabs>
 
-## Set up target collection{#set-up-target-collection}
+## Set up target collection schema{#set-up-target-collection-schema}
 
 Based on the output above, we can work out a schema for our target collection.
 
@@ -579,7 +575,7 @@ writer = RemoteBulkWriter(
     remote_path="/", # Output directory relative to the remote bucket root
     segment_size=1024*1024*1024, # Maximum segment size when segmenting the raw data
     connect_param=conn, # Connection parameters defined above
-    file_type=BulkFileType.JSON_RB # Type of the generated file.
+    file_type=BulkFileType.PARQUET # Type of the generated file.
 )
 
 # Possible file types:
@@ -957,6 +953,9 @@ Before this step, ensure that the prepared data has already been uploaded to the
 
 To import the prepared source data, you need to call the **bulk_import()** function as follows:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus.bulk_writer import bulk_import
 
@@ -979,6 +978,10 @@ print(job_id)
 
 # job-0103f039ccdq9aip1xd4rf
 ```
+
+</TabItem>
+
+<TabItem value='java'>
 
 ```java
 import io.milvus.bulkwriter.request.import_.CloudImportRequest;
@@ -1003,6 +1006,9 @@ String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString
 System.out.println(jobId);
 // job-0103f039ccdq9aip1xd4rf
 ```
+
+</TabItem>
+</Tabs>
 
 <Admonition type="info" icon="📘" title="Notes">
 

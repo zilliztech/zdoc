@@ -162,8 +162,7 @@ Once your data and collection are ready, you can start the import process as fol
 <TabItem value='python'>
 
 ```python
-from pymilvus import bulk_import
-# Use `from pymilvus.bulk
+from pymilvus.bulk_writer import bulk_import
 
 # Bulk-import your data from the prepared data files
 CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"

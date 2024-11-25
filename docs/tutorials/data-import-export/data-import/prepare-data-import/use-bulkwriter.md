@@ -75,9 +75,7 @@ compile 'io.milvus:milvus-sdk-java:2.4.8'
 
 Decide on the schema for the collection you wish to import your dataset into. This involves selecting which fields to include from the dataset.
 
-The following code creates a collection schema with four fields: **id**, **vector**, **scalar_1**, **and scalar_2**. The first one is the primary field, the second one is the vector field to store 768-dimensional vector embeddings, and the rest two are scalar fields.
-
-In addition, the schema disables the primary field from automatically incrementing and enables dynamic fields.
+The following code creates a collection schema with all possible data types. In addition, the schema disables the primary field from automatically incrementing and enables dynamic fields.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>

@@ -46,7 +46,7 @@ There are two more things to consider when designing the schema:
 
     The target collection can also store fields not included in its pre-defined schema if the schema enables dynamic fields. The **$meta** field is a reserved JSON field to hold dynamic fields and their values in key-value pairs. In the above diagram, the fields **dynamic_field_1** and **dynamic_field_2**  and the values will be saved as key-value pairs in **$meta**.
 
-The following code shows how to set up the schema for the collection in the above diagram.
+The following code shows how to set up the schema for the collection with all possible data types.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
