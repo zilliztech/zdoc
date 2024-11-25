@@ -21603,6 +21603,18 @@
 							"schema": {
 								"type": "object",
 								"properties": {
+									"clusterId": {
+										"type": "string",
+										"description": "The ID of a cluster to which this operation applies.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "指定集群 ID。"
+											}
+										},
+										"x-include-target": [
+											"zilliz"
+										]
+									},
 									"dbName": {
 										"type": "string",
 										"description": "The name of the target database of this operation.",
