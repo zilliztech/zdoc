@@ -103,7 +103,7 @@ If the command output is similar as follows, the import job is successfully subm
 {
     "code": 0,
     "data": {
-        "jobID": "job-xxxxxxxxxxxxxxxxxxxxx"
+        "jobId": "job-xxxxxxxxxxxxxxxxxxxxx"
     }
 }
 ```
