@@ -167,6 +167,111 @@ class larkUtils {
         }
     }
 
+    async fetch_fallback_sources(docSourceDir, fallbackSourceDir) {
+        var replaces = []
+
+        // list all files in the source directory
+        var files = fs.readdirSync(docSourceDir)
+        var sources = files.map(file => {
+            return JSON.parse(fs.readFileSync(`${docSourceDir}/${file}`, {encoding: 'utf-8', flag: 'r'}))
+        })
+
+        // list all files in the fallback source directory
+        files = fs.readdirSync(fallbackSourceDir)
+        var fallbackSources = files.map(file => {
+            return JSON.parse(fs.readFileSync(`${fallbackSourceDir}/${file}`, {encoding: 'utf-8', flag: 'r'}))
+        })
+
+        var sourceRoot = sources.find(source => !source.type)
+        var fallbackRoot = fallbackSources.find(fallback => !fallback.type)
+
+        if (sourceRoot && fallbackRoot) {
+            fallbackRoot.children.forEach(child => {
+                var pair = sourceRoot.children.find(s => s.name === child.name)
+
+                if (!pair) {
+                    child.parent_token = sourceRoot.token
+                    sourceRoot.children.push(child)
+
+                    fallbackSources.forEach(fb => {
+                        if (fb.token === child.token) {
+                            fb.parent_token = sourceRoot.token
+                        }
+                    })                    
+                }
+            })
+
+            fs.writeFileSync(`${docSourceDir}/${sourceRoot.token}.json`, JSON.stringify(sourceRoot, null, 2), {encoding: 'utf-8', flag: 'w'})
+        }
+
+        var replaces = []
+
+        fallbackSources.forEach(fallback => {            
+            // folder
+            if (fallback.type === 'folder') {
+                var source = sources.find(source => source.slug === fallback.slug && source.type === 'folder')
+                if (source) {
+                    fallback.token = source.token
+                    fallback.parent_token = source.parent_token
+                    fallback.url = source.url
+                    
+                    fallback.children.forEach(child => {
+                        var pair = source.children.find(s => s.name === child.name)
+                        if (pair) {
+                            replaces.push({
+                                from: child.token,
+                                to: pair.token
+                            })
+                            
+                            child.parent_token = pair.parent_token
+                            child.url = pair.url
+                            child.token = pair.token
+                        } else {
+                            child.parent_token = source.token
+
+                            fallbackSources.forEach(fb => {
+                                if (fb.token === child.token) {
+                                    fb.parent_token = source.token
+                                }
+                            })
+                        }
+                    })
+
+                    source.children.forEach(s => {
+                        if (!(fallback.children.find(fb => fb.name === s.name))) {
+                            fallback.children.push(s)
+                        }
+                    })
+                }
+            }
+
+            // docx
+            if (fallback.type === 'docx') {
+                var source = sources.find(source => source.slug === fallback.slug && source.type === 'docx')
+                if (source) {
+                    fallback.token = source.token
+                    fallback.parent_token = source.parent_token
+                    fallback.url = source.url
+                    fallback.blocks = source.blocks
+                }
+            }
+        })
+
+        // write the fallback sources to the doc source directory
+        fallbackSources.forEach(fallback => {
+            const token = fallback.token
+            console.log(`0. Copied ${fallback.token}.json`)
+            const file = `${docSourceDir}/${token}.json`
+            var raw = JSON.stringify(fallback, null, 2)
+            
+            // replace residues
+            replaces.forEach(replace => {
+                raw = raw.replaceAll(replace.from, replace.to)
+            })
+            fs.writeFileSync(file, raw, {encoding: 'utf-8', flag: 'w'})
+        })
+    }
+
     __convert_link(file, label, path, outputDir) {
         const folders = fs.readdirSync(outputDir, {recursive: true}).filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory())
 

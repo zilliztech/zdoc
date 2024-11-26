@@ -41,7 +41,7 @@ module.exports = function (context, options) {
                         throw new Error(`Please provide a valid manual tag... \nAvailable manual tags: \n- ${manuals.join('\n- ')}`)
                     }
 
-                    const { root, base, sourceType, displayedSidebar, docSourceDir, targets } = manual
+                    const { root, base, sourceType, displayedSidebar, docSourceDir, fallbackSourceDir, targets } = manual
 
                     // Intialize scraper and writer
                     const scraper = new docScraper(root, base, sourceType, docSourceDir)
@@ -54,7 +54,12 @@ module.exports = function (context, options) {
                         // Only pull source files from Feishu iteratively
                         if (opts.sourceOnly) {
                             // const scraper = new docScraper(root, base, sourceType, docSourceDir)
+                            fs.rmSync(docSourceDir, { recursive: true })
+                            fs.mkdirSync(docSourceDir, { recursive: true })
                             await scraper.fetch(true)
+                            if (fallbackSourceDir !== undefined) {
+                                utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir)
+                            }
                         // Pull specific source file from Feishu
                         } else if (opts.docToken !== undefined) {
                             // const scraper = new docScraper(root, base, sourceType, docSourceDir)
@@ -94,7 +99,12 @@ module.exports = function (context, options) {
                             
                             if (!opts.skipSourceDown) {
                                 // const scraper = new docScraper(root, base, sourceType, docSourceDir)
+                                fs.rmSync(docSourceDir, { recursive: true })
+                                fs.mkdirSync(docSourceDir, { recursive: true })
                                 await scraper.fetch(true)
+                                if (fallbackSourceDir !== undefined) {
+                                    utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir)
+                                }
                             }
                             
                             // const writer = new docWriter(root, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)

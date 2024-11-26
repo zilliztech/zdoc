@@ -137,12 +137,12 @@ const config = {
         root: 'PTJzfzI0ulKGjwdUsxQcFxfJn6b',
         base: 'D1VabelmAansLwsNTvLc2Wxxn1g',
         sourceType: 'drive',
-        version: 'v2.3.x',
+        version: 'v2.4.x',
         displayedSidebar: 'pythonSidebar',
-        docSourceDir: './plugins/lark-docs/meta/sources/python/v2.3.x',
+        docSourceDir: './plugins/lark-docs/meta/sources/python/v2.4.x',
         targets: {
           milvus: {
-            outputDir: 'milvus/reference/python/docs',
+            outputDir: 'milvus/reference/python/docs/v2.4.x',
             imageDir: 'milvus/reference/python/images'
           },
           zilliz: {
@@ -182,7 +182,7 @@ const config = {
         docSourceDir: './plugins/lark-docs/meta/sources/java/v2.4.x/v2',
         targets: {
           milvus: {
-            outputDir: 'milvus/reference/java/docs/v2',
+            outputDir: 'milvus/reference/java/docs/v2/v2.4.x',
             imageDir: 'milvus/reference/java/images'
           },
           zilliz: {
@@ -200,7 +200,7 @@ const config = {
         docSourceDir: './plugins/lark-docs/meta/sources/node/v2.3.x',
         targets: {
           milvus: {
-            outputDir: 'milvus/reference/node/docs',
+            outputDir: 'milvus/reference/node/docs/v2.4.x',
             imageDir: 'milvus/reference/node/images'
           },
           zilliz: {
@@ -224,6 +224,48 @@ const config = {
           zilliz: {
             outputDir: 'reference/api/go/go/v1',
             imageDir: 'static/img',
+          }
+        }
+      },
+      pymilvus25: {
+        root: 'Z1SFf89zYlGHXvdo6dxcR6gXntc',
+        base: 'B8X9bJjJta2q4NskclYcxT7lngG',
+        sourceType: 'drive',
+        displayedSidebar: 'pythonSidebar',
+        docSourceDir: './plugins/lark-docs/meta/sources/python/v2.5.x',
+        fallbackSourceDir: './plugins/lark-docs/meta/sources/python/v2.4.x',
+        targets: {
+          milvus: {
+            outputDir: 'milvus/reference/python/docs/v2.5.x',
+            imageDir: 'milvus/reference/python/images'
+          }
+        }
+      },
+      javaV225: {
+        root: 'LJ6MfN5wzlHjz8dB642cjUh8nqq',
+        base: 'Hsq1bRcqraeQW0sGFJbcI3YIn3d',
+        sourceType: 'drive',
+        displayedSidebar: 'javaSidebar',
+        docSourceDir: './plugins/lark-docs/meta/sources/java/v2.5.x',
+        fallbackSourceDir: './plugins/lark-docs/meta/sources/java/v2.4.x/v2',
+        targets: {
+          milvus: {
+            outputDir: 'milvus/reference/java/docs/v2.5.x',
+            imageDir: 'milvus/reference/java/images'
+          }
+        }
+      },
+      nodejs25: {
+        root: 'U9fWfMPdelsPMydYnolcr2aEnBf',
+        base: 'JTBebezMDaV8ZhsHF5wc7lJSnuh',
+        sourceType: 'drive',
+        displayedSidebar: 'nodeSidebar',
+        docSourceDir: './plugins/lark-docs/meta/sources/node/v2.5.x',
+        fallbackSourceDir: './plugins/lark-docs/meta/sources/node/v2.3.x',
+        targets: {
+          milvus: {
+            outputDir: 'milvus/reference/node/docs/v2.5.x',
+            imageDir: 'milvus/reference/node/images'
           }
         }
       }
