@@ -41,8 +41,8 @@ The following table lists the limits on the maximum number of organizations and 
    </tr>
    <tr>
      <td><p>Project</p></td>
-     <td><p>10</p></td>
-     <td><p>Each user can create up to 10 projects in 1 organization.</p></td>
+     <td><p>100</p></td>
+     <td><p>Each user can create up to 100 projects in 1 organization.</p></td>
    </tr>
    <tr>
      <td><p>Organization and Project Member</p></td>
@@ -61,8 +61,8 @@ The following table lists the limits on the maximum number of organizations and 
    </tr>
    <tr>
      <td><p>API Key</p></td>
-     <td><p>10</p></td>
-     <td><p>Each organization can contain a maximum of 10 customized API keys for optimal resource utilization and security.</p></td>
+     <td><p>100</p></td>
+     <td><p>Each organization can contain a maximum of 100 customized API keys for optimal resource utilization and security.</p></td>
    </tr>
 </table>
 
@@ -137,6 +137,14 @@ To add replicas, the cluster needs to have **8 CUs or more**. The following limi
      <td><p>The cluster CU size * Replica count should not exceed 256.</p></td>
    </tr>
 </table>
+
+## Databases{#databases}
+
+- Databases can only be created in Dedicated clusters.
+
+- Each Dedicated cluster can have up to 1024 databases.
+
+- Default database cannot be dropped.
 
 ## Pipelines{#pipelines}
 

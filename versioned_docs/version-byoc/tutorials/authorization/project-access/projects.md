@@ -39,6 +39,8 @@ To create a project, you must be an [Organization Owner](./resource-hierarchy).
 
 </Admonition>
 
+You can only create a maximum of 100 projects in each organization.
+
 ![create-project-byoc](/byoc/create-project-byoc.png)
 
 ## Rename a project{#rename-a-project}

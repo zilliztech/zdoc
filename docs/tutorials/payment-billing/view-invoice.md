@@ -131,7 +131,7 @@ Additional charges include:
 
 ### Invoice Details{#invoice-details}
 
-This section provides a detailed breakdown of charges for each billable item. For more information, refer to  [Understand Cost](./understand-cost).
+This section provides a detailed breakdown of charges for each billable item. 
 
 ### Billing Profile{#billing-profile}
 

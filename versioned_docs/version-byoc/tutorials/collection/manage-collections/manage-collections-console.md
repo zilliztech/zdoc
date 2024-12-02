@@ -113,6 +113,12 @@ In Zilliz Cloud, all search and query operations are performed in memory. Thus, 
 
 ![load_release_collection](/byoc/load_release_collection.png)
 
+## Move collection to another database{#move-collection-to-another-database}
+
+You can move a collection from one database to another.
+
+![move-collection-to-another-database](/byoc/move-collection-to-another-database.png)
+
 ## Drop collection{#drop-collection}
 
 Dropping a collection is a permanent action used when a collection is no longer required. It helps in saving resources but needs to be done cautiously.

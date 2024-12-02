@@ -120,6 +120,14 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
 1. Verify the update in the **Payment Method** section on the **Billing Overview** page. Click on the Subscription ID and verify if the subscription **Account Id** has been updated to the new Marketplace account.
 
+    ![view-gcp-subscription-id](/img/view-gcp-subscription-id.png)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>We recommend completing the operations within 1 hour to avoid service interruption.</p>
+
+</Admonition>
+
 ### Switch to payment credit card{#switch-to-payment-credit-card}
 
 1. Sign in to GCP Marketplace with the original GCP account you used for the subscription.

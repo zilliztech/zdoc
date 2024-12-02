@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Learn more about how to set up whitelist and private links to secure the access to your data on Zilliz Cloud. | Cloud"
 type: origin
 token: WVcuwmMQ8iKlrKk7Kwacu9w1nCZ
-sidebar_position: 15
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database

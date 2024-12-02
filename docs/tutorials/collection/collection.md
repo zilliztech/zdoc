@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Everything you need to know about operations on collections, partitions, indexes, and similarity searches. | Cloud"
 type: origin
 token: KEKtwN7kUiIf7akFPlOcFCkmnQe
-sidebar_position: 5
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database

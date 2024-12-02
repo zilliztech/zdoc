@@ -42,17 +42,13 @@ Make sure the following prerequisites are met:
 
 - The source Elasticsearch cluster is running version 7.x or later and is accessible from the public internet.
 
-- You have the necessary connection credentials for the source cluster:
-
-    - For an Elastic Cloud cluster, obtain the Cloud ID and API key.
-
-    - For an on-premises cluster, obtain the cluster URL, along with a username and password.
-
 - You have been granted the Organization Owner or Project Admin role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
 
 ## Migrate from Elasticsearch to Zilliz Cloud{#migrate-from-elasticsearch-to-zilliz-cloud}
 
 You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided its CU size can accommodate the source data.
+
+![migrate_from_es](/img/migrate_from_es.png)
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
@@ -83,8 +79,6 @@ You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided
     1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
 
 1. Click **Migrate**.
-
-![migrate_from_es](/img/migrate_from_es.png)
 
 ## Monitor the migration process{#monitor-the-migration-process}
 

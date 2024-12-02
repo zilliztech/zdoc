@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This chapter covers the common procedures for you to import data into and export data from Zilliz Cloud clusters. | BYOC"
 type: origin
 token: Oh3VwT15Yi03bRkOtoXcZpurnWe
-sidebar_position: 6
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database

@@ -7,7 +7,7 @@ notebook: FALSE
 description: "You can find the history of Zilliz Cloud releases in these docs. | Cloud"
 type: origin
 token: NOYvw884PigqIhk1gwLcw1OYnfe
-sidebar_position: 21
+sidebar_position: 20
 keywords: 
   - zilliz
   - vector database

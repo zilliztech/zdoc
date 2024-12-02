@@ -39,6 +39,7 @@ MilvusClient(
     uri: str,
     user: str,
     password: str,
+    db_name: str,
     token: str,
     timeout=None,
     **kwargs
@@ -66,6 +67,10 @@ MilvusClient(
     A valid password used to connect to the specified Zilliz Cloud cluster.
 
     This should be used along with **user**.
+
+- **db_name** (*string*) -
+
+    The name of the database to which the target Milvus instance belongs.
 
 - **token** (*string*) -
 
@@ -95,7 +100,8 @@ from pymilvus import MilvusClient
 # Authentication enabled with a cluster user
 client = MilvusClient(
     uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password", # replace this with your token
+    token="user:password", # replace this with your token,
+    db_name="default"
 )
 ```
 

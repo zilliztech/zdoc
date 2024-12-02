@@ -75,12 +75,6 @@ A dictionary containing the list of aliases assigned to the specified collection
 
     The name of the database to which the specified collection belongs to.
 
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p>Currently, the database APIs are not available on Zilliz Cloud.</p>
-
-    </Admonition>
-
 **EXCEPTIONS:**
 
 - **MilvusException**

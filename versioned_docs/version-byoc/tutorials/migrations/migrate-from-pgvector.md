@@ -48,6 +48,8 @@ Make sure the following prerequisites are met:
 
 You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided its CU size can accommodate the source data.
 
+![migrate_from_pgvector](/byoc/migrate_from_pgvector.png)
+
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
 1. Go to the target project and select **Migrations** > **PostgreSQL**.
@@ -77,8 +79,6 @@ You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided
     1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
 
 1. Click **Migrate**.
-
-![migrate_from_pgvector](/byoc/migrate_from_pgvector.png)
 
 ## Monitor the migration process{#monitor-the-migration-process}
 

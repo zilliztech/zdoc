@@ -98,6 +98,10 @@ After successfully subscribing from Azure Marketplace, you can always update you
 
 For more information, please refer to [Change Azure subscription and/or resource group](https://learn.microsoft.com/en-us/marketplace/saas-subscription-lifecycle-management#change-azure-subscription-andor-resource-group).
 
+You can verify the update in the **Payment Method** section on the **Billing Overview** page. Click on the Subscription ID and check if the subscription **Purchaser PUID** has been updated to the new Marketplace account.
+
+![view-azure-subscription-id](/img/view-azure-subscription-id.png)
+
 ### Switch to payment credit card{#switch-to-payment-credit-card}
 
 1. Sign in to Azure Marketplace with the Azure account you used for the subscription.

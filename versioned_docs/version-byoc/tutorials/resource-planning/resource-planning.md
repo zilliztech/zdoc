@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Topics related to resource planning before you move your data to Zilliz Cloud. | BYOC"
 type: origin
 token: NM2OwCcfVijX8DkNsIxcdajEnr7
-sidebar_position: 10
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database

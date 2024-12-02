@@ -92,6 +92,26 @@ milvusClient.search({
 
     The additional search parameters in key-value pairs.
 
+    - **radius** (*number*) -
+
+        Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
+
+    - **range_filter**  (*number*) -  
+
+        Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
+
+    - **level** (*number*)
+
+        Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
+
+        The value defaults to **1**, and ranges from **1** to **5**. Increasing the value results in a higher recall rate with degraded search performance.
+
+    - **page_retain_order** (*bool*) -
+
+        Whether to retain the order of the search result when `offset` is provided. 
+
+        This parameter applies only when you also set `radius`.
+
 - **output_fields** (*string[]*) -
 
     A list of field names to include in each entity in return.

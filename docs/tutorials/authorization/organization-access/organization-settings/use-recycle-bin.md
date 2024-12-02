@@ -4,7 +4,7 @@ slug: /use-recycle-bin
 sidebar_label: "Use Recycle Bin"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of every cluster that has been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration. | Cloud"
+description: "Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all Serverless and Dedicated clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration. | Cloud"
 type: origin
 token: Tr5lwpgrCiETZzkaFSYcBTDjnlz
 sidebar_position: 6
@@ -21,7 +21,7 @@ import Admonition from '@theme/Admonition';
 
 # Use Recycle Bin
 
-Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of every cluster that has been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration.
+Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all Serverless and Dedicated clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration.
 
 ## Prerequisites{#prerequisites}
 

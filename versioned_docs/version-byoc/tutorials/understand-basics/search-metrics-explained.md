@@ -67,12 +67,9 @@ The table below summarizes the mapping between different field types and their c
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="For vector fields of the `BINARY_VECTOR` type,">
+<Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>The dimension value (<code>dim</code>) must be a multiple of 8.</p></li>
-<li><p>The available metric types are <code>HAMMING</code> and <code>JACCARD</code>.</p></li>
-</ul>
+<p>For vector fields of the <code>BINARY_VECTOR</code> type, the dimension value (<code>dim</code>) must be a multiple of 8. </p>
 
 </Admonition>
 

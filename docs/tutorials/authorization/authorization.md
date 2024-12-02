@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Topics related to role-based access control (RBAC) on your Zilliz Cloud clusters. | Cloud"
 type: origin
 token: HvXowwu7Xifm3nkEq3EcZBoUnob
-sidebar_position: 13
+sidebar_position: 12
 keywords: 
   - zilliz
   - vector database

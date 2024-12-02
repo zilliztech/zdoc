@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Learn more about the management of email accounts, cluster credentials, and multi-factor authentication (MFA) measures. | BYOC"
 type: origin
 token: XiOsw8A3eibZInk1aJNceBqznLb
-sidebar_position: 12
+sidebar_position: 11
 keywords: 
   - zilliz
   - vector database

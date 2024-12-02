@@ -52,7 +52,7 @@ You can migrate data to either a new or existing cluster within the same organiz
 
 1. Go to the target project and select **Migrations** > **In Current Organization**.
 
-1. In the **Migration Settings** dialog box, specify the source and target clusters and click **Confirm**. Ensure the plan tier of the target cluster is not lower than that of the source cluster (e.g., migration from a **Dedicated** cluster to a **Free** or **Serverless** cluster is not supported). For more information on cluster plans, refer to [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
+1. In the **Migration Settings** dialog box, configure the source cluster and database and the target cluster, and then click **Confirm**. Ensure the plan tier of the target cluster is not lower than that of the source cluster (e.g., migration from a **Dedicated** cluster to a **Free** or **Serverless** cluster is not supported). For more information on cluster plans, refer to [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -74,7 +74,7 @@ Migrating data across organizations requires you to provide the necessary connec
 
 1. In the **Connect to Data Source** step, configure connection information for the source cluster. Then, click **Next**.
 
-1. In the **Select Source and Target** step, configure settings for the source and target clusters. Then, click **Next**.
+1. In the **Select Source and Target** step, configure settings for the source database and cluster and the target cluster. Then, click **Next**.
 
 1. In the **Configure Schema** step,
 

@@ -27,7 +27,7 @@ connect(
     alias: str,
     user: str | "",
     password: str | "",
-    
+    db_name: str | "default",
     token: str | "",
     **kwargs
 )
@@ -61,6 +61,10 @@ connect(
     A valid password used to connect to the specified Zilliz Cloud cluster.
 
     This should be used along with **user**.
+
+- **db_name** (*string*) -
+
+    The name of the database to which the target Milvus instance belongs.
 
 - **token** (*string*) -
 

@@ -36,8 +36,8 @@ The following table lists the limits on the maximum number of organizations and 
    </tr>
    <tr>
      <td><p>Project</p></td>
-     <td><p>10</p></td>
-     <td><p>Each user can create up to 10 projects in 1 organization.</p></td>
+     <td><p>100</p></td>
+     <td><p>Each user can create up to 100 projects in 1 organization.</p></td>
    </tr>
    <tr>
      <td><p>Organization and Project Member</p></td>
