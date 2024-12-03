@@ -66,9 +66,11 @@ The following table lists the limits on the maximum number of organizations and 
    </tr>
 </table>
 
-## Clusters & CUs{#clusters-and-cus}
+## Clusters, CUs & vCUs{#clusters-cus-and-vcus}
 
-The maximum number of clusters and CUs varies with your payment method and subscription plan.
+### Clusters{#clusters}
+
+The maximum number of clusters varies with your payment method and subscription plan.
 
 - **Without a valid payment method**
 
@@ -95,26 +97,72 @@ The maximum number of clusters and CUs varies with your payment method and subsc
     <table>
        <tr>
          <th><p><strong>Subscription Plan</strong></p></th>
-         <th><p><strong>Limits</strong></p></th>
+         <th><p><strong>Max number</strong></p></th>
          <th><p><strong>Remarks</strong></p></th>
        </tr>
        <tr>
-         <td><p>Dedicated (Standard)</p></td>
-         <td><p>CU size * Replica Count &lt;=32</p></td>
-         <td><p>On the console, you can create up to 32 CUs for a single cluster. </p><p>However, the limit is CU size * Replica Count &lt;=32 if replicas are added.</p></td>
+         <td><p>Free</p></td>
+         <td><p>1</p></td>
+         <td><p>Only 1 cluster is available for the Free cluster plan. You can drop an existing cluster and replace it with a new one if required.</p></td>
        </tr>
        <tr>
-         <td><p>Dedicated (Enterprise)</p></td>
-         <td><p>CU size * Replica Count &lt;=256</p></td>
-         <td><p>On the console, you can create up to 256 CUs for a single cluster.</p><p>However, the limit is CU size * Replica Count &lt;=256 if replicas are added.</p></td>
+         <td><p>Serverless</p></td>
+         <td><p>N/A</p></td>
+         <td><p>N/A</p></td>
+       </tr>
+       <tr>
+         <td><p>Dedicated (Standard)/Dedicated (Enterprise)</p></td>
+         <td><p>Total CU size &lt; 320</p></td>
+         <td><p>The maximum number of clusters in an organization depends on the total amount of cluster CUs. The accumulated number of CUs for all Dedicated clusters in an organization should not exceed 320.</p></td>
        </tr>
     </table>
+
+### CUs{#cus}
+
+A CU is the basic unit of compute resources used for parallel processing of data, and different CU types comprise varying combinations of CPU, memory, and storage. The concept of CU only applies to Dedicated clusters.
+
+<table>
+   <tr>
+     <th><p><strong>Subscription Plan</strong></p></th>
+     <th><p><strong>Limits</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Dedicated (Standard)</p></td>
+     <td><p>CU size * Replica Count &lt;=32</p></td>
+     <td><p>On the console, you can create up to 32 CUs for a single cluster. </p><p>However, the limit is CU size * Replica Count &lt;=32 if replicas are added.</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated (Enterprise)</p></td>
+     <td><p>CU size * Replica Count &lt;=256</p></td>
+     <td><p>On the console, you can create up to 256 CUs for a single cluster.</p><p>However, the limit is CU size * Replica Count &lt;=256 if replicas are added.</p></td>
+   </tr>
+</table>
 
 You are welcome to [contact us](https://support.zilliz.com/hc/en-us) 
 
 - If your Dedicated (Standard)clusters require more than 32 CUs
 
 - If your Dedicated (Enterprise) clusters require more than 256 CUs
+
+### vCUs{#vcus}
+
+A virtual compute unit (vCU) is used to measure the resources consumed by read operations (such as search and query) and write operations (such as insert, upsert, and delete). The concept of vCU only applies to Free and Serverless clusters.
+
+<table>
+   <tr>
+     <th><p><strong>Subscription Plan</strong></p></th>
+     <th><p><strong>Limits</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Free</p></td>
+     <td><p>2.5 million vCU per month</p></td>
+   </tr>
+   <tr>
+     <td><p>Serverless</p></td>
+     <td><p>N/A</p></td>
+   </tr>
+</table>
 
 ## Replicas{#replicas}
 
