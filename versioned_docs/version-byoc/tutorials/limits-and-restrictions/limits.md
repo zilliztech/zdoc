@@ -159,10 +159,10 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 <table>
    <tr>
      <th></th>
-     <th><p>Insert Rate Limits</p></th>
+     <th><p>Maximum Insert Rate Limits</p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
+     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
@@ -174,8 +174,12 @@ The rate limit that applies varies with the cluster types and the number of CUs 
      <td><p>16 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster &gt;= 24 CUs</p></td>
+     <td><p>Dedicated cluster [24 CUs, 64 CUs)</p></td>
      <td><p>24 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [64 CUs, 128CUs)</p></td>
+     <td><p>36 MB/s</p></td>
    </tr>
    <tr>
      <td><p>Dedicated cluster [128 CUs, 256CUs)</p></td>
@@ -200,10 +204,10 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 <table>
    <tr>
      <th></th>
-     <th><p>Insert Rate Limits</p></th>
+     <th><p>Maximum Upsert Rate Limits</p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
+     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
@@ -215,8 +219,12 @@ The rate limit that applies varies with the cluster types and the number of CUs 
      <td><p>16 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster &gt;= 24 CUs</p></td>
+     <td><p>Dedicated cluster [24 CUs, 64 CUs)</p></td>
      <td><p>24 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [64 CUs, 128CUs)</p></td>
+     <td><p>36 MB/s</p></td>
    </tr>
    <tr>
      <td><p>Dedicated cluster [128 CUs, 256CUs)</p></td>
