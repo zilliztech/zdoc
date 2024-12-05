@@ -466,19 +466,27 @@ The rate limit that applies varies with the cluster types and the number of CUs 
    </tr>
    <tr>
      <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
-     <td><p>4 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
-     <td><p>6 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster &gt;= 24 CUs</p></td>
+     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
      <td><p>12 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>16 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster &gt;= 24 CUs</p></td>
+     <td><p>24 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [128 CUs, 256CUs)</p></td>
+     <td><p>48 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster &gt;= 256 CUs</p></td>
+     <td><p>64 MB/s</p></td>
    </tr>
 </table>
 
@@ -495,7 +503,7 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 <table>
    <tr>
      <th></th>
-     <th><p>Upsert Rate Limits</p></th>
+     <th><p>Insert Rate Limits</p></th>
    </tr>
    <tr>
      <td><p>Free cluster</p></td>
@@ -503,23 +511,31 @@ The rate limit that applies varies with the cluster types and the number of CUs 
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
-     <td><p>100 MB/s</p></td>
+     <td><p>10 MB/s</p></td>
    </tr>
    <tr>
      <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
-     <td><p>4 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
-     <td><p>6 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster &gt;= 24 CUs</p></td>
+     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
      <td><p>12 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>16 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster &gt;= 24 CUs</p></td>
+     <td><p>24 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [128 CUs, 256CUs)</p></td>
+     <td><p>48 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster &gt;= 256 CUs</p></td>
+     <td><p>64 MB/s</p></td>
    </tr>
 </table>
 
