@@ -63,6 +63,14 @@
 			}
 		},
 		{
+			"name": "Database Operations (V2)",
+			"x-i18n": {
+				"zh-CN": {
+					"name": "Database (V2)"
+				}
+			}
+		},
+		{
 			"name": "Collection Operations (V2)",
 			"x-i18n": {
 				"zh-CN": {
@@ -4130,6 +4138,836 @@
 				"security": [
 
 				]
+			}
+		},
+		"/v2/vectordb/databases/create": {
+			"post": {
+				"summary": "Create",
+				"deprecated": false,
+				"description": "This operation creates a new database.",
+				"x-i18n": {
+					"zh-CN": {
+						"summary": "创建数据库",
+						"description": "此操作用于创建新的数据库。"
+					}
+				},
+				"tags": [
+					"Database Operations (V2)"
+				],
+				"x-include-target": [
+					"milvus"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+							}
+						}
+					}					
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"dbName": {
+										"type": "string",
+										"description": "The name of the new database.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "新数据库名称。"
+											}
+										}
+									},
+									"properties": {
+										"type": "object",
+										"description": "Additional properties for the new database. For example, you can set the `mmap.enabled` property to `true` to enable the mmap feature for the collections in the database.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "新数据库的附加属性。例如，可以设置 `mmap.enabled` 属性为 `true` 以启用数据库中 Collection 的 mmap 特性。"
+											}
+										}
+									}
+								},
+								"required": [
+									"dbName"
+								]
+							},
+							"example": {
+								"dbName": "test",
+								"properties": {
+									"mmap.enabled": true
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Returns an empty object.",
+						"x-i18n": {
+							"zh-CN": {
+								"description": "返回空对象。"
+							}
+						},
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"x-tab-label": "success",
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"data": {
+													"type": "object",
+													"description": "Response payload which is an empty object.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应载荷，为空对象。"
+														}
+													},
+													"properties": {
+
+													}
+												}
+											}
+										},
+										{
+											"x-tab-label": "failure",
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"x-target-response": "OPTION 1",
+										"value": {"code":0,"data":{}}
+									},
+									"2": {
+										"summary": "failure",
+										"x-target-response": "OPTION 2",
+										"value": {
+											"code": 0,
+											"message": "The token is illegal."
+										}
+									}
+								}
+							}
+						}
+					}
+				}				
+			}
+		},
+		"/v2/vectordb/databases/list": {
+			"post": {
+				"summary": "List",
+				"deprecated": false,
+				"description": "This operation lists all databases in the system.",
+				"x-i18n": {
+					"zh-CN": {
+						"summary": "查看数据库列表",
+						"description": "此操作用于列出系统中的所有数据库。"
+					}
+				},
+				"tags": [
+					"Database Operations (V2)"
+				],
+				"x-include-target": [
+					"milvus"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+							}
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {}
+							},
+							"example": {}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Returns a list of database names.",
+						"x-i18n": {
+							"zh-CN": {
+								"description": "返回数据库名称列表。"
+							}
+						},
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"x-tab-label": "success",
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"data": {
+													"type": "array",
+													"description": "Response payload which is a list of database names",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应载荷，为数据库名称列表。"
+														}
+													},
+													"items": {
+														"type": "string",
+														"description": "The name of a database.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "数据库名称。"
+															}
+														}
+													}
+												}
+											}
+										},
+										{
+											"x-tab-label": "failure",
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"x-target-response": "OPTION 1",
+										"value": {"code":0,"data":["default","test"]}
+									},
+									"2": {
+										"summary": "failure",
+										"x-target-response": "OPTION 2",
+										"value": {
+											"code": 0,
+											"message": "The token is illegal."
+										}
+									}
+								}
+							}
+						}
+					}
+				}	
+			}
+		},
+		"/v2/vectordb/databases/describe": {
+			"post": {
+				"summary": "Describe",
+				"deprecated": false,
+				"description": "This operation lists the details of a database.",
+				"x-i18n": {
+					"zh-CN": {
+						"summary": "查看数据库详情",
+						"description": "此操作用于查看指定数据库的具体信息。"
+					}
+				},
+				"tags": [
+					"Database Operations (V2)"
+				],
+				"x-include-target": [
+					"milvus"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+							}
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"dbName": {
+										"type": "string",
+										"description": "The name of the target database. If left unspecified, the default database applies",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "目标数据库名称。如果不指定，则使用默认数据库。"
+											}
+										}
+									}
+								}
+							},
+							"example": {
+								"dbName": "default"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Returns the detailed inforamtion of a database.",
+						"x-i18n": {
+							"zh-CN": {
+								"description": "返回数据库的具体信息。"
+							}
+						},
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"x-tab-label": "success",
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"data": {
+													"type": "object",
+													"description": "Response payload which is the details of a database.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应载荷，为数据库的详细信息。"
+														}
+													},
+													"properties": {
+														"dbID": {
+															"type": "number",
+															"description": "The ID of the database.",
+															"x-i18n": {
+																"zh-CN": {
+																	"description": "数据库 ID。"
+																}
+															}
+														},
+														"dbName": {
+															"type": "string",
+															"description": "The name of the database.",
+															"x-i18n": {
+																"zh-CN": {
+																	"description": "数据库名称。"
+																}
+															}
+														},
+														"properties": {
+															"type": "object",
+															"description": "Additional properties of the database.",
+															"x-i18n": {
+																"zh-CN": {
+																	"description": "数据库的附加属性。"
+																}
+															},
+															"properties": {
+																"key": {
+																	"type": "string",
+																	"description": "The key of the property.",
+																	"x-i18n": {
+																		"zh-CN": {
+																			"description": "属性键。"
+																		}
+																	}
+																},
+																"value": {
+																	"type": "string",
+																	"description": "The value of the property.",
+																	"x-i18n": {
+																		"zh-CN": {
+																			"description": "属性值。"
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										},
+										{
+											"x-tab-label": "failure",
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"x-target-response": "OPTION 1",
+										"value": {"code":0,"data":["default","test"]}
+									},
+									"2": {
+										"summary": "failure",
+										"x-target-response": "OPTION 2",
+										"value": {
+											"code": 0,
+											"message": "The token is illegal."
+										}
+									}
+								}
+							}
+						}
+					}
+				}	
+			}
+		},
+		"/v2/vectordb/databases/alter": {
+			"post": {
+				"summary": "Alter",
+				"deprecated": false,
+				"description": "This operation modifies a new database.",
+				"x-i18n": {
+					"zh-CN": {
+						"summary": "修改数据库",
+						"description": "此操作用于修改指定数据库。"
+					}
+				},
+				"tags": [
+					"Database Operations (V2)"
+				],
+				"x-include-target": [
+					"milvus"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+							}
+						}
+					}					
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"dbName": {
+										"type": "string",
+										"description": "The name of the database to modify.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "待修改数据库名称。"
+											}
+										}
+									},
+									"properties": {
+										"type": "object",
+										"description": "Database properties to modify. For example, you can reset the `mmap.enabled` property to `false` to disable the mmap feature for the collections in the database.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "待修改的数据库属性。例如，可以重新设置 `mmap.enabled` 属性为 `false` 以禁用数据库中 Collection 的 mmap 特性。"
+											}
+										}
+									}
+								},
+								"required": [
+									"dbName"
+								]
+							},
+							"example": {
+								"dbName": "test",
+								"properties": {
+									"mmap.enabled": true
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Returns an empty object.",
+						"x-i18n": {
+							"zh-CN": {
+								"description": "返回空对象。"
+							}
+						},
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"x-tab-label": "success",
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"data": {
+													"type": "object",
+													"description": "Response payload which is an empty object.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应载荷，为空对象。"
+														}
+													},
+													"properties": {
+
+													}
+												}
+											}
+										},
+										{
+											"x-tab-label": "failure",
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"x-target-response": "OPTION 1",
+										"value": {"code":0,"data":{}}
+									},
+									"2": {
+										"summary": "failure",
+										"x-target-response": "OPTION 2",
+										"value": {
+											"code": 0,
+											"message": "The token is illegal."
+										}
+									}
+								}
+							}
+						}
+					}
+				}				
+			}
+		},
+		"/v2/vectordb/databases/drop": {
+			"post": {
+				"summary": "Drop",
+				"deprecated": false,
+				"description": "This operation drops a database.",
+				"x-i18n": {
+					"zh-CN": {
+						"summary": "删除数据库",
+						"description": "此操作用于删除指定的数据库。"
+					}
+				},
+				"tags": [
+					"Database Operations (V2)"
+				],
+				"x-include-target": [
+					"milvus"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+							}
+						}
+					}					
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"dbName": {
+										"type": "string",
+										"description": "The name of the new database. If left unspecified, an error will occur.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "待删除数据库名称。如果不指定，则会报错。"
+											}
+										}
+									}
+								}
+							},
+							"example": {
+								"dbName": "test"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Returns an empty object.",
+						"x-i18n": {
+							"zh-CN": {
+								"description": "返回空对象。"
+							}
+						},
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"x-tab-label": "success",
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"data": {
+													"type": "object",
+													"description": "Response payload which is an empty object.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应载荷，为空对象。"
+														}
+													},
+													"properties": {
+
+													}
+												}
+											}
+										},
+										{
+											"x-tab-label": "failure",
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"x-target-response": "OPTION 1",
+										"value": {"code":0,"data":{}}
+									},
+									"2": {
+										"summary": "failure",
+										"x-target-response": "OPTION 2",
+										"value": {
+											"code": 0,
+											"message": "The token is illegal."
+										}
+									}
+								}
+							}
+						}
+					}
+				}				
 			}
 		},
 		"/v2/vectordb/entities/delete": {
