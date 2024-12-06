@@ -25,6 +25,7 @@
     "bottleneck": "^2.19.5",
     "clsx": "^2.0.0",
     "docusaurus-gtm-plugin": "^0.0.2",
+    "docusaurus-plugin-image-zoom": "^2.0.0",
     "docusaurus-theme-frontmatter": "^1.3.0",
     "dotenv": "^16.3.1",
     "inquirer": "^9.2.17",

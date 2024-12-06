@@ -76,20 +76,6 @@ const config = {
           customCss: require.resolve('./src/css/custom.css'),
         },
       }),
-    // ],
-    // [
-    //   'redocusaurus',
-    //   {
-    //     specs: [
-    //       {
-    //         spec: 'plugins/apifox-docs/meta/openapi.json',
-    //         route: '/reference/restful'
-    //       }
-    //     ],
-    //     theme: {
-    //       primaryColor: '#0077cc',
-    //     }
-    //   }
     ]
   ],
   plugins: [
@@ -273,6 +259,7 @@ const config = {
     './plugins/apifox-docs',
     './plugins/link-checks',
     './plugins/nb-to-mdx',
+    'docusaurus-plugin-image-zoom',
     ['./plugins/report-to-lark',{
         receiveId: 'oc_0e36909edb9247c7b6ecb437e99f1d68'
       }
@@ -506,6 +493,13 @@ const config = {
       },
       hotjar: {
         applicationId: 3711906,
+      },
+      zoom: {
+        selector: '.markdown img',
+        background: {
+          light: 'rgb(255, 255, 255, 0.5)',
+          dark: 'rgb(0, 0, 0, 0.5)',
+        }
       },
       inkeepConfig: {
         stylesheetUrls: ["/css/inkeep-overrides.css"],
