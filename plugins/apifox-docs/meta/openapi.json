@@ -14452,6 +14452,71 @@
 																					"description": "如果当前字段的数据类型为 Array，则该参数为必填项，用于设置该字段值的最大元素数量。"
 																				}
 																			}
+																		},
+																		"enable_analyzer": {
+																			"type": "boolean",
+																			"description": "Whether to enable text analysis for the specified `VARCHAR` field. When set to `true`, it instructs Milvus to use a text analyzer, which tokenizes and filters the text content of the field.",
+																			"x-i18n": {
+																				"zh-CN": {
+																					"description": "是否为指定 `VARCHAR` 字段启用文本分析。设置为 `true` 时，Milvus 会使用 Analyzer 对该字段的文本内容进行分词和过滤。"
+																				}
+																			},
+																			"x-include-target": [
+																				"milvus"
+																			]
+																		},
+																		"analyzer_params": {
+																			"type": "object",
+																			"properties": {
+																				"type": {
+																					"type": "string",
+																					"description": "Pre-configured analyzer type built into Milvus, which can be used out-of-the-box by specifying its name. Possible values: `standard`, `english`, `chinese`. ",
+																					"x-i18n": {
+																						"zh-CN":{
+																							"descripiton": "预配置的 Analyzer 类型，可通过指定名称使用。可选值：`standard`、`english`、`chinese`。"
+																						}
+																					}
+																				},
+																				"tokenizer": {
+																					"type": "string",
+																					"description": "Defines the tokenizer type. Possible values: `standard` (default), `whitespace`, `jieba`.",
+																					"x-i18n": {
+																						"zh-CN": {
+																							"description": "定义分词器类型。可选值：`standard`（默认），`whitespace`，`jieba`。"
+																						}
+																					}
+																				},
+																				"filter":{
+																					"type": "array",
+																					"description": "Lists filters to refine tokens produced by the tokenizer, with options for built-in filters and custom filters.",
+																					"x-i18n": {
+																						"zh-CN": {
+																							"description": "定义过滤器列表，用于对分词器产生的词进行过滤，可选内置过滤器和自定义过滤器。"
+																						}
+																					}
+																				}
+																			},
+																			"description": "Configures the analyzer for text processing, specifically for `DataType.VARCHAR` fields.",
+																			"x-i18n": {
+																				"zh-CN": {
+																					"description": "用于处理 `DataType.VARCHAR` 字段的文本分析器配置。"
+																				}
+																			},
+																			"x-include-target": [
+																				"milvus"
+																			]
+																		},
+																		"enable_match": {
+																			"type": "boolean",
+																			"description": "  Whether to enable keyword matching for the specified `VARCHAR` field. When set to `true`, Milvus creates an inverted index for the field, allowing for quick and efficient keyword lookups. `enable_match` works in conjunction with `enable_analyzer` to provide structured keyword-based text search, with `enable_analyzer` handling tokenization and `enable_match` handling the search operations on these tokens.",
+																			"x-i18n": {
+																				"zh-CN": {
+																					"description": "是否为指定 `VARCHAR` 字段启用关键词匹配。设置为 `true` 时，Milvus 会为该字段创建倒排索引，以支持快速和高效的关键词查询。`enable_match` 与 `enable_analyzer` 配合使用，以提供结构化的基于关键词的文本搜索，`enable_analyzer` 负责对文本内容进行分词和过滤，`enable_match` 负责对这些词进行搜索操作。"
+																				}
+																			},
+																			"x-include-target": [
+																				"milvus"
+																			]
 																		}
 																	},
 																	"description": "Extra field parameters.",
@@ -14460,6 +14525,30 @@
 																			"description": "字段附加参数。"
 																		}
 																	}
+																},
+																"defaultValue": {
+																	"type": "object",
+																	"description": "The default value for the field, applicable only to scalar fields that are not primary fields.",
+																	"x-i18n": {
+																		"zh-CN": {
+																			"description": "字段的默认值，仅适用于非主键字段的标量字段。"
+																		}
+																	},
+																	"x-include-target": [
+																		"milvus"
+																	]
+																},
+																"nullable": {
+																	"type": "boolean",
+																	"description": "Whether the field can be null. Defaults to `false`.",
+																	"x-i18n": {
+																		"zh-CN": {
+																			"description": "字段是否可以为空。默认为 `false`。"
+																		}
+																	},
+																	"x-include-target": [
+																		"milvus"
+																	]
 																}
 															},
 															"required": [
@@ -26265,6 +26354,30 @@
 												"description": "充当分组聚合条件的字段名称。"
 											}
 										}
+									},
+									"groupSize": {
+										"type": "integer",
+										"description": "The target number of entities to return within each group in a grouping search. For example, setting `groupSize=2` instructs the system to return up to 2 of the most similar entities (e.g., document passages or vector representations) within each group. Without setting `groupSize`, the system defaults to returning only 1 entity per group.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "在分组搜索中，每个组中需要返回的目标 Entity 数量。例如，在 `groupSize=2` 的情况下，系统会返回每个组中最相似的两个 Entity（文档段落或向量表示）。如果不设置 `groupSize`，系统会默认返回每个组中的一个 Entity。"
+											}
+										},
+										"x-include-target": [
+											"milvus"
+										]
+									},
+									"strictGroupSize": {
+										"type": "boolean",
+										"description": "This Boolean parameter dictates whether `groupSize` should be strictly enforced. When `groupStrictSize=True`, the system will attempt to fill each group with exactly `groupSize` results, as long as sufficient data exists within each group. If there is an insufficient number of entities in a group, it will return only the available entities, ensuring that groups with adequate data meet the specified `groupSize`.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "布尔参数，用于确定是否严格执行 `groupSize`。当 `groupStrictSize=True` 时，系统会尝试将每个组填满 `groupSize` 个结果，只要每个组中存在足够的数据。如果某个组中的 Entity 数量不足，系统会只返回可用的 Entity，确保组中有足够的数据符合指定的 `groupSize`。"
+											}
+										},
+										"x-include-target": [
+											"milvus"
+										]
 									},
 									"outputFields": {
 										"type": "array",
