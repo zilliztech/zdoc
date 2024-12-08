@@ -88,6 +88,8 @@ class refGen {
     const template = env.getTemplate("group.mdx")
 
     for (const group of Object.keys(specifications.tags)) {
+      if (!(specifications.tags[group]['x-include-target'].includes(target))) continue;
+
       const slug = specifications.tags[group].name.replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
       const version = slug.includes('v2') ? 'v2' : 'v1'
       var upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('import') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') ? 'control-plane' : 'data-plane'

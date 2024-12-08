@@ -12,7 +12,10 @@
 				"zh-CN": {
 					"name": "Cloud"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz"
+			]
 		},
 		{
 			"name": "Cluster Operations",
@@ -20,7 +23,10 @@
 				"zh-CN": {
 					"name": "Cluster"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz"
+			]
 		},
 		{
 			"name": "Import Operations",
@@ -28,7 +34,10 @@
 				"zh-CN": {
 					"name": "Import"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz"
+			]
 		},
 		{
 			"name": "Pipeline Operations",
@@ -36,7 +45,10 @@
 				"zh-CN": {
 					"name": "Pipeline"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz"
+			]
 		},
 		{
 			"name": "Collection Operations",
@@ -44,7 +56,11 @@
 				"zh-CN": {
 					"name": "Collection"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz",
+				"milvus"
+			]
 		},
 		{
 			"name": "Vector Operations",
@@ -52,7 +68,11 @@
 				"zh-CN": {
 					"name": "Vector"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz",
+				"milvus"
+			]
 		},
 		{
 			"name": "Vector Operations (V2)",
@@ -60,7 +80,11 @@
 				"zh-CN": {
 					"name": "Vector (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz",
+				"milvus"
+			]
 		},
 		{
 			"name": "Database Operations (V2)",
@@ -68,7 +92,10 @@
 				"zh-CN": {
 					"name": "Database (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"milvus"
+			]
 		},
 		{
 			"name": "Collection Operations (V2)",
@@ -76,7 +103,11 @@
 				"zh-CN": {
 					"name": "Collection (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz",
+				"milvus"
+			]
 		},
 		{
 			"name": "Index Operations (V2)",
@@ -84,7 +115,11 @@
 				"zh-CN": {
 					"name": "Index (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz",
+				"milvus"
+			]
 		},
 		{
 			"name": "Partition Operations (V2)",
@@ -92,7 +127,11 @@
 				"zh-CN": {
 					"name": "Partition (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz",
+				"milvus"
+			]
 		},
 		{
 			"name": "Role Operations (V2)",
@@ -100,7 +139,11 @@
 				"zh-CN": {
 					"name": "Role (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz",
+				"milvus"
+			]
 		},
 		{
 			"name": "Cloud Meta (V2)",
@@ -108,7 +151,11 @@
 				"zh-CN": {
 					"name": "Cloud (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz",
+				"milvus"
+			]
 		},
 		{
 			"name": "Import Operations (V2)",
@@ -116,7 +163,11 @@
 				"zh-CN": {
 					"name": "Import (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz",
+				"milvus"
+			]
 		},
 		{
 			"name": "Alias Operations (V2)",
@@ -124,7 +175,11 @@
 				"zh-CN": {
 					"name": "Alias (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz",
+				"milvus"
+			]
 		},
 		{
 			"name": "Cluster Operations (V2)",
@@ -132,7 +187,10 @@
 				"zh-CN": {
 					"name": "Cluster (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz"
+			]
 		},
 		{
 			"name": "User Operations (V2)",
@@ -140,7 +198,11 @@
 				"zh-CN": {
 					"name": "User (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz",
+				"milvus"
+			]
 		},
 		{
 			"name": "Cloud Migration (V2)",
@@ -148,7 +210,10 @@
 				"zh-CN": {
 					"name": "Migration (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz"
+			]
 		},
 		{
 			"name": "Backup & Restore (V2)",
@@ -156,7 +221,10 @@
 				"zh-CN": {
 					"name": "Backup & Restore (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz"
+			]
 		},
 		{
 			"name": "Cloud Job (V2)",
@@ -164,7 +232,10 @@
 				"zh-CN": {
 					"name": "Job (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"zilliz"
+			]
 		}
 	],
 	"paths": {
