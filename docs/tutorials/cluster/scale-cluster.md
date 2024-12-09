@@ -28,12 +28,6 @@ To address such issues, you can adjust the number of CUs to match fluctuations i
 
 This guide outlines the procedures of scaling a cluster.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This feature is exclusively available to Dedicated clusters. For serverless clusters, manual configuration of CU resources is unnecessary, as they automatically scale based on workload.</p>
-
-</Admonition>
-
 ## Manual scaling{#manual-scaling}
 
 You have the option to scale cluster manually by using the Zilliz Cloud web console or making an API request to scale your cluster. This guide focuses on how to manually scale a cluster using the web console. For more information about using the RESTful API, please refer to [Modify Cluster](/reference/restful/modify-cluster-v2).
@@ -80,12 +74,12 @@ The time required to complete the process depends on the data volume in your clu
 
 </Admonition>
 
-## Auto-scaling (Private Preview){#auto-scaling-private-preview}
+## Auto-scaling{#auto-scaling}
 
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p>Auto-scaling is currently in private preview and is available only to Dedicated (Enterprise) clusters. To use this feature, please <a href="http://support.zilliz.com">create a support ticket</a> .</p></li>
+<li><p>This feature is exclusively available to Dedicated clusters. For Serverless clusters, manual configuration of CU resources is unnecessary, as they automatically scale based on workload.</p></li>
 <li><p>Auto-scaling is disabled for clusters with replicas.</p></li>
 </ul>
 
