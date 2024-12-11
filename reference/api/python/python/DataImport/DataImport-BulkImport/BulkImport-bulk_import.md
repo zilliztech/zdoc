@@ -46,56 +46,23 @@ bulk_import(
     For example, the endpoint URL should be in the following format:
 
     ```python
-    controller.api.${cloud-region}.zillizcloud.com[:${port-number}] 
+    https://api.cloud.zilliz.com
+    # https://api.cloud.zilliz.com.cn 
     ```
 
     Replace `cloud-region` with the ID of the region that accommodates your cluster. You can get the cloud region ID from the endpoint URL of your cluster.
-
-- **api_key** (*string*) -
-
-    **[REQUIRED]**
-
-    A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.
-
-- **object_url** (*string*) -
-
-    **[REQUIRED]**
-
-    The URL of your data files in one of your block storage buckets. The following are some examples of some renowned block storage services:
-
-    ```python
-    # Google Cloud Storage
-    gs://{bucket-name}/{object-path}/
-    
-    # AWS S3
-    s3://{bucket-name}/{object-path}/
-    ```
-
-- **access_key** (*string*) -
-
-    **[REQUIRED]**
-
-    The access key that is used to authenticate access to your data files.
-
-- **secret_key** (*string*) -
-
-    **[REQUIRED]**
-
-    The secret key that is used to authenticate access to your data files.
-
-- **cluster_id** (*string*) -
-
-    **[REQUIRED]**
-
-    The instance ID of the target cluster of this operation.
-
-    You can get the instance ID of a cluster on its details page from the Zilliz Cloud console.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
     The name of a collection in the target cluster of this operation.
+
+- **files** (*list*) -
+
+    **[REQUIRED]**
+
+    The list of string lists, each string list contains a singular row-based file path or multiple column-based file paths.
 
 **RETURN TYPE:**
 
@@ -154,12 +121,48 @@ print(res.json())
 # {
 #     "code": 200,
 #     "data": {
-#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a"
+#         "jobId": "job-01fa0e5d42cjxudhpuehyp"
 #     }
 # }
 ```
 
 For details, refer to [Import Data (SDK)](/docs/import-data-via-sdks) in our user guides.
+
+<include  target="milvus">
+
+```python
+from pymilvus.bulk_writer import bulk_import
+
+url = f"http://localhost:19530"
+
+# Bulk-insert data from a set of JSON files already uploaded to the MinIO server
+resp = bulk_import(
+    url=url,
+    collection_name="quick_setup",
+    files=[['a1e18323-a658-4d1b-95a7-9907a4391bcf/1.parquet'],
+           ['a1e18323-a658-4d1b-95a7-9907a4391bcf/2.parquet'],
+           ['a1e18323-a658-4d1b-95a7-9907a4391bcf/3.parquet'],
+           ['a1e18323-a658-4d1b-95a7-9907a4391bcf/4.parquet'],
+           ['a1e18323-a658-4d1b-95a7-9907a4391bcf/5.parquet'],
+           ['a1e18323-a658-4d1b-95a7-9907a4391bcf/6.parquet'],
+           ['a1e18323-a658-4d1b-95a7-9907a4391bcf/7.parquet'],
+           ['a1e18323-a658-4d1b-95a7-9907a4391bcf/8.parquet'],
+           ['a1e18323-a658-4d1b-95a7-9907a4391bcf/9.parquet'],
+           ['a1e18323-a658-4d1b-95a7-9907a4391bcf/10.parquet']],
+)
+
+job_id = resp.json()['data']['jobId']
+print(job_id)
+
+# {
+#     "code": 200,
+#     "data": {
+#         "jobId": "453240863839750922"
+#     }
+# }
+```
+
+</include>
 
 ## Related methods{#related-methods}
 

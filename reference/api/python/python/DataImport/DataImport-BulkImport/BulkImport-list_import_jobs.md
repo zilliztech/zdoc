@@ -27,9 +27,6 @@ list_import_jobs(
     url: str,
     api_key: str,
     cluster_id: str,
-    page_size: int,
-    current_page: int,
-    **kwargs,
 ) -> requests.Response
 ```
 
@@ -44,7 +41,8 @@ list_import_jobs(
     For example, the endpoint URL should be in the following format:
 
     ```python
-    controller.api.${cloud-region}.zillizcloud.com[:${port-number}] 
+    https://api.cloud.zilliz.com
+    # https://api.cloud.zilliz.com.cn 
     ```
 
     Replace `cloud-region` with the ID of the region that accommodates your cluster. You can get the cloud region ID from the endpoint URL of your cluster.
@@ -67,20 +65,6 @@ list_import_jobs(
 
     You can get the instance ID of a cluster on its details page from the Zilliz Cloud console.
 
-- **page_size** (*int*) -
-
-    **[REQUIRED]**
-
-    The maximum number of bulk-import jobs returned per call.
-
-- **current_page** (*int*) -
-
-    **[REQUIRED]**
-
-    The specific page in the returned list of bulk-import jobs. 
-
-    You can use this to offset certain records in combination with `page_size`.
-
 **RETURN TYPE:**
 
 *dict*
@@ -91,63 +75,49 @@ list_import_jobs(
 
     ```python
     # {
-    #     "code": 200,
+    #     "code": 0,
     #     "data": {
-    #         "tasks": [
+    #         "records": [
     #             {
-    #                 "collectionName": "medium_articles",
-    #                 "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a",
-    #                 "state": "ImportCompleted"
+    #                 "collectionName": "quick_setup",
+    #                 "jobId": "453240863839750922",
+    #                 "progress": 100,
+    #                 "state": "Completed"
     #             }
-    #         ],
-    #         "count": 1,
-    #         "currentPage": 1,
-    #         "pageSize": 10
+    #         ]
     #     }
     # }
     ```
 
 - Response structure
 
-    - **tasks** (*array*)
+    - **records** (*list*) -
 
-        - **collectionName** (*string*)
+        The list of import jobs.
+
+        - **collectionName** (*string*) -
 
             The name of the target collection of this bulk-import job.
 
-        - **jobId** (*string*)
+        - **jobId** (*string*) -
 
             The ID of this bulk-import job.
 
-        - **state** (*string*)
+        - **progress** (*string*) - 
+
+            The progress of the job.
+
+        - **state** (*string*) -
 
             The state of this bulk-import job. Possible values are as follows:
 
-            - **ImportPending**
+            - **Pending**: The tasks are awaiting scheduling and execution;
 
-            - **ImportFailed**
+            - **Importing**: The tasks are currently being executed;
 
-            - **ImportStarted**
+            - **Completed**: The tasks have been successfully completed;
 
-            - **ImportPersisted**
-
-            - **ImportFlushed**
-
-            - **ImportCompleted**
-
-            - **ImportFailedAndCleaned**
-
-    - **count** (*int*)
-
-        The number of bulk-import jobs in the tasks list.
-
-    - **currentPage** (*int*)
-
-        The maximum number of records in the tasks list.
-
-    - **pageSize** (*int*)  
-
-        The current page of the tasks list.
+            - **Failed**: The tasks encountered a failure.
 
 **EXCEPTIONS:**
 
