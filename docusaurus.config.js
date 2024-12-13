@@ -662,6 +662,11 @@ const config = {
       async: true,
     },
     '/js/zilliz.js',
+    {
+      src: "https://analytics.ahrefs.com/analytics.js",
+      defer: true,
+      "data-key": "EJ+uwizMMPlcDqVcioWSwQ"
+    }
   ],
   stylesheets: ['/css/cookieconsent.css'],
 };
