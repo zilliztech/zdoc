@@ -122,24 +122,24 @@ None
 ## Examples{#examples}
 
 ```python
-from pymilvus import bulk_import
+from pymilvus.bulk_writer import bulk_import
 
-CLOUD_REGION = ""    # Cloud region ID of the target Zilliz Cloud cluster
-API_KEY = ""         # A Zilliz Cloud API Key with sufficient permissions
-OBJECT_URL = ""      # URL of the data file to import in a remote bucket
-ACCESS_KEY = ""      # Access key used to access the remote bucket
-SECRET_KEY = ""      # Secure keys used to access the remote bucket
-CLUSTER_ID = ""      # ID of the Zilliz Cloud target cluster
-COLLECTION_NAME = "" # Name of the target collection in the specified Zilliz Cloud cluster
+# Bulk-import your data from the prepared data files
+CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"
+CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
+API_KEY = ""
+STORAGE_URL = ""
+ACCESS_KEY = ""
+SECRET_KEY = ""
 
 res = bulk_import(
-    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
     api_key=API_KEY,
-    object_url=OBJECT_URL,
-    access_key=ACCESS_KEY,
-    secret_key=SECRET_KEY,
+    url=CLOUD_API_ENDPOINT,
     cluster_id=CLUSTER_ID,
-    collection_name=COLLECTION_NAME
+    collection_name="quick_setup",
+    object_url=STORAGE_URL,
+    access_key=ACCESS_KEY,
+    secret_key=SECRET_KEY
 )
 
 print(res.json())
@@ -149,7 +149,7 @@ print(res.json())
 # {
 #     "code": 200,
 #     "data": {
-#         "jobId": "job-01fa0e5d42cjxudhpuehyp"
+#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a"
 #     }
 # }
 ```

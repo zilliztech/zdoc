@@ -126,17 +126,22 @@ None
 ## Examples{#examples}
 
 ```python
-from pymilvus import list_import_jobs
+import json
+from pymilvus.bulk_writer import list_import_jobs
 
-res = list_import_jobs(
-    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+## Zilliz Cloud constants
+CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"
+CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
+API_KEY = ""
+
+# List bulk-insert jobs
+resp = list_import_jobs(
     api_key=API_KEY,
-    cluster_id=CLUSTER_ID,
-    page_size=10,
-    current_page=1,
+    url=CLOUD_API_ENDPOINT,
+    cluster_id=CLUSTER_ID
 )
 
-print(res.json())
+print(json.dumps(resp.json(), indent=4))
 
 # Output
 #
