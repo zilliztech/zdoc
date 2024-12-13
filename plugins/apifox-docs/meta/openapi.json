@@ -15542,7 +15542,10 @@
 											"zh-CN": {
 												"description": "Zilliz Cloud 上的特定集群的 ID。"
 											}
-										}
+										},
+										"x-include-target": [
+											"zilliz"
+										]
 									},
 									"pageSize": {
 										"type": "integer",
@@ -15551,7 +15554,10 @@
 											"zh-CN": {
 												"description": "每次返回的记录数。"
 											}
-										}
+										},
+										"x-include-target": [
+											"zilliz"
+										]
 									},
 									"currentPage": {
 										"type": "integer",
@@ -15560,14 +15566,14 @@
 											"zh-CN": {
 												"description": "当前页码。"
 											}
-										}
-									},
-									"dbName": {
-										"type": "string",
-										"description": "Name of the database to which the import job belongs.",
+										},
 										"x-include-target": [
 											"zilliz"
 										]
+									},
+									"dbName": {
+										"type": "string",
+										"description": "Name of the database to which the import job belongs."
 									}
 								},
 								"required": [
