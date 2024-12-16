@@ -88,7 +88,7 @@ class refGen {
     const template = env.getTemplate("group.mdx")
 
     for (const group of Object.keys(specifications.tags)) {
-      if (!(specifications.tags[group]['x-include-target'].includes(target))) continue;
+      if (!(specifications.tags[group]['x-include-target']?.includes(target))) continue;
 
       const slug = specifications.tags[group].name.replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
       const version = slug.includes('v2') ? 'v2' : 'v1'
