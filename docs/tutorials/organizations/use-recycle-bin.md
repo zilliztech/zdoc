@@ -4,10 +4,10 @@ slug: /use-recycle-bin
 sidebar_label: "Use Recycle Bin"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of every cluster that has been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration. | Cloud"
+description: "Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all Serverless and Dedicated clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration. | Cloud"
 type: origin
-token: Tr5lwpgrCiETZzkaFSYcBTDjnlz
-sidebar_position: 6
+token: JQvjwCDxhiMcj0kpaWicqXsTn1e
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
@@ -21,7 +21,9 @@ import Admonition from '@theme/Admonition';
 
 # Use Recycle Bin
 
-Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of every cluster that has been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration.
+Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all Serverless and Dedicated clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration.
+
+To use recycle bin, you must be an **Organization Owner**.
 
 ## Prerequisites{#prerequisites}
 
@@ -52,14 +54,4 @@ To restore a cluster in the recycle bin, you need to [add a payment method](/doc
 1. A new restoration job will be generated. You can check the cluster restoration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the restoration is complete.
 
 ![use-recycle-bin](/img/use-recycle-bin.png)
-
-## Related topics{#related-topics}
-
-- [Create Snapshot](./create-snapshot)
-
-- [Schedule Automatic Backups](./schedule-automatic-backups)
-
-- [View Snapshot Details](./view-snapshot-details)
-
-- [Restore from Snapshot](./restore-from-snapshot) 
 

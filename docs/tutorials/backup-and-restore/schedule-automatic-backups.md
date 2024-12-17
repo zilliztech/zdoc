@@ -35,7 +35,7 @@ Make sure the following conditions are met:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Automatic backups are available only to the <strong>Dedicated</strong> clusters. If your cluster runs on the <strong>Free</strong>, <a href="./manage-cluster#upgrade-plan">upgrade</a> it first. If your cluster runs on the <strong>Serverless</strong> tier, <a href="./migrate-between-clusters">migrate</a> it to a dedicated cluster first. Creating backups may incur charges. For more information about backup cost, please refer to <a href="./understand-cost#backup-costs">Understand Cost</a>.</p>
+<p>Automatic backups are available only to the <strong>Dedicated</strong> clusters. If your cluster runs on the <strong>Free</strong>, <a href="./manage-cluster#upgrade-plan">upgrade</a> it first. If your cluster runs on the <strong>Serverless</strong> tier, <a href="./migrate-between-clusters">migrate</a> it to a dedicated cluster first. Creating backups may incur charges. For more information about backup cost, please refer to <a href="./understand-cost">Understand Cost</a>.</p>
 
 </Admonition>
 
@@ -57,7 +57,7 @@ To create a backup schedule, follow these steps:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For more information about backup cost, please refer to <a href="./understand-cost#backup-costs">Understand Cost</a>.</p>
+<p>For more information about backup cost, please refer to <a href="./understand-cost">Understand Cost</a>.</p>
 
 </Admonition>
 
@@ -99,7 +99,7 @@ Expected output:
 
 ## Adjust automated backup schedule{#adjust-automated-backup-schedule}
 
-The automated backup schedule settings are cluster-specific and disabled by default. Since there is a [cost](./understand-cost#backup-costs) for creating backups, you can determine when and how Zilliz Cloud creates backup files on your behalf.
+The automated backup schedule settings are cluster-specific and disabled by default. Since there is a [cost](./understand-cost) for creating backups, you can determine when and how Zilliz Cloud creates backup files on your behalf.
 
 The default setting configures that Zilliz Cloud automatically creates a backup file for your cluster every day (**Frequency**) between 8 a.m. and 10 a.m. (**Time Period**), and keeps the backup file for 7 days (**Retention Period**). Change the settings as you see fit.
 

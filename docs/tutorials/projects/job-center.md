@@ -1,12 +1,12 @@
 ---
 title: "Manage Project Jobs | Cloud"
 slug: /job-center
-sidebar_label: "Manage Project Jobs"
+sidebar_label: "Project Jobs"
 beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers an intuitive Jobs page that integrates all historical and asynchronous data tasks within the same project. | Cloud"
 type: origin
-token: D8Y0whjSYi7hqRkE1qLcX7w0nDe
+token: RY8ww0NDQi8yU9kNpjicHP7Gn4b
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -85,6 +85,7 @@ You can cancel a job that is **Pending** or **In Progress**. To cancel a job, cl
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>Currently, you can only cancel migration and backup jobs. </p>
+<p>To cancel a job, you must be an <strong>Organization Owner</strong> or a <strong>Project Admin</strong>.</p>
 
 </Admonition>
 
@@ -95,6 +96,7 @@ You can cancel a job that is **Pending** or **In Progress**. To cancel a job, cl
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>Currently, you can only retry failed import jobs.</p>
+<p>To retry a failed job, you must be an <strong>Organization Owner</strong> or a <strong>Project Admin</strong>.</p>
 
 </Admonition>
 

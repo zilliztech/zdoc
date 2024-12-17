@@ -6,8 +6,8 @@ beta: FALSE
 notebook: FALSE
 description: "The Zilliz Cloud Activities feature provides a comprehensive view of events associated with a specific Zilliz Cloud organization, encompassing billing and  access events. | Cloud"
 type: origin
-token: UfqGwAVleiNu7FkH28JcnlgOnpf
-sidebar_position: 4
+token: NeUWwqRl2iwn4HkZg3ocjLjmnth
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
@@ -74,12 +74,4 @@ To enhance your control and ease in navigating through the organization activiti
 - **Filter by activity**
 
     ![filter-by-activity](/img/filter-by-activity.png)
-
-## Related topics{#related-topics}
-
-- [Manage Organization Information](./organizations)
-
-- [Delete Your Organization](./delete-your-organization)
-
-- [Delete Your Account](./email-accounts)
 
