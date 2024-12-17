@@ -28,6 +28,7 @@ class larkUtils {
     }
 
     pre_process_file_paths(outputDir) {
+        // remove all files in the output directory
         const paths = fs.readdirSync(outputDir, {recursive: true})
         const folders = paths.filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory())   
 
@@ -37,6 +38,7 @@ class larkUtils {
     }
 
     post_process_file_paths(outputDir) {
+        // remove empty folders
         const paths = fs.readdirSync(outputDir, {recursive: true})
         const folders = paths.filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory())
 
@@ -46,6 +48,15 @@ class larkUtils {
             if (files.length === 1 && files[0] === folder.split('/').slice(-1)[0] + '.md') {
                 fs.rmSync(`${outputDir}/${folder}`, {recursive: true, force: true})
             }   
+        }
+
+        // remove unnecessary index files
+        const index_files = fs.readdirSync(outputDir, {recursive: true})
+            .filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory() && fs.existsSync(`${outputDir}/${path}/${path}.md`))
+            
+        for (const index_file of index_files) {
+            const index_path = `${outputDir}/${index_file}/${index_file}.md`
+            fs.rmSync(index_path, { force: true })
         }
     }
 
