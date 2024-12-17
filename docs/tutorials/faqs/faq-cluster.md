@@ -79,7 +79,7 @@ No. Currently, Zilliz Cloud only supports deploying a free cluster on GCP. If yo
 
 ### Do clusters in the Free plan support customized schema?{#do-clusters-in-the-free-plan-support-customized-schema}
 
-No. The free clusters do not support customized schema. However, dynamic schema is enabled by default, meaning you can always insert data with fields that are not pre-defined. Refer to [Enable Dynamic Field](./enable-dynamic-field) for more details about dynamic schema.
+No. The free clusters do not support customized schema. However, dynamic schema is enabled by default, meaning you can always insert data with fields that are not pre-defined. Refer to [Dynamic Field](./enable-dynamic-field) for more details about dynamic schema.
 
 ### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 

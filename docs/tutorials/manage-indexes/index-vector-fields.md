@@ -29,15 +29,15 @@ This guide walks you through the basic operations on creating and managing index
 
 Leveraging the metadata stored in an index file, Zilliz Cloud organizes your data in a specialized structure, facilitating rapid retrieval of requested information during searches or queries.
 
-Zilliz Cloud employs [AUTOINDEX](./autoindex-explained) to enable efficient similarity searches. It also offers these [metric types](./search-metrics-explained): **Cosine Similarity** (COSINE), **Euclidean Distance** (L2), **Inner Product** (IP), **JACCARD**, and **HAMMING** to measure the distances between vector embeddings. To learn more about vector field types and metrics, refer to [Similarity Metrics Explained](./search-metrics-explained) and [Schema Explained](./schema-explained).
+Zilliz Cloud employs [AUTOINDEX](./autoindex-explained) to enable efficient similarity searches. It also offers these [metric types](./search-metrics-explained): **Cosine Similarity** (COSINE), **Euclidean Distance** (L2), **Inner Product** (IP), **JACCARD**, and **HAMMING** to measure the distances between vector embeddings. To learn more about vector field types and metrics, refer to [Metric Types](./search-metrics-explained) and [Schema Explained](./schema-explained).
 
 It is recommended to create indexes for both the vector field and scalar fields that are frequently accessed.
 
-If your collection contains more than one vector field, you can create an index for each vector field separately. For more information, refer to [With multiple vector fields](./manage-collections-sdks#with-multiple-vector-fields).
+If your collection contains more than one vector field, you can create an index for each vector field separately.
 
 ## Preparations{#preparations}
 
-As explained in [Manage Collections (SDKs)](./manage-collections-sdks), Zilliz Cloud automatically generates an index and loads it into memory when creating a collection if any of the following conditions are specified in the collection creation request:
+As explained in [Create Collection](./manage-collections-sdks), Zilliz Cloud automatically generates an index and loads it into memory when creating a collection if any of the following conditions are specified in the collection creation request:
 
 - The dimensionality of the vector field and the metric type, or
 
@@ -247,7 +247,7 @@ console.log(res.error_code)
 </TabItem>
 </Tabs>
 
-In the provided code snippet, we have established indexes on the vector field with the index type set to `AUTOINDEX` and metric type set to `COSINE`. Additionally, an index on a scalar field has been created with the index type `AUTOINDEX`. To learn more about the index type and metric types, read [AUTOINDEX Explained](./autoindex-explained) and [Similarity Metrics Explained](./search-metrics-explained).
+In the provided code snippet, we have established indexes on the vector field with the index type set to `AUTOINDEX` and metric type set to `COSINE`. Additionally, an index on a scalar field has been created with the index type `AUTOINDEX`. To learn more about the index type and metric types, read [AUTOINDEX Explained](./autoindex-explained) and [Metric Types](./search-metrics-explained).
 
 <Admonition type="info" icon="📘" title="Notes">
 

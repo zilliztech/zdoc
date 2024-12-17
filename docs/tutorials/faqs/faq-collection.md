@@ -44,19 +44,19 @@ If you have reached the maximum number of collections allowed in a cluster, you 
 
 1. [Scale](./manage-cluster) your cluster to larger CU sizes.
 
-1. [Drop](./manage-collections-sdks#drop-a-collection) unused collections.
+1. [Drop](./drop-collection) unused collections.
 
 1. Try creating [partitions](./manage-partitions) instead of collections.
 
 ### How can I know if dynamic schema is enabled for my collection?{#how-can-i-know-if-dynamic-schema-is-enabled-for-my-collection}
 
-You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the **Overview** tab. You can see if dynamic schema is enabled or not. For more details, see [Enable Dynamic Field](./enable-dynamic-field).
+You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the **Overview** tab. You can see if dynamic schema is enabled or not. For more details, see [Dynamic Field](./enable-dynamic-field).
 
 ![faq_dynamic_schema_enabled](/img/faq_dynamic_schema_enabled.png)
 
 ### If dynamic schema was disabled when the collection was created, can I enable it later?{#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later}
 
-No. Once you have enabled/disabled dynamic schema when creating a collection, you cannot modify the status of dynamic schema later. For more details, see [Enable Dynamic Field](./enable-dynamic-field).
+No. Once you have enabled/disabled dynamic schema when creating a collection, you cannot modify the status of dynamic schema later. For more details, see [Dynamic Field](./enable-dynamic-field).
 
 ### What are the indexing metric types supported by Zilliz Cloud?{#what-are-the-indexing-metric-types-supported-by-zilliz-cloud}
 
