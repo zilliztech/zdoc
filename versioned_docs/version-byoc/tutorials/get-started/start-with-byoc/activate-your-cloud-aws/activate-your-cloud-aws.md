@@ -10,10 +10,11 @@ token: ABcTwmS2ziZE3nkumkecLSwHnif
 sidebar_position: 1
 keywords: 
   - zilliz
+  - byoc
+  - milvus
   - vector database
   - aws
-  - cloud
-  - milvus
+  - activate cloud
 
 ---
 

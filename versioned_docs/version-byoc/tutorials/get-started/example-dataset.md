@@ -7,7 +7,7 @@ notebook: FALSE
 description: "In this user guide series, we'll explore an example dataset comprising details of over 5,000 Medium articles. These were published between January 2020 and August 2020 in notable publications. | BYOC"
 type: origin
 token: FCgWwFVtQiUy9GkDlQNcA0xZnPa
-sidebar_position: 6
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
@@ -121,12 +121,3 @@ Each record in the dataset possesses eight attributes. Familiarize yourself with
      <td><p>N/A</p></td>
    </tr>
 </table>
-
-## Related topics{#related-topics}
-
-- [Manage Collections](./manage-collections)
-
-- [Insert, Upsert & Delete](./insert-update-delete)
-
-- [Search, Query & Get](./search-query-get)
-

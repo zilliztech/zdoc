@@ -7,7 +7,7 @@ notebook: FALSE
 description: "PostgreSQL](https//www.postgresql.org/) is a robust, open-source, object-relational database engine renowned for its extensibility, data integrity, and performance. By utilizing the [pgvector extension, PostgreSQL gains the capability to store and manage vector data. | BYOC"
 type: origin
 token: CiVHwbwPwipX5SkFkqVcLpESnfe
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
@@ -42,11 +42,15 @@ Make sure the following prerequisites are met:
 
 - The source PostgreSQL database is accessible from the public internet.
 
+- If you have an allowlist configured in your network environment, ensure that Zilliz Cloud IP addresses are added to it. For more information, refer to [Zilliz Cloud IPs](./zilliz-cloud-ips).
+
 - You have been granted the Organization Owner or Project Admin role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
 
 ## Migrate from PostgreSQL to Zilliz Cloud{#migrate-from-postgresql-to-zilliz-cloud}
 
 You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided its CU size can accommodate the source data.
+
+![migrate_from_pgvector](/byoc/migrate_from_pgvector.png)
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
@@ -72,13 +76,11 @@ You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided
 
     1. Verify the data mapping between your PostgreSQL data and the corresponding Zilliz Cloud data types. Zilliz Cloud has a default mechanism for mapping PostgreSQL data types to its own, but you can review and make necessary adjustments. Currently, you can rename fields, but cannot change the underlying data types.
 
-    1. In **Advanced Settings**, configure **Dynamic Field** and **Partition Key**. For more information, refer to [Dynamic data fields](./schema-explained#dynamic-data-fields) and [Use Partition Key](./use-partition-key).
+    1. In **Advanced Settings**, configure **Dynamic Field** and **Partition Key**. For more information, refer to [Dynamic Field](./enable-dynamic-field) and [Use Partition Key](./use-partition-key).
 
     1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
 
 1. Click **Migrate**.
-
-![migrate_from_pgvector](/byoc/migrate_from_pgvector.png)
 
 ## Monitor the migration process{#monitor-the-migration-process}
 

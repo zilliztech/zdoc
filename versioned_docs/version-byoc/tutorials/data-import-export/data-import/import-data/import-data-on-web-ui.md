@@ -34,7 +34,7 @@ Make sure the following conditions are met:
 
     For details on how to prepare your data, refer to [Prepare Source Data](./prepare-source-data). You can also refer to the end-to-end notebook [Data Import from Zero to Hero](./data-import-zero-to-hero) to get more.
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Example Dataset](./example-dataset) and [Manage Collections](./manage-collections).
+- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Example Dataset](./example-dataset) and [Collection](./collection).
 
 ## Import data on the web UI{#import-data-on-the-web-ui}
 
@@ -43,7 +43,7 @@ Once data files are ready, you can upload them to an object storage bucket for d
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p>You can have up to 10 running or pending import jobs in a collection.</p></li>
+<li><p>You can have up to 10,000 running or pending import jobs in a collection.</p></li>
 <li><p>The web console supports uploading a local JSON file of up to 1 GB. For larger files, it is recommended to <a href="./import-data-on-web-ui#remote-files-from-an-object-storage-bucket">upload from an object storage</a> instead. If you have any difficulties with data import, please <a href="https://support.zilliz.com/hc/en-us">create a support ticket</a>.</p></li>
 </ul>
 

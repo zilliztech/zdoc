@@ -48,7 +48,7 @@ On the **Service Components** tab in the **Resource Manager**, view service comp
 
 - **Dependent Service**: Auxiliary services like metadata services and messaging queues that support other components.
 
-For in-depth information on each component, refer to [BYOC Components (Dev)](./byoc-components).
+For in-depth information on each component, refer to [BYOC Components](./byoc-components).
 
 ![resource_manager_2](/byoc/resource_manager_2.png)
 
@@ -56,7 +56,7 @@ For in-depth information on each component, refer to [BYOC Components (Dev)](./b
 
 - [License](./license)
 
-- [BYOC Components (Dev)](./byoc-components)
+- [BYOC Components](./byoc-components)
 
 - [Create Cluster (Dev)](./create-cluster)
 

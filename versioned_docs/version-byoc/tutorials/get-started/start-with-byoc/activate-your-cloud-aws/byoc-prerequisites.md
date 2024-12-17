@@ -10,10 +10,11 @@ token: Bw7dwervZiOLHBk6OuWc3RylnKc
 sidebar_position: 1
 keywords: 
   - zilliz
+  - byoc
+  - milvus
   - vector database
   - aws
-  - prerequisites
-  - milvus
+  - byoc prerequisites
 
 ---
 

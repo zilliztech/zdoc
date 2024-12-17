@@ -27,7 +27,7 @@ This guide provides an example of how to export data from a Zilliz Cloud collect
 
 ## Overview{#overview}
 
-Both Milvus' Python and Java SDKs provide a set of iterator APIs for you to iterate over the entities within a collection in a memory-efficient manner. For details, refer to [With Iterators](./with-iterators).
+Both Milvus' Python and Java SDKs provide a set of iterator APIs for you to iterate over the entities within a collection in a memory-efficient manner. For details, refer to [Search Iterator](./with-iterators).
 
 Using iterators offers the following benefits:
 

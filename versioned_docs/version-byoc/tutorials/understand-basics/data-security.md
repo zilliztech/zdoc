@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Data security is a crucial aspect of any cloud platform, and Zilliz Cloud is no exception. To safeguard data, Zilliz Cloud provides robust measures in various aspects, including authorization and authentication, network isolation, encryption, and backup and restoration. | BYOC"
 type: origin
 token: SIhBwKFJri4u2CkyD3ucnO7an3g
-sidebar_position: 7
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
@@ -46,7 +46,7 @@ As a supplement, Zilliz Cloud supports security settings, such as access control
 
 Zilliz Cloud implements authentication using the OAuth2 protocol, which requires users to prove their identity by providing a cluster credential (a token), before they can access or execute on any cluster resources. Cluster credentials usually consist of username and password pairs.
 
-For details, see [Manage Cluster Credentials (Console)](./cluster-credentials-console).
+For details, see [Cluster Credentials (Console)](./cluster-credentials-console).
 
 ### Access control{#access-control}
 

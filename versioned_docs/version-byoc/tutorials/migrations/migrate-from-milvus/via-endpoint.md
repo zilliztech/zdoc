@@ -35,7 +35,9 @@ This topic describes how to migrate from Milvus via database endpoint. For infor
 
 ## Before you start{#before-you-start}
 
-- The source Milvus instance is running version 2.x or later and is accessible from the public internet.
+- The source Milvus instance is running version 2.3.6 or later and is accessible from the public internet.
+
+- If you have an allowlist configured in your network environment, ensure that Zilliz Cloud IP addresses are added to it. For more information, refer to [Zilliz Cloud IPs](./zilliz-cloud-ips).
 
 - If authentication has been enabled for the source Milvus, make sure you have obtained necessary connection credentials. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md?tab=docker#Authenticate-User-Access).
 
@@ -57,7 +59,7 @@ You can migrate one or more collections from a single Milvus database at a time.
 
     1. Review the target collections and their field settings in the schema preview.
 
-    1. In **Advanced Settings**, verify **Dynamic Field** and **Partition Key** settings, which inherits the settings of the source collection and cannot be altered. For more information, refer to [Dynamic data fields](./schema-explained#dynamic-data-fields) and [Use Partition Key](./use-partition-key).
+    1. In **Advanced Settings**, verify **Dynamic Field** and **Partition Key** settings, which inherits the settings of the source collection and cannot be altered. For more information, refer to [Dynamic Field](./enable-dynamic-field) and [Use Partition Key](./use-partition-key).
 
     1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
 

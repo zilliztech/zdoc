@@ -7,7 +7,7 @@ notebook: FALSE
 description: "A k-nearest neighbor (kNN) search finds the k-nearest vectors to a query vector. Specifically, it compares a query vector to every vector in a vector space until k exact matches appear. Although kNN searches guarantee perfect accuracy, they are time-consuming, especially for large datasets comprising high-dimensional vectors. | BYOC"
 type: origin
 token: CWHGw3g9Ui9GEHkjhu2cHBOInXf
-sidebar_position: 4
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database

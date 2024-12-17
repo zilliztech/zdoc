@@ -24,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 This page provides information about limits on the Zilliz Cloud platform. You can use the OPS system that Zilliz provides to tune most of the settings mentioned on this page. You can still [contact us](https://support.zilliz.com/hc/en-us) if you need further help.
 
-## Organizations, Projects & Members{#organizations-projects-and-members}
+## Organizations & Projects{#organizations-and-projects}
 
 The following table lists the limits on the maximum number of organizations and projects allowed for a single user.
 
@@ -36,13 +36,8 @@ The following table lists the limits on the maximum number of organizations and 
    </tr>
    <tr>
      <td><p>Project</p></td>
-     <td><p>10</p></td>
-     <td><p>Each user can create up to 10 projects in 1 organization.</p></td>
-   </tr>
-   <tr>
-     <td><p>Organization and Project Member</p></td>
      <td><p>100</p></td>
-     <td><p>An organization can hold up to 100 organization and project members in total.</p></td>
+     <td><p>Each user can create up to 100 projects in 1 organization.</p></td>
    </tr>
 </table>
 
@@ -159,23 +154,35 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 <table>
    <tr>
      <th></th>
-     <th><p>Insert Rate Limits</p></th>
+     <th><p>Maximum Insert Rate Limits</p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
-     <td><p>4 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
-     <td><p>6 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster &gt;= 24 CUs</p></td>
+     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
      <td><p>12 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>16 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [24 CUs, 64 CUs)</p></td>
+     <td><p>24 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [64 CUs, 128CUs)</p></td>
+     <td><p>36 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [128 CUs, 256CUs)</p></td>
+     <td><p>48 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster &gt;= 256 CUs</p></td>
+     <td><p>64 MB/s</p></td>
    </tr>
 </table>
 
@@ -192,23 +199,35 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 <table>
    <tr>
      <th></th>
-     <th><p>Upsert Rate Limits</p></th>
+     <th><p>Maximum Upsert Rate Limits</p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
-     <td><p>4 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
-     <td><p>6 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster &gt;= 24 CUs</p></td>
+     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
      <td><p>12 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>16 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [24 CUs, 64 CUs)</p></td>
+     <td><p>24 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [64 CUs, 128CUs)</p></td>
+     <td><p>36 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [128 CUs, 256CUs)</p></td>
+     <td><p>48 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster &gt;= 256 CUs</p></td>
+     <td><p>64 MB/s</p></td>
    </tr>
 </table>
 

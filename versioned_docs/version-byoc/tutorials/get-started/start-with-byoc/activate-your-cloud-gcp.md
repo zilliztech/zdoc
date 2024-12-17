@@ -10,10 +10,12 @@ token: ZGZmwC34di7Hx6k4omOcWxOLnLg
 sidebar_position: 2
 keywords: 
   - zilliz
-  - vector database
-  - gcp
-  - cloud
+  - byoc
   - milvus
+  - vector database
+  - procedure
+  - activate cloud
+  - gcp
 
 ---
 

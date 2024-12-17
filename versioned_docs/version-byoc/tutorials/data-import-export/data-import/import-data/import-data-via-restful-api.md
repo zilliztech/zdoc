@@ -34,7 +34,7 @@ Make sure the following conditions are met:
 
     For details on how to prepare your data, refer to [Prepare Source Data](./prepare-source-data). You can also refer to the end-to-end notebook [Data Import from Zero to Hero](./data-import-zero-to-hero) to get more.
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Example Dataset](./example-dataset) and [Manage Collections](./manage-collections).
+- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Example Dataset](./example-dataset) and [Collection](./collection).
 
 ## Import data using the RESTful API{#import-data-using-the-restful-api}
 
@@ -54,7 +54,7 @@ For more information about using session tokens, refer to [the FAQ](/docs/faq-da
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For successful data import, ensure the target collection has less than 10 running or pending import jobs.</p>
+<p>For successful data import, ensure the target collection has less than 10,000 running or pending import jobs.</p>
 
 </Admonition>
 
@@ -103,7 +103,7 @@ If the command output is similar as follows, the import job is successfully subm
 {
     "code": 0,
     "data": {
-        "jobID": "job-xxxxxxxxxxxxxxxxxxxxx"
+        "jobId": "job-xxxxxxxxxxxxxxxxxxxxx"
     }
 }
 ```

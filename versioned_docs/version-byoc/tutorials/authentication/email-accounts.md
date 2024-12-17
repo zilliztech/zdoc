@@ -138,10 +138,3 @@ Ensure you meet the following criteria before proceeding:
 1. You will receive an email notification when your account is successfully deleted.
 
 ![delete-account-en](/byoc/delete-account-en.png)
-
-## Related topics{#related-topics}
-
-- [Manage Organization Information](./organizations)
-
-- [View Activities](./view-activities)
-

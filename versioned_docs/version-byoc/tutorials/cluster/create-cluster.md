@@ -29,7 +29,7 @@ This topic describes how to create a cluster.
 
 Ensure:
 
-- Cloud activation. Refer to [Activate Your Cloud](./activate-your-cloud) for instructions.
+- A BYOC project. Refer to [Deploy BYOC on AWS](./deploy-byoc-aws) for instructions.
 
 - Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [User Roles](./user-roles).
 

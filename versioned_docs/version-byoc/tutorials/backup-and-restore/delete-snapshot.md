@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloud supports creating backups either manually or automatically. | BYOC"
 type: origin
 token: SPTewoNSwiQe6MkBLjMcilNynOg
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database

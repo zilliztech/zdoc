@@ -242,24 +242,24 @@ The table below provides a comparison of API availability across various service
    <tr>
      <td rowspan="3"><p>Database</p></td>
      <td><p>ListDatabases</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
    </tr>
    <tr>
      <td><p>DropDatabase</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
    </tr>
    <tr>
      <td><p>CreateDatabase</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
    </tr>
    <tr>
      <td rowspan="5"><p>Index</p></td>

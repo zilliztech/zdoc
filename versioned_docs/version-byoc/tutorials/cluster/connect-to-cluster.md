@@ -29,7 +29,7 @@ This article offers a systematic guide on connecting to a cluster.
 
 Ensure the following prerequisites are met before proceeding:
 
-- You have activated your cloud. For details, see [Activate Your Cloud](./activate-your-cloud).
+- You have deployed a BYOC project. For details, see [Deploy BYOC on AWS](./deploy-byoc-aws).
 
 - You have created a cluster. For details, see [Create Cluster](./create-cluster).
 
