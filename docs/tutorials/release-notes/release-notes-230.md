@@ -37,11 +37,11 @@ Explore the future with our latest beta features, available for dedicated cluste
 
 - *Range Search*
 
-    Redefine your queries with [Range Search](./single-vector-search#range-search), enabling you to set a radius for your searches. Unlike traditional ANN Search, Range Search ensures the inclusion of all vectors within the specified radius, providing a more comprehensive view.
+    Redefine your queries with [Range Search](./range-search), enabling you to set a radius for your searches. Unlike traditional ANN Search, Range Search ensures the inclusion of all vectors within the specified radius, providing a more comprehensive view.
 
 - *Upsert*
 
-    Seamlessly manage dynamic datasets with [Upsert](./insert-update-delete#upsert-entities), a fusion of 'update' and 'insert'. Enjoy increased efficiency for datasets where changes are frequent.
+    Seamlessly manage dynamic datasets with [Upsert](./upsert-entities), a fusion of 'update' and 'insert'. Enjoy increased efficiency for datasets where changes are frequent.
 
 - *Cosine Metric Type*
 
@@ -53,15 +53,15 @@ Explore the future with our latest beta features, available for dedicated cluste
 
 - *Return Raw Vectors*
 
-    Specify vector fields in your [search parameters](./single-vector-search#search-parameters) to receive them as part of your search results.
+    Specify vector fields in your [search parameters](./single-vector-search#use-output-fields) to receive them as part of your search results.
 
 - *JSON_CONTAINS Filter*
 
-    Refine searches further with the [JSON_CONTAINS operator](./use-json-fields#advanced-operators), allowing you to specify filtering conditions based on JSON field values.
+    Refine searches further with the [JSON_CONTAINS operator](./json-filtering-operators), allowing you to specify filtering conditions based on JSON field values.
 
 - *Entity Count*
 
-    Get a quick overview of [the total number of entities within loaded collections](./get-and-scalar-query#advanced-operators) for better data management.
+    Get a quick overview of [the total number of entities within loaded collections](./single-vector-search#use-output-fields) for better data management.
 
 ## Enhancements{#enhancements}
 
@@ -69,7 +69,7 @@ We've also implemented several enhancements to improve your overall experience:
 
 - *New Role for RBAC*
 
-    Grant [Project Member Role](./resource-hierarchy) to project collaborators for more streamlined collaboration.
+    Grant [Project Member Role](./project-users) to project collaborators for more streamlined collaboration.
 
 - *Billing Optimizations*
 
@@ -81,7 +81,7 @@ We've also implemented several enhancements to improve your overall experience:
 
 - *Self-Service Account Deletion*
 
-    Easily [delete your own accounts](./email-accounts#close-your-account) or [organizations](./delete-your-organization) for greater control over your profile.
+    Easily [delete your own accounts](./email-accounts#close-your-account) or [organizations](./organization-settings#delete-organization) for greater control over your profile.
 
 - *Stability Enhancements*
 

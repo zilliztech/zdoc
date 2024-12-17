@@ -28,7 +28,7 @@ Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Becau
 
 ## Features and benefits{#features-and-benefits}
 
-**AUTOINDEX** offers a significant performance advantage over open-source Milvus, achieving up to 3x QPS on specific datasets. You can use AUTOINDEX to create indexes on all field types that Zilliz Cloud clusters support, including [Floating Vector](./single-vector-search), [Sparse Vector](./use-sparse-vector), and [Binary Vector](./use-binary-vector).
+**AUTOINDEX** offers a significant performance advantage over open-source Milvus, achieving up to 3x QPS on specific datasets. You can use AUTOINDEX to create indexes on all field types that Zilliz Cloud clusters support, including [Dense Vector](./use-dense-vector), [Binary Vector](./use-binary-vector), and [Binary Vector](./use-binary-vector).
 
 **AUTOINDEX** delivers high performance in these aspects:
 

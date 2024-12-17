@@ -64,7 +64,3 @@ Key Metrics Cover:
 Now, Zilliz Cloud users can effortlessly import or migrate their data from AWS S3, Google Cloud Storage, and Azure Blob Storage into any vector database instance on Zilliz Cloud, regardless of where it resides.
 
 For more details, see [Data Import](./data-import) and [Migrations](./migrations) in Zilliz Cloud docs.
-
-### [End-of-Service Announcement] Cost-Optimized CU{#end-of-service-announcement-cost-optimized-cu}
-
-With this release, the Cost-Optimized CU has been discontinued, ensuring our resources are focused on providing you with the best available options.

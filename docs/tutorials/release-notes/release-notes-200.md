@@ -4,7 +4,7 @@ slug: /release-notes-200
 sidebar_label: "Release Notes (June 11, 2023)"
 beta: FALSE
 notebook: FALSE
-description: "The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, cost-optimized CU, organization and collaboration support, RBAC support, partition key, dynamic schema, and JSON type support. Try out this game-changing update today! | Cloud"
+description: "The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, organization and collaboration support, RBAC support, partition key, dynamic schema, and JSON type support. Try out this game-changing update today! | Cloud"
 type: origin
 token: BcXMwUYQ3iD7mEkWKFhcU5PUnB5
 sidebar_position: 15
@@ -21,7 +21,7 @@ import Admonition from '@theme/Admonition';
 
 # Release Notes (June 11, 2023)
 
-The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, cost-optimized CU, organization and collaboration support, RBAC support, partition key, dynamic schema, and JSON type support. Try out this game-changing update today!
+The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, organization and collaboration support, RBAC support, partition key, dynamic schema, and JSON type support. Try out this game-changing update today!
 
 ## Milvus Compatibility{#milvus-compatibility}
 
@@ -46,12 +46,6 @@ We are pleased to offer a range of plan tiers: Starter, Standard, Enterprise, an
 - Self-hosted Plan: Ideal for businesses prioritizing privacy and regulatory adherence. It provides self-managed vector database services within your Virtual Private Cloud (VPC), giving you full control. Suitable for environments prioritizing privacy and regulatory adherence.
 
 [Learn more on the pricing page.](https://zilliz.com/pricing)
-
-## Cost-Optimized Compute Unit (CU){#cost-optimized-compute-unit-cu}
-
-A compute unit (CU) is a basic unit of compute resources used for parallel processing of data. Zilliz Cloud offers two types of CUs to meet various business requirements: Performance-optimized and Capacity-optimized. With the release of Zilliz Cloud 2.0.0, we introduce a new type of CU: the Cost-optimized CU.
-
-The Cost-optimized CU is designed for workloads that require cost savings optimization. If your application does not require ultra-fast response times and you are prioritizing cost-efficiency, this CU type is the right choice. Its capacity is identical to the Capacity-optimized CU, which can hold approximately 5,000,000 vectors with 768 dimensions. Although it may not offer the same level of performance as the other two types of CUs, it can still provide reliable performance while being budget-friendly. This option can be useful for small teams or startups that need to control costs while still delivering a reliable service.
 
 ## Organization, Collaboration, and RBAC{#organization-collaboration-and-rbac}
 

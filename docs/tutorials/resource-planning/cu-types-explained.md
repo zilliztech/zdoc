@@ -187,14 +187,3 @@ To select the right CU for this requirement, follow these steps:
 1. **Check Throughput**: With a `top-k` setting of 100, the Performance-optimized CU can achieve a QPS of 440. To sustain a consistent 1,000 QPS, you would need to triple the number of replicas.
 
 In conclusion, for this scenario, the Performance-optimized CU is your best bet. A configuration of 3 replicas, with each replica consisting of 6 CUs, should serve you perfectly.
-
-## Related topics{#related-topics}
-
-- [Select Cluster Plans](./select-zilliz-cloud-service-plans)
-
-- [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)
-
-- [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace)
-
-- [Register with Zilliz Cloud](./register-with-zilliz-cloud)
-

@@ -39,7 +39,7 @@ We're thrilled to unveil the newest Zilliz Cloud update, featuring a pricing cal
 
     We have added support for timezone settings, enabling users to customize their timezone preferences and ensure accurate timestamps on all their data.
 
-    For details, refer to [Manage Timezone](./manage-timezone).
+    For details, refer to [Manage Timezone](./organization-settings#manage-timezone).
 
 - Collection Rename
 
