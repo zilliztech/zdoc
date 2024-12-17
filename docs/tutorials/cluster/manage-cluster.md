@@ -191,7 +191,7 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
     On the **Users** tab, you can add users, reset their passwords, and drop them.
 
-    For details, refer to [Manage Cluster Credentials](./cluster-credentials-console).
+    For details, refer to [Cluster Credentials (Console)](./cluster-credentials-console).
 
     ![manage-users](/img/manage-users.png)
 
