@@ -44,7 +44,7 @@ The billing cycle, displayed at the top of your invoice, shows the period during
 
 ![Vp6Rwz3Eph1IuXbQgKScVcSEnZg](/img/Vp6Rwz3Eph1IuXbQgKScVcSEnZg.png)
 
-- **Billing Cycle:** Typically a month-long period (e.g., Jan 01, 2024 - Jan 31, 2024) during which you are billed for using Zilliz Cloud services. Charges accumulate for your usage throughout this period and your invoice status remains “**unbilled**”.
+- **Billing Cycle:** Typically a month-long period starting at 00:00:00 (UTC) on the first day of the previous month and ending at 23:59:59 (UTC) on the last day of that month. For example, Zilliz Cloud issues the invoice for August on September 1, 2024, with the billing period running from August 1, 2024, at 00:00:00 (UTC) to August 31, 2024, at 23:59:59 (UTC). Charges accumulate for your usage throughout this period and your invoice status remains “**unbilled**”.
 
 - **Data of Issue:** The date your invoice is generated. On this day, the invoice status changes to “**unpaid**,” and payment can be made. If you have added a payment method (e.g., credit card or marketplace subscription), it will be charged automatically. Upon successful payment, the invoice status updates to “**paid**”. In case of a failed payment, notification emails will be sent to the **Organization Owner(s)** and **Billing Admin(s)**.
 
@@ -131,7 +131,7 @@ Additional charges include:
 
 ### Invoice Details{#invoice-details}
 
-This section provides a detailed breakdown of charges for each billable item. For more information, refer to  [Understand Cost](./understand-cost).
+This section provides a detailed breakdown of charges for each billable item. 
 
 ### Billing Profile{#billing-profile}
 
@@ -164,6 +164,61 @@ To download an invoice, click the download icon next to the target invoice.
 ![download-invoices](/img/download-invoices.png)
 
 ## Troubleshooting / FAQ{#troubleshooting-faq}
+
+#### What is the start and end time of an invoice?{#what-is-the-start-and-end-time-of-an-invoice}
+
+- **Explanation:** The billing period starts at 00:00:00 (UTC) on the first day of the previous month and ending at 23:59:59 (UTC) on the last day of that month.
+
+- **Example:** Zilliz Cloud issues the invoice for August on September 1, 2024, with the billing period running from August 1, 2024, at 00:00:00 (UTC) to August 31, 2024, at 23:59:59 (UTC).
+
+#### How precise are the amounts displayed in the invoices on Zilliz Cloud?{#how-precise-are-the-amounts-displayed-in-the-invoices-on-zilliz-cloud}
+
+- **Explanation:** Zilliz Cloud prices products with a precision of 8 decimal places. As a result, charges are calculated to eight decimals. During the billing process, these detailed daily charges are summed and then rounded to 2 decimal places.
+
+    On the web UI, displayed amounts are rounded to 2 decimal places (for example: $60.00). 
+
+    ![precision_invoice_cn](/img/precision_invoice_cn.png)
+
+    \<include target = "indev">
+
+    The amounts in the invoices retrieved from List Invoice and Get Invoice APIs are also rounded to 2 decimal places. Below is an example output of the Get Invoice API.
+
+    ```bash
+    {
+      "code": 0,
+      "data": {
+            "id": "invo-xxxxxx",
+            "orgId": "org-xxxxxx",
+            "periodStart": "2024-01-01T00:00:00Z",
+            "periodEnd": "2024-02-01T00:00:00Z",
+            "invoiceDate": "2024-02-01T00:00:00Z",,
+            "dueDate": "2024-02-01T00:00:00Z",
+            
+            "currency": "RMB",
+            "status": "unpaid",
+            
+            "usageAmount": 708.94,
+            "creditsApplied": 30.00,
+            "subtotal": 678.94,
+            "tax": 0.00,
+            "total": 678.94,
+            "advancePayAmount": 0.00,
+            "amountDue": 678.94
+        }
+    }
+    ```
+
+    For reconciliation, we recommend using the Query Org Daily Usage API to retrieve daily usage details with a precision of eight decimal places. The daily usage stats begin at 00:00:00 each day and run until 23:59:59 the same day. For example, the daily usage period for August 1, 2024, starts at 00:00:00 on August 1, 2024, and ends at 23:59:59 on August 1, 2024. After summing the daily amounts, you will get a total usage amount with an eight-decimal precision. Rounding this amount from the third decimal place will provide you with a two-decimal monthly usage total, which should match the total usage amount displayed on the invoices on the web UI.
+
+- **Example:** Suppose during reconciliation, you first retrieve three days of daily usage data via the Query Org Daily Usage API for August 1 to August 3, 2024. Each day's amount has an eight-decimal precision.
+
+    - Total for August 1: $105.03331200
+
+    - Total for August 2: $92.03000245
+
+    - Total for August 3: $114.25300000
+
+    Adding up the three daily totals gives a sum of $311.31631445, which rounds to $311.32 after considering the third decimal. This figure should match the total usage amount shown in the invoices on the web UI.
 
 #### Why haven’t I received my invoice?{#why-havent-i-received-my-invoice}
 

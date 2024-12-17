@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Discover how to seamlessly install Milvus SDKs, allowing efficient connections to Zilliz Cloud clusters. | Cloud"
 type: origin
 token: J274wT61xiEM4fkYeL8cMb4Pnbd
-sidebar_position: 5
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
@@ -31,7 +31,7 @@ Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK opti
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p>Zilliz Cloud consistently upgrades clusters to ensure version compatibility. For details, visit the <a href="./setup-maintenance-window">Set up Maintenance Window</a> page. If connection issues arise due to SDK version discrepancies, heed the provided prompts to revert to a compatible SDK version. We'll notify you post-maintenance, post which you can upgrade your SDK without concerns.</p></li>
+<li><p>Zilliz Cloud consistently upgrades clusters to ensure version compatibility. For details, visit the <a href="./organization-settings">Manage Organization Settings</a> page. If connection issues arise due to SDK version discrepancies, heed the provided prompts to revert to a compatible SDK version. We'll notify you post-maintenance, post which you can upgrade your SDK without concerns.</p></li>
 <li><p>All SDKs below offer both a stable version and a beta version. The stable version is intended for common clusters, while the beta version corresponds to beta clusters. If you have upgraded your clusters to the beta version, ensure that you also upgraded your SDKs to the beta version.</p></li>
 </ul>
 
@@ -48,11 +48,8 @@ PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://gith
 </Admonition>
 
 ```bash
-# Install pymilvus compatible with Milvus v2.3.x
-python -m pip install pymilvus==2.3.7
-
 # Install pymilvus compatible with Milvus v2.4.x
-python -m pip install pymilvus==2.4.4
+python -m pip install pymilvus==2.4.9
 
 # Update PyMilvus to the newest version
 python -m pip install --upgrade pymilvus
@@ -72,15 +69,10 @@ For Milvus's Node.js SDK, employ **npm** or **yarn**. Access its [source code on
 </Admonition>
 
 ```bash
-# Install Node.js SDK compatible with Milvus v2.3.x
-npm install @zilliz/milvus2-sdk-node@2.3.5
-# Alternatively,
-yarn add @zilliz/milvus2-sdk-node@2.3.5
-
 # Install Node.js SDK compatible with Milvus v2.4.x
-npm install @zilliz/milvus2-sdk-node@2.4.3
+npm install @zilliz/milvus2-sdk-node@2.4.9
 # Alternatively,
-yarn add @zilliz/milvus2-sdk-node@2.4.3
+yarn add @zilliz/milvus2-sdk-node@2.4.9
 
 # Upgrade to the latest version
 npm update @zilliz/milvus2-sdk-node
@@ -110,29 +102,19 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 - For Apache Maven, append this to the `pom.xml` dependencies:
 
 ```xml
-<!-- Install Java SDK compatible with Milvus v2.3.x -->
+<!-- Install Java SDK compatible with Milvus v2.4.x -->
 <dependency>
      <groupId>io.milvus</groupId>
      <artifactId>milvus-sdk-java</artifactId>
-     <version>2.3.8</version>
- </dependency>
- 
- <!-- Install Java SDK compatible with Milvus v2.4.x -->
-<dependency>
-     <groupId>io.milvus</groupId>
-     <artifactId>milvus-sdk-java</artifactId>
-     <version>2.4.2</version>
+     <version>2.4.8</version>
  </dependency>
 ```
 
 - For Gradle/Grails, execute:
 
 ```bash
-# Install Java SDK compatible with Milvus v2.3.x
-compile 'io.milvus:milvus-sdk-java:2.3.8'
-
 # Install Java SDK compatible with Milvus v2.4.x
-compile 'io.milvus:milvus-sdk-java:2.4.2'
+compile 'io.milvus:milvus-sdk-java:2.4.8'
 ```
 
 ## Install Go SDK{#install-go-sdk}
@@ -140,20 +122,7 @@ compile 'io.milvus:milvus-sdk-java:2.4.2'
 The Go SDK is available via `go get`. Explore its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-go).
 
 ```bash
-# Install Go SDK compatible with Milvus v2.3.x
-go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.3.6
-
 # Install Go SDK compatible with Milvus v2.4.x
-go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.4.1
+go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.4.2
 ```
-
-## Related topics{#related-topics}
-
-- [Create Cluster](./create-cluster)
-
-- [Manage Collections](./manage-collections)
-
-- [Insert, Upsert & Delete](./insert-update-delete)
-
-- [Search, Query & Get](./search-query-get)
 

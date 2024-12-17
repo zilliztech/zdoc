@@ -28,7 +28,7 @@ This guide will help you migrate your data from Tencent Cloud VectorDB to Zilliz
 
 ## Considerations{#considerations}
 
-- When you migrate data from Tencent Cloud VectorDB to Zilliz Cloud, vector fields are transferred directly, while scalar fields from Tencent Cloud VectorDB are stored as JSON in a dynamic field on Zilliz Cloud. For details on the dynamic field feature, refer to [Enable Dynamic Field](./enable-dynamic-field).
+- When you migrate data from Tencent Cloud VectorDB to Zilliz Cloud, vector fields are transferred directly, while scalar fields from Tencent Cloud VectorDB are stored as JSON in a dynamic field on Zilliz Cloud. For details on the dynamic field feature, refer to [Dynamic Field](./enable-dynamic-field).
 
 - To ensure compatibility, Auto ID will be disabled and cannot be modified for each target collection on Zilliz Cloud.
 

@@ -23,7 +23,7 @@ import Admonition from '@theme/Admonition';
 
 # Building a RAG Application with Pipelines
 
-Zilliz Cloud Pipelines is a robust solution for transforming unstructured data such as documents, text pieces and images into a searchable vector [collection](./cluster-collection-and-entities#collection). This guide provides a detailed description of the three main Pipelines types and provides and example of building a RAG application with Pipelines.
+Zilliz Cloud Pipelines is a robust solution for transforming unstructured data such as documents, text pieces and images into a searchable vector [collection](./manage-collections). This guide provides a detailed description of the three main Pipelines types and provides and example of building a RAG application with Pipelines.
 
 ![pipeline-overview](/img/pipeline-overview.png)
 

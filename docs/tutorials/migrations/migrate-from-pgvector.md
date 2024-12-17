@@ -48,6 +48,8 @@ Make sure the following prerequisites are met:
 
 You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided its CU size can accommodate the source data.
 
+![migrate_from_pgvector](/img/migrate_from_pgvector.png)
+
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
 1. Go to the target project and select **Migrations** > **PostgreSQL**.
@@ -72,13 +74,11 @@ You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided
 
     1. Verify the data mapping between your PostgreSQL data and the corresponding Zilliz Cloud data types. Zilliz Cloud has a default mechanism for mapping PostgreSQL data types to its own, but you can review and make necessary adjustments. Currently, you can rename fields, but cannot change the underlying data types.
 
-    1. In **Advanced Settings**, configure **Dynamic Field** and **Partition Key**. For more information, refer to [Dynamic data fields](./schema-explained#dynamic-data-fields) and [Use Partition Key](./use-partition-key).
+    1. In **Advanced Settings**, configure **Dynamic Field** and **Partition Key**. For more information, refer to [Dynamic Field](./enable-dynamic-field) and [Use Partition Key](./use-partition-key).
 
     1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
 
 1. Click **Migrate**.
-
-![migrate_from_pgvector](/img/migrate_from_pgvector.png)
 
 ## Monitor the migration process{#monitor-the-migration-process}
 

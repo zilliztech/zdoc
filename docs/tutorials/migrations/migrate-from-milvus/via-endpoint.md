@@ -57,7 +57,7 @@ You can migrate one or more collections from a single Milvus database at a time.
 
     1. Review the target collections and their field settings in the schema preview.
 
-    1. In **Advanced Settings**, verify **Dynamic Field** and **Partition Key** settings, which inherits the settings of the source collection and cannot be altered. For more information, refer to [Dynamic data fields](./schema-explained#dynamic-data-fields) and [Use Partition Key](./use-partition-key).
+    1. In **Advanced Settings**, verify **Dynamic Field** and **Partition Key** settings, which inherits the settings of the source collection and cannot be altered. For more information, refer to [Dynamic Field](./enable-dynamic-field) and [Use Partition Key](./use-partition-key).
 
     1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
 

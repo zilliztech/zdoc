@@ -24,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 This page provides information about limits on the Zilliz Cloud platform. [Submit a request](https://support.zilliz.com/hc/en-us) to us if you need to report issues related to these limits.
 
-## Organizations, Projects & Members{#organizations-projects-and-members}
+## Organizations & Projects{#organizations-and-projects}
 
 The following table lists the limits on the maximum number of organizations and projects allowed for a single user.
 
@@ -41,13 +41,35 @@ The following table lists the limits on the maximum number of organizations and 
    </tr>
    <tr>
      <td><p>Project</p></td>
-     <td><p>10</p></td>
-     <td><p>Each user can create up to 10 projects in 1 organization.</p></td>
+     <td><p>100</p></td>
+     <td><p>Each user can create up to 100 projects in 1 organization.</p></td>
+   </tr>
+</table>
+
+## Users & Roles{#users-and-roles}
+
+The following table lists the limits on the maximum number of users allowed in Zilliz Cloud.
+
+<table>
+   <tr>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td><p>Organization and Project Member</p></td>
+     <td><p>Organization User</p></td>
      <td><p>100</p></td>
-     <td><p>An organization can hold up to 100 organization and project members in total.</p></td>
+     <td><p>An organization can have up to 100 organization users in total.</p></td>
+   </tr>
+   <tr>
+     <td><p>Cluster User</p></td>
+     <td><p>100</p></td>
+     <td><p>A cluster can have up to 100 users in total.</p></td>
+   </tr>
+   <tr>
+     <td><p>Cluster Custom Role</p></td>
+     <td><p>20</p></td>
+     <td><p>A cluster can have up to 20 custom roles in total. <a href="http://support.zilliz.com">Contact us</a> to remove this limit.</p></td>
    </tr>
 </table>
 
@@ -61,14 +83,16 @@ The following table lists the limits on the maximum number of organizations and 
    </tr>
    <tr>
      <td><p>API Key</p></td>
-     <td><p>10</p></td>
-     <td><p>Each organization can contain a maximum of 10 customized API keys for optimal resource utilization and security.</p></td>
+     <td><p>100</p></td>
+     <td><p>Each organization can contain a maximum of 100 customized API keys for optimal resource utilization and security.</p></td>
    </tr>
 </table>
 
-## Clusters & CUs{#clusters-and-cus}
+## Clusters, CUs & vCUs{#clusters-cus-and-vcus}
 
-The maximum number of clusters and CUs varies with your payment method and subscription plan.
+### Clusters{#clusters}
+
+The maximum number of clusters varies with your payment method and subscription plan.
 
 - **Without a valid payment method**
 
@@ -95,26 +119,72 @@ The maximum number of clusters and CUs varies with your payment method and subsc
     <table>
        <tr>
          <th><p><strong>Subscription Plan</strong></p></th>
-         <th><p><strong>Limits</strong></p></th>
+         <th><p><strong>Max number</strong></p></th>
          <th><p><strong>Remarks</strong></p></th>
        </tr>
        <tr>
-         <td><p>Dedicated (Standard)</p></td>
-         <td><p>CU size * Replica Count &lt;=32</p></td>
-         <td><p>On the console, you can create up to 32 CUs for a single cluster. </p><p>However, the limit is CU size * Replica Count &lt;=32 if replicas are added.</p></td>
+         <td><p>Free</p></td>
+         <td><p>1</p></td>
+         <td><p>Only 1 cluster is available for the Free cluster plan. You can drop an existing cluster and replace it with a new one if required.</p></td>
        </tr>
        <tr>
-         <td><p>Dedicated (Enterprise)</p></td>
-         <td><p>CU size * Replica Count &lt;=256</p></td>
-         <td><p>On the console, you can create up to 256 CUs for a single cluster.</p><p>However, the limit is CU size * Replica Count &lt;=256 if replicas are added.</p></td>
+         <td><p>Serverless</p></td>
+         <td><p>N/A</p></td>
+         <td><p>N/A</p></td>
+       </tr>
+       <tr>
+         <td><p>Dedicated (Standard)/Dedicated (Enterprise)</p></td>
+         <td><p>Total CU size &lt; 320</p></td>
+         <td><p>The maximum number of clusters in an organization depends on the total amount of cluster CUs. The accumulated number of CUs for all Dedicated clusters in an organization should not exceed 320.</p></td>
        </tr>
     </table>
+
+### CUs{#cus}
+
+A CU is the basic unit of compute resources used for parallel processing of data, and different CU types comprise varying combinations of CPU, memory, and storage. The concept of CU only applies to Dedicated clusters.
+
+<table>
+   <tr>
+     <th><p><strong>Subscription Plan</strong></p></th>
+     <th><p><strong>Limits</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Dedicated (Standard)</p></td>
+     <td><p>CU size * Replica Count &lt;=32</p></td>
+     <td><p>On the console, you can create up to 32 CUs for a single cluster. </p><p>However, the limit is CU size * Replica Count &lt;=32 if replicas are added.</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated (Enterprise)</p></td>
+     <td><p>CU size * Replica Count &lt;=256</p></td>
+     <td><p>On the console, you can create up to 256 CUs for a single cluster.</p><p>However, the limit is CU size * Replica Count &lt;=256 if replicas are added.</p></td>
+   </tr>
+</table>
 
 You are welcome to [contact us](https://support.zilliz.com/hc/en-us) 
 
 - If your Dedicated (Standard)clusters require more than 32 CUs
 
 - If your Dedicated (Enterprise) clusters require more than 256 CUs
+
+### vCUs{#vcus}
+
+A virtual compute unit (vCU) is used to measure the resources consumed by read operations (such as search and query) and write operations (such as insert, upsert, and delete). The concept of vCU only applies to Free and Serverless clusters.
+
+<table>
+   <tr>
+     <th><p><strong>Subscription Plan</strong></p></th>
+     <th><p><strong>Limits</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Free</p></td>
+     <td><p>2.5 million vCU per month</p></td>
+   </tr>
+   <tr>
+     <td><p>Serverless</p></td>
+     <td><p>N/A</p></td>
+   </tr>
+</table>
 
 ## Replicas{#replicas}
 
@@ -137,6 +207,14 @@ To add replicas, the cluster needs to have **8 CUs or more**. The following limi
      <td><p>The cluster CU size * Replica count should not exceed 256.</p></td>
    </tr>
 </table>
+
+## Databases{#databases}
+
+- Databases can only be created in Dedicated clusters.
+
+- Each Dedicated cluster can have up to 1024 databases.
+
+- Default database cannot be dropped.
 
 ## Pipelines{#pipelines}
 
@@ -398,7 +476,7 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 <table>
    <tr>
      <th></th>
-     <th><p>Insert Rate Limits</p></th>
+     <th><p>Maximum Insert Rate Limits</p></th>
    </tr>
    <tr>
      <td><p>Free cluster</p></td>
@@ -409,20 +487,32 @@ The rate limit that applies varies with the cluster types and the number of CUs 
      <td><p>10 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
-     <td><p>4 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
-     <td><p>6 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster &gt;= 24 CUs</p></td>
+     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
      <td><p>12 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>16 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [24 CUs, 64 CUs)</p></td>
+     <td><p>24 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [64 CUs, 128CUs)</p></td>
+     <td><p>36 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [128 CUs, 256CUs)</p></td>
+     <td><p>48 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster &gt;= 256 CUs</p></td>
+     <td><p>64 MB/s</p></td>
    </tr>
 </table>
 
@@ -439,7 +529,7 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 <table>
    <tr>
      <th></th>
-     <th><p>Upsert Rate Limits</p></th>
+     <th><p>Maximum Upsert Rate Limits</p></th>
    </tr>
    <tr>
      <td><p>Free cluster</p></td>
@@ -447,23 +537,35 @@ The rate limit that applies varies with the cluster types and the number of CUs 
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
-     <td><p>100 MB/s</p></td>
+     <td><p>10 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 1 CU and 2 CUs</p></td>
-     <td><p>4 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
-     <td><p>6 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster &gt;= 24 CUs</p></td>
+     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
      <td><p>12 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>16 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [24 CUs, 64 CUs)</p></td>
+     <td><p>24 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [64 CUs, 128CUs)</p></td>
+     <td><p>36 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster [128 CUs, 256CUs)</p></td>
+     <td><p>48 MB/s</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated cluster &gt;= 256 CUs</p></td>
+     <td><p>64 MB/s</p></td>
    </tr>
 </table>
 

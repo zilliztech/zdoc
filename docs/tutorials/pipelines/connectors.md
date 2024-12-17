@@ -54,7 +54,7 @@ Zilliz Cloud Pipelines provides flexible options when you create a connector. On
 
 ### Prerequisites{#prerequisites}
 
-- Ensure you have [created a collection](./manage-collections-console#create-collection).
+- Ensure you have [created a collection](./manage-collections-sdks).
 
 - Ensure the created collection has a doc ingestion pipeline and deletion pipeline(s).
 
@@ -149,7 +149,7 @@ Zilliz Cloud Pipelines provides flexible options when you create a connector. On
            </tr>
            <tr>
              <td><p>Next Run at</p></td>
-             <td><p>Specify the time for the next scan. The time zone is consistent with the <a href="./manage-timezone">system time zone</a> in organization settings.</p></td>
+             <td><p>Specify the time for the next scan. The time zone is consistent with the <a href="./organization-settings#manage-timezone">system time zone</a> in organization settings.</p></td>
            </tr>
         </table>
 

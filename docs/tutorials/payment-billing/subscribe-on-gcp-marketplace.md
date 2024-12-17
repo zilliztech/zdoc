@@ -120,6 +120,14 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
 1. Verify the update in the **Payment Method** section on the **Billing Overview** page. Click on the Subscription ID and verify if the subscription **Account Id** has been updated to the new Marketplace account.
 
+    ![view-gcp-subscription-id](/img/view-gcp-subscription-id.png)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>We recommend completing the operations within 1 hour to avoid service interruption.</p>
+
+</Admonition>
+
 ### Switch to payment credit card{#switch-to-payment-credit-card}
 
 1. Sign in to GCP Marketplace with the original GCP account you used for the subscription.
@@ -162,7 +170,7 @@ There are several possible reasons:
 
     1. If you need multiple organizations for different Marketplace subscription, you can:
 
-        1. [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-join-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
+        1. [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
 
         1. [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
 
@@ -170,7 +178,7 @@ There are several possible reasons:
 
     This can happen if your account has been closed or if you have left all organizations. In this case, you can:
 
-    1. Ask other users to [invite](./organization-users#invite-a-user-to-join-your-organization) you to their organization as an organization owner.
+    1. Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organization as an organization owner.
 
     1. [Submit a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 

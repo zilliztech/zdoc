@@ -79,7 +79,7 @@ Ensure the following prerequisites are met before proceeding:
 
 - [API Keys](./manage-api-keys)
 
-- [Manage Cluster Credentials](./cluster-credentials-console)
+- [Cluster Credentials (Console)](./cluster-credentials-console)
 
 - [Set up a Private Link](./setup-a-private-link)
 

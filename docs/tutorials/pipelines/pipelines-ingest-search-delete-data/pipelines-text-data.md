@@ -631,7 +631,7 @@ The parameters in the above code are described as follows:
 
     - `outputFields`: An array of fields to return along with the search results. Note that `id`（entity ID）, `distance`, and `text` will be returned in the search result by default. If you need other output fields in the returned result, you can configure this parameter.
 
-    - `filter`: The [filter](./single-vector-search#filtered-search) in boolean expression used to find matches for the search
+    - `filter`: The [filter](./filtering) in boolean expression used to find matches for the search
 
 Below is an example response.
 
@@ -823,7 +823,7 @@ The parameters in the above code are described as follows:
 
 - `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
 
-- `expression`: The boolean expression used to filter out entities that need to be deleted. For more information about how to write boolean expression, refer to [Scalar Filters](./get-and-scalar-query#reference-on-scalar-filters).
+- `expression`: The boolean expression used to filter out entities that need to be deleted. For more information about how to write boolean expression, refer to [Filtering](./filtering).
 
 Below is an example response.
 

@@ -48,13 +48,6 @@ You should
     ZILLIZ_TOKEN = getpass("Enter your Zilliz API Key:")
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p><a href="https://beta.openai.com/account/api-keys">Find your OpenAI API key</a></p>
-    <p><a href="./on-zilliz-cloud-console">Find your Zilliz Cloud credentials</a></p>
-
-    </Admonition>
-
 ## Index documents{#index-documents}
 
 Zilliz Cloud Pipelines accepts files from AWS S3 and Google Cloud Storage. You can generate a presigned url from the Object Storage and use `from_document_url()` or `insert_doc_url()` to ingest the file. It can automatically index the document and store the doc chunks as vectors on Zilliz Cloud.

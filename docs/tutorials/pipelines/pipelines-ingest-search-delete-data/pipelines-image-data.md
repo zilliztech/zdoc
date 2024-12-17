@@ -559,7 +559,7 @@ The parameters in the above code are described as follows:
 
     - `outputFields`: An array of fields to return along with the search results. Note that `id`（entity ID）, `distance` will be returned in the search result by default. If you need other output fields in the returned result, you can configure this parameter.
 
-    - `filter`: The [filter](./single-vector-search#filtered-search) in boolean expression used to find matches for the search
+    - `filter`: The [filter](./filtering) in boolean expression used to find matches for the search
 
 Below is an example response.
 
@@ -799,7 +799,7 @@ The parameters in the above code are described as follows:
 
     - `outputFields`: An array of fields to return along with the search results. Note that `id`（entity ID）, `distance` will be returned in the search result by default. If you need other output fields in the returned result, you can configure this parameter.
 
-    - `filter`: The [filter](./single-vector-search#filtered-search) in boolean expression used to find matches for the search
+    - `filter`: The [filter](./filtering) in boolean expression used to find matches for the search
 
 Below is an example response.
 

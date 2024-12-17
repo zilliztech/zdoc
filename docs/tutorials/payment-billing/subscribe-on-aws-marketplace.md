@@ -50,7 +50,11 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
 1. Click **Zilliz Cloud**.
 
-    Familiarize yourself with the services and pricing. Click **View purchase options**.
+    Familiarize yourself with the services and pricing. 
+
+    If you have already used Zilliz Cloud, click **View purchase options**.
+
+    If you have not used Zilliz Cloud before, you can click **Try for free**, which is a 30-day free trial offered by AWS. Once the free trial ends, you need to [upgrade the subscription](./subscribe-on-aws-marketplace#upgrade-subscription-from-free-trial) to continue using Zilliz Cloud.
 
     ![view_purchase_options](/img/view_purchase_options.png)
 
@@ -81,6 +85,22 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 1. Go to **Billing** to ensure your AWS Marketplace subscription is set as your payment method.
 
     ![aws-marketplace-success](/img/aws-marketplace-success.png)
+
+## Upgrade subscription from free trial{#upgrade-subscription-from-free-trial}
+
+Once your free trial ends, you need to upgrade the subscription to continue using Zilliz Cloud. To upgrade, simply repeat the [subscription process](./subscribe-on-aws-marketplace#subscribe-on-aws-marketplace) again:
+
+1. Navigate to the [Zilliz Cloud page](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?sr=0-1&ref_=beagle&applicationId=AWSMPContessa) on AWS Marketplace.
+
+1. Click **View purchase options**.
+
+1. Scroll down the page and click **Subscribe**.
+
+1. Click **Set up your account** in the prompt.
+
+1. Log into your Zilliz Cloud account and link the AWS Marketplace subscription to a Zilliz Cloud organization.
+
+You can check if the upgrade is successful by navigating to the **Payment Method** card on the **Billing Overview** page. If the `Free Trial` tag next to AWS Marketplace Subscription disappears, the upgrade is successful. 
 
 ## Update AWS Marketplace subscription{#update-aws-marketplace-subscription}
 
@@ -164,7 +184,7 @@ There are several possible reasons:
 
     1. If you need multiple organizations for different Marketplace subscription, you can:
 
-        1. [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-join-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
+        1. [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
 
         1. [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
 
@@ -172,7 +192,7 @@ There are several possible reasons:
 
     This can happen if your account has been closed or if you have left all organizations. In this case, you can:
 
-    1. Ask other users to [invite](./organization-users#invite-a-user-to-join-your-organization) you to their organization as an organization owner.
+    1. Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organization as an organization owner.
 
     1. [Submit a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 

@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes. | Cloud"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
@@ -484,7 +484,7 @@ In the above setup, you have the flexibility to define various aspects of the co
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The collection created in the preceding code snippets are automatically loaded. If you prefer not to create an automatically loaded collection, refer to <a href="./manage-collections-sdks#step-3-create-the-collection">Manage Collections (SDKs)</a>.</p>
+<p>The collection created in the preceding code snippets are automatically loaded. If you prefer not to create an automatically loaded collection, refer to <a href="./manage-collections-sdks">Create Collection</a>.</p>
 <p>Collections created using the RESTful API are always automatically loaded.</p>
 
 </Admonition>
