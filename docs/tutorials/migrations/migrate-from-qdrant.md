@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Qdrant is a vector database that provides similarity search capabilities. Migrating data from Qdrant to Zilliz Cloud allows users to leverage Zilliz Cloud's advanced search and analytics features while maintaining compatibility with the multi-vector structure supported by Qdrant. | Cloud"
 type: origin
 token: LqMIw1DXyiHUjAk9TEAcqHp6nDd
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
@@ -39,6 +39,8 @@ This guide provides step-by-step instructions for migrating your data from Qdran
 ## Before you start{#before-you-start}
 
 - The source Qdrant cluster is accessible from the public internet.
+
+- If you have an allowlist configured in your network environment, ensure that Zilliz Cloud IP addresses are added to it. For more information, refer to [Zilliz Cloud IPs](./zilliz-cloud-ips).
 
 - You have obtained the cluster endpoint and API key with necessary permissions to access the target Qdrant cluster.
 

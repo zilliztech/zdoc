@@ -33,7 +33,7 @@ Ensure:
 
 - Registration with Zilliz Cloud. Refer to [Register with Zilliz Cloud](./register-with-zilliz-cloud) for instructions.
 
-- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [User Roles](./user-roles).
+- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [Access Control](./access-control).
 
 ## Set up a free cluster{#set-up-a-free-cluster}
 

@@ -128,6 +128,12 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
 
 1. In the **Name, review, and create** step, name the role, review the trusted entities, and click **Create role**.
 
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>When naming the role, use the prefix <code>zilliz-byoc</code>.</p>
+
+    </Admonition>
+
 1. Once the role has been created, click **View role** in the green bar to go to the role details. 
 
     ![Tq40baMqToXsQtxyJy4c8Uv6nMS](/byoc/Tq40baMqToXsQtxyJy4c8Uv6nMS.png)
@@ -225,6 +231,12 @@ After you choose **Create inline policy**, on the **Specify permissions** page, 
 Click **Next**, and set **Policy name** in **Policy details**.
 
 ![TQHmb8qSsoALyUxVqM4cMiczn8d](/byoc/TQHmb8qSsoALyUxVqM4cMiczn8d.png)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>When naming the policy, use the prefix <code>zilliz-byoc</code>.</p>
+
+</Admonition>
 
 Once you have added all the listed inline policies, click **Create policy**. You will find that these policies are listed in the **Permissions** policies list.
 

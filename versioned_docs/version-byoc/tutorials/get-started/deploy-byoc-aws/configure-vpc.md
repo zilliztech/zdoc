@@ -135,7 +135,7 @@ On the AWS console, you can create the VPC and related resources enumerated in [
 
     ![GPimbEY2Aoz5UtxUCxkcqrAYnjc](/byoc/GPimbEY2Aoz5UtxUCxkcqrAYnjc.png)
 
-1. Then click **Manage tags**. On the page prompted open, click **Add new tag**, and set **Key** of the new tag list entry to `kubernetes.io/role/internal-elb=1` and **Value** to `1`. Then click **Save**.
+1. Then click **Manage tags**. On the page prompted open, click **Add new tag**, and set **Key** of the new tag list entry to `kubernetes.io/role/internal-elb` and **Value** to `1`. Then click **Save**.
 
     ![HZdBb4d4QoLEUzxrkxpcqro4nTe](/byoc/HZdBb4d4QoLEUzxrkxpcqro4nTe.png)
 

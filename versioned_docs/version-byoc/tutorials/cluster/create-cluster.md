@@ -31,7 +31,7 @@ Ensure:
 
 - A BYOC project. Refer to [Deploy BYOC on AWS](./deploy-byoc-aws) for instructions.
 
-- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [User Roles](./user-roles).
+- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [Access Control](./access-control).
 
 ## Create a dedicated cluster{#create-a-dedicated-cluster}
 

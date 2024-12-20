@@ -1,7 +1,7 @@
 ---
-title: "Zilliz BYOC | BYOC"
+title: "BYOC Overview | BYOC"
 slug: /byoc-intro
-sidebar_label: "Zilliz BYOC"
+sidebar_label: "BYOC Overview"
 beta: FALSE
 notebook: FALSE
 description: "Bring Your Own Cloud (BYOC) is a deployment option for organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. This solution is ideal for organizations with specific security requirements or regulatory compliance needs that require maintaining full data control sovereignty. | BYOC"
@@ -19,7 +19,7 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
-# Zilliz BYOC
+# BYOC Overview
 
 Bring Your Own Cloud (BYOC) is a deployment option for organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. This solution is ideal for organizations with specific security requirements or regulatory compliance needs that require maintaining full data control sovereignty.
 

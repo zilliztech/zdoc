@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloud allows you to migrate data between clusters, whether they are within the same organization or across different organizations. This capability ensures flexibility in managing and scaling your resources. When migrating data to a cluster in a different organization, you must provide the appropriate authentication credentials, such as an API key or a token consisting of a username and its password. | Cloud"
 type: origin
 token: MTqjwwUKhiyns4kGV7Lc7PRlnwb
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database

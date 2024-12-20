@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Selecting the right Compute Unit (CU) is a crucial step when creating a cluster in Zilliz Cloud. A CU is the basic unit of compute resources used for parallel processing of data, and different CU types comprise varying combinations of CPU, memory, and storage. | BYOC"
 type: origin
 token: UgqvwKh2QiKE1kkYNLJcaHt0nkg
-sidebar_position: 4
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database

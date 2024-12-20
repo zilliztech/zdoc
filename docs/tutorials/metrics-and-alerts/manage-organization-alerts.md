@@ -89,7 +89,7 @@ When an alert in an **ON** status, the specified recipients will receive notific
 
 - **Receiving notifications**: Available to any organization member if designated by the owner.
 
-For a detailed explanation of user roles, refer to [User Roles](./user-roles).
+For a detailed explanation of user roles, refer to [Manage Organization Users](./organization-users).
 
 ## View organization alerts{#view-organization-alerts}
 

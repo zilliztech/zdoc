@@ -33,9 +33,9 @@ Once you join an organization, you can view the list of all projects in the orga
 
 ## Create a project{#create-a-project}
 
-To create a project, you must be an [Organization Owner](./resource-hierarchy).
+To create a project, you must be an [Organization Owner](./organization-users).
 
-When you create a project, you automatically become the [Project Admin](./user-roles#project-roles) of the project.
+When you create a project, you automatically become the [Project Admin](./project-users) of the project.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -47,7 +47,7 @@ When you create a project, you automatically become the [Project Admin](./user-r
 
 ## Rename a project{#rename-a-project}
 
-To rename a project, you must be an [Organization Owner](./resource-hierarchy).
+To rename a project, you must be an [Organization Owner](./organization-users).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -59,7 +59,7 @@ To rename a project, you must be an [Organization Owner](./resource-hierarchy).
 
 ## Delete a project{#delete-a-project}
 
-To delete a project, you must be an [Organization Owner](./resource-hierarchy).
+To delete a project, you must be an [Organization Owner](./organization-users).
 
 <Admonition type="info" icon="📘" title="Notes">
 

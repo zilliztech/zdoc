@@ -33,7 +33,7 @@ For automatically created backup files, Zilliz Cloud automatically removes them 
 
 Make sure the following conditions are met:
 
-- You are granted the [Organization Owner](./user-roles) or [Project Admin](./user-roles#project-roles) role in the target organization.
+- You are granted the [Organization Owner](./organization-users) or [Project Admin](./project-users) role in the target organization.
 
 - Your cluster runs on the **Dedicated** tier.
 

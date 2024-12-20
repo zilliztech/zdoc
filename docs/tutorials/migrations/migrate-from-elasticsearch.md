@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Elasticsearch is a highly scalable search and analytics engine known for its speed and flexibility in handling large volumes of data. By leveraging Zilliz Cloud's migration capabilities, you can seamlessly transfer data from your Elasticsearch instances to your Zilliz Cloud cluster. | Cloud"
 type: origin
 token: Y8nwwbi0KiwtVZkMaSQcsPcwnkf
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
@@ -41,6 +41,8 @@ This migration process involves establishing a connection with your existing Ela
 Make sure the following prerequisites are met:
 
 - The source Elasticsearch cluster is running version 7.x or later and is accessible from the public internet.
+
+- If you have an allowlist configured in your network environment, ensure that Zilliz Cloud IP addresses are added to it. For more information, refer to [Zilliz Cloud IPs](./zilliz-cloud-ips).
 
 - You have been granted the Organization Owner or Project Admin role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
 

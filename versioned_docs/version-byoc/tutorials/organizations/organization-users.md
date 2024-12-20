@@ -34,40 +34,58 @@ To invite users, enter the email addresses of the users you wish to invite. Then
 
 ### Organization roles{#organization-roles}
 
-Zilliz Cloud provides three organization roles: **Organization Owner**, **Organization Billing Admin**, and **Organization Member**. These roles cannot be modified or deleted.
+Zilliz Cloud provides three organization roles. These roles cannot be modified or deleted.
 
-The following table lists the corresponding UI and API privileges of each organization role.
+- **Organization Owner**: An Organization Owner is the top-level role in the Zilliz Cloud which has full privileges to manage an organization and all its resources (projects, clusters, databases, collections). This role should be granted only to a limited or controlled number of users in the organization.
 
-<table>
-   <tr>
-     <th><p><strong>Organization Role</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>UI Privileges</strong></p></th>
-     <th><p><strong>Control Plane RESTful API (V2) Privileges</strong></p></th>
-     <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Organization Owner</p></td>
-     <td><p>An <strong>Organization Owner</strong> is the top-level role in the Zilliz Cloud which has full privileges to manage an organization and all its resources (projects, clusters, databases, collections). </p><p>This role should be granted only to a limited or controlled number of users in the organization.</p></td>
-     <td><ul><li><p>Manage all projects in the organization</p></li><li><p>Manage <a href="./payment-billing">payments & billing</a></p></li><li><p>Manage <a href="./manage-api-keys">API keys</a></p></li><li><p>Manage <a href="./organization-users">organization users</a></p></li><li><p>Manage <a href="./metrics-and-alerts">alerts</a></p></li><li><p>View <a href="./view-activities">activities</a></p></li><li><p>Manage <a href="./organization-settings">organization settings</a></p></li><li><p>Use <a href="./use-recycle-bin">recycle bin</a></p></li><li><p>Plus all the privileges of a <a href="./project-users#project-roles">Project Admin</a> and a <a href="./cluster-roles#built-in-cluster-roles">Cluster Admin</a> roles</p></li></ul></td>
-     <td><p><a href="/reference/restful/control-plane-v2">All control plane operations</a></p></td>
-     <td><p><a href="/reference/restful/data-plane-v2">All data plane operations</a></p></td>
-   </tr>
-   <tr>
-     <td><p>Organization Billing Admin</p></td>
-     <td><p>An <strong>Organization Billing Admin</strong> is a role with the privileges to manage billing in an organization. This role does not have privileges to other data in the organization.</p></td>
-     <td><ul><li><p>Manage <a href="./payment-billing">payments & billing</a></p></li><li><p>View <a href="./manage-api-keys">API keys</a></p></li><li><p>Invite <a href="./organization-users">organization users</a></p></li><li><p>View <a href="./organization-settings">organization settings</a></p></li></ul></td>
-     <td><ul><li><p>List Invoices</p></li><li><p>Get Invoice</p></li><li><p>Query org daily usage</p></li></ul></td>
-     <td><p>The data plan privileges are determined by project and cluster roles. However, a Billing Admin usually does not require data plane privileges.</p></td>
-   </tr>
-   <tr>
-     <td><p>Organization Member</p></td>
-     <td><p>An <strong>Organization Member</strong> is a role with the the privileges to view an organization and its resources. Project and cluster level privileges of an Organization Member are dependent on the project and cluster role of this user.</p></td>
-     <td><ul><li><p>View <a href="./manage-api-keys">API keys</a></p></li><li><p>Invite <a href="./organization-users">organization users</a></p></li><li><p>View <a href="./organization-settings">organization settings</a></p></li></ul></td>
-     <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">All cloud meta operations</a></p></li><li><p>Part of cluster operations</p><ul><li><p><a href="/reference/restful/list-projects-v2">List Projects</a></p></li><li><p><a href="/reference/restful/list-clusters-v2">List Clusters</a></p></li><li><p><a href="/reference/restful/describe-cluster-v2">Describe Cluster</a></p></li><li><p><a href="/reference/restful/query-cluster-metrics-v2">Query Cluster Metrics</a></p></li><li><p><a href="/docs/prometheus-monitoring">Export Metrics</a></p></li></ul></li><li><p>Part of import operations</p><ul><li><p><a href="/reference/restful/get-import-job-progress-v2">Get Import Job Progress</a></p></li><li><p><a href="/reference/restful/list-import-jobs-v2">List Import Jobs </a></p></li></ul></li><li><p>Part of backup &amp; restore operations</p><ul><li><p><a href="/reference/restful/list-backups-v2">List Backups</a></p></li><li><p><a href="/reference/restful/describe-backup-v2">Describe Backup</a></p></li><li><p><a href="/reference/restful/get-backup-policy-v2">Get Backup Policy</a></p></li></ul></li><li><p><a href="/reference/restful/cloud-job-v2">All cloud job operations</a></p></li></ul></td>
-     <td><p>The data plan privileges are determined by project and cluster roles</p></td>
-   </tr>
-</table>
+    The following table lists the corresponding UI and API privileges of this organization role.
+
+    <table>
+       <tr>
+         <th><p><strong>UI Privileges</strong></p></th>
+         <th><p><strong>Control Plane RESTful API (V2) Privileges</strong></p></th>
+         <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
+       </tr>
+       <tr>
+         <td><ul><li><p>Manage all projects in the organization</p></li><li><p>Manage <a href="./payment-billing">payments & billing</a></p></li><li><p>Manage <a href="./manage-api-keys">API keys</a></p></li><li><p>Manage <a href="./organization-users">organization users</a></p></li><li><p>Manage <a href="./metrics-and-alerts">alerts</a></p></li><li><p>View <a href="./view-activities">activities</a></p></li><li><p>Manage <a href="./organization-settings">organization settings</a></p></li><li><p>Use <a href="./use-recycle-bin">recycle bin</a></p></li><li><p>Plus all the privileges of a <a href="./project-users#project-roles">Project Admin</a> and a <a href="./cluster-roles#built-in-cluster-roles">Cluster Admin</a> roles</p></li></ul></td>
+         <td><p><a href="/reference/restful/control-plane-v2">All control plane operations</a></p></td>
+         <td><p><a href="/reference/restful/data-plane-v2">All data plane operations</a></p></td>
+       </tr>
+    </table>
+
+- **Organization Billing Admin**: An Organization Billing Admin is a role with the privileges to manage billing in an organization. This role does not have privileges to other data in the organization.
+
+    The following table lists the corresponding UI and API privileges of this organization role.
+
+    <table>
+       <tr>
+         <th><p><strong>UI Privileges</strong></p></th>
+         <th><p><strong>Control Plane RESTful API (V2) Privileges</strong></p></th>
+         <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
+       </tr>
+       <tr>
+         <td><ul><li><p>Manage <a href="./payment-billing">payments & billing</a></p></li><li><p>View <a href="./manage-api-keys">API keys</a></p></li><li><p>Invite <a href="./organization-users">organization users</a></p></li><li><p>View <a href="./organization-settings">organization settings</a></p></li></ul></td>
+         <td><ul><li><p>List Invoices</p></li><li><p>Get Invoice</p></li><li><p>Query org daily usage</p></li></ul></td>
+         <td><p>The data plan privileges are determined by project and cluster roles. However, a Billing Admin usually does not require data plane privileges.</p></td>
+       </tr>
+    </table>
+
+- **Organization Member**: An Organization Member is a role with the the privileges to view an organization and its resources. Project and cluster level privileges of an Organization Member are dependent on the project and cluster role of this user.
+
+    The following table lists the corresponding UI and API privileges of this organization role.
+
+    <table>
+       <tr>
+         <th><p><strong>UI Privileges</strong></p></th>
+         <th><p><strong>Control Plane RESTful API (V2) Privileges</strong></p></th>
+         <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
+       </tr>
+       <tr>
+         <td><ul><li><p>View <a href="./manage-api-keys">API keys</a></p></li><li><p>Invite <a href="./organization-users">organization users</a></p></li><li><p>View <a href="./organization-settings">organization settings</a></p></li></ul></td>
+         <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">All cloud meta operations</a></p></li><li><p>Part of cluster operations</p><ul><li><p><a href="/reference/restful/list-projects-v2">List Projects</a></p></li><li><p><a href="/reference/restful/list-clusters-v2">List Clusters</a></p></li><li><p><a href="/reference/restful/describe-cluster-v2">Describe Cluster</a></p></li><li><p><a href="/reference/restful/query-cluster-metrics-v2">Query Cluster Metrics</a></p></li><li><p><a href="/docs/prometheus-monitoring">Export Metrics</a></p></li></ul></li><li><p>Part of import operations</p><ul><li><p><a href="/reference/restful/get-import-job-progress-v2">Get Import Job Progress</a></p></li><li><p><a href="/reference/restful/list-import-jobs-v2">List Import Jobs </a></p></li></ul></li><li><p>Part of backup &amp; restore operations</p><ul><li><p><a href="/reference/restful/list-backups-v2">List Backups</a></p></li><li><p><a href="/reference/restful/describe-backup-v2">Describe Backup</a></p></li><li><p><a href="/reference/restful/get-backup-policy-v2">Get Backup Policy</a></p></li></ul></li><li><p><a href="/reference/restful/cloud-job-v2">All cloud job operations</a></p></li></ul></td>
+         <td><p>The data plan privileges are determined by <a href="./project-users#project-roles">project</a> and <a href="./cluster-roles">cluster</a> roles</p></td>
+       </tr>
+    </table>
 
 Note that if you are an **Organization Member** or an **Organization Billing Admin**, you can only grant invitees the role of **Organization Member**.
 

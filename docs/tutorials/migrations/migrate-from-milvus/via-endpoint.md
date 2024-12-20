@@ -35,7 +35,9 @@ This topic describes how to migrate from Milvus via database endpoint. For infor
 
 ## Before you start{#before-you-start}
 
-- The source Milvus instance is running version 2.x or later and is accessible from the public internet.
+- The source Milvus instance is running version 2.3.6 or later and is accessible from the public internet.
+
+- If you have an allowlist configured in your network environment, ensure that Zilliz Cloud IP addresses are added to it. For more information, refer to [Zilliz Cloud IPs](./zilliz-cloud-ips).
 
 - If authentication has been enabled for the source Milvus, make sure you have obtained necessary connection credentials. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md?tab=docker#Authenticate-User-Access).
 

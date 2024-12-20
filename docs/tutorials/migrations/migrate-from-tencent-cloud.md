@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Tencent Cloud VectorDB is a vector database solution designed for similarity searches. Migrating data from Tencent Cloud VectorDB to Zilliz Cloud allows users to take advantage of Zilliz Cloud's enhanced capabilities for vector analytics and scalable data management. | Cloud"
 type: origin
 token: SwgXwdHG6iqpbUknXrHcOPd7nRe
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database

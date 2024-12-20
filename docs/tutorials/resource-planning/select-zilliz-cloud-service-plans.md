@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloud provides a range of cluster plans to suit diverse requirements. Whether you're new to vector databases or require robust solutions for enterprise-level tasks, making the right choice ensures optimal performance, scalability, and cost-efficiency. This guide will help you make an informed decision. | Cloud"
 type: origin
 token: Ghq9wEiOOivgeIkmj2HcHC9onXe
-sidebar_position: 3
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database

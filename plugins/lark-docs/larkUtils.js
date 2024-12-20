@@ -50,14 +50,14 @@ class larkUtils {
             }   
         }
 
-        // remove unnecessary index files
-        const index_files = fs.readdirSync(outputDir, {recursive: true})
-            .filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory() && fs.existsSync(`${outputDir}/${path}/${path}.md`))
+        // // remove unnecessary index files
+        // const index_files = fs.readdirSync(outputDir, {recursive: true})
+        //     .filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory() && fs.existsSync(`${outputDir}/${path}/${path}.md`))
             
-        for (const index_file of index_files) {
-            const index_path = `${outputDir}/${index_file}/${index_file}.md`
-            fs.rmSync(index_path, { force: true })
-        }
+        // for (const index_file of index_files) {
+        //     const index_path = `${outputDir}/${index_file}/${index_file}.md`
+        //     fs.rmSync(index_path, { force: true })
+        // }
     }
 
     list_valid_targets(targets, root='') {

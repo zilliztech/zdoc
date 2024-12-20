@@ -38,7 +38,7 @@ For a quick view of all the organizations you've joined, just click **All Organi
 
 ## Rename an organization{#rename-an-organization}
 
-To rename an organization, you must be an [Organization Owner](./resource-hierarchy).
+To rename an organization, you must be an [Organization Owner](./organization-users).
 
     ![edit-organization-name-byoc](/byoc/edit-organization-name-byoc.png)
 
@@ -46,11 +46,11 @@ To rename an organization, you must be an [Organization Owner](./resource-hierar
 
 The system time zone is set to where your first login occurs and applies to all time strings displayed on Zilliz Cloud.
 
-To view the current time zone, you can either be an [Organization Owner](./resource-hierarchy) or an [Organization Member](./resource-hierarchy).
+To view the current time zone, you can either be an Organization Owner or an Organization Member. For details on roles in an organization, refer to [Manage Organization Users](./organization-users).
 
 ![byoc-timezone-settings](/byoc/byoc-timezone-settings.png)
 
-To modify the system time zone, you must be an [Organization Owner](./resource-hierarchy). Click **Edit** to open the **Time Zone Settings** dialog box, and select a time zone from the drop-down list. You can also enter the name of a time zone to quickly filter the desired time zone.
+To modify the system time zone, you must be an [Organization Owner](./organization-users). Click **Edit** to open the **Time Zone Settings** dialog box, and select a time zone from the drop-down list. You can also enter the name of a time zone to quickly filter the desired time zone.
 
 ## Set up maintenance window{#set-up-maintenance-window}
 
@@ -78,7 +78,7 @@ Before you start, make sure the following conditions are met:
 
 - All organization [bills](./view-invoice) are paid.
 
-- You are granted the [Organization Owner](./resource-hierarchy) role in the target organization.
+- You are granted the [Organization Owner](./organization-users) role in the target organization.
 
 - All remaining advance pay funds need to be refunded.
 

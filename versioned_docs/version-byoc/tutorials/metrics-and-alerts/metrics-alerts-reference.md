@@ -187,14 +187,14 @@ Organization alerts keep you informed about license-related issues such as the l
      <td><p>License (Core Usage)</p></td>
      <td><p>%</p></td>
      <td><p>Monitor the percentage of used CPU cores against the total licensed cores.</p></td>
-     <td><p><strong>> 70%</strong>: Assess future needs and prepare to renew or upgrade the license.</p><p><strong>> 100%</strong>: Renew or upgrade the license immediately to avoid operational disruptions.</p><p>For details, refer to <a href="./license">License</a>.</p></td>
+     <td><p><strong>> 70%</strong>: Assess future needs and prepare to renew or upgrade the license.</p><p><strong>> 100%</strong>: Renew or upgrade the license immediately to avoid operational disruptions.</p></td>
      <td><p><strong>WARNING</strong>: Trigger alerts when the number of used CPU cores reaches or exceeds 70% of the total.</p><p><strong>CRITICAL</strong>: Trigger alerts when the number of used CPU cores reaches or exceeds 100% of the total.</p></td>
    </tr>
    <tr>
      <td><p>License (Validity Period)</p></td>
      <td><p>Day</p></td>
      <td><p>Track the remaining days of license validity.</p></td>
-     <td><p><strong>< 60 days</strong>: Start preparing to renew or upgrade the license. </p><p><strong>< 0 day</strong> (expired): Renew or upgrade the license immediately to avoid restrictions like the inability to create new clusters or scale up.</p><p>For details, refer to <a href="./license">License</a>.</p></td>
+     <td><p><strong>< 60 days</strong>: Start preparing to renew or upgrade the license. </p><p><strong>< 0 day</strong> (expired): Renew or upgrade the license immediately to avoid restrictions like the inability to create new clusters or scale up.</p></td>
      <td><p><strong>WARNING</strong>: Trigger alerts when the license validity is 60 days or less.</p><p><strong>CRITICAL</strong>: Trigger alerts when the license expires.</p></td>
    </tr>
 </table>

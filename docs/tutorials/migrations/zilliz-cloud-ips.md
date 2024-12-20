@@ -1,0 +1,141 @@
+---
+title: "Zilliz Cloud IPs | Cloud"
+slug: /zilliz-cloud-ips
+sidebar_label: "Zilliz Cloud IP Addresses"
+beta: FALSE
+notebook: FALSE
+description: "Zilliz Cloud pulls data from your data sources and sends it to target clusters using a set of fixed IP addresses. To ensure that Zilliz Cloud can do this, you must safelist these IP addresses in your firewall | Cloud"
+type: origin
+token: KfgvwJKPDi8uDekl2aHcPOvgnSb
+sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - migrations
+  - ips
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# Zilliz Cloud IPs
+
+Zilliz Cloud pulls data from your data sources and sends it to target clusters using a set of fixed IP addresses. To ensure that Zilliz Cloud can do this, you must safelist these IP addresses in your firewall:
+
+- Zilliz Cloud service IP addresses
+
+- The IP addresses for the cloud region where your target cluster resides
+
+## Zilliz Cloud service IP addresses{#zilliz-cloud-service-ip-addresses}
+
+These IP addresses are used by Zilliz Cloud to provide services. Ensure that these are added to your firewall's allowlist.
+
+<table>
+   <tr>
+     <th><p>Region</p></th>
+     <th><p>Geography</p></th>
+     <th><p>IP Addresses (CIDR)</p></th>
+   </tr>
+   <tr>
+     <td><p>us-west-2</p></td>
+     <td><p>Oregon, USA</p></td>
+     <td><p><code>54.200.111.111</code>, <code>34.218.171.123</code></p></td>
+   </tr>
+</table>
+
+## Target cluster region IP addresses{#target-cluster-region-ip-addresses}
+
+Safelist the IP addresses corresponding to the cloud service provider and region of your target Zilliz Cloud cluster.
+
+### AWS{#aws}
+
+<table>
+   <tr>
+     <th><p>Region</p></th>
+     <th><p>Geography</p></th>
+     <th><p>IP Addresses (CIDR)</p></th>
+   </tr>
+   <tr>
+     <td><p>us-west-2</p></td>
+     <td><p>Oregon, USA</p></td>
+     <td><p><code>54.200.111.111</code>, <code>34.218.171.123</code></p></td>
+   </tr>
+   <tr>
+     <td><p>us-east-1</p></td>
+     <td><p>N. Virginia, USA</p></td>
+     <td><p><code>44.208.236.92</code></p></td>
+   </tr>
+   <tr>
+     <td><p>us-east-2</p></td>
+     <td><p>Ohio, USA</p></td>
+     <td><p><code>18.190.127.133</code></p></td>
+   </tr>
+   <tr>
+     <td><p>ap-southeast-1</p></td>
+     <td><p>Singapore</p></td>
+     <td><p><code>13.251.167.154</code>, <code>3.0.159.148</code></p></td>
+   </tr>
+   <tr>
+     <td><p>ap-northeast-1</p></td>
+     <td><p>Tokyo</p></td>
+     <td><p><code>35.72.252.126</code></p></td>
+   </tr>
+   <tr>
+     <td><p>eu-central-1</p></td>
+     <td><p>Frankfurt</p></td>
+     <td><p><code>18.158.52.65</code>, <code>3.121.11.160</code></p></td>
+   </tr>
+</table>
+
+### GCP{#gcp}
+
+<table>
+   <tr>
+     <th><p>Region</p></th>
+     <th><p>Geography</p></th>
+     <th><p>IP Addresses (CIDR)</p></th>
+   </tr>
+   <tr>
+     <td><p>us-west1</p></td>
+     <td><p>Oregon, USA</p></td>
+     <td><p><code>34.168.252.102</code>, <code>34.83.176.23</code>, <code>35.247.80.67</code>, <code>35.227.139.83</code>,</p><p><code>34.168.123.225</code>, <code>35.247.17.192</code>, <code>34.105.17.34</code></p></td>
+   </tr>
+   <tr>
+     <td><p>us-east4</p></td>
+     <td><p>Virginia, USA</p></td>
+     <td><p><code>35.245.190.186</code>, <code>35.245.51.241</code></p></td>
+   </tr>
+   <tr>
+     <td><p>asia-southeast1</p></td>
+     <td><p>Singapore</p></td>
+     <td><p><code>34.87.102.210</code>, <code>35.197.139.186</code></p></td>
+   </tr>
+   <tr>
+     <td><p>europe-west3</p></td>
+     <td><p>Frankfurt</p></td>
+     <td><p><code>34.107.41.158</code>, <code>34.141.61.171</code></p></td>
+   </tr>
+</table>
+
+### Azure{#azure}
+
+<table>
+   <tr>
+     <th><p>Region</p></th>
+     <th><p>Geography</p></th>
+     <th><p>IP Addresses (CIDR)</p></th>
+   </tr>
+   <tr>
+     <td><p>East US</p></td>
+     <td><p>Virginia, USA</p></td>
+     <td><p><code>52.152.137.114</code></p></td>
+   </tr>
+   <tr>
+     <td><p>Germany West Central</p></td>
+     <td><p>Frankfurt</p></td>
+     <td><p><code>4.184.247.193</code></p></td>
+   </tr>
+</table>
+

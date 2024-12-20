@@ -7,7 +7,7 @@ notebook: FALSE
 description: "PostgreSQL](https//www.postgresql.org/) is a robust, open-source, object-relational database engine renowned for its extensibility, data integrity, and performance. By utilizing the [pgvector extension, PostgreSQL gains the capability to store and manage vector data. | Cloud"
 type: origin
 token: CiVHwbwPwipX5SkFkqVcLpESnfe
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
@@ -41,6 +41,8 @@ If you have PostgreSQL databases with [pgvector](https://github.com/pgvector/pgv
 Make sure the following prerequisites are met:
 
 - The source PostgreSQL database is accessible from the public internet.
+
+- If you have an allowlist configured in your network environment, ensure that Zilliz Cloud IP addresses are added to it. For more information, refer to [Zilliz Cloud IPs](./zilliz-cloud-ips).
 
 - You have been granted the Organization Owner or Project Admin role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
 

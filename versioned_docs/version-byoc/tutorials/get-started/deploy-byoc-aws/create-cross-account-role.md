@@ -62,6 +62,12 @@ In this step, you will create a cross-account IAM role for the communications be
 
 1. In the **Name, review, and create** step, name the role, review the trusted entities, and click **Create role**.
 
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>When naming the role, use the prefix <code>zilliz-byoc</code>.</p>
+
+    </Admonition>
+
 1. Once the role has been created, click **View role** in the green bar to go to the role details. 
 
     ![MwURbWS9ZofJHyxjX9jcN0dEnpf](/byoc/MwURbWS9ZofJHyxjX9jcN0dEnpf.png)
@@ -88,6 +94,33 @@ This step is solely on the AWS console. In this step, you will create an inline 
     {
         "Version" : "2012-10-17",
         "Statement" : [
+         {
+            "Sid" : "CreateOpenIDConnectProvider",
+            "Effect" : "Allow",
+            "Action" : [
+              "iam:CreateOpenIDConnectProvider",
+              "iam:TagOpenIDConnectProvider"
+            ],
+            "Resource" : [
+              "arn:aws:iam::*:oidc-provider/*"
+            ],
+            "Condition" : {
+              "StringEquals" : {
+                "aws:RequestTag/Vendor" : "zilliz-byoc"
+              }
+            }
+          },
+          {
+            "Sid" : "DeleteOpenIDConnectProvider",
+            "Effect" : "Allow",
+            "Action" : [
+              "iam:GetOpenIDConnectProvider",
+              "iam:DeleteOpenIDConnectProvider"
+            ],
+            "Resource" : [
+              "arn:aws:iam::*:oidc-provider/*"
+            ]
+          },
           {
             "Sid" : "IAMReadEKSRole",
             "Effect" : "Allow",
@@ -363,3 +396,10 @@ This step is solely on the AWS console. In this step, you will create an inline 
 
     ![IxHmbUSHzobqAUx6i1UcpsRCnPg](/byoc/IxHmbUSHzobqAUx6i1UcpsRCnPg.png)
 
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>When naming the policy, use the prefix <code>zilliz-byoc</code>.</p>
+
+    </Admonition>
+
+    

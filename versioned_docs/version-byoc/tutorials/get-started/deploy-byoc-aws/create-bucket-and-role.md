@@ -107,6 +107,12 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to access the 
 
 1. In the **Name, review, and create** step, name the role, review the trusted entities, and click **Create role**.
 
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>When naming the role, use the prefix <code>zilliz-byoc</code>.</p>
+
+    </Admonition>
+
 1. Once the role has been created, click **View role** in the green bar to go to the role details
 
     ![AFB3bRWMKocUyPxO6hWczeKWnrd](/byoc/AFB3bRWMKocUyPxO6hWczeKWnrd.png)
@@ -164,4 +170,8 @@ This step is solely on the AWS console. In this step, you will create an inline 
 
     ![F8FNbZHcGouWuVx7FO8cnK2Anqg](/byoc/F8FNbZHcGouWuVx7FO8cnK2Anqg.png)
 
-    
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>When naming the policy, use the prefix <code>zilliz-byoc</code>.</p>
+
+    </Admonition>

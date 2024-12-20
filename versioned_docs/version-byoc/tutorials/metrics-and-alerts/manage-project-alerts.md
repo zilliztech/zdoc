@@ -80,7 +80,7 @@ For more information about recommended actions, refer to [Metrics & Alerts Refer
 
 - **Receiving notifications**: Available to any organization member if designated by the owner.
 
-For more information on user roles, see [User Roles](./user-roles).
+For more information on user roles, see [Manage Project Users](./project-users).
 
 ## View project alerts{#view-project-alerts}
 
@@ -148,7 +148,7 @@ View triggered alerts on the **Alert History** tab, with filters for alert targe
 
 ## Configure alert receiver settings{#configure-alert-receiver-settings}
 
-The Alert Receiver Settings feature allows [Project Admins](./user-roles) to create and manage alert templates, providing a structured way to handle notifications for various events within a project.
+The Alert Receiver Settings feature allows [Project Admins](./project-users) to create and manage alert templates, providing a structured way to handle notifications for various events within a project.
 
 On the **Alert Settings** page of the project alerts, configure alert receiver settings.incl
 

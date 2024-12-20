@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Pinecone is a vector database that allows for similarity searches. Migrating data from Pinecone to Zilliz Cloud can enhance capabilities for managing both dense and sparse vectors while taking advantage of Zilliz Cloud’s high-performance search and analytics. | Cloud"
 type: origin
 token: R33EwQchxiO3HKk4vPnce6vkntc
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
@@ -39,6 +39,8 @@ This guide walks you through the process of migrating your data from Pinecone to
 ## Before you start{#before-you-start}
 
 - The source Pinecone index is accessible from the public internet.
+
+- If you have an allowlist configured in your network environment, ensure that Zilliz Cloud IP addresses are added to it. For more information, refer to [Zilliz Cloud IPs](./zilliz-cloud-ips).
 
 - You have obtained the API key to access the target Pinecone project.
 
