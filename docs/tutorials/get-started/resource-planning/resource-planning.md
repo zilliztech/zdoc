@@ -1,13 +1,13 @@
 ---
-title: "Resource Planning | BYOC"
+title: "Resource Planning | Cloud"
 slug: /resource-planning
 sidebar_label: "Resource Planning"
 beta: FALSE
 notebook: FALSE
-description: "Topics related to resource planning before you move your data to Zilliz Cloud. | BYOC"
+description: "Topics related to resource planning before you move your data to Zilliz Cloud. | Cloud"
 type: origin
 token: NM2OwCcfVijX8DkNsIxcdajEnr7
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database

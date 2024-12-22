@@ -27,7 +27,7 @@ This page demonstrates how to use Terraform to bootstrap the infrastructure for 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>To run the Terraform script, you need to have <a href="https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli">Terraform</a> and <a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html">AWS CLI</a> installed on your computer and an AWS account with associated credentials that allow you to create VPC. </p>
+<p>To run the Terraform script, you need to have <a href="https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli">Terraform</a> and <a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html">AWS CLI</a> installed on your computer and an AWS account with associated credentials that allow you to create VPCs. </p>
 
 </Admonition>
 
@@ -44,7 +44,7 @@ $ git clone https://github.com/zilliztech/paas-deploy.git
 In this step, you are going to edit the `terraform.tfvars.json` file located within `client_init` folder.
 
 ```shell
-$ cd client_init
+$ cd byoc-prepare
 $ vi terraform.tfvars.json
 ```
 
@@ -55,7 +55,7 @@ The file is similar to the following:
   "aws_region": "us-west-2",
   "vpc_cidr": "10.0.0.0/16",
   "name": "test-byoc-lcf",
-  "ExternalId": "cid-21167566d92b47e41698a1e86"
+  "ExternalId": "cid-xxxxxxxxxxxxxxxxxxxxxxxxx"
 }
 ```
 
@@ -66,19 +66,19 @@ The file is similar to the following:
    </tr>
    <tr>
      <td><p><code>aws_region</code></p></td>
-     <td><p>The cloud region in which you will deploy Zilliz BYOC.</p></td>
+     <td><p>The cloud region in which you will deploy Zilliz BYOC.</p><p>Currently, you can deploy your BYOC project in <code>us-west-2</code>. If you need to deploy your BYOC project in other cloud regions, please contact us by sending email to support@zilliz.com.</p></td>
    </tr>
    <tr>
      <td><p><code>vpc_cidr</code></p></td>
-     <td><p>The CIDR blocks to be allocated within the customer-managed VPC.</p></td>
+     <td><p>The CIDR blocks to be allocated within the customer-managed VPC. For example, <strong>10.0.0.0/16</strong>.</p></td>
    </tr>
    <tr>
      <td><p><code>name</code></p></td>
-     <td><p>The name of the BYOC project to create.</p></td>
+     <td><p>The name of the BYOC project to create. </p><p>Please align the value with the one you have entered in the form below.</p><p><img src="/byoc/VQ3NbcrKDoC6faxIOGRc6RvGn4e.png" alt="VQ3NbcrKDoC6faxIOGRc6RvGn4e" /></p></td>
    </tr>
    <tr>
      <td><p><code>ExternalId</code></p></td>
-     <td><p>The External ID of the BYOC project to create. You can get this value from Zilliz Cloud console.</p></td>
+     <td><p>The <strong>External ID</strong> of the BYOC project to create. You can get this value from Zilliz Cloud console.</p><p><img src="/byoc/USjXbCTLBoMsfDxiMNDc0okbnIe.png" alt="USjXbCTLBoMsfDxiMNDc0okbnIe" /></p></td>
    </tr>
 </table>
 
@@ -132,14 +132,14 @@ Once you have prepared the credentials described above, bootstrap the infrastruc
        </tr>
        <tr>
          <td><p>IAM role ARN</p></td>
-         <td><p>Use the value of the <code>eks-role-arn</code> variable in the command output.</p><p>By assuming the role, Zilliz Cloud can create and manage the EKS cluster on your behalf.</p></td>
+         <td><p>Use the value of the <code>eks_role_arn</code> variable in the command output.</p><p>By assuming the role, Zilliz Cloud can create and manage the EKS cluster on your behalf.</p></td>
        </tr>
        <tr>
          <td colspan="2"><p><strong>Cross-account settings</strong></p></td>
        </tr>
        <tr>
          <td><p>IAM role ARN</p></td>
-         <td><p>Use the value of the <code>bootstrap_role_arn</code> variable in the command output.</p><p>By assuming the role, Zilliz Cloud can provision the data plane on your behalf.</p></td>
+         <td><p>Use the value of the <code>cross_account_role_arn</code> variable in the command output.</p><p>By assuming the role, Zilliz Cloud can provision the data plane on your behalf.</p></td>
        </tr>
        <tr>
          <td colspan="2"><p><strong>Network settings</strong></p></td>
@@ -150,6 +150,6 @@ Once you have prepared the credentials described above, bootstrap the infrastruc
        </tr>
        <tr>
          <td><p>Subnets</p></td>
-         <td><p>Use the values of the <code>subnet_id</code> variable in the command output.</p><p>Zilliz Cloud requires a public subnet and three private subnets and deploys the NAT gateway in the public subnet to route the network traffic of the private subnets in each availability zone.</p></td>
+         <td><p>Use the values of the <code>subnet_id</code> variable in the command output.</p><p>Zilliz Cloud requires a public subnet and three private subnets and deploys the NAT gateway in the public subnet to route the network traffic of the private subnets in each availability zone.</p><p>You need to concatenate the three subnet IDs with commas as in <code>subnet_xxxxxxxxxxxxxxxxx,subnet_xxxxxxxxxxxxxxxxx,subnet_xxxxxxxxxxxxxxxxx</code>.</p></td>
        </tr>
     </table>

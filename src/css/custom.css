@@ -230,25 +230,6 @@ section.row > article.margin-bottom--lg {
   margin-bottom: 1.5rem !important;
 }
 
-/* li.theme-doc-sidebar-item-link-level-1,
-li.theme-doc-sidebar-item-link-level-2,
-li.theme-doc-sidebar-item-link-level-3,
-li.theme-doc-sidebar-item-link-level-4 {
-  margin-top: 0 !important;
-} */
-
-/* li.theme-doc-sidebar-item-link-level-1 a.menu__link.menu__link--active,
-li.theme-doc-sidebar-item-link-level-2 a.menu__link.menu__link--active,
-li.theme-doc-sidebar-item-link-level-3 a.menu__link.menu__link--active,
-li.theme-doc-sidebar-item-link-level-4 a.menu__link.menu__link--active,
-li.theme-doc-sidebar-item-link-level-1 a.menu__link:hover,
-li.theme-doc-sidebar-item-link-level-2 a.menu__link:hover,
-li.theme-doc-sidebar-item-link-level-3 a.menu__link:hover,
-li.theme-doc-sidebar-item-link-level-4 a.menu__link:hover {
-  background-color: var(--ifm-color-primary-light) !important;
-  color: #fff !important;
-} */
-
 li.theme-doc-sidebar-item-link-level-1 a.menu__link,
 li.theme-doc-sidebar-item-link-level-2 a.menu__link,
 li.theme-doc-sidebar-item-link-level-3 a.menu__link,
@@ -266,12 +247,9 @@ li.theme-doc-sidebar-item-category-level-3 a.menu__link.menu__link--sublist {
   color: rgb(107, 114, 128) !important;
 }
 
-/* li.theme-doc-sidebar-item-category-level-1 a.menu__link.menu__link--sublist:hover,
-li.theme-doc-sidebar-item-category-level-2 a.menu__link.menu__link--sublist:hover,
-li.theme-doc-sidebar-item-category-level-3 a.menu__link.menu__link--sublist:hover {
-  background-color: var(--ifm-color-primary-light) !important;
-  color: #fff !important;
-} */
+li.theme-doc-sidebar-item-category-level-1 > ul.menu__list {
+  padding-left: 0 !important;
+}
 
 div.footer__bottom.text--center {
   display: none;
@@ -308,11 +286,12 @@ div.footer__bottom.text--center {
   display: none !important;
 }
 
-.sidebar__title {
+.menu__list-item-collapsible:not(:has(button)) {
   display: inline-block;
   font-weight: 700;
   margin: 0.25rem 0;
   font-size: 14px;
+  text-transform: uppercase;
 }
 
 /* li.menu__list-item:has(a) {

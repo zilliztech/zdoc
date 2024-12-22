@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This page describes how to manually create a project in your Zilliz Cloud Bring-Your-Own-Cloud (BYOC) organization using the Zilliz Cloud console and custom AWS configurations. | BYOC"
 type: origin
 token: DsqzwjegpiYSdtk1k75c1zXsnZc
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - byoc

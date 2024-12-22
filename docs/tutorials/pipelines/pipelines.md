@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Pipelines transform your unstructured data to a searchable vector collection, chaining up the embedding, ingestion, search, and deletion of your data. | Cloud"
 type: origin
 token: MILwwIfk3iMFsAk7ZGzcExHjn3b
-sidebar_position: 11
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database

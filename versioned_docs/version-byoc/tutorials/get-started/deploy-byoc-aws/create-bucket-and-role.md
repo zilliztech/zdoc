@@ -74,7 +74,7 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to access the 
 
     ![KlbBb0D1soRfNxxA9b2cvRSWn7g](/byoc/KlbBb0D1soRfNxxA9b2cvRSWn7g.png)
 
-1. In **Select trusted entity**, click the **Custom trust policy** tile. In **Common trust policy**, paste the trust JSON from below into the editor in the **Custom trust policy** section.
+1. In **Select trusted entity**, click the **Custom trust policy** tile. In **Common trust policy**, paste the trust JSON from below into the editor in the **Custom trust policy** section and replace `{accountId}` with your **AWS Account ID**.
 
     ```json
     {
@@ -83,7 +83,7 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to access the 
             {
                 "Effect": "Allow",
                 "Principal": {
-                    "Federated": "arn:aws:iam::accountId:oidc-provider/eks_oidc_url"
+                    "Federated": "arn:aws:iam::{accountId}:oidc-provider/eks_oidc_url"
                 },
                 "Action": "sts:AssumeRoleWithWebIdentity",
                 "Condition": {
@@ -115,11 +115,11 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to access the 
 
 1. Once the role has been created, click **View role** in the green bar to go to the role details
 
-    ![AFB3bRWMKocUyPxO6hWczeKWnrd](/byoc/AFB3bRWMKocUyPxO6hWczeKWnrd.png)
+    ![TWpFbSb3IooqTBxAoCXcTfC4n2c](/byoc/TWpFbSb3IooqTBxAoCXcTfC4n2c.png)
 
 1. Click the copy icon in front of the role's **ARN**.
 
-    ![Kmbmb7yotohZM1x6wr6cY1Dtngc](/byoc/Kmbmb7yotohZM1x6wr6cY1Dtngc.png)
+    ![BSImbWeTloGRhjxMCRWc26ZUntg](/byoc/BSImbWeTloGRhjxMCRWc26ZUntg.png)
 
 1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **Storage settings**. 
 
@@ -131,7 +131,7 @@ This step is solely on the AWS console. In this step, you will create an inline 
 
 1. Go to the details page of the created role. In the **Permissions policies** section, click **Add permissions**, and choose **Create inline policy**.
 
-    ![URisba5y9oZI1lxqKFHcLbAlnpe](/byoc/URisba5y9oZI1lxqKFHcLbAlnpe.png)
+    ![VoLMbB9VfoVzfDx0NPTcfFCWn7c](/byoc/VoLMbB9VfoVzfDx0NPTcfFCWn7c.png)
 
 1. On the **Specify permissions** page, click **JSON** in the **Policy editor** section to open the policy editor. Then copy the permissions from below and paste it into the policy editor.
 
@@ -168,10 +168,12 @@ This step is solely on the AWS console. In this step, you will create an inline 
 
 1. In **Review and create**, enter a policy name, review the permissions, and click **Create policy**.
 
-    ![F8FNbZHcGouWuVx7FO8cnK2Anqg](/byoc/F8FNbZHcGouWuVx7FO8cnK2Anqg.png)
-
     <Admonition type="info" icon="📘" title="Notes">
 
     <p>When naming the policy, use the prefix <code>zilliz-byoc</code>.</p>
 
     </Admonition>
+
+    ![ZxlGbt5dzoTmpzxpS2Uc8rkBnHe](/byoc/ZxlGbt5dzoTmpzxpS2Uc8rkBnHe.png)
+
+    

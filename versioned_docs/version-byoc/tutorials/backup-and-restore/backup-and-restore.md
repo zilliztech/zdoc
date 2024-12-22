@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Data backup and restore for your data stored in Zilliz Cloud clusters. | BYOC"
 type: origin
 token: VvikwOKc9iZ5vBkgMnycrXKmnId
-sidebar_position: 7
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database

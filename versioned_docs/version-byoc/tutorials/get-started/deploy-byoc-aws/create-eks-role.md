@@ -50,7 +50,7 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
 
     ![UQUbbRI7IoSJdBxx1uqcF6RInbb](/byoc/UQUbbRI7IoSJdBxx1uqcF6RInbb.png)
 
-1. In **Select trusted entity**, click the **Custom trust policy** tile. In **Common trust policy**, paste the trust JSON from below into the editor in the **Custom trust policy** section.
+1. In **Select trusted entity**, click the **Custom trust policy** tile. In **Common trust policy**, paste the trust JSON from below into the editor in the **Custom trust policy** section and replace `{accountId}` with your **AWS Account ID**.
 
     ```json
     {
@@ -82,7 +82,7 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
           {
             "Effect" : "Allow",
             "Principal" : {
-              "Federated" : "arn:aws:iam::accountid:oidc-provider/eks_oidc_url"
+              "Federated" : "arn:aws:iam::{accountId}:oidc-provider/eks_oidc_url"
             },
             "Action" : "sts:AssumeRoleWithWebIdentity",
             "Condition" : {
@@ -95,7 +95,7 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
           {
             "Effect" : "Allow",
             "Principal" : {
-              "Federated" : "arn:aws:iam::accountid:oidc-provider/eks_oidc_url"
+              "Federated" : "arn:aws:iam::{accountId}:oidc-provider/eks_oidc_url"
             },
             "Action" : "sts:AssumeRoleWithWebIdentity",
             "Condition" : {
@@ -108,7 +108,7 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
           {
             "Effect" : "Allow",
             "Principal" : {
-              "Federated" : "arn:aws:iam::accountid:oidc-provider/eks_oidc_url"
+              "Federated" : "arn:aws:iam::{accountId}:oidc-provider/eks_oidc_url"
             },
             "Action" : "sts:AssumeRoleWithWebIdentity",
             "Condition" : {
@@ -136,11 +136,11 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
 
 1. Once the role has been created, click **View role** in the green bar to go to the role details. 
 
-    ![Tq40baMqToXsQtxyJy4c8Uv6nMS](/byoc/Tq40baMqToXsQtxyJy4c8Uv6nMS.png)
+    ![JWndbA1JAoa9EJxGxI2c7JOBnRf](/byoc/JWndbA1JAoa9EJxGxI2c7JOBnRf.png)
 
 1. Click the copy icon in front of the role's **ARN**.
 
-    ![UlU9btMi1oEKtrxsLMmcdmE5nib](/byoc/UlU9btMi1oEKtrxsLMmcdmE5nib.png)
+    ![TaYsbFd3VoJ3CXxxrr2ctXvSndP](/byoc/TaYsbFd3VoJ3CXxxrr2ctXvSndP.png)
 
 1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **EKS settings**. 
 
@@ -148,13 +148,13 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
 
 ### Step 2: Add permissions{#step-2-add-permissions}
 
-In this step, you are going to add several permissions to the EKS role. On the role's details page, click the **Permissions** tab.  In the **Permissions policies** section, click **Add permissions**, and choose **Attach policies** or **Create inline policy**, based on the actual permissions to add.
+In this step, you are going to add several permissions to the EKS role. On the role's details page, click the **Permissions** tab.  In the **Permissions policies** section, click **Add permissions**. In this step, you need to select **Attach policies** and then **Create inline policy** to add multiple policies from different sources .
 
-![I5nQbazXXor6RzxGeMZco3F6nDd](/byoc/I5nQbazXXor6RzxGeMZco3F6nDd.png)
+![W1aCbP9zyojMylxG18Scpcfwnxd](/byoc/W1aCbP9zyojMylxG18Scpcfwnxd.png)
 
 #### Attach AWS-managed policies{#attach-aws-managed-policies}
 
-The following table lists the permissions to add as attached policies. You can click the item in the **Permissions** column to view the required permissions.
+The following table lists the permissions to add as attached policies. Click the item in the **Permissions** column of the table to view the required permissions.
 
 <table>
    <tr>
@@ -199,7 +199,7 @@ You will find that these policies are listed in the **Permissions** policies lis
 
 #### Create inline policies{#create-inline-policies}
 
-The following table lists the policies that need to be added as customer inline policies. You can click the item in the **Permissions** column to view the required permissions.
+The following table lists the policies that need to be added as customer inline policies. Click the item in the **Permissions** column of the table to view the required permissions.
 
 <table>
    <tr>
@@ -230,15 +230,15 @@ After you choose **Create inline policy**, on the **Specify permissions** page, 
 
 Click **Next**, and set **Policy name** in **Policy details**.
 
-![TQHmb8qSsoALyUxVqM4cMiczn8d](/byoc/TQHmb8qSsoALyUxVqM4cMiczn8d.png)
-
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>When naming the policy, use the prefix <code>zilliz-byoc</code>.</p>
+<p>As shown in the following figure, when naming the policy, use the prefix <code>zilliz-byoc</code>.</p>
 
 </Admonition>
 
+![QMu4bLEoEo4lrAxDurIcgpINnnb](/byoc/QMu4bLEoEo4lrAxDurIcgpINnnb.png)
+
 Once you have added all the listed inline policies, click **Create policy**. You will find that these policies are listed in the **Permissions** policies list.
 
-![D4dHbcTZOoGpd2x3rI9czfpCn4b](/byoc/D4dHbcTZOoGpd2x3rI9czfpCn4b.png)
+![FD9rbE25YofQJDxafNLc0IUInWg](/byoc/FD9rbE25YofQJDxafNLc0IUInWg.png)
 

@@ -70,11 +70,11 @@ In this step, you will create a cross-account IAM role for the communications be
 
 1. Once the role has been created, click **View role** in the green bar to go to the role details. 
 
-    ![MwURbWS9ZofJHyxjX9jcN0dEnpf](/byoc/MwURbWS9ZofJHyxjX9jcN0dEnpf.png)
+    ![DhbcbR2Lfocoopxjn5lcUixQn4e](/byoc/DhbcbR2Lfocoopxjn5lcUixQn4e.png)
 
 1. Click the copy icon in front of the role's **ARN**.
 
-    ![YIzsbxYWuojWbpx5QPtcgmx7nmd](/byoc/YIzsbxYWuojWbpx5QPtcgmx7nmd.png)
+    ![JMNYbgkEIol9LnxzYM8cgScZnWd](/byoc/JMNYbgkEIol9LnxzYM8cgScZnWd.png)
 
 1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **EKS settings**.
 
@@ -86,7 +86,7 @@ This step is solely on the AWS console. In this step, you will create an inline 
 
 1. Go to the details page of the created role. In the **Permissions policies** section, click **Add permissions**, and choose **Create inline policy**.
 
-    ![S7Ntb2E6aoQbPWxqSVVcNkUdnoB](/byoc/S7Ntb2E6aoQbPWxqSVVcNkUdnoB.png)
+    ![NJaZbbcAhopglpxSBThcill3n3c](/byoc/NJaZbbcAhopglpxSBThcill3n3c.png)
 
 1. On the **Specify permissions** page, click **JSON** in the **Policy editor** section to open the policy editor. Then copy the permissions from below and paste it into the policy editor, replacing `{bucketName}` with the bucket you have created in [Create S3 Bucket and Role](./create-bucket-and-role).
 
@@ -394,12 +394,12 @@ This step is solely on the AWS console. In this step, you will create an inline 
 
 1. In **Review and create**, enter a policy name, review the permissions, and click **Create policy**.
 
-    ![IxHmbUSHzobqAUx6i1UcpsRCnPg](/byoc/IxHmbUSHzobqAUx6i1UcpsRCnPg.png)
-
     <Admonition type="info" icon="📘" title="Notes">
 
     <p>When naming the policy, use the prefix <code>zilliz-byoc</code>.</p>
 
     </Admonition>
+
+    ![WcFVbDMPLod1fbxPcytcaliTnXS](/byoc/WcFVbDMPLod1fbxPcytcaliTnXS.png)
 
     

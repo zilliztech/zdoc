@@ -66,6 +66,55 @@ const config = {
               banner: 'none'
             },
           },
+          sidebarItemsGenerator: async function ({
+            defaultSidebarItemsGenerator, ...args
+          }) {
+            var sidebarItems = defaultSidebarItemsGenerator(args)
+            sidebarItems = sidebarItems.map(item => {
+              item.collapsible = false;
+              item.collapsed = false;
+
+              if (item.label === 'Get Started') {
+                item.items = item.items.map(subItem => {
+                  if (subItem.label === 'API & SDKs') {
+                    subItem.items.push(...[
+                      {
+                        type: 'link',
+                        label: 'Python SDK',
+                        href: '/reference/python'
+                      },
+                      {
+                        type: 'link',
+                        label: 'Java SDK',
+                        href: '/reference/java'
+                      },
+                      {
+                        type: 'link',
+                        label: 'Go SDK',
+                        href: '/reference/go'
+                      },
+                      {
+                        type: 'link',
+                        label: 'Node.js SDK',
+                        href: '/reference/nodejs'
+                      },
+                      {
+                        type: 'link',
+                        label: 'RESTful API',
+                        href: '/reference/restful'
+                      }
+                    ])
+                  }
+
+                  return subItem;
+                })
+              }
+
+              return item;
+            })
+
+            return sidebarItems;
+          }
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
@@ -74,7 +123,7 @@ const config = {
         blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
-        },
+        }
       }),
     ]
   ],

@@ -7,7 +7,7 @@ notebook: FALSE
 description: "The chapter focuses on project operations and related settings. | BYOC"
 type: origin
 token: QHzrwVlEOipspAkPiyucWezqneC
-sidebar_position: 9
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database

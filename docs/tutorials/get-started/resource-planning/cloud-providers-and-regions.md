@@ -121,6 +121,14 @@ Free, serverless, and dedicated clusters can be deployed on GCP.
      <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>us-central1</p></td>
+     <td><p>Iowa, USA</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+   </tr>
+   <tr>
      <td><p>europe-west3</p></td>
      <td><p>Frankfurt, Germany</p></td>
      <td><p>No</p></td>
