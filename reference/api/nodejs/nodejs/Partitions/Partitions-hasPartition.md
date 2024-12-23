@@ -9,6 +9,16 @@ description: "This operation checks whether the specified partition exists in th
 type: docx
 token: TVWPdTw2WoPAJYxsbGMc7MX6nEf
 sidebar_position: 4
+keywords: 
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - hasPartition()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

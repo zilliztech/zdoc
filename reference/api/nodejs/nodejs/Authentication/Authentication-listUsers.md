@@ -9,6 +9,16 @@ description: "This operation lists currently available users. | Node.js"
 type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
 sidebar_position: 12
+keywords: 
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - listUsers()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

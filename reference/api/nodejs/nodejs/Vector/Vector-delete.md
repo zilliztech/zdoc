@@ -9,6 +9,16 @@ description: "This operation deletes entities by their IDs or with a boolean exp
 type: docx
 token: PNtoddjsMoYuqcxCWK4c3IWKnde
 sidebar_position: 1
+keywords: 
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - delete()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

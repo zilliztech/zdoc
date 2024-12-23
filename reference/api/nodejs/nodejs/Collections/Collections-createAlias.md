@@ -9,6 +9,16 @@ description: "This operation creates an alias for an existing collection. | Node
 type: docx
 token: MPuIdwujBoXM6rx7Okfc3lhZnUd
 sidebar_position: 3
+keywords: 
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createAlias()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

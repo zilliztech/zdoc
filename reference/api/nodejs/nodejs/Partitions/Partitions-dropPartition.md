@@ -9,6 +9,16 @@ description: "This operation drops a specified partition from the current collec
 type: docx
 token: BBmsddqZEozxWyxkoADcFfzpncW
 sidebar_position: 2
+keywords: 
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - dropPartition()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

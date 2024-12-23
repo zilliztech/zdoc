@@ -9,6 +9,16 @@ description: "This operation creates a collection either with default or customi
 type: docx
 token: AudsdfQ5hoDyKKxXSowcb3S6nfb
 sidebar_position: 4
+keywords: 
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createCollection()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

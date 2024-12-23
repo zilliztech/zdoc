@@ -9,6 +9,16 @@ description: "This operation drops a specified collection alias. | Node.js"
 type: docx
 token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
 sidebar_position: 8
+keywords: 
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - dropAlias()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

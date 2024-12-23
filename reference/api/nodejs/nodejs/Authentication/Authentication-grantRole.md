@@ -9,6 +9,16 @@ description: "This operation grants a role to a user. | Node.js"
 type: docx
 token: LPJsdEnvwo6apcxjhZgc3rpDnuc
 sidebar_position: 8
+keywords: 
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - grantRole()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

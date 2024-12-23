@@ -8,6 +8,16 @@ type: folder
 token: YIWifhm0HlwT5ldC40fc8tAOnXd
 sidebar_position: 2
 sidebar_label: "Client"
+keywords: 
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Client
+  - node
 displayed_sidebar: nodeSidebar
 ---
 

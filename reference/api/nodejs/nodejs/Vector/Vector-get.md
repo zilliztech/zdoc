@@ -9,6 +9,16 @@ description: "This operation gets specific entities by their IDs. | Node.js"
 type: docx
 token: IbxXdvdZlonJk9xnlk2cZlIinCh
 sidebar_position: 2
+keywords: 
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - get()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

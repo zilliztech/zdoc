@@ -7,6 +7,13 @@ beta: FALSE
 notebook: FALSE
 sidebar_label: API Versioning
 sidebar_position: 0
+keywords: 
+    - zilliz cloud
+    - zilliz
+    - cloud
+    - restful
+    - api
+    - versioning
 ---
 
 import Admonition from '@theme/Admonition';

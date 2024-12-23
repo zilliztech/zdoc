@@ -9,6 +9,16 @@ description: "This operation lists the partitions in a specified collection. | N
 type: docx
 token: JNPwdFI1zoleD7x9LRIc0eqcnof
 sidebar_position: 5
+keywords: 
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - listPartitions()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

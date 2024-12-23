@@ -3,6 +3,7 @@ displayed_sidebar: restfulSidebar
 sidebar_position: {{sidebar_position}}
 slug: /restful/{{page_slug}}
 title: {{page_title}}
+description: \"{{page_excerpt | split_excerpt}}\"
 ---
 
 import RestHeader from '@site/src/components/RestHeader';

@@ -9,6 +9,16 @@ description: "This operation lists all existing collections. | Node.js"
 type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 14
+keywords: 
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - listCollections()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

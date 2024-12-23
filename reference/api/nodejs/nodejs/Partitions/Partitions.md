@@ -8,6 +8,16 @@ type: folder
 token: JfB5fh16rl1R1qdNVgec1Kdongc
 sidebar_position: 6
 sidebar_label: "Partitions"
+keywords: 
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Partitions
+  - node
 displayed_sidebar: nodeSidebar
 ---
 

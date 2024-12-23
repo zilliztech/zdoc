@@ -9,6 +9,16 @@ description: "This operation describes a specific alias. | Node.js"
 type: docx
 token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
 sidebar_position: 6
+keywords: 
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - describeAlias()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

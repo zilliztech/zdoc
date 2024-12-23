@@ -9,6 +9,16 @@ description: "This operation releases the partitions in a specified collection f
 type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
 sidebar_position: 7
+keywords: 
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - releasePartitions()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

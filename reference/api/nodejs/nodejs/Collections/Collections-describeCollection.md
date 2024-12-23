@@ -9,6 +9,16 @@ description: "This operation lists detailed information about a specific collect
 type: docx
 token: TjqHdZqO1oSwwYxuny2cchWzn6S
 sidebar_position: 7
+keywords: 
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - describeCollection()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

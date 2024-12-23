@@ -9,6 +9,16 @@ description: "This operation displays the statistics collected on a specific par
 type: docx
 token: XDXid6aZ8oCHnVxxFpPcKAB9n0c
 sidebar_position: 3
+keywords: 
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - getPartitionStatistics()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

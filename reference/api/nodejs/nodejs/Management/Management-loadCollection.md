@@ -9,6 +9,16 @@ description: "This operation loads the data of a specific collection into memory
 type: docx
 token: LoNvdRK80oWllFxV0H6co0HrnBe
 sidebar_position: 6
+keywords: 
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - loadCollection()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

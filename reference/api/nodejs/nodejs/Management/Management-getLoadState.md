@@ -9,6 +9,16 @@ description: "This operation displays whether a specified collection or partitio
 type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
 sidebar_position: 4
+keywords: 
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - getLoadState()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

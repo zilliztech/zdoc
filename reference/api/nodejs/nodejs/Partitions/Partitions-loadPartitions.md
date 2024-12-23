@@ -9,6 +9,16 @@ description: "This operation loads a specific set of partitions in a specified c
 type: docx
 token: Pyh3dttWKoBqcBx8FGhcArhAnqg
 sidebar_position: 6
+keywords: 
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - loadPartitions()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

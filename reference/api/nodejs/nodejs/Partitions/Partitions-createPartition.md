@@ -9,6 +9,16 @@ description: "This operation creates a partition in the target collection. | Nod
 type: docx
 token: PPLtdSbtfomgF1x5MHncKPgPnSf
 sidebar_position: 1
+keywords: 
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createPartition()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

@@ -9,6 +9,16 @@ description: "This operation conducts a scalar filtering with a specified boolea
 type: docx
 token: AJ96d6Aguos3FAxWMDxcjzqpnSg
 sidebar_position: 4
+keywords: 
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - query()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

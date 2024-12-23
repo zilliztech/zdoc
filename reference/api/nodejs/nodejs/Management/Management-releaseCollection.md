@@ -9,6 +9,16 @@ description: "This operation releases the data of a specific collection from mem
 type: docx
 token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
 sidebar_position: 7
+keywords: 
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - releaseCollection()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

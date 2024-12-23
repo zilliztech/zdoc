@@ -9,6 +9,16 @@ description: "This operation reassigns the alias of one collection to another. |
 type: docx
 token: DXTLdtFCso7fo6xJHShc7XLpngh
 sidebar_position: 1
+keywords: 
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - alterAlias()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

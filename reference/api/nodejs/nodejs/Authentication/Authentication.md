@@ -8,6 +8,16 @@ type: folder
 token: H1JWfZh74lkVhgdfGiKcQfsinPg
 sidebar_position: 1
 sidebar_label: "Authentication"
+keywords: 
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Authentication
+  - node
 displayed_sidebar: nodeSidebar
 ---
 

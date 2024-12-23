@@ -9,6 +9,16 @@ description: "A MilvusClient instance represents a Node.js client that connects 
 type: docx
 token: SiL3ds1HPo2bOxx4iWwcxgg8nvd
 sidebar_position: 2
+keywords: 
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - MilvusClient
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

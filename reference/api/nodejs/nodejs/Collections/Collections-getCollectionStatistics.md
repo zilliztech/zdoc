@@ -9,6 +9,16 @@ description: "This operation lists the statistics collected on a specific collec
 type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
 sidebar_position: 10
+keywords: 
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - getCollectionStatistics()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

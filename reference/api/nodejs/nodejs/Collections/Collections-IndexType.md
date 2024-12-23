@@ -9,6 +9,16 @@ description: "This is an enumeration that provides the following constants. | No
 type: docx
 token: Of5xdscL1o5Svzxy8yOckqaMnzg
 sidebar_position: 12
+keywords: 
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - IndexType
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

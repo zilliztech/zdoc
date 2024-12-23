@@ -9,6 +9,16 @@ description: "This operation creates an index for a specific collection. | Node.
 type: docx
 token: WFRodQlfKoPHTUxbBYzcLug8nsd
 sidebar_position: 1
+keywords: 
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createIndex()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

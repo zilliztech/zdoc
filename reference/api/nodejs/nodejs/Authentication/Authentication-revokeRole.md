@@ -9,6 +9,16 @@ description: "This operation revokes the role assigned to a user. | Node.js"
 type: docx
 token: W7XJdZDHnoFECDxCYoMcrZqrnnd
 sidebar_position: 14
+keywords: 
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - revokeRole()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

@@ -9,6 +9,16 @@ description: "This operation checks whether a specific collection exists. | Node
 type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
 sidebar_position: 11
+keywords: 
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - hasCollection()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

@@ -9,6 +9,16 @@ description: "This operation updates the password of a specific user. | Node.js"
 type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 15
+keywords: 
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - updatePassword()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

@@ -9,6 +9,16 @@ description: "This operation lists all custom roles. | Node.js"
 type: docx
 token: GIeMdvjlMoLwGrxUOu3cFw7bnWc
 sidebar_position: 11
+keywords: 
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - listRoles()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

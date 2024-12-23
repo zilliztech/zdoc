@@ -9,6 +9,16 @@ description: "This operation renames an existing collection. | Node.js"
 type: docx
 token: LSwVdMg4SorzZ5xSHHVcQeVDnfh
 sidebar_position: 15
+keywords: 
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - renameCollection()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

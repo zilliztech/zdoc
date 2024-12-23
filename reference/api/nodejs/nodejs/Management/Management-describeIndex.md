@@ -9,6 +9,16 @@ description: "This operation describes a specific index. | Node.js"
 type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 2
+keywords: 
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - describeIndex()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

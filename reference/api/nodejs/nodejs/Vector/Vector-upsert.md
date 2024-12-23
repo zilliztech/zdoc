@@ -9,6 +9,16 @@ description: "This operation inserts or updates data in a specific collection. |
 type: docx
 token: MErAdudCloVawFxpxoWcgqZonLc
 sidebar_position: 6
+keywords: 
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - upsert()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

@@ -9,6 +9,16 @@ description: "This operation drops an index from a specific collection. | Node.j
 type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
 sidebar_position: 3
+keywords: 
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - dropIndex()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

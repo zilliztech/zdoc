@@ -9,6 +9,16 @@ description: "This is a method template. | Node.js"
 type: docx
 token: KeoKdlitaog6n1xpX8McIIIrnWb
 sidebar_position: 13
+keywords: 
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - listAliases()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---

@@ -7,6 +7,13 @@ beta: FALSE
 notebook: FALSE
 sidebar_label: Overview
 sidebar_position: 0
+keywords: 
+    - zilliz cloud
+    - zilliz
+    - cloud
+    - api
+    - restful
+    - overview
 ---
 
 import Admonition from '@theme/Admonition';

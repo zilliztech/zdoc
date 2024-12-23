@@ -9,6 +9,16 @@ description: "This operation creates a user. | Node.js"
 type: docx
 token: JNZxdKEX3ohBl2xud7Wckhq7nVh
 sidebar_position: 2
+keywords: 
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createUser()
+  - node
 displayed_sidebar: nodeSidebar
 
 ---
