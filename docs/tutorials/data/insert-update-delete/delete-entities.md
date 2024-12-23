@@ -205,5 +205,85 @@ curl --request POST \
 
 You can also delete entities stored in specific partitions. The following code snippets assume that you have a partition named **PartitionA** in your collection. 
 
-[Unsupported block type]
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+res = client.delete(
+    collection_name="quick_setup",
+    ids=[18, 19],
+    partition_name="partitionA"
+)
+
+print(res)
+
+# Output
+# {'delete_count': 2}
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.vector.request.DeleteReq;
+import io.milvus.v2.service.vector.response.DeleteResp;
+
+import java.util.Arrays;
+
+DeleteResp deleteResp = client.delete(DeleteReq.builder()
+        .collectionName("quick_setup")
+        .ids(Arrays.asList(18, 19))
+        .partitionName("partitionA")
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+
+res = await client.delete({
+    collection_name: "quick_setup",
+    ids: [18, 19],
+    partition_name: "partitionA"
+})
+
+console.log(res.delete_cnt)
+
+// Output
+// 
+// 2
+// 
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="http://localhost:19530"
+export TOKEN="root:Milvus"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/delete" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "quick_setup",
+    "partitionName": "partitionA",
+    "filter": "id in [18, 19]"
+}'
+
+# {
+#     "code": 0,
+#     "cost": 0,
+#     "data": {}
+# }
+```
+
+</TabItem>
+</Tabs>
 

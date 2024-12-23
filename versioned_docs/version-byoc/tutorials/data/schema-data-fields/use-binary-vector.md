@@ -30,7 +30,7 @@ Binary vectors have a wide range of applications, particularly in situations whe
 
 ## Overview{#overview}
 
-Binary vectors are a method of encoding complex objects (like images, text, or audio) into fixed-length binary values. In Milvus, binary vectors are typically represented as bit arrays or byte arrays. For example, an 8-dimensional binary vector can be represented as `[1, 0, 1, 1, 0, 0, 1, 0]`.
+Binary vectors are a method of encoding complex objects (like images, text, or audio) into fixed-length binary values. In Zilliz Cloud clusters, binary vectors are typically represented as bit arrays or byte arrays. For example, an 8-dimensional binary vector can be represented as `[1, 0, 1, 1, 0, 0, 1, 0]`.
 
 The diagram below shows how binary vectors represent the presence of keywords in text content. In this example, a 10-dimensional binary vector is used to represent two different texts (**Text 1** and **Text 2**), where each dimension corresponds to a word in the vocabulary: 1 indicates the presence of the word in the text, while 0 indicates its absence.
 
@@ -48,7 +48,7 @@ Binary vectors have the following characteristics:
 
 Binary vectors can be generated through various methods. In text processing, predefined vocabularies can be used to set corresponding bits based on word presence. For image processing, perceptual hashing algorithms (like [pHash](https://en.wikipedia.org/wiki/Perceptual_hashing)) can generate binary features of images. In machine learning applications, model outputs can be binarized to obtain binary vector representations.
 
-After binary vectorization, the data can be stored in Milvus for management and vector retrieval. The diagram below shows the basic process.
+After binary vectorization, the data can be stored in Zilliz Cloud clusters for management and vector retrieval. The diagram below shows the basic process.
 
 ![TF1uw4AQVhFdmBbrhyVcJO6WnXe](/byoc/TF1uw4AQVhFdmBbrhyVcJO6WnXe.png)
 
@@ -58,11 +58,11 @@ After binary vectorization, the data can be stored in Milvus for management and 
 
 </Admonition>
 
-## Use binary vectors in Milvus{#use-binary-vectors-in-milvus}
+## Use binary vectors{#use-binary-vectors}
 
 ### Add vector field{#add-vector-field}
 
-To use binary vectors in Milvus, first define a vector field for storing binary vectors when creating a collection. This process includes:
+To use binary vectors in Zilliz Cloud clusters, first define a vector field for storing binary vectors when creating a collection. This process includes:
 
 1. Setting `datatype` to the supported binary vector data type, i.e., `BINARY_VECTOR`.
 
@@ -247,7 +247,7 @@ export indexParams='[
 
 In the example above, an index named `binary_vector_index` is created for the `binary_vector` field, using the `BIN_IVF_FLAT` index type. The `metric_type` is set to `HAMMING`, indicating that Hamming distance is used for similarity measurement.
 
-Besides `BIN_IVF_FLAT`, Milvus supports other index types for binary vectors. For more details, refer to xx. Additionally, Milvus supports other similarity metrics for binary vectors. For more information, refer to [Metric Types](./search-metrics-explained).
+Besides `BIN_IVF_FLAT`, Zilliz Cloud supports other index types for binary vectors. For more details, refer to xx. Additionally, Zilliz Cloud supports other similarity metrics for binary vectors. For more information, refer to [Metric Types](./search-metrics-explained).
 
 ### Create collection{#create-collection}
 
@@ -436,7 +436,7 @@ curl --request POST \
 
 ### Perform similarity search{#perform-similarity-search}
 
-Similarity search is one of the core features of Milvus, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search using binary vectors, prepare the query vector and search parameters, then call the `search` method.
+Similarity search is one of the core features of Zilliz Cloud clusters, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search using binary vectors, prepare the query vector and search parameters, then call the `search` method.
 
 During search operations, binary vectors must also be provided in the form of a byte array. Ensure that the dimensionality of the query vector matches the dimension specified when defining `dim` and that every 8 boolean values are converted into 1 byte.
 

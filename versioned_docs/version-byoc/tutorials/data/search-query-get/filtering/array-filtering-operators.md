@@ -4,7 +4,7 @@ slug: /array-filtering-operators
 sidebar_label: "ARRAY Operators"
 beta: FALSE
 notebook: FALSE
-description: "Milvus provides powerful operators to query array fields, allowing you to filter and retrieve entities based on the contents of arrays. | BYOC"
+description: "Zilliz Cloud provides powerful operators to query array fields, allowing you to filter and retrieve entities based on the contents of arrays. | BYOC"
 type: origin
 token: MaWywRYCniq6vwkJsT7c2wAyn0f
 sidebar_position: 5
@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 # ARRAY Operators
 
-Milvus provides powerful operators to query array fields, allowing you to filter and retrieve entities based on the contents of arrays. 
+Zilliz Cloud provides powerful operators to query array fields, allowing you to filter and retrieve entities based on the contents of arrays. 
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -36,7 +36,7 @@ Milvus provides powerful operators to query array fields, allowing you to filter
 
 ## Available ARRAY Operators{#available-array-operators}
 
-The ARRAY operators allow for fine-grained querying of array fields in Milvus. These operators are:
+The ARRAY operators allow for fine-grained querying of array fields in Zilliz Cloud clusters. These operators are:
 
 - `ARRAY_CONTAINS(identifier, expr)`: checks if a specific element exists in an array field.
 

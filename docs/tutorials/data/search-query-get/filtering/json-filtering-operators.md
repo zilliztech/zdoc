@@ -4,7 +4,7 @@ slug: /json-filtering-operators
 sidebar_label: "JSON Operators"
 beta: FALSE
 notebook: FALSE
-description: "Milvus supports advanced operators for querying and filtering JSON fields, making them perfect for managing complex, structured data. These operators enable highly effective querying of JSON documents, allowing you to retrieve entities based on specific elements, values, or conditions within the JSON fields. This section will guide you through using JSON-specific operators in Milvus, providing practical examples to illustrate their functionality. | Cloud"
+description: "Zilliz Cloud supports advanced operators for querying and filtering JSON fields, making them perfect for managing complex, structured data. These operators enable highly effective querying of JSON documents, allowing you to retrieve entities based on specific elements, values, or conditions within the JSON fields. This section will guide you through using JSON-specific operators in Zilliz Cloud, providing practical examples to illustrate their functionality. | Cloud"
 type: origin
 token: Py6zwu6r4iPMqVkKAYXcUYLEnXg
 sidebar_position: 4
@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 # JSON Operators
 
-Milvus supports advanced operators for querying and filtering JSON fields, making them perfect for managing complex, structured data. These operators enable highly effective querying of JSON documents, allowing you to retrieve entities based on specific elements, values, or conditions within the JSON fields. This section will guide you through using JSON-specific operators in Milvus, providing practical examples to illustrate their functionality.
+Zilliz Cloud supports advanced operators for querying and filtering JSON fields, making them perfect for managing complex, structured data. These operators enable highly effective querying of JSON documents, allowing you to retrieve entities based on specific elements, values, or conditions within the JSON fields. This section will guide you through using JSON-specific operators in Zilliz Cloud, providing practical examples to illustrate their functionality.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -36,7 +36,7 @@ Milvus supports advanced operators for querying and filtering JSON fields, makin
 
 ## Available JSON Operators{#available-json-operators}
 
-Milvus provides several powerful JSON operators that help filter and query JSON data, and these operators are:
+Zilliz Cloud provides several powerful JSON operators that help filter and query JSON data, and these operators are:
 
 - `JSON_CONTAINS(identifier, expr)`: Filters entities where the specified JSON expression is found within the field.
 
@@ -59,7 +59,7 @@ Imagine you have a collection of products, each with a `tags` field that contain
 filter = 'json_contains(tags, "sale")'
 ```
 
-In this example, Milvus will return all products where the `tags` field contains the element `"sale"`.
+In this example, Zilliz Cloud will return all products where the `tags` field contains the element `"sale"`.
 
 ## JSON_CONTAINS_ALL{#jsoncontainsall}
 
@@ -89,4 +89,4 @@ Let’s say you want to filter products that have at least one of the tags `"ele
 filter = 'json_contains_any(tags, ["electronics", "new", "clearance"])'
 ```
 
-In this case, Milvus will return all products that have at least one of the tags in the list `["electronics", "new", "clearance"]`. Even if a product only has one of these tags, it will be included in the result.
+In this case, Zilliz Cloud will return all products that have at least one of the tags in the list `["electronics", "new", "clearance"]`. Even if a product only has one of these tags, it will be included in the result.

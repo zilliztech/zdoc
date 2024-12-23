@@ -4,7 +4,7 @@ slug: /use-array-fields
 sidebar_label: "Array Field"
 beta: FALSE
 notebook: FALSE
-description: "The Array type is used to store fields containing multiple values of the same data type. It provides a flexible way to store attributes with multiple elements, making it especially useful in scenarios where a set of related data needs to be saved. In Milvus, you can store Array fields alongside vector data, enabling more complex query and filtering requirements. | BYOC"
+description: "The Array type is used to store fields containing multiple values of the same data type. It provides a flexible way to store attributes with multiple elements, making it especially useful in scenarios where a set of related data needs to be saved. In Zilliz Cloud clusters, you can store Array fields alongside vector data, enabling more complex query and filtering requirements. | BYOC"
 type: origin
 token: N0RmwUtmqinQvokWdYLc3yV5nJh
 sidebar_position: 9
@@ -24,7 +24,7 @@ import TabItem from '@theme/TabItem';
 
 # Array Field
 
-The Array type is used to store fields containing multiple values of the same data type. It provides a flexible way to store attributes with multiple elements, making it especially useful in scenarios where a set of related data needs to be saved. In Milvus, you can store Array fields alongside vector data, enabling more complex query and filtering requirements.
+The Array type is used to store fields containing multiple values of the same data type. It provides a flexible way to store attributes with multiple elements, making it especially useful in scenarios where a set of related data needs to be saved. In Zilliz Cloud clusters, you can store Array fields alongside vector data, enabling more complex query and filtering requirements.
 
 For example, in a music recommendation system, an Array field can store a list of tags for a song; in user behavior analysis, it can store user ratings for songs. Below is an example of a typical Array field:
 
@@ -39,11 +39,11 @@ In this example, `tags` and `ratings` are both Array fields. The `tags` field is
 
 ## Add Array field{#add-array-field}
 
-To use Array fields in Milvus, define the relevant field type when creating the collection schema. This process includes:
+To use Array fields Zilliz Cloud clusters, define the relevant field type when creating the collection schema. This process includes:
 
 1. Setting `datatype` to the supported Array data type, `ARRAY`.
 
-1. Using the `element_type` parameter to specify the data type of elements in the array. This can be any scalar data type supported by Milvus, such as `VARCHAR` or `INT64`. All elements in the same Array must be of the same data type.
+1. Using the `element_type` parameter to specify the data type of elements in the array. This can be any scalar data type supported by Zilliz Cloud clusters, such as `VARCHAR` or `INT64`. All elements in the same Array must be of the same data type.
 
 1. Using the `max_capacity` parameter to define the maximum capacity of the array, i.e., the maximum number of elements it can contain.
 
@@ -222,7 +222,7 @@ In this example:
 
 Setting index parameters for Array fields is optional but can significantly improve retrieval efficiency.
 
-In the following example, we create an `AUTOINDEX` for the `tags` field, which means Milvus will automatically create an appropriate scalar index based on the data type. For more information, refer to [AUTOINDEX Explained](./autoindex-explained).
+In the following example, we create an `AUTOINDEX` for the `tags` field, which means Zilliz Cloud clusters will automatically create an appropriate scalar index based on the data type. For more information, refer to [AUTOINDEX Explained](./autoindex-explained).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -615,7 +615,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this query, Milvus filters out entities where the first element of the `ratings` array is less than 4, returning entities that match the condition.
+In this query, Zilliz Cloud clusters filters out entities where the first element of the `ratings` array is less than 4, returning entities that match the condition.
 
 ### Vector search with Array filtering{#vector-search-with-array-filtering}
 
@@ -707,9 +707,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example, Milvus returns the top 5 entities most similar to the query vector, with the `tags` array's first element being `"pop"`.
+In this example, Zilliz Cloud returns the top 5 entities most similar to the query vector, with the `tags` array's first element being `"pop"`.
 
-Additionally, Milvus supports advanced Array filtering operators like `ARRAY_CONTAINS`, `ARRAY_CONTAINS_ALL`, `ARRAY_CONTAINS_ANY`, and `ARRAY_LENGTH` to further enhance query capabilities. For more details, refer to [ARRAY Operators](./array-filtering-operators).
+Additionally, Zilliz Cloud supports advanced Array filtering operators like `ARRAY_CONTAINS`, `ARRAY_CONTAINS_ALL`, `ARRAY_CONTAINS_ANY`, and `ARRAY_LENGTH` to further enhance query capabilities. For more details, refer to [ARRAY Operators](./array-filtering-operators).
 
 ## Limits{#limits}
 

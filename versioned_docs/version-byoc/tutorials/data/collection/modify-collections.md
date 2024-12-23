@@ -235,7 +235,7 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
-# REST 暂无此功能
+# REST
 ```
 
 </TabItem>

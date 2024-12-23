@@ -32,7 +32,7 @@ Make sure the following conditions are met:
 
 - You have prepared your data in either of the supported formats. 
 
-    For details on how to prepare your data, refer to [Prepare Source Data](./prepare-source-data). You can also refer to the end-to-end notebook [Data Import from Zero to Hero](./data-import-zero-to-hero) to get more.
+    For details on how to prepare your data, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options). You can also refer to the end-to-end notebook [Data Import Hands-On](./data-import-zero-to-hero) to get more.
 
 - You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details on creating a collection, see [Manage Collections (Console)](./manage-collections-console).
 
@@ -87,15 +87,17 @@ You can view the progress and status of the import job on the [Jobs](./job-cente
 
 ## Supported object paths{#supported-object-paths}
 
-For applicable object paths, refer to [Tips on Import Paths](./prepare-source-data#tips-on-import-paths).
+For applicable object paths, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options).
 
 ## Related topics{#related-topics}
 
-- [Prepare Source Data](./prepare-source-data)
+- [Storage Options](./data-import-storage-options)
+
+- [Format Options](./data-import-format-options)
 
 - [Import Data via RESTful API](./import-data-via-restful-api)
 
 - [Import Data via SDKs](./import-data-via-sdks)
 
-- [Data Import from Zero to Hero](./data-import-zero-to-hero) 
+- [Data Import Hands-On](./data-import-zero-to-hero)
 

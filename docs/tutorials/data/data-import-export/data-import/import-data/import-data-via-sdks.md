@@ -356,11 +356,11 @@ public static void main(String[] args) throws Exception {
 
 ## Related topics{#related-topics}
 
-- [Import Data on Web UI](./import-data-on-web-ui)
+- [Storage Options](./data-import-storage-options)
+
+- [Format Options](./data-import-format-options)
 
 - [Import Data via RESTful API](./import-data-via-restful-api)
-
-- [Prepare Source Data](./prepare-source-data)
 
 - [Data Import from Zero to Hero](./data-import-zero-to-hero) 
 

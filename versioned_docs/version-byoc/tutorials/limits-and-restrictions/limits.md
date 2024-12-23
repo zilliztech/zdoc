@@ -352,7 +352,7 @@ Zilliz Cloud also imposes limits on the files to import on the web console.
    </tr>
 </table>
 
-For details, refer to [Prepare Source Data](./prepare-source-data).
+For details, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options).
 
 ## Backup on Console{#backup-on-console}
 

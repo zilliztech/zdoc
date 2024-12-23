@@ -4,7 +4,7 @@ slug: /use-number-field
 sidebar_label: "Number Field"
 beta: FALSE
 notebook: FALSE
-description: "Number fields are used to store non-vector numerical data in Milvus. These fields are typically employed to describe additional information related to vector data, such as age, price, etc. By using this data, you can better describe vectors and improve the efficiency of data filtering and conditional queries. | Cloud"
+description: "Number fields are used to store non-vector numerical data in Zilliz Cloud clusters. These fields are typically employed to describe additional information related to vector data, such as age, price, etc. By using this data, you can better describe vectors and improve the efficiency of data filtering and conditional queries. | Cloud"
 type: origin
 token: EwArwXCOPip15hkSvvpciAMJnSe
 sidebar_position: 7
@@ -27,13 +27,13 @@ import TabItem from '@theme/TabItem';
 
 # Number Field
 
-Number fields are used to store non-vector numerical data in Milvus. These fields are typically employed to describe additional information related to vector data, such as age, price, etc. By using this data, you can better describe vectors and improve the efficiency of data filtering and conditional queries.
+Number fields are used to store non-vector numerical data in Zilliz Cloud clusters. These fields are typically employed to describe additional information related to vector data, such as age, price, etc. By using this data, you can better describe vectors and improve the efficiency of data filtering and conditional queries.
 
 Number fields are particularly useful in many scenarios. For example, in e-commerce recommendations, a price field can be used for filtering; in user profile analysis, age ranges can help refine the results. Combined with vector data, number fields can help the system provide similarity searches while meeting personalized user needs more precisely.
 
 ## Supported number field types{#supported-number-field-types}
 
-Milvus supports various number field types to meet different data storage and query needs:
+Zilliz Cloud supports various number field types to meet different data storage and query needs:
 
 <table>
    <tr>
@@ -72,7 +72,7 @@ Milvus supports various number field types to meet different data storage and qu
 
 ## Add number field{#add-number-field}
 
-To use number fields in Milvus, define the relevant fields in the collection schema, setting the `datatype` to a supported type such as `BOOL` or `INT8`. For a complete list of supported number field types, refer to [Supported number field types](./use-number-field).
+To use number fields in Zilliz Cloud clusters, define the relevant fields in the collection schema, setting the `datatype` to a supported type such as `BOOL` or `INT8`. For a complete list of supported number field types, refer to [Supported number field types](./use-number-field).
 
 The following example shows how to define a schema that includes number fields `age` and `price`:
 
@@ -219,7 +219,7 @@ export schema="{
 
 Setting index parameters for number fields is optional but can significantly improve retrieval efficiency.
 
-In the following example, we create an `AUTOINDEX` for the `age` number field, allowing Milvus to automatically create an appropriate index based on the data type. For more information, refer to [AUTOINDEX Explained](./autoindex-explained).
+In the following example, we create an `AUTOINDEX` for the `age` number field, allowing Zilliz Cloud to automatically create an appropriate index based on the data type. For more information, refer to [AUTOINDEX Explained](./autoindex-explained).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -493,7 +493,7 @@ curl --request POST \
 
 In this example, we insert data that includes `age`, `price`, `pk` (primary field), and vector representations (`embedding`). To ensure that the inserted data matches the fields defined in the schema, it's recommended to check data types in advance to avoid errors.
 
-If you set `enable_dynamic_fields=True` when defining the schema, Milvus allows you to insert number fields that were not defined in advance. However, keep in mind that this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
+If you set `enable_dynamic_fields=True` when defining the schema, Zilliz Cloud allows you to insert number fields that were not defined in advance. However, keep in mind that this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
 
 ## Search and query{#search-and-query}
 

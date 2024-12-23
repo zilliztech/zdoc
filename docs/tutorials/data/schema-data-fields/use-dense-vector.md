@@ -59,23 +59,23 @@ Below is an example of a real dense vector representing the text `"Milvus is an 
 
 ```
 
-Dense vectors can be generated using various [embedding](https://en.wikipedia.org/wiki/Embedding) models, such as CNN models (like [ResNet](https://pytorch.org/hub/pytorch_vision_resnet/), [VGG](https://pytorch.org/vision/stable/models/vgg.html)) for images and language models (like [BERT](https://en.wikipedia.org/wiki/BERT_(language_model)), [Word2Vec](https://en.wikipedia.org/wiki/Word2vec)) for text. These models transform raw data into points in high-dimensional space, capturing the semantic features of the data. Additionally, Milvus offers convenient methods to help users generate and process dense vectors, as detailed in Embeddings.
+Dense vectors can be generated using various [embedding](https://en.wikipedia.org/wiki/Embedding) models, such as CNN models (like [ResNet](https://pytorch.org/hub/pytorch_vision_resnet/), [VGG](https://pytorch.org/vision/stable/models/vgg.html)) for images and language models (like [BERT](https://en.wikipedia.org/wiki/BERT_(language_model)), [Word2Vec](https://en.wikipedia.org/wiki/Word2vec)) for text. These models transform raw data into points in high-dimensional space, capturing the semantic features of the data. Additionally, Zilliz Cloud offers convenient methods to help users generate and process dense vectors, as detailed in Embeddings.
 
-Once data is vectorized, it can be stored in Milvus for management and vector retrieval. The diagram below shows the basic process.
+Once data is vectorized, it can be stored in Zilliz Cloud clusters for management and vector retrieval. The diagram below shows the basic process.
 
 ![No8KwR6wPhTIP6bKEqGcbBDWngc](/img/No8KwR6wPhTIP6bKEqGcbBDWngc.png)
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Besides dense vectors, Milvus also supports sparse vectors and binary vectors. Sparse vectors are suitable for precise matches based on specific terms, such as keyword search and term matching, while binary vectors are commonly used for efficiently handling binarized data, such as image pattern matching and certain hashing applications. For more information, refer to <a href="./use-binary-vector">Binary Vector</a> and <a href="./use-sparse-vector">Sparse Vector</a>.</p>
+<p>Besides dense vectors, Zilliz Cloud also supports sparse vectors and binary vectors. Sparse vectors are suitable for precise matches based on specific terms, such as keyword search and term matching, while binary vectors are commonly used for efficiently handling binarized data, such as image pattern matching and certain hashing applications. For more information, refer to <a href="./use-binary-vector">Binary Vector</a> and <a href="./use-sparse-vector">Sparse Vector</a>.</p>
 
 </Admonition>
 
-## Use dense vectors in Milvus{#use-dense-vectors-in-milvus}
+## Use dense vectors{#use-dense-vectors}
 
 ### Add vector field{#add-vector-field}
 
-To use dense vectors in Milvus, first define a vector field for storing dense vectors when creating a collection. This process includes:
+To use dense vectors in Zilliz Cloud clusters, first define a vector field for storing dense vectors when creating a collection. This process includes:
 
 1. Setting `datatype` to a supported dense vector data type. For supported dense vector data types, see Data Types.
 
@@ -280,7 +280,7 @@ export indexParams='[
 
 In the example above, an index named `dense_vector_index` is created for the `dense_vector` field using the `IVF_FLAT` index type. The `metric_type` is set to `IP`, indicating that inner product will be used as the distance metric.
 
-Milvus supports other metric types. For more information, refer to [Metric Types](./search-metrics-explained).
+Zilliz Cloud supports other metric types. For more information, refer to [Metric Types](./search-metrics-explained).
 
 ### Create collection{#create-collection}
 
@@ -436,7 +436,7 @@ curl --request POST \
 
 ### Perform similarity search{#perform-similarity-search}
 
-Semantic search based on dense vectors is one of the core features of Milvus, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search, prepare the query vector and search parameters, then call the `search` method.
+Semantic search based on dense vectors is one of the core features of Zilliz Cloud clusters, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search, prepare the query vector and search parameters, then call the `search` method.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

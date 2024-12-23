@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 Information Retrieval (IR) systems, also known as search, are essential for various AI applications such as Retrieval-augmented generation (RAG), image search, and product recommendation. The first step in developing an IR system is designing the data model, which involves analyzing business requirements, determining how to organize information, and indexing data to make it semantically searchable.
 
-Milvus supports defining the data model through a collection schema. A collection organizes unstructured data like text and images, along with their vector representations, including dense and sparse vectors in various precision used for semantic search. Additionally, Milvus supports storing and filtering non-vector data types called "Scalar". Scalar types include BOOL, INT8/16/32/64, FLOAT/DOUBLE, VARCHAR, JSON, and Array.
+Zilliz Cloud supports defining the data model through a collection schema. A collection organizes unstructured data like text and images, along with their vector representations, including dense and sparse vectors in various precision used for semantic search. Additionally, Zilliz Cloud supports storing and filtering non-vector data types called "Scalar". Scalar types include BOOL, INT8/16/32/64, FLOAT/DOUBLE, VARCHAR, JSON, and Array.
 
 ![WeYVbC63So5YT2xSV5EcHf8qn3f](/byoc/WeYVbC63So5YT2xSV5EcHf8qn3f.png)
 
@@ -46,9 +46,9 @@ Let's say we want to build search for a news website and we have a corpus of new
 
 - To retrieve the image thumbnail bytes and render it on the search result page, the image url is also stored. Similarly, for the summary text and title. (Alternatively, we could store the raw text and image file data as scalar fields if required.)
 
-- To improve the search result on the summary text, we design a hybrid search approach. For one retrieval path, we use regular embedding model to generate dense vector from the text, such as OpenAI's `text-embedding-3-large` or the open-source `bge-large-en-v1.5`. These models are good at representing the overall semantic of the text. The other path is to use sparse embedding models such as BM25 or SPLADE to generate a sparse vector, resembling the full-text search which is good at grasping the details and individual concepts in the text. Milvus supports using both in the same data collection thanks to its multi-vector feature. The search on multiple vectors can be done in a single `hybrid_search()` operation.
+- To improve the search result on the summary text, we design a hybrid search approach. For one retrieval path, we use regular embedding model to generate dense vector from the text, such as OpenAI's `text-embedding-3-large` or the open-source `bge-large-en-v1.5`. These models are good at representing the overall semantic of the text. The other path is to use sparse embedding models such as BM25 or SPLADE to generate a sparse vector, resembling the full-text search which is good at grasping the details and individual concepts in the text. Zilliz Cloud supports using both in the same data collection thanks to its multi-vector feature. The search on multiple vectors can be done in a single `hybrid_search()` operation.
 
-- Finally, we also need an ID field to identify each individual news page, formally referred to as an "entity" in Milvus terminology. This field is used as the primary key (or "pk" for short).
+- Finally, we also need an ID field to identify each individual news page, formally referred to as an "entity" in Zilliz Cloud terminology. This field is used as the primary key (or "pk" for short).
 
 <table>
    <tr>
@@ -93,7 +93,7 @@ Let's say we want to build search for a news website and we have a corpus of new
 
 ## Create Schema{#create-schema}
 
-First, we create a Milvus client instance, which can be used to connect to the Milvus server and manage collections and data. 
+First, we create a Milvus client instance, which can be used to connect to the Zilliz Cloud cluster and manage collections and data. 
 
 To set up a schema, we use `create_schema()` to create a schema object and `add_field()` to add fields to the schema.
 
@@ -102,8 +102,10 @@ from pymilvus import MilvusClient, DataType
 
 collection_name = "my_collection"
 
-# client = MilvusClient(uri="http://localhost:19530")
-client = MilvusClient(uri="./milvus_demo.db")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="TOKEN_OR_API_KEY"
+)
 
 schema = MilvusClient.create_schema(
     auto_id=False,
@@ -120,13 +122,9 @@ schema.add_field(field_name="summary_dense_vector", datatype=DataType.FLOAT_VECT
 schema.add_field(field_name="summary_sparse_vector", datatype=DataType.SPARSE_FLOAT_VECTOR, description="summary sparse vector")
 ```
 
-You might notice the argument `uri` in `MilvusClient`, which is used to connect to the Milvus server. You can set the arguments as follows:
+You might notice the argument `uri` in `MilvusClient`, which is used to connect to the Zilliz Cloud cluster. You can set the arguments as follows:
 
-- If you only need a local vector database for small scale data or prototypeing, setting the uri as a local file, e.g.``./milvus.db``, is the most convenient method, as it automatically utilizes [Milvus Lite](https://milvus.io/docs/milvus_lite.md) to store all data in this file.
-
-- If you have large scale of data, say more than a million vectors, you can set up a more performant Milvus server on [Docker or Kubernetes](https://milvus.io/docs/quickstart.md). In this setup, please use the server address and port as your uri, e.g.``http://localhost:19530``. If you enable the authentication feature on Milvus, use "\<your_username>:\<your_password>" as the token, otherwise don't set the token.
-
-- If you use [Zilliz Cloud](https://zilliz.com/cloud), the fully managed cloud service for Milvus, adjust the ``uri`` and ``token``, which correspond to the [Public Endpoint and API key](/docs/on-zilliz-cloud-console#free-cluster-details) in Zilliz Cloud.
+Set `uri` to your Zilliz Cloud cluster's endpoint and `token` to either a colon-separated username and password of a cluster user or a valid Zilliz Cloud API key with the necessary permissions.
 
 As for the `auto_id` in `MilvusClient.create_schema`, AutoID is an attribute of the primary field that determines whether to enable auto increment for the primary field.  Since we set the field`article_id` as the primary key and want to add article id manually, we set `auto_id` False to disable this feature.
 
@@ -160,13 +158,13 @@ index_params.add_index(
 )
 ```
 
-Once the index parameters are set up and applied, Milvus is optimized for handling complex queries on vector and scalar data. This indexing enhances the performance and accuracy of similarity searches within the collection, allowing for efficient retrieval of articles based on image vectors and summary vectors. By leveraging the `AUTOINDEX` for dense vectors, the `SPARSE_INVERTED_INDEX` for sparse vectors and the `INVERTED_INDEX` for scalars, Milvus can quickly identify and return the most relevant results, significantly improving the overall user experience and effectiveness of the data retrieval process.
+Once the index parameters are set up and applied,  optimized for handling complex queries on vector and scalar data. This indexing enhances the performance and accuracy of similarity searches within the collection, allowing for efficient retrieval of articles based on image vectors and summary vectors. By leveraging the `AUTOINDEX` for dense vectors, the `SPARSE_INVERTED_INDEX` for sparse vectors and the `INVERTED_INDEX` for scalars, Milvus can quickly identify and return the most relevant results, significantly improving the overall user experience and effectiveness of the data retrieval process.
 
-There are many types of indices and metrics. For more information about them, you can refer to [Milvus index type](https://milvus.io/docs/overview.md#Index-types) and [Milvus metric type](https://milvus.io/docs/glossary.md#Metric-type).
+There are many types of indices and metrics. For more information about them, you can refer to [AUTOINDEX Explained](./autoindex-explained) and [Metric Types](./search-metrics-explained)..
 
 ## Create Collection{#create-collection}
 
-With the schema and indexes defined, we create a "collection" with these parameters. Collection to Milvus is like a table to a relational DB.
+With the schema and indexes defined, we create a "collection" with these parameters. Collection to a Zilliz Cloud cluster is like a table to a relational DB.
 
 ```python
 client.create_collection(
@@ -189,10 +187,10 @@ print(collection_desc)
 
 ## Loading Index{#loading-index}
 
-When creating a collection in Milvus, you can choose to load the index immediately or defer it until after bulk ingesting some data. Typically, you don't need to make an explicit choice about this, as the above examples show that the index is automatically built for any ingested data right after collection creation. This allows for immediate searchability of the ingested data. However, if you have a large bulk insert after collection creation and don't need to search for any data until a certain point, you can defer the index building by omitting index_params in the collection creation and build the index by calling load explicitly after ingesting all the data. This method is more efficient for building the index on a large collection, but no searches can be done until calling load().
+When creating a collection in a Zilliz Cloud cluster, you can choose to load the index immediately or defer it until after bulk ingesting some data. Typically, you don't need to make an explicit choice about this, as the above examples show that the index is automatically built for any ingested data right after collection creation. This allows for immediate searchability of the ingested data. However, if you have a large bulk insert after collection creation and don't need to search for any data until a certain point, you can defer the index building by omitting index_params in the collection creation and build the index by calling load explicitly after ingesting all the data. This method is more efficient for building the index on a large collection, but no searches can be done until calling load().
 
 ## How to Define Data Model For Multi-tenancy{#how-to-define-data-model-for-multi-tenancy}
 
 The concept of multiple tenants is commonly used in scenarios where a single software application or service needs to serve multiple independent users or organizations, each with their own isolated environment. This is frequently seen in cloud computing, SaaS (Software as a Service) applications, and database systems. For example, a cloud storage service may utilize multi-tenancy to allow different companies to store and manage their data separately while sharing the same underlying infrastructure. This approach maximizes resource utilization and efficiency while ensuring data security and privacy for each tenant.
 
-The easiest way to differentiate tenants is by isolating their data and resources from each other. Each tenant either has exclusive access to specific resources or shares resources with others to manage Milvus entities such as databases, collections, and partitions. There are specific methods aligned with these entities to implement Milvus multi-tenancy. You can refer to the [Milvus multi-tenancy page](https://milvus.io/docs/multi_tenancy.md#Multi-tenancy-strategies) for more information.
+The easiest way to differentiate tenants is by isolating their data and resources from each other. Each tenant either has exclusive access to specific resources or shares resources with others to manage Zilliz Cloud cluster entities such as databases, collections, and partitions. There are specific methods aligned with these entities to implement multi-tenancy. You can refer to the [Milvus multi-tenancy page](https://milvus.io/docs/multi_tenancy.md#Multi-tenancy-strategies) for more information.

@@ -4,7 +4,7 @@ slug: /filtering-templating
 sidebar_label: "Filter Templating"
 beta: FALSE
 notebook: FALSE
-description: "In Milvus, complex filter expressions with numerous elements, especially those involving non-ASCII characters like CJK characters, can significantly affect query performance. To address this, Milvus introduces a filter expression templating mechanism designed to improve efficiency by reducing the time spent parsing complex expressions. This page explains using filter expression templating in search, query, and delete operations. | Cloud"
+description: "In Zilliz Cloud, complex filter expressions with numerous elements, especially those involving non-ASCII characters like CJK characters, can significantly affect query performance. To address this, Zilliz Cloud introduces a filter expression templating mechanism designed to improve efficiency by reducing the time spent parsing complex expressions. This page explains using filter expression templating in search, query, and delete operations. | Cloud"
 type: origin
 token: TumJwDYrhiDYcUkKsUIcuSnbnCf
 sidebar_position: 3
@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 # Filter Templating
 
-In Milvus, complex filter expressions with numerous elements, especially those involving non-ASCII characters like CJK characters, can significantly affect query performance. To address this, Milvus introduces a filter expression templating mechanism designed to improve efficiency by reducing the time spent parsing complex expressions. This page explains using filter expression templating in search, query, and delete operations.
+In Zilliz Cloud, complex filter expressions with numerous elements, especially those involving non-ASCII characters like CJK characters, can significantly affect query performance. To address this, Zilliz Cloud introduces a filter expression templating mechanism designed to improve efficiency by reducing the time spent parsing complex expressions. This page explains using filter expression templating in search, query, and delete operations.
 
 ## Overview{#overview}
 
@@ -41,7 +41,7 @@ filter_params = {"age": 25, "city": ["北京", "上海"]}
 
 Here, `{age}` and `{city}` are placeholders that will be replaced with the actual values in `filter_params` when the query is executed.
 
-Using filter expression templating in Milvus has several key advantages:
+Using filter expression templating in Zilliz Cloud has several key advantages:
 
 - **Reduced Parsing Time**: By replacing large or complex filter expressions with placeholders, the system spends less time parsing and processing the filter.
 
@@ -51,7 +51,7 @@ Using filter expression templating in Milvus has several key advantages:
 
 ## Search Operations{#search-operations}
 
-For search operations in Milvus, the `filter` expression is used to define the filtering condition, and the `filter_params` parameter is used to specify the values for the placeholders. The `filter_params` dictionary contains the dynamic values that Milvus will use to substitute into the filter expression.
+For search operations in Zilliz Cloud, the `filter` expression is used to define the filtering condition, and the `filter_params` parameter is used to specify the values for the placeholders. The `filter_params` dictionary contains the dynamic values that Zilliz Cloud will use to substitute into the filter expression.
 
 ```python
 expr = "age > {age} AND city IN {city}"
@@ -67,11 +67,11 @@ res = client.search(
 )
 ```
 
-In this example, Milvus will dynamically replace `{age}` with `25` and `{city}` with `["北京", "上海"]` when executing the search.
+In this example, Zilliz Cloud will dynamically replace `{age}` with `25` and `{city}` with `["北京", "上海"]` when executing the search.
 
 ## Query Operations{#query-operations}
 
-The same templating mechanism can be applied to query operations in Milvus. In the `query` function, you define the filter expression and use the `filter_params` to specify the values to substitute.
+The same templating mechanism can be applied to query operations in Zilliz Cloud. In the `query` function, you define the filter expression and use the `filter_params` to specify the values to substitute.
 
 ```python
 expr = "age > {age} AND city IN {city}"
@@ -84,7 +84,7 @@ res = client.query(
 )
 ```
 
-By using `filter_params`, Milvus efficiently handles the dynamic insertion of values, improving the speed of query execution.
+By using `filter_params`, Zilliz Cloud efficiently handles the dynamic insertion of values, improving the speed of query execution.
 
 ## Delete Operations{#delete-operations}
 
@@ -104,4 +104,4 @@ This approach improves the performance of delete operations, especially when dea
 
 ## Conclusion{#conclusion}
 
-Filter expression templating is an essential tool for optimizing query performance in Milvus. By using placeholders and the `filter_params` dictionary, you can significantly reduce the time spent parsing complex filter expressions. This leads to faster query execution and better overall performance.
+Filter expression templating is an essential tool for optimizing query performance in Zilliz Cloud. By using placeholders and the `filter_params` dictionary, you can significantly reduce the time spent parsing complex filter expressions. This leads to faster query execution and better overall performance.

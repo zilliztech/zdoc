@@ -4,7 +4,7 @@ slug: /hybrid-search
 sidebar_label: "Hybrid Search"
 beta: FALSE
 notebook: FALSE
-description: "Hybrid Search refers to a search method that conducts multiple ANN searches simultaneously, reranks multiple sets of results from these ANN searches, and ultimately returns a single set of results. Using Hybrid Search can enhance the search accuracy. Zilliz supports conducting Hybrid Search on a collection with multiple vector fields. | BYOC"
+description: "Hybrid Search refers to a search method that conducts multiple ANN searches simultaneously, reranks multiple sets of results from these ANN searches, and ultimately returns a single set of results. Using Hybrid Search can enhance the search accuracy. Zilliz Cloud supports conducting Hybrid Search on a collection with multiple vector fields. | BYOC"
 type: origin
 token: WTsmwWdgOiKnwpkdZdScp093njh
 sidebar_position: 5
@@ -25,9 +25,9 @@ import TabItem from '@theme/TabItem';
 
 # Hybrid Search
 
-Hybrid Search refers to a search method that conducts multiple ANN searches simultaneously, reranks multiple sets of results from these ANN searches, and ultimately returns a single set of results. Using Hybrid Search can enhance the search accuracy. Zilliz supports conducting Hybrid Search on a collection with multiple vector fields. 
+Hybrid Search refers to a search method that conducts multiple ANN searches simultaneously, reranks multiple sets of results from these ANN searches, and ultimately returns a single set of results. Using Hybrid Search can enhance the search accuracy. Zilliz Cloud supports conducting Hybrid Search on a collection with multiple vector fields. 
 
-Hybrid Search is most commonly used in scenarios including sparse-dense vector searches and multimodal searches. This guide will demonstrate how to conduct a Hybrid Search in Zilliz with a specific example.
+Hybrid Search is most commonly used in scenarios including sparse-dense vector searches and multimodal searches. This guide will demonstrate how to conduct a Hybrid Search in Zilliz Cloud with a specific example.
 
 ## Scenarios{#scenarios}
 
@@ -55,7 +55,7 @@ The main workflow for conducting a Hybrid Search is as follows:
 
 1. Generate sparse vectors through embedding models like [BM25](https://zilliz.com/learn/mastering-bm25-a-deep-dive-into-the-algorithm-and-application-in-milvus), [BGE-M3](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings#BGE-M3), [SPLADE](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings#SPLADE), etc.
 
-1. Create a collection in Zilliz and define the collection schema which includes both dense and sparse vector fields.
+1. Create a collection in Zilliz Cloud and define the collection schema which includes both dense and sparse vector fields.
 
 1. Insert sparse-dense vectors into the collection just created in the previous step.
 
@@ -240,8 +240,6 @@ export schema='{
 
 </TabItem>
 </Tabs>
-
-During sparse vector searches, you can simplify the process of generating sparse embedding vectors by leveraging Full Text Search capabilities. For more details, see [Full Text Search](./full-text-search).
 
 #### Create index{#create-index}
 
@@ -658,7 +656,7 @@ Since the parameter `limit` is set to 2, each `AnnSearchRequest` returns 2 searc
 
 ### Configure a reranking strategy{#configure-a-reranking-strategy}
 
-To merge and rerank the two sets of ANN search results, it is necessary to select an appropriate reranking strategy. Zilliz supports two types of reranking strategy: **WeightedRanker** and **RRFRanker**. When choosing a reranking strategy, one thing to consider is whether to there is any emphasis for one or more basic ANN search on the vector fields.
+To merge and rerank the two sets of ANN search results, it is necessary to select an appropriate reranking strategy. Zilliz Cloud supports two types of reranking strategy: **WeightedRanker** and **RRFRanker**. When choosing a reranking strategy, one thing to consider is whether to there is any emphasis for one or more basic ANN search on the vector fields.
 
 - **WeightedRanker**: This strategy is recommended if you require the results to emphasize a particular vector field. The WeightedRanker allows you to assign higher weights to certain vector fields, emphasizing them more. For instance, in multimodal searches, textual descriptions of an image might be considered more important than the colors in this image.
 
@@ -863,4 +861,4 @@ The following is the output:
 ["['id: 844, distance: 0.006047376897186041, entity: {}', 'id: 876, distance: 0.006422005593776703, entity: {}']"]
 ```
 
-Since `limit=2` is specified in the Hybrid Search, Zilliz will rerank the four search results from step 3 and ultimately return only the top 2 most similar search results. 
+Since `limit=2` is specified in the Hybrid Search, Zilliz Cloud will rerank the four search results from step 3 and ultimately return only the top 2 most similar search results. 

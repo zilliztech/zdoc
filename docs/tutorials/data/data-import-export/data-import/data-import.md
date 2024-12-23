@@ -4,7 +4,7 @@ slug: /data-import
 sidebar_label: "Data Import"
 beta: FALSE
 notebook: FALSE
-description: "A comprehensive guide on how to import data to Zilliz Cloud, taking you from zero to hero. | Cloud"
+description: "Zilliz Cloud supports data import from various storage options, including AWS S3, GCP Storage, and Azure Blob Storage, as well as formats such as Parquet (recommended), JSON, and NumPy files. In this chapter, you will find the procedure for importing data in the supported formats from these storage options. | Cloud"
 type: origin
 token: T5BnwoXuFiwXyekEJ1ZcfaJGnqd
 sidebar_position: 1
@@ -22,7 +22,9 @@ import Admonition from '@theme/Admonition';
 
 # Data Import
 
-A comprehensive guide on how to import data to Zilliz Cloud, taking you from zero to hero.
+Zilliz Cloud supports data import from various storage options, including AWS S3, GCP Storage, and Azure Blob Storage, as well as formats such as Parquet (recommended), JSON, and NumPy files. In this chapter, you will find the procedure for importing data in the supported formats from these storage options.
+
+
 
 import DocCardList from '@theme/DocCardList';
 

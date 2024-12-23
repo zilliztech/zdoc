@@ -4,7 +4,7 @@ slug: /reranking
 sidebar_label: "Reranking"
 beta: FALSE
 notebook: FALSE
-description: "Hybrid Search achieves more precise search results through multiple simultaneous ANN searches. Multiple searches return several sets of results, which require a reranking strategy to help merge and reorder the results and return a single set of results. This guide will introduce the reranking strategies supported by Zilliz and provide tips for selecting the appropriate reranking strategy. | Cloud"
+description: "Hybrid Search achieves more precise search results through multiple simultaneous ANN searches. Multiple searches return several sets of results, which require a reranking strategy to help merge and reorder the results and return a single set of results. This guide will introduce the reranking strategies supported by Zilliz Cloud and provide tips for selecting the appropriate reranking strategy. | Cloud"
 type: origin
 token: M4IYwThFKiatBkk0Cp3c9p4QnZc
 sidebar_position: 18
@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 # Reranking
 
-Hybrid Search achieves more precise search results through multiple simultaneous ANN searches. Multiple searches return several sets of results, which require a reranking strategy to help merge and reorder the results and return a single set of results. This guide will introduce the reranking strategies supported by Zilliz and provide tips for selecting the appropriate reranking strategy.
+Hybrid Search achieves more precise search results through multiple simultaneous ANN searches. Multiple searches return several sets of results, which require a reranking strategy to help merge and reorder the results and return a single set of results. This guide will introduce the reranking strategies supported by Zilliz Cloud and provide tips for selecting the appropriate reranking strategy.
 
 ## Overview{#overview}
 
@@ -33,7 +33,7 @@ The following diagram shows the main workflow of conducting a Hybrid Search in a
 
 ![YCR9bk8xsoY2PNxPc97cyK7bnYf](/img/YCR9bk8xsoY2PNxPc97cyK7bnYf.png)
 
-In Hybrid Search, reranking is a crucial step that integrates the results from multiple vector searches to ensure the final output is the most relevant and accurate. Currently, Zilliz supports the following two reranking strategies:
+In Hybrid Search, reranking is a crucial step that integrates the results from multiple vector searches to ensure the final output is the most relevant and accurate. Currently, Zilliz Cloud supports the following two reranking strategies:
 
 - **[WeightedRanker](./reranking#weightedranker)**: This strategy merges results by calculating a weighted score of scores (or distances) from different vector searches. Weights are assigned based on the importance of each vector field, allowing for customization according to specific use-case priorities.
 

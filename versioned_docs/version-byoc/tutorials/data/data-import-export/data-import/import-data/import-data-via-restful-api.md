@@ -32,13 +32,13 @@ Make sure the following conditions are met:
 
 - You have prepared your data in either of the supported formats. 
 
-    For details on how to prepare your data, refer to [Prepare Source Data](./prepare-source-data). You can also refer to the end-to-end notebook [Data Import from Zero to Hero](./data-import-zero-to-hero) to get more.
+    For details on how to prepare your data, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options). You can also refer to the end-to-end notebook [Data Import Hands-On](./data-import-zero-to-hero) to get more.
 
 - You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details on creating a collection, see [Manage Collections (Console)](./manage-collections-console).
 
 ## Import data using the RESTful API{#import-data-using-the-restful-api}
 
-To import data from files using the RESTful API, you must first upload the files to an object storage bucket. Once uploaded, obtain the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. For details on supported object paths, refer to [From remote buckets](./prepare-source-data#from-remote-buckets).
+To import data from files using the RESTful API, you must first upload the files to an object storage bucket. Once uploaded, obtain the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. For details on supported object paths, refer to [Storage Options](./data-import-storage-options).
 
 Based on your data security requirements, you can use either long-term credentials or session tokens during data import. 
 

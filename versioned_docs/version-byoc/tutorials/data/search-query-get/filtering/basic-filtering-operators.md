@@ -4,7 +4,7 @@ slug: /basic-filtering-operators
 sidebar_label: "Basic Operators"
 beta: FALSE
 notebook: FALSE
-description: "Milvus provides a rich set of basic operators to help you filter and query data efficiently. These operators allow you to refine your search conditions based on scalar fields, numeric calculations, logical conditions, and more. Understanding how to use these operators is crucial for building precise queries and maximizing the efficiency of your searches. | BYOC"
+description: "Zilliz Cloud provides a rich set of basic operators to help you filter and query data efficiently. These operators allow you to refine your search conditions based on scalar fields, numeric calculations, logical conditions, and more. Understanding how to use these operators is crucial for building precise queries and maximizing the efficiency of your searches. | BYOC"
 type: origin
 token: LBbUwOGcwi1UMak3eE2cM1gvnUe
 sidebar_position: 2
@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 # Basic Operators
 
-Milvus provides a rich set of basic operators to help you filter and query data efficiently. These operators allow you to refine your search conditions based on scalar fields, numeric calculations, logical conditions, and more. Understanding how to use these operators is crucial for building precise queries and maximizing the efficiency of your searches.
+Zilliz Cloud provides a rich set of basic operators to help you filter and query data efficiently. These operators allow you to refine your search conditions based on scalar fields, numeric calculations, logical conditions, and more. Understanding how to use these operators is crucial for building precise queries and maximizing the efficiency of your searches.
 
 ## Comparison operators{#comparison-operators}
 
@@ -252,7 +252,7 @@ filter = 'NOT color == "green"'
 
 ## Tips on Using Basic Operators with JSON and ARRAY Fields{#tips-on-using-basic-operators-with-json-and-array-fields}
 
-While the basic operators in Milvus are versatile and can be applied to scalar fields, they can also be effectively used with the keys and indexes in the JSON and ARRAY fields.
+While the basic operators in Zilliz Cloud clusters are versatile and can be applied to scalar fields, they can also be effectively used with the keys and indexes in the JSON and ARRAY fields.
 
 For example, if you have a `product` field that contains multiple keys like `price`, `model`, and `tags`, always reference the key directly:
 
@@ -268,4 +268,4 @@ filter = 'history_temperatures[0] > 30'
 
 ## Conclusion{#conclusion}
 
-Milvus offers a range of basic operators that give you flexibility in filtering and querying your data. By combining comparison, range, arithmetic, and logical operators, you can create powerful filter expressions to narrow down your search results and retrieve the data you need efficiently.
+Zilliz Cloud offers a range of basic operators that give you flexibility in filtering and querying your data. By combining comparison, range, arithmetic, and logical operators, you can create powerful filter expressions to narrow down your search results and retrieve the data you need efficiently.

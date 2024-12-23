@@ -4,7 +4,7 @@ slug: /grouping-search
 sidebar_label: "Grouping Search"
 beta: FALSE
 notebook: FALSE
-description: "A grouping search allows Milvus to group the search results by the values in a specified field to aggregate data at a higher level. For example, you can use a basic ANN search to find books similar to the one at hand, but you can use a grouping search to find the book categories that may involve the topics discussed in that book. This topic describes how to use Grouping Search along with key considerations. | Cloud"
+description: "A grouping search allows Zilliz Cloud to group the search results by the values in a specified field to aggregate data at a higher level. For example, you can use a basic ANN search to find books similar to the one at hand, but you can use a grouping search to find the book categories that may involve the topics discussed in that book. This topic describes how to use Grouping Search along with key considerations. | Cloud"
 type: origin
 token: JWZGw89MBiUDBNkhtGfcyyUcnsd
 sidebar_position: 4
@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 # Grouping Search
 
-A grouping search allows Milvus to group the search results by the values in a specified field to aggregate data at a higher level. For example, you can use a basic ANN search to find books similar to the one at hand, but you can use a grouping search to find the book categories that may involve the topics discussed in that book. This topic describes how to use Grouping Search along with key considerations.
+A grouping search allows Zilliz Cloud to group the search results by the values in a specified field to aggregate data at a higher level. For example, you can use a basic ANN search to find books similar to the one at hand, but you can use a grouping search to find the book categories that may involve the topics discussed in that book. This topic describes how to use Grouping Search along with key considerations.
 
 ## Overview{#overview}
 
@@ -39,7 +39,7 @@ When performing an Approximate Nearest Neighbor (ANN) search on such a collectio
 
 ![Ktj8wigrHhvz4nbDES5coKZJnZe](/img/Ktj8wigrHhvz4nbDES5coKZJnZe.png)
 
-To improve the diversity of search results, you can add the `group_by_field` parameter in the search request to enable Grouping Search. As shown in the diagram, you can set `group_by_field` to `docId`. Upon receiving this request, Milvus will:
+To improve the diversity of search results, you can add the `group_by_field` parameter in the search request to enable Grouping Search. As shown in the diagram, you can set `group_by_field` to `docId`. Upon receiving this request, Zilliz Cloud will:
 
 - Perform an ANN search based on the provided query vector to find all entities most similar to the query.
 
@@ -67,7 +67,7 @@ This section provides example code to demonstrate the use of Grouping Search. Th
 
 ```
 
-In the search request, set both `group_by_field` and `output_fields` to `docId`. Milvus will group the results by the specified field and return the most similar entity from each group, including the value of `docId` for each returned entity.
+In the search request, set both `group_by_field` and `output_fields` to `docId`. Zilliz Cloud will group the results by the specified field and return the most similar entity from each group, including the value of `docId` for each returned entity.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

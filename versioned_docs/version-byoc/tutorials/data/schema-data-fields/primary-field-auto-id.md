@@ -4,7 +4,7 @@ slug: /primary-field-auto-id
 sidebar_label: "Primary Field & AutoID"
 beta: FALSE
 notebook: FALSE
-description: "The primary field uniquely identifies an entity. This page introduces how to add the primary field of two different data types and how to enable Milvus to automatically allocate primary field values. | BYOC"
+description: "The primary field uniquely identifies an entity. This page introduces how to add the primary field of two different data types and how to enable Zilliz Cloud to automatically allocate primary field values. | BYOC"
 type: origin
 token: D2ctwKZhNilLY0ke1vpcHL62n5G
 sidebar_position: 2
@@ -26,19 +26,19 @@ import TabItem from '@theme/TabItem';
 
 # Primary Field & AutoID
 
-The primary field uniquely identifies an entity. This page introduces how to add the primary field of two different data types and how to enable Milvus to automatically allocate primary field values.
+The primary field uniquely identifies an entity. This page introduces how to add the primary field of two different data types and how to enable Zilliz Cloud to automatically allocate primary field values.
 
 ## Overview{#overview}
 
 In a collection, the primary key of each entity should be globally unique. When adding the primary field, you need to explicitly set its data type to **VARCHAR** or **INT64**. Setting its data type to **INT64** indicates that the primary keys should be an integer similar to `12345`; Setting its data type to **VARCHAR** indicates that the primary keys should be a string similar to `my_entity_1234`.
 
-You can also enable **AutoID** to make Milvus automatically allocate primary keys for incoming entities. Once you have enabled **AutoID** in your collection, do not include primary keys when inserting entities.
+You can also enable **AutoID** to make Zilliz Cloud automatically allocate primary keys for incoming entities. Once you have enabled **AutoID** in your collection, do not include primary keys when inserting entities.
 
 The primary field in a collection does not have a default value and cannot be null.
 
 ## Use Int64 Primary Keys{#use-int64-primary-keys}
 
-To use primary keys of the Int64 type, you need to set `datatype` to `DataType.INT64` and set `is_primary` to `true`. If you also need Milvus to allocate the primary keys for the incoming entities, also set `auto_id` to `true`.
+To use primary keys of the Int64 type, you need to set `datatype` to `DataType.INT64` and set `is_primary` to `true`. If you also need Zilliz Cloud to allocate the primary keys for the incoming entities, also set `auto_id` to `true`.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -103,7 +103,7 @@ const schema = [
 <TabItem value='go'>
 
 ```go
-// Go 缺失
+// Go
 ```
 
 </TabItem>
@@ -187,7 +187,7 @@ schema.push({
 <TabItem value='go'>
 
 ```go
-// Go 缺失
+// Go
 ```
 
 </TabItem>

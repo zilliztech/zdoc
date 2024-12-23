@@ -4,10 +4,10 @@ slug: /use-bulkwriter
 sidebar_label: "Use BulkWriter"
 beta: FALSE
 notebook: FALSE
-description: "If your data format does not meet the requirements on Prepare Source Data, you can use BulkWriter, a data processing tool in pymilvus and Milvus' Java SDK, to prepare your data. | Cloud"
+description: "If your data format does not meet the requirements, you can use BulkWriter, a data processing tool in pymilvus and Milvus' Java SDK, to prepare your data. | Cloud"
 type: origin
 token: QyjpwAaKuihAeJkNBUJcdFesn9e
-sidebar_position: 2
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 # Use BulkWriter
 
-If your data format does not meet the requirements on [Prepare Source Data](./prepare-source-data), you can use **BulkWriter**, a data processing tool in pymilvus and Milvus' Java SDK, to prepare your data.
+If your data format does not meet the requirements, you can use **BulkWriter**, a data processing tool in pymilvus and Milvus' Java SDK, to prepare your data.
 
 ## Overview{#overview}
 

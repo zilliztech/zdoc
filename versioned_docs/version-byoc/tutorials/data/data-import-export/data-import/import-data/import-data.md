@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Once you have prepared your data by following the procedures in Prepare Data Import, you can start the data import on the Zilliz Cloud console, via RESTful API, or via SDKs. | BYOC"
 type: origin
 token: VTZZwCkkCi7FwnklLDhcMJwvnQb
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database

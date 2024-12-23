@@ -76,8 +76,7 @@ The table below summarizes the mapping between different field types and their c
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p>For vector fields of the <code>SPARSE\_FLOAT\_VECTOR</code> type, use the <code>BM25</code> metric type only when performing full text search. For more information, refer to <a href="./full-text-search">Full Text Search</a>.</p></li>
-<li><p>For vector fields of the <code>BINARY_VECTOR</code> type, the dimension value (<code>dim</code>) must be a multiple of 8. </p></li>
+<li>For vector fields of the <code>BINARY_VECTOR</code> type, the dimension value (<code>dim</code>) must be a multiple of 8. </li>
 </ul>
 
 </Admonition>
@@ -191,36 +190,4 @@ HAMMING distance measures binary data strings. The distance between two strings 
 For example, suppose there are two strings, 1101 1001 and 1001 1101.
 
 11011001 ⊕ 10011101 = 01000100. Since, this contains two 1s, the HAMMING distance, d (11011001, 10011101) = 2.
-
-## BM25 similarity{#bm25-similarity}
-
-BM25 is a widely used text relevance measurement method, specifically designed for [full text search](./full-text-search). It combines the following three key factors:
-
-- **Term Frequency (TF):** Measures how frequently a term appears in a document. While higher frequencies often indicate greater importance, BM25 uses the saturation parameter  to prevent overly frequent terms from dominating the relevance score.
-
-- **Inverse Document Frequency (IDF):** Reflects the importance of a term across the entire corpus. Terms appearing in fewer documents receive a higher IDF value, indicating greater contribution to relevance.
-
-- **Document Length Normalization:** Longer documents tend to score higher due to containing more terms. BM25 mitigates this bias by normalizing document lengths, with parameter  controlling the strength of this normalization.
-
-The BM25 scoring is calculated as follows:
-
-Parameter description:
-
-- : The query text provided by the user.
-
-- : The document being evaluated.
-
-- : Term frequency, representing how often term appears in document .
-
-- : Inverse document frequency, calculated as:
-
-    where  is the total number of documents in the corpus, and is the number of documents containing term .
-
-- : Length of document  (total number of terms).
-
-- : Average length of all documents in the corpus.
-
-- : Controls the influence of term frequency on the score. Higher values increase the importance of term frequency. The typical range is [1.2, 2.0], while Milvus allows a range of [0, 3].
-
-- : Controls the degree of length normalization, ranging from 0 to 1. When the value is 0, no normalization is applied; when the value is 1, full normalization is applied.
 

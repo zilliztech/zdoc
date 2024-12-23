@@ -4,7 +4,7 @@ slug: /use-json-fields
 sidebar_label: "JSON Field"
 beta: FALSE
 notebook: FALSE
-description: "JSON is a lightweight data exchange format that provides a flexible way to store and query complex data structures. In Milvus, you can store additional structured information alongside vector data using JSON fields, enabling advanced searches and queries that combine vector similarity with structured filtering. | Cloud"
+description: "JSON is a lightweight data exchange format that provides a flexible way to store and query complex data structures. In Zilliz Cloud clusters you can store additional structured information alongside vector data using JSON fields, enabling advanced searches and queries that combine vector similarity with structured filtering. | Cloud"
 type: origin
 token: BkDMwo71MiZMazk7gbtc7fqknbh
 sidebar_position: 8
@@ -24,7 +24,7 @@ import TabItem from '@theme/TabItem';
 
 # JSON Field
 
-[JSON](https://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) is a lightweight data exchange format that provides a flexible way to store and query complex data structures. In Milvus, you can store additional structured information alongside vector data using JSON fields, enabling advanced searches and queries that combine vector similarity with structured filtering.
+[JSON](https://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) is a lightweight data exchange format that provides a flexible way to store and query complex data structures. In Zilliz Cloud clusters you can store additional structured information alongside vector data using JSON fields, enabling advanced searches and queries that combine vector similarity with structured filtering.
 
 JSON fields are ideal for applications that require metadata to optimize retrieval results. For example, in e-commerce, product vectors can be enhanced with attributes like category, price, and brand. In recommendation systems, user vectors can be combined with preferences and demographic information. Below is an example of a typical JSON field:
 
@@ -38,7 +38,7 @@ JSON fields are ideal for applications that require metadata to optimize retriev
 
 ## Add JSON field{#add-json-field}
 
-To use JSON fields in Milvus, define the relevant field type in the collection schema, setting the `datatype` to the supported JSON type, i.e., `JSON`.
+To use JSON fields in Zilliz Cloud clusters, define the relevant field type in the collection schema, setting the `datatype` to the supported JSON type, i.e., `JSON`.
 
 Here’s how to define a collection schema that includes a JSON field:
 
@@ -415,7 +415,7 @@ In this example:
 
 ## Search and query{#search-and-query}
 
-JSON fields allow scalar filtering during searches, enhancing Milvus's vector search capabilities. You can query based on JSON properties alongside vector similarity.
+JSON fields allow scalar filtering during searches, enhancing Zilliz Cloud's vector search capabilities. You can query based on JSON properties alongside vector similarity.
 
 ### Filter queries{#filter-queries}
 
@@ -493,7 +493,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In the above query, Milvus filters out entities where the `metadata` field has a category of `"electronics"` and a price below 150, returning entities that match these criteria.
+In the above query, Zilliz Cloud filters out entities where the `metadata` field has a category of `"electronics"` and a price below 150, returning entities that match these criteria.
 
 ### Vector search with JSON filtering{#vector-search-with-json-filtering}
 
@@ -588,9 +588,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example, Milvus returns the top 5 entities most similar to the query vector, with the `metadata` field containing a brand of `"BrandA"`.
+In this example, Zilliz Cloud returns the top 5 entities most similar to the query vector, with the `metadata` field containing a brand of `"BrandA"`.
 
-Additionally, Milvus supports advanced JSON filtering operators such as `JSON_CONTAINS`, `JSON_CONTAINS_ALL`, and `JSON_CONTAINS_ANY`, which can further enhance query capabilities. For more details, refer to [JSON Operators](./json-filtering-operators).
+Additionally, Zilliz Cloud supports advanced JSON filtering operators such as `JSON_CONTAINS`, `JSON_CONTAINS_ALL`, and `JSON_CONTAINS_ANY`, which can further enhance query capabilities. For more details, refer to [JSON Operators](./json-filtering-operators).
 
 ## Limits{#limits}
 
@@ -600,7 +600,7 @@ Additionally, Milvus supports advanced JSON filtering operators such as `JSON_CO
 
 - **Naming Restrictions**: When naming JSON keys, it is recommended to use only letters, numeric characters, and underscores, as other characters may cause issues during filtering or searching.
 
-- **Handling String Values**: For string values (`VARCHAR`), Milvus stores JSON field strings as-is without semantic conversion. For example: `'a"b'`, `"a'b"`, `'a\'b'`, and `"a\"b"` are stored as entered; however, `'a'b'` and `"a"b"` are considered invalid.
+- **Handling String Values**: For string values (`VARCHAR`), Zilliz Cloud stores JSON field strings as-is without semantic conversion. For example: `'a"b'`, `"a'b"`, `'a\'b'`, and `"a\"b"` are stored as entered; however, `'a'b'` and `"a"b"` are considered invalid.
 
 - **Handling Nested Dictionaries**: Any nested dictionaries within JSON field values are treated as strings.
 

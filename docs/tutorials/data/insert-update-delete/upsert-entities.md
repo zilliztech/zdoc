@@ -30,13 +30,13 @@ The Upsert operation combines the actions of updating and inserting data. Milvus
 
 ## Overview{#overview}
 
-When you need to update an Entity in a Collection or are not sure whether to update or insert, you can try using the Upsert operation. When using this operation, it is essential to ensure that the Entity included in the Upsert request contains the primary key; otherwise, an error will occur. Upon receiving an Upsert request, Milvus will execute the following process:
+When you need to update an Entity in a Collection or are not sure whether to update or insert, you can try using the Upsert operation. When using this operation, it is essential to ensure that the Entity included in the Upsert request contains the primary key; otherwise, an error will occur. Upon receiving an Upsert request, Zilliz Cloud will execute the following process:
 
 1. Check whether the primary field of the Collection has AutoId enabled.
 
-    1.  If it is, Milvus will replace the primary key in the Entity with an automatically generated primary key and insert the data.
+    1.  If it is, Zilliz Cloud will replace the primary key in the Entity with an automatically generated primary key and insert the data.
 
-    1. If not, Milvus will use the primary key carried by the Entity to insert the data.
+    1. If not, Zilliz Cloud will use the primary key carried by the Entity to insert the data.
 
 1. Perform a delete operation based on the primary key value of the Entity included in the Upsert request.
 

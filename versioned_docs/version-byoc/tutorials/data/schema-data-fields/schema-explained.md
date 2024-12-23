@@ -251,11 +251,11 @@ The `dim` paramter in the above code snippets indicates the dimensionality of th
 
 ## Add Scalar Fields{#add-scalar-fields}
 
-In common cases, you can use scalar fields to store the metadata of the vector embeddings stored in Milvus, and conduct ANN searches with metadata filtering to improve the correctness of the search results. Zilliz Cloud supports multiple scalar field types, including **VarChar**, **Boolean**, **Int**, **Float**, **Double**, **Array**, and **JSON**.
+In common cases, you can use scalar fields to store the metadata of the vector embeddings stored in Zilliz Cloud clusters, and conduct ANN searches with metadata filtering to improve the correctness of the search results. Zilliz Cloud supports multiple scalar field types, including **VarChar**, **Boolean**, **Int**, **Float**, **Double**, **Array**, and **JSON**.
 
 ### Add String Fields{#add-string-fields}
 
-In Milvus, you can use VarChar fields to store strings. For more on the VarChar field, refer to [String Field](./use-string-field).
+In Zilliz Cloud clusters, you can use VarChar fields to store strings. For more on the VarChar field, refer to [String Field](./use-string-field).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -323,7 +323,7 @@ export schema="{
 
 ### Add Number Fields{#add-number-fields}
 
-The types of numbers that Milvus supports are `Int8`, `Int16`, `Int32`, `Int64`, `Float`, and `Double`. For more on the number fields, refer to [Number Field](./use-number-field).
+The types of numbers that Zilliz Cloud supports are `Int8`, `Int16`, `Int32`, `Int64`, `Float`, and `Double`. For more on the number fields, refer to [Number Field](./use-number-field).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -383,7 +383,7 @@ export schema="{
 
 ### Add Boolean Fields{#add-boolean-fields}
 
-Milvus supports boolean fields. The following code snippets demonstrate how to add a boolean field.
+Zilliz Cloud supports boolean fields. The following code snippets demonstrate how to add a boolean field.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

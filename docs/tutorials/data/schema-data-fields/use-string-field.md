@@ -4,7 +4,7 @@ slug: /use-string-field
 sidebar_label: "String Field"
 beta: FALSE
 notebook: FALSE
-description: "In Milvus, `VARCHAR` is the data type used for storing string-type data, suitable for storing variable-length strings. It can store strings with both single- and multi-byte characters, with a maximum length of up to 60,535 characters. When defining a `VARCHAR` field, you must also specify the maximum length parameter `maxlength`. The `VARCHAR` string type offers an efficient and flexible way to store and manage text data, making it ideal for applications that handle strings of varying lengths. | Cloud"
+description: "In Zilliz Cloud clusters, `VARCHAR` is the data type used for storing string-type data, suitable for storing variable-length strings. It can store strings with both single- and multi-byte characters, with a maximum length of up to 60,535 characters. When defining a `VARCHAR` field, you must also specify the maximum length parameter `maxlength`. The `VARCHAR` string type offers an efficient and flexible way to store and manage text data, making it ideal for applications that handle strings of varying lengths. | Cloud"
 type: origin
 token: QBXVwP7oiiuEovkprDnckJlEnoK
 sidebar_position: 6
@@ -25,11 +25,11 @@ import TabItem from '@theme/TabItem';
 
 # String Field
 
-In Milvus, `VARCHAR` is the data type used for storing string-type data, suitable for storing variable-length strings. It can store strings with both single- and multi-byte characters, with a maximum length of up to 60,535 characters. When defining a `VARCHAR` field, you must also specify the maximum length parameter `max_length`. The `VARCHAR` string type offers an efficient and flexible way to store and manage text data, making it ideal for applications that handle strings of varying lengths.
+In Zilliz Cloud clusters, `VARCHAR` is the data type used for storing string-type data, suitable for storing variable-length strings. It can store strings with both single- and multi-byte characters, with a maximum length of up to 60,535 characters. When defining a `VARCHAR` field, you must also specify the maximum length parameter `max_length`. The `VARCHAR` string type offers an efficient and flexible way to store and manage text data, making it ideal for applications that handle strings of varying lengths.
 
 ## Add VARCHAR field{#add-varchar-field}
 
-To use string data in Milvus, define a `VARCHAR` field when creating a collection. This process includes:
+To use string data in Zilliz Cloud clusters, define a `VARCHAR` field when creating a collection. This process includes:
 
 1. Setting `datatype` to the supported string data type, i.e., `VARCHAR`.
 
@@ -190,7 +190,7 @@ In this example, we add two `VARCHAR` fields: `varchar_field1` and `varchar_fiel
 
 Setting index parameters for `VARCHAR` fields is optional but can significantly improve retrieval efficiency.
 
-In the following example, we create an `AUTOINDEX` for `varchar_field1`, meaning Milvus will automatically create an appropriate index based on the data type. For more information, refer to [AUTOINDEX Explained](./autoindex-explained).
+In the following example, we create an `AUTOINDEX` for `varchar_field1`, meaning Zilliz Cloud will automatically create an appropriate index based on the data type. For more information, refer to [AUTOINDEX Explained](./autoindex-explained).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -473,7 +473,7 @@ curl --request POST \
 
 In this example, we insert data that includes `VARCHAR` fields (`varchar_field1` and `varchar_field2`), a primary field (`pk`), and vector representations (`embedding`). To ensure that the inserted data matches the fields defined in the schema, it is recommended to check data types in advance to avoid insertion errors.
 
-If you set `enable_dynamic_fields=True` when defining the schema, Milvus allows you to insert string fields that were not defined in advance. However, keep in mind that this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
+If you set `enable_dynamic_fields=True` when defining the schema, Zilliz Cloud allows you to insert string fields that were not defined in advance. However, keep in mind that this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
 
 ## Search and query{#search-and-query}
 

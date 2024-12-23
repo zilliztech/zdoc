@@ -4,7 +4,7 @@ slug: /get-and-scalar-query
 sidebar_label: "Query"
 beta: FALSE
 notebook: FALSE
-description: "In addition to ANN searches, Milvus also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering. | BYOC"
+description: "In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering. | BYOC"
 type: origin
 token: R7F7wY8pCiJ5Q4kbntxcMsE6nLf
 sidebar_position: 6
@@ -26,11 +26,11 @@ import TabItem from '@theme/TabItem';
 
 # Query
 
-In addition to ANN searches, Milvus also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering.
+In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering.
 
 ## Overview{#overview}
 
-A Collection can store various types of scalar fields. You can have Milvus filter Entities based on one or more scalar fields. Milvus offers three types of queries: Query, Get, and QueryIterator. The table below compares these three query types.
+A Collection can store various types of scalar fields. You can have Zilliz Cloud filter Entities based on one or more scalar fields. Zilliz Cloud offers three types of queries: Query, Get, and QueryIterator. The table below compares these three query types.
 
 <table>
    <tr>

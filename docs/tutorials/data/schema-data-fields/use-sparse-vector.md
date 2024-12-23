@@ -40,23 +40,21 @@ As shown in the diagram below, dense vectors are typically represented as contin
 
 ![RHlkwqC3Mh1tBSb7G3gcMc8PnUO](/img/RHlkwqC3Mh1tBSb7G3gcMc8PnUO.png)
 
-Sparse vectors can be generated using various methods, such as [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) (Term Frequency-Inverse Document Frequency) and [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) in text processing. Additionally, Milvus offers convenient methods to help generate and process sparse vectors. For details, refer to Embeddings.
+Sparse vectors can be generated using various methods, such as [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) (Term Frequency-Inverse Document Frequency) and [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) in text processing. Additionally, Zilliz Cloud offers convenient methods to help generate and process sparse vectors. For details, refer to Embeddings.
 
-For text data, Milvus also provides full-text search capabilities, allowing you to perform vector searches directly on raw text data without using external embedding models to generate sparse vectors. For more information, refer to [Full Text Search](./full-text-search).
-
-After vectorization, the data can be stored in Milvus for management and vector retrieval. The diagram below illustrates the basic process.
+After vectorization, the data can be stored in Zilliz Cloud for management and vector retrieval. The diagram below illustrates the basic process.
 
 ![QcKewe4XchpFUUblEyOcgEUpnbc](/img/QcKewe4XchpFUUblEyOcgEUpnbc.png)
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>In addition to sparse vectors, Milvus also supports dense vectors and binary vectors. Dense vectors are ideal for capturing deep semantic relationships, while binary vectors excel in scenarios like quick similarity comparisons and content deduplication. For more information, refer to <a href="./use-dense-vector">Dense Vector</a> and <a href="./use-binary-vector">Binary Vector</a>.</p>
+<p>In addition to sparse vectors, Zilliz Cloud also supports dense vectors and binary vectors. Dense vectors are ideal for capturing deep semantic relationships, while binary vectors excel in scenarios like quick similarity comparisons and content deduplication. For more information, refer to <a href="./use-dense-vector">Dense Vector</a> and <a href="./use-binary-vector">Binary Vector</a>.</p>
 
 </Admonition>
 
-## Use sparse vectors in Milvus{#use-sparse-vectors-in-milvus}
+## Use sparse vectors{#use-sparse-vectors}
 
-Milvus supports representing sparse vectors in any of the following formats:
+Zilliz Cloud supports representing sparse vectors in any of the following formats:
 
 - **Sparse Matrix (using the `scipy.sparse` class)**
 
@@ -108,7 +106,7 @@ Milvus supports representing sparse vectors in any of the following formats:
 
 ### Add vector field{#add-vector-field}
 
-To use sparse vectors in Milvus, define a field for storing sparse vectors when creating a collection. This process includes:
+To use sparse vectors in Zilliz Cloud clusters, define a field for storing sparse vectors when creating a collection. This process includes:
 
 1. Setting `datatype` to the supported sparse vector data type, `SPARSE_FLOAT_VECTOR`.
 

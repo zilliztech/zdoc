@@ -1,5 +1,5 @@
 ---
-title: "User Guide: Data Import from Zero to Hero | Cloud"
+title: "Data Import Hands-On | Cloud"
 slug: /data-import-zero-to-hero
 sidebar_label: "Zero to Hero"
 beta: FALSE
@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This is a fast-track course to help you quickly start importing data on Zilliz Cloud, from data preparation and collection setup to the actual data import process. Throughout this tutorial, you will learn | Cloud"
 type: origin
 token: BjHZwBkk0iFScik49QMc1Wwjndb
-sidebar_position: 1
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
@@ -21,7 +21,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# User Guide: Data Import from Zero to Hero
+# Data Import Hands-On
 
 This is a fast-track course to help you quickly start importing data on Zilliz Cloud, from data preparation and collection setup to the actual data import process. Throughout this tutorial, you will learn:
 
@@ -1013,7 +1013,7 @@ System.out.println(jobId);
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>The <strong>object_url</strong> should be a valid URL to a file or folder in the remote bucket. In the code provided, the <strong>format()</strong> method is used to combine the bucket name and the data path returned by the writer to create a valid object URL.</p>
-<p>If the data and target collection are hosted by AWS, the object URL should be similar to <strong>s3://remote-bucket/file-path</strong>.  For applicable URI to prefix the data path returned by the writer, please refer to <a href="./prepare-source-data">Prepare Source Data</a>.</p>
+<p>If the data and target collection are hosted by AWS, the object URL should be similar to <strong>s3://remote-bucket/file-path</strong>.  For applicable URI to prefix the data path returned by the writer, please refer to <a href="./data-import-storage-options">Storage Options</a>.</p>
 
 </Admonition>
 

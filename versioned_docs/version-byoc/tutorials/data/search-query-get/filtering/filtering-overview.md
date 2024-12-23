@@ -4,7 +4,7 @@ slug: /filtering-overview
 sidebar_label: "Filtering Explained"
 beta: FALSE
 notebook: FALSE
-description: "Milvus provides powerful filtering capabilities that enable precise querying of your data. Filter expressions allow you to target specific scalar fields and refine search results with different conditions. This guide explains how to use filter expressions in Milvus, with examples focused on query operations. You can also apply these filters in search and delete requests. | BYOC"
+description: "Zilliz Cloud provides powerful filtering capabilities that enable precise querying of your data. Filter expressions allow you to target specific scalar fields and refine search results with different conditions. This guide explains how to use filter expressions in Zilliz Cloud clusters, with examples focused on query operations. You can also apply these filters in search and delete requests. | BYOC"
 type: origin
 token: AIb1wNAE3iiKVSk8MHAcVA4QnJb
 sidebar_position: 1
@@ -25,11 +25,11 @@ import Admonition from '@theme/Admonition';
 
 # Filtering Explained
 
-Milvus provides powerful filtering capabilities that enable precise querying of your data. Filter expressions allow you to target specific scalar fields and refine search results with different conditions. This guide explains how to use filter expressions in Milvus, with examples focused on query operations. You can also apply these filters in search and delete requests.
+Zilliz Cloud provides powerful filtering capabilities that enable precise querying of your data. Filter expressions allow you to target specific scalar fields and refine search results with different conditions. This guide explains how to use filter expressions in Zilliz Cloud clusters, with examples focused on query operations. You can also apply these filters in search and delete requests.
 
 ## Basic operators{#basic-operators}
 
-Milvus supports several basic operators for filtering data:
+Zilliz Cloud supports several basic operators for filtering data:
 
 - **Comparison Operators**: `==`, `!=`, `>`, `\<`, `>=`, and `<=` allow filtering based on numeric, text, or date fields.
 
@@ -49,7 +49,7 @@ filter='color in ["red", "green", "blue"]'
 
 ### Example: Filtering JSON Fields{#example-filtering-json-fields}
 
-Milvus allows referencing keys in JSON fields. For instance, if you have a JSON field `product` with keys `price` and `model`, and want to find products with a specific model and price lower than 1,850, use this filter expression:
+Zilliz Cloud allows referencing keys in JSON fields. For instance, if you have a JSON field `product` with keys `price` and `model`, and want to find products with a specific model and price lower than 1,850, use this filter expression:
 
 ```python
 filter='product["model"] == "JSN-087" AND product["price"] < 1850'
@@ -69,7 +69,7 @@ For more information on these basic operators, refer to [Basic Operators](./basi
 
 When filtering using CJK characters, processing can be more complex due to their larger character sets and encoding differences. This can result in slower performance, especially with the `IN` operator.
 
-Milvus introduces filter expression templating to optimize performance when working with CJK characters. By separating dynamic values from the filter expression, the query engine handles parameter insertion more efficiently.
+Zilliz Cloud introduces filter expression templating to optimize performance when working with CJK characters. By separating dynamic values from the filter expression, the query engine handles parameter insertion more efficiently.
 
 ### Example{#example}
 
@@ -90,11 +90,11 @@ This approach reduces parsing overhead and improves query speed. For more inform
 
 ## Data type-specific operators{#data-type-specific-operators}
 
-Milvus provides advanced filtering operators for specific data types, such as JSON, ARRAY, and VARCHAR fields.
+Zilliz Cloud provides advanced filtering operators for specific data types, such as JSON, ARRAY, and VARCHAR fields.
 
 ### JSON field-specific operators{#json-field-specific-operators}
 
-Milvus offers advanced operators for querying JSON fields, enabling precise filtering within complex JSON structures:
+Zilliz Cloud offers advanced operators for querying JSON fields, enabling precise filtering within complex JSON structures:
 
 `JSON_CONTAINS(identifier, jsonExpr)`: Checks if a JSON expression exists in the field.
 
@@ -121,7 +121,7 @@ For more details on JSON operators, refer to [JSON Operators](./json-filtering-o
 
 ### ARRAY field-specific operators{#array-field-specific-operators}
 
-Milvus provides advanced filtering operators for array fields, such as `ARRAY_CONTAINS`, `ARRAY_CONTAINS_ALL`, `ARRAY_CONTAINS_ANY`, and `ARRAY_LENGTH`, which allow fine-grained control over array data:
+Zilliz Cloud provides advanced filtering operators for array fields, such as `ARRAY_CONTAINS`, `ARRAY_CONTAINS_ALL`, `ARRAY_CONTAINS_ANY`, and `ARRAY_LENGTH`, which allow fine-grained control over array data:
 
 `ARRAY_CONTAINS`: Filters entities containing a specific element.
 
@@ -149,14 +149,3 @@ filter="ARRAY_LENGTH(history_temperatures) < 10"
 
 For more details on array operators, see [ARRAY Operators](./array-filtering-operators).
 
-### VARCHAR field-specific operators{#varchar-field-specific-operators}
-
-The `Text_Match` operator allows precise document retrieval based on specific query terms. It is particularly useful for filtered searches that combine scalar filters with vector similarity searches. Unlike semantic searches, Text Match focuses on exact term occurrences.
-
-Milvus uses Tantivy to support inverted indexing and term-based text search. The process involves:
-
-1. **Analyzer**: Tokenizes and processes input text.
-
-1. **Indexing**: Creates an inverted index mapping unique tokens to documents.
-
-For more details, refer to [Text Match](./text-match).

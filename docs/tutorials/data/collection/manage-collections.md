@@ -44,7 +44,7 @@ Similar to the primary field in a relational database, a collection has a primar
 
 As shown in the above chart, the field named **id** serves as the primary field, and the first ID **0** corresponds to an entity titled *The Mortality Rate of Coronavirus is Not Important*. There will not be any other entity that has the primary field of 0. 
 
-A primary field accepts only integers or strings. When inserting entities, you should include the primary field values by default. However, if you have enabled **AutoId** upon collection creation, Milvus will generate those values upon data insertion. In such a case, exclude the primary field values from the entities to be inserted.
+A primary field accepts only integers or strings. When inserting entities, you should include the primary field values by default. However, if you have enabled **AutoId** upon collection creation, Zilliz Cloud will generate those values upon data insertion. In such a case, exclude the primary field values from the entities to be inserted.
 
 For more information, please refer to [Primary Field & AutoId](./primary-field-auto-id).
 
@@ -52,7 +52,7 @@ For more information, please refer to [Primary Field & AutoId](./primary-field-a
 
 Creating indexes on specific fields improves search efficiency. You are advised to create indexes for all the fields your service relies on, among which indexes on vector fields are mandatory. 
 
-Unlike the Open-Source Milvus, AUTOINDEX is the only applicable index type to the vector fields in collections on Zilliz Cloud. For more details, refer to [AUTOINDEX Explained](./autoindex-explained).
+Unlike in Milvus, AUTOINDEX is the only applicable index type to the vector fields in collections on Zilliz Cloud. For more details, refer to [AUTOINDEX Explained](./autoindex-explained).
 
 ## Entity{#entity}
 

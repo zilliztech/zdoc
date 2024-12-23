@@ -7,7 +7,7 @@ notebook: FALSE
 description: "A privilege refers to the permission of specific operations on certain Zilliz Cloud resources such as clusters, databases, and collections. Privileges are assigned to roles, which are then granted to users, defining the operations users can perform on the resources. An example of a privilege could be the permission to insert data into a collection named `collection01`. | Cloud"
 type: origin
 token: NitBwKVzzi0hXBkjdDFcfwRsngb
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
@@ -27,6 +27,10 @@ import Admonition from '@theme/Admonition';
 A privilege refers to the permission of specific operations on certain Zilliz Cloud resources such as clusters, databases, and collections. Privileges are assigned to roles, which are then granted to users, defining the operations users can perform on the resources. An example of a privilege could be the permission to insert data into a collection named `collection_01`. 
 
 A **privilege group** is a combination of individual privileges. You can create a privilege group of commonly used privileges to simplify the role granting process. For ease-of-use, Zilliz Cloud provides a total of 9 built-in privilege groups on the collection, database, and cluster level.
+
+The following figure illustrates the different granting process of privileges and a privilege group.
+
+![SsW6w8kaNhz4iQbEMYmcbUzsnOc](/img/SsW6w8kaNhz4iQbEMYmcbUzsnOc.png)
 
 This topic details the built-in privilege groups and privileges that are available in Zilliz Cloud. 
 

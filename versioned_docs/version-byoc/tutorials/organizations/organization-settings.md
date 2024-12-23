@@ -76,13 +76,9 @@ Before you start, make sure the following conditions are met:
 
 - All clusters in the current organizations are [deleted](./manage-cluster).
 
-- All organization [bills](./view-invoice) are paid.
-
 - You are granted the [Organization Owner](./organization-users) role in the target organization.
 
 - All remaining advance pay funds need to be refunded.
-
-- Third-party [marketplace subscription needs to be cancelled](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription).
 
 To delete an organization: 
 
