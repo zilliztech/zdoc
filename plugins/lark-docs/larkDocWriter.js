@@ -590,6 +590,17 @@ class larkDocWriter {
 
         var file_path = `${path}/${slug}.md`
 
+        if (this.targets.split('.').includes('zilliz')) {
+            markdown = markdown.replace(/http:\/\/localhost:19530/g, 'YOUR_CLUSTER_ENDPOINT')
+            markdown = markdown.replace(/127.0.0.1:19530/g, 'YOUR_CLUSTER_ENDPOINT')
+            markdown = markdown.replace(/root:Milvus/g, 'YOUR_CLUSTER_TOKEN')
+        }
+
+        if (this.targets.split('.').includes('milvus')) {
+            markdown = markdown.replace(/YOUR_CLUSTER_ENDPOINT/g, 'http://localhost:19530')
+            markdown = markdown.replace(/YOUR_CLUSTER_TOKEN/g, 'root:Milvus')
+        }
+
         if (path) {
             fs.writeFileSync(file_path, front_matter + '\n\n' + imports + '\n\n' + markdown)
         } else {
