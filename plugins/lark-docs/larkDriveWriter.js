@@ -182,12 +182,6 @@ class larkDriveWriter extends larkDocWriter {
             }
         }
     }
-
-    keyword_picker() {
-        const keywords = fs.readFileSync(node_path.join('plugins', 'lark-docs', 'meta', 'keywords.txt'), 'utf8').trim().split('\n')
-        const seed = Math.floor(Math.random() * keywords.length)
-        return [keywords[seed], keywords[(seed+1)%keywords.length], keywords[(seed+2)%keywords.length], keywords[(seed+3)%keywords.length]]
-    }
 }
 
 module.exports = larkDriveWriter;

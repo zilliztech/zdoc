@@ -614,6 +614,7 @@ class larkDocWriter {
 
     __front_matters (title, suffix, slug, beta, notebook, type, token, sidebar_position=undefined, sidebar_label="", keywords="", displayed_sidebar=this.displayedSidebar, description="") {
         if (keywords !== "") {
+            keywords = keywords + ',' + this.keyword_picker().join(',')
             keywords = "keywords: \n  - " + keywords.split(',').map(item => item.trim()).join('\n  - ') + '\n'
         }
 
@@ -1469,6 +1470,12 @@ class larkDocWriter {
         }
 
         return sdks
+    }
+
+    keyword_picker() {
+        const keywords = fs.readFileSync(node_path.join('plugins', 'lark-docs', 'meta', 'keywords.txt'), 'utf8').trim().split('\n')
+        const seed = Math.floor(Math.random() * keywords.length)
+        return [keywords[seed], keywords[(seed+1)%keywords.length], keywords[(seed+2)%keywords.length], keywords[(seed+3)%keywords.length]]
     }
 }
 
