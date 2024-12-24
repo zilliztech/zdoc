@@ -1055,29 +1055,35 @@ class larkDocWriter {
             return `![${board.token}](/${root}/${board["token"]}.png)`;
         }
 
-        try {
-            const result = await this.downloader.__downloadBoardPreview(board.token)
-            const writeStream = fs.createWriteStream(`${this.downloader.target_path}/${board["token"]}.png`);
-            result.body.pipe(writeStream);
+        const result = await this.downloader.__downloadBoardPreview(board.token)
+        const writeStream = fs.createWriteStream(`${this.downloader.target_path}/${board["token"]}.png`);
+        result.body.pipe(writeStream);
 
-            writeStream.on('finish', () => {
-                Jimp.read(`${this.downloader.target_path}/${board["token"]}.png`, (err, image) => {
-                    if (err) throw err;
-    
-                    this.__crop_image_border(image)
-                    
-                    image.write(`${this.downloader.target_path}/${board["token"]}.png`, (err) => {
-                        if (err) throw err;
-                    });
+        writeStream.on('finish', () => {
+            Jimp.read(`${this.downloader.target_path}/${board["token"]}.png`, async (err, image) => {
+                if (err) {
+                    console.log(err)
+                    console.log("-------------- A retry is needed -----------------");
+                    console.log("Sleeping for 5 seconds")
+                    await new Promise(resolve => setTimeout(resolve, 5000));
+                    this.__board(board, indent)
+                    return;
+                }
+
+                this.__crop_image_border(image)
+                
+                image.write(`${this.downloader.target_path}/${board["token"]}.png`, async (err) => {
+                    if (err) {
+                        console.log(err)
+                        console.log("-------------- A retry is needed -----------------");
+                        console.log("Sleeping for 5 seconds")
+                        await new Promise(resolve => setTimeout(resolve, 5000));
+                        this.__board(board, indent)
+                        return;
+                    }
                 });
-            });            
-        } catch (error) {
-            console.log(error)
-            console.log("-------------- A retry is needed -----------------");
-            console.log("Sleeping for 5 seconds")
-            await new Promise(resolve => setTimeout(resolve, 5000));
-            this.__board(board, indent)
-        }
+            });
+        });            
 
         return `![${board.token}](/${root}/${board["token"]}.png)`;
     }
