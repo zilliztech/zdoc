@@ -4,6 +4,7 @@ const slugify = require('slugify')
 const fs = require('node:fs')
 const { URL } = require('node:url')
 const fetch = require('node-fetch')
+const node_path = require('node:path')
 const cheerio = require('cheerio')
 const showdown = require('showdown')
 const Jimp = require("jimp");
