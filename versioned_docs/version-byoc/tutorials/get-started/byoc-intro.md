@@ -2,7 +2,7 @@
 title: "BYOC Overview | BYOC"
 slug: /byoc-intro
 sidebar_label: "BYOC Overview"
-beta: FALSE
+beta: PRIVATE
 notebook: FALSE
 description: "Bring Your Own Cloud (BYOC) is a deployment option for organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. This solution is ideal for organizations with specific security requirements or regulatory compliance needs that require maintaining full data control sovereignty. | BYOC"
 type: origin
@@ -13,6 +13,10 @@ keywords:
   - byoc
   - milvus
   - vector database
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 
@@ -39,7 +43,7 @@ Zilliz BYOC delivers a unique fully managed deployment option that lets you keep
 
     - Clusters in BYOC projects are also scalable with manual and automatic scaling mechanisms.
 
-- **Hierarchical RBAC with security in mind**
+- **Data management & security**
 
     - Role-based access control (RBAC) at the organization, project, and cluster levels.
 
@@ -47,9 +51,9 @@ Zilliz BYOC delivers a unique fully managed deployment option that lets you keep
 
 ## How it works{#how-it-works}
 
-BYOC involves deploying Milvus alongside Zilliz-managed backend services, such as the upgrade workflow, resource scheduler, open API service, and web console, within your cloud environment, typically inside your own Virtual Private Cloud (VPC). This setup ensures that your data is stored and processed within your own infrastructure. 
+BYOC involves deploying Milvus alongside Zilliz-managed backend services, such as the upgrade workflow, resource scheduler, open API service, and web console, within your cloud environment, typically inside your own Virtual Private Cloud (VPC). This setup ensures that your data is stored and processed within your own infrastructure.
 
-![SFKlb1M7ho3r5wxx2BBcN1H6npb](/byoc/SFKlb1M7ho3r5wxx2BBcN1H6npb.png)
+![PCAOw33vKhCLHubzOiCciDDMnGg](/byoc/PCAOw33vKhCLHubzOiCciDDMnGg.png)
 
 According to the architecture outlined above, you need to provide a VPC, an S3 bucket, and the minimum permissions for Zilliz Cloud to start an EKS cluster and deploy the necessary components, such as the Milvus Operator, Import/Backup tools, the monitoring stack, including Grafana and Prometheus, and a Milvus instance on your behalf.
 
@@ -65,7 +69,7 @@ Additionally, Zilliz Cloud establishes two separate planes for communication wit
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz BYOC is currently available in <strong>Private Preview</strong>. For access and implementation details, please contact Zilliz Support.</p>
+<p>Zilliz BYOC is currently available in <strong>Private Preview</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
 
 </Admonition>
 
