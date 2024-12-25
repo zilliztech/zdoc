@@ -233,7 +233,8 @@ section.row > article.margin-bottom--lg {
 li.theme-doc-sidebar-item-link-level-1 a.menu__link,
 li.theme-doc-sidebar-item-link-level-2 a.menu__link,
 li.theme-doc-sidebar-item-link-level-3 a.menu__link,
-li.theme-doc-sidebar-item-link-level-4 a.menu__link {
+li.theme-doc-sidebar-item-link-level-4 a.menu__link,
+li.theme-doc-sidebar-item-link-level-5 a.menu__link {
   font-size: 14px !important;
   font-weight: 400 !important;
   color: rgb(107, 114, 128) !important;
@@ -242,13 +243,15 @@ li.theme-doc-sidebar-item-link-level-4 a.menu__link {
 li.theme-doc-sidebar-item-link-level-1 a.menu__link--active,
 li.theme-doc-sidebar-item-link-level-2 a.menu__link--active,
 li.theme-doc-sidebar-item-link-level-3 a.menu__link--active,
-li.theme-doc-sidebar-item-link-level-4 a.menu__link--active {
+li.theme-doc-sidebar-item-link-level-4 a.menu__link--active,
+li.theme-doc-sidebar-item-link-level-5 a.menu__link--active {
   color: rgb(23, 95, 255) !important;
 }
 
 li.theme-doc-sidebar-item-category-level-1 a.menu__link.menu__link--sublist,
 li.theme-doc-sidebar-item-category-level-2 a.menu__link.menu__link--sublist,
-li.theme-doc-sidebar-item-category-level-3 a.menu__link.menu__link--sublist {
+li.theme-doc-sidebar-item-category-level-3 a.menu__link.menu__link--sublist,
+li.theme-doc-sidebar-item-category-level-4 a.menu__link.menu__link--sublist {
   font-size: 14px !important;
   font-weight: 400 !important;
   color: rgb(107, 114, 128) !important;
