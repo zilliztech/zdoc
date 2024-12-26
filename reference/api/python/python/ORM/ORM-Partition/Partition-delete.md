@@ -9,6 +9,20 @@ description: "This operation deletes entities from a partition with a boolean ex
 type: docx
 token: V9BidASNqoWYrmxo11ecuN99neg
 sidebar_position: 1
+keywords: 
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - delete()
+  - python
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: pythonSidebar
 
 ---

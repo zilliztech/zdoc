@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

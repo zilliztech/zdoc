@@ -2,7 +2,7 @@
 title: "Deploy BYOC on AWS | BYOC"
 slug: /deploy-byoc-aws
 sidebar_label: "Deploy BYOC on AWS"
-beta: FALSE
+beta: PRIVATE
 notebook: FALSE
 description: "This page describes how to manually create a project in your Zilliz Cloud Bring-Your-Own-Cloud (BYOC) organization using the Zilliz Cloud console and custom AWS configurations. | BYOC"
 type: origin
@@ -14,6 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -54,7 +58,7 @@ There are two options for you to provision the infrastructure for your BYOC proj
 
 In **General Settings**, you need to set the project name, determine the cloud providers and regions, and determine the types of instances used in the project.
 
-![MEHmb9TPgoUmP8xgXV3cQvhrnNa](/byoc/MEHmb9TPgoUmP8xgXV3cQvhrnNa.png)
+![VRHqbHEPuoDI3AxHCOLcFIWBnPe](/byoc/VRHqbHEPuoDI3AxHCOLcFIWBnPe.png)
 
 1. Set **Project Name**.
 
@@ -72,7 +76,7 @@ In **General Settings**, you need to set the project name, determine the cloud p
 
 In **Credential Settings**, you must set up the storage and several IAM roles for storage access, EKS cluster management, and data-plane deployment.
 
-![IAFtba9Ojoha3Lx7Hnbc0g9Znud](/byoc/IAFtba9Ojoha3Lx7Hnbc0g9Znud.png)
+![Kf9ebC7HqoqPt7xhIoLczUV1n7b](/byoc/Kf9ebC7HqoqPt7xhIoLczUV1n7b.png)
 
 1. Follow the steps listed to configure storage, EKS, and cross-account settings.
 
@@ -80,19 +84,19 @@ In **Credential Settings**, you must set up the storage and several IAM roles fo
 
         Zilliz Cloud will use the specified bucket as the data-plane storage and access it on your behalf using the specified IAM role.
 
-         For more on the procedure for creating an S3 bucket, read [Create S3 Bucket and Role](./create-bucket-and-role). 
+         For more on the procedure for creating an S3 bucket, read [Create S3 Bucket and IAM Role](./create-bucket-and-role). 
 
     1. In **EKS Settings**, set **IAM Role ARN** for EKS management. 
 
         Zilliz Cloud will use the specified role to deploy an EKS cluster on your behalf and deploy the data plane in the EKS cluster.
 
-        For more on the procedure for creating an EKS role, read [Create an EKS](./create-eks-role).
+        For more on the procedure for creating an EKS role, read [Create EKS IAM Role](./create-eks-role).
 
     1. In **Cross-Account Settings**, set **IAM Role ARN** for data-plane deployment.
 
         Zilliz Cloud will use the specified role to deploy the data plane of the Zilliz Cloud BYOC project. 
 
-        For more on the procedure for creating the cross-account role, read [Create an IAM Role for BYOC Deployment](./create-cross-account-role).
+        For more on the procedure for creating the cross-account role, read [Create Cross-Account IAM Role](./create-cross-account-role).
 
 1. Click **Next** to configure network settings.
 
@@ -100,7 +104,7 @@ In **Credential Settings**, you must set up the storage and several IAM roles fo
 
 In Network Settings, you need to create a VPC and several types of resources, such as subnets, security group, and optional VPC endpoint in the VPC.
 
-![NwhNbLBsyo0A1gxyjQxcdz4In8f](/byoc/NwhNbLBsyo0A1gxyjQxcdz4In8f.png)
+![VN1WbT5ScoZ2v8xyMcGcCA5gnJd](/byoc/VN1WbT5ScoZ2v8xyMcGcCA5gnJd.png)
 
 1. In **Network Settings**, set the **VPC ID**, **Subnet IDs**, the **Security Group ID**, and the optional **VPC endpoint ID**.
 
@@ -165,7 +169,7 @@ If the instance settings are left unconfigured, the default settings listed abov
 
 After you create a project, you can view its status on the project page.
 
-![Oe2zbx6qnoSE8cxax79c1OBRnXf](/byoc/Oe2zbx6qnoSE8cxax79c1OBRnXf.png)
+![Nukab9xGRorE7txcoofcfIf2nNb](/byoc/Nukab9xGRorE7txcoofcfIf2nNb.png)
 
 
 

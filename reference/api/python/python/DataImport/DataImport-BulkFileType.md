@@ -9,6 +9,20 @@ description: "This is an enumeration that provides the following constants. | Py
 type: docx
 token: CROadSmHNoV2CuxREnccTkaen0e
 sidebar_position: 1
+keywords: 
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - BulkFileType
+  - python
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: pythonSidebar
 
 ---

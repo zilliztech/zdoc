@@ -9,10 +9,10 @@ token: GNR6fiDGqlnQ9BdWimJc9pnSnyl
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud

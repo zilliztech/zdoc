@@ -10,15 +10,19 @@ type: docx
 token: MErAdudCloVawFxpxoWcgqZonLc
 sidebar_position: 6
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - node
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ upsert(data): Promise<MutationResult>
 
 ```javascript
 milvusClient.upsert({
+   db_name: string,
    collection_name: string,
    data: RowData[],
    hash_keys: Number[],
@@ -47,6 +52,10 @@ milvusClient.upsert({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*str*) -
 

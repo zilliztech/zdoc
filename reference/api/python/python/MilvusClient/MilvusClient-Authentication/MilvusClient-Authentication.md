@@ -8,6 +8,16 @@ type: folder
 token: W9SBfQfXUlZAXDdK6nTcop4rnFd
 sidebar_position: 1
 sidebar_label: "Authentication"
+keywords: 
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Authentication
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

@@ -1,8 +1,8 @@
 ---
-title: "Create EKS Role | BYOC"
+title: "Create EKS IAM Role | BYOC"
 slug: /create-eks-role
-sidebar_label: "Create EKS Role"
-beta: FALSE
+sidebar_label: "Create EKS IAM Role"
+beta: PRIVATE
 notebook: FALSE
 description: "This page describes how to create and configure an IAM role for Zilliz Cloud to deploy an EKS cluster for your Zilliz Cloud project. | BYOC"
 type: origin
@@ -16,13 +16,17 @@ keywords:
   - IAM role
   - milvus
   - vector database
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Create EKS Role
+# Create EKS IAM Role
 
 This page describes how to create and configure an IAM role for Zilliz Cloud to deploy an EKS cluster for your Zilliz Cloud project.
 
@@ -122,7 +126,7 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
       }
     ```
 
-    ![TbNSb5qj2o3jOaxbID9cwMY8nbb](/byoc/TbNSb5qj2o3jOaxbID9cwMY8nbb.png)
+    ![XB4CbBWlFoO3QLxhJAqca6FrnJc](/byoc/XB4CbBWlFoO3QLxhJAqca6FrnJc.png)
 
 1. Click **Next** and skip adding permissions.
 

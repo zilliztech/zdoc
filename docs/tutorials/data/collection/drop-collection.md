@@ -16,6 +16,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

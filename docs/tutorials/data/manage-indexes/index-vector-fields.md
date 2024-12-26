@@ -14,6 +14,10 @@ keywords:
   - cloud
   - vector field
   - index
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

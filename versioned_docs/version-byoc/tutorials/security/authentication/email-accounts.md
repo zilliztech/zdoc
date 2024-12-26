@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

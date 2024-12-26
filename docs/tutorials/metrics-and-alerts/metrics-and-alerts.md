@@ -14,6 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

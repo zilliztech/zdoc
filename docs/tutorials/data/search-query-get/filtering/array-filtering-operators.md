@@ -18,6 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

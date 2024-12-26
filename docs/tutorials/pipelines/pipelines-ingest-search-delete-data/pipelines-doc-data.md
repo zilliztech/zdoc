@@ -14,6 +14,10 @@ keywords:
   - cloud
   - pipelines
   - doc data
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

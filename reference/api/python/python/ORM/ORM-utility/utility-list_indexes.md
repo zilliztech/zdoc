@@ -9,6 +9,20 @@ description: "This operation lists all indexes of a specific collection. | Pytho
 type: docx
 token: XLepdUCcTow6rpx5vxxcbLXZnyb
 sidebar_position: 25
+keywords: 
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - list_indexes()
+  - python
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: pythonSidebar
 
 ---

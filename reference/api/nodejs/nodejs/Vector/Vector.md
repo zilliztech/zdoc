@@ -9,10 +9,10 @@ token: XhBJfuQ6slBh8Tdj7BEc4Mp6n4b
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud

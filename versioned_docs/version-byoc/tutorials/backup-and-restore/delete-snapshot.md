@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

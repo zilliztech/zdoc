@@ -19,6 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

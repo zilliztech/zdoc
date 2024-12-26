@@ -8,6 +8,16 @@ type: folder
 token: I78jfSEHvl292Tdwoy7cO2KVn0g
 sidebar_position: 7
 sidebar_label: "Vector"
+keywords: 
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Vector
+  - javaV2
 displayed_sidebar: javaSidebar
 ---
 

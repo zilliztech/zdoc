@@ -9,6 +9,20 @@ description: "This operation gets information about the current loaded replica. 
 type: docx
 token: BQKPdDd5xo8OPgxoXorcMxk0nVb
 sidebar_position: 14
+keywords: 
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - get_replicas()
+  - python
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: pythonSidebar
 
 ---

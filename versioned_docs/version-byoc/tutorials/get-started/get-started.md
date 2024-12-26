@@ -13,6 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

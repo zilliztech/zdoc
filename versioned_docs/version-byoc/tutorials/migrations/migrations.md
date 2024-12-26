@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - migrations
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

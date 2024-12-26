@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - milvus
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

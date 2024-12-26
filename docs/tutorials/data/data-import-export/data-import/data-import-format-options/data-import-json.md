@@ -16,6 +16,10 @@ keywords:
   - milvus
   - format options
   - json
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

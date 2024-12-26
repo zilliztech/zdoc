@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

@@ -9,6 +9,20 @@ description: "This is an enumeration that provides the following constants. | Ja
 type: docx
 token: QYPIdgWL7oDWrWxVUx0clo32nz4
 sidebar_position: 7
+keywords: 
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DataType
+  - javaV2
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: javaSidebar
 
 ---

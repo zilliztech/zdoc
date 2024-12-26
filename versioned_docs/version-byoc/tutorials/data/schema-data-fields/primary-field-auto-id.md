@@ -17,6 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

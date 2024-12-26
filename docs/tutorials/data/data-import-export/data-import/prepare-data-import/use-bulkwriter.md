@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

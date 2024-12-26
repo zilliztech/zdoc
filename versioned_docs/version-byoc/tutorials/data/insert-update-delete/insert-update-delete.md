@@ -15,6 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

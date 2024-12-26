@@ -9,6 +9,20 @@ description: "This operation fits various statistics that are required to calcul
 type: docx
 token: Gj5bdBIMToImOvxXHIlcqFxjnTf
 sidebar_position: 4
+keywords: 
+  - vector database
+  - IVF
+  - knn
+  - Image Search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - fit()
+  - python
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: pythonSidebar
 
 ---

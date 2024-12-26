@@ -17,6 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 
@@ -101,8 +105,8 @@ You can get entities by their IDs as follows.
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 res = client.get(
@@ -126,8 +130,8 @@ import io.milvus.v2.service.vector.request.GetResp
 import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
-        .token("root:Milvus")
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
         
 GetReq getReq = GetReq.builder()
@@ -156,8 +160,8 @@ for (QueryResp.QueryResult result : results) {
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 const res = client.get({
@@ -172,8 +176,8 @@ const res = client.get({
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/get" \
@@ -202,8 +206,8 @@ When you need to find entities by custom filtering conditions, use the **Query**
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 res = client.query(
@@ -260,8 +264,8 @@ func ExampleClient_Query_basic() {
     ctx, cancel := context.WithCancel(context.Background())
     defer cancel()
 
-    milvusAddr := "127.0.0.1:19530"
-    token := "root:Milvus"
+    milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+    token := "YOUR_CLUSTER_TOKEN"
 
     cli, err := client.New(ctx, &client.ClientConfig{
         Address: milvusAddr,
@@ -290,8 +294,8 @@ func ExampleClient_Query_basic() {
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 const res = client.query({
@@ -307,8 +311,8 @@ const res = client.query({
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
@@ -337,8 +341,8 @@ When you need to find entities by custom filtering conditions through paginated 
 from pymilvus import connections, Collection
 
 connections.connect(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 collection = Collection("query_collection")
@@ -440,8 +444,8 @@ You can also perform queries within one or multiple partitions by including the 
 ```python
 from pymilvus import MilvusClient
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 res = client.get(
@@ -455,8 +459,8 @@ res = client.get(
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 res = client.query(
@@ -472,8 +476,8 @@ res = client.query(
 from pymilvus import connections, Collection
 
 connections.connect(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 collection = Collection("query_collection")
@@ -540,8 +544,8 @@ QueryIterator queryIterator = client.queryIterator(req);
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 // 使用 Get 方法
@@ -585,8 +589,8 @@ for await (const value of iterator) {
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 # 使用 Get 方法
 curl --request POST \

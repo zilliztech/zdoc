@@ -9,6 +9,20 @@ description: "This operation in SpladeEmbeddingFunction takes a list of text str
 type: docx
 token: LJqud2x3AojxV4xKONocTe4YnFb
 sidebar_position: 4
+keywords: 
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - \_\_call\_\_()
+  - python
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: pythonSidebar
 
 ---

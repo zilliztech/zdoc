@@ -10,15 +10,19 @@ type: docx
 token: DXTLdtFCso7fo6xJHShc7XLpngh
 sidebar_position: 1
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
   - node
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -39,6 +43,7 @@ alterAlias(data): Promise<ResStatus>
 ```javascript
 milvusClient.alterAlias({
    alias: string,
+   db_name: string
    collection_name: string,
    timeout?: number
  })
@@ -69,6 +74,10 @@ milvusClient.alterAlias({
     </ul>
 
     </Admonition>
+
+- **db_name** (*str*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*str*) -
 

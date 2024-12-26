@@ -9,6 +9,20 @@ description: "This operation takes in a list of query strings and encodes each q
 type: docx
 token: SptWdOyFqoGM5VxVS16cofqfnDg
 sidebar_position: 2
+keywords: 
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - encode_queries()
+  - python
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 ---

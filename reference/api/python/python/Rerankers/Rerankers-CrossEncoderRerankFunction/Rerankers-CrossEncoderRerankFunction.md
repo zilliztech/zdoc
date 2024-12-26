@@ -9,6 +9,20 @@ description: "CrossEncoderRerankFunction is a class in milvusmodel that takes a 
 type: docx
 token: HVGNdMYOvojQoXxvDmEcnHYanMh
 sidebar_position: 1
+keywords: 
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - CrossEncoderRerankFunction
+  - python
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
 ---

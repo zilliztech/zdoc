@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cost
   - understand
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

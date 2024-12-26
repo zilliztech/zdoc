@@ -14,6 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

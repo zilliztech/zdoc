@@ -15,6 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

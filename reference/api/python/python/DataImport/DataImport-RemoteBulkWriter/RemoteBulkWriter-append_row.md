@@ -9,6 +9,20 @@ description: "This operation appends records to the writer. | Python"
 type: docx
 token: F1MFdP8VvoMu17x4Vg9cH6ztnqb
 sidebar_position: 1
+keywords: 
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - append_row()
+  - python
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: pythonSidebar
 
 ---

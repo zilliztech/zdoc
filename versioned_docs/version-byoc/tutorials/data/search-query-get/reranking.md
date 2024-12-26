@@ -16,6 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

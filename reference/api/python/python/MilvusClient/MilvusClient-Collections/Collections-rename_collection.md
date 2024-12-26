@@ -9,6 +9,20 @@ description: "This operation renames an existing collection. | Python | MilvusCl
 type: docx
 token: IeiIdJ71Pox2OjxMiOzczUTenud
 sidebar_position: 15
+keywords: 
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - rename_collection()
+  - python
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

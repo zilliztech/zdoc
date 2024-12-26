@@ -16,6 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
@@ -46,11 +50,11 @@ Zilliz Cloud offers a total of 9 built-in privilege groups on the collection, da
 
 ### Collection level privilege groups{#collection-level-privilege-groups}
 
-- **COLL_RO**: includes privileges to read collection data
+- **CollectionReadOnly (COLL_RO)**: includes privileges to read collection data
 
-- **COLL_RW**: includes privileges to read and write collection data
+- **CollectionReadWrite (COLL_RW)**: includes privileges to read and write collection data
 
-- **COLL_ADMIN**: includes privileges to read and write collection data and manage collections.
+- **CollectionAdmin (COLL_ADMIN)**: includes privileges to read and write collection data and manage collections.
 
 The table below lists the specific privileges included in the three built-in privilege groups at the collection level:
 
@@ -227,11 +231,11 @@ The table below lists the specific privileges included in the three built-in pri
 
 ### Database level privilege groups{#database-level-privilege-groups}
 
-- **DB_RO**: includes privileges to read database data
+- **DatabaseReadOnly (DB_RO)**: includes privileges to read database data
 
-- **DB_RW**: includes privileges to read and write database data
+- **DatabaseReadWrite (DB_RW)**: includes privileges to read and write database data
 
-- **DB_Admin**: includes privileges to read and write database data and manage databases.
+- **DatabaseAdmin (DB_Admin)**: includes privileges to read and write database data and manage databases.
 
 The table below lists the specific privileges included in the three built-in privilege groups at the database level:
 
@@ -276,13 +280,13 @@ The table below lists the specific privileges included in the three built-in pri
 
 ### Cluster level privilege groups{#cluster-level-privilege-groups}
 
-- **Cluster_RO**: includes privileges to read instnace data
+- **ClusterReadOnly (Cluster_RO)**: includes privileges to read instnace data
 
-- **Cluster_RW**: includes privileges to read and write instance data
+- **ClusterReadWrite (Cluster_RW)**: includes privileges to read and write instance data
 
-- **Cluster_Admin**: includes privileges to read and write instance data and manage instances.
+- **ClusterAdmin (Cluster_Admin)**: includes privileges to read and write instance data and manage instances.
 
-The table below lists the specific privileges included in the three built-in privilege groups at the instance level:
+The table below lists the specific privileges included in the three built-in privilege groups at the cluster level:
 
 <table>
    <tr>

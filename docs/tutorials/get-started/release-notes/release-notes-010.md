@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

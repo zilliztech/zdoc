@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

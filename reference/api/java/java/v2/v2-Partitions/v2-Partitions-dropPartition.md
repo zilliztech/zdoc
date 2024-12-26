@@ -9,6 +9,20 @@ description: "This operation drops a specified partition from the current collec
 type: docx
 token: JTdSdyToooA6Srx2HolcmTPunoe
 sidebar_position: 2
+keywords: 
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - dropPartition()
+  - javaV2
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: javaSidebar
 
 ---

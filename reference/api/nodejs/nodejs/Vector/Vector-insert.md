@@ -10,15 +10,19 @@ type: docx
 token: WUZwdRNXIoS0tSxCrw6coaa2nzf
 sidebar_position: 3
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - node
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ insert(data): Promise<MutationResult>
 
 ```javascript
 milvusClient.insert({
+    db_name: string,
     collection_name: string,
     data?: RowData[],
     partition_name?: string,
@@ -46,6 +51,10 @@ milvusClient.insert({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

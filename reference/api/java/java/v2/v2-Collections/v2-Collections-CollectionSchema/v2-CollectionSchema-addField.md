@@ -9,6 +9,20 @@ description: "This operation adds a vector field to the schema of a collection. 
 type: docx
 token: ST5xdgZ9YoXYiJx7Ex6czstHnij
 sidebar_position: 1
+keywords: 
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - addField()
+  - javaV2
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: javaSidebar
 
 ---

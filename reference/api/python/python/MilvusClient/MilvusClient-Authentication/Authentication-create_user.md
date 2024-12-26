@@ -9,6 +9,20 @@ description: "This operation creates a user. | Python | MilvusClient"
 type: docx
 token: BDupd28JqoNY9HxVOTfcv86enRe
 sidebar_position: 2
+keywords: 
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - create_user()
+  - python
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
 ---

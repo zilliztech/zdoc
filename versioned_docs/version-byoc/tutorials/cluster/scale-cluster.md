@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

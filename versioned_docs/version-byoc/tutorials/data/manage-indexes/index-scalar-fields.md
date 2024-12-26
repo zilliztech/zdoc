@@ -14,6 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

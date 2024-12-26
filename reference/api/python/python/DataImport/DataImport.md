@@ -8,6 +8,16 @@ type: folder
 token: KdfofBXCwlWnxOdG5cLcbbLgnLf
 sidebar_position: 1
 sidebar_label: "DataImport"
+keywords: 
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DataImport
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

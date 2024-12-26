@@ -15,6 +15,10 @@ keywords:
   - collection
   - data
   - DML
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

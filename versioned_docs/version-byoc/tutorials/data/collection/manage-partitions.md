@@ -15,6 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 
@@ -52,8 +56,8 @@ When creating a collection, Zilliz Cloud also creates a partition named **_defau
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 res = client.list_partitions(
@@ -78,8 +82,8 @@ import io.milvus.v2.client.MilvusClientV2;
 
 import java.util.*;
 
-String CLUSTER_ENDPOINT = "http://localhost:19530";
-String TOKEN = "root:Milvus";
+String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+String TOKEN = "YOUR_CLUSTER_TOKEN";
 
 // 1. Connect to Milvus server
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -107,8 +111,8 @@ System.out.println(partitionNames);
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 let res = await client.listPartitions({
@@ -135,7 +139,7 @@ import (
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-milvusAddr := "127.0.0.1:19530"
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
@@ -159,8 +163,8 @@ fmt.Println(partitionNames)
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/partitions/list" \
@@ -281,8 +285,8 @@ fmt.Println(partitionNames)
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/partitions/create" \
@@ -400,8 +404,8 @@ fmt.Println(result)
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/partitions/has" \
@@ -527,8 +531,8 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/partitions/load" \
@@ -659,8 +663,8 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/partitions/release" \
@@ -822,8 +826,8 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/partitions/release" \

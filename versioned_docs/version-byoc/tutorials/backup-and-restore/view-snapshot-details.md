@@ -15,6 +15,10 @@ keywords:
   - backup
   - files
   - view
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

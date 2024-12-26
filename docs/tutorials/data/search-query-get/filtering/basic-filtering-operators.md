@@ -18,6 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

@@ -9,6 +9,20 @@ description: "A LocalBulkWriter instance rewrites your raw data locally in a for
 type: docx
 token: Tn2jd8OH1oMukFxJDsgcOSxCnrg
 sidebar_position: 3
+keywords: 
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - LocalBulkWriter
+  - python
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
 ---

@@ -9,6 +9,20 @@ description: "This operation checks whether a specific collection exists. | Java
 type: docx
 token: Vs26d4WrYoJ3moxuLifcyP2enyh
 sidebar_position: 14
+keywords: 
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - hasCollection()
+  - javaV2
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: javaSidebar
 
 ---

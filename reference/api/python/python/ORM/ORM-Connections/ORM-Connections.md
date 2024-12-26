@@ -9,6 +9,20 @@ description: "A Connections instance represents a pool of connections to your Zi
 type: docx
 token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
+keywords: 
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Connections
+  - python
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 ---

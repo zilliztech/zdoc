@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

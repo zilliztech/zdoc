@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

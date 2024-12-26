@@ -8,6 +8,16 @@ type: folder
 token: YEBjfrOXWl8s00dDTvdcMiYDn0d
 sidebar_position: 2
 sidebar_label: "Client"
+keywords: 
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Client
+  - javaV2
 displayed_sidebar: javaSidebar
 ---
 

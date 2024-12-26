@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

@@ -9,6 +9,20 @@ description: "This operation creates an alias for an existing collection. | Pyth
 type: docx
 token: Kqlodu0AWoefKvxczcxc1c36nlf
 sidebar_position: 2
+keywords: 
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - create_alias()
+  - python
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: pythonSidebar
 
 ---

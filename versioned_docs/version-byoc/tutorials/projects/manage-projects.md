@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

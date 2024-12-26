@@ -9,6 +9,20 @@ description: "This operation drops a specified collection alias. | Java | v2"
 type: docx
 token: MBy3dDXFbo0buwxkh0IczwLInPf
 sidebar_position: 10
+keywords: 
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - dropAlias()
+  - javaV2
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,15 +10,19 @@ type: docx
 token: WFRodQlfKoPHTUxbBYzcLug8nsd
 sidebar_position: 1
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
   - node
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: nodeSidebar
 
 ---
@@ -39,6 +43,7 @@ createIndex(data): Promise<ResStatus>
 ```javascript
 milvusClient.createIndex([
     {
+       db_name: string,
        collection_name: string,
        field_name: string,
        index_name?: string,
@@ -51,6 +56,10 @@ milvusClient.createIndex([
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

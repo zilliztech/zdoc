@@ -9,6 +9,20 @@ description: "This operation conducts a vector similarity search with an optiona
 type: docx
 token: RycIdCl3LoLMAMxNOEhcgMutnig
 sidebar_position: 7
+keywords: 
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - search()
+  - javaV2
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: javaSidebar
 
 ---

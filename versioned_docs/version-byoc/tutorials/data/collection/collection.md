@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - collection
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

@@ -9,6 +9,20 @@ description: "This operation describes a specific user. | Java | v2"
 type: docx
 token: YLQJdvVA8odibAx7mQscYwMVn8g
 sidebar_position: 4
+keywords: 
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - describeUser()
+  - javaV2
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: javaSidebar
 
 ---

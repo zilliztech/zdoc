@@ -9,6 +9,20 @@ description: "This operation releases the partitions in a specified collection f
 type: docx
 token: VsyQdDkXnoloWYxfjXNchc0dnng
 sidebar_position: 6
+keywords: 
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - releasePartitions()
+  - javaV2
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: javaSidebar
 
 ---

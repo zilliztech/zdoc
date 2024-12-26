@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

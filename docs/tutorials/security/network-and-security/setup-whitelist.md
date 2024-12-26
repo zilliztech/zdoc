@@ -14,6 +14,10 @@ keywords:
   - cloud
   - whitelist
   - setup
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

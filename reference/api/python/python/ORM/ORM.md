@@ -8,6 +8,16 @@ type: folder
 token: NZa5fZusilxYZ5d3Q1Dc1l8BnOd
 sidebar_position: 4
 sidebar_label: "ORM"
+keywords: 
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - ORM
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

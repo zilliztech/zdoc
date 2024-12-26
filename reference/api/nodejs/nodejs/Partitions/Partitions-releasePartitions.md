@@ -10,15 +10,19 @@ type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
 sidebar_position: 7
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
   - node
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ releasePartitions(data): Promise<ResStatus>
 
 ```javascript
 milvusClient.releasePartitions({
+    db_name: string,
     collection_name: string,
     partition_names: string[],
     timeout?: number
@@ -45,6 +50,10 @@ milvusClient.releasePartitions({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

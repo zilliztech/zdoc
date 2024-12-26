@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

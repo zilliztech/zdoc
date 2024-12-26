@@ -9,6 +9,20 @@ description: "This operation supports creating a collection in two distinct ways
 type: docx
 token: TziHdCu4VoURrfxAMsUcsRhQnub
 sidebar_position: 3
+keywords: 
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - create_collection()
+  - python
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: pythonSidebar
 
 ---

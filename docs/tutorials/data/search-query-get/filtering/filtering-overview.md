@@ -17,6 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

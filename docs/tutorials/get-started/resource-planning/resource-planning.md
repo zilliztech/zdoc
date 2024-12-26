@@ -14,6 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

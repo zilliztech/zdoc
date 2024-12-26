@@ -10,15 +10,19 @@ type: docx
 token: BBmsddqZEozxWyxkoADcFfzpncW
 sidebar_position: 2
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
   - node
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ dropPartition(data): Promise<ResStatus>
 
 ```javascript
 milvusClient.dropPartition({
+    db_name: string,
     collection_name: string,
     partition_name: string,
     timeout?: number
@@ -45,6 +50,10 @@ milvusClient.dropPartition({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

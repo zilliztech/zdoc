@@ -15,6 +15,10 @@ keywords:
   - collection
   - data
   - DML
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

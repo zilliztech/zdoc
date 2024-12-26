@@ -10,15 +10,19 @@ type: docx
 token: TVWPdTw2WoPAJYxsbGMc7MX6nEf
 sidebar_position: 4
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - hasPartition()
   - node
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ hasPartition(data): Promise<BoolResponse>
 
 ```javascript
 milvusClient.hasPartition({
+    db_name: string,
     collection_name: string,
     partition_name: string,
     timeout?: number
@@ -45,6 +50,10 @@ milvusClient.hasPartition({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

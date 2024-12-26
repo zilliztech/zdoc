@@ -15,6 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

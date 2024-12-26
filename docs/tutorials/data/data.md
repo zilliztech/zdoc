@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

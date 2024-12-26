@@ -10,15 +10,19 @@ type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 2
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - node
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ describeIndex(data): Promise<DescribeIndexResponse>
 
 ```javascript
  milvusClient.describeIndex({ 
+     db_name: string,
      collection_name: string,
      field_name?: string,
      index_name?: string,
@@ -46,6 +51,10 @@ describeIndex(data): Promise<DescribeIndexResponse>
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

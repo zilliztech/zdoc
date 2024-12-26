@@ -14,6 +14,10 @@ keywords:
   - cloud
   - sdk
   - milvus
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -49,7 +53,7 @@ PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://gith
 
 ```bash
 # Install pymilvus compatible with Milvus v2.4.x
-python -m pip install pymilvus==2.4.9
+python -m pip install pymilvus==2.4.10
 
 # Update PyMilvus to the newest version
 python -m pip install --upgrade pymilvus
@@ -106,7 +110,7 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 <dependency>
      <groupId>io.milvus</groupId>
      <artifactId>milvus-sdk-java</artifactId>
-     <version>2.4.8</version>
+     <version>2.4.9</version>
  </dependency>
 ```
 
@@ -114,7 +118,7 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 
 ```bash
 # Install Java SDK compatible with Milvus v2.4.x
-compile 'io.milvus:milvus-sdk-java:2.4.8'
+compile 'io.milvus:milvus-sdk-java:2.4.9'
 ```
 
 ## Install Go SDK{#install-go-sdk}

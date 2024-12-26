@@ -17,6 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

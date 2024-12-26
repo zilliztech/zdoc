@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

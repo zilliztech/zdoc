@@ -18,6 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

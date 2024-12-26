@@ -14,6 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

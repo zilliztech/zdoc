@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

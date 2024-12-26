@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

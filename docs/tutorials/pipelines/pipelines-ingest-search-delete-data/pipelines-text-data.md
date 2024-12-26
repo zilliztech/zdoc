@@ -14,6 +14,10 @@ keywords:
   - cloud
   - pipelines
   - text data
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

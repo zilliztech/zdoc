@@ -8,6 +8,16 @@ type: folder
 token: YkL6fqkaNlgeWXdNaWLcltkZnRc
 sidebar_position: 6
 sidebar_label: "Partitions"
+keywords: 
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Partitions
+  - javaV2
 displayed_sidebar: javaSidebar
 ---
 

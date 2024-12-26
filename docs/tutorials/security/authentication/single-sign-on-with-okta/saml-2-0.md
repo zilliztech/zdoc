@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

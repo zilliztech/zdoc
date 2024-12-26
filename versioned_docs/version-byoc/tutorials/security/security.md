@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

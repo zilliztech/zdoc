@@ -14,6 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - pipelines
   - image data
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

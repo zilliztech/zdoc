@@ -8,6 +8,16 @@ type: folder
 token: IZKcfUEfClhhnWdFhk2co7krnAV
 sidebar_position: 5
 sidebar_label: "Management"
+keywords: 
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Management
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

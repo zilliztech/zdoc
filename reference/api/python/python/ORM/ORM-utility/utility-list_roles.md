@@ -9,6 +9,20 @@ description: "This operation lists the information about all existing roles. | P
 type: docx
 token: ClLXdDs64oixJBxlIrCcEB2dngb
 sidebar_position: 27
+keywords: 
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - list_roles()
+  - python
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: pythonSidebar
 
 ---

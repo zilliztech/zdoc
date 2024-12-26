@@ -10,15 +10,19 @@ type: docx
 token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
 sidebar_position: 6
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
   - node
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,12 +42,17 @@ describeAlias(data): Promise<DescribeAliasResponse>
 
 ```javascript
 milvusClient.describeAlias({
+    db_name: string,
     alias: string,
     collection_name: string
 })
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*str*) -
+
+    The name of the database that holds the target collection.
 
 - **alias** (*str*) -
 

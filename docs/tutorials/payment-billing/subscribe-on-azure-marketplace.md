@@ -14,6 +14,10 @@ keywords:
   - cloud
   - marketplace
   - azure
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

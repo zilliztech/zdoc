@@ -9,6 +9,20 @@ description: "This operation displays the details of an alias. | Python | Milvus
 type: docx
 token: HN7nddgueo3scIxmPXAcpjkFnDf
 sidebar_position: 6
+keywords: 
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - describe_alias()
+  - python
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: pythonSidebar
 
 ---

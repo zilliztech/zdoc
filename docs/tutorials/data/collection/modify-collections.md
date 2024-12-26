@@ -14,6 +14,10 @@ keywords:
   - cloud
   - collection
   - modify collections
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
@@ -36,8 +40,8 @@ You can rename a collection as follows.
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 client.rename_collection(
@@ -55,8 +59,8 @@ import io.milvus.v2.service.collection.request.RenameCollectionReq;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 
-String CLUSTER_ENDPOINT = "http://localhost:19530";
-String TOKEN = "root:Milvus";
+String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+String TOKEN = "YOUR_CLUSTER_TOKEN";
 
 // 1. Connect to Milvus server
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -81,8 +85,8 @@ client.renameCollection(renameCollectionReq);
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 const res = await client.renameCollection({
@@ -107,8 +111,8 @@ import (
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-milvusAddr := "127.0.0.1:19530"
-token := "root:Milvus"
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+token := "YOUR_CLUSTER_TOKEN"
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
@@ -131,8 +135,8 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/rename" \
@@ -213,7 +217,7 @@ import (
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-milvusAddr := "127.0.0.1:19530"
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
@@ -250,7 +254,7 @@ The applicable collection properties are as follows:
    </tr>
    <tr>
      <td><p><code>collection.ttl.seconds</code></p></td>
-     <td><p>If a collection needs to be dropped for a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes entities in the collection and drops the collection. </p><p>The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.</p></td>
+     <td><p>If a collection needs to be dropped for a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes entities in the collection. </p><p>The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>

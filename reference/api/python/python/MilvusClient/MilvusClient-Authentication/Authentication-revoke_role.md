@@ -9,6 +9,20 @@ description: "This operation revokes the role assigned to a user. | Python | Mil
 type: docx
 token: JJOId59ePoMLefxz1ChcBZ6inOh
 sidebar_position: 12
+keywords: 
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - revoke_role()
+  - python
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: pythonSidebar
 
 ---

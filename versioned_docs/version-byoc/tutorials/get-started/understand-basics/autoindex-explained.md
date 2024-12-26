@@ -14,6 +14,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

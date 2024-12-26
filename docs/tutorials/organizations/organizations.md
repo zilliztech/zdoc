@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

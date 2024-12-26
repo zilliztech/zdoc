@@ -14,6 +14,10 @@ keywords:
   - cloud
   - connect
   - data
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

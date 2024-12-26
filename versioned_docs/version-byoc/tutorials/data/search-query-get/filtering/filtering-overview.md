@@ -17,6 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

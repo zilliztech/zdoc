@@ -9,6 +9,20 @@ description: "This operation returns the progress of the index-building process.
 type: docx
 token: OVfodiKa6o3qTGxadYicI975nhh
 sidebar_position: 21
+keywords: 
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - index_building_progress()
+  - python
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: pythonSidebar
 
 ---

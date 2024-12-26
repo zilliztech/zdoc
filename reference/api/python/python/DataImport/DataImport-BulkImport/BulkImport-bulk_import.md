@@ -9,6 +9,20 @@ description: "This operation imports the prepared data files to Zilliz Cloud. To
 type: docx
 token: S9dyd4UwhoqOPux411KcbafDnde
 sidebar_position: 1
+keywords: 
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - bulk_import()
+  - python
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: pythonSidebar
 
 ---
@@ -46,7 +60,8 @@ bulk_import(
     For example, the endpoint URL should be in the following format:
 
     ```python
-    controller.api.${cloud-region}.zillizcloud.com[:${port-number}] 
+    https://api.cloud.zilliz.com
+    # https://api.cloud.zilliz.com.cn 
     ```
 
     Replace `cloud-region` with the ID of the region that accommodates your cluster. You can get the cloud region ID from the endpoint URL of your cluster.
@@ -91,12 +106,6 @@ bulk_import(
 
     You can get the instance ID of a cluster on its details page from the Zilliz Cloud console.
 
-- **collection_name** (*string*) -
-
-    **[REQUIRED]**
-
-    The name of a collection in the target cluster of this operation.
-
 **RETURN TYPE:**
 
 *dict*
@@ -127,24 +136,24 @@ None
 ## Examples{#examples}
 
 ```python
-from pymilvus import bulk_import
+from pymilvus.bulk_writer import bulk_import
 
-CLOUD_REGION = ""    # Cloud region ID of the target Zilliz Cloud cluster
-API_KEY = ""         # A Zilliz Cloud API Key with sufficient permissions
-OBJECT_URL = ""      # URL of the data file to import in a remote bucket
-ACCESS_KEY = ""      # Access key used to access the remote bucket
-SECRET_KEY = ""      # Secure keys used to access the remote bucket
-CLUSTER_ID = ""      # ID of the Zilliz Cloud target cluster
-COLLECTION_NAME = "" # Name of the target collection in the specified Zilliz Cloud cluster
+# Bulk-import your data from the prepared data files
+CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"
+CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
+API_KEY = ""
+STORAGE_URL = ""
+ACCESS_KEY = ""
+SECRET_KEY = ""
 
 res = bulk_import(
-    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
     api_key=API_KEY,
-    object_url=OBJECT_URL,
-    access_key=ACCESS_KEY,
-    secret_key=SECRET_KEY,
+    url=CLOUD_API_ENDPOINT,
     cluster_id=CLUSTER_ID,
-    collection_name=COLLECTION_NAME
+    collection_name="quick_setup",
+    object_url=STORAGE_URL,
+    access_key=ACCESS_KEY,
+    secret_key=SECRET_KEY
 )
 
 print(res.json())

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - sdk
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

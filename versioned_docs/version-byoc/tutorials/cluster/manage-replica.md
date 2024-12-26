@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

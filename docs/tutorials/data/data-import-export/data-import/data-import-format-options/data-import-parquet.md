@@ -16,6 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

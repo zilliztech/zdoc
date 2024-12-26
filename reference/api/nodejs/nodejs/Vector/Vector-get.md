@@ -10,15 +10,19 @@ type: docx
 token: IbxXdvdZlonJk9xnlk2cZlIinCh
 sidebar_position: 2
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - get()
   - node
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ get(data): Promise<QueryResults>
 
 ```javascript
 milvusClient.get({
+   db_name: string,
    collection_name: string,
    consistency_level?: ConsistencyLevelEnum,
    ids: string[] | number[],
@@ -50,6 +55,10 @@ milvusClient.get({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

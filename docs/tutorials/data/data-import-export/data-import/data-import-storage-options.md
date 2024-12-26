@@ -15,6 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

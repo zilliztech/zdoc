@@ -8,6 +8,16 @@ type: folder
 token: U16KfBnGVlNp5edR7DycvFF1nfy
 sidebar_position: 1
 sidebar_label: "Authentication"
+keywords: 
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Authentication
+  - javaV2
 displayed_sidebar: javaSidebar
 ---
 

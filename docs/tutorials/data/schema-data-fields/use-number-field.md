@@ -18,6 +18,10 @@ keywords:
   - int
   - integer
   - float
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 
@@ -82,7 +86,7 @@ The following example shows how to define a schema that includes number fields `
 ```python
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="http://localhost:19530")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 schema = client.create_schema(
     auto_id=False,
@@ -108,7 +112,7 @@ import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
+        .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
         
 CreateCollectionReq.CollectionSchema schema = client.createSchema();

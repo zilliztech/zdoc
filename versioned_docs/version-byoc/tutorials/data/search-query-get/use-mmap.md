@@ -14,6 +14,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

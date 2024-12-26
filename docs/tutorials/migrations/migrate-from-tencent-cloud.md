@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

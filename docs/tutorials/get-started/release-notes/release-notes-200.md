@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

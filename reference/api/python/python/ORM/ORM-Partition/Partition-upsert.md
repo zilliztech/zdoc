@@ -9,6 +9,20 @@ description: "This operation inserts new records into the database or updates ex
 type: docx
 token: MQMzddDnao5Zz0xmSRncZM2nn5b
 sidebar_position: 11
+keywords: 
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - upsert()
+  - python
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 ---

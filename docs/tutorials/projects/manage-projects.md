@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

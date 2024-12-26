@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - milvus
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

@@ -15,6 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

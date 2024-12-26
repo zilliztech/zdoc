@@ -14,6 +14,10 @@ keywords:
   - cloud
   - activities
   - view
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

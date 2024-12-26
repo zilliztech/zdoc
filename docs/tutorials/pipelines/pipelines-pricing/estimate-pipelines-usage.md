@@ -15,6 +15,10 @@ keywords:
   - pipelines
   - pricing
   - usage
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

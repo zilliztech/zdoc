@@ -14,6 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

@@ -15,6 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

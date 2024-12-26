@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - api key
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

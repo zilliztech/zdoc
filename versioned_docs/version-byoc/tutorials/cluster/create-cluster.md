@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

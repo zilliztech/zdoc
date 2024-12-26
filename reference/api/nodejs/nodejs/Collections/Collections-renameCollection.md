@@ -10,15 +10,19 @@ type: docx
 token: LSwVdMg4SorzZ5xSHHVcQeVDnfh
 sidebar_position: 15
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
   - node
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ renameCollection(data): Promise<ResStatus>
 
 ```javascript
 milvusClient.renameCollection({
+   db_name: string,
    collection_name: string,
    new_collection_name: string,
    timeout?: number
@@ -45,6 +50,10 @@ milvusClient.renameCollection({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

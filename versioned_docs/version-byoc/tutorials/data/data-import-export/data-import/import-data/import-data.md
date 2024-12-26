@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

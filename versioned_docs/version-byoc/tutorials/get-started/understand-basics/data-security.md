@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data
   - security
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

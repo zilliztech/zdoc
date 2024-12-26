@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

@@ -9,6 +9,20 @@ description: "This operation creates a collection schema. | Java | v2"
 type: docx
 token: V5KXdwdO0oqkhnxsKb9c3xaKn4c
 sidebar_position: 6
+keywords: 
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createSchema()
+  - javaV2
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: javaSidebar
 
 ---

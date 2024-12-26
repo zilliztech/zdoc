@@ -9,6 +9,20 @@ description: "This operation performs multi-vector search on a collection and re
 type: docx
 token: PemMdzGFnovhaWxOzFzceaH3ncd
 sidebar_position: 3
+keywords: 
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - hybridSearch()
+  - javaV2
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: javaSidebar
 
 ---

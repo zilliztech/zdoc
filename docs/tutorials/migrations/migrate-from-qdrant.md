@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

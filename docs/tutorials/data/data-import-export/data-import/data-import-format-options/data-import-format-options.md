@@ -15,6 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

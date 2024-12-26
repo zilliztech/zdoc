@@ -10,15 +10,19 @@ type: docx
 token: MPuIdwujBoXM6rx7Okfc3lhZnUd
 sidebar_position: 3
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
   - node
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: nodeSidebar
 
 ---
@@ -39,6 +43,7 @@ createAlias(data): Promise<ResStatus>
 ```javascript
 milvusClient.createAlias({
    alias: string,
+   db_name: string,
    collection_name: string,
    timeout?: number
  })
@@ -69,6 +74,10 @@ milvusClient.createAlias({
     </ul>
 
     </Admonition>
+
+- **db_name** (*str*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*str*) -
 

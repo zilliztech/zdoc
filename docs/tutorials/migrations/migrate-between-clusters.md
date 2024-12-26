@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - clusters
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

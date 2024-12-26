@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - pipelines
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

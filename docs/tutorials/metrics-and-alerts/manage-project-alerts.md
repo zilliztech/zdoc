@@ -14,6 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

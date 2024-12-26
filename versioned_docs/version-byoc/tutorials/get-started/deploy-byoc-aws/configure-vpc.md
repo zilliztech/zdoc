@@ -2,7 +2,7 @@
 title: "Configure a Customer-Managed VPC | BYOC"
 slug: /configure-vpc
 sidebar_label: "Configure a Customer-Managed VPC"
-beta: FALSE
+beta: PRIVATE
 notebook: FALSE
 description: "The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a project within your own Virtual Private Cloud (VPC). With a Zilliz Cloud project running in a customer-managed VPC, you gain greater control over your network configurations, allowing you to meet specific cloud security and governance standards required by your organization. | BYOC"
 type: origin
@@ -18,6 +18,10 @@ keywords:
   - subnet
   - milvus
   - vector database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
@@ -142,11 +146,11 @@ Security groups in a VPC protect your AWS resources by controlling inbound and o
 
 1. Click **Add rule** in the **Inbound rules** section to create an inbound rule.
 
-1. Select **HTTPS** in **Type** and enter a CIDR block from which access is allowed in the text box on the right of the **Source** drop-down.
+1. Select **Anywhere-IPv4** in **Source** or enter a CIDR block from which access is allowed in the text box on the right of the **Source** drop-down.
 
     ![Z6SObL7FYofXBuxk46WcuRsbnLb](/byoc/Z6SObL7FYofXBuxk46WcuRsbnLb.png)
 
-1. Keep the default settings in the **Outbound rules** section and enter a CIDR block to which access is allowed in the text box on the right of the **Destination** drop-down.
+1. Add a record, select **HTTPS** in **Type** and **Anywhere-IPv4** in **Destination** or enter a CIDR block to which access is allowed in the text box on the right of the **Destination** drop-down.
 
     ![N0B8bIiXdobTjUxp1AVc76Xcnsc](/byoc/N0B8bIiXdobTjUxp1AVc76Xcnsc.png)
 

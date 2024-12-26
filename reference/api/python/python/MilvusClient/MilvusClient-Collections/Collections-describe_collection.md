@@ -9,6 +9,20 @@ description: "This operation lists detailed information about a specific collect
 type: docx
 token: MCkjdiRNKo2HCCxzHReclrgAnbg
 sidebar_position: 7
+keywords: 
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - describe_collection()
+  - python
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: pythonSidebar
 
 ---

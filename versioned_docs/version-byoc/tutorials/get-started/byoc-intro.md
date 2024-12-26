@@ -13,10 +13,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -87,10 +87,6 @@ Zilliz Cloud ensures secure communication across network boundaries through comp
 
     - Access to data sources and image repositories.
 
-- **Encryption in transit**: AWS PrivateLink and Cloudflare tunnels secure all external traffic.
-
-- **Cloud Services**: Secure access to Amazon EKS and S3 for cluster operations, backups, and migrations.
-
 - **Same Security Group**: TCP/UDP connections allowed for intra-cluster communication.
 
 ### Access control{#access-control}
@@ -102,6 +98,10 @@ Zilliz Cloud ensures secure communication across network boundaries through comp
 - The control plane monitors and collects metrics through the outbound-only TCP connections.
 
 These robust measures protect data integrity and confidentiality, ensuring secure and reliable operations in the cloud.
+
+### Encryption in transit{#encryption-in-transit}
+
+Client establish HTTPS or gRPC connections to the Zilliz Cluster. HTTPS/gRPC connections use the TLS 1.2 (or better) protocol with AES-256  (256-bit Advanced Encryption Standard )  to encrypt user data in transit.
 
 ### Encryption at rest{#encryption-at-rest}
 

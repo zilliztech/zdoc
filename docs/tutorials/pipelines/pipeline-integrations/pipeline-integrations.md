@@ -14,6 +14,10 @@ keywords:
   - cloud
   - pipelines
   - integration
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

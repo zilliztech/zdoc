@@ -9,6 +9,20 @@ description: "This operation creates a collection schema. | Python | MilvusClien
 type: docx
 token: RxU7dBjGlop0e1xZShYcZ4qCnnh
 sidebar_position: 4
+keywords: 
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - create_schema()
+  - python
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: pythonSidebar
 
 ---

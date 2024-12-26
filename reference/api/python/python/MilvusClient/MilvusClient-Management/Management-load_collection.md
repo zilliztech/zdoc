@@ -9,6 +9,20 @@ description: "This operation loads the data of a specific collection into memory
 type: docx
 token: FLmWdFP9Zo3JcixOEgucU8JMnLc
 sidebar_position: 7
+keywords: 
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - load_collection()
+  - python
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
 ---

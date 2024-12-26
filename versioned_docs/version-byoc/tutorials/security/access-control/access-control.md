@@ -15,6 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

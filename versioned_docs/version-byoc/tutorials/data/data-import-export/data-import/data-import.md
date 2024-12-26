@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

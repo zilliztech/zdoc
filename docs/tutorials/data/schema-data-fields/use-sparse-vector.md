@@ -15,6 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 
@@ -40,7 +44,7 @@ As shown in the diagram below, dense vectors are typically represented as contin
 
 ![RHlkwqC3Mh1tBSb7G3gcMc8PnUO](/img/RHlkwqC3Mh1tBSb7G3gcMc8PnUO.png)
 
-Sparse vectors can be generated using various methods, such as [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) (Term Frequency-Inverse Document Frequency) and [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) in text processing. Additionally, Zilliz Cloud offers convenient methods to help generate and process sparse vectors. For details, refer to Embeddings.
+Sparse vectors can be generated using various methods, such as [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) (Term Frequency-Inverse Document Frequency) and [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) in text processing. Additionally, Zilliz Cloud offers convenient methods to help generate and process sparse vectors.
 
 After vectorization, the data can be stored in Zilliz Cloud for management and vector retrieval. The diagram below illustrates the basic process.
 
@@ -118,7 +122,7 @@ To use sparse vectors in Zilliz Cloud clusters, define a field for storing spars
 ```python
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="http://localhost:19530")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 client.drop_collection(collection_name="my_sparse_collection")
 
@@ -144,7 +148,7 @@ import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
+        .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
         
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
@@ -327,7 +331,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
+        .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
         
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
@@ -346,7 +350,7 @@ client.createCollection(requestCreate);
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
-    address: 'http://localhost:19530'
+    address: 'YOUR_CLUSTER_ENDPOINT'
 });
 
 await client.createCollection({

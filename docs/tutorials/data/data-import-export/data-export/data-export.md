@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

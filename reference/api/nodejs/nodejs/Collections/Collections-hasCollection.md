@@ -10,15 +10,19 @@ type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
 sidebar_position: 11
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
   - node
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,12 +42,17 @@ hasCollection(data): Promise<BoolResponse>
 
 ```javascript
 milvusClient.hasCollection({ 
+    db_name: string,
     collection_name: string,
     timeout?: number
 })
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*str*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*str*) -
 

@@ -18,6 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

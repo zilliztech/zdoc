@@ -15,6 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

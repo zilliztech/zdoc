@@ -9,6 +9,20 @@ description: "This operation creates a partition in the target collection. | Jav
 type: docx
 token: CadTdZ5YGocDymxaIOvcr08pnxd
 sidebar_position: 1
+keywords: 
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createPartition()
+  - javaV2
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: javaSidebar
 
 ---

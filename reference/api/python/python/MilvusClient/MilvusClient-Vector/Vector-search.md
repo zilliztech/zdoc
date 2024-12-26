@@ -9,6 +9,20 @@ description: "This operation conducts a vector similarity search with an optiona
 type: docx
 token: D74JdcitKobd7cxNdDdcGAz6nuf
 sidebar_position: 5
+keywords: 
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - search()
+  - python
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: pythonSidebar
 
 ---

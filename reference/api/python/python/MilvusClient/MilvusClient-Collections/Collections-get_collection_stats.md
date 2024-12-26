@@ -9,6 +9,20 @@ description: "This operation lists the statistics collected on a specific collec
 type: docx
 token: VVyNdx038oECxNxMQavc9vssnoh
 sidebar_position: 10
+keywords: 
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - get_collection_stats()
+  - python
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: pythonSidebar
 
 ---

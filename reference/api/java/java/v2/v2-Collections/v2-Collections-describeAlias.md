@@ -9,6 +9,20 @@ description: "This operation displays the details of an alias. | Java | v2"
 type: docx
 token: B57cdiaEkotJQnxl7I9cJqotnPb
 sidebar_position: 8
+keywords: 
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - describeAlias()
+  - javaV2
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: javaSidebar
 
 ---

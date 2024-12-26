@@ -9,6 +9,20 @@ description: "This operation returns a list of database names from the connected
 type: docx
 token: PV1PdliWZooAB8xAE5scZO2Nn6K
 sidebar_position: 3
+keywords: 
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - list_database()
+  - python
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
 ---

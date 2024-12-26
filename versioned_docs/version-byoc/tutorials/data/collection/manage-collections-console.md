@@ -15,6 +15,10 @@ keywords:
   - collection
   - manage
   - console
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

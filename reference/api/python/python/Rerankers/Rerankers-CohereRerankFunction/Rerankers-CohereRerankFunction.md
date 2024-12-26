@@ -9,6 +9,20 @@ description: "CohereRerankFunction is a class in milvusmodel that takes a query 
 type: docx
 token: GAWOdft83oZPvHxtxzZcjrQunGg
 sidebar_position: 1
+keywords: 
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - CohereRerankFunction
+  - python
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: pythonSidebar
 
 ---

@@ -9,6 +9,20 @@ description: "This operation prepares index parameters to build indexes for a sp
 type: docx
 token: QecOdXKyfo9JtMxkHZxcLNqknxh
 sidebar_position: 5
+keywords: 
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - IndexParam
+  - javaV2
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: javaSidebar
 
 ---

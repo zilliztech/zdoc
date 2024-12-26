@@ -15,6 +15,10 @@ keywords:
   - pipelines
   - integration
   - llamaindex
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

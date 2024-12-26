@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

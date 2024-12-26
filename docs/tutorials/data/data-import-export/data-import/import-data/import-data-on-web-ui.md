@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - console
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cu
   - select
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
@@ -26,26 +30,38 @@ Selecting the right Compute Unit (CU) is a crucial step when creating a cluster 
 
 ## Understand CU types{#understand-cu-types}
 
-Zilliz Cloud offers these CU types: **Performance-optimized** and **Capacity-optimized**.
+Zilliz Cloud offers these CU types: **Performance-optimized, Capacity-optimized**, and **Extended-capacity.**
+
+The following table offers a quick comparison of the three CU types in different aspects. For a detailed comparison in terms of the capacity and performance among the CU types, please proceed to [Select an optimal CU type](./cu-types-explained#select-an-optimal-cu-type).
 
 <table>
    <tr>
      <th><p>CU Type</p></th>
-     <th><p>Latency</p></th>
-     <th><p>Throughput</p></th>
-     <th><p>Capacity</p></th>
+     <th><p>Search QPS</p></th>
+     <th><p>Search Latency</p></th>
+     <th><p>Per CU Capacity</p></th>
+     <th><p>Cost per Million Vectors</p></th>
    </tr>
    <tr>
      <td><p><strong>Performance-optimized</strong></p></td>
-     <td><p>Low</p></td>
-     <td><p>High</p></td>
-     <td><p>Low</p></td>
+     <td><p>500~1500</p></td>
+     <td><p>sub-10 ms</p></td>
+     <td><p>1.5 million 768-dim vectors</p></td>
+     <td><p>from $65/mo.</p></td>
    </tr>
    <tr>
      <td><p><strong>Capacity-optimized</strong></p></td>
-     <td><p>Medium</p></td>
-     <td><p>Medium</p></td>
-     <td><p>High</p></td>
+     <td><p>100~300</p></td>
+     <td><p>tens-ms</p></td>
+     <td><p>5 million 768-dim vectors</p></td>
+     <td><p>from $20/mo.</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>Extended-capacity</strong></p></td>
+     <td><p>5~20</p></td>
+     <td><p>hundreds-ms</p></td>
+     <td><p>20 million 768-dim vectors</p></td>
+     <td><p>from $10/mo.</p></td>
    </tr>
 </table>
 
@@ -60,6 +76,14 @@ Zilliz Cloud offers these CU types: **Performance-optimized** and **Capacity-opt
 - Crafted for handling vast datasets, boasting five times the data capacity of its Performance-optimized counterpart, albeit with subdued search performance.
 
 - Ideal for large-scale unstructured data search, copyright detection, and identity verification.
+
+## Extended-capacity CU{#extended-capacity-cu}
+
+- Best for scenarios with extensive datasets where cost-efficiency is prioritized over latency.
+
+- Ideal for applications that need to store massive volumes of data at a low cost. The capacity of an extended-capacity CU is 4 times that of a capacity-optimized CU.
+
+If you need to select the extended-capacity CU, please [contact sales](https://zilliz.com/contact-sales).
 
 ## Select an optimal CU type{#select-an-optimal-cu-type}
 
@@ -76,31 +100,37 @@ The reference table below illustrates the capacity of a cluster with 1 performan
      <th><p>Vector Dimensions</p></th>
      <th><p>Performance-optimized (Max. Vectors per CU)</p></th>
      <th><p>Capacity-optimized (Max. Vectors per CU)</p></th>
+     <th><p>Extended-capacity (Max. Vectors per CU)</p></th>
    </tr>
    <tr>
      <td><p>128</p></td>
      <td><p>7.5 million</p></td>
      <td><p>25 million</p></td>
+     <td><p>100 million</p></td>
    </tr>
    <tr>
      <td><p>256</p></td>
      <td><p>4.5 million</p></td>
      <td><p>15 million</p></td>
+     <td><p>60 million</p></td>
    </tr>
    <tr>
      <td><p>512</p></td>
      <td><p>2.25 million</p></td>
      <td><p>7.5 million</p></td>
+     <td><p>30 million</p></td>
    </tr>
    <tr>
      <td><p>768</p></td>
      <td><p>1.5 million</p></td>
      <td><p>5 million</p></td>
+     <td><p>20 million</p></td>
    </tr>
    <tr>
      <td><p>1024</p></td>
      <td><p>1.125 million</p></td>
      <td><p>3.75 million</p></td>
+     <td><p>15 million</p></td>
    </tr>
 </table>
 

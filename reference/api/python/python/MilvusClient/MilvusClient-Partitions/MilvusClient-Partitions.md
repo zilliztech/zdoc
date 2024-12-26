@@ -8,6 +8,16 @@ type: folder
 token: YpEjf83y1lvvzxd31BqcvQmknEd
 sidebar_position: 6
 sidebar_label: "Partitions"
+keywords: 
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Partitions
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

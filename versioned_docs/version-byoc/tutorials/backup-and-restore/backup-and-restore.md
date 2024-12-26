@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

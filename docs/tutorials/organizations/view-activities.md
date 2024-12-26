@@ -14,6 +14,10 @@ keywords:
   - cloud
   - activities
   - view
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

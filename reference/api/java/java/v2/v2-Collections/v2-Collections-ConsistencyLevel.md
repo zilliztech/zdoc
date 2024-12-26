@@ -9,6 +9,20 @@ description: "This is an enumeration that provides the following constants. | Ja
 type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 3
+keywords: 
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - ConsistencyLevel
+  - javaV2
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: javaSidebar
 
 ---

@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

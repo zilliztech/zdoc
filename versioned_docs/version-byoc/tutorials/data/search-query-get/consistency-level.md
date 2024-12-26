@@ -15,6 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

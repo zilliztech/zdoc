@@ -14,6 +14,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

@@ -15,6 +15,10 @@ keywords:
   - collection
   - manage
   - console
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

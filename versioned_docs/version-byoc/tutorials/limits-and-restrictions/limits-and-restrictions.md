@@ -14,6 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

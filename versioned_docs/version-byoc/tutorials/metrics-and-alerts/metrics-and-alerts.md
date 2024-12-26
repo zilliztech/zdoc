@@ -14,6 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

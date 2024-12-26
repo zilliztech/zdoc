@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

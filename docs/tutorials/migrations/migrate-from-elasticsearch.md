@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

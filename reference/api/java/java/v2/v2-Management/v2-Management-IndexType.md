@@ -9,6 +9,20 @@ description: "This is an enumeration that provides the following constants. | Ja
 type: docx
 token: EATSdak5wokQhCx6k3tcCoAqn3P
 sidebar_position: 6
+keywords: 
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - IndexType
+  - javaV2
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: javaSidebar
 
 ---

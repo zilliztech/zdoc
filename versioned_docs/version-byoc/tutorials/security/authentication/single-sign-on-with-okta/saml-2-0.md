@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

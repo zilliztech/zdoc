@@ -9,6 +9,20 @@ description: "This operation releases the data of a specific collection from mem
 type: docx
 token: BA9edMrWMosYWFxwTBAcl2WOnff
 sidebar_position: 9
+keywords: 
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - releaseCollection()
+  - javaV2
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: javaSidebar
 
 ---

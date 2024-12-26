@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

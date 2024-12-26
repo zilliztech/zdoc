@@ -9,6 +9,20 @@ description: "This operation adds a field to the schema of a collection. | Pytho
 type: docx
 token: TG3Rd9aM5offvFxKy2CcKXn9nWc
 sidebar_position: 1
+keywords: 
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - add_field()
+  - python
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: pythonSidebar
 
 ---

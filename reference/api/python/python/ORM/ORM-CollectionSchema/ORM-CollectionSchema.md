@@ -9,6 +9,20 @@ description: "A CollectionSchema instance represents the schema of a collection.
 type: docx
 token: WToudUwm4oVXeKxLg3jcj3IAnjh
 sidebar_position: 2
+keywords: 
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - CollectionSchema
+  - python
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: pythonSidebar
 
 ---

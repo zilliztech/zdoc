@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

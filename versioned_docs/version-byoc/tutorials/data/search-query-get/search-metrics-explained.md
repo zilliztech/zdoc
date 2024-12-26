@@ -20,6 +20,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 
@@ -30,7 +34,7 @@ import Admonition from '@theme/Admonition';
 
 Similarity metrics are used to measure similarities among vectors. Choosing an appropriate distance metric helps improve classification and clustering performance significantly.
 
-Currently, Zilliz Cloud supports these types of similarity Metrics: Euclidean distance (`L2`), Inner Product (`IP`), Cosine Similarity (`COSINE`), `JACCARD`, `HAMMING`, and `BM25` (specifically designed for full text search on sparse vectors).
+Currently, Zilliz Cloud supports these types of similarity Metrics: Euclidean distance (`L2`), Inner Product (`IP`), Cosine Similarity (`COSINE`), `JACCARD`, `HAMMING`.
 
 The table below summarizes the mapping between different field types and their corresponding metric types.
 
@@ -62,7 +66,7 @@ The table below summarizes the mapping between different field types and their c
    <tr>
      <td><p><code>SPARSE\_FLOAT\_VECTOR</code></p></td>
      <td><p>No need to specify the dimension.</p></td>
-     <td><p><code>IP</code>, <code>BM25</code> (used only for full text search)</p></td>
+     <td><p><code>IP</code></p></td>
      <td><p><code>IP</code></p></td>
    </tr>
    <tr>
@@ -113,11 +117,6 @@ The table below summarizes the characteristics of the similarity distance values
      <td><p><code>HAMMING</code></p></td>
      <td><p>A smaller value indicates a greater similarity.</p></td>
      <td><p>[0, dim(vector)]</p></td>
-   </tr>
-   <tr>
-     <td><p><code>BM25</code></p></td>
-     <td><p>Score the relevance based on the term frequency, inverted document frequency, and document normalization.</p></td>
-     <td><p>[0, ∞)</p></td>
    </tr>
 </table>
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

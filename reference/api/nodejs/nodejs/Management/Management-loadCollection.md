@@ -10,15 +10,19 @@ type: docx
 token: LoNvdRK80oWllFxV0H6co0HrnBe
 sidebar_position: 6
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
   - node
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ loadCollection(data): Promise<ResStatus>
 
 ```javascript
 milvusClient.loadCollection({ 
+    db_name: string,
     collection_name: string,
     refresh?: boolean,
     replica_number?: number,
@@ -47,6 +52,10 @@ milvusClient.loadCollection({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

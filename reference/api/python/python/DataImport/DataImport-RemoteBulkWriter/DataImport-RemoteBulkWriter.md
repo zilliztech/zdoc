@@ -9,6 +9,20 @@ description: "A RemoteBulkWriter instance writes your raw data in a format that 
 type: docx
 token: G77zdbzpPo4pOaxTDcccgRNfnVc
 sidebar_position: 4
+keywords: 
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - RemoteBulkWriter
+  - python
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: pythonSidebar
 
 ---

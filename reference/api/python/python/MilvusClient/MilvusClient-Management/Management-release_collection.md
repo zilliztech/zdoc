@@ -9,6 +9,20 @@ description: "This operation releases the data of a specific collection from mem
 type: docx
 token: PRR7dRfi8o1s61xFRovccAdRnHe
 sidebar_position: 10
+keywords: 
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - release_collection()
+  - python
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
 ---

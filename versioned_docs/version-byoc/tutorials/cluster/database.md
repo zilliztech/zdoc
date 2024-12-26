@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - milvus
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

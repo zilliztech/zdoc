@@ -8,6 +8,16 @@ type: folder
 token: ZA7LfYxQHltI94dGs2Fc62AvnSh
 sidebar_position: 7
 sidebar_label: "Vector"
+keywords: 
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Vector
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

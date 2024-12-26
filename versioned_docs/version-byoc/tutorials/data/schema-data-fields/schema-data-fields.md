@@ -15,6 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

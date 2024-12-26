@@ -9,6 +9,20 @@ description: "This operation drops an index from a specific collection. | Python
 type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 4
+keywords: 
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - drop_index()
+  - python
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 ---

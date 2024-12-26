@@ -14,6 +14,10 @@ keywords:
   - cloud
   - basics
   - milvus
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

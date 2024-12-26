@@ -9,6 +9,20 @@ description: "A FieldSchema instance defines the data type and related attribute
 type: docx
 token: WeXmdv8bioJ7AEx9sEtct6kgnUd
 sidebar_position: 12
+keywords: 
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - FieldSchema
+  - javaV2
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: javaSidebar
 
 ---

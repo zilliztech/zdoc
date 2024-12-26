@@ -16,6 +16,10 @@ keywords:
   - schema
   - schema design
   - hands-on
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

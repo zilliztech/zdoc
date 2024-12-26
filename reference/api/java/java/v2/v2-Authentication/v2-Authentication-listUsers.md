@@ -9,6 +9,20 @@ description: "This operation lists the names of all existing users. | Java | v2"
 type: docx
 token: EfM3drSXlo4Yzyxq2GpcmvoHnTm
 sidebar_position: 10
+keywords: 
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - listUsers()
+  - javaV2
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: javaSidebar
 
 ---

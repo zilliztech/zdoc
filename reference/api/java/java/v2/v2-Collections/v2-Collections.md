@@ -8,6 +8,16 @@ type: folder
 token: KzitfU6c4lFXdodYOQJcupB2nJe
 sidebar_position: 3
 sidebar_label: "Collections"
+keywords: 
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Collections
+  - javaV2
 displayed_sidebar: javaSidebar
 ---
 

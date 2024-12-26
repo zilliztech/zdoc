@@ -14,6 +14,10 @@ keywords:
   - cloud
   - concepts
   - rerankers
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

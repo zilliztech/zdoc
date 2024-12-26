@@ -9,6 +9,20 @@ description: "This operation lists all existing collections. | Python | MilvusCl
 type: docx
 token: BHyidrVcyoPwxexHLrnceOSAnRe
 sidebar_position: 14
+keywords: 
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - list_collections()
+  - python
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: pythonSidebar
 
 ---

@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

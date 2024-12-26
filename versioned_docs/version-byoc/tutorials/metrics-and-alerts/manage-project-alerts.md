@@ -14,6 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

@@ -16,6 +16,10 @@ keywords:
   - schema
   - schema design
   - hands-on
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

@@ -16,6 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

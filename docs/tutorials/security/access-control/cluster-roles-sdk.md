@@ -16,6 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 
@@ -41,7 +45,7 @@ The following example demonstrates how to create a role named `role_a`.
 
 The role name must follow the following rule:
 
-- Must start with a letter and can only include uppercase or lowercase letters, numbers, and underscores."
+- Must start with a letter and can only include uppercase or lowercase letters, numbers, and underscores.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -166,8 +170,8 @@ The following example demonstrates how to grant the built-in privilege group `CO
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 client.grant_privilege_v2(
@@ -226,8 +230,8 @@ client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 await milvusClient.grantPrivilege({
@@ -357,8 +361,8 @@ The following example demonstrates how to revoke the built-in privilege group `C
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
    
 client.revoke_privilege_v2(

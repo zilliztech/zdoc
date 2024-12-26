@@ -14,6 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

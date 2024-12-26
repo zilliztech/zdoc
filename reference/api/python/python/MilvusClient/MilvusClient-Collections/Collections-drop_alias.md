@@ -9,6 +9,20 @@ description: "This operation drops a specified collection alias. | Python | Milv
 type: docx
 token: FpWXdmIuforYz9xUCsqclyCXnLe
 sidebar_position: 8
+keywords: 
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - drop_alias()
+  - python
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: pythonSidebar
 
 ---

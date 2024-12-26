@@ -14,6 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

@@ -9,6 +9,20 @@ description: "This operation in MistralAIEmbeddingFunction takes a list of text 
 type: docx
 token: Z23IddhHhom7AyxDMXecLORVnDh
 sidebar_position: 4
+keywords: 
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - \_\_call\_\_()
+  - python
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: pythonSidebar
 
 ---

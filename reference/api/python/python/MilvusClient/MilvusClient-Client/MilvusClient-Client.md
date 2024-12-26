@@ -8,6 +8,16 @@ type: folder
 token: M0pgf1TX3lTotndwA7Vc3gJsnAd
 sidebar_position: 2
 sidebar_label: "Client"
+keywords: 
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Client
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

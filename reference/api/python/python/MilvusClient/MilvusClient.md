@@ -8,6 +8,16 @@ type: folder
 token: ICGwfi8ZClVQLHdLn9Hc3oeFn1d
 sidebar_position: 3
 sidebar_label: "MilvusClient"
+keywords: 
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - MilvusClient
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

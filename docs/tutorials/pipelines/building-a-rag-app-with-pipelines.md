@@ -15,6 +15,10 @@ keywords:
   - pipelines
   - RAG
   - application
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

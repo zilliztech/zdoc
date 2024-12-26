@@ -9,6 +9,20 @@ description: "This operation conducts a vector similarity search with an optiona
 type: docx
 token: OaM5dkbPjohKhNxHvKNcfnYMnVb
 sidebar_position: 25
+keywords: 
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - search()
+  - python
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: pythonSidebar
 
 ---

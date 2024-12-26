@@ -9,6 +9,20 @@ description: "BM25EmbeddingFunction is a class in pymilvus that handles encoding
 type: docx
 token: SOSedRXpcoGr0sx8RF1caGdjnyb
 sidebar_position: 1
+keywords: 
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - BM25EmbeddingFunction
+  - python
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: pythonSidebar
 
 ---

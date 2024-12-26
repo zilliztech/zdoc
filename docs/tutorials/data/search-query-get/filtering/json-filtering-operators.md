@@ -18,6 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

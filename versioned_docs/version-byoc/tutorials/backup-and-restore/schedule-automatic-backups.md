@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

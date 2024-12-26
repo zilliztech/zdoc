@@ -9,6 +9,20 @@ description: "This operation releases the partitions in a specified collection f
 type: docx
 token: Jei2dpJMuoyOF5xTIuccfzcinOh
 sidebar_position: 5
+keywords: 
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - loadPartitions()
+  - javaV2
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: javaSidebar
 
 ---

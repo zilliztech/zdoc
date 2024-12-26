@@ -10,15 +10,19 @@ type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
 sidebar_position: 4
 keywords: 
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
   - node
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: nodeSidebar
 
 ---

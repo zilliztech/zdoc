@@ -9,6 +9,20 @@ description: "This operation lists the statistics collected on a specific collec
 type: docx
 token: XgfcdpBWCof3pfxhUudcRZajnPc
 sidebar_position: 13
+keywords: 
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - getCollectionStats()
+  - javaV2
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: javaSidebar
 
 ---

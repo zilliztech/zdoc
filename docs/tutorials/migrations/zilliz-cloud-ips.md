@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - ips
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

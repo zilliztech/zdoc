@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

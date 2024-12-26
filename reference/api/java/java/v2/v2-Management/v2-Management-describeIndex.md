@@ -9,6 +9,20 @@ description: "This operation describes a specific index. | Java | v2"
 type: docx
 token: WUgedTmyZoW4clxSgHVcl1ZtnZl
 sidebar_position: 2
+keywords: 
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - describeIndex()
+  - javaV2
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: javaSidebar
 
 ---

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

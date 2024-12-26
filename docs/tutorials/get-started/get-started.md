@@ -13,6 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

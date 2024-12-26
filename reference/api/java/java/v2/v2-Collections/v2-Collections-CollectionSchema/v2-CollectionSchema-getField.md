@@ -9,6 +9,20 @@ description: "This operation gets the details of a specific field, including sch
 type: docx
 token: AXWod56QkoprlXxOXkwcPXfonHg
 sidebar_position: 3
+keywords: 
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - getField()
+  - javaV2
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: javaSidebar
 
 ---

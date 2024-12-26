@@ -9,6 +9,20 @@ description: "This operation gets the progress of the specified bulk-import job.
 type: docx
 token: MkWNdU1tvoqlBRxI05Rcu09cnEc
 sidebar_position: 2
+keywords: 
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - get_import_progress()
+  - python
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 ---
@@ -31,6 +45,13 @@ pymilvus.get_import_progress(
 )
 ```
 
+```python
+pymilvus.get_import_progress(
+    url: str,
+    job_id: str,
+)
+```
+
 **PARAMETERS:**
 
 - **url** (*string*) -
@@ -42,7 +63,8 @@ pymilvus.get_import_progress(
     For example, the endpoint URL should be in the following format:
 
     ```python
-    controller.api.${cloud-region}.zillizcloud.com[:${port-number}] 
+    https://api.cloud.zilliz.com
+    # https://api.cloud.zilliz.com.cn 
     ```
 
     Replace `cloud-region` with the ID of the region that accommodates your cluster. You can get the cloud region ID from the endpoint URL of your cluster.
@@ -79,23 +101,29 @@ pymilvus.get_import_progress(
 
     ```python
     # {
-    #     "code": 200,
+    #     "code": "integer",
     #     "data": {
     #         "collectionName": "string",
-    #         "fileName": "string",
-    #         "fileSize": int,
-    #         "readyPercentage": int,
-    #         "completeTime": "string",
-    #         "errorMessage": null,
+    #         "fileSize": "interger",
     #         "jobId": "string",
-    #         "details": [
+    #         "state": "string",
+    #         "progress": "integer",
+    #         "reason": "string",
+    #         "importedRows": "integer",
+    #         "totalRows": "integer",
+    #         "completeTime": "string",
+    #         "details":[
     #             {
     #                 "fileName": "string",
-    #                 "fileSize": int,
-    #                 "readyPercentage": int,
-    #                 "completeTime": "string",
-    #                 "errorMessage": null
-    #             }
+    #                 "fileSize": "integer",
+    #                 "state": "string",
+    #                 "progress": "integer",
+    #                 "reason": "string",
+    #                 "importedRows": "integer",
+    #                 "totalRows": "integer",
+    #                 "completeTime": "string"
+    #             },
+    #             ...
     #         ]
     #     }
     # }
@@ -107,33 +135,49 @@ pymilvus.get_import_progress(
 
         The name of the target collection.
 
-    - **fileName** (*string*) -
-
-        The name of the currently processed data file.
-
     - **fileSize** (*string*) -
 
         The size of the currently processed data file in bytes.
 
-    - **readyPercentage** (*int*) -
+    - **jobId** (*string*) -
+
+        The ID of the current bulk-import job of your interests.
+
+    - **state** (*string*) - 
+
+        The current state of this job. Possible values are as follows:
+
+        - **Pending**: The tasks are awaiting scheduling and execution;
+
+        - **Importing**: The tasks are currently being executed;
+
+        - **Completed**: The tasks have been successfully completed;
+
+        - **Failed**: The tasks encountered a failure.
+
+    - **progress** (*int*) -
 
         The progress of the current operation in floats. 
 
         The value ranges from `0` to `1`, and stays at `1` when this operation completes.
+
+    - **reason** (*string*) -
+
+        The reason for any errors that occur.
+
+    - **importRows** (*int*) -
+
+        The number of entities already imported. 
+
+    - **totalRows** (*int*) -
+
+        The total number of entities to import. 
 
     - **completeTime** (*string*) -
 
         The time at which this operation is completed.
 
         The time is displayed in the format of `XXXX-XX-XXTXX:XX:XXZ`.
-
-    - **errorMessage** (*string* / *null*) -
-
-        An error message explaining any errors during this operation. It should always be **null** if no error occurs.
-
-    - **jobId** (*string*) -
-
-        The ID of the current bulk-import job of your interests.
 
     - **details** (*array*) -
 
@@ -145,17 +189,37 @@ pymilvus.get_import_progress(
 
             The size of this data file.
 
-        - **readyPercentage** (*int*) -
+        - **state** (*string*) - 
+
+            The current state of importing this file. Possible values are as follows:
+
+            - **Pending**: The tasks are awaiting scheduling and execution;
+
+            - **Importing**: The tasks are currently being executed;
+
+            - **Completed**: The tasks have been successfully completed;
+
+            - **Failed**: The tasks encountered a failure.
+
+        - **progress** (*int*) -
 
             The bulk-import progress of this data file.
+
+        - **reason** (*string*) -
+
+            The reason for any errors that occur during importing this file.
+
+        - **importRows** (*int*) -
+
+            The number of entities already imported from this file. 
+
+        - **totalRows** (*int*) -
+
+            The total number of entities to import from this file. 
 
         - **completeTime** (*string*) -
 
             The time at which this data file has been imported.
-
-        - **errorMessage** (*string* / *null*) - 
-
-            An error message explaining any errors during this data file has been uploaded. It should always be **null** if no error occurs.
 
 **EXCEPTIONS:**
 
@@ -164,44 +228,23 @@ None
 ## Examples{#examples}
 
 ```python
-from pymilvus import bulk_import, get_import_progress
+import json
+from pymilvus.bulk_writer import get_import_progress
 
-CLOUD_REGION = ""    # Cloud region ID of the target Zilliz Cloud cluster
-API_KEY = ""         # A Zilliz Cloud API Key with sufficient permissions
-OBJECT_URL = ""      # URL of the data file to import in a remote bucket
-ACCESS_KEY = ""      # Access key used to access the remote bucket
-SECRET_KEY = ""      # Secure keys used to access the remote bucket
-CLUSTER_ID = ""      # ID of the Zilliz Cloud target cluster
-COLLECTION_NAME = "" # Name of the target collection in the specified Zilliz Cloud cluster
+## Zilliz Cloud constants
+CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"
+CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
+API_KEY = ""
 
-res = bulk_import(
-    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+# Get bulk-insert job progress
+resp = get_import_progress(
     api_key=API_KEY,
-    object_url=OBJECT_URL,
-    access_key=ACCESS_KEY,
-    secret_key=SECRET_KEY,
+    url=CLOUD_API_ENDPOINT,
     cluster_id=CLUSTER_ID,
-    collection_name=COLLECTION_NAME
+    job_id="job-01fa0e5d42cjxudhpuehyp",
 )
 
-print(res.json())
-
-# Output
-#
-# {
-#     "code": 200,
-#     "data": {
-#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a"
-#     }
-# }
-
-job_id = res.json()['data']['jobId']
-res = get_import_progress(
-    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
-    api_key=API_KEY,
-    job_id=job_id,
-    cluster_id=CLUSTER_ID
-)
+print(json.dumps(resp.json(), indent=4))
 
 # Output
 #
@@ -214,7 +257,7 @@ res = get_import_progress(
 #         "readyPercentage": 1,
 #         "completeTime": "2023-10-28T06:51:49Z",
 #         "errorMessage": null,
-#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a",
+#         "jobId": "job-01fa0e5d42cjxudhpuehyp",
 #         "details": [
 #             {
 #                 "fileName": "folder/1/",

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
