@@ -7,17 +7,17 @@ notebook: FALSE
 description: "This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes. | BYOC"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - quickstart
   - cloud
   - milvus
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 
@@ -30,6 +30,20 @@ import TabItem from '@theme/TabItem';
 This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes.
 
 To obtain information on the process of setting up your BYOC cluster, refer to [Zilliz BYOC](./byoc-intro).
+
+## Before you start{#before-you-start}
+
+- You have [signed up with Zilliz Cloud](https://cloud.zilliz.com). For details, refer to [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+
+- You have deployed the data plane of the Zilliz Bring-Your-Own-Cloud (BYOC) solution in your VPCs. 
+
+    Zilliz BYOC is a deployment option for organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. For details about the BYOC solution, refer to [BYOC Overview](./byoc-intro).
+
+    You can deploy the data plane in your VPCs hosted on the following cloud providers. 
+
+    - [Deploy BYOC on AWS](./deploy-byoc-aws)
+
+    If your cloud provider is not listed above, please contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
 
 ## Install an SDK{#install-an-sdk}
 

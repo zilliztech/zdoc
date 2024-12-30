@@ -7,17 +7,17 @@ notebook: FALSE
 description: "This page describes how to manually create a project in your Zilliz Cloud Bring-Your-Own-Cloud (BYOC) organization using the Zilliz Cloud console and custom AWS configurations. | BYOC"
 type: origin
 token: DsqzwjegpiYSdtk1k75c1zXsnZc
-sidebar_position: 5
+sidebar_position: 3
 keywords: 
   - zilliz
   - byoc
   - aws
   - milvus
   - vector database
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 
