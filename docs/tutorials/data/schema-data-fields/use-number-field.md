@@ -18,10 +18,10 @@ keywords:
   - int
   - integer
   - float
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 
@@ -283,7 +283,7 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-Moreover, before creating the collection, you must create an index for the vector field. In this example, we use `AUTOINDEX` to simplify vector index settings.
+In this example, we use `AUTOINDEX` to create the index for the number field.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

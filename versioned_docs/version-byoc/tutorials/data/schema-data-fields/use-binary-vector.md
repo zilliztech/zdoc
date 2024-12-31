@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 
@@ -187,9 +187,8 @@ index_params = client.prepare_index_params()
 index_params.add_index(
     field_name="binary_vector",
     index_name="binary_vector_index",
-    index_type="BIN_IVF_FLAT",
-    metric_type="HAMMING",
-    params={"nlist": 128}
+    index_type="AUTOINDEX",
+    metric_type="HAMMING"
 )
 ```
 
@@ -206,7 +205,7 @@ Map<String,Object> extraParams = new HashMap<>();
 extraParams.put("nlist",128);
 indexParams.add(IndexParam.builder()
         .fieldName("binary_vector")
-        .indexType(IndexParam.IndexType.BIN_IVF_FLAT)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.HAMMING)
         .extraParams(extraParams)
         .build());
@@ -223,10 +222,7 @@ const indexParams = {
   indexName: "binary_vector_index",
   field_name: "binary_vector",
   metric_type: MetricType.HAMMING,
-  index_type: IndexType.BIN_IVF_FLAT,
-  params: {
-    nlist: 128,
-  },
+  index_type: IndexType.AUTOINDEX
 };
 ```
 
@@ -240,8 +236,7 @@ export indexParams='[
             "fieldName": "binary_vector",
             "metricType": "HAMMING",
             "indexName": "binary_vector_index",
-            "indexType": "BIN_IVF_FLAT",
-            "params":{"nlist": 128}
+            "indexType": "AUTOINDEX"
         }
     ]'
 ```
@@ -249,9 +244,9 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-In the example above, an index named `binary_vector_index` is created for the `binary_vector` field, using the `BIN_IVF_FLAT` index type. The `metric_type` is set to `HAMMING`, indicating that Hamming distance is used for similarity measurement.
+In the example above, an index named `binary_vector_index` is created for the `binary_vector` field, using the `AUTOINDEX` index type. The `metric_type` is set to `HAMMING`, indicating that Hamming distance is used for similarity measurement.
 
-Besides `BIN_IVF_FLAT`, Zilliz Cloud supports other index types for binary vectors. For more details, refer to xx. Additionally, Zilliz Cloud supports other similarity metrics for binary vectors. For more information, refer to [Metric Types](./search-metrics-explained).
+Additionally, Zilliz Cloud supports other similarity metrics for binary vectors. For more information, refer to [Metric Types](./search-metrics-explained).
 
 ### Create collection{#create-collection}
 

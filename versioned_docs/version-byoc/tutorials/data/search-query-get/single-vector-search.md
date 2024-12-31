@@ -1,7 +1,7 @@
 ---
-title: "Basic ANN Search | BYOC"
+title: "Basic Vector Search | BYOC"
 slug: /single-vector-search
-sidebar_label: "Basic ANN Search"
+sidebar_label: "Basic Vector Search"
 beta: FALSE
 notebook: FALSE
 description: "Based on an index file recording the sorted order of vector embeddings, the Approximate Nearest Neighbor (ANN) search locates a subset of vector embeddings based on the query vector carried in a received search request, compares the query vector with those in the subgroup, and returns the most similar results. With ANN search, Zilliz Cloud provides an efficient search experience. This page helps you to learn how to conduct basic ANN searches. | BYOC"
@@ -27,7 +27,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Basic ANN Search
+# Basic Vector Search
 
 Based on an index file recording the sorted order of vector embeddings, the Approximate Nearest Neighbor (ANN) search locates a subset of vector embeddings based on the query vector carried in a received search request, compares the query vector with those in the subgroup, and returns the most similar results. With ANN search, Zilliz Cloud provides an efficient search experience. This page helps you to learn how to conduct basic ANN searches.
 
@@ -1083,7 +1083,7 @@ This parameter ranges from `1` to `10` and defaults to `1`. Increasing the value
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>level</code>  parameter is still in <strong>Public Preview</strong>. If you cannot set it to a value greater than <code>5</code>, your cluster may not fully support this feature. As a workaround, you can set it to a value within the range from <code>0</code> to <code>5</code> instead, or contact us at support@zilliz.com.</p>
+<p>The <code>level</code>  parameter is still in <strong>Public Preview</strong>. If you cannot set it to a value greater than <code>5</code>, your cluster may not fully support this feature. As a workaround, you can set it to a value within the range from <code>1</code> to <code>5</code> instead, or contact us at support@zilliz.com.</p>
 
 </Admonition>
 
