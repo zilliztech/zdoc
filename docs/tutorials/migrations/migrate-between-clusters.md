@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 
@@ -31,8 +31,6 @@ Zilliz Cloud allows you to migrate data between clusters, whether they are withi
 ## Considerations{#considerations}
 
 - For optimal performance, migrations from a higher plan tier to a lower one (e.g., **Dedicated** to **Serverless**, **Dedicated** to **Free**, **Free** to **Free** clusters) are not supported.
-
-- For each migration task, you can select only one vector field from each source collection.
 
 ## Before you start{#before-you-start}
 
