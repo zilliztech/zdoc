@@ -16,10 +16,10 @@ keywords:
   - data
   - vector search
   - ann
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 
@@ -1083,7 +1083,7 @@ This parameter ranges from `1` to `10` and defaults to `1`. Increasing the value
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>level</code>  parameter is still in <strong>Public Preview</strong>. If you cannot set it to a value greater than <code>5</code>, your cluster may not fully support this feature. As a workaround, you can set it to a value within the range from <code>1</code> to <code>5</code> instead, or contact us at support@zilliz.com.</p>
+<p>The <code>level</code>  parameter is still in <strong>Public Preview</strong>. If you cannot set it to a value greater than <code>5</code>, your cluster may not fully support this feature. As a workaround, you can set it to a value within the range from <code>1</code> to <code>5</code> instead, or contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
 
 </Admonition>
 
@@ -1201,7 +1201,7 @@ You can set `enable_recall_calculation` to `true`when you tweek the `level` para
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>enable_recall_calculation</code>  parameter is still in <strong>Public Preview</strong>, and you might not be able to use it due to compatibility issues. For any assistance, please contact us at support@zilliz.com.</p>
+<p>The <code>enable_recall_calculation</code>  parameter is still in <strong>Public Preview</strong>, and you might not be able to use it due to compatibility issues. For any assistance, please contact us at <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
 
 </Admonition>
 

@@ -16,10 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 
@@ -37,7 +37,7 @@ If a collection contains both vector embeddings and their metadata, you can filt
 
 ![QIeKwvDN1h7lTnb9iJ7cPubknrb](/byoc/QIeKwvDN1h7lTnb9iJ7cPubknrb.png)
 
-As shown in the above diagram, the search request carries `chunk like % red %` as the filtering condition, indicating that Zilliz Cloud should conduct the ANN search within all the entities that have the word `red` in the `chunk` field. Specifically, Zilliz Cloud does the following:
+As shown in the above diagram, the search request carries `chunk like "%red%"` as the filtering condition, indicating that Zilliz Cloud should conduct the ANN search within all the entities that have the word `red` in the `chunk` field. Specifically, Zilliz Cloud does the following:
 
 - Filter entities that match the filtering conditions carried in the search request.
 

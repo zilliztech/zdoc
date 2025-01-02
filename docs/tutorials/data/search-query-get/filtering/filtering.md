@@ -4,7 +4,7 @@ slug: /filtering
 sidebar_label: "Filtering"
 beta: FALSE
 notebook: FALSE
-description: "This chapter explains how to perform filtering on scalar fields and applicable filtering operators and templates. | Cloud"
+description: "This chapter explains how to perform filtering on scalar fields and applicable filtering operators. | Cloud"
 type: origin
 token: ObdvwrXi9ia9i0kTLKUcCaYtnhd
 sidebar_position: 7
@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -29,7 +29,7 @@ import Admonition from '@theme/Admonition';
 
 # Filtering
 
-This chapter explains how to perform filtering on scalar fields and applicable filtering operators and templates.
+This chapter explains how to perform filtering on scalar fields and applicable filtering operators.
 
 import DocCardList from '@theme/DocCardList';
 
