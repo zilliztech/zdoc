@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
@@ -74,7 +74,7 @@ If you want to find all entities with an `age` greater than 30:
 filter = 'age > 30'
 ```
 
-### Example 4: Filtering with Less Than (`\{#example-4-filtering-with-less-than}
+### Example 4: Filtering with Less Than{#example-4-filtering-with-less-than}
 
 To find entities where `price` is less than 100:
 
@@ -90,7 +90,7 @@ If you want to find all entities with `rating` greater than or equal to 4:
 filter = 'rating >= 4'
 ```
 
-### Example 6: Filtering with Less Than or Equal To (`\{#example-6-filtering-with-less-than-or-equal-to}
+### Example 6: Filtering with Less Than or Equal To{#example-6-filtering-with-less-than-or-equal-to}
 
 To find entities with `discount` less than or equal to 10%:
 
