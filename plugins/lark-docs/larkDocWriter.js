@@ -517,20 +517,21 @@ class larkDocWriter {
     }
 
     __match_filter_tags(markdown) {
-        const startTagRegex = /<(include|exclude) target="(.+?)"/gm
-        const endTagRegex = /<\/(include|exclude)>/gm
+        const startTagRegex = /<(include|exclude) target="(.+?)"/gmi
+        const endTagRegex = /<\/(include|exclude)>/gmi
         const matches = [... markdown.matchAll(startTagRegex)]
         var returns = []
 
         matches.forEach(match => {
-            var tag = match[1]
+            var tag = match[1].toLowerCase()
+            var target = match[2].trim()
             var rest = markdown.slice(match.index)
             
-            var closeTagRegex = new RegExp(`</${tag}>`, 'gm')
+            var closeTagRegex = new RegExp(`</${tag}>`, 'gmi')
             var closeTagMatch = [... rest.matchAll(closeTagRegex)]
             
             var startIndex = match.index
-            var endIndex = 0
+            var endIndex = -1
             
             for (let i = 0; i < closeTagMatch.length; i++) {
                 var t = markdown.slice(startIndex, startIndex+closeTagMatch[i].index+closeTagMatch[i][0].length)
@@ -543,10 +544,12 @@ class larkDocWriter {
                     break
                 }
             }
-            
+
+            if (endIndex === -1) console.warn(`No matching end tag for ${tag} tag at index ${match.index}`)
+
             returns.push({
                 tag: tag,
-                target: match[2],
+                target: target,
                 startIndex: startIndex,
                 endIndex: endIndex
             })           
