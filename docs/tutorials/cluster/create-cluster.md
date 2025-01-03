@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 
@@ -215,7 +215,7 @@ In the command above,
 
 1. Enter the desired organization and project.
 
-1. Click **Create Free Cluster**.
+1. Click **+ Cluster**.
 
     ![create_serverless_dedicated_cluster_01](/img/create_serverless_dedicated_cluster_01.png)
 
