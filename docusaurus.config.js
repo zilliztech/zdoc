@@ -110,6 +110,28 @@ const config = {
                 })
               }
 
+              if (item.label === 'Security') {
+                item.items = item.items.map(subItem => {
+                  if (subItem.label === 'Access Control') {
+                    subItem.items.splice(1, 0, ...[
+                      {
+                        type: 'link',
+                        label: 'Manage Organization Roles',
+                        href: '/docs/organization-users#organization-roles'
+                      },
+                      {
+                        type: 'link',
+                        label: 'Manage Project Roles',
+                        href: '/docs/project-users#project-roles'
+                      },
+                    ])
+
+                  }
+
+                  return subItem;
+                })
+              }
+
               return item;
             })
 
