@@ -35,15 +35,13 @@ For more information, please refer to [Email Accounts](./email-accounts#update-a
 
 ### Why is my account locked and how to unlock it?{#why-is-my-account-locked-and-how-to-unlock-it}
 
-Your account will be locked after three failed login attempts.
+Your account will be locked after five failed login attempts.
 
 To unlock your account, you can choose one of the following methods.
 
-1. Wait for 1 hour for your account to be automatically unlocked.
+1. Wait for 15 minutes for your account to be unlocked.
 
 1. Reset your password if you forget it.
-
-1. [Submit a request](https://support.zilliz.com/hc/en-us) to unlock your account.
 
 ### How to unlink my account from Google?{#how-to-unlink-my-account-from-google}
 
