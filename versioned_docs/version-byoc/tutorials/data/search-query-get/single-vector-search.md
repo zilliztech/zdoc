@@ -16,10 +16,10 @@ keywords:
   - data
   - vector search
   - ann
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 
@@ -1099,7 +1099,7 @@ res = client.search(
     data=[query_vector],
     limit=3, # The number of results to return
     search_params={
-        params: {
+        "params": {
             # highlight-next-line
             "level": 10 # The precision control
         }
@@ -1217,7 +1217,7 @@ res = client.search(
     data=[query_vector],
     limit=3, # The number of results to return
     search_params={
-        params: {
+        "params": {
             # highlight-next-line
             "level": 10 # The precision control,
             "enable_recall_calculation": True # Ask to return recall rate

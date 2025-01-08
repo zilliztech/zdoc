@@ -16,10 +16,10 @@ keywords:
   - data
   - vector search
   - ann
-  - natural language processing database
-  - cheap vector database
   - Managed vector database
   - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -1099,7 +1099,7 @@ res = client.search(
     data=[query_vector],
     limit=3, # The number of results to return
     search_params={
-        params: {
+        "params": {
             # highlight-next-line
             "level": 10 # The precision control
         }
@@ -1217,7 +1217,7 @@ res = client.search(
     data=[query_vector],
     limit=3, # The number of results to return
     search_params={
-        params: {
+        "params": {
             # highlight-next-line
             "level": 10 # The precision control,
             "enable_recall_calculation": True # Ask to return recall rate
