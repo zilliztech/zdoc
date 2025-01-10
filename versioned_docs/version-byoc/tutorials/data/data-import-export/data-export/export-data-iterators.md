@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
@@ -246,6 +246,9 @@ The following code snippets demonstrate how to append the exported data into a f
 ```python
 import json
 from pymilvus import connections, Collection
+
+CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+TOKEN = "YOUR_CLUSTER_TOKEN"
 
 connections.connect(
     uri=CLUSTER_ENDPOINT,

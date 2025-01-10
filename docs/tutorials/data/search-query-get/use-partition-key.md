@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -311,6 +311,12 @@ In the multi-tenancy scenario, you can designate the scalar field related to ten
 As shown in the above figure, Zilliz Cloud groups entities based on the Partition Key value and creates a separate index for each of these groups. Upon receiving a search request, Zilliz Cloud locates the index based on the Partition Key value specified in the filtering condition and restricts the search scope within the entities included in the index, thus avoiding scanning irrelevant entities during the search and greatly enhancing the search performance.
 
 Once you have enabled Partition Key Isolation, you can include only a specific value in the Partition-key-based filter so that Zilliz Cloud can restrict the search scope within the entities included in the index that match.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Currently, the Partition-Key Isolation feature applies only to <strong>Performance-optimized</strong> clusters.</p>
+
+</Admonition>
 
 ### Enable Partition Key Isolation{#enable-partition-key-isolation}
 
