@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 
@@ -245,6 +245,14 @@ The following code snippets demonstrate how to append the exported data into a f
 
 ```python
 import json
+from pymilvus import connections, Collection
+
+connections.connect(
+    uri=CLUSTER_ENDPOINT,
+    token=TOKEN 
+)
+
+collection = Collection("quick_setup")
 
 # 6. Query with iterator
 
