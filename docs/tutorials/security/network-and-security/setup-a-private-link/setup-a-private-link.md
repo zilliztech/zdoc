@@ -18,10 +18,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 
@@ -36,7 +36,7 @@ To enable private client access to clusters on Zilliz Cloud, you must create an 
 
 The following figure demonstrates how it works.
 
-![private_link](/img/private_link.png)
+![BkbRwb8YhhqePCbZn2Kc8lWknNc](/img/BkbRwb8YhhqePCbZn2Kc8lWknNc.png)
 
 This guide walks you through setting up a private endpoint for a cluster.
 
