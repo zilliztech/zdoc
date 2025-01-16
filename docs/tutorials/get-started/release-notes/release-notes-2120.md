@@ -33,11 +33,13 @@ This release is compatible with **Milvus 2.4.x**.
 
 ## BYOC - A Brand New Solution for Data Security and Permission Control{#byoc-a-brand-new-solution-for-data-security-and-permission-control}
 
-As enterprise adoption of Zilliz Cloud continues to grow, more and more of them are concerned with the security and permission control of the our SaaS solution. Therefore, this release introduces a brand new Bring-Your-Own (BYOC) solution to meet their stringent requirements for data security and service quality in vector database services. This solution ensures:
+As enterprise adoption of Zilliz Cloud grows, more and more become concerned with data security governance and permission control. Therefore, this release introduces a brand new Bring-Your-Own (BYOC) solution to meet their stringent requirements for data security and service quality in vector database services. This solution ensures:
 
 - **Secure Communication**: Communication between the control and data planes now occurs exclusively over outbound port 443, ensuring a robust and secure connection.
 
 - **Optimized Permissions**: Deployment and operational tasks now require minimized, fine-grained permission settings, improving security and ease of management. Please take a look at the full permission list [here](/docs/byoc/permissions-in-roles).
+
+For more details, refer to [BYOC Overview](/docs/byoc/byoc-intro) and [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws).
 
 ## New Region Available: GCP us-central1 (lowa){#new-region-available-gcp-us-central1-lowa}
 
