@@ -4,7 +4,7 @@ slug: /release-notes-250
 sidebar_label: "Release Notes (Jan 18, 2024)"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud now officially supports the Bring-Your-Own-Cloud (BYOC) subscription plan. Additionally, we have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism. | Cloud"
+description: "Zilliz Cloud have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism. | Cloud"
 type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
 sidebar_position: 9
@@ -25,25 +25,11 @@ import Admonition from '@theme/Admonition';
 
 # Release Notes (Jan 18, 2024)
 
-Zilliz Cloud now officially supports the Bring-Your-Own-Cloud (BYOC) subscription plan. Additionally, we have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism.
+Zilliz Cloud have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism.
 
 ## Milvus Compatibility{#milvus-compatibility}
 
 This release is compatible with **Milvus 2.2.x** and **Milvus 2.3.x (Beta)**.
-
-## Bring Your Own Cloud{#bring-your-own-cloud}
-
-Today, we're thrilled to unveil the Zilliz Bring Your Own Cloud (BYOC) deployment model. This innovative approach offers you the best of both worlds: fully managed vector database services right in your own Virtual Private Cloud (VPC) for top level data security, with Zilliz expertly handling all operations and maintenance.
-
-In the rapidly evolving landscape of machine learning and artificial intelligence, one aspect that cannot be overlooked is the importance of security. For those who are facing stringent security and internal compliance demands, having tight control over your data is non-negotiable. The ideal solution is to store and manage all your data within your own Virtual Private Cloud (VPC). But here’s a key insight: the majority of today's vector database services are designed as SaaS, meaning both your control plane and data plane typically reside within your vendor's VPC, as shown below:
-
-![VbKXbqrLhoPaIrxDEVTcmeOzn0c](/img/VbKXbqrLhoPaIrxDEVTcmeOzn0c.png)
-
-Bring Your Own Cloud (BYOC) is a deployment model which sits somewhere between a SaaS cloud service and an on-premise deployment. For the data plane part, the vendor deploys their software in a VPC in the customer account. And for the control plane part, the vendor manages most of the administration for the customer:
-
-![NjzYboVmVoziKZxLu0vchbNunbh](/img/NjzYboVmVoziKZxLu0vchbNunbh.png)
-
-For more details of Zilliz Cloud BYOC, see *Ensuring Vector Data Security with Zilliz 'Bring Your Own Cloud' Option*.
 
 ## Data Import{#data-import}
 
