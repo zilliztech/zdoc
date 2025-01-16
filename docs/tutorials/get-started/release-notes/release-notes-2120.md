@@ -31,9 +31,9 @@ With this release, Zilliz Cloud introduces significant enhancements to improve s
 
 This release is compatible with **Milvus 2.4.x**. 
 
-## BYOC - Further Improved Security and Permission Control{#byoc-further-improved-security-and-permission-control}
+## BYOC - A Brand New Solution for Data Security and Permission Control{#byoc-a-brand-new-solution-for-data-security-and-permission-control}
 
-As enterprise adoption of Zilliz Cloud's BYOC (Bring Your Own Cloud) solution continues to grow, we have consistently introduced upgrades to meet their stringent requirements for data security and service quality in vector database services. The latest improvements include:
+As enterprise adoption of Zilliz Cloud continues to grow, more and more of them are concerned with the security and permission control of the our SaaS solution. Therefore, this release introduces a brand new Bring-Your-Own (BYOC) solution to meet their stringent requirements for data security and service quality in vector database services. This solution ensures:
 
 - **Secure Communication**: Communication between the control and data planes now occurs exclusively over outbound port 443, ensuring a robust and secure connection.
 
