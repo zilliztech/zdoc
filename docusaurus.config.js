@@ -721,14 +721,8 @@ const config = {
       }
     }
   ],
-  scripts: [
-    {
-      src: '/js/cookieconsent.js',
-      async: true,
-    },
-    '/js/zilliz.js',
-  ],
-  stylesheets: ['/css/cookieconsent.css'],
+  scripts: [],
+  stylesheets: [],
 };
 
 module.exports = config;
