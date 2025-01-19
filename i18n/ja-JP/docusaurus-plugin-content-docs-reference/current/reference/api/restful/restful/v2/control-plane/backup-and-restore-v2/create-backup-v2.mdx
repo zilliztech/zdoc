@@ -1,0 +1,28 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_positition: 94
+slug: /restful/create-backup-v2
+title: "Create backup | RESTful"
+description: "Back up the specified cluster or collection. Note that this API only applies to dedicated clusters. | RESTful"
+hide_table_of_contents: true
+sidebar_label: "Create backup"
+sidebar_custom_props: { badges: ['post']}
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "Create backup"
+  - "post"
+  - RESTful
+  - API
+---
+
+# Create backup
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="en-US" />
+
+export const specs = {"summary":"Create backup","deprecated":false,"description":"Back up the specified cluster or collection. Note that this API only applies to dedicated clusters.","x-i18n":{"zh-CN":{"summary":"创建备份","description":"本接口可为指定集群或 Collection 创建备份。仅适用于 Dedicated 集群。"}},"tags":["Backup & Restore (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}},{"name":"CLUSTER_ID","in":"path","description":"The ID of the cluster that needs to be backed up.","example":"inxx-xxxxxxxxxxxxxxx","required":true,"schema":{"type":"string"}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"backupType":{"type":"string","description":"The type of the resources to be backed up.","enum":["CLUSTER","COLLECTION"]},"dbCollections":{"type":"array","description":"The collections that need to be backed up.","items":{"type":"object","description":"The collection information.","properties":{"dbName":{"type":"string","description":"The name of the database containing the collections listed in the `collectionNames` field."},"collectionNames":{"type":"array","description":"The names of the collections to be backed up.","items":{"type":"string","description":"A collection name"}}}}}},"required":["backupType"]},"example":{"backupType":"COLLECTION","dbCollections":[{"collectionNames":["medium_articles"]}]}}}},"responses":{"200":{"description":"response","content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","type":"object","properties":{"code":{"type":"integer","description":"Response code"},"data":{"type":"object","properties":{"backupId":{"type":"string","description":"The ID of the backup that has been created.","example":"backupx_xxxxxxxxxxxxxxx"},"backupName":{"type":"string","description":"The name of the backup that has been created."},"jobId":{"type":"string","description":"The ID of the asynchronous job that has created this backup.","example":"job-xxxxxxxxxxxxxxxxxxxx"}}}}},{"x-tab-label":"failure","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"backupId":"backupx_xxxxxxxxxxxxxxx","backupName":"Dedicated_01","jobId":"job-xxxxxxxxxxxxxxxxxxxxxx"}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":21119,"message":"The apikey is illegal."}}}}}}},"security":[]}
+export const endpoint = "/v2/clusters/{CLUSTER_ID}/backups/create"
+export const method = "post"

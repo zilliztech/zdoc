@@ -30,7 +30,7 @@ const config = {
   // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'ja-JP'],
   },
 
   // future settings
@@ -354,6 +354,10 @@ const config = {
           href: 'https://zilliz.com'
         },
         items: [
+          {
+            type: 'localeDropdown',
+            position: 'right',
+          },
           {
             href: '/search',
             position: 'right',

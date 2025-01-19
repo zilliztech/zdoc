@@ -1,0 +1,107 @@
+---
+displayed_sidbar: pythonSidebar
+title: "to_dict() | Python | ORM"
+slug: /python/python/CollectionSchema-to_dict
+sidebar_label: "to_dict()"
+beta: false
+notebook: false
+description: "This operation converts a CollectionSchema object to a dictionary representation. | Python | ORM"
+type: docx
+token: GfTadfqhAo64XDxc643ci4Zwnwb
+sidebar_position: 4
+keywords: 
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - to_dict()
+  - python
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
+displayed_sidebar: pythonSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# to_dict()
+
+This operation converts a CollectionSchema object to a dictionary representation.
+
+## Request Syntax{#request-syntax}
+
+```python
+to_dict()
+```
+
+**PARAMETERS:**
+
+None
+
+**RETURN TYPE:**
+
+*dict*
+
+**RETURNS:**
+
+The dictionary representation of the collection schema.
+
+**EXCEPTIONS:**
+
+- **MilvusException**
+
+    This exception will be raised when any error occurs during this operation.
+
+## Examples{#examples}
+
+```python
+from pymilvus import CollectionSchema, FieldSchema, DataType  
+
+# Create field schemas
+primary_key = FieldSchema(
+    name="id",
+    dtype=DataType.INT64,
+    is_primary=True,
+)
+
+vector = FieldSchema(
+    name="vector",
+    dtype=DataType.FLOAT_VECTOR,
+    dim=768,
+)
+
+# Create a CollectionSchema with field schemas
+
+schema = CollectionSchema(
+    fields = [primary_key, vector]
+)
+
+# Call to_dict() to get a dictionary representation of the schema 
+
+schema_dict = schema.to_dict()  
+print(schema_dict)
+
+# Output
+# {'auto_id': False, 'description': '', 'fields': [{'name': 'id', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': False}, {'name': 'vector', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 768}}]}
+```
+
+## Related operations{#related-operations}
+
+The following operations are related to `to_dict()`:
+
+- [FieldSchema](./ORM-FieldSchema)
+
+- [DataType](./Collections-DataType)
+
+- [add_field()](./CollectionSchema-add_field)
+
+- [construct_from_dict()](./CollectionSchema-construct_from_dict)
+
+- [verify()](./CollectionSchema-verify)
+

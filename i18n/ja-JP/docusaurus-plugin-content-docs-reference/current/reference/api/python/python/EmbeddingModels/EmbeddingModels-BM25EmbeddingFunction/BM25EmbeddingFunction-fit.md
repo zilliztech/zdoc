@@ -1,0 +1,78 @@
+---
+displayed_sidbar: pythonSidebar
+title: "fit() | Python"
+slug: /python/python/BM25EmbeddingFunction-fit
+sidebar_label: "fit()"
+beta: false
+notebook: false
+description: "This operation fits various statistics that are required to calculate BM25 ranking score using the corpus given. | Python"
+type: docx
+token: Gj5bdBIMToImOvxXHIlcqFxjnTf
+sidebar_position: 4
+keywords: 
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - fit()
+  - python
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+displayed_sidebar: pythonSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# fit()
+
+This operation fits various statistics that are required to calculate BM25 ranking score using the corpus given.
+
+## Request syntax{#request-syntax}
+
+```python
+fit(
+    corpus: List[str], 
+)
+```
+
+**PARAMETERS:**
+
+- **corpus** (*string*)
+
+    A list of strings that represent the documents used to fit the model
+
+**RETURN TYPE:**
+
+*NoneType*
+
+**RETURNS:**
+
+None
+
+## Examples{#examples}
+
+```python
+from pymilvus.pymilvus.model.sparse.bm25.tokenizers import build_default_analyzer
+from pymilvus.pymilvus.model.sparse import BM25EmbeddingFunction
+
+# there are some built-in analyzers for several languages, now we use 'en' for English.
+analyzer = build_default_analyzer(language="en")
+
+corpus = [
+    "Artificial intelligence was founded as an academic discipline in 1956.",
+    "Alan Turing was the first person to conduct substantial research in AI.",
+    "Born in Maida Vale, London, Turing was raised in southern England.",
+]
+
+bm25_ef = BM25EmbeddingFunction(analyzer)
+
+# Fit the model on the corpus to get the statstics of the corpus.
+bm25_ef.fit(corpus)
+```

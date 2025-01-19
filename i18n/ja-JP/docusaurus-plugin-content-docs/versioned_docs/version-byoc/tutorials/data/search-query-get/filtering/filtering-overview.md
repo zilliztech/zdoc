@@ -1,0 +1,132 @@
+---
+title: "Filtering Explained | BYOC"
+slug: /filtering-overview
+sidebar_label: "Filtering Explained"
+beta: FALSE
+notebook: FALSE
+description: "Zilliz Cloud provides powerful filtering capabilities that enable precise querying of your data. Filter expressions allow you to target specific scalar fields and refine search results with different conditions. This guide explains how to use filter expressions in Zilliz Cloud clusters, with examples focused on query operations. You can also apply these filters in search and delete requests. | BYOC"
+type: origin
+token: AIb1wNAE3iiKVSk8MHAcVA4QnJb
+sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - collection
+  - data
+  - filter
+  - filtering expressions
+  - filtering
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# Filtering Explained
+
+Zilliz Cloud provides powerful filtering capabilities that enable precise querying of your data. Filter expressions allow you to target specific scalar fields and refine search results with different conditions. This guide explains how to use filter expressions in Zilliz Cloud clusters, with examples focused on query operations. You can also apply these filters in search and delete requests.
+
+## Basic operators{#basic-operators}
+
+Zilliz Cloud supports several basic operators for filtering data:
+
+- **Comparison Operators**: `==`, `!=`, `>`, `\<`, `>=`, and `<=` allow filtering based on numeric or text fields.
+
+- **Range Filters**: `IN` and `LIKE` help match specific value ranges or sets.
+
+- **Arithmetic Operators**: `+`, `-`, `*`, `/`, `%`, and `**` are used for calculations involving numeric fields.
+
+- **Logical Operators**: `AND`, `OR`, and `NOT` combine multiple conditions into complex expressions.
+
+### Example: Filtering by Color{#example-filtering-by-color}
+
+To find entities with primary colors (red, green, or blue) in a scalar field `color`, use the following filter expression:
+
+```python
+filter='color in ["red", "green", "blue"]'
+```
+
+### Example: Filtering JSON Fields{#example-filtering-json-fields}
+
+Zilliz Cloud allows referencing keys in JSON fields. For instance, if you have a JSON field `product` with keys `price` and `model`, and want to find products with a specific model and price lower than 1,850, use this filter expression:
+
+```python
+filter='product["model"] == "JSN-087" AND product["price"] < 1850'
+```
+
+### Example: Filtering Array Fields{#example-filtering-array-fields}
+
+If you have an array field `history_temperatures` containing the records of average temperatures reported by observatories since the year 2000, and want to find observatories where the temperature in 2009 (the 10th recorded ) exceeds 23°C, use this expression:
+
+```python
+filter='history_temperatures[10] > 23'
+```
+
+For more information on these basic operators, refer to [Basic Operators](./basic-filtering-operators).
+
+## Data type-specific operators{#data-type-specific-operators}
+
+Zilliz Cloud provides advanced filtering operators for specific data types, such as JSON, ARRAY, and VARCHAR fields.
+
+### JSON field-specific operators{#json-field-specific-operators}
+
+Zilliz Cloud offers advanced operators for querying JSON fields, enabling precise filtering within complex JSON structures:
+
+`JSON_CONTAINS(identifier, jsonExpr)`: Checks if a JSON expression exists in the field.
+
+```python
+# JSON data: {"tags": ["electronics", "sale", "new"]}
+filter='json_contains(tags, "sale")'
+```
+
+`JSON_CONTAINS_ALL(identifier, jsonExpr)`: Ensures all elements of the JSON expression are present.
+
+```python
+# JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+filter='json_contains_all(tags, ["electronics", "sale", "new"])'
+```
+
+`JSON_CONTAINS_ANY(identifier, jsonExpr)`: Filters for entities where at least one element exists in the JSON expression.
+
+```python
+# JSON data: {"tags": ["electronics", "sale", "new"]}
+filter='json_contains_any(tags, ["electronics", "new", "clearance"])'
+```
+
+For more details on JSON operators, refer to [JSON Operators](./json-filtering-operators).
+
+### ARRAY field-specific operators{#array-field-specific-operators}
+
+Zilliz Cloud provides advanced filtering operators for array fields, such as `ARRAY_CONTAINS`, `ARRAY_CONTAINS_ALL`, `ARRAY_CONTAINS_ANY`, and `ARRAY_LENGTH`, which allow fine-grained control over array data:
+
+`ARRAY_CONTAINS`: Filters entities containing a specific element.
+
+```python
+filter="ARRAY_CONTAINS(history_temperatures, 23)"
+```
+
+`ARRAY_CONTAINS_ALL`: Filters entities where all elements in a list are present.
+
+```python
+filter="ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])"
+```
+
+`ARRAY_CONTAINS_ANY`: Filters entities containing any element from the list.
+
+```python
+filter="ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])"
+```
+
+`ARRAY_LENGTH`: Filters based on the length of the array.
+
+```python
+filter="ARRAY_LENGTH(history_temperatures) < 10"
+```
+
+For more details on array operators, see [ARRAY Operators](./array-filtering-operators).
+

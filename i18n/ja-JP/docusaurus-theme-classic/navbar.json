@@ -1,0 +1,78 @@
+{
+  "logo.alt": {
+    "message": "Zilliz Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Support": {
+    "message": "サポート",
+    "description": "Navbar item with label Support"
+  },
+  "item.label.Log In": {
+    "message": "ログイン",
+    "description": "Navbar item with label Log In"
+  },
+  "item.label.Sign Up Free": {
+    "message": "無料登録",
+    "description": "Navbar item with label Sign Up Free"
+  },
+  "item.label.Cloud Guides": {
+    "message": "クラウドガイド",
+    "description": "Navbar item with label Cloud Guides"
+  },
+  "item.label.BYOC Guides": {
+    "message": "BYOCガイド",
+    "description": "Navbar item with label BYOC Guides"
+  },
+  "item.label.API & SDKs": {
+    "message": "API & SDKs",
+    "description": "Navbar item with label API & SDKs"
+  },
+  "item.label.Resources": {
+    "message": "資料",
+    "description": "Navbar item with label Resources"
+  },
+  "item.label.Use Cases": {
+    "message": "使用例",
+    "description": "Navbar item with label Use Cases"
+  },
+  "item.label.Pricing": {
+    "message": "価格",
+    "description": "Navbar item with label Pricing"
+  },
+  "item.label.RESTful API": {
+    "message": "RESTful API",
+    "description": "Navbar item with label RESTful API"
+  },
+  "item.label.Python SDK": {
+    "message": "Python SDK",
+    "description": "Navbar item with label Python SDK"
+  },
+  "item.label.Java SDK": {
+    "message": "Java SDK",
+    "description": "Navbar item with label Java SDK"
+  },
+  "item.label.Go SDK": {
+    "message": "Go SDK",
+    "description": "Navbar item with label Go SDK"
+  },
+  "item.label.Node.js SDK": {
+    "message": "Node.js SDK",
+    "description": "Navbar item with label Node.js SDK"
+  },
+  "item.label.Developers": {
+    "message": "開発者",
+    "description": "Navbar item with label Developers"
+  },
+  "item.label.Notebooks": {
+    "message": "Notebooks",
+    "description": "Navbar item with label Notebooks"
+  },
+  "item.label.Blogs": {
+    "message": "ブログ",
+    "description": "Navbar item with label Blogs"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}

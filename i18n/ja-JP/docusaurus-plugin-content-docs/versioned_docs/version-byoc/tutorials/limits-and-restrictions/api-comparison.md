@@ -1,0 +1,521 @@
+---
+title: "API Availability | BYOC"
+slug: /api-comparison
+sidebar_label: "API Availability"
+beta: FALSE
+notebook: FALSE
+description: "Zilliz Cloud operates slightly differently from Milvus in order to provide a better user experience. This article aims to clarify the differences between the two platforms in terms of APIs. | BYOC"
+type: origin
+token: DAk8w3GCJiuUTTkms6IcMtnAnMf
+sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - milvus
+  - api availability
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# API Availability
+
+Zilliz Cloud operates slightly differently from Milvus in order to provide a better user experience. This article aims to clarify the differences between the two platforms in terms of APIs.
+
+If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make some necessary changes to your legacy code.
+
+## Scenario-specific privileges{#scenario-specific-privileges}
+
+The table below provides a comparison of API availability across various service tiers. Note that the availability of the API for the [Bring Your Own Cloud (BYOC)](/docs/byoc/byoc-intro) solution is consistent with that of the **Standard and Enterprise** tiers.
+
+<table>
+   <tr>
+     <th><p><strong>Category</strong></p></th>
+     <th><p><strong>API</strong></p></th>
+     <th><p><strong>Console</strong></p></th>
+     <th><p><strong>Free</strong></p></th>
+     <th><p><strong>Serverless</strong></p></th>
+     <th><p><strong>Dedicated</strong></p></th>
+   </tr>
+   <tr>
+     <td rowspan="5"><p>Alias</p></td>
+     <td><p>alterAlias()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>createAlias()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>dropAlias()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>describeAlias()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>listAliases()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td rowspan="4"><p>Authentication</p></td>
+     <td><p>createCredential()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>deleteCredential()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>listCredUsers()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>updateCredential()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td rowspan="3"><p>BulkInsert</p></td>
+     <td><p>bulkInsert()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+   </tr>
+   <tr>
+     <td><p>getBulkInsertState()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>listBulkInsertTasks()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td rowspan="16"><p>Collection</p></td>
+     <td><p>getCollectionStatistics()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>createCollection()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>describeCollection()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>dropCollection()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>alterCollection()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>getLoadingProgress()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>getPersistentSgementInfo()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+   </tr>
+   <tr>
+     <td><p>getQuerySegmentInfo()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+   </tr>
+   <tr>
+     <td><p>getReplicas()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+   </tr>
+   <tr>
+     <td><p>insert()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>loadCollection()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>releaseCollection()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>showCollections()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>getLoadState()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>renameCollection()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>upsert()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td rowspan="3"><p>Database</p></td>
+     <td><p>ListDatabases</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>DropDatabase</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>CreateDatabase</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td rowspan="5"><p>Index</p></td>
+     <td><p>createIndex()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>describeIndex()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>dropIndex()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>getIndexBuildProgress()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>getIndexState()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td rowspan="6"><p>Management</p></td>
+     <td><p>getCompactionState()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>getCompactionStateWithPlan()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>getFlushState()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>getMetrics()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+   </tr>
+   <tr>
+     <td><p>loadBalance()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+   </tr>
+   <tr>
+     <td><p>manualCompact()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td rowspan="7"><p>Partition</p></td>
+     <td><p>createPartition()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>dropPartition()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>getPartitionStatistics()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>hasPartiotion()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>loadPartitions()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>releasePartitions()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>showPartitions()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>Search &amp; Query</p></td>
+     <td><p>search()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>query()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td rowspan="12"><p>Role-based access control (RBAC)</p></td>
+     <td><p>addUserToRole()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>createRole()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>dropRole()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>grantRolePrivilege()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+   </tr>
+   <tr>
+     <td><p>removeUserFromRole()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>revokeRolePrivilege()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+   </tr>
+   <tr>
+     <td><p>selectGrantForRole()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>selectGrantForRoleAndObject()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>selectRole()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>selectUser()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>grantPrivilegeV2()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>revokePrivilegeV2</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>System</p></td>
+     <td><p>getVersion()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>checkHealth()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+</table>
+
+## Related topics{#related-topics}
+
+- [Migrate from Milvus 1.x](./via-backup-files)
+
+- [AUTOINDEX Explained](./autoindex-explained)
+
+- [Select the Right CU](./cu-types-explained) 
+

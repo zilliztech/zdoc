@@ -1,0 +1,91 @@
+---
+title: "FAQ: Data Import | BYOC"
+slug: /faq-data-import
+sidebar_label: "FAQ: Data Import"
+beta: FALSE
+notebook: FALSE
+description: "This topic lists the possible issues that you may encounter while you import data on Zilliz Cloud and the corresponding solution. | BYOC"
+type: origin
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
+sidebar_position: 4
+
+---
+
+# FAQ: Data Import
+
+This topic lists the possible issues that you may encounter while you import data on Zilliz Cloud and the corresponding solution.
+
+## Contents
+
+- [Can I use session tokens when importing data from an object storage service?](#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)
+- [Can I bulk insert data into the Zilliz Cloud vector databases?](#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases)
+- [What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
+
+## FAQs
+
+
+
+
+### Can I use session tokens when importing data from an object storage service?{#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service}
+
+Yes. Based on your data security requirements, you can use session tokens when importing data from an object storage service. 
+
+1. Generate a session token.
+
+    - Amazon S3: [Using temporary credentials with AWS resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html).
+
+    - Google Cloud Storage: [Create short-lived credentials for a service account](https://cloud.google.com/iam/docs/create-short-lived-credentials-direct)
+
+    - Azure Blog Storage: [Create SAS tokens for storage containers](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/create-sas-tokens?view=doc-intel-4.0.0)
+
+1. Input the following session token information during data import.
+
+    - Amazon S3: `accessKeyId`, `secretAccessKey`, `sessionToken`
+
+    - Google Cloud Storage: `accessToken`
+
+    - Azure Blog Storage: `sasToken`
+
+### Can I bulk insert data into the Zilliz Cloud vector databases?{#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases}
+
+Yes. Please refer to [Data Import](./data-import) for more information.
+
+### What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
+
+To solve this problem, please follow the steps below.
+
+1. Upgrade to the latest version of Milvus NodeJS SDK which supports **channelOptions**.
+
+1. Add channelOptions manually.
+
+    ```javascript
+    const channelOptions: ChannelOptions = {
+    
+    // Send keepalive pings every 10 seconds, default is 2 hours.
+    
+    'grpc.keepalive_time_ms': 10 * 1000,
+    
+    // Keepalive ping timeout after 5 seconds, default is 20 seconds.
+    
+    'grpc.keepalive_timeout_ms': 5 * 1000,
+    
+    // Allow keepalive pings when there are no gRPC calls.
+    
+    'grpc.keepalive_permit_without_calls': 1,
+    
+    };
+    ```
+
+1. Initialize the client with the channelOptions.
+
+    ```javascript
+    import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+    
+    new MilvusClient({
+      address: 'your-zilliz-cloud-address',
+      ssl: true,
+      username: 'username',
+      password: 'your-pass',
+      channelOptions: channel options
+    })
+    ```
