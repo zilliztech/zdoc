@@ -1,6 +1,6 @@
 {
   "Was this page helpful?": {
-    "message": "Was this page helpful?"
+    "message": "このページは役に立ちましたか？"
   },
   "theme.NotFound.title": {
     "message": "ページが見つかりません",
@@ -355,5 +355,9 @@
   "theme.NotFound.button.search": {
     "message": "サーチ",
     "description": "The text of the button to go back to the home page"
+  },
+  "feedbackBox.feedback": {
+    "message": "このページは役に立ちましたか？",
+    "description": "Feedback box text"
   }
 }
