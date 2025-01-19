@@ -10,15 +10,19 @@ type: docx
 token: SiL3ds1HPo2bOxx4iWwcxgg8nvd
 sidebar_position: 2
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClient
   - node
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -179,7 +183,7 @@ new MilvusClient(config: ClientConfig)
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li>Set <strong>configOrAddress</strong> to your cluster endpoint. To find this information, refer to <a href="/docs/on-zilliz-cloud-console">On Zilliz Cloud Console</a>.</li>
+<li>Set <strong>configOrAddress</strong> to your cluster endpoint. You can find the relevant information in Cluster details on the Zilliz Cloud console.</li>
 </ul>
 
 </Admonition>

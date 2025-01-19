@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

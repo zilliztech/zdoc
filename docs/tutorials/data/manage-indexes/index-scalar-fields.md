@@ -14,6 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

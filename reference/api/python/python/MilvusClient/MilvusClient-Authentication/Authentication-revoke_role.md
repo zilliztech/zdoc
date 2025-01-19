@@ -9,6 +9,20 @@ description: "This operation revokes the role assigned to a user. | Python | Mil
 type: docx
 token: JJOId59ePoMLefxz1ChcBZ6inOh
 sidebar_position: 12
+keywords: 
+  - vector database
+  - IVF
+  - knn
+  - Image Search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - revoke_role()
+  - python
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: pythonSidebar
 
 ---

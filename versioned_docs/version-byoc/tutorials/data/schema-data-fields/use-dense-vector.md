@@ -15,6 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -89,7 +93,7 @@ In the example below, we add a vector field named `dense_vector` to store dense 
 ```python
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="http://localhost:19530")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 schema = client.create_schema(
     auto_id=True,
@@ -113,7 +117,7 @@ import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
+        .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
 
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
@@ -216,9 +220,8 @@ index_params = client.prepare_index_params()
 index_params.add_index(
     field_name="dense_vector",
     index_name="dense_vector_index",
-    index_type="IVF_FLAT",
-    metric_type="IP",
-    params={"nlist": 128}
+    index_type="AUTOINDEX",
+    metric_type="IP"
 )
 ```
 
@@ -231,13 +234,11 @@ import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 List<IndexParam> indexes = new ArrayList<>();
-Map<String,Object> extraParams = new HashMap<>();
-extraParams.put("nlist",128);
+
 indexes.add(IndexParam.builder()
         .fieldName("dense_vector")
-        .indexType(IndexParam.IndexType.IVF_FLAT)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
-        .extraParams(extraParams)
         .build());
 ```
 
@@ -252,10 +253,7 @@ const indexParams = {
     index_name: 'dense_vector_index',
     field_name: 'dense_vector',
     metric_type: MetricType.IP,
-    index_type: IndexType.IVF_FLAT,
-    params: {
-      nlist: 128
-    },
+    index_type: IndexType.AUTOINDEX
 };
 ```
 
@@ -269,8 +267,7 @@ export indexParams='[
             "fieldName": "dense_vector",
             "metricType": "IP",
             "indexName": "dense_vector_index",
-            "indexType": "IVF_FLAT",
-            "params":{"nlist": 128}
+            "indexType": "AUTOINDEX"
         }
     ]'
 ```
@@ -278,7 +275,7 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-In the example above, an index named `dense_vector_index` is created for the `dense_vector` field using the `IVF_FLAT` index type. The `metric_type` is set to `IP`, indicating that inner product will be used as the distance metric.
+In the example above, an index named `dense_vector_index` is created for the `dense_vector` field using the `AUTOINDEX` index type. The `metric_type` is set to `IP`, indicating that inner product will be used as the distance metric.
 
 Zilliz Cloud supports other metric types. For more information, refer to [Metric Types](./search-metrics-explained).
 
@@ -306,7 +303,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
+        .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
 
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
@@ -325,7 +322,7 @@ client.createCollection(requestCreate);
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
-    address: 'http://localhost:19530'
+    address: 'YOUR_CLUSTER_ENDPOINT'
 });
 
 await client.createCollection({

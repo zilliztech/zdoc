@@ -10,15 +10,19 @@ type: docx
 token: PNtoddjsMoYuqcxCWK4c3IWKnde
 sidebar_position: 1
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - node
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -43,6 +47,7 @@ This method has the following alternatives.
 
 ```javascript
 milvusClient.delete({
+   db_name: string,
    collection_name: string,
    ids: string[] | number[],
    partition_name?: string,
@@ -51,6 +56,10 @@ milvusClient.delete({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

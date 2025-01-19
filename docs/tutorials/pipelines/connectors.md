@@ -14,6 +14,10 @@ keywords:
   - cloud
   - connect
   - data
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

@@ -15,6 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

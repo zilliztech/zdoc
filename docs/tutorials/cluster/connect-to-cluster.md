@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

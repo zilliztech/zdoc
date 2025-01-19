@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

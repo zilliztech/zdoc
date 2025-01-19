@@ -9,10 +9,10 @@ token: GNR6fiDGqlnQ9BdWimJc9pnSnyl
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud

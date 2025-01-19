@@ -9,6 +9,20 @@ description: "A CollectionSchema instance represents the schema of a collection.
 type: docx
 token: WToudUwm4oVXeKxLg3jcj3IAnjh
 sidebar_position: 2
+keywords: 
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - CollectionSchema
+  - python
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: pythonSidebar
 
 ---

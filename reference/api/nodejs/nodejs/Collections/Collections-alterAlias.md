@@ -10,15 +10,19 @@ type: docx
 token: DXTLdtFCso7fo6xJHShc7XLpngh
 sidebar_position: 1
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
   - node
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: nodeSidebar
 
 ---
@@ -39,6 +43,7 @@ alterAlias(data): Promise<ResStatus>
 ```javascript
 milvusClient.alterAlias({
    alias: string,
+   db_name: string
    collection_name: string,
    timeout?: number
  })
@@ -69,6 +74,10 @@ milvusClient.alterAlias({
     </ul>
 
     </Admonition>
+
+- **db_name** (*str*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*str*) -
 

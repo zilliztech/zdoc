@@ -14,6 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

@@ -10,15 +10,19 @@ type: docx
 token: AudsdfQ5hoDyKKxXSowcb3S6nfb
 sidebar_position: 4
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - node
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: nodeSidebar
 
 ---
@@ -44,6 +48,7 @@ Using this request body, you can create a collection by simply setting the colle
 
 ```javascript
 milvusClient.createCollection({
+    db_name: string;
     collection_name: string;
     dimension: number;
     auto_id?: boolean;
@@ -61,6 +66,10 @@ milvusClient.createCollection({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database in which the collection is to be created.
 
 - **collection_name** (*string*) -
 

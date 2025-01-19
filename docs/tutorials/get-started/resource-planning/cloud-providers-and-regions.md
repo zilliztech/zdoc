@@ -14,6 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

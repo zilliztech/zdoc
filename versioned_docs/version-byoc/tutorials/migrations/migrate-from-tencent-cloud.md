@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

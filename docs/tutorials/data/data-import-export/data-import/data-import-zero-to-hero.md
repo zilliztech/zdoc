@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

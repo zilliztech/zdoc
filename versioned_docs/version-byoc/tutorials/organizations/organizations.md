@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

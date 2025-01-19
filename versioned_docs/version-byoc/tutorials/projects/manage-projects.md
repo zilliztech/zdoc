@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

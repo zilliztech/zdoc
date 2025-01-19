@@ -10,7 +10,6 @@ token: Ecwpw6cImiFV0gkkusgcQhvBnLe
 sidebar_position: 10
 keywords: 
   - zilliz
-  - byoc
   - milvus
   - vector database
   - api
@@ -21,6 +20,10 @@ keywords:
   - go
   - node
   - nodejs
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

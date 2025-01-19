@@ -19,6 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

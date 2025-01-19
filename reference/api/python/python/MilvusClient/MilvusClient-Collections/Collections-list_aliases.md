@@ -9,6 +9,20 @@ description: "This operation lists all existing aliases for a specific collectio
 type: docx
 token: Cpynd2OFJoIXhLx3dQNct7Wgn6f
 sidebar_position: 13
+keywords: 
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - list_aliases()
+  - python
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: pythonSidebar
 
 ---
@@ -74,12 +88,6 @@ A dictionary containing the list of aliases assigned to the specified collection
 - **db_name** (*str*) -
 
     The name of the database to which the specified collection belongs to.
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p>Currently, the database APIs are not available on Zilliz Cloud.</p>
-
-    </Admonition>
 
 **EXCEPTIONS:**
 

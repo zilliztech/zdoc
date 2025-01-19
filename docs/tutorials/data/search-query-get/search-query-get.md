@@ -15,6 +15,10 @@ keywords:
   - collection
   - data
   - DML
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

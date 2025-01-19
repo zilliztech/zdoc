@@ -9,6 +9,20 @@ description: "This operation releases the data of a specific collection from mem
 type: docx
 token: BA9edMrWMosYWFxwTBAcl2WOnff
 sidebar_position: 9
+keywords: 
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - releaseCollection()
+  - javaV2
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: javaSidebar
 
 ---

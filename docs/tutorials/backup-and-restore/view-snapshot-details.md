@@ -15,6 +15,10 @@ keywords:
   - backup
   - files
   - view
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

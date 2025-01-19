@@ -7,13 +7,17 @@ notebook: FALSE
 description: "Explanations about the common terms we use when discussing how to use Zilliz Cloud. | BYOC"
 type: origin
 token: L4qDwChWLi1Vy6kbt30cd7W4ntC
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - basics
   - milvus
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

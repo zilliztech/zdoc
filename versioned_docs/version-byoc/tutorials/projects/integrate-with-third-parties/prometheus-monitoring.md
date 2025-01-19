@@ -1,13 +1,13 @@
 ---
 title: "Integrate with Prometheus | BYOC"
 slug: /prometheus-monitoring
-sidebar_label: "Integrate with Prometheus"
+sidebar_label: "Prometheus"
 beta: FALSE
 notebook: FALSE
 description: "Prometheus is a monitoring system that collects metrics from configured targets at specified intervals, evaluates rule expressions, displays the results, and can trigger alerts based on specific conditions. | BYOC"
 type: origin
 token: Ex99woZlsico4FkfwxGckjRRnqf
-sidebar_position: 6
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
@@ -15,6 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

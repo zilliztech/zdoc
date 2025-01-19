@@ -16,6 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

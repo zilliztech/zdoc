@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

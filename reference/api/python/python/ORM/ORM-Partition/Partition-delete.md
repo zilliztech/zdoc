@@ -9,6 +9,20 @@ description: "This operation deletes entities from a partition with a boolean ex
 type: docx
 token: V9BidASNqoWYrmxo11ecuN99neg
 sidebar_position: 1
+keywords: 
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - delete()
+  - python
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
 ---

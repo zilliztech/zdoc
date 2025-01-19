@@ -14,6 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

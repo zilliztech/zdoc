@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 
@@ -43,9 +47,9 @@ Ensure:
 
 1. Enter the desired organization and project.
 
-1. Click **Create Free Cluster**.
+1. Click **Create Cluster**.
 
-    ![create_serverless_dedicated_cluster_01](/byoc/create_serverless_dedicated_cluster_01.png)
+    ![create-cluster-byoc](/byoc/create-cluster-byoc.png)
 
 1. On the **Create New Cluster** page, fill out the relevant parameters.
 

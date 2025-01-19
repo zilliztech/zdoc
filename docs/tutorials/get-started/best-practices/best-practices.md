@@ -14,6 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

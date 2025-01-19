@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

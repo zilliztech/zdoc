@@ -14,6 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

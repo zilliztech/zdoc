@@ -16,6 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

@@ -15,6 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - milvus
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

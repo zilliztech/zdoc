@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

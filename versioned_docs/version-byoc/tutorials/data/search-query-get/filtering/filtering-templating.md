@@ -2,7 +2,7 @@
 title: "Filter Templating | BYOC"
 slug: /filtering-templating
 sidebar_label: "Filter Templating"
-beta: FALSE
+beta: PUBLIC
 notebook: FALSE
 description: "In Zilliz Cloud, complex filter expressions with numerous elements, especially those involving non-ASCII characters like CJK characters, can significantly affect query performance. To address this, Zilliz Cloud introduces a filter expression templating mechanism designed to improve efficiency by reducing the time spent parsing complex expressions. This page explains using filter expression templating in search, query, and delete operations. | BYOC"
 type: origin
@@ -18,6 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

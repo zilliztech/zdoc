@@ -14,6 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

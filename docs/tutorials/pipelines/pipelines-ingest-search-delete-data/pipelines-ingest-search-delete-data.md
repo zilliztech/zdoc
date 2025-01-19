@@ -16,6 +16,10 @@ keywords:
   - ingest
   - search
   - delete
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

@@ -42,7 +42,7 @@ For more details, see [Select the Right CU](./cu-types-explained).
 
 ### What is a vCU? How does it get calculated?{#what-is-a-vcu-how-does-it-get-calculated}
 
-A vCU is a virtual compute unit used to measure the resources consumed by read operations (such as search and query) and write operations (such as insert, upsert, bulk insert, and delete). The data volume written or read will be converted from GB to vCUs.
+A vCU is a virtual compute unit used to measure the resources consumed by read operations (such as search and query) and write operations (such as insert, upsert, bulk insert, and delete). The data volume written or read will be converted from GB to vCUs. For details, refer to [Understand Cost](./understand-cost#serverless-clusters).
 
 ### How can I avoid expenses on unused clusters?{#how-can-i-avoid-expenses-on-unused-clusters}
 
@@ -68,17 +68,19 @@ To view your plan, choose a specific cluster under a project. Navigate to the **
 
 ### How many CUs do I need for a given collection?{#how-many-cus-do-i-need-for-a-given-collection}
 
-A Performance-optimized CU can serve 7.5 million 128-dimensional vectors or 1.5 million 768-dimensional vectors.
+- Performance-optimized CU: Supports up to 1.5 million 768-dimensional vectors.
 
-A Capacity-optimized CU can serve 25 million 128-dimensional vectors or 5 million 768-dimensional vectors.
+- Capacity-optimized CU: Supports up to 5 million 768-dimensional vectors.
 
-Since your collection's schema may differ from the ones in the simple guide above, we highly recommend you test the actual requirements against different CU types.
+- Extended-capacity CU: Supports up to 20 million 768-dimensional vectors.
+
+These estimates are based on vectors with primary keys only. Additional scalar fields like IDs or labels may reduce capacity. We recommend conducting your own tests for accurate assessment.
 
 ### Which type of CU should I pick?{#which-type-of-cu-should-i-pick}
 
-Select the Performance-optimized CU if you require high throughput and low latency for demanding use cases. Alternatively, choose the Capacity-optimized CU if your priority is to host large volumes of data with less concern for throughput and latency, as it offers a better balance of performance and cost. 
-
-For more information, please refer to [Select the Right CU](./cu-types-explained).
+Select the Performance-optimized CU if you instant search results and high concurrent traffic for real-time applications.
+Choose the Capacity-optimized CU if you need to handle large vector datasets while maintaining reliable search speeds.
+Opt for the Extended-capacity CU if you need to manage massive-scale datasets where optimizing total cost is prioritized over latency. Please [contact sales](https://zilliz.com/contact-sales) if you need Extended-capacity CU.
 
 ### What's the difference between Performance-optimized CU and Capacity-optimized CU?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
 

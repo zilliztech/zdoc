@@ -10,15 +10,19 @@ type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
 sidebar_position: 4
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
   - node
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ getLoadState(data): Promise<GetLoadStateResponse>
 
 ```javascript
 milvusClient.getLoadState({
+   db_name: string,
    collection_name: string,
    partition_names?: string[],
    timeout?: number
@@ -45,6 +50,10 @@ milvusClient.getLoadState({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

@@ -15,6 +15,10 @@ keywords:
   - collection
   - data
   - DML
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

@@ -15,6 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

@@ -9,6 +9,20 @@ description: "This operation creates an index for a specific collection. | Pytho
 type: docx
 token: B3n3db0idoia02xXxJfcONK8nRh
 sidebar_position: 2
+keywords: 
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - create_index()
+  - python
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 displayed_sidebar: pythonSidebar
 
 ---

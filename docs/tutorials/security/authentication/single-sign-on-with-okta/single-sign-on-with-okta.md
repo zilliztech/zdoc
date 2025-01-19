@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

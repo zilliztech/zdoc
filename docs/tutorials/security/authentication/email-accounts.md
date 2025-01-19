@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

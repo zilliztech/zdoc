@@ -9,10 +9,10 @@ token: WLCxfLtfylemvudOJa7cDBXdnsh
 sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud

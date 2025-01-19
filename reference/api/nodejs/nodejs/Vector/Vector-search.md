@@ -10,15 +10,19 @@ type: docx
 token: BIlNdgI2foFEaoxmn12cLO6Jndb
 sidebar_position: 5
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - node
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ search(data): Promise<ResStatus>
 
 ```javascript
 milvusClient.search({
+   db_name: string,
    collection_name: string,
    partition_names?: string[], 
    data: number[] | number[][], 
@@ -53,6 +58,10 @@ milvusClient.search({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

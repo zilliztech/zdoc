@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - clusters
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 
@@ -26,9 +30,37 @@ Zilliz Cloud allows you to migrate data between clusters, whether they are withi
 
 ## Considerations{#considerations}
 
-- For optimal performance, migrations from a higher plan tier to a lower one (e.g., **Dedicated** to **Serverless**, **Dedicated** to **Free**, **Free** to **Free** clusters) are not supported.
+- The table below shows the support for migration between different plan clusters.
 
-- For each migration task, you can select only one vector field from each source collection.
+    <table>
+       <tr>
+         <th rowspan="2"><p><strong>Source</strong></p></th>
+         <th colspan="3"><p><strong>Target</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>Free cluster</p></td>
+         <td><p>Serverless cluster</p></td>
+         <td><p>Dedicated cluster</p></td>
+       </tr>
+       <tr>
+         <td><p>Free cluster</p></td>
+         <td><p>Not supported</p></td>
+         <td><p>Refer to <a href="./manage-cluster#upgrade-plan">Manage Cluster</a></p></td>
+         <td><p>Refer to <a href="./manage-cluster#upgrade-plan">Manage Cluster</a></p></td>
+       </tr>
+       <tr>
+         <td><p>Serverless cluster</p></td>
+         <td><p>Not supported</p></td>
+         <td><p>Not supported</p></td>
+         <td><p>Supported</p></td>
+       </tr>
+       <tr>
+         <td><p>Dedicated cluster</p></td>
+         <td><p>Not supported</p></td>
+         <td><p>Not supported</p></td>
+         <td><p>Supported</p></td>
+       </tr>
+    </table>
 
 ## Before you start{#before-you-start}
 

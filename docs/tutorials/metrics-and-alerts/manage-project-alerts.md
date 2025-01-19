@@ -14,6 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

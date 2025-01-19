@@ -14,6 +14,10 @@ keywords:
   - cloud
   - notification
   - channels
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

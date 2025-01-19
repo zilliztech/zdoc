@@ -10,15 +10,19 @@ type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
 sidebar_position: 3
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
   - node
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ dropIndex(data): Promise<ResStatus>
 
 ```javascript
 milvusClient.dropPartition({
+    db_name: string,
     collection_name: string,
     field_name?: string,
     index_name?: string,
@@ -46,6 +51,10 @@ milvusClient.dropPartition({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

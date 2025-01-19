@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

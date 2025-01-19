@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

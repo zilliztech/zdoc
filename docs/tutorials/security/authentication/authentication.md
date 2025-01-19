@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

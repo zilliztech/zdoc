@@ -15,6 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

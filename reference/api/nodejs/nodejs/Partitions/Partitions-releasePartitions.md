@@ -10,15 +10,19 @@ type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
 sidebar_position: 7
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
   - node
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ releasePartitions(data): Promise<ResStatus>
 
 ```javascript
 milvusClient.releasePartitions({
+    db_name: string,
     collection_name: string,
     partition_names: string[],
     timeout?: number
@@ -45,6 +50,10 @@ milvusClient.releasePartitions({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

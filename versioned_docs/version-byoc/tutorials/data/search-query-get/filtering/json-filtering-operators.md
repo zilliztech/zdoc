@@ -18,6 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 
@@ -56,7 +60,7 @@ Imagine you have a collection of products, each with a `tags` field that contain
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new"]}
-filter = 'json_contains(tags, "sale")'
+filter = 'json_contains(product["tags"], "sale")'
 ```
 
 In this example, Zilliz Cloud will return all products where the `tags` field contains the element `"sale"`.
@@ -71,12 +75,12 @@ Continuing with the product tags scenario, if you want to find all products that
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
-filter = 'json_contains_all(tags, ["electronics", "sale", "new"])'
+filter = 'json_contains_all(product["tags"], ["electronics", "sale", "new"])'
 ```
 
 This query will return all products where the `tags` array contains all three specified elements: `"electronics"`, `"sale"`, and `"new"`.
 
-## JSON_COTAINS_ANY{#jsoncotainsany}
+## JSON_CONTAINS_ANY{#jsoncontainsany}
 
 The `json_contains_any` operator filters entities where at least one member of the JSON expression exists within the field. This is useful when you want to match entities based on any one of several possible values.
 

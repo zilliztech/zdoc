@@ -8,6 +8,16 @@ type: folder
 token: PohgfmtiBlwuPRdcACmc9JDZnve
 sidebar_position: 5
 sidebar_label: "Management"
+keywords: 
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Management
+  - javaV2
 displayed_sidebar: javaSidebar
 ---
 

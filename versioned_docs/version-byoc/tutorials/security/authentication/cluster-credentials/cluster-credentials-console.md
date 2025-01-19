@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - console
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 
@@ -26,7 +30,7 @@ Zilliz Cloud authenticates your identity using a cluster credential or an API ke
 
 A cluster credential consists of a username and password pair (`user:password`), utilized to authenticate and authorize your requests for cluster interaction.
 
-When setting up a cluster, Zilliz Cloud creates the default cluster user `db_admin` with the `Project Admin` role, granting full cluster access. The password of the default user will only be shown once during cluster creation, so it is crucial to note it down and securely store it in an appropriate location.
+When setting up a cluster, Zilliz Cloud creates the default cluster user `db_admin` with the `Admin` role, granting full cluster access. The password of the default user will only be shown once during cluster creation, so it is crucial to note it down and securely store it in an appropriate location.
 
 Beyond the default `db_admin` user, you can also [create](./cluster-users#create-a-cluster-user) more cluster users with corresponding password for authentication.
 

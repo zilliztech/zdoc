@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

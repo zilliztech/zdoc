@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

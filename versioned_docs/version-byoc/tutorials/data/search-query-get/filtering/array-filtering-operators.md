@@ -18,6 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

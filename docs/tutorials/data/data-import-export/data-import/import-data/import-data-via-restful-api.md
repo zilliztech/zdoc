@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

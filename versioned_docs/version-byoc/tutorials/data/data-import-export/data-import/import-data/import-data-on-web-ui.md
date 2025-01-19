@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - console
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

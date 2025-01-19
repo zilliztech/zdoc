@@ -8,6 +8,16 @@ type: folder
 token: M0pgf1TX3lTotndwA7Vc3gJsnAd
 sidebar_position: 2
 sidebar_label: "Client"
+keywords: 
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Client
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

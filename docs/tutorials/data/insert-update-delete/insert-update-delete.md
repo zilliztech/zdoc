@@ -15,6 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

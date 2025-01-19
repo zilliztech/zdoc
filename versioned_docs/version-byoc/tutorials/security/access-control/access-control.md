@@ -15,6 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

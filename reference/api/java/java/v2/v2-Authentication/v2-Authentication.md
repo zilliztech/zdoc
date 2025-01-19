@@ -8,6 +8,16 @@ type: folder
 token: U16KfBnGVlNp5edR7DycvFF1nfy
 sidebar_position: 1
 sidebar_label: "Authentication"
+keywords: 
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Authentication
+  - javaV2
 displayed_sidebar: javaSidebar
 ---
 

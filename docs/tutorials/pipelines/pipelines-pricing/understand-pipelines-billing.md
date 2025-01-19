@@ -14,6 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

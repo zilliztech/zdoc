@@ -7,7 +7,7 @@ notebook: FALSE
 description: "An ANN search finds vector embeddings most similar to specified vector embeddings. However, the search results may not always be correct. You can include filtering conditions in a search request so that Zilliz Cloud conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions. | Cloud"
 type: origin
 token: CpBbwcJ87irHp0k9oCSc2RNIn3d
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
@@ -16,6 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 
@@ -33,7 +37,7 @@ If a collection contains both vector embeddings and their metadata, you can filt
 
 ![QIeKwvDN1h7lTnb9iJ7cPubknrb](/img/QIeKwvDN1h7lTnb9iJ7cPubknrb.png)
 
-As shown in the above diagram, the search request carries `chunk like % red %` as the filtering condition, indicating that Zilliz Cloud should conduct the ANN search within all the entities that have the word `red` in the `chunk` field. Specifically, Zilliz Cloud does the following:
+As shown in the above diagram, the search request carries `chunk like "%red%"` as the filtering condition, indicating that Zilliz Cloud should conduct the ANN search within all the entities that have the word `red` in the `chunk` field. Specifically, Zilliz Cloud does the following:
 
 - Filter entities that match the filtering conditions carried in the search request.
 
@@ -69,8 +73,8 @@ The search request in the following code snippet carries a filtering condition a
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
@@ -103,8 +107,8 @@ import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
-        .token("root:Milvus")
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
@@ -149,8 +153,8 @@ func ExampleClient_Search_filter() {
         ctx, cancel := context.WithCancel(context.Background())
         defer cancel()
 
-        milvusAddr := "127.0.0.1:19530"
-        token := "root:Milvus"
+        milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+        token := "YOUR_CLUSTER_TOKEN"
 
         cli, err := client.New(ctx, &client.ClientConfig{
                 Address: milvusAddr,
@@ -191,8 +195,8 @@ func ExampleClient_Search_filter() {
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
@@ -213,8 +217,8 @@ const res = await client.search({
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \

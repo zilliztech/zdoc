@@ -9,6 +9,20 @@ description: "This operation in JinaEmbeddingFunction takes a list of text strin
 type: docx
 token: Yf9GddNheoKrFCxcUeYc7NHjnVb
 sidebar_position: 4
+keywords: 
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - \_\_call\_\_()
+  - python
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
 ---

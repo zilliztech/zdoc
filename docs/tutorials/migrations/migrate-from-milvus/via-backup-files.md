@@ -15,6 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

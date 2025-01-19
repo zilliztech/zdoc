@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

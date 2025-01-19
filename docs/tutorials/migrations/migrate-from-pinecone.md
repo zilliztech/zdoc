@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

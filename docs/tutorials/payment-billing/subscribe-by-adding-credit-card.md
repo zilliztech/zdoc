@@ -14,6 +14,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

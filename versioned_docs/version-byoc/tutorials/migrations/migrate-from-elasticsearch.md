@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

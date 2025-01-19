@@ -14,6 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

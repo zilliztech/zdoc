@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

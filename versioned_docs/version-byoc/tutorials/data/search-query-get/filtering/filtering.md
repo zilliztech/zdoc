@@ -4,10 +4,10 @@ slug: /filtering
 sidebar_label: "Filtering"
 beta: FALSE
 notebook: FALSE
-description: "This chapter explains how to perform filtering on scalar fields and applicable filtering operators and templates. | BYOC"
+description: "This chapter explains how to perform filtering on scalar fields and applicable filtering operators. | BYOC"
 type: origin
 token: ObdvwrXi9ia9i0kTLKUcCaYtnhd
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
@@ -17,6 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 
@@ -25,7 +29,7 @@ import Admonition from '@theme/Admonition';
 
 # Filtering
 
-This chapter explains how to perform filtering on scalar fields and applicable filtering operators and templates.
+This chapter explains how to perform filtering on scalar fields and applicable filtering operators.
 
 import DocCardList from '@theme/DocCardList';
 

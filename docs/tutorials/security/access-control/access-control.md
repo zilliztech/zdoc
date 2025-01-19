@@ -15,6 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

@@ -1,7 +1,7 @@
 ---
-title: "Basic ANN Search | Cloud"
+title: "Basic Vector Search | Cloud"
 slug: /single-vector-search
-sidebar_label: "Basic ANN Search"
+sidebar_label: "Basic Vector Search"
 beta: FALSE
 notebook: FALSE
 description: "Based on an index file recording the sorted order of vector embeddings, the Approximate Nearest Neighbor (ANN) search locates a subset of vector embeddings based on the query vector carried in a received search request, compares the query vector with those in the subgroup, and returns the most similar results. With ANN search, Zilliz Cloud provides an efficient search experience. This page helps you to learn how to conduct basic ANN searches. | Cloud"
@@ -16,6 +16,10 @@ keywords:
   - data
   - vector search
   - ann
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 
@@ -23,7 +27,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Basic ANN Search
+# Basic Vector Search
 
 Based on an index file recording the sorted order of vector embeddings, the Approximate Nearest Neighbor (ANN) search locates a subset of vector embeddings based on the query vector carried in a received search request, compares the query vector with those in the subgroup, and returns the most similar results. With ANN search, Zilliz Cloud provides an efficient search experience. This page helps you to learn how to conduct basic ANN searches.
 
@@ -66,8 +70,8 @@ In this section, you will learn how to conduct a single-vector search. The code 
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # 4. Single vector search
@@ -119,8 +123,8 @@ import io.milvus.v2.service.vector.response.SearchResp;
 import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
-        .token("root:Milvus")
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
     
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
@@ -165,8 +169,8 @@ func ExampleClient_Search_basic() {
     ctx, cancel := context.WithCancel(context.Background())
     defer cancel()
 
-    milvusAddr := "127.0.0.1:19530"
-    token := "root:Milvus"
+    milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+    token := "YOUR_CLUSTER_TOKEN"
 
     cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
         Address: milvusAddr,
@@ -203,8 +207,8 @@ func ExampleClient_Search_basic() {
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 // 4. Single vector search
@@ -230,8 +234,8 @@ console.log(res.results)
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
@@ -487,8 +491,8 @@ console.log(res.results)
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
@@ -682,8 +686,8 @@ console.log(res.results)
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
@@ -865,8 +869,8 @@ console.log(res.results)
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
@@ -1050,8 +1054,8 @@ res = await client.search({
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
@@ -1079,7 +1083,7 @@ This parameter ranges from `1` to `10` and defaults to `1`. Increasing the value
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>level</code>  parameter is still in <strong>Public Preview</strong>. If you cannot set it to a value greater than <code>5</code>, your cluster may not fully support this feature. As a workaround, you can set it to a value within the range from <code>0</code> to <code>5</code> instead, or contact us at support@zilliz.com.</p>
+<p>The <code>level</code>  parameter is still in <strong>Public Preview</strong>. If you cannot set it to a value greater than <code>5</code>, your cluster may not fully support this feature. As a workaround, you can set it to a value within the range from <code>1</code> to <code>5</code> instead, or contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
 
 </Admonition>
 
@@ -1095,7 +1099,7 @@ res = client.search(
     data=[query_vector],
     limit=3, # The number of results to return
     search_params={
-        params: {
+        "params": {
             # highlight-next-line
             "level": 10 # The precision control
         }
@@ -1163,8 +1167,8 @@ res = await client.search({
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
@@ -1197,7 +1201,7 @@ You can set `enable_recall_calculation` to `true`when you tweek the `level` para
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>enable_recall_calculation</code>  parameter is still in <strong>Public Preview</strong>, and you might not be able to use it due to compatibility issues. For any assistance, please contact us at support@zilliz.com.</p>
+<p>The <code>enable_recall_calculation</code>  parameter is still in <strong>Public Preview</strong>, and you might not be able to use it due to compatibility issues. For any assistance, please contact us at <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
 
 </Admonition>
 
@@ -1213,7 +1217,7 @@ res = client.search(
     data=[query_vector],
     limit=3, # The number of results to return
     search_params={
-        params: {
+        "params": {
             # highlight-next-line
             "level": 10 # The precision control,
             "enable_recall_calculation": True # Ask to return recall rate
@@ -1284,8 +1288,8 @@ res = await client.search({
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
@@ -1346,6 +1350,18 @@ AUTOINDEX considerably flattens the learning curve of ANN searches. However, the
     A single ANN search returns a maximum of 16,384 entities. Consider using search iterators if you need more entities to return in a single search.
 
     For details on search iterators, refer to [Search Iterator](./with-iterators).
+
+- Full-Text Search
+
+    Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings.
+
+    For details on full-text search, refer to [Full Text Search](./full-text-search).
+
+- Keyword Match
+
+    Keyword match in Milvus enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria.
+
+    For details on keyword match, refer to [Keyword Match](./text-match).
 
 - Use Partition Key
 

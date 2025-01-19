@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - migrations
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

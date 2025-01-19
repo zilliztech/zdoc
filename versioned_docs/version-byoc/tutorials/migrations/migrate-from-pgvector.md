@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - postgresql
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

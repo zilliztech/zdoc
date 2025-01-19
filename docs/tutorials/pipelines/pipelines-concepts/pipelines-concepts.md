@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - concepts
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

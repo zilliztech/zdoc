@@ -14,6 +14,10 @@ keywords:
   - cloud
   - pipelines
   - image data
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

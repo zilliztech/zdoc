@@ -16,6 +16,10 @@ keywords:
   - access control
   - rbac
   - users
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -44,8 +48,8 @@ The following example shows how to create a user with the username `user_1` and 
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 client.create_user(user_name="user_1", password="P@ssw0rd")
@@ -61,8 +65,8 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.CreateUserReq;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("http://localhost:19530")
-        .token("root:Milvus")
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
@@ -82,8 +86,8 @@ client.createUser(createUserReq);
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 await milvusClient.createUser({
@@ -97,8 +101,8 @@ await milvusClient.createUser({
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/users/create" \
@@ -176,8 +180,8 @@ The following example demonstrates how to grant the role `role_a` to the user `u
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 client.grant_role(user_name="user_1", role_name="role_a")
@@ -192,8 +196,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.GrantRoleReq;
 
-String CLUSTER_ENDPOINT = "http://localhost:19530";
-String TOKEN = "root:Milvus";
+String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+String TOKEN = "YOUR_CLUSTER_TOKEN";
 
 ConnectConfig connectConfig = ConnectConfig.builder()
     .uri(CLUSTER_ENDPOINT)
@@ -216,8 +220,8 @@ client.grantRole(grantRoleReq);
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 milvusClient.grantRole({
@@ -231,8 +235,8 @@ milvusClient.grantRole({
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/users/grant_role" \
@@ -345,8 +349,10 @@ client.revokeRole(RevokeRoleReq.builder()
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
-
+await client.revokeRole({
+    username: 'user_1',
+    roleName: 'role_a'
+});
 ```
 
 </TabItem>
@@ -384,8 +390,8 @@ The following example demonstrates how to drop the user `user_1`.
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # create a user
@@ -402,8 +408,8 @@ import io.milvus.v2.client.MilvusClientV2
 import io.milvus.v2.service.rbac.request.DropUserReq
 
 ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("http://localhost:19530")
-        .token("root:Milvus")
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
@@ -421,8 +427,8 @@ client.dropUser(dropUserReq);
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 milvusClient.deleteUser({
@@ -435,8 +441,8 @@ milvusClient.deleteUser({
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/users/drop" \

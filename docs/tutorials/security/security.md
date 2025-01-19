@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

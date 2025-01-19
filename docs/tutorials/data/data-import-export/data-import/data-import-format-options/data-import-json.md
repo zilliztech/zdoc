@@ -16,6 +16,10 @@ keywords:
   - milvus
   - format options
   - json
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

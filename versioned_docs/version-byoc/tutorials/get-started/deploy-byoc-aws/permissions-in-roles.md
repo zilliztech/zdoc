@@ -2,7 +2,7 @@
 title: "Permissions in Roles | BYOC"
 slug: /permissions-in-roles
 sidebar_label: "Permissions in Roles"
-beta: FALSE
+beta: PRIVATE
 notebook: FALSE
 description: "This page lists all IAM permissions that Zilliz Cloud requires to perform operations on your behalf. | BYOC"
 type: origin
@@ -16,6 +16,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

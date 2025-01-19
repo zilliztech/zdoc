@@ -14,6 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - milvus
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

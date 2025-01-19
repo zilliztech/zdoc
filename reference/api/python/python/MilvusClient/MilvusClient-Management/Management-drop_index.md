@@ -9,6 +9,20 @@ description: "This operation drops an index from a specific collection. | Python
 type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 4
+keywords: 
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - drop_index()
+  - python
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: pythonSidebar
 
 ---

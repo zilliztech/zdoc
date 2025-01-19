@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

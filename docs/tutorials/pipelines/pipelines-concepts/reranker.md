@@ -14,6 +14,10 @@ keywords:
   - cloud
   - concepts
   - rerankers
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 
@@ -38,6 +42,14 @@ When describing an object, we usually mention its attributes, such as size, weig
 
 You should include all schema-defined fields in the entities to insert. To make some of them optional, consider enabling dynamic field. For details, refer to [Dynamic Field](./enable-dynamic-field).
 
+- **Making them nullable or setting default values**
+
+    For details on how to make a field nullable or set the default value, refer to [Nullable & Default](./nullable-and-default).
+
+- **Enabling dynamic field**
+
+    For details on how to enable and use the dynamic field, refer to [Dynamic Field](./enable-dynamic-field).
+
 ## Primary key and AutoId{#primary-key-and-autoid}
 
 Similar to the primary field in a relational database, a collection has a primary field to distinguish an entity from others. Each value in the primary field is globally unique and corresponds to one specific entity. 
@@ -50,7 +62,7 @@ For more information, please refer to [Primary Field & AutoId](./primary-field-a
 
 ## Index{#index}
 
-Creating indexes on specific fields improves search efficiency. You are advised to create indexes for all the fields your service relies on, among which indexes on vector fields are mandatory. 
+Creating indexes on specific fields improves search efficiency. You are advised to create indexes for all the fields your service relies on, among which indexes on vector fields are mandatory.
 
 Unlike in Milvus, AUTOINDEX is the only applicable index type to the vector fields in collections on Zilliz Cloud. For more details, refer to [AUTOINDEX Explained](./autoindex-explained).
 
@@ -94,9 +106,15 @@ For more information about searches and queries, refer to the articles in the [S
 
 - [Query](./get-and-scalar-query)
 
+- [Full Text Search](./full-text-search)
+
+- [Text Match](./text-match)
+
 In addition, Zilliz Cloud also provides enhancements to improve search performance and efficiency. They are disabled by default, and you can enable and use them according to your service requirements. They are
 
 - [Use Partition Key](./use-partition-key)
+
+- [Use mmap](./use-mmap)
 
 ## Partition{#partition}
 
@@ -117,6 +135,10 @@ For details on how to set the shard number, refer to [Create Collection](./manag
 You can create aliases for your collections. A collection can have several aliases, but collections cannot share an alias. Upon receiving a request against a collection, Zilliz Cloud locates the collection based on the provided name. If the collection by the provided name does not exist, Zilliz Cloud continues locating the provided name as an alias. You can use collection aliases to adapt your code to different scenarios.
 
 For more details, refer to [Manage Aliases](./manage-aliases).
+
+## Function{#function}
+
+You can set functions for Zilliz Cloud to derive fields upon collection creation. For example, the full-text search function uses the user-defined function to derive a sparse vector field from a specific varchar field. For more information on full-text search, refer to [Full Text Search](./full-text-search).
 
 ## Consistency Level{#consistency-level}
 

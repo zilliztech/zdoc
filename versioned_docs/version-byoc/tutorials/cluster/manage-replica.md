@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

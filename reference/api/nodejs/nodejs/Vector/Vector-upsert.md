@@ -10,15 +10,19 @@ type: docx
 token: MErAdudCloVawFxpxoWcgqZonLc
 sidebar_position: 6
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - node
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ upsert(data): Promise<MutationResult>
 
 ```javascript
 milvusClient.upsert({
+   db_name: string,
    collection_name: string,
    data: RowData[],
    hash_keys: Number[],
@@ -47,6 +52,10 @@ milvusClient.upsert({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*str*) -
 

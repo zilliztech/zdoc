@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

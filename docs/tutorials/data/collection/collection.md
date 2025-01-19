@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - collection
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - pipelines
   - text data
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

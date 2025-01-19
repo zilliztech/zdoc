@@ -14,6 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

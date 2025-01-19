@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

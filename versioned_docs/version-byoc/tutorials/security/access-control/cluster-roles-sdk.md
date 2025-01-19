@@ -16,6 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
@@ -41,7 +45,7 @@ The following example demonstrates how to create a role named `role_a`.
 
 The role name must follow the following rule:
 
-- Must start with a letter and can only include uppercase or lowercase letters, numbers, and underscores."
+- Must start with a letter and can only include uppercase or lowercase letters, numbers, and underscores.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -157,7 +161,7 @@ Below is an example output. `role_a` is the new role that is just created.
 
 </Admonition>
 
-The following example demonstrates how to grant the built-in privilege group `COLL_ADMIN` to the role `role_a`.
+The following example demonstrates how to grant `role_a` read-only access to all collections in the `default` database and admin access to `collection_01`.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -166,8 +170,8 @@ The following example demonstrates how to grant the built-in privilege group `CO
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 client.grant_privilege_v2(
@@ -179,9 +183,9 @@ client.grant_privilege_v2(
 
 client.grant_privilege_v2(
     role_name="role_a",
-    privilege="ClusterReadOnly"
+    privilege="DatabaseReadOnly"
     collection_name='*'
-    db_name='*',
+    db_name='default',
 )
 ```
 
@@ -194,7 +198,7 @@ import "github.com/milvus-io/milvus-sdk-go/v2/client"
 
 client.GrantV2(context.Background(), "role_a", "collection_01", "COLL_ADMIN", entity.WithOperatePrivilegeDatabase("default"))
 
-client.GrantV2(context.Background(), "role_a", "*", "ClusterReadOnly", entity.WithOperatePrivilegeDatabase("*"))
+client.GrantV2(context.Background(), "role_a", "*", "DatabaseReadOnly", entity.WithOperatePrivilegeDatabase("default"))
 ```
 
 </TabItem>
@@ -213,9 +217,9 @@ client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 
 client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
         .roleName("role_a")
-        .privilege("ClusterReadOnly")
+        .privilege("DatabaseReadOnly")
         .collectionName("*")
-        .dbName("*")
+        .dbName("default")
         .build());
 ```
 
@@ -226,8 +230,8 @@ client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 await milvusClient.grantPrivilege({
@@ -260,9 +264,9 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "roleName": "role_a",
-    "privilege": "ClusterReadOnly",
+    "privilege": "DatabaseReadOnly",
     "collectionName": "*",
-    "dbName":"*"
+    "dbName":"default"
 }'
 
 ```
@@ -348,7 +352,7 @@ Below is an example output.
 
 ## Revoke a built-in privilege group from a role{#revoke-a-built-in-privilege-group-from-a-role}
 
-The following example demonstrates how to revoke the built-in privilege group `COLL_ADMIN` that have been granted to the role `role_a`.
+The following example demonstrates how to revoke the read-only access to all collections in the `default` database and admin access to `collection_01` from `role_a`.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -357,8 +361,8 @@ The following example demonstrates how to revoke the built-in privilege group `C
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
    
 client.revoke_privilege_v2(

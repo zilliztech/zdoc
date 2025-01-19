@@ -15,6 +15,10 @@ keywords:
   - collection
   - schema
   - json field
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
@@ -48,7 +52,7 @@ Here’s how to define a collection schema that includes a JSON field:
 ```python
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="http://localhost:19530")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 schema = client.create_schema(
     auto_id=False,
@@ -73,7 +77,7 @@ import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
+        .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
         
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
@@ -603,4 +607,6 @@ Additionally, Zilliz Cloud supports advanced JSON filtering operators such as `J
 - **Handling String Values**: For string values (`VARCHAR`), Zilliz Cloud stores JSON field strings as-is without semantic conversion. For example: `'a"b'`, `"a'b"`, `'a\'b'`, and `"a\"b"` are stored as entered; however, `'a'b'` and `"a"b"` are considered invalid.
 
 - **Handling Nested Dictionaries**: Any nested dictionaries within JSON field values are treated as strings.
+
+- **JSON Field Size Limit**: JSON fields are limited to 65,536 bytes.
 

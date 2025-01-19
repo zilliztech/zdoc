@@ -15,6 +15,10 @@ keywords:
   - pipelines
   - pricing
   - usage
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

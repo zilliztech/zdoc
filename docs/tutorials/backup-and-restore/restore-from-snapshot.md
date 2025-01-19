@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

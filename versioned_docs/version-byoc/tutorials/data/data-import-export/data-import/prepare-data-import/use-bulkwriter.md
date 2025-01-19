@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

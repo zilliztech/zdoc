@@ -8,6 +8,16 @@ type: folder
 token: KdfofBXCwlWnxOdG5cLcbbLgnLf
 sidebar_position: 1
 sidebar_label: "DataImport"
+keywords: 
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DataImport
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

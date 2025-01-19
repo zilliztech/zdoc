@@ -17,6 +17,10 @@ keywords:
   - rbac
   - users
   - overview
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 
@@ -41,7 +45,7 @@ To manage cluster users, you must be an **Organization Owner** or a **Project Ad
 
 When creating a cluster user, you need to:
 
-- Input the name of the user
+- Input the name of the user.
 
 - Grant this user either a built-in cluster role or [a custom cluster role](./cluster-roles).
 

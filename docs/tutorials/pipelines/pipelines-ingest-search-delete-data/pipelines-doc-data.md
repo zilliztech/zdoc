@@ -14,6 +14,10 @@ keywords:
   - cloud
   - pipelines
   - doc data
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

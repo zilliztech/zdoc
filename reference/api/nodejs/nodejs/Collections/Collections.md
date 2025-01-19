@@ -9,10 +9,10 @@ token: WKkof79XQltPmgdgU18c2tLUnOd
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud

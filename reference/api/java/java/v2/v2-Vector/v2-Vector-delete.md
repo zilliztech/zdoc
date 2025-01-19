@@ -9,6 +9,20 @@ description: "This operation deletes entities by their IDs or with a boolean exp
 type: docx
 token: NOX7dAR3zodEH3xinMecMjq5n4S
 sidebar_position: 1
+keywords: 
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - delete()
+  - javaV2
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: javaSidebar
 
 ---

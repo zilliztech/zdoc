@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - ips
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

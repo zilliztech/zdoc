@@ -15,6 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

@@ -14,6 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

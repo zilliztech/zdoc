@@ -14,6 +14,10 @@ keywords:
   - cloud
   - organization
   - alerts
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

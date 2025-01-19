@@ -96,4 +96,6 @@ Partitions are used to organize data based on certain criteria.
 
 The partition key groups entities by the same key and speed up query performance.
 
-The difference is that data are physically isolated in partitions while partition keys group data logically.
+The difference is that data are physically isolated in partitions while partition keys group data logically. 
+
+For details, refer to [Manage Partitions](./manage-partitions) and [Use Partition Key](./use-partition-key).

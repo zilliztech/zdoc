@@ -10,15 +10,19 @@ type: docx
 token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
 sidebar_position: 8
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
   - node
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -39,6 +43,8 @@ dropAlias(data): Promise<ResStatus>
 ```javascript
 milvusClient.dropAlias({
    alias: string,
+   db_name: string,
+   collection_name: string,
    timeout?: number
  })
 ```
@@ -52,6 +58,14 @@ milvusClient.dropAlias({
     The alias of a collection. 
 
     Before this operation, ensure that the alias exists. Otherwise, exceptions will occur.
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the specified collection.
+
+- **collection_name** (*string*) -
+
+    The name of the collection that the alias binds to.
 
 - **timeout** (*number*)  
 

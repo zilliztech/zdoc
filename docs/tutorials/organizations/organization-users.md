@@ -14,6 +14,10 @@ keywords:
   - cloud
   - organizations
   - users
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

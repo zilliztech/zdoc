@@ -8,6 +8,16 @@ type: folder
 token: ZA7LfYxQHltI94dGs2Fc62AvnSh
 sidebar_position: 7
 sidebar_label: "Vector"
+keywords: 
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Vector
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

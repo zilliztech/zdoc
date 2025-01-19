@@ -14,6 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

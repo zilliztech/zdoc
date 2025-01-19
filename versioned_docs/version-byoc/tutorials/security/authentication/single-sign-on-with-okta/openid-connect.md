@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

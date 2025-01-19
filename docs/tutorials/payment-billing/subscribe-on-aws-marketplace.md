@@ -14,6 +14,10 @@ keywords:
   - cloud
   - marketplace
   - aws
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

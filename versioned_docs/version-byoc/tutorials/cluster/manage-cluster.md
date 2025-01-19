@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

@@ -10,15 +10,19 @@ type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
 sidebar_position: 11
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
   - node
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,12 +42,17 @@ hasCollection(data): Promise<BoolResponse>
 
 ```javascript
 milvusClient.hasCollection({ 
+    db_name: string,
     collection_name: string,
     timeout?: number
 })
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*str*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*str*) -
 

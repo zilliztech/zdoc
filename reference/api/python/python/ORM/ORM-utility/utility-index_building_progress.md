@@ -9,6 +9,20 @@ description: "This operation returns the progress of the index-building process.
 type: docx
 token: OVfodiKa6o3qTGxadYicI975nhh
 sidebar_position: 21
+keywords: 
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - index_building_progress()
+  - python
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: pythonSidebar
 
 ---

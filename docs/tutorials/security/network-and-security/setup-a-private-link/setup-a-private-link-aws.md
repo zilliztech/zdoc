@@ -19,6 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
@@ -41,7 +45,7 @@ A private link is set up at the project level and is effective for all clusters 
 
 ## Before you start{#before-you-start}
 
-Make sure the following condition is met:
+Ensure that:
 
 - A Dedicated (Enterprise) cluster has been created. For information on how to create a cluster, see [Create Cluster](./create-cluster).
 

@@ -16,6 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

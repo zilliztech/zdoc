@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - pipelines
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

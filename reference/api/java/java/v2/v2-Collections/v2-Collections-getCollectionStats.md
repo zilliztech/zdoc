@@ -9,6 +9,20 @@ description: "This operation lists the statistics collected on a specific collec
 type: docx
 token: XgfcdpBWCof3pfxhUudcRZajnPc
 sidebar_position: 13
+keywords: 
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - getCollectionStats()
+  - javaV2
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: javaSidebar
 
 ---

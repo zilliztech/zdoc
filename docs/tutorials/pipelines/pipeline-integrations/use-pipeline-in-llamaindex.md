@@ -15,6 +15,10 @@ keywords:
   - pipelines
   - integration
   - llamaindex
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

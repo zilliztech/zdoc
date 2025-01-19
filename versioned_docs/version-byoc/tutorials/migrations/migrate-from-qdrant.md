@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

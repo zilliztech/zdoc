@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

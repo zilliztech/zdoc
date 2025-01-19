@@ -14,6 +14,10 @@ keywords:
   - cloud
   - vector field
   - index
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 
