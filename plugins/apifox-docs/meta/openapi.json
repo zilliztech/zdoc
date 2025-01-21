@@ -15749,7 +15749,7 @@
 														]
 													},
 													"consistencyLevel": {
-														"type": "integer",
+														"type": "string",
 														"description": "The consistency level of the collection.",
 														"x-i18n": {
 															"zh-CN": {
@@ -15757,11 +15757,12 @@
 															}
 														},
 														"enum": [
-															"STRONG",
-															"BOUNDED",
-															"<include target=\"milvus\">SESSION</include>",
-															"EVENTUALLY"
-														]
+															"Strong",
+															"Eventually",
+															"<include target=\"milvus\">Session</include>",
+															"Bounded"
+														],
+														"default": "Bounded"
 													},
 													"partitionsNum": {
 														"type": "integer",
@@ -28163,6 +28164,22 @@
 												"description": "一个 Partition 名称列表。设置此参数表示搜索仅限于指定的 Partition。否则，搜索会在 Collection 中搜索所有 Partition。"
 											}
 										}
+									},
+									"consistencyLevel": {
+										"type": "string",
+										"description": "The consistency level of the search operation. The value should be the same as the consistency level of the target collection.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "当前搜索操作的一致性级别。"
+											}
+										},
+										"enum": [
+											"Strong",
+											"Eventually",
+											"<include target=\"milvus\">Session</include>",
+											"Bounded"
+										],
+										"default": "Bounded"
 									}
 								},
 								"required": [
@@ -28804,6 +28821,22 @@
 												"description": "搜索结果中需要包含的字段列表。"
 											}
 										}
+									},
+									"consistencyLevel": {
+										"type": "string",
+										"description": "The consistency level of the search operation. The value should be the same as the consistency level of the target collection.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "当前搜索操作的一致性级别。"
+											}
+										},
+										"enum": [
+											"Strong",
+											"Eventually",
+											"<include target=\"milvus\">Session</include>",
+											"Bounded"
+										],
+										"default": "Bounded"
 									}
 								},
 								"required": [
