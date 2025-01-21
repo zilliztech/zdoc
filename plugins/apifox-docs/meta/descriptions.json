@@ -111,5 +111,12 @@
         "milvus": {
             "name": "Database (v2)"
         }
+    },
+    {
+        "name": "resource-group-v2",
+        "description": "This set of APIs provides a way to manage resource groups.",
+        "milvus": {
+            "name": "Resource Group (v2)"
+        }
     }
 ]
