@@ -5307,10 +5307,7 @@
 											"zh-CN": {
 												"description": "当前 Collection 中的 Partition 名称。\n如果指定，则从指定的 Partition 中删除数据。"
 											}
-										},
-										"x-include-target": [
-											"milvus"
-										]
+										}
 									}
 								},
 								"required": [
