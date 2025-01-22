@@ -1,8 +1,8 @@
 ---
-title: "Create S3 Bucket and Role | BYOC"
+title: "Create S3 Bucket and IAM Role | BYOC"
 slug: /create-bucket-and-role
-sidebar_label: "Create S3 Bucket and Role"
-beta: FALSE
+sidebar_label: "Create S3 Bucket and IAM Role"
+beta: PRIVATE
 notebook: FALSE
 description: "This page describes how to create and configure root storage for a Bring-Your-Own-Cloud (BYOC) project with proper permissions. | BYOC"
 type: origin
@@ -16,13 +16,17 @@ keywords:
   - IAM role
   - milvus
   - vector database
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Create S3 Bucket and Role
+# Create S3 Bucket and IAM Role
 
 This page describes how to create and configure root storage for a Bring-Your-Own-Cloud (BYOC) project with proper permissions.
 
@@ -58,7 +62,7 @@ In this step, you will create an S3 bucket on AWS for the BYOC project deploymen
 
 1. Go back to the **Zilliz Cloud console** and paste the bucket name in **Bucket** under **Storage settings**.
 
-    ![FXtmbiLCbo1zrwx9UICcNlItnvc](/byoc/FXtmbiLCbo1zrwx9UICcNlItnvc.png)
+    ![A032bxjnpoSChuxJiNCc5EEDnFe](/byoc/A032bxjnpoSChuxJiNCc5EEDnFe.png)
 
 ### Step 2: Create an IAM role to access the S3 bucket{#step-2-create-an-iam-role-to-access-the-s3-bucket}
 
@@ -101,7 +105,7 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to access the 
     }
     ```
 
-    ![A0xXblVM4okMYXxvXb9cxmIGnJf](/byoc/A0xXblVM4okMYXxvXb9cxmIGnJf.png)
+    ![W6vnbUhMeohadJxc3Rlc4NXbnbb](/byoc/W6vnbUhMeohadJxc3Rlc4NXbnbb.png)
 
 1. Click **Next** and skip adding permissions.
 
@@ -123,7 +127,7 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to access the 
 
 1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **Storage settings**. 
 
-    ![TITrbjjeYou1K9xwrvncTXaSnwd](/byoc/TITrbjjeYou1K9xwrvncTXaSnwd.png)
+    ![WOIHbocGko9GYzxiVVycHCLLnVb](/byoc/WOIHbocGko9GYzxiVVycHCLLnVb.png)
 
 ### Step 3: Add permissions{#step-3-add-permissions}
 

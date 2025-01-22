@@ -14,6 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

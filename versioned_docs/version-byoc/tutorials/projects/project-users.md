@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
@@ -54,7 +58,7 @@ Zilliz Cloud provides three project roles. These roles cannot be modified or del
        </tr>
     </table>
 
-- **Project Read-Writ**e: A Project Read-Write role has the privileges to view a project and manage itst resources (clusters, databases, collections).
+- **Project Read-Writ**e: A Project Read-Write role has the privileges to view a project and manage its resources (clusters, databases, collections).
 
     The following table lists the corresponding UI and API privileges of each project role.
 

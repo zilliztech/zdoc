@@ -15,6 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 
@@ -40,7 +44,9 @@ As shown in the diagram below, dense vectors are typically represented as contin
 
 ![RHlkwqC3Mh1tBSb7G3gcMc8PnUO](/byoc/RHlkwqC3Mh1tBSb7G3gcMc8PnUO.png)
 
-Sparse vectors can be generated using various methods, such as [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) (Term Frequency-Inverse Document Frequency) and [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) in text processing. Additionally, Zilliz Cloud offers convenient methods to help generate and process sparse vectors. For details, refer to Embeddings.
+Sparse vectors can be generated using various methods, such as [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) (Term Frequency-Inverse Document Frequency) and [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) in text processing. Additionally, Zilliz Cloud offers convenient methods to help generate and process sparse vectors. 
+
+For text data, Zilliz Cloud also provides full-text search capabilities, allowing you to perform vector searches directly on raw text data without using external embedding models to generate sparse vectors. For more information, refer to [Full Text Search](./full-text-search).
 
 After vectorization, the data can be stored in Zilliz Cloud for management and vector retrieval. The diagram below illustrates the basic process.
 
@@ -118,7 +124,7 @@ To use sparse vectors in Zilliz Cloud clusters, define a field for storing spars
 ```python
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="http://localhost:19530")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 client.drop_collection(collection_name="my_sparse_collection")
 
@@ -144,7 +150,7 @@ import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
+        .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
         
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
@@ -236,7 +242,7 @@ index_params.add_index(
     index_name="sparse_inverted_index",
     index_type="SPARSE_INVERTED_INDEX",
     metric_type="IP",
-    params={"drop_ratio_build": 0.2},
+    params={"inverted_index_algo": "DAAT_MAXSCORE"},
 )
 ```
 
@@ -250,7 +256,7 @@ import java.util.*;
 
 List<IndexParam> indexes = new ArrayList<>();
 Map<String,Object> extraParams = new HashMap<>();
-extraParams.put("drop_ratio_build", 0.2);
+extraParams.put("inverted_index_algo": "DAAT_MAXSCORE");
 indexes.add(IndexParam.builder()
         .fieldName("sparse_vector")
         .indexName("sparse_inverted_index")
@@ -271,7 +277,7 @@ const indexParams = await client.createIndex({
     metric_type: MetricType.IP,
     index_type: IndexType.SPARSE_WAND,
     params: {
-      drop_ratio_build: 0.2,
+      inverted_index_algo: 'DAAT_MAXSCORE',
     },
 });
 ```
@@ -287,7 +293,7 @@ export indexParams='[
             "metricType": "IP",
             "indexName": "sparse_inverted_index",
             "indexType": "SPARSE_INVERTED_INDEX",
-            "params":{"drop_ratio_build": 0.2}
+            "params":{"inverted_index_algo": "DAAT_MAXSCORE"}
         }
     ]'
 ```
@@ -297,11 +303,33 @@ export indexParams='[
 
 In the example above:
 
-- An index of type `SPARSE_INVERTED_INDEX` is created for the sparse vector. For sparse vectors, you can specify `SPARSE_INVERTED_INDEX` or `SPARSE_WAND`. For details, refer to xx.
+- `index_type`: The type of index to create for the sparse vector field. Valid Values:
 
-- For sparse vectors, `metric_type` only supports `IP` (Inner Product), used to measure the similarity between two sparse vectors. For more information on similarity, refer to [Metric Types](./search-metrics-explained).
+    - `SPARSE_INVERTED_INDEX`: A general-purpose inverted index for sparse vectors.
 
-- `drop_ratio_build` is an optional index parameter specifically for sparse vectors. It controls the proportion of small vector values excluded during index building. For example, with `{"drop_ratio_build": 0.2}`, the smallest 20% of vector values will be excluded during index creation, reducing computational effort during searches.
+    - `SPARSE_WAND`: A specialized index type supported in Milvus v2.5.3 and earlier.
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>From Milvus 2.5.4 onward, <code>SPARSE_WAND</code> is being deprecated. Instead, it is recommended to use <code>"inverted_index_algo": "DAAT_WAND"</code> for equivalency while maintaining compatibility.</p>
+
+        </Admonition>
+
+- `metric_type`: The metric used to calculate similarity between sparse vectors. Valid Values:
+
+    - `IP` (Inner Product): Measures similarity using dot product.
+
+    - `BM25`: Typically used for full-text search, focusing on textual similarity.
+
+        For further details, refer to [Metric Types](./search-metrics-explained) and [Full Text Search](./full-text-search).
+
+- `params.inverted_index_algo`: The algorithm used for building and querying the index. Valid values:
+
+    - `"DAAT_MAXSCORE"` (default): Optimized Document-at-a-Time (DAAT) query processing using the MaxScore algorithm. MaxScore provides better performance for high *k* values or queries with many terms by skipping terms and documents likely to have minimal impact. It achieves this by partitioning terms into essential and non-essential groups based on their maximum impact scores, focusing on terms that can contribute to the top-k results.
+
+    - `"DAAT_WAND"`: Optimized DAAT query processing using the WAND algorithm. WAND evaluates fewer hit documents by leveraging maximum impact scores to skip non-competitive documents, but it has a higher per-hit overhead. This makes WAND more efficient for queries with small *k* values or short queries, where skipping is more feasible.
+
+    - `"TAAT_NAIVE"`: Basic Term-at-a-Time (TAAT) query processing. While it is slower compared to `DAAT_MAXSCORE` and `DAAT_WAND`, `TAAT_NAIVE` offers a unique advantage. Unlike DAAT algorithms, which use cached maximum impact scores that remain static regardless of changes to the global collection parameter (avgdl), `TAAT_NAIVE` dynamically adapts to such changes.
 
 ### Create collection{#create-collection}
 
@@ -327,7 +355,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
+        .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
         
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
@@ -346,7 +374,7 @@ client.createCollection(requestCreate);
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
-    address: 'http://localhost:19530'
+    address: 'YOUR_CLUSTER_ENDPOINT'
 });
 
 await client.createCollection({
@@ -546,7 +574,7 @@ System.out.println(searchR.getSearchResults());
 <TabItem value='javascript'>
 
 ```javascript
-client.search({
+await client.search({
     collection_name: 'my_sparse_collection',
     data: {1: 0.2, 50: 0.4, 1000: 0.7},
     limit: 3,

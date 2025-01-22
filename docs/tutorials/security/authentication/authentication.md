@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

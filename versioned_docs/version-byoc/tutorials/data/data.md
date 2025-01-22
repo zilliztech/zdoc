@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

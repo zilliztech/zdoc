@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

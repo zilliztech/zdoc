@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

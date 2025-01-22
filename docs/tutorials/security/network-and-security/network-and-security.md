@@ -14,6 +14,10 @@ keywords:
   - cloud
   - network
   - security
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

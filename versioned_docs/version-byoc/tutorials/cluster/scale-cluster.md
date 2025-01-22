@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

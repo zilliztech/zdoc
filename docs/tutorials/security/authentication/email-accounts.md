@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

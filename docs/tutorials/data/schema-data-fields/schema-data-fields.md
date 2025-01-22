@@ -15,6 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

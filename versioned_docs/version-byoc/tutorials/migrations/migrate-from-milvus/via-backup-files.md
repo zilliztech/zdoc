@@ -15,6 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

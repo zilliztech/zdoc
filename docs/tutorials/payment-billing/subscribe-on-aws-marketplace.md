@@ -14,6 +14,10 @@ keywords:
   - cloud
   - marketplace
   - aws
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

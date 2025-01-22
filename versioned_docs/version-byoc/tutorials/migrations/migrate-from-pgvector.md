@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - postgresql
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

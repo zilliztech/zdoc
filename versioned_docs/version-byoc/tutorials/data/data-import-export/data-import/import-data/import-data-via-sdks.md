@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

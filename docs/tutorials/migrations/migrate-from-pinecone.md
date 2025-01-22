@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - milvus
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

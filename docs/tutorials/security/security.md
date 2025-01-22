@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

@@ -15,6 +15,10 @@ keywords:
   - pipelines
   - integration
   - llamaindex
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

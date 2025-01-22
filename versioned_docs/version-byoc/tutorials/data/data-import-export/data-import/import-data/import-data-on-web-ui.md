@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - console
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

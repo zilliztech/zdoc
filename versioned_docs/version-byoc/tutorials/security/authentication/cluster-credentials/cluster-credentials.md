@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

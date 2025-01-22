@@ -15,6 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 
@@ -44,7 +48,7 @@ Collections created using the method described in [Create Collection Instantly](
 ```python
 from pymilvus import MilvusClient
 
-client= MilvusClient(uri="http://localhost:19530")
+client= MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 client.create_collection(
     collection_name="my_dynamic_collection",
@@ -64,7 +68,7 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
+        .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
         
 CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
@@ -84,7 +88,7 @@ client.createCollection(createCollectionReq);
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const client = new Client({
-    address: 'http://localhost:19530'
+    address: 'YOUR_CLUSTER_ENDPOINT'
 });
 
 await client.createCollection({
@@ -247,8 +251,8 @@ console.log(res.insert_cnt)
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
@@ -371,8 +375,8 @@ res = await client.search({
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \

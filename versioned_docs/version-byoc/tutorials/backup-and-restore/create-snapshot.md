@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

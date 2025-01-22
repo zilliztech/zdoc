@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

@@ -19,6 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 
@@ -208,7 +212,7 @@ To disable public endpoints:
 
 ### Why does it always report `Name or service not known` when I ping the private link on GCP?{#why-does-it-always-report-name-or-service-not-known-when-i-ping-the-private-link-on-gcp}
 
-Check your DNS settings by referring to [Set up firewall rules and a DNS record](https://zilliz.com/doc/setup_private_link-gcp#Set-up-firewall-rules-and-a-DNS-record).
+Check your DNS settings by referring to [Set up firewall rules and a DNS record](./setup-a-private-link-gcp#set-up-firewall-rules-and-a-dns-record).
 
 - If the configuration is correct, when you ping your private link, you should see
 

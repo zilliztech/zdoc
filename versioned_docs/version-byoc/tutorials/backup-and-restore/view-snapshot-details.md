@@ -15,6 +15,10 @@ keywords:
   - backup
   - files
   - view
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

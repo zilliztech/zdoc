@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

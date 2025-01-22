@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Hybrid Search refers to a search method that conducts multiple ANN searches simultaneously, reranks multiple sets of results from these ANN searches, and ultimately returns a single set of results. Using Hybrid Search can enhance the search accuracy. Zilliz Cloud supports conducting Hybrid Search on a collection with multiple vector fields. | BYOC"
 type: origin
 token: WTsmwWdgOiKnwpkdZdScp093njh
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
@@ -16,6 +16,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 
@@ -99,8 +103,8 @@ from pymilvus import (
 )
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # Create schema
@@ -127,8 +131,8 @@ import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
-        .token("root:Milvus")
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
@@ -172,8 +176,8 @@ schema.addField(AddFieldReq.builder()
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 // Create a collection in customized setup mode
@@ -241,9 +245,11 @@ export schema='{
 </TabItem>
 </Tabs>
 
+During sparse vector searches, you can simplify the process of generating sparse embedding vectors by leveraging Full-Text Search capabilities. For more details, see [Full Text Search](./full-text-search).
+
 #### Create index{#create-index}
 
-After defining the collection schema, it is necessary to set up the vector indexes and the similarity metrics. In this example, an IVF_FLAT index is created for the dense vector field `dense`, and a SPARSE_INVERTED_INDEX is created for the sparse vector field `sparse`. 
+After defining the collection schema, it is necessary to set up the vector indexes and the similarity metrics. In this example, an index of the **AUTOINDEX** type is created for both the dense vector field `dense`, and the sparse vector field `sparse`. 
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -258,7 +264,7 @@ index_params = client.prepare_index_params()
 index_params.add_index(
     field_name="dense",
     index_name="dense_index",
-    index_type="IVF_FLAT",
+    index_type="AUTOINDEX",
     metric_type="IP",
     params={"nlist": 128},
 )
@@ -266,7 +272,7 @@ index_params.add_index(
 index_params.add_index(
     field_name="sparse",
     index_name="sparse_index",
-    index_type="SPARSE_INVERTED_INDEX",  # Index type for sparse vectors
+    index_type="AUTOINDEX",  # Index type for sparse vectors
     metric_type="IP",  # Currently, only IP (Inner Product) is supported for sparse vectors
     params={"drop_ratio_build": 0.2},  # The ratio of small vector values to be dropped during indexing
 )
@@ -285,7 +291,7 @@ denseParams.put("nlist", 128);
 IndexParam indexParamForDenseField = IndexParam.builder()
         .fieldName("dense")
         .indexName("dense_index")
-        .indexType(IndexParam.IndexType.IVF_FLAT)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
         .extraParams(denseParams)
         .build();
@@ -295,7 +301,7 @@ sparseParams.put("drop_ratio_build", 0.2);
 IndexParam indexParamForSparseField = IndexParam.builder()
         .fieldName("sparse")
         .indexName("sparse_index")
-        .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
         .extraParams(sparseParams)
         .build();
@@ -312,11 +318,11 @@ indexParams.add(indexParamForSparseField);
 ```javascript
 const index_params = [{
     field_name: "dense",
-    index_type: "IVF_FLAT",
+    index_type: "AUTOINDEX",
     metric_type: "IP"
 },{
     field_name: "sparse",
-    index_type: "SPARSE_INVERTED_INDEX",
+    index_type: "AUTOINDEX",
     metric_type: "IP"
 }]
 ```
@@ -331,14 +337,14 @@ export indexParams='[
             "fieldName": "dense",
             "metricType": "IP",
             "indexName": "dense_index",
-            "indexType":"IVF_FLAT",
+            "indexType":"AUTOINDEX",
             "params":{"nlist":128}
         },
         {
             "fieldName": "sparse",
             "metricType": "IP",
             "indexName": "sparse_index",
-            "indexType": "SPARSE_INVERTED_INDEX"
+            "indexType": "AUTOINDEX"
         }
     ]'
 ```
@@ -393,8 +399,8 @@ res = await client.createCollection({
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \

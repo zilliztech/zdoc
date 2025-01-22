@@ -14,6 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

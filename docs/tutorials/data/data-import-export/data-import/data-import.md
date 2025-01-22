@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

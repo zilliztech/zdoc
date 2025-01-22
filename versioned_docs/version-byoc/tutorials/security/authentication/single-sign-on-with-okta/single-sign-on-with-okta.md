@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

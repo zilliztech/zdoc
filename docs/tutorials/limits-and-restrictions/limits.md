@@ -14,6 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 
@@ -88,9 +92,9 @@ The following table lists the limits on the maximum number of users allowed in Z
    </tr>
 </table>
 
-## Clusters, CUs & vCUs{#clusters-cus-and-vcus}
+## Clusters{#clusters}
 
-### Clusters{#clusters}
+### Number of clusters{#number-of-clusters}
 
 The maximum number of clusters varies with your payment method and subscription plan.
 
@@ -98,7 +102,7 @@ The maximum number of clusters varies with your payment method and subscription 
 
     <table>
        <tr>
-         <th><p><strong>Subscription Plan</strong></p></th>
+         <th><p><strong>Cluster Plan</strong></p></th>
          <th><p><strong>Max number</strong></p></th>
          <th><p><strong>Remarks</strong></p></th>
        </tr>
@@ -118,7 +122,7 @@ The maximum number of clusters varies with your payment method and subscription 
 
     <table>
        <tr>
-         <th><p><strong>Subscription Plan</strong></p></th>
+         <th><p><strong>Cluster Plan</strong></p></th>
          <th><p><strong>Max number</strong></p></th>
          <th><p><strong>Remarks</strong></p></th>
        </tr>
@@ -145,7 +149,7 @@ A CU is the basic unit of compute resources used for parallel processing of data
 
 <table>
    <tr>
-     <th><p><strong>Subscription Plan</strong></p></th>
+     <th><p><strong>Cluster Plan</strong></p></th>
      <th><p><strong>Limits</strong></p></th>
      <th><p><strong>Remarks</strong></p></th>
    </tr>
@@ -173,16 +177,39 @@ A virtual compute unit (vCU) is used to measure the resources consumed by read o
 
 <table>
    <tr>
-     <th><p><strong>Subscription Plan</strong></p></th>
+     <th><p><strong>Cluster Plan</strong></p></th>
      <th><p><strong>Limits</strong></p></th>
    </tr>
    <tr>
      <td><p>Free</p></td>
-     <td><p>2.5 million vCU per month</p></td>
+     <td><p>2.5 million vCUs per month</p></td>
    </tr>
    <tr>
      <td><p>Serverless</p></td>
      <td><p>N/A</p></td>
+   </tr>
+</table>
+
+### Capacity{#capacity}
+
+The following table lists the limits on the capacity of each type of cluster plan.
+
+<table>
+   <tr>
+     <th><p><strong>Cluster Plan</strong></p></th>
+     <th><p><strong>Limits</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Free</p></td>
+     <td><p>5 GB per cluster (equivalent to 1 million 768-dim vectors per cluster)</p></td>
+   </tr>
+   <tr>
+     <td><p>Serverless</p></td>
+     <td><p>100 million 768-dim vectors per partition</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated (per CU)</p></td>
+     <td><p>Dedicated clusters in Zilliz Cloud have no capacity limits. Below is a quick reference for the capacities of Dedicated clusters with various CU types. For larger capacities, simply scale your Dedicated cluster. For details, refer to <a href="./scale-cluster">Scale Cluster</a>.</p><ul><li><p>Performance-optimized CU: 1.5 million 768-dim vectors per CU</p></li><li><p>Capacity-optimized CU: 5 million 768-dim vectors per CU</p></li><li><p>Extended-capacity CU: 20 million 768-dim vectors per CU</p></li></ul></td>
    </tr>
 </table>
 

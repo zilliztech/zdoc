@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

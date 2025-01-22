@@ -14,6 +14,10 @@ keywords:
   - cloud
   - index
   - manage
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

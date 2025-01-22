@@ -17,6 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -31,7 +35,7 @@ Zilliz Cloud provides powerful filtering capabilities that enable precise queryi
 
 Zilliz Cloud supports several basic operators for filtering data:
 
-- **Comparison Operators**: `==`, `!=`, `>`, `\<`, `>=`, and `<=` allow filtering based on numeric, text, or date fields.
+- **Comparison Operators**: `==`, `!=`, `>`, `\<`, `>=`, and `<=` allow filtering based on numeric or text fields.
 
 - **Range Filters**: `IN` and `LIKE` help match specific value ranges or sets.
 
@@ -57,36 +61,13 @@ filter='product["model"] == "JSN-087" AND product["price"] < 1850'
 
 ### Example: Filtering Array Fields{#example-filtering-array-fields}
 
-If you have an array field `history_temperatures` containing temperature records, and want to find observatories where the 10th recorded temperature exceeds 23°C, use this expression:
+If you have an array field `history_temperatures` containing the records of average temperatures reported by observatories since the year 2000, and want to find observatories where the temperature in 2009 (the 10th recorded ) exceeds 23°C, use this expression:
 
 ```python
 filter='history_temperatures[10] > 23'
 ```
 
 For more information on these basic operators, refer to [Basic Operators](./basic-filtering-operators).
-
-## Filter expression templates{#filter-expression-templates}
-
-When filtering using CJK characters, processing can be more complex due to their larger character sets and encoding differences. This can result in slower performance, especially with the `IN` operator.
-
-Zilliz Cloud introduces filter expression templating to optimize performance when working with CJK characters. By separating dynamic values from the filter expression, the query engine handles parameter insertion more efficiently.
-
-### Example{#example}
-
-To find individuals over the age of 25 living in either "北京" (Beijing) or "上海" (Shanghai), use the following template expression:
-
-```python
-filter = "age > 25 AND city IN ['北京', '上海']"
-```
-
-To improve performance, use this variation with parameters:
-
-```python
-filter = "age > {age} AND city in {city}",
-filter_params = {"age": 25, "city": ["北京", "上海"]}
-```
-
-This approach reduces parsing overhead and improves query speed. For more information, see [Filter Templating](./filtering-templating).
 
 ## Data type-specific operators{#data-type-specific-operators}
 

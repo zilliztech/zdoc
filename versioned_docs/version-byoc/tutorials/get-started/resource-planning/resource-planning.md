@@ -14,6 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

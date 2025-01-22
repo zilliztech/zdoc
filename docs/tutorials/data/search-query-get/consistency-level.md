@@ -7,7 +7,7 @@ notebook: FALSE
 description: "As a distributed vector database, Zilliz Cloud offers multiple levels of consistency to ensure that each node or replica can access the same data during read and write operations. Currently, the supported levels of consistency include Strong, Bounded, Eventually, and Session, with Bounded being the default level of consistency used. | Cloud"
 type: origin
 token: Xx9EwWtekinLZfkWKqic37dDnFb
-sidebar_position: 15
+sidebar_position: 16
 keywords: 
   - zilliz
   - vector database
@@ -15,6 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

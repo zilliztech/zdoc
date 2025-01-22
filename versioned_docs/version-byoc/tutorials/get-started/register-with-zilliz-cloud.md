@@ -14,6 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

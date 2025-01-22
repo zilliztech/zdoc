@@ -14,6 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

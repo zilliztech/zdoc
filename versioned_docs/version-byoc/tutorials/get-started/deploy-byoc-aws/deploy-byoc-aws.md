@@ -2,18 +2,22 @@
 title: "Deploy BYOC on AWS | BYOC"
 slug: /deploy-byoc-aws
 sidebar_label: "Deploy BYOC on AWS"
-beta: FALSE
+beta: PRIVATE
 notebook: FALSE
 description: "This page describes how to manually create a project in your Zilliz Cloud Bring-Your-Own-Cloud (BYOC) organization using the Zilliz Cloud console and custom AWS configurations. | BYOC"
 type: origin
 token: DsqzwjegpiYSdtk1k75c1zXsnZc
-sidebar_position: 5
+sidebar_position: 3
 keywords: 
   - zilliz
   - byoc
   - aws
   - milvus
   - vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
@@ -32,29 +36,13 @@ This page describes how to manually create a project in your Zilliz Cloud Bring-
 
 To deploy BYOC on AWS, Zilliz Cloud needs to assume specific roles to access the S3 bucket and the EKS cluster within a customer-managed VPC on your behalf. Consequently, Zilliz Cloud needs to gather information about your S3 bucket, EKS cluster, and VPC, along with the roles necessary for accessing these infrastructure resources.
 
-There are two options for you to provision the infrastructure for your BYOC project. You can either
-
-- Use a Terraform script to provision the infrastructure, or 
-
-    If you prefer to use a Terraform script to provision the infrastructure, you still need to copy and paste the script output back to Zilliz Cloud. For details, see [Bootstrap Project Infrastructure (Terraform)](./bootstrap-infrastructure-terraform). 
-
-- Use the AWS console to create necessary resources and roles.
-
-    The following procedure is designed to use the Zilliz Cloud console to collect the necessary information about your infrastructure. 
-
-    Go to the [Zilliz Cloud console](https://cloud.zilliz.com) and click **Create Project and Deploy Data Plane**. The procedure consists of three sections, namely 
-
-    - [General Settings](./deploy-byoc-aws#general-settings),
-
-    - [Credential Settings](./deploy-byoc-aws#credential-settings), and
-
-    - [Network Settings](./deploy-byoc-aws#network-settings).
+Click the **Create Project and Deploy Data Plane** button to start the deployment.
 
 ### General Settings{#general-settings}
 
-In **General Settings**, you need to set the project name, determine the cloud providers and regions, and determine the types of instances used in the project.
+In **General Settings**, you need to set the project name, determine the cloud providers and regions, and choose the way for Zilliz Cloud to create the project and deploy the data plane.
 
-![MEHmb9TPgoUmP8xgXV3cQvhrnNa](/byoc/MEHmb9TPgoUmP8xgXV3cQvhrnNa.png)
+![Qc2UbbhE7oE7DQxtPvZca6t5ngb](/byoc/Qc2UbbhE7oE7DQxtPvZca6t5ngb.png)
 
 1. Set **Project Name**.
 
@@ -66,33 +54,57 @@ In **General Settings**, you need to set the project name, determine the cloud p
 
     For details, see [Instance Settings](./deploy-byoc-aws#instance-settings).
 
-1. Click **Next** to configure credentials settings.
+1. Choose the way for Zilliz Cloud to carry on the task in **Deploy Method**.
+
+    There are three options for you to provision the infrastructure for your BYOC project on AWS. You can either
+
+    - **Use AWS CloudFormation to provision the infrastructure.**
+
+        If you prefer to use AWS CloudFormation to provision the data plane infrastructure for the project, select the **Quickstart** tile in the **Deploy Method** section. This is also the recommended method for starting a BYOC project.
+
+        If you decide to use AWS CloudFormation, click **Next**, and you will be prompted with the following dialog box to choose whether to deploy the project to a new VPC or an existing VPC.
+
+        ![EWCsb9An2oM6dkxjCuOcM5hRnCe](/byoc/EWCsb9An2oM6dkxjCuOcM5hRnCe.png)
+
+        Then, you can click **Create Stack with CloudFormation** to start deploying the project.
+
+    - **Use a Terraform script to provision the infrastructure.**
+
+        If you prefer to use a Terraform script to provision the infrastructure, you need to copy and paste the script output back to Zilliz Cloud. For details, see [Bootstrap Project Infrastructure (Terraform)](./bootstrap-infrastructure-terraform). 
+
+        Note that you still need to fill in the information the Terraform script returns back to the Zilliz Cloud console, as specified in [Credential Settings](./deploy-byoc-aws#credential-settings) and [Network Settings](./deploy-byoc-aws#network-settings).
+
+    - **Use the AWS console to create necessary resources and roles.**
+
+        You need to create necessary resources, such as a storage bucket and several IAM roles, on the AWS console. Then, copy and paste their names and IDs back to the Zilliz Cloud console. If you prefer to create the project this way, select the **Manually** tile in the **Deploy Method** section and click **Next**. 
+
+        Zilliz Cloud splits the process into [Credential Settings](./deploy-byoc-aws#credential-settings) and [Network Settings](./deploy-byoc-aws#network-settings) to facilitate your configurations, 
 
 ### Credential Settings{#credential-settings}
 
 In **Credential Settings**, you must set up the storage and several IAM roles for storage access, EKS cluster management, and data-plane deployment.
 
-![IAFtba9Ojoha3Lx7Hnbc0g9Znud](/byoc/IAFtba9Ojoha3Lx7Hnbc0g9Znud.png)
+![LEGhbUbZwoPdwSx1PjxcHBjQnab](/byoc/LEGhbUbZwoPdwSx1PjxcHBjQnab.png)
 
-1. Follow the steps listed to configure storage, EKS, and cross-account settings.
+1. Follow the steps listed below to configure storage, EKS, and cross-account settings.
 
     1. In **Storage settings**, set **Bucket Name** and **IAM Role ARN** obtained from AWS. 
 
         Zilliz Cloud will use the specified bucket as the data-plane storage and access it on your behalf using the specified IAM role.
 
-         For more on the procedure for creating an S3 bucket, read [Create S3 Bucket and Role](./create-bucket-and-role). 
+         For more on the procedure for creating an S3 bucket, read [Create S3 Bucket and IAM Role](./create-bucket-and-role). 
 
     1. In **EKS Settings**, set **IAM Role ARN** for EKS management. 
 
         Zilliz Cloud will use the specified role to deploy an EKS cluster on your behalf and deploy the data plane in the EKS cluster.
 
-        For more on the procedure for creating an EKS role, read [Create an EKS](./create-eks-role).
+        For more on the procedure for creating an EKS role, read [Create EKS IAM Role](./create-eks-role).
 
     1. In **Cross-Account Settings**, set **IAM Role ARN** for data-plane deployment.
 
         Zilliz Cloud will use the specified role to deploy the data plane of the Zilliz Cloud BYOC project. 
 
-        For more on the procedure for creating the cross-account role, read [Create an IAM Role for BYOC Deployment](./create-cross-account-role).
+        For more on the procedure for creating the cross-account role, read [Create Cross-Account IAM Role](./create-cross-account-role).
 
 1. Click **Next** to configure network settings.
 
@@ -100,7 +112,7 @@ In **Credential Settings**, you must set up the storage and several IAM roles fo
 
 In Network Settings, you need to create a VPC and several types of resources, such as subnets, security group, and optional VPC endpoint in the VPC.
 
-![NwhNbLBsyo0A1gxyjQxcdz4In8f](/byoc/NwhNbLBsyo0A1gxyjQxcdz4In8f.png)
+![NeKmbmKVhoNWcOx18IjcC1eLnDb](/byoc/NeKmbmKVhoNWcOx18IjcC1eLnDb.png)
 
 1. In **Network Settings**, set the **VPC ID**, **Subnet IDs**, the **Security Group ID**, and the optional **VPC endpoint ID**.
 
@@ -124,7 +136,7 @@ In Network Settings, you need to create a VPC and several types of resources, su
 
 During the project deployment, Zilliz Cloud creates the fundamental database components and core support services. When the project is ready, you can create clusters in the project. At this point, Zilliz Cloud creates instances for search services on your behalf. 
 
-![OgfRbJJSroelpqx0ACIc3VjxnNh](/byoc/OgfRbJJSroelpqx0ACIc3VjxnNh.png)
+![ZDOjbRWDboqYxSxrfujcjw9tn7f](/byoc/ZDOjbRWDboqYxSxrfujcjw9tn7f.png)
 
 You need to determine the types of instances to create for each component listed below during the deployment. 
 
@@ -165,7 +177,7 @@ If the instance settings are left unconfigured, the default settings listed abov
 
 After you create a project, you can view its status on the project page.
 
-![Oe2zbx6qnoSE8cxax79c1OBRnXf](/byoc/Oe2zbx6qnoSE8cxax79c1OBRnXf.png)
+![Wstab2JghoTZ51xdSFQc2JHknJb](/byoc/Wstab2JghoTZ51xdSFQc2JHknJb.png)
 
 
 

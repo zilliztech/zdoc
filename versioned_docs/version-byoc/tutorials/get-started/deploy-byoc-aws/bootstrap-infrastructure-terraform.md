@@ -2,7 +2,7 @@
 title: "Bootstrap Infrastructure (Terraform) | BYOC"
 slug: /bootstrap-infrastructure-terraform
 sidebar_label: "Bootstrap Infrastructure (Terraform)"
-beta: FALSE
+beta: PRIVATE
 notebook: FALSE
 description: "This page demonstrates how to use Terraform to bootstrap the infrastructure for a Zilliz Cloud BYOC project, including creating an S3 bucket, all related roles, and a qualified VPC. | BYOC"
 type: origin
@@ -15,6 +15,10 @@ keywords:
   - terraform
   - milvus
   - vector database
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 
@@ -36,7 +40,7 @@ This page demonstrates how to use Terraform to bootstrap the infrastructure for 
 In this step, you will use the following command to clone and pull the script repository.
 
 ```shell
-$ git clone https://github.com/zilliztech/paas-deploy.git
+$ git clone https://github.com/zilliztech/zilliz-byoc-prepare.git
 ```
 
 ## Prepare the credentials{#prepare-the-credentials}

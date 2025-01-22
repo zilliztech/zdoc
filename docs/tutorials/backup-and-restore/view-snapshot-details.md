@@ -15,6 +15,10 @@ keywords:
   - backup
   - files
   - view
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - index
   - manage
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

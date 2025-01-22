@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

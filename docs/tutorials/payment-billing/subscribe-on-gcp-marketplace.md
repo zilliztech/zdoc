@@ -14,6 +14,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

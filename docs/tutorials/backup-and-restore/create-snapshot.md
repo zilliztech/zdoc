@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

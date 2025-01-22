@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - ips
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

@@ -7,13 +7,17 @@ notebook: FALSE
 description: "Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance. This page helps you understand how Zilliz Cloud uses mmap to enable fast and efficient data storage and retrieval. | Cloud"
 type: origin
 token: P3wrwSMNNihy8Vkf9p6cTsWYnTb
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
   - cloud
   - mmap
   - search optimization
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -26,7 +30,10 @@ Memory mapping (Mmap) enables direct memory access to large files on disk, allow
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is still in <strong>Public Preview</strong>. If you have encountered any issue regarding this feature, please contact us at support@zilliz.com.</p>
+<ul>
+<li><p>This feature is still in <strong>Public Preview</strong>. If you have encountered any issues regarding this feature, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p></li>
+<li><p>When migrating or restoring data between source and target clusters that have different plans, the Mmap settings of the source collection will not be migrated to the target cluster. Please manually reconfigure the MMAP settings on the target cluster.</p></li>
+</ul>
 
 </Admonition>
 
@@ -139,9 +146,7 @@ client.alter_collection_field(
 )
 ```
 
-When loading the collection created using the above schema, Zilliz Cloud memory-maps the raw data of the **doc_chunk** field.
-
-To make changes to field-specific mmap settings, you need to drop the collection and create another one with new settings.
+When loading the collection created using the above schema, Zilliz Cloud memory-maps the raw data of the **doc_chunk** field. Note that you need to release the collection to make changes to the mmap settings of a field and load the collection again after the change.
 
 ### Configure mmap for scalar indexes{#configure-mmap-for-scalar-indexes}
 
@@ -176,7 +181,5 @@ client.alter_index_properties(
 )
 ```
 
-When loading the collection created using the above index parameters, Zilliz Cloud loads the index of the **title** field into memory.
-
-To make changes to index-specific mmap settings, you need to remove the index and create another index with new settings.
+When loading the collection created using the above index parameters, Zilliz Cloud loads the index of the **title** field into memory. Note that you need to release the collection to make changes to the mmap settings of a field and load the collection again after the change.
 

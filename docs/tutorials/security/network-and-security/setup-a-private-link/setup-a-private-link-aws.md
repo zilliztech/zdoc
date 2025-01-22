@@ -19,6 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 
@@ -41,7 +45,7 @@ A private link is set up at the project level and is effective for all clusters 
 
 ## Before you start{#before-you-start}
 
-Make sure the following condition is met:
+Ensure that:
 
 - A Dedicated (Enterprise) cluster has been created. For information on how to create a cluster, see [Create Cluster](./create-cluster).
 
@@ -265,3 +269,4 @@ A timeout usually occurs for the following reasons:
     <p>Two security groups must be configured: one for the EC2 instance, which must allow traffic on the port associated with your private link, and another for the VPC endpoint, which must permit traffic from the IP address of the EC2 instance and target the specified port number.</p>
 
     </Admonition>
+

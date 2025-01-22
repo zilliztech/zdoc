@@ -14,6 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

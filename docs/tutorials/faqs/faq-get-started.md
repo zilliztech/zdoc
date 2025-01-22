@@ -23,6 +23,8 @@ This topic lists the possible issues that you may encounter while you get starte
 - [Is pricing the same in every region?](#is-pricing-the-same-in-every-region)
 - [What happens after the free trial?](#what-happens-after-the-free-trial)
 - [What is the pricing of Zilliz Cloud on Marketplaces?](#what-is-the-pricing-of-zilliz-cloud-on-marketplaces)
+- [Can I apply for more credits?](#can-i-apply-for-more-credits)
+- [Can I extend my free trial?](#can-i-extend-my-free-trial)
 - [How can I get further technical support?](#how-can-i-get-further-technical-support)
 
 ## FAQs
@@ -82,11 +84,19 @@ In short, cloud service prices often vary across providers and regions. Several 
 
 ### What happens after the free trial?{#what-happens-after-the-free-trial}
 
-Once the free trial ends, you can still access your free clusters. However, all the data in your serverless and dedicated clusters will be moved to the Recycle Bin and will be retained there for 30 days. To safely recover your cluster data, you can subscribe to the Serverless or Dedicated plan by providing a payment method. If you have not completed the PoC during the trial period, you can also [contact us](https://support.zilliz.com/hc/en-us) to extend the trial period.
+Once the free trial ends, you can still access your free clusters. However, all the data in your serverless and dedicated clusters will be moved to the Recycle Bin and will be retained there for 30 days. To safely recover your cluster data, you can subscribe to the Serverless or Dedicated plan by providing a payment method. For more details, refer to [Try Zilliz Cloud For Free](./free-trials#use-free-trial).
 
 ### What is the pricing of Zilliz Cloud on Marketplaces?{#what-is-the-pricing-of-zilliz-cloud-on-marketplaces}
 
 Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more about Marketplace Pricing Terms.
+
+### Can I apply for more credits?{#can-i-apply-for-more-credits}
+
+When you register an account on Zilliz Cloud, you’ll receive $100 in free credits. You can earn an extra $100 credits by subscribing to Zilliz Cloud on [Marketplaces](./subscribe-on-aws-marketplace).
+
+### Can I extend my free trial?{#can-i-extend-my-free-trial}
+
+Yes, you can. When you register on Zilliz Cloud, you receive $100 in credits valid for 30 days. By [adding a payment method](./payment-billing), you can extend the validity of these credits to 1 year.
 
 ### How can I get further technical support?{#how-can-i-get-further-technical-support}
 

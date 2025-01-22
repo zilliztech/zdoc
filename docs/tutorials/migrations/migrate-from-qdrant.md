@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

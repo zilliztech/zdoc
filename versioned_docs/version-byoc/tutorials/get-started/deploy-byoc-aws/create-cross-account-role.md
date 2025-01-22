@@ -1,8 +1,8 @@
 ---
-title: "Create Cross-Account Role | BYOC"
+title: "Create Cross-Account IAM Role | BYOC"
 slug: /create-cross-account-role
-sidebar_label: "Create Cross-Account Role"
-beta: FALSE
+sidebar_label: "Create Cross-Account IAM Role"
+beta: PRIVATE
 notebook: FALSE
 description: "This page describes how to create and configure a cross-account role for Zilliz Cloud to bootstrap your project. This role gives Zilliz Cloud restricted permissions to manage VPC resources on your behalf. | BYOC"
 type: origin
@@ -16,13 +16,17 @@ keywords:
   - IAM role
   - milvus
   - vector database
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Create Cross-Account Role
+# Create Cross-Account IAM Role
 
 This page describes how to create and configure a cross-account role for Zilliz Cloud to bootstrap your project. This role gives Zilliz Cloud restricted permissions to manage VPC resources on your behalf.
 
@@ -78,7 +82,7 @@ In this step, you will create a cross-account IAM role for the communications be
 
 1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **EKS settings**.
 
-    ![ZHq1bjkaIozfjXxJJa7cgogwnmg](/byoc/ZHq1bjkaIozfjXxJJa7cgogwnmg.png)
+    ![Hgy9bfuYRo0KlTxUnUmcApyynWf](/byoc/Hgy9bfuYRo0KlTxUnUmcApyynWf.png)
 
 ### Step 2: Add permissions{#step-2-add-permissions}
 

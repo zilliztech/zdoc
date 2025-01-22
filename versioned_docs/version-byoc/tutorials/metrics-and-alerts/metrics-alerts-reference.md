@@ -14,6 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

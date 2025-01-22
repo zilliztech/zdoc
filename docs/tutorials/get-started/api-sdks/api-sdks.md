@@ -10,7 +10,6 @@ token: Ecwpw6cImiFV0gkkusgcQhvBnLe
 sidebar_position: 10
 keywords: 
   - zilliz
-  - byoc
   - milvus
   - vector database
   - api
@@ -21,6 +20,10 @@ keywords:
   - go
   - node
   - nodejs
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

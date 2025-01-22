@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

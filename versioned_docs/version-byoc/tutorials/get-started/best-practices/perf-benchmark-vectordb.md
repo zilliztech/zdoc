@@ -15,6 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

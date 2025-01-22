@@ -16,6 +16,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

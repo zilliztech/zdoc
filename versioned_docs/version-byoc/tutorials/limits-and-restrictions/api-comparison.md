@@ -14,6 +14,10 @@ keywords:
   - cloud
   - milvus
   - api availability
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 
@@ -406,7 +410,7 @@ The table below provides a comparison of API availability across various service
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td rowspan="10"><p>Role-based access control (RBAC)</p></td>
+     <td rowspan="12"><p>Role-based access control (RBAC)</p></td>
      <td><p>addUserToRole()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
@@ -415,17 +419,17 @@ The table below provides a comparison of API availability across various service
    </tr>
    <tr>
      <td><p>createRole()</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
    </tr>
    <tr>
      <td><p>dropRole()</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
    </tr>
    <tr>
      <td><p>grantRolePrivilege()</p></td>
@@ -450,7 +454,7 @@ The table below provides a comparison of API availability across various service
    </tr>
    <tr>
      <td><p>selectGrantForRole()</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
@@ -464,14 +468,28 @@ The table below provides a comparison of API availability across various service
    </tr>
    <tr>
      <td><p>selectRole()</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
      <td><p>selectUser()</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>grantPrivilegeV2()</p></td>
+     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
+   </tr>
+   <tr>
+     <td><p>revokePrivilegeV2</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>

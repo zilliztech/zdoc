@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - api key
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

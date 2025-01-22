@@ -15,6 +15,10 @@ keywords:
   - collection
   - manage
   - console
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 
@@ -43,23 +47,48 @@ For complete control over your collection, follow these steps.
 
 1. On the **Create Collection** page, define the schema of your collection.
 
-    - **Auto ID**: Automatically generates unique IDs for the primary key, without the need to manually assign or manage them during data insertion.
-
-    - **Primary key field**: Available types are **Int64** or **VarChar**. When the field type is set to **VarChar**, specify **Max Length** for the field. If **Auto ID** is enabled, you do not need to configure the primary key field.
-
-    - **Vector field**: Vector field in the collection. You can add one or more vector fields to a collection, with a maximum of 4 vector fields per collection. When using multiple vector fields, you can set the same or different data types for these fields. For example, combine `FLOAT_VECTOR` and `BFLOAT16_VECTOR`. For more information on vector field types, refer to [Schema Explained](./schema-explained).
-
-        - **Dimension**: The dimension value of a vector field. The requirement for the **Dimension** value varies depending on the type of the vector field:
-
-            - `FLOAT_VECTOR`, `FLOAT16_VECTOR`, and `BFLOAT16_VECTOR`: The dimension value must be an integer, ranging from 2 to 32,768.
-
-            - `SPARSE_FLOAT_VECTOR`: The dimension is not required.
-
-            - `BINARY_VECTOR`: The dimension must be a multiple of 8, ranging from 8 to 32,768 * 8.
-
-        - **Index** & **Index Parameter**: The index type defaults to **AUTOINDEX** with metrics such as **Cosine**, **IP**, **L2**, **JACCARD**, and **HAMMING**. For details, refer to [Metric Types](./search-metrics-explained) and [AUTOINDEX Explained](./autoindex-explained).
-
-    - **Additional fields**: Click **+ Field** below **Schema Preview** to add more fields. For details, refer to [Schema Explained](./schema-explained).
+    <table>
+       <tr>
+         <th><p>Config</p></th>
+         <th><p>Description</p></th>
+       </tr>
+       <tr>
+         <td><p>Field Name</p></td>
+         <td><p>The name of the field. Each collection has the unique primary key and at least one vector field (up to 4).</p><p>In default schema design, Zilliz Cloud reserves the primary field (<code>primary_key</code>) and a float vector (<code>vector</code>). You can customize their settings as needed.</p></td>
+       </tr>
+       <tr>
+         <td><p>Field Type</p></td>
+         <td><p>The data type of the field. Fields supported by Zilliz Cloud fall into these main categories: primary key, vector field, and scalar field. The data types supported for different fields vary based on the field types.</p><ul><li><p>Primary field: <code>INT64</code>, <code>VARCHAR</code></p></li><li><p>Vector field: <code>FLOAT_VECTOR</code>, <code>BINARY_VECTOR</code>, <code>FLOAT16_VECTOR</code>, <code>BFLOAT16_VECTOR</code>, <code>SPARSE_FLOAT_VECTOR</code>.</p></li><li><p>Scalar field: <code>INT64</code>, <code>VARCHAR</code>, <code>INT8</code>, <code>INT16</code>, <code>INT32</code>, <code>FLOAT</code>, <code>DOUBLE</code>, <code>BOOL</code>, <code>JSON</code>, <code>ARRAY</code>.</p><p>For details, refer to <a href="./schema-explained">Schema Explained</a>.</p></li></ul></td>
+       </tr>
+       <tr>
+         <td><p>Index</p></td>
+         <td><p>Whether to index the field for better search performance. Once enabled, Zilliz Cloud creates an AUTOINDEX for your field. For details, refer to <a href="./autoindex-explained">AUTOINDEX Explained</a>.</p></td>
+       </tr>
+       <tr>
+         <td><p>Metric Type</p></td>
+         <td><p>The type of metric used to measure the similarity between vectors. This parameter is configurable only for a vector field. For details, refer to <a href="./search-metrics-explained">Metric Types</a>.</p></td>
+       </tr>
+       <tr>
+         <td><p>Default Value</p></td>
+         <td><p>Whether to set a default value for the field. This parameter is configurable only for a scalar field (excluding the primary field). For details, refer to <a href="./nullable-and-default">Nullable & Default</a>.</p></td>
+       </tr>
+       <tr>
+         <td><p>Nullable</p></td>
+         <td><p>Whether to allow null values for the field. This parameter is configurable only for a scalar field (excluding the primary field). For details, refer to <a href="./nullable-and-default">Nullable & Default</a>.</p></td>
+       </tr>
+       <tr>
+         <td><p>Mmap</p></td>
+         <td><p>Whether to enable MMAP. This parameter is configurable only for a scalar field (excluding the primary field). For details, refer to <a href="./use-mmap">Use mmap</a>.</p></td>
+       </tr>
+       <tr>
+         <td><p>Description</p></td>
+         <td><p>Optional. The description of the field.</p></td>
+       </tr>
+       <tr>
+         <td><p>Auto ID</p></td>
+         <td><p>Whether to enable Auto ID for the primary field. Once enabled, Zilliz Cloud automatically generates unique IDs for the primary key, without the need to manually assign or manage them during data insertion.</p></td>
+       </tr>
+    </table>
 
 1. (Optional) In **Advanced Settings**, consider dynamic fields and partition keys for advanced configurations.
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

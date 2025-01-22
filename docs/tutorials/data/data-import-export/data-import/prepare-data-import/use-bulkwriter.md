@@ -14,6 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

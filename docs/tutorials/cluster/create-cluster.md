@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
@@ -211,7 +215,7 @@ In the command above,
 
 1. Enter the desired organization and project.
 
-1. Click **Create Free Cluster**.
+1. Click **+ Cluster**.
 
     ![create_serverless_dedicated_cluster_01](/img/create_serverless_dedicated_cluster_01.png)
 

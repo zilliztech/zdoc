@@ -7,13 +7,17 @@ notebook: FALSE
 description: "This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes. | BYOC"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - quickstart
   - cloud
   - milvus
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
@@ -25,7 +29,35 @@ import TabItem from '@theme/TabItem';
 
 This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes.
 
-To obtain information on the process of setting up your BYOC cluster, refer to [Zilliz BYOC](./byoc-intro).
+## Before you start{#before-you-start}
+
+Zilliz Cloud provides a Bring-Your-Own-Cloud (BYOC) solution, allowing organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. For details about our BYOC solution, read [BYOC Overview](./byoc-intro).
+
+The following figure illustrates the procedures to start using our BYOC solution.
+
+![ChT3woJqYhkzj1bipPxcXNZrnbc](/byoc/ChT3woJqYhkzj1bipPxcXNZrnbc.png)
+
+Before going through this quick start, ensure that:
+
+- You have registered an account with Zilliz Cloud. 
+
+    For instructions, refer to [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+
+- You have contacted Zilliz Cloud sales and provided your account to us.
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>Currently, Zilliz BYOC is in <strong>Private Preview</strong>. To participate in the trial, contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+    </Admonition>
+
+- You have created a project in the BYOC organization and deployed the data plane infrastructure for the project.
+
+    Zilliz BYOC operates within your Virtual Private Cloud (VPC), requiring you to initiate the deployment of data plane components. You can deploy the data plane in your VPCs hosted on the following cloud providers:
+
+    - [Deploy BYOC on AWS](./deploy-byoc-aws)
+
+    If your cloud provider is not available above, contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
 
 ## Install an SDK{#install-an-sdk}
 

@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - migrations
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

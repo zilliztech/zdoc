@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

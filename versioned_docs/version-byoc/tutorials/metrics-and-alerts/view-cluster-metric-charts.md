@@ -15,6 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

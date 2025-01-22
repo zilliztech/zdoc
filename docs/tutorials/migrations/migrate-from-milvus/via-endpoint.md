@@ -15,6 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

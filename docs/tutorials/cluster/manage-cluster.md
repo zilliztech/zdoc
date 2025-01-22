@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

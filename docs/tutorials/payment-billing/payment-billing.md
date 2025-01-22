@@ -15,6 +15,10 @@ keywords:
   - private link
   - payment
   - billing
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

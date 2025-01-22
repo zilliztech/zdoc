@@ -14,6 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

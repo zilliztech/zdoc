@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

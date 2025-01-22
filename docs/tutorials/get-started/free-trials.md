@@ -14,6 +14,10 @@ keywords:
   - cloud
   - free trial
   - milvus
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -48,7 +52,7 @@ After the trial, your organization will be frozen. During this time, your Server
 
 To unfreeze your organization, simply [add a payment method](./payment-billing). This will allow you to restore deleted data from the recycle bin. If you don't add a payment method within 30 days of freezing, your Serverless and Dedicated clusters will be permanently deleted, but your organization will still be preserved.
 
-### Earn credits{#earn-credits}
+### Earn credits and extend credit expiration{#earn-credits-and-extend-credit-expiration}
 
 When you register, you’ll receive $100 in free credits. You can earn an extra $100 by subscribing to Zilliz Cloud on [Marketplaces](./subscribe-on-aws-marketplace). Plus, adding a payment method extends the credit expiration to **1 year**.
 

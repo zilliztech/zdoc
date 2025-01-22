@@ -19,6 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

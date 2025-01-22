@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

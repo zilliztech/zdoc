@@ -16,6 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 
@@ -98,17 +102,17 @@ For collection-level access control, it is recommended to create custom roles.
 
     ![add-cluster-role](/img/add-cluster-role.png)
 
-1. Enter the role name
+1. Enter the role name.
 
 1. Configure the privileges on the collection, database, and cluster level.  Select a privilege group and then select the target resource. 
 
     Zilliz Cloud provides 9 privilege groups in total: 
 
-    - Collection Privilege Group: Admin (`col_admin`), Read-Write (`col_rw`), Read-Only (`col_ro`)
+    - Collection Privilege Group: Admin (`COLL_ADMIN`), Read-Write (`COLL_RW`), Read-Only (`COLL_RO`)
 
-    - Database Privilege Group: Admin (`db_admin`), Read-Write (`db_rw`), Read-Only (`db_ro`)
+    - Database Privilege Group: Admin (`DB_Admin`), Read-Write (`DB_RW`), Read-Only (`DB_RO`)
 
-    - Cluster Privilege Group: Admin (`cluster_admin`), Read-Write (`cluster_rw`), Read-Only (`cluster_ro`)
+    - Cluster Privilege Group: Admin (`Cluster_Admin`), Read-Write (`Cluster_RW`), Read-Only (`Cluster_RO`)
 
     For details about the specific privileges in each privilege group, refer to [Privileges Explained](./cluster-privileges).
 
@@ -144,7 +148,7 @@ You can adjust the privileges of a custom cluster role. The adjustment will be a
 
 ## Delete a custom cluster role{#delete-a-custom-cluster-role}
 
-When a role is no longer necessary, you can adjust the privilege of a custom cluster role.
+When a role is no longer necessary, you can delete a custom cluster role.
 
 Roles that have been granted to users cannot be delete. You need to first identify the users who are granted the target role, and then assign them a different role. 
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

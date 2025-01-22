@@ -14,6 +14,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

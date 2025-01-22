@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 
@@ -72,8 +76,8 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
      <td><p><strong>CU type options</strong></p></td>
      <td><p>N/A</p></td>
      <td><p>N/A</p></td>
-     <td><p>2 Options:</p><ul><li><p>Performance-optimized CU, or</p></li><li><p>Capacity-optimized CU</p></li></ul></td>
-     <td><p>2 Options:</p><ul><li><p>Performance-optimized CU, or</p></li><li><p>Capacity-optimized CU</p></li></ul></td>
+     <td><p>3 Options:</p><ul><li><p>Performance-optimized CU, or</p></li><li><p>Capacity-optimized CU</p></li><li><p>Extended-capacity CU</p></li></ul></td>
+     <td><p>3 Options:</p><ul><li><p>Performance-optimized CU, or</p></li><li><p>Capacity-optimized CU</p></li><li><p>Extended-capacity CU</p></li></ul></td>
      <td><p>2 Options</p><ul><li><p>Performance-optimized CU, or</p></li><li><p>Capacity-optimized CU</p></li></ul></td>
    </tr>
    <tr>

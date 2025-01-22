@@ -15,6 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

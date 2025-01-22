@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - sdk
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

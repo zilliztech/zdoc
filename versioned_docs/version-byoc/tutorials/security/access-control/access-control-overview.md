@@ -15,6 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 
@@ -31,13 +35,13 @@ Zilliz Cloud implements Role-Based Access Control (RBAC) to finely control acces
 
 ![WVIgwWtMYhhTBIbgAdAcegDRnle](/byoc/WVIgwWtMYhhTBIbgAdAcegDRnle.png)
 
-In Zilliz Cloud, resources are structured hierarchically from top to bottom: organizations, projects, clusters, databases, and collections.
+Zilliz Cloud organizes its resources within two planes, implementing RBAC across both:
 
-- The organization and projects belong to the control plane where [account users](./email-accounts) use [API keys](./manage-api-keys) for authentication when interacting with control plane resources.
+- **Control plane:** This plane encompasses organizations, projects, and cluster management. [Account users](./email-accounts) are granted specific organization and project roles and authenticate via [API keys](./manage-api-keys) when interacting with resources on the control plane.
 
-- The clusters, databases, and collections belong to the data plane, where [cluster users](./cluster-users) use either [API keys](./manage-api-keys) or [a username and password pairs](./cluster-credentials) (`user:password`) for authentication when interacting with data plane resources.
+- **Data plane:** This plane includes clusters, databases, and collections, focusing on data access management. [Cluster users](./cluster-users) are granted appropriate cluster roles and authenticate using [API keys](./manage-api-keys) or [username-password pairs](./cluster-credentials) when interacting with data plane resources.
 
-Note that a cluster user corresponds to exactly one account user, but an account user can correspond to multiple cluster users.
+Normally, each account user corresponds to a cluster user. However, not all users require access for both planes. In some cases, a control plane account user like a Billing Admin might only need access to the control plane for billing management purposes and do not require data plane access. Conversely, temporary cluster users can be created and granted access to data plane resources through customized API keys, allowing data access without a registered account. For details about managing customized API keys, refer to [API Keys](./manage-api-keys#create-an-api-key).
 
 ## Roles and privileges{#roles-and-privileges}
 
@@ -47,13 +51,29 @@ Account users are granted organization roles and project roles while cluster use
 
 - **On the organization level**
 
-    The Organization Owner role encompasses comprehensive privileges across all projects and clusters. For details about all organization roles, refer to [Organization roles](./organization-users#organization-roles).
+    - The Organization Owner role encompasses comprehensive privileges across all projects and clusters.
+
+    For details about all organization roles, refer to [Organization roles](./organization-users#organization-roles).
 
 - **On the project level**
 
-    The Project Admin role includes all privileges of a specific project and privileges across all cluster. For details about project roles, refer to [Project roles](./project-users#project-roles).
+    - The Project Admin role includes all privileges of a specific project and privileges across all cluster.
+
+    - The Project Read-Write role has the privileges to view a project and manage its resources.
+
+    - The Project Read-Only role has the privileges to view a project and its resources.
+
+    For details about project roles, refer to [Project roles](./project-users#project-roles).
 
 - **On the cluster level**
 
-    The Cluster Admin role includes all privileges of a specific cluster. For details about cluster roles, refer to [Manage Cluster Roles (Console)](./cluster-roles). Additionally, [custom roles](./cluster-roles#custom-cluster-roles) can be created at this level to precisely manage [privileges](./cluster-privileges) to cluster resources, such as databases and collections. 
+    - The Cluster Admin role includes all privileges of a specific cluster.
+
+    - The Cluster Read-Write role has the privileges to view a cluster and manage all its resources.
+
+    - The Cluster Read-Only role has the privileges to view a cluster and its resources.
+
+    - Additionally, [custom roles](./cluster-roles#custom-cluster-roles) can be created at this level to precisely manage [privileges](./cluster-privileges) to cluster resources, such as databases and collections.
+
+    For details about cluster roles, refer to [Manage Cluster Roles (Console)](./cluster-roles).
 

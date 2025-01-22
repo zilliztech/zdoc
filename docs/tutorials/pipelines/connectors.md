@@ -14,6 +14,10 @@ keywords:
   - cloud
   - connect
   - data
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

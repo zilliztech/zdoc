@@ -14,6 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

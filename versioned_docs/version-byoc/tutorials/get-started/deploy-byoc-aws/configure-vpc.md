@@ -2,7 +2,7 @@
 title: "Configure a Customer-Managed VPC | BYOC"
 slug: /configure-vpc
 sidebar_label: "Configure a Customer-Managed VPC"
-beta: FALSE
+beta: PRIVATE
 notebook: FALSE
 description: "The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a project within your own Virtual Private Cloud (VPC). With a Zilliz Cloud project running in a customer-managed VPC, you gain greater control over your network configurations, allowing you to meet specific cloud security and governance standards required by your organization. | BYOC"
 type: origin
@@ -18,6 +18,10 @@ keywords:
   - subnet
   - milvus
   - vector database
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 
@@ -142,11 +146,11 @@ Security groups in a VPC protect your AWS resources by controlling inbound and o
 
 1. Click **Add rule** in the **Inbound rules** section to create an inbound rule.
 
-1. Select **HTTPS** in **Type** and enter a CIDR block from which access is allowed in the text box on the right of the **Source** drop-down.
+1. Select **Anywhere-IPv4** in **Source** or enter a CIDR block from which access is allowed in the text box on the right of the **Source** drop-down.
 
     ![Z6SObL7FYofXBuxk46WcuRsbnLb](/byoc/Z6SObL7FYofXBuxk46WcuRsbnLb.png)
 
-1. Keep the default settings in the **Outbound rules** section and enter a CIDR block to which access is allowed in the text box on the right of the **Destination** drop-down.
+1. Add a record, select **HTTPS** in **Type** and **Anywhere-IPv4** in **Destination** or enter a CIDR block to which access is allowed in the text box on the right of the **Destination** drop-down.
 
     ![N0B8bIiXdobTjUxp1AVc76Xcnsc](/byoc/N0B8bIiXdobTjUxp1AVc76Xcnsc.png)
 
@@ -162,7 +166,13 @@ Security groups in a VPC protect your AWS resources by controlling inbound and o
 
 ### Step 3: (Optional) Create a VPC endpoint{#step-3-optional-create-a-vpc-endpoint}
 
-VPC endpoint ensures secure cluster connectivity relay and enables private calls to Zilliz Cloud REST APIs. For guidance on managing VPc endpoints with the AWS Management Console, see the [AWS article Create VPC endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html) in the AWS Management Console, or use the following procedure:
+VPC endpoint ensures secure cluster connectivity relay and enables private calls to Zilliz Cloud REST APIs. For guidance on managing VPC endpoints with the AWS Management Console, see the [AWS article Create VPC endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html) in the AWS Management Console, or use the following procedure:
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The VPC endpoint created in this section is used to set up an AWS PrivateLink. Once the VPC endpoint is ready, you must create a hosted zone and add some DNS records. For details, refer to <a href="./setup-a-private-link-aws">Set up a PrivateLink (AWS)</a>.</p>
+
+</Admonition>
 
 1. Go to the **VPC dashboard** on AWS.
 
@@ -211,5 +221,5 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
 
 Once you have completed the above procedures on AWS, go back to Zilliz Cloud, enter the VPC ID, the subnet IDs, the security group ID, and the optional VPC endpoint ID in **Network settings**, and click **Next** to view the summary of the entire project deployment process. If everything is configured as expected, click **Deploy** to start the process.
 
-![JwMube1jQoCwMAx8KuicK1I9nBd](/byoc/JwMube1jQoCwMAx8KuicK1I9nBd.png)
+![VDXYbAfS2oQ04YxcMs0cEETbn2c](/byoc/VDXYbAfS2oQ04YxcMs0cEETbn2c.png)
 

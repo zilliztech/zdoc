@@ -14,6 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

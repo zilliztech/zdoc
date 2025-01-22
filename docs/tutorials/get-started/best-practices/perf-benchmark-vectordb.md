@@ -15,6 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

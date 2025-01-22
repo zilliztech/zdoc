@@ -16,6 +16,10 @@ keywords:
   - milvus
   - format options
   - json
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

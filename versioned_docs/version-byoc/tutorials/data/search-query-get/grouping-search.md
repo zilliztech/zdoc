@@ -7,7 +7,7 @@ notebook: FALSE
 description: "A grouping search allows Zilliz Cloud to group the search results by the values in a specified field to aggregate data at a higher level. For example, you can use a basic ANN search to find books similar to the one at hand, but you can use a grouping search to find the book categories that may involve the topics discussed in that book. This topic describes how to use Grouping Search along with key considerations. | BYOC"
 type: origin
 token: JWZGw89MBiUDBNkhtGfcyyUcnsd
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
@@ -16,6 +16,10 @@ keywords:
   - data
   - grouping search
   - group
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
@@ -47,6 +51,12 @@ To improve the diversity of search results, you can add the `group_by_field` par
 
 - Return the top results for each group, as defined by the `limit` parameter, with the most similar entity from each group.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>By default, Grouping Search returns only one entity per group. If you want to increase the number of results to return per group, you can control this with the <code>group_size</code> and <code>strict_group_size</code> parameters.</p>
+
+</Admonition>
+
 ## Perform Grouping Search{#perform-grouping-search}
 
 This section provides example code to demonstrate the use of Grouping Search. The following example assumes the collection includes fields for `id`, `vector`, `chunk`, and `docId`.
@@ -76,8 +86,8 @@ In the search request, set both `group_by_field` and `output_fields` to `docId`.
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 query_vectors = [
@@ -108,8 +118,8 @@ import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("http://localhost:19530")
-        .token("root:Milvus")
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 FloatVec queryVector = new FloatVec(new float[]{0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f});
@@ -148,8 +158,8 @@ func ExampleClient_Search_grouping() {
     ctx, cancel := context.WithCancel(context.Background())
     defer cancel()
 
-    milvusAddr := "127.0.0.1:19530"
-    token := "root:Milvus"
+    milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+    token := "YOUR_CLUSTER_TOKEN"
 
     cli, err := client.New(ctx, &client.ClientConfig{
         Address: milvusAddr,
@@ -189,8 +199,8 @@ func ExampleClient_Search_grouping() {
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-const address = "http://localhost:19530";
-const token = "root:Milvus";
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
@@ -213,8 +223,8 @@ var docIds = res.results.map(result => result.entity.docId)
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="http://localhost:19530"
-export TOKEN="root:Milvus"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
@@ -237,7 +247,130 @@ curl --request POST \
 
 In the request above, `limit=3` indicates that the system will return search results from three groups, with each group containing the single most similar entity to the query vector.
 
+## Configure group size{#configure-group-size}
+
+By default, Grouping Search returns only one entity per group. If you want multiple results per group, adjust the `group_size` and `strict_group_size` parameters.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# Group search results
+
+res = client.search(
+    collection_name="group_search_collection", 
+    data=query_vectors, # query vector
+    limit=5, # number of groups to return
+    group_by_field="docId", # grouping field
+    group_size=2, # p to 2 entities to return from each group
+    strict_group_size=True, # return exact 2 entities from each group
+    output_fields=["docId"]
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+FloatVec queryVector = new FloatVec(new float[]{0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f});
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("group_search_collection")
+        .data(Collections.singletonList(queryVector))
+        .topK(5)
+        .groupByFieldName("docId")
+        .groupSize(2)
+        .strictGroupSize(true)
+        .outputFields(Collections.singletonList("docId"))
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+
+List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
+for (List<SearchResp.SearchResult> results : searchResults) {
+    System.out.println("TopK results:");
+    for (SearchResp.SearchResult result : results) {
+        System.out.println(result);
+    }
+}
+
+// Output
+// TopK results:
+// SearchResp.SearchResult(entity={docId=5}, score=0.74767184, id=1)
+// SearchResp.SearchResult(entity={docId=5}, score=-0.49148706, id=8)
+// SearchResp.SearchResult(entity={docId=2}, score=0.6254269, id=7)
+// SearchResp.SearchResult(entity={docId=2}, score=0.38515577, id=2)
+// SearchResp.SearchResult(entity={docId=3}, score=0.3611898, id=3)
+// SearchResp.SearchResult(entity={docId=3}, score=0.19556211, id=4)
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+
+res = await client.search({
+    collection_name: "my_collection",
+    data: [query_vector],
+    limit: 3,
+    group_by_field: "docId",
+    // highlight-start
+    group_size: 2,
+    strict_group_size: true
+    // highlight-end
+})
+
+// Retrieve the values in the `docId` column
+var docIds = res.results.map(result => result.entity.docId)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "group_search_collection",
+    "data": [
+        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+    ],
+    "annsField": "vector",
+    "limit": 5,
+    "groupingField": "docId",
+    "groupSize":2,
+    "strictGroupSize":true,
+    "outputFields": ["docId"]
+}'
+```
+
+</TabItem>
+</Tabs>
+
+In the example above:
+
+- `group_size`: Specifies the desired number of entities to return per group. For instance, setting `group_size=2` means each group (or each `docId`) should ideally return two of the most similar paragraphs (or **chunks**). If `group_size` is not set, the system defaults to returning one result per group.
+
+- `strict_group_size`: This boolean parameter controls whether the system should strictly enforce the count set by `group_size`. When `strict_group_size=True`, the system will attempt to include the exact number of entities specified by `group_size` in each group (e.g., two paragraphs), unless there isn’t enough data in that group. By default (`strict_group_size=False`), the system prioritizes meeting the number of groups specified by the `limit` parameter, rather than ensuring each group contains `group_size` entities. This approach is generally more efficient in cases where data distribution is uneven.
+
+For additional parameter details, refer to [search](/reference/python/python/Vector-search).
+
 ## Considerations{#considerations}
 
 - **Number of groups**: The `limit` parameter controls the number of groups from which search results are returned, rather than the specific number of entities within each group. Setting an appropriate `limit` helps control search diversity and query performance. Reducing `limit` can reduce computation costs if data is densely distributed or performance is a concern.
+
+- **Entities per group**: The `group_size` parameter controls the number of entities returned per group. Adjusting `group_size` based on your use case can increase the richness of search results. However, if data is unevenly distributed, some groups may return fewer entities than specified by `group_size`, particularly in limited data scenarios.
+
+- **Strict group size**: When `strict_group_size=True`, the system will attempt to return the specified number of entities (`group_size`) for each group, unless there isn’t enough data in that group. This setting ensures consistent entity counts per group but may lead to performance degradation with uneven data distribution or limited resources. If strict entity counts aren’t required, setting `strict_group_size=False` can improve query speed.
 

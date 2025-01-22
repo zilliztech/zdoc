@@ -14,6 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

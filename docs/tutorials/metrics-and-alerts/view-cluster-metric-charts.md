@@ -15,6 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

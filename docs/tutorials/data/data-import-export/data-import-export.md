@@ -15,6 +15,10 @@ keywords:
   - data import
   - export
   - milvus
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

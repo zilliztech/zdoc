@@ -14,6 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 
@@ -36,8 +40,8 @@ The following example demonstrates how to obtain the name list of all collection
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 res = client.list_collections()
@@ -55,8 +59,8 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.response.ListCollectionsResp;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("http://localhost:19530")
-        .token("root:Milvus")
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
@@ -74,7 +78,7 @@ import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
     address: 'localhost:19530',
-    token: 'root:Milvus'
+    token: 'YOUR_CLUSTER_TOKEN'
 });
 
 const collections = await client.listCollections();
@@ -96,8 +100,8 @@ import (
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-milvusAddr := "127.0.0.1:19530"
-token := "root:Milvus"
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+token := "YOUR_CLUSTER_TOKEN"
 
 cli, err := client.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
@@ -196,7 +200,7 @@ import (
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-milvusAddr := "127.0.0.1:19530"
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,

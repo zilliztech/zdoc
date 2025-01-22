@@ -18,6 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -30,7 +34,7 @@ Zilliz Cloud provides a rich set of basic operators to help you filter and query
 
 ## Comparison operators{#comparison-operators}
 
-Comparison operators are used to filter data based on equality, inequality, or size. They are applicable to numeric, text, and date fields.
+Comparison operators are used to filter data based on equality, inequality, or size. They are applicable to numeric and text fields.
 
 ### Supported Comparison Operators:{#supported-comparison-operators}
 
@@ -70,7 +74,7 @@ If you want to find all entities with an `age` greater than 30:
 filter = 'age > 30'
 ```
 
-### Example 4: Filtering with Less Than (`{#example-4-filtering-with-less-than}
+### Example 4: Filtering with Less Than{#example-4-filtering-with-less-than}
 
 To find entities where `price` is less than 100:
 
@@ -86,7 +90,7 @@ If you want to find all entities with `rating` greater than or equal to 4:
 filter = 'rating >= 4'
 ```
 
-### Example 6: Filtering with Less Than or Equal To (`{#example-6-filtering-with-less-than-or-equal-to}
+### Example 6: Filtering with Less Than or Equal To{#example-6-filtering-with-less-than-or-equal-to}
 
 To find entities with `discount` less than or equal to 10%:
 
@@ -118,7 +122,7 @@ This is useful when you want to check for membership in a list of values.
 
 The `LIKE` operator is used for pattern matching in string fields. It can match substrings in different positions within the text: as a **prefix**, **infix**, or **suffix**. The `LIKE` operator uses the `%` symbol as a wildcard, which can match any number of characters (including zero).
 
-#### Prefix Match (Starts With){#prefix-match-starts-with}
+### Prefix Match (Starts With){#prefix-match-starts-with}
 
 To perform a **prefix** match, where the string starts with a given pattern, you can place the pattern at the beginning and use `%` to match any characters following it. For example, to find all products whose `name` starts with "Prod":
 
@@ -128,7 +132,7 @@ filter = 'name LIKE "Prod%"'
 
 This will match any product whose name starts with "Prod", such as "Product A", "Product B", etc.
 
-#### Suffix Match (Ends With){#suffix-match-ends-with}
+### Suffix Match (Ends With){#suffix-match-ends-with}
 
 For a **suffix** match, where the string ends with a given pattern, place the `%` symbol at the beginning of the pattern. For example, to find all products whose `name` ends with "XYZ":
 
@@ -138,7 +142,7 @@ filter = 'name LIKE "%XYZ"'
 
 This will match any product whose name ends with "XYZ", such as "ProductXYZ", "SampleXYZ", etc.
 
-#### Infix Match (Contains){#infix-match-contains}
+### Infix Match (Contains){#infix-match-contains}
 
 To perform an **infix** match, where the pattern can appear anywhere in the string, you can place the `%` symbol at both the beginning and the end of the pattern. For example, to find all products whose `name` contains the word "Pro":
 
@@ -176,7 +180,7 @@ filter = 'total == base_price + tax'
 
 ### Example 2: Using Subtraction (`-`){#example-2-using-subtraction}
 
-To find entities where `quantity` is greater than 50 and `quantity_sold` is less than 30:
+To find entities where the difference between `quantity` and `quantity_sold` is greater than 50:
 
 ```python
 filter = 'quantity - quantity_sold > 50'
@@ -184,7 +188,7 @@ filter = 'quantity - quantity_sold > 50'
 
 ### Example 3: Using Multiplication (`*`){#example-3-using-multiplication}
 
-To find entities where `price` is greater than 100 and `quantity` is greater than 10, multiplied:
+To find entities where the product of the `price` and `quantity` field values are greater than 1000:
 
 ```python
 filter = 'price * quantity > 1000'

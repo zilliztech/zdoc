@@ -14,6 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

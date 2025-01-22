@@ -13,6 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 
