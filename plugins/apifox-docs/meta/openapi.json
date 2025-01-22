@@ -108,7 +108,10 @@
 				"zh-CN": {
 					"name": "Resource Group (V2)"
 				}
-			}
+			},
+			"x-include-target": [
+				"milvus"
+			]
 		},
 		{
 			"name": "Cloud Meta (V2)",
@@ -34965,6 +34968,9 @@
 						"description": "本操作创建资源组。Milvus 实例在启动后创建一个默认资源组，包含所有可用的 QueryNodes。您可以创建其他资源组，将部分 QueryNodes 从默认组重新分配到这些新配置的组中，并将 Collection 加载到这些新配置的组中的 QueryNodes 上。无论资源组是否存在，此操作都始终成功。"
 					}
 				},
+				"x-include-target": [
+					"milvus"
+				],
 				"tags": [
 					"Resource Group (V2)"
 				],
@@ -35251,6 +35257,9 @@
 						"description": "本操作更新指定资源组的配置。"
 					}
 				},
+				"x-include-target": [
+					"milvus"
+				],
 				"tags": [
 					"Resource Group (V2)"
 				],
@@ -35537,6 +35546,9 @@
 						"description": "本操作返回指定资源组的配置。"
 					}
 				},
+				"x-include-target": [
+					"milvus"
+				],
 				"tags": [
 					"Resource Group (V2)"
 				],
@@ -35827,6 +35839,9 @@
 						"description": "本操作返回资源组名称列表。"
 					}
 				},
+				"x-include-target": [
+					"milvus"
+				],
 				"tags": [
 					"Resource Group (V2)"
 				],
@@ -35980,6 +35995,9 @@
 						"description": "本操作删除指定资源组。"
 					}
 				},
+				"x-include-target": [
+					"milvus"
+				],
 				"tags": [
 					"Resource Group (V2)"
 				],
@@ -36136,6 +36154,9 @@
 						"description": "本操作将指定 Collection 的副本从源资源组转移到目标资源组。"
 					}
 				},
+				"x-include-target": [
+					"milvus"
+				],
 				"tags": [
 					"Resource Group (V2)"
 				],
