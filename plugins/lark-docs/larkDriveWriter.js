@@ -125,7 +125,7 @@ class larkDriveWriter extends larkDocWriter {
                     const slug = `${this.displayedSidebar.replace('Sidebar', '')}/${page_slug}`
                     const labels = sidebar_label ? sidebar_label : page_title
 
-                    console.log(keywords instanceof Array)
+                    console.log(slug, page_description)
 
                     var markdown = '---\n' +
                         'title: ' + `"${page_title} | ${this.__title_suffix(current_path)}"` + '\n' +
