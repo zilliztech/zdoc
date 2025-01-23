@@ -9,6 +9,20 @@ description: "This operation returns the load status of a specific collection. |
 type: docx
 token: BJysdlj1MoksHZxNRxicHn9fnSh
 sidebar_position: 33
+keywords: 
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - load_state()
+  - pymilvus25
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 ---

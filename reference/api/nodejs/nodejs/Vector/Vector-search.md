@@ -7,18 +7,22 @@ beta: false
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Node.js"
 type: docx
-token: BIlNdgI2foFEaoxmn12cLO6Jndb
+token: VNATdAYSkojgVsx5MJKcPPmMnl7
 sidebar_position: 5
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - node
+  - nodejs25
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -48,6 +52,9 @@ milvusClient.search({
    partition_names?: string | list[string],
    consistency_level?: string,
    ignore_growing?: boolean,
+   group_by_field?: string,
+   group_size?: number,
+   strict_group_size?: boolean,
    timeout?: number,
  })
 ```
@@ -90,6 +97,8 @@ milvusClient.search({
 
     The sum of this value and **offset** in **param** should be less than 16,384. 
 
+    In a grouping search, however, `limit` specifies the maximum number of groups to return, rather than individual entities. Each group is formed based on the specified `group_by_field`.
+
 - **offset** (*number*) - 
 
     The number of records to skip in the search result. 
@@ -122,6 +131,20 @@ milvusClient.search({
 
         This parameter applies only when you also set `radius`.
 
+    - **output_fields** (*string[]*) -
+
+        A list of field names to include in each entity in return.
+
+        The value defaults to **None**. If left unspecified, only the primary field is included.
+
+    - **partition_names** (*string[]*) -
+
+        A list of the names of the partitions to search.
+
+    - **timeout** (*number*) -
+
+        The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
 - **output_fields** (*string[]*) -
 
     A list of field names to include in each entity in return.
@@ -131,6 +154,10 @@ milvusClient.search({
 - **partition_names** (*string[]*) -
 
     A list of the names of the partitions to search.
+
+- **group_by_field** (*string*) -
+
+    Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
 
 - **timeout** (*number*) -
 

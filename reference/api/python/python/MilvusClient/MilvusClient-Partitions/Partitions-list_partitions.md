@@ -9,6 +9,20 @@ description: "This operation lists the partitions in a specified collection. | P
 type: docx
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
 sidebar_position: 5
+keywords: 
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - list_partitions()
+  - pymilvus25
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 ---

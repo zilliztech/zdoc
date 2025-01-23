@@ -8,7 +8,21 @@ notebook: false
 description: "This operation releases the data of a specific collection from memory. | Python | MilvusClient"
 type: docx
 token: PRR7dRfi8o1s61xFRovccAdRnHe
-sidebar_position: 10
+sidebar_position: 13
+keywords: 
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - release_collection()
+  - pymilvus25
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: pythonSidebar
 
 ---

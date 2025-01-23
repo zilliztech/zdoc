@@ -8,7 +8,21 @@ notebook: false
 description: "This operation lists all existing collections. | Python | MilvusClient"
 type: docx
 token: BHyidrVcyoPwxexHLrnceOSAnRe
-sidebar_position: 14
+sidebar_position: 17
+keywords: 
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - list_collections()
+  - pymilvus25
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: pythonSidebar
 
 ---

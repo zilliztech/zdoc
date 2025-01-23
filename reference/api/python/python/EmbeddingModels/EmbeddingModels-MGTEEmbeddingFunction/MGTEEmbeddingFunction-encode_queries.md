@@ -9,6 +9,20 @@ description: "This operation takes in a list of query strings and encodes each q
 type: docx
 token: HEWIdid9BoFMyNxN8Bbc0P3nn6g
 sidebar_position: 2
+keywords: 
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - encode_queries()
+  - pymilvus25
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: pythonSidebar
 
 ---

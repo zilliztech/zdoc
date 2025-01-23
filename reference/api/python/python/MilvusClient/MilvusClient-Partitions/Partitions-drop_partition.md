@@ -9,6 +9,20 @@ description: "This operation drops a specified partition from the current collec
 type: docx
 token: EMI8dM8uooIAFPxVfffcoqRwnZf
 sidebar_position: 2
+keywords: 
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - drop_partition()
+  - pymilvus25
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: pythonSidebar
 
 ---

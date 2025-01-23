@@ -9,6 +9,20 @@ description: "This operation checks the type of the Zilliz Cloud cluster. | Pyth
 type: docx
 token: UOIddRBUXotHvyx4Yyocer0mnId
 sidebar_position: 15
+keywords: 
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - get_server_type()
+  - pymilvus25
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 ---

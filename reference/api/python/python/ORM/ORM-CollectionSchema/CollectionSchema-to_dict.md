@@ -9,6 +9,20 @@ description: "This operation converts a CollectionSchema object to a dictionary 
 type: docx
 token: GfTadfqhAo64XDxc643ci4Zwnwb
 sidebar_position: 4
+keywords: 
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - to_dict()
+  - pymilvus25
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: pythonSidebar
 
 ---

@@ -295,6 +295,10 @@ const config = {
           milvus: {
             outputDir: 'milvus/reference/python/docs/v2.5.x',
             imageDir: 'milvus/reference/python/images'
+          },
+          zilliz: {
+            outputDir: 'reference/api/python/python',
+            imageDir: 'static/img',
           }
         }
       },
@@ -323,6 +327,10 @@ const config = {
           milvus: {
             outputDir: 'milvus/reference/node/docs/v2.5.x',
             imageDir: 'milvus/reference/node/images'
+          },
+          zilliz: {
+            outputDir: 'reference/api/nodejs/nodejs',
+            imageDir: 'static/img',
           }
         }
       }

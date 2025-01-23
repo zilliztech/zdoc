@@ -9,6 +9,20 @@ description: "This operation sets up a load-balancing group between two query no
 type: docx
 token: XYNMdg3Vpo3SE7xTRVqcJNvrn0d
 sidebar_position: 32
+keywords: 
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - load_balance()
+  - pymilvus25
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 ---

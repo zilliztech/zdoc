@@ -8,7 +8,21 @@ notebook: false
 description: "This operation describes a specific role. | Python | MilvusClient"
 type: docx
 token: JJz3dFrE2oJP3AxySWYcJlf4nMh
-sidebar_position: 3
+sidebar_position: 5
+keywords: 
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - describe_role()
+  - pymilvus25
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: pythonSidebar
 
 ---

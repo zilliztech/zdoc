@@ -9,6 +9,20 @@ description: "This operation creates a new user with a corresponding password. |
 type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
+keywords: 
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - create_user()
+  - pymilvus25
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 ---

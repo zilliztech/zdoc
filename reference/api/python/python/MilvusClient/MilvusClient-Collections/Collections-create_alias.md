@@ -8,7 +8,21 @@ notebook: false
 description: "This operation creates an alias for an existing collection. | Python | MilvusClient"
 type: docx
 token: Kqlodu0AWoefKvxczcxc1c36nlf
-sidebar_position: 2
+sidebar_position: 4
+keywords: 
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - create_alias()
+  - pymilvus25
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

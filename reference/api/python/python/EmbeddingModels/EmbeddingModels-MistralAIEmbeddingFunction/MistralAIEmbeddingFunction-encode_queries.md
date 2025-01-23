@@ -9,6 +9,20 @@ description: "This operation takes in a list of query strings and encodes each q
 type: docx
 token: SptWdOyFqoGM5VxVS16cofqfnDg
 sidebar_position: 2
+keywords: 
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - encode_queries()
+  - pymilvus25
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 ---

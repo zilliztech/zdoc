@@ -9,6 +9,20 @@ description: "MGTEEmbeddingFunction is a class in pymilvus that handles encoding
 type: docx
 token: OF1mdh4tSo8ZQQxxVgEcdITRndb
 sidebar_position: 3
+keywords: 
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - MGTEEmbeddingFunction
+  - pymilvus25
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 ---

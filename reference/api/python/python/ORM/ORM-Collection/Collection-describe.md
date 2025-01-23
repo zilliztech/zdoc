@@ -9,6 +9,20 @@ description: "This operation describes the current collection. | Python | ORM"
 type: docx
 token: EZwsd887JojFjLxbMByckhW0nxg
 sidebar_position: 7
+keywords: 
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - describe()
+  - pymilvus25
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: pythonSidebar
 
 ---

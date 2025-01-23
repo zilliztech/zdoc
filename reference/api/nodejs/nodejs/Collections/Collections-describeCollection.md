@@ -10,15 +10,19 @@ type: docx
 token: TjqHdZqO1oSwwYxuny2cchWzn6S
 sidebar_position: 7
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
-  - node
+  - nodejs25
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,11 +42,16 @@ describeCollection(data): Promise<DescribeCollectionResponse>
 
 ```javascript
 milvusClient.describeCollection({ 
+    db_name: string,
     collection_name: string 
 })
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

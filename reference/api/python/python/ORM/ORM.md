@@ -5,9 +5,19 @@ beta: false
 notebook: false
 description: "PyMilvus ORM modules, classes, and methods | Python | ORM"
 type: folder
-token: NZa5fZusilxYZ5d3Q1Dc1l8BnOd
-sidebar_position: 4
+token: QYo4fSeVFlex8ZdeGZ4cAlmcnof
+sidebar_position: 3
 sidebar_label: "ORM"
+keywords: 
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - ORM
+  - pymilvus25
 displayed_sidebar: pythonSidebar
 ---
 

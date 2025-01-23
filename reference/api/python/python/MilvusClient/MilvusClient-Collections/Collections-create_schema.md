@@ -8,7 +8,21 @@ notebook: false
 description: "This operation creates a collection schema. | Python | MilvusClient"
 type: docx
 token: RxU7dBjGlop0e1xZShYcZ4qCnnh
-sidebar_position: 4
+sidebar_position: 6
+keywords: 
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - create_schema()
+  - pymilvus25
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
 ---

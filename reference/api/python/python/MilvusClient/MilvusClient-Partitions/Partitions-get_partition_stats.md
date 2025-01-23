@@ -9,6 +9,20 @@ description: "This operation displays the statistics collected on a specific par
 type: docx
 token: Jjbsd2I8doQ9pBxBp57ckRdZnZd
 sidebar_position: 3
+keywords: 
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - get_partition_stats()
+  - pymilvus25
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
 ---

@@ -9,6 +9,20 @@ description: "SentenceTransformerEmbeddingFunction is a class in pymilvus that h
 type: docx
 token: JOFedA4h8otTjHxsYQ7cnjsunHd
 sidebar_position: 3
+keywords: 
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - SentenceTransformerEmbeddingFunction
+  - pymilvus25
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
 ---

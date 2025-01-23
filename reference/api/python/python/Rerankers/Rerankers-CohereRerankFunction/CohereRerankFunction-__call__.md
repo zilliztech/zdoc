@@ -9,6 +9,20 @@ description: "This operation in CohereRerankFunction takes in a query and docume
 type: docx
 token: M7pWdbu8foKkJAxY3uBcMfHrnrh
 sidebar_position: 2
+keywords: 
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - \_\_call\_\_()
+  - pymilvus25
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -7,8 +7,22 @@ beta: false
 notebook: false
 description: "This operation adds a field to the schema of a collection. | Python | ORM"
 type: docx
-token: TG3Rd9aM5offvFxKy2CcKXn9nWc
+token: H9IFdpWWUouzXOxKlx9cImP8nnd
 sidebar_position: 1
+keywords: 
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - add_field()
+  - pymilvus25
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: pythonSidebar
 
 ---
@@ -25,7 +39,8 @@ This operation adds a field to the schema of a collection.
 ```python
 add_field(
     field_name: str,
-    datatype: DataType
+    datatype: DataType,
+    **kwargs
 )
 ```
 

@@ -9,6 +9,20 @@ description: "This operation takes in documents and encodes them into vector emb
 type: docx
 token: Q0rYdTPkEoRZgUx99LCcfMDUnvh
 sidebar_position: 2
+keywords: 
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - encode_documents()
+  - pymilvus25
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: pythonSidebar
 
 ---

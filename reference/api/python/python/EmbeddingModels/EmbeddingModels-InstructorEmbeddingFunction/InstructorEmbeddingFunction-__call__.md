@@ -9,6 +9,20 @@ description: "This operation in InstructorEmbeddingFunction takes a list of text
 type: docx
 token: VmAIdW9J2oH6iWxDh2PcJYfRnne
 sidebar_position: 4
+keywords: 
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - \_\_call\_\_()
+  - pymilvus25
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: pythonSidebar
 
 ---

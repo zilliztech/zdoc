@@ -9,6 +9,20 @@ description: "This operation conducts a scalar filtering with a specified boolea
 type: docx
 token: JzcYdBQ5zoU4KpxPqUHcPLQonKd
 sidebar_position: 22
+keywords: 
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - query()
+  - pymilvus25
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: pythonSidebar
 
 ---

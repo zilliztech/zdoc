@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods for you to manage collections. | Node.js"
 type: folder
-token: WKkof79XQltPmgdgU18c2tLUnOd
-sidebar_position: 3
+token: SU7xfa1bal8yS0dioBmcCncYn5c
+sidebar_position: 1
 sidebar_label: "Collections"
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - Collections
-  - node
+  - nodejs25
 displayed_sidebar: nodeSidebar
 ---
 

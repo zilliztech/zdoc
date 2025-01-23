@@ -8,7 +8,21 @@ notebook: false
 description: "This operation displays whether a specified collection or partition is loaded or not. | Python | MilvusClient"
 type: docx
 token: KEPYdKup1o3nHdxKbjvcQUzwnnd
-sidebar_position: 5
+sidebar_position: 8
+keywords: 
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - get_load_state()
+  - pymilvus25
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 ---

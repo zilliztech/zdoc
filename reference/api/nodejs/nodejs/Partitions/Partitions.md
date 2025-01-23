@@ -6,18 +6,18 @@ notebook: false
 description: "Methods related to the manipulation of the partitions in a collection. | Node.js"
 type: folder
 token: JfB5fh16rl1R1qdNVgec1Kdongc
-sidebar_position: 6
+sidebar_position: 8
 sidebar_label: "Partitions"
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - Partitions
-  - node
+  - nodejs25
 displayed_sidebar: nodeSidebar
 ---
 

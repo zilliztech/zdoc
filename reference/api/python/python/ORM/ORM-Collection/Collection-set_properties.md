@@ -9,6 +9,20 @@ description: "This operation sets properties for the collection. | Python | ORM"
 type: docx
 token: ECmAdaYKboPTNlxqkLxcUEZ4nrh
 sidebar_position: 27
+keywords: 
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - set_properties()
+  - pymilvus25
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: pythonSidebar
 
 ---

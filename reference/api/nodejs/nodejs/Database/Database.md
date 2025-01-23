@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods for you to manage database. | Node.js"
 type: folder
-token: WLCxfLtfylemvudOJa7cDBXdnsh
-sidebar_position: 4
+token: CEYUfuKoYlVIfod63clcDaS9nxc
+sidebar_position: 2
 sidebar_label: "Database"
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - Database
-  - node
+  - nodejs25
 displayed_sidebar: nodeSidebar
 ---
 

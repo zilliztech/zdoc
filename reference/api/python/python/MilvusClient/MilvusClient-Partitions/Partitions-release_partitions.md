@@ -9,6 +9,20 @@ description: "This operation releases the partitions in a specified collection f
 type: docx
 token: VblKdUEU4o4t31xcFiicIGtjn9g
 sidebar_position: 7
+keywords: 
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - release_partitions()
+  - pymilvus25
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: pythonSidebar
 
 ---

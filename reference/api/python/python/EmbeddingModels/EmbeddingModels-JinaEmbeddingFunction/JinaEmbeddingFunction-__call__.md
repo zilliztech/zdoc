@@ -9,6 +9,20 @@ description: "This operation in JinaEmbeddingFunction takes a list of text strin
 type: docx
 token: Yf9GddNheoKrFCxcUeYc7NHjnVb
 sidebar_position: 4
+keywords: 
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - \_\_call\_\_()
+  - pymilvus25
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 ---

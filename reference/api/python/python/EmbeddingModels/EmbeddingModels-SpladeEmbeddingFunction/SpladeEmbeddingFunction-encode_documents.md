@@ -9,6 +9,20 @@ description: "This operation takes in documents and encodes them into vector emb
 type: docx
 token: PwL1dndmVoxP98xp0pXcOci4nSe
 sidebar_position: 1
+keywords: 
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - encode_documents()
+  - pymilvus25
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 ---

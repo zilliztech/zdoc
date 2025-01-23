@@ -10,15 +10,19 @@ type: docx
 token: TVWPdTw2WoPAJYxsbGMc7MX6nEf
 sidebar_position: 4
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - hasPartition()
-  - node
+  - nodejs25
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ hasPartition(data): Promise<BoolResponse>
 
 ```javascript
 milvusClient.hasPartition({
+    db_name: string,
     collection_name: string,
     partition_name: string,
     timeout?: number
@@ -45,6 +50,10 @@ milvusClient.hasPartition({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

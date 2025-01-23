@@ -9,6 +9,20 @@ description: "A FieldSchema instance defines the data type and related attribute
 type: docx
 token: EVKhdy0vwoSLSux2RW2c660unjh
 sidebar_position: 2
+keywords: 
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - FieldSchema
+  - pymilvus25
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 ---

@@ -7,18 +7,22 @@ beta: false
 notebook: false
 description: "This operation creates an index for a specific collection. | Node.js"
 type: docx
-token: WFRodQlfKoPHTUxbBYzcLug8nsd
+token: Nu0Id3wzGoJIFyxkC7IcmjAznNf
 sidebar_position: 1
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
-  - node
+  - nodejs25
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: nodeSidebar
 
 ---
@@ -74,7 +78,9 @@ milvusClient.createIndex([
 
 - **metric_type** (*string*) -
 
-    The metric type used to measure vector distance.
+    The metric type used to measure vector distance. Possible values: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`
+
+    This is available only when the specified field is a vector field.
 
 - **params** (*string*) -
 

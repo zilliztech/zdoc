@@ -8,6 +8,16 @@ type: folder
 token: MGFYf4JacldYUEdxtJdcwczAntg
 sidebar_position: 2
 sidebar_label: "BulkImport"
+keywords: 
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - BulkImport
+  - pymilvus25
 displayed_sidebar: pythonSidebar
 ---
 

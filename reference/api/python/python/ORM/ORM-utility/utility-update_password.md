@@ -9,6 +9,20 @@ description: "This operation updates the password for a specific user. | Python 
 type: docx
 token: SGjed7w9toewDlxmXHKc7BFancf
 sidebar_position: 41
+keywords: 
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - update_password()
+  - pymilvus25
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: pythonSidebar
 
 ---

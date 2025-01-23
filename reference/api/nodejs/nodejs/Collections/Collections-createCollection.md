@@ -7,18 +7,22 @@ beta: false
 notebook: false
 description: "This operation creates a collection either with default or customized settings. | Node.js"
 type: docx
-token: AudsdfQ5hoDyKKxXSowcb3S6nfb
+token: HPumdTuktozoJAxYrqQcRciSnsb
 sidebar_position: 4
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
-  - node
+  - nodejs25
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: nodeSidebar
 
 ---
@@ -142,16 +146,18 @@ milvusClient.createCollection({
      {
        name: string,
        description: "vector field",
-       data_type: DataType.FloatVect,
+       data_type: DataType.FloatVector,
        type_params: {
          dim: "8"
-       }
+       },
+       
      }
    ],
    num_partitions?: number,
    partition_key_field?: string,
    shards_num?: number,
-   timeout?: number
+   timeout?: number,
+   
  })
 ```
 
@@ -243,11 +249,64 @@ milvusClient.createCollection({
 
             The maximum lengths of a string in this field.
 
-            This is required when the **data_type** of this field is **VARCHAR**.
+            This is required when the **data_type** of this field is **VarChar**.
 
         - **type_params** (*object*) -
 
             Extra parameters for the current field in key-value pairs.
+
+    - **nullable** (*boolean*) -
+
+        A Boolean parameter that specifies whether the field can accept null values. Valid values:
+
+        - **true**: The field can contain null values, indicating that the field is optional, and missing data is permitted for entries.
+
+        - **false** (default): The field must contain a valid value for each entity; missing data is not allowed, making the field mandatory.
+
+        For more information, refer to [Nullable & Default](https://milvus.io/docs/nullable-and-default.md).
+
+    - **default_value** (*object*)
+
+        Sets a default value for a specific field in a collection schema when creating it. This is particularly useful when you want certain fields to have an initial value even if no value is explicitly provided during data insertion.
+
+    - **enable_analyzer** (*boolean*) -
+
+        Whether to enable text analysis for the specified `VarChar` field. When set to `true`, it instructs Milvus to use a text analyzer, which tokenizes and filters the text content of the field.
+
+    - **enable_match** (*boolean*)
+
+        Whether to enable keyword matching for the specified `VarChar` field. When set to `true`, Milvus creates an inverted index for the field, allowing for quick and efficient keyword lookups. `enable_match` works in conjunction with `enable_analyzer` to provide structured term-based text search, with `enable_analyzer` handling tokenization and `enable_match` handling the search operations on these tokens.
+
+    - **analyzer_params** (*object*)
+
+        Configures the analyzer for text processing, specifically for `VarChar` fields. This parameter configures tokenizer and filter settings, particularly for text fields used in [keyword matching](https://milvus.io/docs/keyword-match.md) or [full text search](https://milvus.io/docs/full-text-search.md). Depending on the type of analyzer, it can be configured in either of the following methods:
+
+        - Built-in analyzer
+
+            ```javascript
+            const analyzer_params: { type: 'english' };
+            ```
+
+            - `type` (*string*) -
+
+                Pre-configured analyzer type built into Milvus, which can be used out-of-the-box by specifying its name. Possible values: `standard`, `english`, `chinese`. For more information, refer to [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md), [English Analyzer](https://milvus.io/docs/english-analyzer.md), and [Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md).
+
+        - Custom analyzer
+
+            ```javascript
+            const analyzer_params: {
+                "tokenizer": "standard",
+                "filter": ["lowercase"],
+            };
+            ```
+
+            - `tokenizer` (*string*) -
+
+                Defines the tokenizer type. Possible values: `standard` (default), `whitespace`, `jieba`. For more information, refer to [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md), [Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md), and [Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md).
+
+            - `filter` (*list*) -
+
+                Lists filters to refine tokens produced by the tokenizer, with options for built-in filters and custom filters. For more information, refer to [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) and others.
 
 - **num_partitions** (*number)* -
 
@@ -300,10 +359,11 @@ milvusClient.createCollection({
      {
        name: string,
        description: "vector field",
-       data_type: DataType.FloatVect,
+       data_type: DataType.FloatVector,
        type_params: {
          dim: "8"
-       }
+       },
+       
      }
    ],
    num_partitions?: number,
@@ -318,7 +378,8 @@ milvusClient.createCollection({
        metric_type?: string,
        params?: keyValueObj
      }     
-   ]
+   ],
+   
  })
 ```
 
@@ -511,7 +572,7 @@ const milvusClient = new milvusClient(MILUVS_ADDRESS);
      {
        name: "vector_01",
        description: "vector field",
-       data_type: DataType.FloatVect,
+       data_type: DataType.FloatVector,
        type_params: {
          dim: "8"
        }

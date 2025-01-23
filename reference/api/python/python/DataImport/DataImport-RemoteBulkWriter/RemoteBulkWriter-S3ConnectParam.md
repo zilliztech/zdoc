@@ -9,6 +9,20 @@ description: "An S3ConnectParam instance sets connection parameters for a Remote
 type: docx
 token: CSpOd0XgWoVAhzx5xbVcpCVfnPg
 sidebar_position: 5
+keywords: 
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - S3ConnectParam
+  - pymilvus25
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: pythonSidebar
 
 ---

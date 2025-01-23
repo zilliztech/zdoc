@@ -9,6 +9,20 @@ description: "A MilvusClient instance represents a Python client that connects t
 type: docx
 token: TUrSdmskuoGdFRxFT75c6xhinzc
 sidebar_position: 2
+keywords: 
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - MilvusClient
+  - pymilvus25
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: pythonSidebar
 
 ---
@@ -39,6 +53,7 @@ MilvusClient(
     uri: str,
     user: str,
     password: str,
+    db_name: str,
     token: str,
     timeout=None,
     **kwargs
@@ -66,6 +81,10 @@ MilvusClient(
     A valid password used to connect to the specified Zilliz Cloud cluster.
 
     This should be used along with **user**.
+
+- **db_name** (*string*) -
+
+    The name of the database to which the target Milvus instance belongs.
 
 - **token** (*string*) -
 
@@ -95,16 +114,14 @@ from pymilvus import MilvusClient
 # Authentication enabled with a cluster user
 client = MilvusClient(
     uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password", # replace this with your token
+    token="user:password", # replace this with your token,
+    db_name="default"
 )
 ```
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Set <strong>uri</strong> to your cluster endpoint. The <strong>token</strong> parameter can be a Zilliz Cloud API key with sufficient permissions or the credentials of a cluster user in the format of <code>username:p@ssw0rd</code>.</p></li>
-<li><p>To find the above information, refer to <a href="/docs/on-zilliz-cloud-console">On Zilliz Cloud Console</a>.</p></li>
-</ul>
+<p>Set <strong>uri</strong> to your cluster endpoint. The <strong>token</strong> parameter can be a Zilliz Cloud API key with sufficient permissions or the credentials of a cluster user in the format of <code>username:p@ssw0rd</code>.</p>
 
 </Admonition>
 

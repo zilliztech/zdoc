@@ -10,15 +10,19 @@ type: docx
 token: JNPwdFI1zoleD7x9LRIc0eqcnof
 sidebar_position: 5
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
-  - node
+  - nodejs25
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,12 +42,17 @@ listPartitions(data): Promise<ShowPartitionsResponse>
 
 ```javascript
 milvusClient.listPartitions({
+    db_name: string,
     collection_name: string,
     timeout?: number
  })
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

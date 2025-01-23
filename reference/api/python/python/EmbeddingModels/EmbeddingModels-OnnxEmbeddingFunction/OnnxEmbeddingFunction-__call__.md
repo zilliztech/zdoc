@@ -9,6 +9,20 @@ description: "This operation in OnnxEmbeddingFunction takes a list of text strin
 type: docx
 token: PlzSdJTGnoFVH6xSlS6cYBHZnph
 sidebar_position: 4
+keywords: 
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - \_\_call\_\_()
+  - pymilvus25
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

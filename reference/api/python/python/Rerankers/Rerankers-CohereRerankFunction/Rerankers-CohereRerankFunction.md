@@ -9,6 +9,20 @@ description: "CohereRerankFunction is a class in milvusmodel that takes a query 
 type: docx
 token: GAWOdft83oZPvHxtxzZcjrQunGg
 sidebar_position: 1
+keywords: 
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - CohereRerankFunction
+  - pymilvus25
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: pythonSidebar
 
 ---

@@ -9,6 +9,20 @@ description: "A Connections instance represents a pool of connections to your Zi
 type: docx
 token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
+keywords: 
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Connections
+  - pymilvus25
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: pythonSidebar
 
 ---

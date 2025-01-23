@@ -9,6 +9,20 @@ description: "This operation returns the progress of the index-building process.
 type: docx
 token: OVfodiKa6o3qTGxadYicI975nhh
 sidebar_position: 21
+keywords: 
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - index_building_progress()
+  - pymilvus25
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: pythonSidebar
 
 ---

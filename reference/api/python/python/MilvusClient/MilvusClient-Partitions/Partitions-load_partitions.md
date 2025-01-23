@@ -9,6 +9,20 @@ description: "This operation loads a specific set of partitions in a specified c
 type: docx
 token: DdQ1dBNagoBa08xhEiucxZrHnzc
 sidebar_position: 6
+keywords: 
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - load_partitions()
+  - pymilvus25
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: pythonSidebar
 
 ---

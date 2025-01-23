@@ -9,6 +9,20 @@ description: "This operation takes in a list of query strings and encodes each q
 type: docx
 token: HTx1dgoAloCELUxWLGxc0GPlno6
 sidebar_position: 2
+keywords: 
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - encode_queries()
+  - pymilvus25
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: pythonSidebar
 
 ---

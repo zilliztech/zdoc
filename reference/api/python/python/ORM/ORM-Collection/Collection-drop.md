@@ -9,6 +9,20 @@ description: "This operation drops the current collection. | Python | ORM"
 type: docx
 token: L8UTdDNkPoeew0x6LoDcfHx4nof
 sidebar_position: 8
+keywords: 
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - drop()
+  - pymilvus25
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 ---

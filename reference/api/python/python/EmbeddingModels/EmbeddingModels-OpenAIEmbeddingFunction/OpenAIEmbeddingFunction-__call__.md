@@ -9,6 +9,20 @@ description: "This operation in OpenAIEmbeddingFunction takes a list of text str
 type: docx
 token: FieTdj7WDoVbBVxp5xjcqO02nrh
 sidebar_position: 4
+keywords: 
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - \_\_call\_\_()
+  - pymilvus25
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 ---

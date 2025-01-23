@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods related to CRUD operations within a collection. | Node.js"
 type: folder
-token: XhBJfuQ6slBh8Tdj7BEc4Mp6n4b
-sidebar_position: 7
+token: IguLfmHgXlJoojdRU8kcohXZnE1
+sidebar_position: 5
 sidebar_label: "Vector"
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - Vector
-  - node
+  - nodejs25
 displayed_sidebar: nodeSidebar
 ---
 

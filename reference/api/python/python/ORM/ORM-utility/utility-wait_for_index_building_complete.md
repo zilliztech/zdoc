@@ -9,6 +9,20 @@ description: "This operation blocks the current process until the specified inde
 type: docx
 token: MfR8dw5TioPvw3xvrstcgYixnUb
 sidebar_position: 43
+keywords: 
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - wait_for_index_building_complete()
+  - pymilvus25
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 ---

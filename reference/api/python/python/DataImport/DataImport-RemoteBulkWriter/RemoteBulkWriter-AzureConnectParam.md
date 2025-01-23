@@ -9,6 +9,20 @@ description: "An AzureConnectParam instance sets connection parameters for a Rem
 type: docx
 token: C2YSddNqZoDNmNxWqqEcuzhKn4f
 sidebar_position: 2
+keywords: 
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - AzureConnectParam
+  - pymilvus25
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: pythonSidebar
 
 ---

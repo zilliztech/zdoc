@@ -9,6 +9,20 @@ description: "This operation closes the current Milvus client. | Python | Milvus
 type: docx
 token: CWZGd48FJoFHXYx40NMcTd2FnKc
 sidebar_position: 1
+keywords: 
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - close()
+  - pymilvus25
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

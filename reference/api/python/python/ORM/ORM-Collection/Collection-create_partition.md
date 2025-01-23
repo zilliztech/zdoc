@@ -9,6 +9,20 @@ description: "This operation creates a partition in the target collection. | Pyt
 type: docx
 token: Sh7HdgJOIoJipXx5AoNcicjMnyd
 sidebar_position: 5
+keywords: 
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - create_partition()
+  - pymilvus25
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: pythonSidebar
 
 ---

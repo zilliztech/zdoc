@@ -8,6 +8,16 @@ type: folder
 token: M0pgf1TX3lTotndwA7Vc3gJsnAd
 sidebar_position: 2
 sidebar_label: "Client"
+keywords: 
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Client
+  - pymilvus25
 displayed_sidebar: pythonSidebar
 ---
 

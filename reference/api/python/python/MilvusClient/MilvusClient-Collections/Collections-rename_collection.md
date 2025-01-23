@@ -8,7 +8,21 @@ notebook: false
 description: "This operation renames an existing collection. | Python | MilvusClient"
 type: docx
 token: IeiIdJ71Pox2OjxMiOzczUTenud
-sidebar_position: 15
+sidebar_position: 18
+keywords: 
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - rename_collection()
+  - pymilvus25
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 ---

@@ -8,6 +8,16 @@ type: folder
 token: BvYKfbpMUlczBxdyBvEc5Gb3nfb
 sidebar_position: 8
 sidebar_label: "utility"
+keywords: 
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - utility
+  - pymilvus25
 displayed_sidebar: pythonSidebar
 ---
 

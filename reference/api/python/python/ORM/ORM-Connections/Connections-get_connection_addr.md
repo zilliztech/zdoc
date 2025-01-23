@@ -9,6 +9,20 @@ description: "This operation retrieves the configuration of the specified connec
 type: docx
 token: H2zBdRHVtovNQGxvb0xcwpSKnBd
 sidebar_position: 5
+keywords: 
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - get_connection_addr()
+  - pymilvus25
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: pythonSidebar
 
 ---

@@ -8,7 +8,21 @@ notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Python | MilvusClient"
 type: docx
 token: VVyNdx038oECxNxMQavc9vssnoh
-sidebar_position: 10
+sidebar_position: 13
+keywords: 
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - get_collection_stats()
+  - pymilvus25
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 displayed_sidebar: pythonSidebar
 
 ---

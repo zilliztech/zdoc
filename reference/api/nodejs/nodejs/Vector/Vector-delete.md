@@ -10,15 +10,19 @@ type: docx
 token: PNtoddjsMoYuqcxCWK4c3IWKnde
 sidebar_position: 1
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
-  - node
+  - nodejs25
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: nodeSidebar
 
 ---
@@ -43,6 +47,7 @@ This method has the following alternatives.
 
 ```javascript
 milvusClient.delete({
+   db_name: string,
    collection_name: string,
    ids: string[] | number[],
    partition_name?: string,
@@ -51,6 +56,10 @@ milvusClient.delete({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

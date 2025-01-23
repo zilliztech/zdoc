@@ -7,8 +7,22 @@ beta: false
 notebook: false
 description: "A CollectionSchema instance represents the schema of a collection. A schema sketches the structure of a collection. | Python | ORM"
 type: docx
-token: WToudUwm4oVXeKxLg3jcj3IAnjh
+token: CmFKd9eG2oE6xmx9dIGcVPycnth
 sidebar_position: 2
+keywords: 
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - CollectionSchema
+  - pymilvus25
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: pythonSidebar
 
 ---

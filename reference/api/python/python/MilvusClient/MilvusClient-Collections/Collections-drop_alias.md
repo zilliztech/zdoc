@@ -8,7 +8,21 @@ notebook: false
 description: "This operation drops a specified collection alias. | Python | MilvusClient"
 type: docx
 token: FpWXdmIuforYz9xUCsqclyCXnLe
-sidebar_position: 8
+sidebar_position: 10
+keywords: 
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - drop_alias()
+  - pymilvus25
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: pythonSidebar
 
 ---

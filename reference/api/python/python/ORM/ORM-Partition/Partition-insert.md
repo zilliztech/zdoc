@@ -9,6 +9,20 @@ description: "This operation inserts data into the current partition. | Python |
 type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
+keywords: 
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - insert()
+  - pymilvus25
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
 ---

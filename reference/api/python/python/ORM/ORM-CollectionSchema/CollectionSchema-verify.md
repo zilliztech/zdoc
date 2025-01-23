@@ -9,6 +9,20 @@ description: "This operation performs final validation checks on the CollectionS
 type: docx
 token: KSECdBDcUoIkL7xI4KOc29Ukn1g
 sidebar_position: 5
+keywords: 
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - verify()
+  - pymilvus25
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: pythonSidebar
 
 ---

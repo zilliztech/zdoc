@@ -9,6 +9,20 @@ description: "This operation resets the password for a specific user. | Python |
 type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
+keywords: 
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - reset_password()
+  - pymilvus25
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
 ---

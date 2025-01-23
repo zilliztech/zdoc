@@ -8,7 +8,21 @@ notebook: false
 description: "This operation drops a collection. | Python | MilvusClient"
 type: docx
 token: QNB4d2q2ZorIApxpnzqczW2HnL7
-sidebar_position: 9
+sidebar_position: 11
+keywords: 
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - drop_collection()
+  - pymilvus25
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: pythonSidebar
 
 ---

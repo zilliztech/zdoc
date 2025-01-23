@@ -8,7 +8,21 @@ notebook: false
 description: "This operation creates a custom role. | Python | MilvusClient"
 type: docx
 token: OUz3drncZo1Er8xyITZcYz66nWE
-sidebar_position: 1
+sidebar_position: 3
+keywords: 
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - create_role()
+  - pymilvus25
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: pythonSidebar
 
 ---
@@ -68,27 +82,11 @@ from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # 2. Create a role
 client.create_role(role_name="read_only")
 ```
-
-## Related methods{#related-methods}
-
-- [describe_role()](./Authentication-describe_role)
-
-- [drop_role()](./Authentication-drop_role)
-
-- [grant_privilege()](./Authentication-grant_privilege)
-
-- [grant_role()](./Authentication-grant_role)
-
-- [list_roles()](./Authentication-list_roles)
-
-- [revoke_privileges()](./Authentication-revoke_privileges)
-
-- [revoke_role()](./Authentication-revoke_role)
 

@@ -10,15 +10,19 @@ type: docx
 token: PPLtdSbtfomgF1x5MHncKPgPnSf
 sidebar_position: 1
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
-  - node
+  - nodejs25
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ createPartition(data): Promise<ResStatus>
 
 ```javascript
 milvusClient.createPartition({
+    db_name: string,
     collection_name: string,
     partition_name: string,
     timeout?: number
@@ -45,6 +50,10 @@ milvusClient.createPartition({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

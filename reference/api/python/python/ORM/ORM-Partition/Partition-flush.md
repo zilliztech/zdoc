@@ -9,6 +9,20 @@ description: "This operation seals all segments in the partition. Any insertions
 type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
+keywords: 
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - flush()
+  - pymilvus25
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 ---

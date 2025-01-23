@@ -9,6 +9,20 @@ description: "This operation performs multi-vector search on a collection and re
 type: docx
 token: Bzb6dwkckop6XfxVm2lclXG2nJg
 sidebar_position: 17
+keywords: 
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - hybrid_search()
+  - pymilvus25
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: pythonSidebar
 
 ---

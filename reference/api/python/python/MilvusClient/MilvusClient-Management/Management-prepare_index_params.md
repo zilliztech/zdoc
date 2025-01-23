@@ -8,7 +8,21 @@ notebook: false
 description: "This operation prepares index parameters to build indexes for a specific collection. | Python | MilvusClient"
 type: docx
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
-sidebar_position: 8
+sidebar_position: 11
+keywords: 
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - prepare_index_params()
+  - pymilvus25
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: pythonSidebar
 
 ---

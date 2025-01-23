@@ -7,18 +7,22 @@ beta: false
 notebook: false
 description: "This operation drops a database. | Node.js"
 type: docx
-token: FIqudtw53o5TrPxk2VdceBQbnhg
+token: Ja99dnnaOoncwbx2zIPc4PjunXx
 sidebar_position: 2
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabase()
-  - node
+  - nodejs25
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -34,6 +38,12 @@ This operation drops a database.
 dropDatabase(data?): Promise<ResStatus>
 ```
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>This method applies only to dedicated clusters.</p>
+
+</Admonition>
+
 ## Request Syntax{#request-syntax}
 
 ```javascript
@@ -47,9 +57,9 @@ milvusClient.dropDatabase({
 
 - **db_name** (*string*) -
 
-    The name of the database to create.
+    The name of the database to drop.
 
-    There should be a database that has the specified name. Otherwise, exceptions will occur.
+    There should be a database with the specified name. Otherwise, exceptions will occur.
 
 - **timeout** (*number*) -
 

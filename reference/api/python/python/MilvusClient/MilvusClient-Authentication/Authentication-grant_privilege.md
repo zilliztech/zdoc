@@ -8,7 +8,21 @@ notebook: false
 description: "This operation assigns a privilege to a role. | Python | MilvusClient"
 type: docx
 token: W39Wdr7S6ohrtfxI8r7cyTeInlb
-sidebar_position: 7
+sidebar_position: 10
+keywords: 
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - grant_privilege()
+  - pymilvus25
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 displayed_sidebar: pythonSidebar
 
 ---
@@ -108,8 +122,8 @@ from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 read_only_privileges = [

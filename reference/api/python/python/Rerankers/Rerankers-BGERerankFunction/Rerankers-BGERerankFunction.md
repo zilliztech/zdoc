@@ -9,6 +9,20 @@ description: "BGERerankFunction is a class in milvusmodel that takes a query and
 type: docx
 token: GxAZd9O9gozzhExhMHWcMnXPngh
 sidebar_position: 1
+keywords: 
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - BGERerankFunction
+  - pymilvus25
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: pythonSidebar
 
 ---

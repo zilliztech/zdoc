@@ -9,6 +9,20 @@ description: "This operation loads the data of the current collection into memor
 type: docx
 token: HQDndiGwloWKIexgPCUcEZGenOh
 sidebar_position: 20
+keywords: 
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - load()
+  - pymilvus25
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: pythonSidebar
 
 ---

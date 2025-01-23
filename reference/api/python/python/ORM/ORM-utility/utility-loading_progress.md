@@ -9,6 +9,20 @@ description: "This operation returns the load progress of a specific collection.
 type: docx
 token: HQiHd82orov0XvxAzLWcl5xRnzc
 sidebar_position: 31
+keywords: 
+  - vector database
+  - IVF
+  - knn
+  - Image Search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - loading_progress()
+  - pymilvus25
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: pythonSidebar
 
 ---

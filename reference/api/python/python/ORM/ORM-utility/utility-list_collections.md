@@ -9,6 +9,20 @@ description: "This operation lists all collections in the database used in the c
 type: docx
 token: QgxEdfBMSodYo6xCg24cH3hInr4
 sidebar_position: 24
+keywords: 
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - list_collections()
+  - pymilvus25
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: pythonSidebar
 
 ---

@@ -8,7 +8,21 @@ notebook: false
 description: "This operation grants a role to a user. | Python | MilvusClient"
 type: docx
 token: DsnpdZuDGo77TYxFuYvcDpOgnIf
-sidebar_position: 8
+sidebar_position: 12
+keywords: 
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - grant_role()
+  - pymilvus25
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 displayed_sidebar: pythonSidebar
 
 ---

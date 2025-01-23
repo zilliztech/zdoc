@@ -9,6 +9,20 @@ description: "This operation blocks the current process until the specified coll
 type: docx
 token: PLKXdUB1EoNX8gxKHruc9GcEnsg
 sidebar_position: 44
+keywords: 
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - wait_for_loading_complete()
+  - pymilvus25
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 ---

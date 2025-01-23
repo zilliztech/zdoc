@@ -9,6 +9,20 @@ description: "This operation removes the connection from the registry by the giv
 type: docx
 token: L4KSdOVTEotaiyxjTddcVRDhn3E
 sidebar_position: 8
+keywords: 
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - remove_connection()
+  - pymilvus25
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -9,6 +9,20 @@ description: "This operation conducts a vector similarity search with an optiona
 type: docx
 token: OaM5dkbPjohKhNxHvKNcfnYMnVb
 sidebar_position: 25
+keywords: 
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - search()
+  - pymilvus25
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
 ---

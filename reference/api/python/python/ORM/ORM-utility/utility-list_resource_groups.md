@@ -9,6 +9,20 @@ description: "This operation lists all resource groups in the currently connecte
 type: docx
 token: FXTZd5FgNo9ta0xvjaIclEM1nPf
 sidebar_position: 26
+keywords: 
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - list_resource_groups()
+  - pymilvus25
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 ---

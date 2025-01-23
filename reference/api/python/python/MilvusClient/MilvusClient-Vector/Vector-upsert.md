@@ -8,7 +8,21 @@ notebook: false
 description: "This operation inserts or updates data in a specific collection. | Python | MilvusClient"
 type: docx
 token: WRYFdoDe8ofrlDxxTxQcdoJjnAh
-sidebar_position: 6
+sidebar_position: 8
+keywords: 
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - upsert()
+  - pymilvus25
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: pythonSidebar
 
 ---

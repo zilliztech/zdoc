@@ -8,6 +8,16 @@ type: folder
 token: E2Zlf8PdXlx097dT2sNchgqpnbF
 sidebar_position: 4
 sidebar_label: "db"
+keywords: 
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - db
+  - pymilvus25
 displayed_sidebar: pythonSidebar
 ---
 

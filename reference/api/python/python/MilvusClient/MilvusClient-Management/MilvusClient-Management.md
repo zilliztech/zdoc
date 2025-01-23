@@ -5,9 +5,19 @@ beta: false
 notebook: false
 description: "Methods for you to index, load, and release a collection. | Python | MilvusClient"
 type: folder
-token: IZKcfUEfClhhnWdFhk2co7krnAV
+token: MvvMf16FLlVOmtdgx5UcZ8qtnyd
 sidebar_position: 5
 sidebar_label: "Management"
+keywords: 
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Management
+  - pymilvus25
 displayed_sidebar: pythonSidebar
 ---
 

@@ -10,15 +10,19 @@ type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
 sidebar_position: 3
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
-  - node
+  - nodejs25
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +42,7 @@ dropIndex(data): Promise<ResStatus>
 
 ```javascript
 milvusClient.dropPartition({
+    db_name: string,
     collection_name: string,
     field_name?: string,
     index_name?: string,
@@ -46,6 +51,10 @@ milvusClient.dropPartition({
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

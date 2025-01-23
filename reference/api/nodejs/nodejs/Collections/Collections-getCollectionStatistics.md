@@ -10,15 +10,19 @@ type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
 sidebar_position: 10
 keywords: 
-  - how do vector databases work
-  - vector db comparison
   - openai vector db
   - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStatistics()
-  - node
+  - nodejs25
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,12 +42,17 @@ getCollectionStatistics(data): Promise<StatisticsResponse>
 
 ```javascript
 milvusClient.getCollectionStatistics({ 
+    db_name: string,
     collection_name: string,
     timeout?: number 
 })
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 

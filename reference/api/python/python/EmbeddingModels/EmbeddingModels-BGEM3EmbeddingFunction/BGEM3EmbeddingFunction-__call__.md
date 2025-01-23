@@ -9,6 +9,20 @@ description: "This operation in BGEM3EmbeddingFunction takes a list of text stri
 type: docx
 token: K7qWdSwtNo976VxcvopczGLjnLf
 sidebar_position: 4
+keywords: 
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - \_\_call\_\_()
+  - pymilvus25
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 ---

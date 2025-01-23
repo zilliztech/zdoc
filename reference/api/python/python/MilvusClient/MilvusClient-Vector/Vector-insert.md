@@ -9,6 +9,20 @@ description: "This operation inserts data into a specific collection. | Python |
 type: docx
 token: QI87dhVnioL9JLxnNKxcM8jWnkh
 sidebar_position: 3
+keywords: 
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - insert()
+  - pymilvus25
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: pythonSidebar
 
 ---
