@@ -18,10 +18,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
@@ -210,7 +210,7 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
        <tr>
          <td><p>us-west-2</p></td>
          <td><p>Oregon</p></td>
-         <td><p><code>com.amazonaws.vpce.us-west-2.vpce-svc-03c2ea94c80806411</code></p></td>
+         <td><p><code>com.amazonaws.vpce.us-west-2.vpce-svc-0654fb016640c364a</code></p></td>
        </tr>
        <tr>
          <td><p>eu-central-1</p></td>
