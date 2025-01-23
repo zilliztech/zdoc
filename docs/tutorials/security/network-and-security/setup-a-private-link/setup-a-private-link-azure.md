@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

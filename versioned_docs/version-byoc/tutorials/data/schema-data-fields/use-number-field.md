@@ -18,10 +18,10 @@ keywords:
   - int
   - integer
   - float
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

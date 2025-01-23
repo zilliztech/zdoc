@@ -14,10 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

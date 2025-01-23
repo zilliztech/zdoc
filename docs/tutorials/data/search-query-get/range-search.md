@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - range search
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

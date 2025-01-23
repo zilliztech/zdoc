@@ -15,10 +15,10 @@ keywords:
   - data import
   - export
   - milvus
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

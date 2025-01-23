@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

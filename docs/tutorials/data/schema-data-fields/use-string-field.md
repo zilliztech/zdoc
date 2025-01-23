@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

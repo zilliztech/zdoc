@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

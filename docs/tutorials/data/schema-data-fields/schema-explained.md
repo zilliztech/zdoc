@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

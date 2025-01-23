@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

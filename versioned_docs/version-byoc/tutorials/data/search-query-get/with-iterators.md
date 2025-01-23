@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

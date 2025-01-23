@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - lowercase
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

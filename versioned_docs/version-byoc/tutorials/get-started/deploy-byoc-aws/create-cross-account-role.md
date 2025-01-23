@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

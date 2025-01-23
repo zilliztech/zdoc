@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

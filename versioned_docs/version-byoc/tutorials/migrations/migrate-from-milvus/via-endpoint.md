@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

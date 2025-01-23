@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

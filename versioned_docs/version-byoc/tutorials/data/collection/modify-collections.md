@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

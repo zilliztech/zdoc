@@ -9,6 +9,20 @@ description: "This operation deletes entities by their IDs or with a boolean exp
 type: docx
 token: NOX7dAR3zodEH3xinMecMjq5n4S
 sidebar_position: 1
+keywords: 
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - delete()
+  - javaV2
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: javaSidebar
 
 ---

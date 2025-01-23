@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

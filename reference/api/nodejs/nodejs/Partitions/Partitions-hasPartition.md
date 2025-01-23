@@ -10,19 +10,19 @@ type: docx
 token: TVWPdTw2WoPAJYxsbGMc7MX6nEf
 sidebar_position: 4
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - hasPartition()
   - nodejs25
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
 displayed_sidebar: nodeSidebar
 
 ---

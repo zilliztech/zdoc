@@ -14,10 +14,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

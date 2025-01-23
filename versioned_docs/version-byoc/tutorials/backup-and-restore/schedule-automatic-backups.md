@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

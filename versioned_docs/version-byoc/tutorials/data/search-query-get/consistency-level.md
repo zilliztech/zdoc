@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

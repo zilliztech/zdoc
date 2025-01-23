@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

@@ -9,6 +9,20 @@ description: "This operation prepares index parameters to build indexes for a sp
 type: docx
 token: QecOdXKyfo9JtMxkHZxcLNqknxh
 sidebar_position: 5
+keywords: 
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - IndexParam
+  - javaV2
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: javaSidebar
 
 ---

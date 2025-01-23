@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

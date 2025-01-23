@@ -9,6 +9,20 @@ description: "This operation creates a partition in the target collection. | Jav
 type: docx
 token: CadTdZ5YGocDymxaIOvcr08pnxd
 sidebar_position: 1
+keywords: 
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createPartition()
+  - javaV2
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: javaSidebar
 
 ---

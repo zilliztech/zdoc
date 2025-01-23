@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

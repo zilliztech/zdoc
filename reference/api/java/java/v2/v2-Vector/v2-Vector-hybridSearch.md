@@ -9,6 +9,20 @@ description: "This operation performs multi-vector search on a collection and re
 type: docx
 token: PemMdzGFnovhaWxOzFzceaH3ncd
 sidebar_position: 3
+keywords: 
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - hybridSearch()
+  - javaV2
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: javaSidebar
 
 ---

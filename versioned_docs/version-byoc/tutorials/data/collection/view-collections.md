@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

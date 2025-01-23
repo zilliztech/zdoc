@@ -14,10 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

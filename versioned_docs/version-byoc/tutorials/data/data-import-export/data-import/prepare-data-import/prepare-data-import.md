@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

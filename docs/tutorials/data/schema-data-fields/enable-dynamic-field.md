@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
+  - k nearest neighbor algorithm
   - ANNS
   - Vector search
   - knn algorithm
-  - HNSW
 
 ---
 

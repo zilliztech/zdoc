@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

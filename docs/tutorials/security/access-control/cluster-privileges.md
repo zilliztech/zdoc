@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

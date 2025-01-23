@@ -10,19 +10,19 @@ type: docx
 token: JJOId59ePoMLefxz1ChcBZ6inOh
 sidebar_position: 19
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_role()
   - pymilvus25
+  - Recommender systems
   - information retrieval
   - dimension reduction
   - hnsw algorithm
-  - vector similarity search
 displayed_sidebar: pythonSidebar
 
 ---

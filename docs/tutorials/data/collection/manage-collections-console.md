@@ -15,10 +15,10 @@ keywords:
   - collection
   - manage
   - console
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

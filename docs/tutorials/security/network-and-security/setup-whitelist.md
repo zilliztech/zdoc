@@ -14,10 +14,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

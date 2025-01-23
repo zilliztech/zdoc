@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

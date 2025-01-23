@@ -14,10 +14,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

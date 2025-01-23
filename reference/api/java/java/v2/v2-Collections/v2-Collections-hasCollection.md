@@ -9,6 +9,20 @@ description: "This operation checks whether a specific collection exists. | Java
 type: docx
 token: Vs26d4WrYoJ3moxuLifcyP2enyh
 sidebar_position: 14
+keywords: 
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - hasCollection()
+  - javaV2
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: javaSidebar
 
 ---

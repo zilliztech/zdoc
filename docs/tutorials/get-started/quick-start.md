@@ -14,10 +14,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

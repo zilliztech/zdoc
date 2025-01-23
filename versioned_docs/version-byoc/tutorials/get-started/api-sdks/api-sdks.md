@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

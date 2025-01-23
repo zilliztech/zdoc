@@ -14,10 +14,10 @@ keywords:
   - cloud
   - network
   - security
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

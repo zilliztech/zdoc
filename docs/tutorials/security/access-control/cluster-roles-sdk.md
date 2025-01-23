@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

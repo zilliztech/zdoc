@@ -16,10 +16,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

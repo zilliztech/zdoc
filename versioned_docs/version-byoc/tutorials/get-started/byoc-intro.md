@@ -13,10 +13,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

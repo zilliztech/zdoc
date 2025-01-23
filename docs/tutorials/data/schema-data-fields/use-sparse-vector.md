@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

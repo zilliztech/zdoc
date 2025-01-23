@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

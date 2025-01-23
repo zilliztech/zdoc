@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

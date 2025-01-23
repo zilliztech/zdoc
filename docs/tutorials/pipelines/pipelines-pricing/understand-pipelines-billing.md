@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

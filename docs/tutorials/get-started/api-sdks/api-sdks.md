@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

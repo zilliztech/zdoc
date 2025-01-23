@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
+  - what are vector databases
   - vector databases comparison
   - Faiss
   - Video search
-  - AI Hallucination
 
 ---
 

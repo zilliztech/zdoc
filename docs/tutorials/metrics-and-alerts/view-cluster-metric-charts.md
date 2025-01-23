@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

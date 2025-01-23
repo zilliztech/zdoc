@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

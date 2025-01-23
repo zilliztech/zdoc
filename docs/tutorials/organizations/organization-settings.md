@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

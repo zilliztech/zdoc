@@ -14,10 +14,10 @@ keywords:
   - cloud
   - free trial
   - milvus
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
 
 ---
 

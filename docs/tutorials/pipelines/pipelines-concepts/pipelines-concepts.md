@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - concepts
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

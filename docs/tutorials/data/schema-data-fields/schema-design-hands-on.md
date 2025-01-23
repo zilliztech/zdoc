@@ -16,10 +16,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - Neural Network
-  - Deep Learning
   - Knowledge base
   - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

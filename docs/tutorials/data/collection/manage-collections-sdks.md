@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

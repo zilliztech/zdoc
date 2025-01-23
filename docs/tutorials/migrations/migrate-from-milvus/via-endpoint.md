@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

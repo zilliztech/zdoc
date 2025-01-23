@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

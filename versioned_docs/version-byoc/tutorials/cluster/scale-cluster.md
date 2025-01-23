@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
 
 ---
 

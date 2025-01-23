@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - whitespace-tokenizer
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

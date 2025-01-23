@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -302,6 +302,12 @@ export filter='partition_key in ["x", "y", "z"] && <other conditions>'
 </TabItem>
 </Tabs>
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>You have to replace <code>partition_key</code> with the name of the field that is designated as the partition key.</p>
+
+</Admonition>
+
 ## Use Partition Key Isolation{#use-partition-key-isolation}
 
 In the multi-tenancy scenario, you can designate the scalar field related to tenant identities as the partition key and create a filter based on a specific value in this scalar field. To further improve search performance in similar scenarios, Zilliz Cloud introduces the Partition Key Isolation feature.
@@ -392,4 +398,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Once you have enabled Partition Key Isolation, you can still set the Partition Key and number of partitions as described in [Use Partition Key](./use-partition-key#use-partition-key). Note that the Partition-Key-based filter should include only a specific Partition Key value.
+Once you have enabled Partition Key Isolation, you can still set the Partition Key and number of partitions as described in [Set Partition Numbers](./use-partition-key#set-partition-numbers). Note that the Partition-Key-based filter should include only a specific Partition Key value.

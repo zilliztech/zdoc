@@ -16,10 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 
@@ -309,7 +309,7 @@ res = client.search(
     # highlight-start
     filter='color like "red%" and likes > 50',
     output_fields=["color", "likes"],
-    search_params: {
+    search_params={
         "hints": "iterative_filter"
     }
     # highlight-end
@@ -328,9 +328,9 @@ for hits in res:
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.SearchReq
+import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp
+import io.milvus.v2.service.vector.response.SearchResp;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")

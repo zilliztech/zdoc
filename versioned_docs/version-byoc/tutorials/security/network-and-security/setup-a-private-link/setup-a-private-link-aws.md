@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 
@@ -62,7 +62,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
            </tr>
            <tr>
              <td><p><strong>Domain name</strong></p></td>
-             <td><p>Set it to <code>zilliz-byoc-us.byoc.zillizcloud.com</code>.</p></td>
+             <td><p></p><p></p><p>Use either of the following domain names that match the target cloud zone of the deployment.</p><ul><li><p><code>zilliz-byoc-us-byoc.zillizcloud.com</code> (us-west-2)</p></li><li><p><code>zilliz-byoc-eu.byoc.zillizcloud.com</code> (eu-central-1)</p><p></p></li></ul></td>
            </tr>
            <tr>
              <td><p><strong>Description</strong></p></td>

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

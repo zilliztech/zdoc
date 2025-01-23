@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - image data
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

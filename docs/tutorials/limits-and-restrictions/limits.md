@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

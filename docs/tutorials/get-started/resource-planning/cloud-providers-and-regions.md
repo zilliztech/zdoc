@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

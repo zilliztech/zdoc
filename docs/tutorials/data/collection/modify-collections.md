@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
   - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

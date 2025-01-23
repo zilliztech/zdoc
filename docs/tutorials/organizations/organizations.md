@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

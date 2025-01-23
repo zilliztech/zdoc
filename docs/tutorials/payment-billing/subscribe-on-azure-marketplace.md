@@ -14,10 +14,10 @@ keywords:
   - cloud
   - marketplace
   - azure
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - data import
   - export
   - milvus
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

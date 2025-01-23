@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
+  - vector database example
+  - rag vector database
   - what is vector db
   - what are vector databases
-  - vector databases comparison
-  - Faiss
 
 ---
 

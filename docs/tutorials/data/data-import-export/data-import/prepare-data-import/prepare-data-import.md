@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

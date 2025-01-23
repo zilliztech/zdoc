@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

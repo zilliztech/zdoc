@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
+  - Large language model
+  - Vectorization
   - k nearest neighbor algorithm
   - ANNS
-  - Vector search
-  - knn algorithm
 
 ---
 

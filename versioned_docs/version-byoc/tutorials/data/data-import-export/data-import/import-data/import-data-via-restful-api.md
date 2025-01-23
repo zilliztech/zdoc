@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

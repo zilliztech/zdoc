@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

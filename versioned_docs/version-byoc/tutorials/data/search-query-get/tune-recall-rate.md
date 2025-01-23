@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 
@@ -92,8 +92,8 @@ res = client.search(
     limit=3, # The number of results to return
     search_params={
         "params": {
-            # highlight-next-line
             "level": 6 # The precision control
+            # highlight-next-line
             "enable_recall_calculation": True # Ask for recall rate calculation
         }
     }

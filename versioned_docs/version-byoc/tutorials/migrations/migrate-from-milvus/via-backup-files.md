@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

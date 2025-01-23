@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

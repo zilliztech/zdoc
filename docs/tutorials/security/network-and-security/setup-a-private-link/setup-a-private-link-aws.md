@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 
@@ -173,7 +173,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
            </tr>
            <tr>
              <td><p><strong>Domain name</strong></p></td>
-             <td><p>Private Link allocated by Zilliz Cloud for the target cluster.</p></td>
+             <td><p></p><p>Private Link allocated by Zilliz Cloud for the target cluster.</p><p></p>\</li>\</ul></td>
            </tr>
            <tr>
              <td><p><strong>Description</strong></p></td>
@@ -221,10 +221,10 @@ To disable public endpoints:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Private endpoints only impact <a href="/reference/restful/data-plane-v2">data plane</a> access. <a href="/reference/restful/control-plane-v2">Control plane</a> can still be accessed over the public internet.</p></li>
-<li><p>After you re-enable the public endpoint, you may need to wait until the local DNS cache to expire before you can access the public endpoint.</p></li>
-</ul>
+\<ul>
+\<li><p>Private endpoints only impact <a href="/reference/restful/data-plane-v2">data plane</a> access. <a href="/reference/restful/control-plane-v2">Control plane</a> can still be accessed over the public internet.</p>\</li>
+\<li><p>After you re-enable the public endpoint, you may need to wait until the local DNS cache to expire before you can access the public endpoint.</p>\</li>
+\</ul>
 
 </Admonition>
 

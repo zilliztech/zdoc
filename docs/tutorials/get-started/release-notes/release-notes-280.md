@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

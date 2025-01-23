@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

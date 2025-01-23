@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

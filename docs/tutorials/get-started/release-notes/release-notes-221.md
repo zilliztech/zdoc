@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

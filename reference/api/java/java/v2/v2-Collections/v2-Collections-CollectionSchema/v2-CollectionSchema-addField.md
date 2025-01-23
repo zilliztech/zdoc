@@ -9,6 +9,20 @@ description: "This operation adds a vector field to the schema of a collection. 
 type: docx
 token: ST5xdgZ9YoXYiJx7Ex6czstHnij
 sidebar_position: 1
+keywords: 
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - addField()
+  - javaV2
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: javaSidebar
 
 ---

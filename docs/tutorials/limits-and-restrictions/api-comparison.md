@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

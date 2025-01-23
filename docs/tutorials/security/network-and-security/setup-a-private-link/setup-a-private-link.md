@@ -18,10 +18,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

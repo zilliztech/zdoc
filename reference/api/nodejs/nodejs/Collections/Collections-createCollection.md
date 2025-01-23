@@ -10,19 +10,19 @@ type: docx
 token: HPumdTuktozoJAxYrqQcRciSnsb
 sidebar_position: 4
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - nodejs25
+  - Image Search
   - LLMs
   - Machine Learning
   - RAG
-  - NLP
 displayed_sidebar: nodeSidebar
 
 ---

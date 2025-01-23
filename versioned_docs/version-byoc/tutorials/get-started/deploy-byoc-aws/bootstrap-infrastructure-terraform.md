@@ -15,10 +15,10 @@ keywords:
   - terraform
   - milvus
   - vector database
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

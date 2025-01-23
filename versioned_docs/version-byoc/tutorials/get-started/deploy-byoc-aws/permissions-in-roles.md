@@ -16,10 +16,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: JmlKdBz7Io91Ffx9rpKce3vUnMc
 sidebar_position: 1
 keywords: 
+  - milvus db
+  - milvus vector db
   - Zilliz Cloud
   - what is milvus
-  - milvus database
-  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
   - nodejs25
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: nodeSidebar
 
 ---

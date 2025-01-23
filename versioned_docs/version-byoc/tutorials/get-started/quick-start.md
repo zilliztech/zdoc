@@ -14,10 +14,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

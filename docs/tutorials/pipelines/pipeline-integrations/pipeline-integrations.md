@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - integration
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

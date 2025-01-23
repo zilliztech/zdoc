@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

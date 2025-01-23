@@ -10,19 +10,19 @@ type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 15
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - updatePassword()
   - nodejs25
+  - Annoy vector search
   - milvus
   - Zilliz
   - milvus vector database
-  - milvus db
 displayed_sidebar: nodeSidebar
 
 ---

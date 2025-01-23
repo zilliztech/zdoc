@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - postgresql
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

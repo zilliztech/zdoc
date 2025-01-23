@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
+  - Context Window
+  - Natural language search
   - Similarity Search
   - multimodal RAG
-  - llm hallucinations
-  - hybrid search
 
 ---
 

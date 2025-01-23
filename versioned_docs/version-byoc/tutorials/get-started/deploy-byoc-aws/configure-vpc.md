@@ -18,10 +18,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 
@@ -38,9 +38,24 @@ This page enumerates the minimum requirements for you to host a Zilliz Cloud BYO
 
 Your VPC must meet the requirements enumerated in this section to host a Zilliz Cloud project. If you prefer to use an existing VPC for your BYOC project, ensure that your VPC meets these requirements. 
 
-### VPC region{#vpc-region}
+### VPC regions{#vpc-regions}
 
 The following table lists the AWS cloud regions the Zilliz Cloud BYOC solution supports. If you cannot find your cloud regions on the Zilliz Cloud console, please contact us at support@zilliz.com.
+
+<table>
+   <tr>
+     <th><p>AWS Region</p></th>
+     <th><p>Location</p></th>
+   </tr>
+   <tr>
+     <td><p>us-west-2</p></td>
+     <td><p>Oregon</p></td>
+   </tr>
+   <tr>
+     <td><p>eu-central-1</p></td>
+     <td><p>Frankfurt</p></td>
+   </tr>
+</table>
 
 ### VPC IP address ranges{#vpc-ip-address-ranges}
 
@@ -196,6 +211,11 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
          <td><p>us-west-2</p></td>
          <td><p>Oregon</p></td>
          <td><p><code>com.amazonaws.vpce.us-west-2.vpce-svc-03c2ea94c80806411</code></p></td>
+       </tr>
+       <tr>
+         <td><p>eu-central-1</p></td>
+         <td><p>Frankfurt</p></td>
+         <td><p><code>com.amazonaws.vpce.eu-central-1.vpce-svc-0d5ce1ec4decbc7df</code></p></td>
        </tr>
     </table>
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

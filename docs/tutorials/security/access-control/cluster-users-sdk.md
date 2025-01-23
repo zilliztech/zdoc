@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

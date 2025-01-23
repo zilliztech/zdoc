@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - array field
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 
@@ -67,7 +67,7 @@ schema = client.create_schema(
 )
 
 # Add an Array field with elements of type VARCHAR
-schema.add_field(field_name="tags", datatype=DataType.ARRAY, element_type=DataType.VARCHAR, max_capacity=10)
+schema.add_field(field_name="tags", datatype=DataType.ARRAY, element_type=DataType.VARCHAR, max_capacity=10, max_length=65535)
 # Add an Array field with elements of type INT64
 schema.add_field(field_name="ratings", datatype=DataType.ARRAY, element_type=DataType.INT64, max_capacity=5)
 
@@ -101,6 +101,7 @@ schema.addField(AddFieldReq.builder()
         .dataType(DataType.Array)
         .elementType(DataType.VarChar)
         .maxCapacity(10)
+        .maxLength(65535)
         .build());
 
 schema.addField(AddFieldReq.builder()
@@ -167,7 +168,7 @@ export arrayField1='{
     "elementDataType": "VarChar",
     "elementTypeParams": {
         "max_capacity": 10,
-        "max_length": 100
+        "max_length": 65535
     }
 }'
 

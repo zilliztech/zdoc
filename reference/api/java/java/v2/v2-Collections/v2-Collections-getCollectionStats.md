@@ -9,6 +9,20 @@ description: "This operation lists the statistics collected on a specific collec
 type: docx
 token: XgfcdpBWCof3pfxhUudcRZajnPc
 sidebar_position: 13
+keywords: 
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - getCollectionStats()
+  - javaV2
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: javaSidebar
 
 ---

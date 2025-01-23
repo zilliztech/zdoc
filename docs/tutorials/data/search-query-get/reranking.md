@@ -16,10 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
   - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

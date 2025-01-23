@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

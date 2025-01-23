@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

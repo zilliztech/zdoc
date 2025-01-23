@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

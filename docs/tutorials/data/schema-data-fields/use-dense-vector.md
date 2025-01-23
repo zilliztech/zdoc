@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

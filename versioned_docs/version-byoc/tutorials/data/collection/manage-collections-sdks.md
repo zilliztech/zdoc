@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

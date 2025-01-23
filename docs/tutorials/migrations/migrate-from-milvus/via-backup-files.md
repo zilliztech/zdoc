@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - Knowledge base
-  - natural language processing
   - AI chatbots
   - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

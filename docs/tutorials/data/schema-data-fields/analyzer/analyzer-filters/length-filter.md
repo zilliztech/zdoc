@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

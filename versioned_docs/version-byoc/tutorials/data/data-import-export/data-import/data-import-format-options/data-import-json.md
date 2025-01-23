@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - json
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

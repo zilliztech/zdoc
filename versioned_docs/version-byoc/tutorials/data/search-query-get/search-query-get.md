@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - DML
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

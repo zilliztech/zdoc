@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

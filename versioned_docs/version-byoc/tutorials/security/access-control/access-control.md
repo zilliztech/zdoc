@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

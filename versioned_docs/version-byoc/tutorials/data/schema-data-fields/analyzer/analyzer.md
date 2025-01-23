@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - pymilvus25
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 ---

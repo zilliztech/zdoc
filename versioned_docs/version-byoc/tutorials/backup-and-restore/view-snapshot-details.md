@@ -15,10 +15,10 @@ keywords:
   - backup
   - files
   - view
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

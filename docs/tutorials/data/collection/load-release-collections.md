@@ -15,10 +15,10 @@ keywords:
   - collection
   - load
   - release
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

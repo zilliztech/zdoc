@@ -8,6 +8,16 @@ type: folder
 token: PohgfmtiBlwuPRdcACmc9JDZnve
 sidebar_position: 5
 sidebar_label: "Management"
+keywords: 
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Management
+  - javaV2
 displayed_sidebar: javaSidebar
 ---
 
