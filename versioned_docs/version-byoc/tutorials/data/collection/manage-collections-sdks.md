@@ -229,7 +229,7 @@ index_params = client.prepare_index_params()
 # 3.4. Add indexes
 index_params.add_index(
     field_name="my_id",
-    index_type="STL_SORT"
+    index_type="AUTOINDEX"
 )
 
 index_params.add_index(
@@ -272,7 +272,7 @@ indexParams.add(indexParamForVectorField);
 // 3.2 Prepare index parameters
 const index_params = [{
     field_name: "my_id",
-    index_type: "STL_SORT"
+    index_type: "AUTOINDEX"
 },{
     field_name: "my_vector",
     index_type: "AUTOINDEX",

@@ -240,7 +240,7 @@ index_params = client.prepare_index_params()
 index_params.add_index(
     field_name="sparse_vector",
     index_name="sparse_inverted_index",
-    index_type="SPARSE_INVERTED_INDEX",
+    index_type="AUTOINDEX",
     metric_type="IP",
     params={"inverted_index_algo": "DAAT_MAXSCORE"},
 )
@@ -260,7 +260,7 @@ extraParams.put("inverted_index_algo": "DAAT_MAXSCORE");
 indexes.add(IndexParam.builder()
         .fieldName("sparse_vector")
         .indexName("sparse_inverted_index")
-        .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
         .extraParams(extraParams)
         .build());
@@ -275,7 +275,7 @@ const indexParams = await client.createIndex({
     index_name: 'sparse_inverted_index',
     field_name: 'sparse_vector',
     metric_type: MetricType.IP,
-    index_type: IndexType.SPARSE_WAND,
+    index_type: IndexType.AUTOINDEX,
     params: {
       inverted_index_algo: 'DAAT_MAXSCORE',
     },
@@ -292,7 +292,7 @@ export indexParams='[
             "fieldName": "sparse_vector",
             "metricType": "IP",
             "indexName": "sparse_inverted_index",
-            "indexType": "SPARSE_INVERTED_INDEX",
+            "indexType": "AUTOINDEX",
             "params":{"inverted_index_algo": "DAAT_MAXSCORE"}
         }
     ]'
