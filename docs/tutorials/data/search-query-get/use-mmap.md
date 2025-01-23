@@ -167,7 +167,7 @@ index_params = MilvusClient.prepare_index_params()
 # Create index on the varchar field with mmap settings
 index_params.add_index(
     field_name="title", 
-    index_type="INVERTED"
+    index_type="AUTOINDEX"
     # highlight-next-line
     params={ "mmap.enabled": "false" }
 )

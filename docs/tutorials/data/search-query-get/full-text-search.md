@@ -349,7 +349,7 @@ import io.milvus.v2.common.IndexParam;
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
         .fieldName("sparse")
-        .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.BM25)
         .build());
 ```
