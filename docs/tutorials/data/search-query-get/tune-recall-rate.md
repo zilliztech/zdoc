@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -34,8 +34,14 @@ Zilliz Cloud introduces a search parameter `level` to allow users to balance sea
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is in Public Preview and you have to use a cluster compatible with Milvus v2.5.4 and later.</p>
-<p>This feature is available in Milvus v2.5.4 and later.</p>
+<ul>
+<li><p>This feature is in Public Preview and you have to use a cluster compatible with Milvus v2.5.4 and later or with Milvus v2.4.14 and later.</p></li>
+<li><p>This feature is compatible the API and SDKs of the following versions:</p></li>
+<li><p>Python: v2.5.4 and v2.4.14</p></li>
+<li><p>Java: v2.5.3 and v2.4.10</p></li>
+<li><p>Node.js: v2.5.2 and v2.4.10</p></li>
+<li><p>RESTful: v2.5.4</p></li>
+</ul>
 
 </Admonition>
 
