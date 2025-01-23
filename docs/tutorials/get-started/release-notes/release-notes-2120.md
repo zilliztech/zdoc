@@ -39,7 +39,7 @@ As enterprise adoption of Zilliz Cloud grows, more and more become concerned wit
 
 - **Optimized Permissions**: Deployment and operational tasks now require minimized, fine-grained permission settings, improving security and ease of management. Please take a look at the full permission list [here](/docs/byoc/permissions-in-roles).
 
-For more details, refer to [BYOC Overview](/byoc-intro) and [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws).
+For more details, refer to [BYOC Overview](/docs/byoc/byoc-intro) and [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws).
 
 ## New Region Available: GCP us-central1 (lowa){#new-region-available-gcp-us-central1-lowa}
 

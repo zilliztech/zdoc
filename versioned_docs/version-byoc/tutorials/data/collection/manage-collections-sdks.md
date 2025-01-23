@@ -250,7 +250,7 @@ import java.util.*;
 // 3.3 Prepare index parameters
 IndexParam indexParamForIdField = IndexParam.builder()
         .fieldName("my_id")
-        .indexType(IndexParam.IndexType.STL_SORT)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .build();
 
 IndexParam indexParamForVectorField = IndexParam.builder()
@@ -293,7 +293,7 @@ import (
 
 indexOptions := []milvusclient.CreateIndexOption{
     client.NewCreateIndexOption(collectionName, "my_vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("my_vector"),
-    client.NewCreateIndexOption(collectionName, "my_id", index.NewSortedIndex()).WithIndexName("my_id"),
+    client.NewCreateIndexOption(collectionName, "my_id", index.NewAutoIndex()).WithIndexName("my_id"),
 }
 ```
 

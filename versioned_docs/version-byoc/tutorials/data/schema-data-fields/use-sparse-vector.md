@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 
@@ -239,10 +239,10 @@ index_params = client.prepare_index_params()
 
 index_params.add_index(
     field_name="sparse_vector",
-    index_name="sparse_inverted_index",
+    index_name="sparse_auto_index",
     index_type="AUTOINDEX",
-    metric_type="IP",
-    params={"inverted_index_algo": "DAAT_MAXSCORE"},
+    metric_type="IP"
+
 )
 ```
 
@@ -255,14 +255,12 @@ import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 List<IndexParam> indexes = new ArrayList<>();
-Map<String,Object> extraParams = new HashMap<>();
-extraParams.put("inverted_index_algo": "DAAT_MAXSCORE");
+
 indexes.add(IndexParam.builder()
         .fieldName("sparse_vector")
-        .indexName("sparse_inverted_index")
+        .indexName("sparse_auto_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
-        .extraParams(extraParams)
         .build());
 ```
 
@@ -272,13 +270,10 @@ indexes.add(IndexParam.builder()
 
 ```javascript
 const indexParams = await client.createIndex({
-    index_name: 'sparse_inverted_index',
     field_name: 'sparse_vector',
     metric_type: MetricType.IP,
+    index_name: 'sparse_auto_index',
     index_type: IndexType.AUTOINDEX,
-    params: {
-      inverted_index_algo: 'DAAT_MAXSCORE',
-    },
 });
 ```
 
@@ -291,9 +286,8 @@ export indexParams='[
         {
             "fieldName": "sparse_vector",
             "metricType": "IP",
-            "indexName": "sparse_inverted_index",
-            "indexType": "AUTOINDEX",
-            "params":{"inverted_index_algo": "DAAT_MAXSCORE"}
+            "indexName": "sparse_auto_index",
+            "indexType": "AUTOINDEX"
         }
     ]'
 ```

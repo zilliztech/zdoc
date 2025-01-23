@@ -293,7 +293,7 @@ import (
 
 indexOptions := []milvusclient.CreateIndexOption{
     client.NewCreateIndexOption(collectionName, "my_vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("my_vector"),
-    client.NewCreateIndexOption(collectionName, "my_id", index.NewAUTOINDEX()).WithIndexName("my_id"),
+    client.NewCreateIndexOption(collectionName, "my_id", index.NewAutoIndex()).WithIndexName("my_id"),
 }
 ```
 
