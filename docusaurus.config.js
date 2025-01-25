@@ -533,6 +533,10 @@ const config = {
                 label: 'GitHub',
                 href: 'https://github.com/zilliztech',
               },
+              {
+                label: 'Discord',
+                href: 'https://discord.com/invite/8uyFbECzPX'
+              }
             ],
           },
           {
