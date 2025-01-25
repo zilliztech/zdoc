@@ -135,7 +135,7 @@ Once your cluster is running, you will be prompted with the [cluster credentials
 
 Alternatively, you can [create an API key](./manage-api-keys) instead of using the cluster credentials for the connection.
 
-## Connect to Zilliz Cloud clusterMilvus{#connect-to-zilliz-cloud-clustermilvus}
+## Connect to Zilliz Cloud cluster{#connect-to-zilliz-cloud-cluster}
 
 Once you have obtained the cluster credentials or an API key, you can use it to connect to your cluster now.
 
