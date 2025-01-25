@@ -28,6 +28,12 @@ import Admonition from '@theme/Admonition';
 
 The connector is an in-built free tool that makes it easy to connect various data sources to a vector database. This guide will explain the concept of a connector and provide instructions on how to create and manage connectors in Zilliz Cloud Pipelines.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud Pipelines will be discontinued by the end of Q2 2025 and replaced by a new feature, “Data In, Data Out,” to streamline embedding generation in both Milvus and Zilliz Cloud. As of December 24, 2024, new user registrations are no longer accepted. Current users can continue using the service within the $20 monthly free allowance until the sunset date; however, no SLA is provided. Please consider using embedding APIs from model providers or open-source models to generate vector embeddings.</p>
+
+</Admonition>
+
 ## Understanding Connectors{#understanding-connectors}
 
 A connector is a tool for ingesting data to Zilliz Cloud from various data sources, including Object Storage, Kafka (coming soon) and more. Taking object storage connector as an example, a connector can monitor a directory in object storage bucket and sync files such as PDFs and HTMLs to Zilliz Cloud Pipelines, so that they can be converted to vector representation and stored in vector database for search. With ingestion and deletion pipelines, the files and their vector representation in Zilliz Cloud are kept in sync. Any addition or removal of files in the object storage will be mapped to the vector database collection.
