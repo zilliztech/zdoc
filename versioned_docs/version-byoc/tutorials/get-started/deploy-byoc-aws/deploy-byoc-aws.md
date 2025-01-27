@@ -14,10 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
@@ -145,28 +145,24 @@ You need to determine the types of instances to create for each component listed
      <th><p>Components</p></th>
      <th><p>Licenses consumed per instance</p></th>
      <th><p>Instance type</p></th>
-     <th><p>Instances required for initial deployment</p></th>
      <th><p>Description</p></th>
    </tr>
    <tr>
      <td><p>Search service</p></td>
      <td><p>16</p></td>
      <td><p>m6id.4xlarge</p></td>
-     <td><p>0</p></td>
      <td><p>Instances solely used for query services</p></td>
    </tr>
    <tr>
      <td><p>Fundamental database components</p></td>
      <td><p>8</p></td>
      <td><p>m6i.2xlarge</p></td>
-     <td><p>1</p></td>
      <td><p>Instances used for fundamental database components, which are mainly used as the index pool</p></td>
    </tr>
    <tr>
      <td><p>Core support services</p></td>
      <td><p>0</p></td>
      <td><p>m6i.2xlarge</p></td>
-     <td><p>3</p></td>
      <td><p>Instances used for peripheral support services, including Milvus Operator, Zilliz Cloud Agent, and Milvus dependencies for logging, monitoring, and alerting</p></td>
    </tr>
 </table>
