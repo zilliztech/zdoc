@@ -34,6 +34,12 @@ The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a pr
 
 This page enumerates the minimum requirements for you to host a Zilliz Cloud BYOC project in a customer-managed VPC that meets these requirements. 
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
+
 ## VPC requirements{#vpc-requirements}
 
 Your VPC must meet the requirements enumerated in this section to host a Zilliz Cloud project. If you prefer to use an existing VPC for your BYOC project, ensure that your VPC meets these requirements. 

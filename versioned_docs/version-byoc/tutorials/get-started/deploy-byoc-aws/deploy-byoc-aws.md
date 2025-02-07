@@ -28,6 +28,12 @@ import Admonition from '@theme/Admonition';
 
 This page describes how to manually create a project in your Zilliz Cloud Bring-Your-Own-Cloud (BYOC) organization using the Zilliz Cloud console and custom AWS configurations.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
+
 ## Prerequisites{#prerequisites}
 
 - You must be a BYOC organization owner.

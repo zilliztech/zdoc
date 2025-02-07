@@ -31,6 +31,12 @@ OIDC is an authentication protocol built on top of OAuth 2.0. It allows for seam
 
 ![EfRWwnbKNhcXEwbL7EBcB66inrd](/byoc/EfRWwnbKNhcXEwbL7EBcB66inrd.png)
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud SSO is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
+
 ## Before you start{#before-you-start}
 
 Before you begin the SSO configuration, make sure the following conditions are met:

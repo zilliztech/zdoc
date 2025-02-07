@@ -30,6 +30,12 @@ import Admonition from '@theme/Admonition';
 
 This page describes how to create and configure root storage for a Bring-Your-Own-Cloud (BYOC) project with proper permissions.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
+
 ## Best practices for the S3 bucket{#best-practices-for-the-s3-bucket}
 
 The bucket that you specify during the project deployment will be used as the root storage for the clusters created in the project. Before you create your S3 bucket, review the following best practices:

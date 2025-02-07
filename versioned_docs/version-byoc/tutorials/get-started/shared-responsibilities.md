@@ -28,6 +28,12 @@ import Admonition from '@theme/Admonition';
 
 This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarify the division of tasks related to cloud management, upgrades, security, access control, service availability, and technical support, ensuring smooth collaboration while maintaining a secure and efficient operation environment.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
+
 ## Cloud Management{#cloud-management}
 
 <table>

@@ -30,6 +30,12 @@ import Admonition from '@theme/Admonition';
 
 This page describes how to create and configure an IAM role for Zilliz Cloud to deploy an EKS cluster for your Zilliz Cloud project.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
+
 ## Procedure{#procedure}
 
 You can use the AWS console to create the EKS role. As an alternative, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on AWS. For details, refer to [Bootstrap Project Infrastructure (Terraform)](./bootstrap-infrastructure-terraform).

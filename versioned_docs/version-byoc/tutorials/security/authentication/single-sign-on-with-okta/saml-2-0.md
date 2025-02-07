@@ -31,6 +31,12 @@ SAML 2.0 is a standard protocol used by many identity providers and offers broad
 
 ![KywHwe7VIhcwsAbecTpcEsL3njb](/byoc/KywHwe7VIhcwsAbecTpcEsL3njb.png)
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud SSO is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
+
 ## Before you start{#before-you-start}
 
 Before you begin the SSO configuration, make sure the following conditions are met:

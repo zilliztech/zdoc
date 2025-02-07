@@ -30,6 +30,12 @@ import Admonition from '@theme/Admonition';
 
 This page lists all IAM permissions that Zilliz Cloud requires to perform operations on your behalf. 
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
+
 ## Storage role permissions{#storage-role-permissions}
 
 You have created an S3 bucket and a storage role. Zilliz Cloud assumes this role with the following permissions.

@@ -30,6 +30,12 @@ import Admonition from '@theme/Admonition';
 
 This page describes how to create and configure a cross-account role for Zilliz Cloud to bootstrap your project. This role gives Zilliz Cloud restricted permissions to manage VPC resources on your behalf.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
+
 ## Procedure{#procedure}
 
 You can use the AWS console to create the bootstrap role. As an alternative, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on AWS. For details, refer to [Bootstrap Project Infrastructure (Terraform)](./bootstrap-infrastructure-terraform).
