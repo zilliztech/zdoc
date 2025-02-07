@@ -1,112 +1,112 @@
 ---
-title: "Manage Project Jobs | Cloud"
+title: "プロジェクトの仕事を管理する | Cloud"
 slug: /job-center
-sidebar_label: "Project Jobs"
+sidebar_label: "プロジェクトの仕事を管理する"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers an intuitive Jobs page that integrates all historical and asynchronous data tasks within the same project. | Cloud"
+description: "Zilliz Cloudは、同じプロジェクト内のすべての履歴および非同期データタスクを統合する直感的なジョブページを提供しています。 | Cloud"
 type: origin
-token: RY8ww0NDQi8yU9kNpjicHP7Gn4b
+token: KjXpwYrYAiq4mqktAI1cKq2anIe
 sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
   - cloud
   - project jobs
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Manage Project Jobs
+# プロジェクトの仕事を管理する
 
-Zilliz Cloud offers an intuitive Jobs page that integrates all historical and asynchronous data tasks within the same project.
+Zilliz Cloudは、同じプロジェクト内のすべての履歴および非同期データタスクを統合する直感的なジョブページを提供しています。
 
-## View project jobs{#view-project-jobs}
+## プロジェクトの仕事を見る{#}
 
-Select a project. In the left navigation pane, choose **Jobs**. On the displayed page, you can see a list of all asynchronous jobs that are being executed or have been executed.
+プロジェクトを選択します。左ナビゲーションウィンドウで、[**ジョブ**]を選択します。表示されたページには、実行中または実行済みのすべての非同期ジョブのリストが表示されます。
 
-The following job information is displayed:
+次の求人情報が表示されます。
 
-- Description and Type: The purpose and information of the data job. There are certain types of job on this page.
+- 説明と種類:データジョブの目的と情報。このページには特定の種類のジョブがあります。
 
     <table>
        <tr>
-         <th><p><strong>Type</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
+         <th><p><strong>タイプ</strong></p></th>
+         <th><p><strong>説明する</strong></p></th>
        </tr>
        <tr>
-         <td rowspan="2"><p>Backup</p></td>
-         <td><p>Create a backup file for a cluster.</p></td>
+         <td rowspan="2"><p>バックアップ</p></td>
+         <td><p>クラスターのバックアップファイルを作成します。</p></td>
        </tr>
        <tr>
-         <td><p>Create a backup file for a collection.</p></td>
+         <td><p>コレクションのバックアップファイルを作成します。</p></td>
        </tr>
        <tr>
-         <td rowspan="2"><p>Restore</p></td>
-         <td><p>Restore a cluster from a backup file.</p></td>
+         <td rowspan="2"><p>復元する</p></td>
+         <td><p>バックアップファイルからクラスタを復元します。</p></td>
        </tr>
        <tr>
-         <td><p>Restore a collection from a backup file.</p></td>
+         <td><p>バックアップファイルからコレクションを復元します。</p></td>
        </tr>
        <tr>
-         <td><p>Migration</p></td>
-         <td><p>Migrate data to a cluster.</p><ul><li><p>External Data Migration: </p><ul><li><p>From Elasticsearch</p></li><li><p>From Milvus</p></li></ul></li><li><p>Cross-cluster migration:</p><ul><li><p>From Serverless or Dedicated cluster to a new Dedicated cluster</p></li><li><p>From Dedicated cluster to an existing Dedicated cluster</p></li></ul></li></ul></td>
+         <td><p>マイグレーション</p></td>
+         <td><p>クラスタにデータを移行します。</p><ul><li><p>外部データの移行:</p><ul><li><p>Elasticsearchから</p></li><li><p>Milvusより</p></li></ul></li><li><p>クラスタ間の移行:</p><ul><li><p>サーバーレスまたは専用クラスターから新しい専用クラスターへ</p></li><li><p>専用クラスタから既存の専用クラスタへ</p></li></ul></li></ul></td>
        </tr>
        <tr>
-         <td><p>Import</p></td>
-         <td><p>Import data to a collection.</p></td>
+         <td><p>インポート</p></td>
+         <td><p>コレクションにデータをインポートします。</p></td>
        </tr>
        <tr>
-         <td><p>Clone Collection</p></td>
-         <td><p>Make a full copy of the collection with both its schema and data.</p></td>
+         <td><p>クローンコレクションName</p></td>
+         <td><p>スキーマとデータの両方を含むコレクションの完全なコピーを作成します。</p></td>
        </tr>
     </table>
 
-- Status: Job status, which can be Successful, In Progress, Pending, Failed, Canceled.
+- ステータス:成功、進行中、保留中、失敗、キャンセルのジョブステータス。
 
-- ID: The ID of the data job.  For any troubles with data jobs, please [create a support ticket](http://support.zilliz.com) and provide the relevant Job ID.
+- ID:データジョブのIDです。データジョブに関する問題がある場合は、[サポートチケットを作成](http://support.zilliz.com)し、関連するジョブIDを提供してください。
 
-- Start Time & End Time
+- 開始時間と終了時間
 
-- Created By: The user who initiated the data job.
+- 作成者:データジョブを開始したユーザー。
 
-## View job details{#view-job-details}
+## 仕事の詳細を見る{#}
 
-To view the details of a job, click **...** in the **Actions** column and then select **View Details**. Alternatively, you can use the [Describe Job](/reference/restful/describe-job-v2) API to get the details programmatically.
+ジョブの詳細を表示するには、をクリックします**。。。**[**アクション**]列で[**詳細表示**]を選択します。または、[Describe Job](/ja-JP/reference/restful/describe-job-v2)APIを使用してプログラムで詳細を取得することもできます。
 
-![view_job_details](/img/view_job_details.png)
+![view_job_details](/img/ja-JP/view_job_details.png)
 
-## Cancel job{#cancel-job}
+## 仕事をキャンセル{#}
 
-You can cancel a job that is **Pending** or **In Progress**. To cancel a job, click **...** in the **Actions** column and then select **Cancel**.
+「**保留中**」または「**進行中**」のジョブをキャンセルできます**。。。**[**アクション**]列で[**キャンセル**]を選択します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Currently, you can only cancel migration and backup jobs. </p>
-<p>To cancel a job, you must be an <strong>Organization Owner</strong> or a <strong>Project Admin</strong>.</p>
-
-</Admonition>
-
-![cancel_job](/img/cancel_job.png)
-
-## Retry failed job{#retry-failed-job}
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Currently, you can only retry failed import jobs.</p>
-<p>To retry a failed job, you must be an <strong>Organization Owner</strong> or a <strong>Project Admin</strong>.</p>
+<p>現在、キャンセルできるのは移行ジョブとバックアップジョブのみです。</p>
+<p>ジョブをキャンセルするには、<strong>組織オーナー</strong>または<strong>プロジェクト管理者</strong>である必要があります。</p>
 
 </Admonition>
 
-For failed import jobs, you can click on the info icon next to its status and check the reason to understand why this job has failed.
+![cancel_job](/img/ja-JP/cancel_job.png)
 
-If you have made adjustments to the files that are failed to be imported, you can retry the job.
+## 失敗したジョブを再試行{#}
 
-![retry_failed_job](/img/retry_failed_job.png)
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>現在、失敗したインポートジョブのみを再試行できます。</p>
+<p>失敗したジョブを再試行するには、<strong>組織オーナー</strong>または<strong>プロジェクト管理者</strong>である必要があります。</p>
+
+</Admonition>
+
+インポートジョブが失敗した場合、ステータスの横にある情報アイコンをクリックして、このジョブが失敗した理由を確認できます。
+
+インポートに失敗したファイルを調整した場合は、ジョブを再試行できます。
+
+![retry_failed_job](/img/ja-JP/retry_failed_job.png)
 

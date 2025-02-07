@@ -1,45 +1,45 @@
 ---
-title: "Release Notes (Nov 18, 2022) | Cloud"
+title: "リリースノート（2022年11月18日） | Cloud"
 slug: /release-notes-008
-sidebar_label: "Release Notes (Nov 18, 2022)"
+sidebar_label: "リリースノート（2022年11月18日）"
 beta: FALSE
 notebook: FALSE
-description: "We're excited to announce the general availability of a major Zilliz Cloud update, now open to the public without the need for an invitation. This release introduces capacity-optimized Compute Units (CUs), allowing up to 32 CUs per database for enhanced performance. It also enables data import from local files and AWS S3 buckets, simplifies the process with auto-indexing, and adds resource monitoring for QPS and query latency. Additionally, database creation speed has been improved by five times, and the user interface has been optimized for a superior experience. | Cloud"
+description: "私たちは、招待状が必要なく一般に公開されたZilliz Cloudの大規模なアップデートの一般提供を発表できることを嬉しく思っています。このリリースでは、キャパシティ最適化されたコンピュートユニット(CU)が導入され、データベースあたり最大32 CUを使用してパフォーマンスを向上させることができます。また、ローカルファイルやAWS S 3バケットからのデータインポートが可能になり、自動インデックス化による過程の簡素化、QPSおよびクエリレイテンシのリソースモニタリングが追加されました。さらに、データベースの作成速度が5倍向上し、ユーザーインターフェースが優れたエクスペリエンスに最適化されました。 | Cloud"
 type: origin
-token: Q9ZcwPZieiYoU4kwEuOcFjewneP
+token: ITj7wmQKpiqhBLk0ko8ctw8tnIc
 sidebar_position: 22
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (Nov 18, 2022)
+# リリースノート（2022年11月18日）
 
-We're excited to announce the general availability of a major Zilliz Cloud update, now open to the public without the need for an invitation. This release introduces capacity-optimized Compute Units (CUs), allowing up to 32 CUs per database for enhanced performance. It also enables data import from local files and AWS S3 buckets, simplifies the process with auto-indexing, and adds resource monitoring for QPS and query latency. Additionally, database creation speed has been improved by five times, and the user interface has been optimized for a superior experience.
+私たちは、招待状が必要なく一般に公開されたZilliz Cloudの大規模なアップデートの一般提供を発表できることを嬉しく思っています。このリリースでは、キャパシティ最適化されたコンピュートユニット(CU)が導入され、データベースあたり最大32 CUを使用してパフォーマンスを向上させることができます。また、ローカルファイルやAWS S 3バケットからのデータインポートが可能になり、自動インデックス化による過程の簡素化、QPSおよびクエリレイテンシのリソースモニタリングが追加されました。さらに、データベースの作成速度が5倍向上し、ユーザーインターフェースが優れたエクスペリエンスに最適化されました。
 
-- Opens to the public and no invitation is needed to register with Zilliz Cloud.
+- 一般公開されており、Zilliz Cloudに登録するための招待状は必要ありません。
 
-- Supports capacity-optimized CUs.
+- 容量最適化されたCUをサポートします。
 
-- Supports allocating a maximum of 32 CUs to a database.
+- データベースに最大32個のCUを割り当てることができます。
 
-- Supports importing data from local files and AWS S3 buckets.
+- ローカルファイルとAWS S 3バケットからのデータのインポートをサポートします。
 
-- Supports [auto-indexing](./autoindex-explained) and you do not need to select indexing types anymore.
+- インデックスの種類を選択する必要がなくなり、[自動インデックス](null)をサポートしています。
 
-- Supports settings up [resource monitors](./metrics-and-alerts) for QPS and query latency.
+- QPSとクエリレイテンシの[リソースモニター](null)の設定をサポートします。
 
-- Improves database creation performance by five times.
+- データベース作成のパフォーマンスが5倍に向上しました。
 
-- Optimizes the UI performance for better user experience.
+- より良いユーザーエクスペリエンスのためにUIパフォーマンスを最適化します。
 

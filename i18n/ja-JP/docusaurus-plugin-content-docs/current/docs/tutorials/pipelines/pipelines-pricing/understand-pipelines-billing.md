@@ -1,12 +1,12 @@
 ---
-title: "Pipelines Pricing | Cloud"
+title: "パイプラインの価格 | Cloud"
 slug: /understand-pipelines-billing
-sidebar_label: "Pipelines Pricing"
+sidebar_label: "パイプラインの価格"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud Pipelines adopts a pay-as-you-go pricing model. More specifically, you only pay for the actual usage of the models in Ingestion and Search Pipelines. | Cloud"
+description: "Zilliz Cloud Pipelinesは従量制の価格設定モデルを採用しています。具体的には、Ingestion PipelinesとSearch Pipelinesのモデルの実際の使用に対してのみ支払います。 | Cloud"
 type: origin
-token: LQYdwnA60iGLAzkmZsdcVtLHnhh
+token: CbPIwIqhDieRl8knWPlcCXsEn8f
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,40 +14,40 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Pipelines Pricing
+# パイプラインの価格
 
-Zilliz Cloud Pipelines adopts a pay-as-you-go [pricing](https://zilliz.com/pricing) model. More specifically, you only pay for the actual usage of the models in Ingestion and Search Pipelines. 
+Zilliz Cloud Pipelinesは従量制の[価格設定](https://zilliz.com/jp/pricing)モデルを採用しています。具体的には、Ingestion PipelinesとSearch Pipelinesのモデルの実際の使用に対してのみ支払います。
 
-## Pipelines pricing{#pipelines-pricing}
+## パイプラインの価格設定{#}
 
-For detailed information on the pricing of each embedding model and reranker model, please visit [Pricing](https://zilliz.com/pricing).
+各埋め込みモデルとリランカーモデルの価格の詳細については、[価格設定](https://zilliz.com/jp/pricing)をご覧ください。
 
-Currently, Zilliz Cloud Pipelines offers free quota. This means that your initial spend of $20 is complimentary. 
+現在、Zilliz Cloud Pipelinesは無料のクォータを提供しています。これは、最初の20ドルの支出が無料であることを意味します。
 
-Additionally, there is a [cap on the total usage](./limits#pipeline-usage) of Zilliz Cloud Pipelines. Each organization can consume up to $20 worth of pipeline usage per month. If you need to increase the quota limit, please [contact sales](https://zilliz.com/contact-sales) or submit a ticket at the [Zilliz Support Portal](https://support.zilliz.com/hc/en-us).
+さらに、Zilliz Cloud Pipelinesの[総使用量に上限](./limits#)があります。各組織は、1か月あたり最大20ドルのパイプライン使用量を消費できます。クォータ制限を増やす必要がある場合は、[営業部](https://zilliz.com/jp/contact-sales)にお問い合わせいただくか、[Zillizサポートポータル](https://support.zilliz.com/hc/en-us)でチケットを提出してください。
 
-## View costs and usage{#view-costs-and-usage}
+## コストと使用状況を見る{#}
 
-Zilliz Cloud Pipelines invoice is integrated into the Zilliz Cloud vector database billing. Therefore, to understand the Pipelines charges incurred, please click **Billing** on the top navigation bar or on the left-side panel. For more information, please refer to [View Invoice](./view-invoice).
+Zilliz Cloud Pipelinesの請求書は、Zilliz Cloudベクトルデータベースの請求書に統合されています。そのため、Pipelinesの請求額を理解するには、上部ナビゲーションバーまたは左側パネルの**請求**をクリックしてください。詳細については、[インボイス](./view-invoice)を参照してください。
 
-- **View costs**
+- **コストを見る**
 
-    Below is an example of a detailed breakdown of the Pipelines costs in your invoice. 
+    以下は、請求書のパイプライン費用の詳細な内訳の例です。
 
-    ![pipelines-cost](/img/pipelines-cost.png)
+    ![pipelines-cost](/img/ja-JP/pipelines-cost.png)
 
-- **View usage**
+- **使用状況を見る**
 
-    Below is an example of the Pipelines usage.
+    以下はPipelinesの使用例です。
 
-    ![pipelines-usage](/img/pipelines-usage.png)
+    ![pipelines-usage](/img/ja-JP/pipelines-usage.png)

@@ -1,61 +1,61 @@
 ---
-title: "Database | Cloud"
+title: "データベース | Cloud"
 slug: /database
-sidebar_label: "Database"
+sidebar_label: "データベース"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud introduces a database layer in between the clusters and collections, providing a more efficient way to manage and organize your data while supporting multi-tenancy. | Cloud"
+description: "Zilliz Cloudは、クラスタとコレクションの間にデータベースレイヤーを導入し、マルチテナントをサポートしながら、データをより効率的に管理および整理する方法を提供します。 | Cloud"
 type: origin
-token: Z0oiwVpsliiW1zksnlFc3ZsVnxf
+token: Pj1dwyk1SibbFPkknVUcFtK3nKe
 sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - milvus
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Database
+# データベース
 
-Zilliz Cloud introduces a **database** layer in between the clusters and collections, providing a more efficient way to manage and organize your data while supporting multi-tenancy.
+Zilliz Cloudは、クラスタとコレクションの間に**データベース**レイヤーを導入し、マルチテナントをサポートしながら、データをより効率的に管理および整理する方法を提供します。
 
-## What is a database{#what-is-a-database}
+## データベースとは何ですか{#}
 
-In Zilliz Cloud, a database serves as a logical unit for organizing and managing data. To enhance data security and achieve multi-tenancy, you can create multiple databases to logically isolate data for different applications or tenants. For example, you create a database to store the data of user A and another database for user B.
+Zilliz Cloudでは、データベースがデータの整理と管理のための論理ユニットとして機能します。データセキュリティを強化し、マルチテナントを実現するために、複数のデータベースを作成して、異なるアプリケーションやテナントのデータを論理的に分離することができます。例えば、ユーザーAのデータを保存するデータベースと、ユーザーBのデータを保存する別のデータベースを作成します。
 
-The resources are structured in the following hierarchical order in Zilliz Cloud.
+Zilliz Cloudでは、リソースは以下の階層順序で構成されています。
 
-![KkS9wtS5IhcP9obYvc1cK10snfg](/img/KkS9wtS5IhcP9obYvc1cK10snfg.png)
+![Ucc1wbR4Eh3vLbbGE5PcutU8nzf](/img/ja-JP/Ucc1wbR4Eh3vLbbGE5PcutU8nzf.png)
 
-It can be noted that the concept of database is only available to Dedicated clusters. Serverless and Free clusters do not have databases.
+データベースの概念は専用クラスタにのみ利用可能であることに注意することができます。サーバーレスおよびフリークラスタにはデータベースがありません。
 
-## Prerequisites{#prerequisites}
+## 前提条件{#}
 
-You need to have **Organization Owner** or **Project Admin** access to manage databases.
+データベースを管理するには、**組織オーナー**または**プロジェクト管理者**のアクセスが必要です。
 
-## Create database{#create-database}
+## データベースの作成{#}
 
-Databases can only be created in Dedicated clusters. Upon the creation of a cluster, a default database will be created.
+データベースは専用クラスタでのみ作成できます。クラスタを作成すると、デフォルトのデータベースが作成されます。
 
-You can create up to 1,024 databases in a Dedicated cluster.
+専用クラスターで最大1,024のデータベースを作成できます。
 
-![create-database](/img/create-database.png)
+![create-database](/img/ja-JP/create-database.png)
 
-You can also move created collections from one database to another. For more details, refer to [Manage Collections (Console)](./manage-collections-console#move-collection-to-another-database).
+作成したコレクションを別のデータベースに移動することもできます。詳細については、「Manage Collections (Console)」を参照してください。
 
-## Drop database{#drop-database}
+## データベースを削除{#}
 
-Default databases cannot be dropped.
+デフォルトのデータベースは削除できません。
 
-Before dropping a database, you need to drop all collections in the database first.
+データベースを削除する前に、まずデータベース内のすべてのコレクションを削除する必要があります。
 
-![drop-database](/img/drop-database.png)
+![drop-database](/img/ja-JP/drop-database.png)
 

@@ -1,12 +1,12 @@
 ---
-title: "Manage Cluster Users (Console) | Cloud"
+title: "クラスタユーザの管理(コンソール) | Cloud"
 slug: /cluster-users
-sidebar_label: "Manage Cluster Users (Console)"
+sidebar_label: "クラスタユーザの管理(コンソール)"
 beta: FALSE
 notebook: FALSE
-description: "In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security. | Cloud"
+description: "Zilliz Cloudでは、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義し、データセキュリティを実現できます。 | Cloud"
 type: origin
-token: CWT2wh5YriZfPZkGlgCcWxVnnAf
+token: OEtOwsYVRiYpp5kWiUuc3voEnxe
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -17,59 +17,59 @@ keywords:
   - rbac
   - users
   - overview
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Manage Cluster Users (Console)
+# クラスタユーザの管理(コンソール)
 
-In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security.
+Zilliz Cloudでは、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義し、データセキュリティを実現できます。
 
-Upon the creation of a cluster, a default user named `db_admin` is automatically generated. This user cannot be dropped. In addition to this default user, you can create more cluster users for fine-grained access control.
+クラスタを作成すると、`db_admin`という名前のデフォルトユーザが自動的に生成されます。このユーザは削除できません。このデフォルトユーザに加えて、より細かいアクセス制御のためのクラスタユーザを作成することができます。
 
-To manage cluster users, you must be an **Organization Owner** or a **Project Admin** or have a role with **Cluster_Admin** privileges.
+クラスターユーザーを管理するには、**組織オーナー**または**プロジェクト管理者**であるか、**Cluster_Admin**権限を持つロールが必要です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>This feature is exclusively available to Dedicated clusters.</p>
-
-</Admonition>
-
-## Create a cluster user{#create-a-cluster-user}
-
-When creating a cluster user, you need to:
-
-- Input the name of the user.
-
-- Grant this user either a built-in cluster role or [a custom cluster role](./cluster-roles).
-
-- Set the password for this cluster user. This password will be used for [authentication](./cluster-credentials-console).
-
-![add-cluster-user](/img/add-cluster-user.png)
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Each cluster can have up to 100 cluster users.</p>
+<p>この機能は専用クラスターでのみ利用可能です。</p>
 
 </Admonition>
 
-## Edit the role of a cluster user{#edit-the-role-of-a-cluster-user}
+## クラスタユーザの作成{#}
 
-![edit-cluster-user-role](/img/edit-cluster-user-role.png)
+クラスターユーザーを作成する場合、次のことが必要です:
 
-## Drop a cluster user{#drop-a-cluster-user}
+- ユーザーの名前を入力します。
 
-<Admonition type="info" icon="📘" title="Notes">
+- このユーザーに、組み込みのクラスターロールまたは[カスタムクラスターロールを](./cluster-roles)付与します。
 
-<p>The default user <strong>db_admin</strong> cannot be dropped.</p>
+- クラスターユーザーのパスワードを設定します。このパスワードは[認証](./cluster-credentials-sdk)に使用されます。
+
+![add-cluster-user](/img/ja-JP/add-cluster-user.png)
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>各クラスターには最大100人のクラスターユーザーを持つことができます。</p>
 
 </Admonition>
 
-![drop-cluster-user](/img/drop-cluster-user.png)
+## クラスターユーザーの役割を編集する{#}
+
+![edit-cluster-user-role](/img/ja-JP/edit-cluster-user-role.png)
+
+## クラスタユーザを削除する{#}
+
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>デフォルトのユーザ<strong>db_admin</strong>は削除できません。</p>
+
+</Admonition>
+
+![drop-cluster-user](/img/ja-JP/drop-cluster-user.png)
 

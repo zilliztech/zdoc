@@ -1,12 +1,12 @@
 ---
-title: "Import from NumPy Files | Cloud"
+title: "NumPyファイルからインポート | Cloud"
 slug: /data-import-numpy
-sidebar_label: "NumPy"
+sidebar_label: "NumPyファイルからインポート"
 beta: FALSE
 notebook: FALSE
-description: "The `.npy` format is NumPy's standard binary format](https//numpy.org/devdocs/reference/generated/numpy.lib.format.html) for saving a single array, including its shape and dtype information, ensuring it can be correctly reconstructed on different machines.  You are advised to use [the BulkWriter tool to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a set of `.npy` file. | Cloud"
+description: ".`npy`形式は、NumPyの標準バイナリ形式](https//numpy.org/devdocs/reference/generated/numpy.lib.format.html)であり、形状とdtype情報を含む単一の配列を保存し、異なるマシンで正しく再構築できるようにします。生データをParquetファイルに準備するには、[BulkWriterツールを使用することをお勧めします。次の図は、生データを`. npy`ファイルのセットにマップする方法を示しています。 | Cloud"
 type: origin
-token: FOwZwuxaWiuthnkZdedcGbJOnZf
+token: XBkrwC23yicDq0kxz3rcnYZxn5b
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -16,42 +16,42 @@ keywords:
   - milvus
   - format options
   - numpy
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Import from NumPy Files
+# NumPyファイルからインポート
 
-The `.npy` format is [NumPy's standard binary format](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html) for saving a single array, including its shape and dtype information, ensuring it can be correctly reconstructed on different machines.  You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a set of `.npy` file.
+.`npy`形式は、[NumPyの標準バイナリ形式](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html)であり、形状とdtype情報を含む単一の配列を保存し、異なるマシンで正しく再構築できるようにします。生データをParquetファイルに準備するには、[BulkWriterツールを](null)使用することをお勧めします。次の図は、生データを`. npy`ファイルのセットにマップする方法を示しています。
 
-![data_import-preparetion_en](/img/data_import-preparetion_en.png)
+![data_import-preparetion_en](/img/ja-JP/data_import-preparetion_en.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
 <ul>
-<li><strong>Whether to enable AutoID</strong></li>
+<li><strong>AutoIDを有効にするかどうか</strong></li>
 </ul>
-<p>The <strong>id</strong> field serves as the primary field of the collection. To make the primary field automatically increment, you can enable <strong>AutoID</strong> in the schema. In this case, you should exclude the <strong>id</strong> field from each row in the source data.</p>
+<p>「<strong>id</strong>」フィールドは、コレクションのプライマリフィールドとして機能します。プライマリフィールドを自動的にインクリメントするには、スキーマで「<strong>AutoID</strong>」を有効にします。この場合、ソースデータの各行から「<strong>id</strong>」フィールドを除外する必要があります。</p>
 <ul>
-<li><strong>Whether to enable dynamic fields</strong></li>
+<li><strong>動的フィールドを有効にするかどうか</strong></li>
 </ul>
-<p>When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the <strong>$meta</strong> column during the write operation and provide the corresponding key-value data.</p>
+<p>ターゲットコレクションで動的フィールドが有効になっている場合、定義済みスキーマに含まれていないフィールドを格納する必要がある場合は、書き込み操作中に<strong>$meta</strong>列を指定し、対応するキー値データを指定できます。</p>
 <ul>
-<li><strong>Case-sensitive</strong></li>
+<li><strong>大文字と小文字を区別する</strong></li>
 </ul>
-<p>Dictionary keys and collection field names are case-sensitive. Ensure that the dictionary keys in your data exactly match the field names in the target collection. If there is a field named <strong>id</strong> in the target collection, each entity dictionary should have a key named <strong>id.</strong> Using <strong>ID</strong> or <strong>Id</strong> results in errors. </p>
+<p>ディクショナリのキーとコレクションのフィールド名は大文字と小文字を区別します。データ内のディクショナリのキーがターゲットコレクションのフィールド名と完全に一致するようにしてください。ターゲットコレクションに<strong>id</strong>という名前のフィールドがある場合、各エンティティディクショナリにはidという名前のキーが必要です<strong>。ID</strong>または<strong>Idを使用するとエラーが発生します。</strong></p>
 
 </Admonition>
 
-## Directory structure{#directory-structure}
+## ディレクトリ構造{#}
 
-To prepare your data as NumPy files, place all files from the same subset into a folder, then group these folders within the source folder, as shown in the tree diagram below.
+NumPyファイルとしてデータを準備するには、以下のツリー図に示すように、同じサブセットのすべてのファイルをフォルダに置くし、これらのフォルダをソースフォルダ内にグループ化します。
 
 ```bash
 ├── numpy-folders
@@ -69,25 +69,25 @@ To prepare your data as NumPy files, place all files from the same subset into a
 │           └── $meta.npy  
 ```
 
-## Import data{#import-data}
+## データのインポート{#}
 
-Once your data is ready, you can use either of the following methods to import them into your Zilliz Cloud collection.
+データの準備ができたら、次のいずれかの方法を使用して、Zilliz Cloudコレクションにデータをインポートできます。
 
-- [Import files from a list of NumPy files folders (recommended)](./data-import-numpy#import-files-from-a-list-of-numpy-file-folders-recommended)
+- [NumPyファイルフォルダのリストからファイルをインポートする（推奨）](./data-import-numpy#numpy)
 
-- [Import files from a NumPy file folder](./data-import-numpy#import-files-from-a-numpy-file-folder)
+- [NumPyファイルフォルダからファイルをインポートする](./data-import-numpy#numpy)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>If your files are relatively small, it is recommended to use the folder or multiple-path method to import them all at once. This approach allows for internal optimizations during the import process, which helps reduce resource consumption later.</p>
+<p>ファイルが比較的小さい場合は、フォルダまたは複数パスの方法を使用して一度にすべてをインポートすることをお勧めします。このアプローチにより、インポート過程で内部最適化が可能になり、後でリソースの消費を減らすことができます。</p>
 
 </Admonition>
 
-You can also import your data on the Zilliz Cloud console using Milvus SDKs. For details, refer to [Import Data (Console)](./import-data-on-web-ui) and [Import Data (SDK)](./import-data-via-sdks).
+Milvus SDKを使用して、Zilliz Cloudコンソールからデータをインポートすることもできます。詳細については、Import Data (Console)およびImport Data (SDK)を参照してください。
 
-### Import files from a list of NumPy file folders (Recommended){#import-files-from-a-list-of-numpy-file-folders-recommended}
+### NumPyファイルフォルダのリストからファイルをインポートする（推奨）{#numpy}
 
-When importing files from multiple paths, include each NumPy file folder path in a separate list, then group all the lists into a higher-level list as in the following code example.
+複数のパスからファイルをインポートする場合は、各NumPyファイルフォルダーパスを個別のリストに含め、次のコード例のようにすべてのリストを上位レベルのリストにグループ化します。
 
 ```bash
 curl --request POST \
@@ -109,9 +109,9 @@ curl --request POST \
     }'
 ```
 
-### Import files from a NumPy file folder{#import-files-from-a-numpy-file-folder}
+### NumPyファイルフォルダからファイルをインポートする{#numpy}
 
-If the source folder contains only the NumPy file folder to import, you can simply include the source folder in the request as follows:
+ソースフォルダにインポートするNumPyファイルフォルダのみが含まれている場合は、次のようにソースフォルダを要求に含めることができます。
 
 ```bash
 curl --request POST \
@@ -131,14 +131,14 @@ curl --request POST \
     }'
 ```
 
-## Storage paths{#storage-paths}
+## ストレージパス{#}
 
-Zilliz Cloud supports data import from your cloud storage. The table below lists the possible storage paths for your data files.
+Zilliz Cloudは、クラウドストレージからのデータインポートをサポートしています。以下の表は、データファイルの可能なストレージパスを示しています。
 
 <table>
    <tr>
-     <th><p><strong>Cloud</strong></p></th>
-     <th><p><strong>Quick Examples</strong></p></th>
+     <th><p><strong>クラウド</strong></p></th>
+     <th><p><strong>クイックな例</strong></p></th>
    </tr>
    <tr>
      <td><p><strong>AWS S3</strong></p></td>
@@ -154,35 +154,35 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
    </tr>
 </table>
 
-## Limits{#limits}
+## 限界{#}
 
-A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions.
+有効なNumPyファイルのセットは、ターゲットコレクションのスキーマ内のフィールドにちなんで名前が付けられ、それらのデータは対応するフィールド定義と一致する必要があります。
 
 <table>
    <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>アイテム</strong></p></th>
+     <th><p><strong>説明する</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>Multiple files per import</strong></p></td>
-     <td><p>Yes</p></td>
+     <td><p><strong>一度に複数のファイルをインポートする</strong></p></td>
+     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p><strong>Data import from first-level subfolders</strong></p></td>
-     <td><p>Yes</p></td>
+     <td><p><strong>第1レベルのサブフォルダからのデータインポート</strong></p></td>
+     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p><strong>Maximum number of first-level subfolders</strong></p></td>
+     <td><p><strong>第1レベルのサブフォルダの最大数</strong></p></td>
      <td><p>100</p></td>
    </tr>
    <tr>
-     <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total</p><p>Serverless &amp; Dedicated cluster:</p><ul><li><p>Total file size in each first-level subfolder: 10 GB</p></li><li><p>Total file size: 100 GB</p></li></ul></td>
+     <td><p><strong>インポートごとの最大ファイル体格</strong></p></td>
+     <td><p>クラスタの空き容量:合計512 MB</p><p>サーバーレス&amp;専用クラスター:</p><ul><li><p>各第1レベルのサブフォルダのファイル体格の合計: 10 GB</p></li><li><p>ファイルの体格: 100 GB</p></li></ul></td>
    </tr>
    <tr>
-     <td><p><strong>Applicable data file locations</strong></p></td>
-     <td><p>Remote files only</p></td>
+     <td><p><strong>使用可能なデータファイルの場所</strong></p></td>
+     <td><p>リモートファイルのみ</p></td>
    </tr>
 </table>
 
-You can either rebuild your data on your own by referring to [Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) or use [the BulkWriter tool](./use-bulkwriter) to generate the source data file. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_numpy_data.zip).
+「[データファイルの準備](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file)」を参照して、自分でデータを再構築するか、[BulkWriterツールを](null)使用してソースデータファイルを生成できます。[上の図のスキーマに基づいて準備されたサンプルデータをダウンロードするには、ここをクリックしてください](https://assets.zilliz.com/prepared_numpy_data.zip)。

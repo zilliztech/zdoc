@@ -1,12 +1,12 @@
 ---
-title: "Basic Vector Search | Cloud"
+title: "基本的なベクトル検索 | Cloud"
 slug: /single-vector-search
-sidebar_label: "Basic Vector Search"
+sidebar_label: "基本的なベクトル検索"
 beta: FALSE
 notebook: FALSE
-description: "Based on an index file recording the sorted order of vector embeddings, the Approximate Nearest Neighbor (ANN) search locates a subset of vector embeddings based on the query vector carried in a received search request, compares the query vector with those in the subgroup, and returns the most similar results. With ANN search, Zilliz Cloud provides an efficient search experience. This page helps you to learn how to conduct basic ANN searches. | Cloud"
+description: "ベクトル埋め込みのソートされた順序を記録したインデックスファイルに基づいて、近似最近傍法(ANN)検索は、受信した検索リクエストで運ばれたクエリベクトルに基づいてベクトル埋め込みのサブセットを検索し、クエリベクトルをサブグループ内のものと比較して、最も類似した結果を返します。ANN検索では、Zilliz Cloudが効率的な検索体験を提供します。このページでは、基本的なANN検索の方法を学ぶことができます。 | Cloud"
 type: origin
-token: BaGlwzDmyiyVvVk6NurcFclInCd
+token: HvZ5wulvviC4mukWJzNcgbAQnhb
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - data
   - vector search
   - ann
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 
@@ -27,41 +27,41 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Basic Vector Search
+# 基本的なベクトル検索
 
-Based on an index file recording the sorted order of vector embeddings, the Approximate Nearest Neighbor (ANN) search locates a subset of vector embeddings based on the query vector carried in a received search request, compares the query vector with those in the subgroup, and returns the most similar results. With ANN search, Zilliz Cloud provides an efficient search experience. This page helps you to learn how to conduct basic ANN searches.
+ベクトル埋め込みのソートされた順序を記録したインデックスファイルに基づいて、近似最近傍法(ANN)検索は、受信した検索リクエストで運ばれたクエリベクトルに基づいてベクトル埋め込みのサブセットを検索し、クエリベクトルをサブグループ内のものと比較して、最も類似した結果を返します。ANN検索では、Zilliz Cloudが効率的な検索体験を提供します。このページでは、基本的なANN検索の方法を学ぶことができます。
 
-## Overview{#overview}
+## 概要について{#}
 
-The ANN and the k-Nearest Neighbors (kNN) search are the usual methods in vector similarity searches. In a kNN search, you must compare all vectors in a vector space with the query vector carried in the search request before figuring out the most similar ones, which is time-consuming and resource-intensive.
+ANNとk最近傍探索(kNN)は、ベクトル類似性検索の通常の方法です。kNN検索では、最も類似したものを見つける前に、検索要求で運ばれるクエリベクトルとベクトル空間内のすべてのベクトルを比較する必要があり、時間とリソースがかかります。
 
-Unlike kNN searches, an ANN search algorithm asks for an **index** file that records the sorted order of vector embeddings. When a search request comes in, you can use the index file as a reference to quickly locate a subgroup probably containing vector embeddings most similar to the query vector. Then, you can use the specified **metric type** to measure the similarity between the query vector and those in the subgroup, sort the group members based on similarity to the query vector, and figure out the **top-K** group members.
+kNN検索とは異なり、ANN検索アルゴリズムはベクトル埋め込みのソートされた順序を記録する**インデックス**ファイルを要求します。検索リクエストが送信されると、インデックスファイルを参照として使用して、クエリベクトルに最も似たベクトル埋め込みを含むサブグループをすばやく検索できます。その後、指定された**メトリックタイプ**を使用して、クエリベクトルとサブグループの類似度を測定し、クエリベクトルとの類似度に基づいてグループメンバーをソートし、**トップK**グループメンバーを特定できます。
 
-ANN searches depend on pre-built indexes, and the search throughput, memory usage, and search correctness may vary with the index types you choose. You need to balance search performance and correctness. 
+ANN検索はあらかじめ構築されたインデックスに依存し、検索スループット、メモリ使用量、検索の正確性は選択したインデックスの種類によって異なる場合があります。検索のパフォーマンスと正確性のバランスを取る必要があります。
 
-To reduce the learning curve, Zilliz Cloud provides **AUTOINDEX**. With **AUTOINDEX**, Zilliz Cloud can analyze the data distribution within your collection while building the index and sets the most optimized index parameters based on the analysis to strike a balance between search performance and correctness. 
+学習曲線を減らすために、Zilliz Cloudは**AUTOINDEX**を提供しています。**AUTOINDEX**を使用すると、Zilliz Cloudはコレクション内のデータ分布を分析しながらインデックスを構築し、分析に基づいて最適化されたインデックスパラメータを設定して、検索パフォーマンスと正確性のバランスを取ることができます。
 
-For details on AUTOINDEX and applicable metric types, refer to [AUTOINDEX Explained](./autoindex-explained) and [Metric Types](./search-metrics-explained). In this section, you will find detailed information about the following topics:
+AUTOINDEXと適用可能なメトリックタイプの詳細については、「AUTOINDEX ExplainedandMetric Types」を参照してください。このセクションでは、以下のトピックについて詳しく説明します。
 
-- [Single-vector search](./single-vector-search#single-vector-search)
+- [単一ベクトル探索](./single-vector-search#)
 
-- [Bulk-vector search](./single-vector-search#bulk-vector-search)
+- [一括ベクトル探索](./single-vector-search#)
 
-- [ANN search in partition](./single-vector-search#ann-search-in-partition)
+- [パーティション内のANN検索](./single-vector-search#ann)
 
-- [Use output fields](./single-vector-search#use-output-fields)
+- [出力フィールドを使用する](./single-vector-search#)
 
-- [Use limit and offset](./single-vector-search#use-limit-and-offset)
+- [使用制限とオフセット](./single-vector-search#)
 
-- [Use level](./single-vector-search#use-level)
+- [使用レベル](./single-vector-search#)
 
-- [Enhancing ANN search](./single-vector-search#enhancing-ann-search)
+- [ANN検索を強化する](./single-vector-search#ann)
 
-## Single-Vector Search{#single-vector-search}
+## シングルベクトル探索{#}
 
-In ANN searches, a single-vector search refers to a search that involves only one query vector. Based on the pre-built index and the metric type carried in the search request, Zilliz Cloud will find the top-K vectors most similar to the query vector.
+ANN検索において、単一ベクトル検索とは、1つのクエリベクトルのみを含む検索を指します。事前に構築されたインデックスと検索リクエストに含まれるメトリックタイプに基づいて、Zilliz Cloudは、クエリベクトルに最も似た上位K個のベクトルを検索します。
 
-In this section, you will learn how to conduct a single-vector search. The code snippet assumes you have created a collection in a [quick-setup](./quick-setup-collections#quick-setup) manner. The search request carries a single query vector and asks Zilliz Cloud to use Inner Product (IP) to calculate the similarity between query vectors and vectors in the collection and returns the three most similar ones.
+このセクションでは、単一ベクトル検索を実行する方法を学びます。コードスニペットは、[クイックセットアップ](null)方法でコレクションを作成したことを前提としています。検索リクエストには単一のクエリベクトルが含まれ、Zilliz Cloudを使用して、クエリベクトルとコレクション内のベクトルの類似度を計算し、最も類似した3つを返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -272,46 +272,46 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Milvus ranks the search results by their similarity scores to the query vector in descending order. The similarity score is also termed the distance to the query vector, and its value ranges vary with the metric types in use.
+Milvusは、クエリベクトルとの類似度スコアによって検索結果を降順にランク付けします。類似度スコアは、クエリベクトルまでの距離とも呼ばれ、その値の範囲は使用されるメトリックタイプによって異なります。
 
-The following table lists the applicable metric types and the corresponding distance ranges.
+次の表に、適用可能なメトリックタイプと対応する距離範囲を示します。
 
 <table>
    <tr>
-     <th><p>Metric Type</p></th>
-     <th><p>Characteristics</p></th>
-     <th><p>Distance Range</p></th>
+     <th><p>メートルタイプ</p></th>
+     <th><p>の特徴</p></th>
+     <th><p>距離の範囲</p></th>
    </tr>
    <tr>
-     <td><p><code>L2</code></p></td>
-     <td><p>A smaller value indicates a higher similarity.</p></td>
+     <td><p><code>L 2</code></p></td>
+     <td><p>値が小さいほど類似度が高いことを示します。</p></td>
      <td><p>[0, ∞)</p></td>
    </tr>
    <tr>
      <td><p><code>IP</code></p></td>
-     <td><p>A greater value indicates a higher similarity.</p></td>
+     <td><p>値が大きいほど類似度が高いことを示します。</p></td>
      <td><p>[-1, 1]</p></td>
    </tr>
    <tr>
-     <td><p><code>COSINE</code></p></td>
-     <td><p>A greater value indicates a higher similarity.</p></td>
+     <td><p><code>コサイン</code></p></td>
+     <td><p>値が大きいほど類似度が高いことを示します。</p></td>
      <td><p>[-1, 1]</p></td>
    </tr>
    <tr>
-     <td><p><code>JACCARD</code></p></td>
-     <td><p>A smaller value indicates a higher similarity.</p></td>
+     <td><p><code>ジャカード</code></p></td>
+     <td><p>値が小さいほど類似度が高いことを示します。</p></td>
      <td><p>[0, 1]</p></td>
    </tr>
    <tr>
-     <td><p><code>HAMMING</code></p></td>
-     <td><p>A smaller value indicates a higher similarity.</p></td>
-     <td><p>[0, dim(vector)]</p></td>
+     <td><p><code>ハミング</code></p></td>
+     <td><p>値が小さいほど類似度が高いことを示します。</p></td>
+     <td><p>[0, dim(ベクトル)]</p></td>
    </tr>
 </table>
 
-## Bulk-Vector Search{#bulk-vector-search}
+## 一括ベクトル検索{#}
 
-Similarly, you can include multiple query vectors in a search request. Zilliz Cloud will conduct ANN searches for the query vectors in parallel and return two sets of results.
+Zilliz Cloudは、クエリベクトルに対してANN検索を並列に実行し、2つの結果を返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -546,11 +546,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ANN Search in Partition{#ann-search-in-partition}
+## ANNパーティションで検索{#ann}
 
-Suppose you have created multiple partitions in a collection, and you can narrow the search scope to a specific number of partitions. In that case, you can include the target partition names in the search request to restrict the search scope within the specified partitions. Reducing the number of partitions involved in the search improves search performance.
+コレクション内に複数のパーティションを作成した場合、検索範囲を特定のパーティション数に絞り込むことができます。その場合、検索リクエストにターゲットパーティション名を含めて、指定されたパーティション内で検索範囲を制限することができます。検索に関与するパーティション数を減らすことで、検索のパフォーマンスが向上します。
 
-The following code snippet assumes a partition named **PartitionA** in your collection.
+次のコードスニペットは、コレクション内のPartitionAという名前のパーティション**を**想定しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -725,9 +725,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Use Output Fields{#use-output-fields}
+## 出力フィールドを使用する{#}
 
-In a search result, Zilliz Cloud includes the primary field values and similarity distances/scores of the entities that contain the top-K vector embeddings by default. You can include the names of the target fields, including both the vector and scalar fields, in a search request as the output fields to make the search results carry the values from other fields in these entities.
+検索結果には、Zilliz Cloudが含まれます。デフォルトでは、上位K個のベクトル埋め込みを含むエンティティの主要なフィールド値と類似距離/スコアが含まれます。ベクトルフィールドとスカラーフィールドの両方を含むターゲットフィールドの名前を出力フィールドとして検索リクエストに含めることで、検索結果にこれらのエンティティの他のフィールドの値を含めることができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -911,43 +911,43 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Use Limit and Offset{#use-limit-and-offset}
+## リミットとオフセットを使用する{#}
 
-You may notice that the parameter `limit` carried in the search requests determines the number of entities to include in the search results. This parameter specifies the maximum number of entities to return in a single search, and it is usually termed **top-K**.
+検索リクエストに含まれるパラメータ`制限`によって、検索結果に含めるエンティティの数が決まることに気付くかもしれません。このパラメータは、1回の検索で返すエンティティの最大数を指定し、通常は**top-K**と呼ばれます。
 
-If you wish to perform paginated queries, you can use a loop to send multiple Search requests, with the **Limit** and **Offset** parameters carried in each query request. Specifically, you can set the **Limit** parameter to the number of Entities you want to include in the current query results, and set the **Offset** to the total number of Entities that have already been returned.
+ページ分割クエリを実行したい場合は、ループを使用して複数の検索リクエストを送信し、各クエリリクエストで**Limit**および**Offset**パラメータを使用できます。具体的には、**Limit**パラメータを現在のクエリ結果に含めたいエンティティの数に設定し、**Offset**を既に返されたエンティティの総数に設定できます。
 
-The table below outlines how to set the **Limit** and **Offset** parameters for paginated queries when returning 100 Entities at a time.
+以下の表は、一度に100個のエンティティを返すときに、ページ分割されたクエリの**Limit**と**Offset**パラメータを設定する方法を示しています。
 
 <table>
    <tr>
-     <th><p>Queries</p></th>
-     <th><p>Entities to return per query</p></th>
-     <th><p>Entities already been returned in total</p></th>
+     <th><p>クエリー</p></th>
+     <th><p>クエリごとに返すエンティティ</p></th>
+     <th><p>エンティティはすでに返却済みです。</p></th>
    </tr>
    <tr>
-     <td><p>The <strong>1st</strong> query</p></td>
+     <td><p>第<strong>1回</strong>クエリー</p></td>
      <td><p>100</p></td>
      <td><p>0</p></td>
    </tr>
    <tr>
-     <td><p>The <strong>2nd</strong> query</p></td>
+     <td><p>第<strong>2回</strong>クエリ</p></td>
      <td><p>100</p></td>
      <td><p>100</p></td>
    </tr>
    <tr>
-     <td><p>The <strong>3rd</strong> query</p></td>
+     <td><p>第<strong>3回</strong>クエリ</p></td>
      <td><p>100</p></td>
      <td><p>200</p></td>
    </tr>
    <tr>
-     <td><p>The <strong>nth</strong> query</p></td>
+     <td><p>n番<strong>目</strong>のクエリ</p></td>
      <td><p>100</p></td>
-     <td><p>100 x (n-1)</p></td>
+     <td><p>100のx(n-1)</p></td>
    </tr>
 </table>
 
-Note that, the sum of `limit` and `offset` in a single ANN search should be less than 16,384.
+1回のANN検索では、`limit`と`offset`の合計は16,384小なりになることに注意してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1075,15 +1075,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Use Level{#use-level}
+\<ターゲットを含める="zilliz">
 
-To optimize ANN searches, Zilliz Cloud provides a parameter named `level` to control the search precision with simplified search optimization.
+## 使用レベル{#}
 
-This parameter ranges from `1` to `10` and defaults to `1`. Increasing the value improves search recall rate with a degradation in search performance. In common cases, the default value yields a maximum of 90% recall rate. You can increase the value as required.
+ANN検索を最適化するために、Zilliz Cloudには`level`という名前のパラメータが用意されています。
 
-<Admonition type="info" icon="📘" title="Notes">
+このパラメータの範囲は`1`から`10`で、デフォルトは`1`です。値を増やすと、検索のパフォーマンスが低下しながら検索の再現率が向上します。一般的な場合、デフォルト値では最大90%の再現率が得られます。必要に応じて値を増やすことができます。
 
-<p>The <code>level</code>  parameter is still in <strong>Public Preview</strong>. If you cannot set it to a value greater than <code>5</code>, your cluster may not fully support this feature. As a workaround, you can set it to a value within the range from <code>1</code> to <code>5</code> instead, or contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>この<code>level</code>パラメーターはまだ<strong>Public Preview</strong>のままです。<code>5</code>に設定できない場合は、クラスターがこの機能を完全にサポートしていない可能性があります。回避策として、<code>1</code>から<code>5</code>の範囲内の値に設定するか、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
 
 </Admonition>
 
@@ -1195,13 +1197,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Get Recall Rate{#get-recall-rate}
+## リコール率を取得する{#}
 
-You can set `enable_recall_calculation` to `true`when you tweek the `level` parameter so that you can evaluate the precisions of your search with different `level` values.
+levelパラメータを微調整`するときに、enable_recol_計算をtrueに設定して、異なるlevel`値で検索の精度を評価できるように`し`ます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>The <code>enable_recall_calculation</code>  parameter is still in <strong>Public Preview</strong>, and you might not be able to use it due to compatibility issues. For any assistance, please contact us at <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+<p>enable<code>_リコール_計算</code>パラメータはまだ<strong>パブリックプレビュー</strong>のため、互換性の問題により使用できない可能性があります。サポートが必要な場合は、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>までお問い合わせください。</p>
 
 </Admonition>
 
@@ -1317,59 +1319,61 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Enhancing ANN Search{#enhancing-ann-search}
+\</include>
 
-AUTOINDEX considerably flattens the learning curve of ANN searches. However, the search results may not always be correct as the top-K increases. By reducing the search scope, improving search result relevancy, and diversifying the search results, Zilliz Cloud works out the following search enhancements.
+## ANN検索を強化する{#ann}
 
-- Filtered Search
+AUTOINDEXはANN検索の学習曲線を大幅に平坦化します。ただし、上位Kが増加するにつれて、検索結果が常に正しいとは限りません。Zilliz Cloudは、検索範囲を縮小し、検索結果の関連性を向上させ、検索結果を多様化することで、以下の検索強化を実現します。
 
-    You can include filtering conditions in a search request so that Zilliz Cloud conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions.
+- フィルター検索
 
-    For more about metadata filtering and filtering conditions, refer to [Filtered Search](./filtered-search) and [Filtering](./filtering).
+    Zilliz CloudがANN検索を行う前にメタデータフィルタリングを行うように、検索要求にフィルタリング条件を含めることができます。これにより、検索範囲がコレクション全体から指定されたフィルタリング条件に一致するエンティティのみに縮小されます。
 
-- Range Search
+    メタデータのフィルタリングとフィルタリング条件の詳細については、Filtered SearchとFilteringを参照してください。
 
-    You can improve search result relevancy by restricting the distance or score of the returned entities within a specific range. In Zilliz Cloud, a range search involves drawing two concentric circles with the vector embedding most similar to the query vector as the center. The search request specifies the radius of both circles, and Zilliz Cloud returns all vector embeddings that fall within the outer circle but not the inner circle.
+- レンジ検索
 
-    For more about range search, refer to [Range Search](./range-search).
+    特定の範囲内で返されるエンティティの距離またはスコアを制限することで、検索結果の関連性を向上させることができます。Zilliz Cloudでは、範囲検索は、クエリベクトルに最も似たベクトル埋め込みを中心に2つの同心円を描画することを含みます。検索リクエストは両方の円の半径を指定し、Zilliz Cloudは、外側の円に含まれるが内側の円には含まれないすべてのベクトル埋め込みを返します。
 
-- Grouping Search
+    範囲検索の詳細については、Range Searchを参照してください。
 
-    If the returned entities hold the same value in a specific field, the search results may not represent the distribution of all vector embeddings in the vector space. To diversify the search results, consider using the grouping search.
+- グループ検索
 
-    For more about grouping search, refer to [Grouping Search](./grouping-search),
+    返されたエンティティが特定のフィールドで同じ値を保持している場合、検索結果はベクトル空間内のすべてのベクトル埋め込みの分布を表すわけではありません。検索結果を多様化するには、グループ化検索を使用することを検討してください。
 
-- Hybrid Search
+    グループ検索の詳細については、Grouping Searchを参照してください、
 
-    A collection can include up to four vector fields to save the vector embeddings generated using different embedding models. By doing so, you can use a hybrid search to rerank the search results from these vector fields, improving the recall rate.
+- ハイブリッド検索
 
-    For more about hybrid search, refer to [Hybrid Search](./hybrid-search).
+    コレクションには、異なる埋め込みモデルを使用して生成されたベクトル埋め込みを保存するために最大4つのベクトルフィールドを含めることができます。これにより、ハイブリッド検索を使用してこれらのベクトルフィールドから検索結果を再ランク付けし、リコール率を向上させることができます。
 
-- Search Iterator
+    ハイブリッド検索の詳細については、Hybrid Searchを参照してください。
 
-    A single ANN search returns a maximum of 16,384 entities. Consider using search iterators if you need more entities to return in a single search.
+- 検索イテレータ
 
-    For details on search iterators, refer to [Search Iterator](./with-iterators).
+    1回のANN検索で最大16,384個のエンティティが返されます。1回の検索でより多くのエンティティを返す必要がある場合は、検索イテレータを使用することを検討してください。
 
-- Full-Text Search
+    検索イテレータの詳細については、Search Iteratorを参照してください。
 
-    Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings.
+- フルテキスト検索
 
-    For details on full-text search, refer to [Full Text Search](./full-text-search).
+    フルテキスト検索は、テキストデータセット内の特定の用語やフレーズを含むドキュメントを取得し、関連性に基づいて結果をランク付けする機能です。この機能は、正確な用語を見落とす可能性がある意味検索の制限を克服し、最も正確で文脈に関連する結果を受け取ることを保証します。さらに、生のテキスト入力を受け入れることにより、ベクトル検索を簡素化し、手動でベクトル埋め込みを生成する必要なく、テキストデータを疎な埋め込みに自動的に変換します。
 
-- Keyword Match
+    全文検索の詳細については、Full Text Searchを参照してください。
 
-    Keyword match in Milvus enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria.
+- キーワード一致
 
-    For details on keyword match, refer to [Keyword Match](./text-match).
+    Milvusのキーワードマッチにより、特定の用語に基づく正確なドキュメント検索が可能になります。この機能は、特定の条件を満たすためにフィルタリングされた検索に主に使用され、スカラーフィルタリングを組み込んでクエリ結果を絞り込むことができ、スカラー基準を満たすベクトル内の類似検索を可能にします。
 
-- Use Partition Key
+    キーワード一致の詳細については、Keyword Matchを参照してください。
 
-    Involving multiple scalar fields in metadata filtering and using a rather complicated filtering condition may affect search efficiency. Once you set a scalar field as the partition key and use a filtering condition involving the partition key in the search request, it can help restrict the search scope within the partitions corresponding to the specified partition key values. 
+- パーティションキーを使う
 
-    For details on the partition key, refer to [Use Partition Key](./use-partition-key).
+    メタデータフィルタリングに複数のスカラーフィールドを関与させ、かなり複雑なフィルタリング条件を使用すると、検索効率に影響を与える可能性があります。パーティションキーとしてスカラーフィールドを設定し、検索要求にパーティションキーを含むフィルタリング条件を使用すると、指定されたパーティションキー値に対応するパーティション内の検索範囲を制限するのに役立ちます。
 
-- Use mmap
+    パーティションキーの詳細については、Use Partition Keyするを参照してください。
 
-    For details on mmap-settings, refer to [Use mmap](./use-mmap).
+- mmapを使う
+
+    mmap-settingsの詳細は、Use mmapうを参照してください。
 

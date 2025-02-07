@@ -1,12 +1,12 @@
 ---
-title: "Pricing  | Cloud"
+title: "価格設定 | Cloud"
 slug: /pipelines-pricing
-sidebar_label: "Pricing "
+sidebar_label: "価格設定"
 beta: FALSE
 notebook: FALSE
-description: "Understand the pricing of Zilliz Cloud Pipelines and learn how to estimate your pipeline usage. | Cloud"
+description: "Zilliz Cloudパイプラインの価格を理解し、パイプラインの使用量を見積もる方法を学びましょう。 | Cloud"
 type: origin
-token: TS2SwawqwiQ9Iek7p2LcdAHKnKg
+token: FfZfwR9ysi7n33kEJkscSmErnbc
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -14,19 +14,19 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Pricing 
+# 価格設定
 
-Understand the pricing of Zilliz Cloud Pipelines and learn how to estimate your pipeline usage.
+Zilliz Cloudパイプラインの価格を理解し、パイプラインの使用量を見積もる方法を学びましょう。
 
 
 

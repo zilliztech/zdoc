@@ -1,12 +1,12 @@
 ---
-title: "Manage Cluster Roles (SDK) | Cloud"
+title: "クラスタロールの管理(SDK) | Cloud"
 slug: /cluster-roles-sdk
-sidebar_label: "Manage Cluster Roles (SDK)"
+sidebar_label: "クラスタロールの管理(SDK)"
 beta: FALSE
 notebook: FALSE
-description: "A cluster role defines the privileges that a user has within the cluster. More specifically, the cluster role controls a cluster user's privileges on the cluster, database, and collection level. | Cloud"
+description: "クラスターロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスターロールは、クラスター、データベース、およびコレクションレベルでクラスターユーザーの権限を制御します。 | Cloud"
 type: origin
-token: PBZwwNqWjiikeYkXgHPcGhLznTh
+token: ZLwswiskDiEC95k7cMgcmcn1npc
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
@@ -27,25 +27,25 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Manage Cluster Roles (SDK)
+# クラスタロールの管理(SDK)
 
-A cluster role defines the privileges that a user has within the cluster. More specifically, the cluster role controls a cluster user's privileges on the cluster, database, and collection level.
+クラスターロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスターロールは、クラスター、データベース、およびコレクションレベルでクラスターユーザーの権限を制御します。
 
-This guide walks you through how to create a role, grant built-in privilege groups to a role, revoke privilege groups from a role, and finally drop a role. For details about built-in privilege groups, refer to [Privileges](./cluster-privileges#built-in-privilege-groups).
+このガイドでは、ロールの作成方法、ロールに組み込み特権グループを付与する方法、ロールから特権グループを取り消す方法、そして最後にロールを削除する方法について説明します。組み込み特権グループの詳細については、「[特権について](./cluster-privileges)」を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>This feature is exclusively available to Dedicated clusters.</p>
+<p>この機能は専用クラスターでのみ利用可能です。</p>
 
 </Admonition>
 
-## Create a role{#create-a-role}
+## 役割を作成する{#}
 
-The following example demonstrates how to create a role named `role_a`. 
+次の例は、role_aという名前のロールを作成する方法を示`してい`ます。
 
-The role name must follow the following rule:
+ロール名は次のルールに従う必要があります。
 
-- Must start with a letter and can only include uppercase or lowercase letters, numbers, and underscores.
+- 文字で始め、大文字または小文字、数字、アンダースコアのみを含める必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -98,9 +98,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## List roles{#list-roles}
+## 役割リスト{#}
 
-After creating several roles, you can list and view all existing roles.
+複数のロールを作成した後、既存のすべてのロールを一覧表示できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -146,22 +146,22 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Below is an example output. `role_a` is the new role that is just created.
+以下は出力例です。`role_a`は作成されたばかりの新しいロールです。
 
 ```bash
 ['role_a']
 ```
 
-## Grant a built-in privilege group to a role{#grant-a-built-in-privilege-group-to-a-role}
+## ロールに組み込みの特権グループを付与する{#}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Currently, Zilliz Cloud only supports creating custom roles with built-in privilege groups. For details about built-in privilege groups, refer to <a href="./cluster-privileges#built-in-privilege-groups">Privileges</a>.</p>
-<p>If you need to create custom roles with user-defined privileges and privilege groups, please <a href="http://support.zilliz.com">contact us</a>.</p>
+<p>現在、Zilliz Cloudは組み込み特権グループを持つカスタムロールの作成のみをサポートしています。組み込み特権グループの詳細については、「<a href="./cluster-privileges">特権について</a>」を参照してください。</p>
+<p>ユーザー定義の権限と権限グループを持つカスタムロールを作成する必要がある場合は、<a href="http://support.zilliz.com">お問い合わせ</a>ください。</p>
 
 </Admonition>
 
-The following example demonstrates how to grant `role_a` read-only access to all collections in the `default` database and admin access to `collection_01`.
+次の例は、`role_a`に`既定`のデータベース内のすべてのコレクションへの読み取り専用アクセスと`collection_01`への管理者アクセスを付与する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -274,9 +274,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Describe a role{#describe-a-role}
+## 役割を説明してください{#}
 
-The following example demonstrates how to view the privileges granted to the role `role_a` using the `describe_role` method.
+次の例では、役割に付与された権限を表示する方法を示します`role_a`を使用して、`description_role`メソッド。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -339,7 +339,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Below is an example output. 
+以下は出力例です。
 
 ```python
 {
@@ -350,9 +350,9 @@ Below is an example output.
 }
 ```
 
-## Revoke a built-in privilege group from a role{#revoke-a-built-in-privilege-group-from-a-role}
+## ロールから組み込みの特権グループを取り消す{#}
 
-The following example demonstrates how to revoke the read-only access to all collections in the `default` database and admin access to `collection_01` from `role_a`.
+次の例では、`既定`のデータベース内のすべてのコレクションへの読み取り専用アクセスと、role_aから`collection_01`への管理者アクセスを取り消す方法を示し`ます`。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -446,13 +446,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Drop a role{#drop-a-role}
+## 役割を削除する{#}
 
-The following example demonstrates how to drop the role `role_a`.
+次の例は、ロールrole_aを削除する方法を示`してい`ます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>The built-in role <code>admin</code> cannot be dropped.</p>
+<p>組み込みのロール<code>admin</code>は削除できません。</p>
 
 </Admonition>
 
@@ -507,7 +507,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Once the role is dropped, you can list all existing roles to check if the drop operation is successful. 
+ロールが削除されたら、既存のすべてのロールを一覧表示して、削除操作が成功したかどうかを確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -553,7 +553,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Below is an example output. There is no `role_a` in the list. The drop operation is successful.
+以下は出力例です。リストには`role_aが`ありません。ドロップ操作は成功しました。
 
 ```bash
 ['admin']

@@ -1,12 +1,12 @@
 ---
-title: "Payment & Billing | Cloud"
+title: "支払いと請求 | Cloud"
 slug: /payment-billing
-sidebar_label: "Payment & Billing"
+sidebar_label: "支払いと請求"
 beta: FALSE
 notebook: FALSE
-description: "This guide details the available ways for you to subscribe to our services on Zilliz Cloud with relevant notes on invoice management | Cloud"
+description: "このガイドでは、Zilliz Cloudでサービスを購読する方法と、請求書の管理に関する注意事項について詳しく説明しています。 | Cloud"
 type: origin
-token: FmkCwm1QHitB7uk9U9ncLnHrnse
+token: OTqfwuVkeivCadkCFYPcLaVWnkc
 sidebar_position: 11
 keywords: 
   - zilliz
@@ -15,122 +15,122 @@ keywords:
   - private link
   - payment
   - billing
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Payment & Billing
+# 支払いと請求
 
-This guide details the available ways for you to subscribe to our services on Zilliz Cloud with relevant notes on invoice management
+このガイドでは、Zilliz Cloudでサービスを購読する方法と、請求書の管理に関する注意事項について詳しく説明しています。
 
-## Overview{#overview}
+## 概要について{#}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>In order to manage payment and billing, you need to be an <strong>Organization Owner</strong>.</p>
+<p>支払いと請求を管理するには、<strong>組織オーナー</strong>である必要があります。</p>
 
 </Admonition>
 
-### Payment options{#payment-options}
+### 支払いオプション{#}
 
 <table>
    <tr>
-     <th><p><strong>Payment method</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>お支払い方法</strong></p></th>
+     <th><p><strong>説明する</strong></p></th>
    </tr>
    <tr>
-     <td><p>Credits</p></td>
-     <td><p>You earn credits upon registration or by participating in Zilliz Cloud events, etc. Credits can be used to cover the expenses of using Zilliz Cloud services.</p></td>
+     <td><p>クレジット</p></td>
+     <td><p>会員登録やZilliz Cloudのイベントなどに参加することで、クレジットを獲得できます。クレジットは、Zilliz Cloudのサービスを利用するための費用として使用できます。</p></td>
    </tr>
    <tr>
-     <td><p>Credit card</p></td>
-     <td><p>You receive a monthly invoice for your usage on Zilliz Cloud.</p></td>
+     <td><p>クレジットカード</p></td>
+     <td><p>Zilliz Cloudでの利用に対して、毎月請求書が届きます。</p></td>
    </tr>
    <tr>
-     <td><p>AWS Marketplace subscription</p></td>
-     <td><p>You receive invoices for your Zilliz Cloud usage through the AWS Marketplace. </p><p>You can subscribe to our service in AWS Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.</p></td>
+     <td><p>AWSMarketplaceのサブスクリプション</p></td>
+     <td><p>Zilliz Cloudの使用に関する請求書は、AWSMarketplaceを通じて受け取ります。</p><p>AWS Marketplaceでサービスに登録し、AWS、GCP、Azureから選択してZilliz Cloudクラスターを作成できます。</p></td>
    </tr>
    <tr>
-     <td><p>GCP Marketplace subscription</p></td>
-     <td><p>You receive invoices for your Zilliz Cloud usage through the GCP Marketplace.</p><p>You can subscribe to our service in GCP Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.</p></td>
+     <td><p>GCPMarketplaceのサブスクリプション</p></td>
+     <td><p>Zilliz Cloudの使用に関する請求書は、GCPMarketplaceから受け取ります。</p><p>GCP Marketplaceでサービスに登録し、AWS、GCP、Azureから選択してZilliz Cloudクラスターを作成できます。</p></td>
    </tr>
    <tr>
-     <td><p>Azure Marketplace subscription</p></td>
-     <td><p>You receive invoices for your Zilliz Cloud usage through the Azure Marketplace.</p><p>You can subscribe to our service in Azure Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.</p></td>
+     <td><p>Azure Marketplaceのサブスクリプション</p></td>
+     <td><p>Azure Marketplaceを通じて、Zilliz Cloudの使用に関する請求書を受け取ります。</p><p>Azure Marketplaceでサービスに登録し、AWS、GCP、Azureから選択してZilliz Cloudクラスターを作成できます。</p></td>
    </tr>
    <tr>
-     <td><p>Advance Pay</p></td>
-     <td><p>You prepay a sum of funds for Zilliz Cloud services.</p></td>
+     <td><p>事前支払い</p></td>
+     <td><p>Zilliz Cloudサービスのために、一定額の資金を前払いします。</p></td>
    </tr>
 </table>
 
-Credits and Advance Pay can be combined with either a credit card or a Marketplace subscription (AWS/GCP/Azure). However, it is not possible to set both a credit card and a Marketplace subscription simultaneously.
+クレジットと前払いは、クレジットカードまたはMarketplaceサブスクリプション（AWS/GCP/Azure）のいずれかと組み合わせることができます。ただし、クレジットカードとMarketplaceサブスクリプションの両方を同時に設定することはできません。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The Marketplace subscription is only a payment method and does not affect the cloud service provider when creating a cluster. For example, even after subscribing through AWS Marketplace, you can still <a href="./create-cluster">create</a> clusters on GCP, Azure, or AWS.</p>
+<p>Marketplaceのサブスクリプションは、クラスターを作成する際にクラウドサービスプロバイダーに影響を与えることはなく、支払いの方法としてのみ利用できます。例えば、AWS Marketplaceを通じてサブスクリプションした後でも、GCP、Azure、またはAWS上でクラスターを<a href="./create-cluster">作成</a>することができます。</p>
 
 </Admonition>
 
-### Payment method priority{#payment-method-priority}
+### お支払い方法の優先順位{#}
 
-If multiple payment methods are in use, their priority is as follows:
+複数の支払い方法が使用されている場合、その優先順位は次のとおりです。
 
-1. Credits
+1. クレジット
 
-1. Advance Pay funds
+1. 事前支払い資金
 
-1. Credit card / AWS Marketplace subscription / GCP Marketplace subscription / Azure Marketplace subscription.
+1. クレジットカード/AWSMarketplaceサブスクリプション/GCP Marketplaceサブスクリプション/Azure Marketplaceサブスクリプション。
 
-**Example:** For a $500 unpaid bill, with $100 in credits and $200 in Advance Pay funds available, plus a linked credit card:
+**例:**500ドルの未払いの請求書があり、100ドルのクレジットと200ドルのAdvance Pay資金が利用可能で、リンクされたクレジットカードがある場合:
 
-- The $100 credits are used first, reducing the bill to $400.
+- 最初に100ドルのクレジットが使用され、請求書が400ドルに減額されます。
 
-- Then, the $200 Advance Pay funds are applied, bringing the balance down to $200.
+- その後、200ドルの前払い資金が適用され、残高が200ドルに減少します。
 
-- Finally, the remaining $200 is charged to the linked credit card.
+- 最後に、残りの200ドルはリンクされたクレジットカードに請求されます。
 
-### Switching payment methods{#switching-payment-methods}
+### 支払い方法の切り替え{#}
 
-Zilliz Cloud offers flexibility in switching between different payment methods:
+Zilliz Cloudは、異なる支払い方法の切り替えに柔軟性を提供しています
 
-#### From credit card to Marketplace subscription{#from-credit-card-to-marketplace-subscription}
+#### クレジットカードからマーケットプレイスの定期購読まで{#}
 
-- Subscribe directly on the [AWS](./subscribe-on-aws-marketplace) or [GCP](./subscribe-on-gcp-marketplace) or [Azure](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview) Marketplace.
+- 直接[AWS](./subscribe-on-aws-marketplace)、[GCP](./subscribe-on-gcp-marketplace)、または[Azure](./subscribe-on-azure-marketplace)Marketplaceで購読してください。
 
-- No need to manually remove your credit card.
+- クレジットカードを手動で削除する必要はありません。
 
-- Successful Marketplace subscription automatically updates the payment method.
+- 成功したマーケットプレイスのサブスクリプションは、自動的に支払い方法を更新します。
 
-#### From Marketplace subscription to credit card{#from-marketplace-subscription-to-credit-card}
+#### マーケットプレイスの定期購読からクレジットカードへ{#}
 
-- Unsubscribe manually from the original [AWS](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription) or [GCP](./subscribe-on-gcp-marketplace#cancel-gcp-marketplace-subscription) or [Azure](./subscribe-on-azure-marketplace) Marketplace.
+- 元の[AWS](./subscribe-on-aws-marketplace#aws-marketplace)または[GCP](./subscribe-on-gcp-marketplace#gcp-marketplace)または[Azure](./subscribe-on-azure-marketplace#azure-marketplace)Marketplaceから手動で登録解除してください。
 
-- [Add your credit card](./subscribe-by-adding-credit-card) on the Zilliz Cloud web console.
+- [クレジットカードを](./subscribe-by-adding-credit-card)Zilliz Cloudウェブコンソールに追加します。
 
-#### Between Marketplace subscriptions{#between-marketplace-subscriptions}
+#### マーケットプレイスのサブスクリプション間{#}
 
-- Unsubscribe from the current Marketplace.
+- 現在のマーケットプレイスから購読を解除してください。
 
-- Resubscribe using the new [AWS](./subscribe-on-aws-marketplace) or [GCP](./subscribe-on-gcp-marketplace) or [Azure](./subscribe-on-azure-marketplace) Marketplace account.
+- 新しい[AWS](./subscribe-on-aws-marketplace)または[GCP](./subscribe-on-gcp-marketplace)または[Azure](./subscribe-on-azure-marketplace)Marketplaceアカウントを使用して再登録してください。
 
-## Marketplace Pricing Terms{#marketplace-pricing-terms}
+## マーケットプレイスの価格条件{#}
 
-You can subscribe to Zilliz Cloud services on [AWS](./subscribe-on-aws-marketplace), [GPC](./subscribe-on-gcp-marketplace), or [Azure](./subscribe-on-azure-marketplace) Marketplace and then create a cluster deployed on the [supported cloud providers](./cloud-providers-and-regions).
+Zilliz Cloudサービスを[AWS](./subscribe-on-aws-marketplace)、[GPC](./subscribe-on-gcp-marketplace)、または[Azure](./subscribe-on-azure-marketplace)Marketplaceでサブスクライブし、[サポートされるクラウドプロバイダー](./cloud-providers-and-regions)にデプロイされたクラスターを作成できます。
 
-The pricing varies across cloud providers, regions, and cluster plans. Refer to [Zilliz Cloud Pricing](https://zilliz.com/pricing) for more information.
+価格はクラウドプロバイダー、リージョン、クラスタープランによって異なります。詳細については、[Zilliz Cloud価格](https://zilliz.com/jp/pricing)を参照してください。
 
-Using the pricing information, if you have deployed a Zilliz Cloud cluster in the **Standard Plan** with one performance-optimized CU in AWS-us-east-1 (Virginia), you will be charged via your Marketplace subscription  $0.159/hour.
+価格情報を使用して、**スタンダードプラン**でZilliz Cloudクラスターをデプロイし、AWS-us-east-1(バージニア)に1つのperformance-optimizedCUを持っている場合、Marketplaceサブスクリプションを通じて1時間あたり$0.159が請求されます。
 
-## Related topics{#related-topics}
+## 関連するトピック{#}
 
-To learn more about subscribing to Zilliz Cloud using different payment methods and viewing your invoices, please refer to the following topics.
+さまざまな支払い方法を使用してZilliz Cloudに登録し、請求書を表示する方法の詳細については、以下のトピックを参照してください。
 
 
 

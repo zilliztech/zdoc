@@ -1,12 +1,12 @@
 ---
-title: "Manage Project Alerts | Cloud"
+title: "プロジェクトのアラートを管理する | Cloud"
 slug: /manage-project-alerts
-sidebar_label: "Manage Project Alerts"
+sidebar_label: "プロジェクトのアラートを管理する"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers two types of alerts for resource monitoring Organization Alerts for billing-related matters and Project Alerts for operational performance of clusters in specific projects. For a quick reference, refer to Metrics & Alerts Reference. | Cloud"
+description: "Zilliz Cloudは、リソースモニタリングのための2種類のアラートを提供しています。組織アラートは、の問題に対応し、プロジェクトアラートは特定のプロジェクトのクラスターの運用パフォーマンスに対応しています。クイックリファレンスについては、メトリクスとアラートのリファレンスを参照してください。 | Cloud"
 type: origin
-token: NvDLw4kFji0xeWkc4Hpc9wUfnRh
+token: OVeIw4EASiL5EgkJjLlcPbFon4c
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -14,161 +14,161 @@ keywords:
   - cloud
   - project
   - alerts
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Manage Project Alerts
+# プロジェクトのアラートを管理する
 
-Zilliz Cloud offers two types of alerts for resource monitoring: **Organization Alerts** for billing-related matters and **Project Alerts** for operational performance of clusters in specific projects. For a quick reference, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
+Zilliz Cloudは、リソースモニタリングのための2種類のアラートを提供しています。**組織アラート**は、の問題に対応し、**プロジェクトアラート**は特定のプロジェクトのクラスターの運用パフォーマンスに対応しています。クイックリファレンスについては、[メトリクスとアラートのリファレンス](./metrics-alerts-reference)を参照してください。
 
-This topic describes how to view and manage project alerts.
+このトピックでは、プロジェクトのアラートを表示および管理する方法について説明します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>This feature is exclusively available to clusters in the Standard and Enterprise plans. For more information, see <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p>
+<p>この機能は、StandardおよびEnterpriseプランのクラスターでのみ利用できます。詳細については、「<a href="./select-zilliz-cloud-service-plans">詳細なプラン比較</a>」を参照してください。</p>
 
 </Admonition>
 
-## Overview{#overview}
+## 概要について{#}
 
-Below is a table outlining the default trigger conditions for predefined project alert targets.
+以下は、事前に定義されたプロジェクトアラートターゲットのデフォルトトリガー条件を概説した表です。
 
-When an alert in an **ON** status, the specified recipients will receive notifications once the conditions are met. You can [edit an alert](./manage-project-alerts#edit-a-project-alert) to change its status.
+アラートが**ON**状態の場合、条件が満たされると指定された受信者に通知が届きます。[アラートを編集](./manage-project-alerts#)してステータスを変更できます。
 
-For more information about recommended actions, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
+推奨アクションの詳細については、[メトリクスとアラートのリファレンス](./metrics-alerts-reference)を参照してください。
 
 <table>
    <tr>
-     <th><p>Alert Target</p></th>
-     <th><p>Unit</p></th>
-     <th><p>Default Trigger Condition</p></th>
+     <th><p>アラートターゲット</p></th>
+     <th><p>ユニット</p></th>
+     <th><p>デフォルトのトリガー条件</p></th>
    </tr>
    <tr>
-     <td><p>CU Computation</p></td>
+     <td><p>CUコンピュテーション</p></td>
      <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</p></td>
+     <td><p><strong>警告</strong>: 70%以上のトリガーアラートは、10分以上にわたって計算能力を利用しました。</p><p><strong>クリティカル</strong>: 90%以上のトリガーアラートは、10分以上にわたって計算能力を利用しました。</p></td>
    </tr>
    <tr>
-     <td><p>CU Capacity</p></td>
+     <td><p>CUの容量</p></td>
      <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized CU capacity for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized CU capacity for 10+ minutes.</p></td>
+     <td><p><strong>警告</strong>:&gt;70%のトリガーアラートは、10+分のCU容量を利用しました。</p><p><strong>クリティカル</strong>: CU容量が10分以上使用され、90%以上のトリガーアラートが発生しました。</p></td>
    </tr>
    <tr>
-     <td><p>Search (QPS)</p></td>
+     <td><p>検索する(QPS)</p></td>
      <td><p>QPS</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at &gt;50 search operations per second for 10+ minutes.</p></td>
+     <td><p>10分以上、秒間50回以上の検索操作で<strong>警告</strong>アラートをトリガーしてください。</p></td>
    </tr>
    <tr>
-     <td><p>Query (QPS)</p></td>
+     <td><p>クエリー(QPS)</p></td>
      <td><p>QPS</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at &gt;50 query operations per second for 10+ minutes.</p></td>
+     <td><p>10分以上毎秒50回以上のクエリ操作で<strong>警告</strong>アラートをトリガーします。</p></td>
    </tr>
    <tr>
-     <td><p>Search Latency (P99)</p></td>
+     <td><p>検索レイテンシ(P 99)</p></td>
      <td><p>ms</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</p></td>
+     <td><p>10分以上のP 99レイテンシ&gt;1,000 msで<strong>警告</strong>アラートをトリガーします。</p></td>
    </tr>
    <tr>
-     <td><p>Query Latency (P99)</p></td>
+     <td><p>クエリーレイテンシ(P 99)</p></td>
      <td><p>ms</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</p></td>
+     <td><p>10分以上のP 99レイテンシ&gt;1,000 msで<strong>警告</strong>アラートをトリガーします。</p></td>
    </tr>
 </table>
 
-**Permissions**:
+**パーミッション**:
 
-- **View**: All members can view project alerts in the target organization.
+- **閲覧**:対象のオーガニゼーションの全メンバーが閲覧可能なプロジェクトアラート。
 
-- **Configuration**: Only organization owners or project admins can configure cluster alerts.
+- **構成**:クラスターアラートを構成できるのは、組織の所有者またはプロジェクト管理者のみです。
 
-- **Receiving notifications**: Available to any organization member if designated by the owner.
+- **通知の受信**:所有者によって指定された場合、すべてのOrganizationメンバーが利用できます。
 
-For more information on user roles, see [Manage Project Users](./project-users).
+ユーザーロールの詳細については、「[プロジェクトのユーザーを管理する](./project-users)」を参照してください。
 
-## View project alerts{#view-project-alerts}
+## プロジェクトのアラートを表示する{#}
 
-Navigate to the **Project Alerts** page to view project alerts.
+[**プロジェクトアラート**]ページに移動して、プロジェクトアラートを表示します。
 
-**Components of an alert**:
+**アラートの構成要素**:
 
-- **Alert Target**: Preconfigured by Zilliz Cloud with trigger conditions and severity.
+- **アラートターゲット**: Zilliz Cloudによって事前にトリガー条件と重大度が設定されています。
 
-- **Status**: Indicates if the alert is active (**ON**) or not. When an alert in an **ON** status, the specified recipients will receive notifications once the conditions are met.
+- **ステータス**:アラートがアクティブ（**ON**）かどうかを示します。アラートが**ON**の場合、条件が満たされると指定された受信者に通知が届きます。
 
-- **Condition**: Trigger conditions for the alert. For each project alert target, the trigger condition includes a threshold value and a duration value that must be met for the alert to be triggered. The condition can be set to one of the following operators: >, >=, \<, \<=, =. The threshold value can be a numeric value, such as a number for metrics like query latency, query QPS, search QPS, CU Capacity, and CU Computation. The duration specifies how long the threshold must be exceeded, which is set to a minimum of 1 minute and a maximum of 30 minutes.
+- **条件**:アラートのトリガー条件。各プロジェクトのアラートターゲットに対して、トリガー条件には、アラートがトリガーされるために満たす必要がある閾値と期間値が含まれます。条件は、次の演算子のいずれかに設定できます:>、>=、\<、\<=、=。閾値は、クエリレイテンシ、クエリQPS、検索QPS、CU Capacity、CU Computationなどのメトリックの数値などの数値になります。期間は、閾値を超える必要がある時間を指定し、最小1分、最大30分に設定されます。
 
-- **Severity Level**: Categorized as **WARNING** or **CRITICAL**.
+- **深刻度レベル**:**WARNING**または**CRITICAL**に分類されます。
 
-- **Receiver**: Designated roles or email addresses for receiving notifications. You can also set up custom notification channels using webhooks. For more information, refer to [Manage Notification Channels](./manage-notification-channels).
+- **受信者**:通知を受け取るための役割またはメールアドレスを指定します。Webhookを使用してカスタム通知チャンネルを設定することもできます。詳細については、「[通知チャンネルの管理](./manage-notification-channels)」を参照してください。
 
-![view-project-alert](/img/view-project-alert.png)
+![view-project-alert](/img/ja-JP/view-project-alert.png)
 
-## Create a project alert{#create-a-project-alert}
+## プロジェクトのアラートを作成する{#}
 
-In addition to default project alerts, you can click **+ Alert** to create an alert by customizing the alert type, severity level, alert condition, and notification recipients.
+デフォルトのプロジェクトアラートに加えて、[**+アラート**]をクリックして、アラートの種類、重要度レベル、アラート条件、および通知受信者をカスタマイズしてアラートを作成できます。
 
-For supported custom alert targets, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
+サポートされているカスタムアラートターゲットについては、[メトリクスとアラートのリファレンス](./metrics-alerts-reference)を参照してください。
 
-![create-alert](/img/create-alert.png)
+![create-alert](/img/ja-JP/create-alert.png)
 
-## Edit a project alert{#edit-a-project-alert}
+## プロジェクトのアラートを編集する{#}
 
-- **Customizations**: Modify alert conditions, update notification recipients, and change the active status.
+- **カスタマイズ**:アラート条件の変更、通知受信者の更新、アクティブステータスの変更を行います。
 
-- **Restrictions**: Alert target type and severity level are fixed and cannot be changed.
+- **制限事項**:アラートの対象タイプと重大度レベルは固定されており、変更できません。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>To quickly enable or disable an alert, you can select <strong>Enable</strong> or <strong>Disable</strong> from the <strong>Actions</strong> column.</p>
-
-</Admonition>
-
-## Enable or disable a project alert{#enable-or-disable-a-project-alert}
-
-To quickly enable or disable a project alert, select **Enable** or **Disable** from the **Actions** column. 
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Once an alert is disabled, you'll no longer receive alert notifications if alert conditions are met.</p>
+<p>アラートをすばやく有効または無効にするには、[アクション]列から[<strong>有効</strong>]または[<strong>無効</strong>]を選択し<strong>ま</strong>す。</p>
 
 </Admonition>
 
-## Delete a project alert{#delete-a-project-alert}
+## プロジェクトのアラートを有効または無効にする{#}
 
-Once a project alert is no longer needed, you can delete it.
+プロジェクトのアラートをすばやく有効または無効にするには、[アクション]列から[**有効**]または[**無効**]を選択し**ま**す。
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Once an alert is deleted, you'll no longer receive notifications for the alert target.</p>
+<p>アラートを無効にすると、アラート条件が満たされた場合にアラート通知を受け取ることができなくなります。</p>
 
 </Admonition>
 
-## View alert history{#view-alert-history}
+## プロジェクトのアラートを削除する{#}
 
-View triggered alerts on the **Alert History** tab, with filters for alert target, severity level, and time range.
+プロジェクトアラートが不要になったら、削除できます。
 
-![view-project-alert-history](/img/view-project-alert-history.png)
+<Admonition type="info" icon="Notes" title="undefined">
 
-## Configure alert receiver settings{#configure-alert-receiver-settings}
+<p>アラートが削除されると、アラートターゲットの通知は受け取れなくなります。</p>
 
-The Alert Receiver Settings feature allows [Project Admins](./project-users) to create and manage alert templates, providing a structured way to handle notifications for various events within a project.
+</Admonition>
 
-On the **Alert Settings** page of the project alerts, configure alert receiver settings.incl
+## アラート履歴を表示する{#}
 
-![alert-receiver-settings](/img/alert-receiver-settings.png)
+[**Alert History**]タブでトリガーされたアラートを表示します。アラートの対象、重要度レベル、時間範囲のフィルターがあります。
 
-## Related topics{#related-topics}
+![view-project-alert-history](/img/ja-JP/view-project-alert-history.png)
 
-- [View Cluster Metrics](./view-cluster-metric-charts)
+## アラート受信の設定を行う{#}
 
-- [Manage Organization Alerts](./manage-organization-alerts)
+[Alert Receiver Settings(アラート受信者設定)]機能を使用すると、[プロジェクト管理者](./project-users)はアラートテンプレートを作成して管理できます。
 
-- [Metrics & Alerts Reference](./metrics-alerts-reference)
+プロジェクトアラートの[**アラート設定**]ページで、アラート受信者の設定を構成します。
+
+![alert-receiver-settings](/img/ja-JP/alert-receiver-settings.png)
+
+## 関連するトピック{#}
+
+- [メトリクスとアラートのリファレンス](./metrics-alerts-reference)
+
+- [組織のアラートを管理する](./manage-organization-alerts)
+
+- [メトリクスとアラートのリファレンス](./metrics-alerts-reference)
 

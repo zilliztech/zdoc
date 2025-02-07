@@ -1,12 +1,12 @@
 ---
-title: "Standard | Cloud"
+title: "標準トークナイザー | Cloud"
 slug: /standard-tokenizer
-sidebar_label: "Standard"
+sidebar_label: "標準トークナイザー"
 beta: PUBLIC
 notebook: FALSE
-description: "The `standard` tokenizer in Zilliz Cloud splits text based on spaces and punctuation marks, making it suitable for most languages. | Cloud"
+description: "Zilliz Cloudの`標準`トークナイザーZilliz Cloudは、スペースと句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。 | Cloud"
 type: origin
-token: GAX8wkC1QiTZhXkLBocc1GoTnke
+token: AidtwEFV0idlPOkHa10cJu4onBg
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -28,13 +28,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Standard
+# 標準トークナイザー
 
-The `standard` tokenizer in Zilliz Cloud splits text based on spaces and punctuation marks, making it suitable for most languages.
+Zilliz Cloudの`標準`トークナイザーZilliz Cloudは、スペースと句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。
 
-## Configuration{#configuration}
+## コンフィギュレーション{#}
 
-To configure an analyzer using the `standard` tokenizer, set `tokenizer` to `standard` in `analyzer_params`.
+アナライザーを`標準`トークナイザーで設定するには、`anzer_params`でトークナイザーを`標準`に`設定します`。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -57,7 +57,7 @@ analyzerParams.put("tokenizer", "standard");
 </TabItem>
 </Tabs>
 
-The `standard` tokenizer can work in conjunction with one or more filters. For example, the following code defines an analyzer that uses the `standard` tokenizer and `lowercase` filter:
+以下のコードは、`標準トークナイザーと小文字`フィルターを組み合わせて動作するアナライザーを定義しています。例えば、
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -82,25 +82,25 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>For simpler setup, you may choose to use the <code>standard</code> <a href="./standard-analyzer">analyzer</a>, which combines the <code>standard</code> tokenizer with the <code>lowercase</code><a href="./lowercase-filter"> filter</a>.</p>
+<p>設定を簡単にするには、<code>標準</code> <a href="null">アナライザ</a>を使用します。これは、<code>標準</code>トークナイザと<code>小文字</code><a href="null">フィルタ</a>を組み合わせたものです。</p>
 
 </Admonition>
 
-After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview).
+検`光子_params`を定義した後、コレクションスキーマを定義する際に`VARCHAR`フィールドに適用することができます。これにより、Zilliz Cloudは、指定されたアナライザを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行うことができます。詳細は、[使用例](null)を参照してください。
 
-## Example output{#example-output}
+## 出力の例{#}
 
-Here’s an example of how the `standard` tokenizer processes text:
+以下は、`標準`トークナイザーがテキストを処理する方法の例です。
 
-**Original text**:
+**オリジナルテキスト**:
 
 ```python
 "The Milvus vector database is built for scale!"
 ```
 
-**Expected output**:
+**予想される出力**:
 
 ```python
 ["The", "Milvus", "vector", "database", "is", "built", "for", "scale"]

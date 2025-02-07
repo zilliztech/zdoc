@@ -1,12 +1,12 @@
 ---
-title: "Storage Options | Cloud"
+title: "ストレージオプション | Cloud"
 slug: /data-import-storage-options
-sidebar_label: "Storage Options"
+sidebar_label: "ストレージオプション"
 beta: FALSE
 notebook: FALSE
-description: "Before importing data, it's important to understand the supported cloud storage options and their corresponding URL formats. This ensures that your requests can be properly processed without undergoing validation errors. | Cloud"
+description: "データをインポートする前に、サポートされているクラウドストレージオプションとそれに対応するURL形式を理解することが重要です。これにより、検証エラーを起こすことなくリクエストを適切に処理できます。 | Cloud"
 type: origin
-token: TjxAw7lx6iNluBkR4a6czoHpn0f
+token: LlsEwBCeZiMSFIkXJdpcaJKSneb
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -15,28 +15,28 @@ keywords:
   - data import
   - milvus
   - storage options
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Storage Options
+# ストレージオプション
 
-Before importing data, it's important to understand the supported cloud storage options and their corresponding URL formats. This ensures that your requests can be properly processed without undergoing validation errors.
+データをインポートする前に、サポートされているクラウドストレージオプションとそれに対応するURL形式を理解することが重要です。これにより、検証エラーを起こすことなくリクエストを適切に処理できます。
 
-## AWS Simple Storage Service (S3){#aws-simple-storage-service-s3}
+## AWS簡易ストレージサービス(S 3){#awss-3}
 
-- **Object access URIs**
+- **オブジェクトアクセスURI**
 
     <table>
        <tr>
-         <th><p><strong>URI Style</strong></p></th>
-         <th><p><strong>URI Format</strong></p></th>
+         <th><p><strong>URIスタイル</strong></p></th>
+         <th><p><strong>URIフォーマット</strong></p></th>
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
@@ -52,9 +52,9 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
     </table>
 
-    For more details, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
+    詳細については、[バケットへのアクセス方法を](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html)参照してください。
 
-- **Required permissions**
+- **必要な権限**
 
     - `s3:GetObject`
 
@@ -62,22 +62,22 @@ Before importing data, it's important to understand the supported cloud storage 
 
     - `s3:GetBucketLocation`
 
-- **Credential acquisition**
+- **クレデンシャル取得**
 
-    Based on your data security requirements, you can use either long-term credentials or session tokens during data import:
+    データのセキュリティ要件に基づいて、データのインポート中に長期的な資格情報またはセッショントークンを使用できます。
 
-    - If you prefer to authenticate with long-term credentials, read [Authenticate using long-term credentials](https://docs.aws.amazon.com/sdkref/latest/guide/access-iam-users.html) for details.
+    - 長期的な資格情報を使用して認証する場合は、詳細については、[長期的な資格情報を使用](https://docs.aws.amazon.com/sdkref/latest/guide/access-iam-users.html)した認証を参照してください。
 
-    - If you prefer to authenticate with a session-token, refer to [this FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
+    - セッショントークンで認証する場合は、[このFAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)を参照してください。
 
-## Google Cloud Storage{#google-cloud-storage}
+## Google Cloudストレージ{#google-cloud}
 
-- **Object access URIs**
+- **オブジェクトアクセスURI**
 
     <table>
        <tr>
-         <th><p><strong>URI Style</strong></p></th>
-         <th><p><strong>URI Format</strong></p></th>
+         <th><p><strong>URIスタイル</strong></p></th>
+         <th><p><strong>URIフォーマット</strong></p></th>
        </tr>
        <tr>
          <td><p><strong>GSC public URL</strong></p></td>
@@ -89,30 +89,30 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
     </table>
 
-    For more details, see [Share the object](https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object).
+    詳細については、[オブジェクトの共有を](https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object)参照してください。
 
-- **Required permissions**
+- **必要な権限**
 
     - `storage.objects.get`
 
     - `storage.objects.list`
 
-- **Credential acquisition**
+- **クレデンシャル取得**
 
-    Based on your data security requirements, you can use either long-term credentials or session tokens during data import:
+    データのセキュリティ要件に基づいて、データのインポート中に長期的な資格情報またはセッショントークンを使用できます。
 
-    - If you prefer to authenticate with long-term credentials, read [Manage HMAC keys for service accounts](https://cloud.google.com/storage/docs/authentication/managing-hmackeys) for details.
+    - 長期的な資格情報で認証する場合は、[サービスアカウントのHMACキーの管理](https://cloud.google.com/storage/docs/authentication/managing-hmackeys)を参照してください。
 
-    - If you prefer to authenticate with a session-token, refer to [this FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
+    - セッショントークンで認証する場合は、[このFAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)を参照してください。
 
-## Azure Blob Storage{#azure-blob-storage}
+## Azure Blobストレージ{#azure-blob}
 
-- **Object access URIs**
+- **オブジェクトアクセスURI**
 
     <table>
        <tr>
-         <th><p><strong>URI Style</strong></p></th>
-         <th><p><strong>URI Format</strong></p></th>
+         <th><p><strong>URIスタイル</strong></p></th>
+         <th><p><strong>URIフォーマット</strong></p></th>
        </tr>
        <tr>
          <td><p><strong>Azure storage blob URI</strong></p></td>
@@ -120,13 +120,13 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
     </table>
 
-    For more details, see [Resource URI Syntax](https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata#resource-uri-syntax).
+    詳細については、[リソースURI構文](https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata#resource-uri-syntax)を参照してください。
 
-- **Credential acquisition**
+- **クレデンシャル取得**
 
-    Based on your data security requirements, you can use either long-term credentials or session tokens during data import:
+    データのセキュリティ要件に基づいて、データのインポート中に長期的な資格情報またはセッショントークンを使用できます。
 
-    - If you prefer to authenticate with long-term credentials, read [View account access keys](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys) for details
+    - 長期的な認証情報で認証する場合は、詳細については「[アカウントアクセスキーの表示](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)」を参照してください
 
-    - If you prefer to authenticate with a session-token, refer to [this FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
+    - セッショントークンで認証する場合は、[このFAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)を参照してください。
 

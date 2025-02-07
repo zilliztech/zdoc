@@ -1,12 +1,12 @@
 ---
-title: "Subscribe by Adding Credit Card | Cloud"
+title: "クレジットカードを追加して購読する | Cloud"
 slug: /subscribe-by-adding-credit-card
 sidebar_label: "Credit Card"
 beta: FALSE
 notebook: FALSE
-description: "This guide provides comprehensive instructions on how to add a payment credit card for your organization on Zilliz Cloud. | Cloud"
+description: "このガイドでは、Zilliz Cloudに組織の支払いクレジットカードを追加する方法について包括的な手順を提供します。 | Cloud"
 type: origin
-token: TVnkwXupUiX3zDkzYPWcxKP3nvg
+token: E3TCwE0EXiQFvmk27QLcNMeunId
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -14,145 +14,147 @@ keywords:
   - cloud
   - credit card
   - subscribe
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Subscribe by Adding Credit Card
+# クレジットカードを追加して購読する
 
-This guide provides comprehensive instructions on how to add a payment credit card for your organization on Zilliz Cloud.
+このガイドでは、Zilliz Cloudに組織の支払いクレジットカードを追加する方法について包括的な手順を提供します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
 <ul>
-<li><strong>Taxation:</strong> Taxes on the invoices are calculated based on the billing address you provide. For companies that require to enter VAT or GST ID, please <a href="http://support.zilliz.com">contact us</a>.</li>
+<li><strong>課税:</strong>請求書の税金は、提供された請求先住所に基づいて計算されます。VATまたはGST IDを入力する必要がある企業の場合は、<a href="http://support.zilliz.com">お問い合わせ</a>ください。</li>
 </ul>
 
 </Admonition>
 
-## Add a credit card{#add-a-credit-card}
+## クレジットカードを追加する{#}
 
-1. After registering an account and logging in, navigate to **Billing** from the left-side menu to access your billing overview.
+1. アカウントを登録してログインした後、左側のメニューから「**請求**」に移動して、請求の概要にアクセスしてください。
 
-1. In the **Payment** **Method** section found at the lower-right corner of your screen, click on **Add Payment Method**. In the dialog box that opens, choose **Credit Card**.
+1. 画面の右下にある**支払** **方法**セクションで、**支払方法を追加**をクリックします。表示されるダイアログボックスで、**クレジットカード**を選択します。
 
- A dialog box will appear prompting you to enter:
+ダイアログボックスが表示され、入力を促します:
 
-- Credit Card Information:
+- クレジットカード情報:
 
-    - **Card number**
+    - **カード番号**
 
-    - **Expiration**
-
-    - **CVC**
-
-- Billing Information:
-
-    - **First Name**
-
-    - **Last Name**
-
-    - **Company Name**
-
-    - **Email**
-
-    - **Street Address**
-
-        - We recommend using your company address. This address will be used to calculate tax and will appear on all issued invoices.
-
-    - **Country / Region**
-
-    - **State / Province**
-
-    - **City**
-
-    - **ZIP/Postal Code**
-
-All fields above are mandatory. Upon completion, the **Add** button will be activated, allowing you to save your credit card information and billing information.
-
-![add-credit-card](/img/add-credit-card.png)
-
-## Edit your payment method{#edit-your-payment-method}
-
-Your payment method can be viewed and edited at any time from the **Billing** **Overview** page.
-
-![payment-overivew](/img/payment-overivew.png)
-
-Should your credit card approach its expiration date, you will be notified by our [credit card expiration monitor](./manage-organization-alerts). You may choose to update your payment information or switch to an [AWS Marketplace subscription](./subscribe-on-aws-marketplace) at your convenience.
-
-### **Edit credit card**{#edit-credit-card}
-
-To update your credit card information, click on the pencil icon in the **Payment Method** area.
-
- A dialog box will appear prompting you to enter:
-
-- Credit Card Information:
-
-    - **Card number**
-
-    - **Expiration**
+    - **有効期限切れ**
 
     - **CVC**
 
-- Billing information:
+- 請求情報:
 
-    - **First Name**
+    - **最初の名前**
 
-    - **Last Name**
+    - **ラストネーム**
 
-    - **Company Name**
+    - **会社の名前**
 
-    - **Email**
+    - **メール**
 
-    - **Street Address**
+    - **ストリートアドレス**
 
-        - We recommend using your company address. This address will be used to calculate tax and will appear on all issued invoices.
+        - 会社の住所を使用することをお勧めします。この住所は税金の計算に使用され、発行されたすべての請求書に表示されます。
 
-    - **Country / Region**
+    - **国/リージョン**
 
-    - **State / Province**
+    - **州/県**
 
-    - **City**
+    - **シティ**
 
-    - **ZIP/Postal Code**
+    - **ZIPコード/郵便番号**
 
-All fields above are mandatory. Upon completion, the **Update** button will be activated, allowing you to save your payment method.
+上記のフィールドはすべて必須です。入力が完了すると、**追加**ボタンが有効になり、クレジットカード情報と請求情報を保存できます。
 
-![update-payment-method](/img/update-payment-method.png)
+![add-credit-card](/img/ja-JP/add-credit-card.png)
 
-### **Edit billing profile**{#edit-billing-profile}
+## 支払い方法を編集する{#}
 
-To update your billing profile, click on the pencil icon in the **Billing Profile** area.
+支払い方法は、**請求** **の概要**ページからいつでも表示および編集できます。
 
-![edit-billing-profile](/img/edit-billing-profile.png)
+![payment-overivew](/img/ja-JP/payment-overivew.png)
 
-### **Switch to Marketplace subscription**{#switch-to-marketplace-subscription}
+クレジットカードの有効期限が近づくと、[クレジットカード有効期限モニター](./manage-organization-alerts)によって通知されます。お支払い情報を更新するか、[AWS Marketplaceサブスクリプション](./subscribe-on-aws-marketplace)に切り替えることができます。
 
-For those who prefer to transition from a credit card payment method to an AWS, GCP, or Azure Marketplace subscription, visit the corresponding Marketplace and subscribe to Zilliz Cloud services. Reference our guide on [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace), [Subscribe on GCP Marketplace](./subscribe-on-gcp-marketplace), and [Subscribe on Azure Marketplace](./subscribe-on-azure-marketplace) for detailed instructions.
+### **クレジットカードの編集**{#}
 
-Upon successful subscription via AWS Marketplace, your existing credit card information will be automatically replaced. You can verify the update in the **Payment Method** section on the **Billing Overview** page.
+クレジットカード情報を更新するには、**支払方法**エリアの鉛筆アイコンをクリックしてください。
 
-<Admonition type="info" icon="📘" title="Notes">
+ダイアログボックスが表示され、入力を促します:
 
-<p>Please allow a few minutes for the billing overview to reflect the changes.</p>
+- クレジットカード情報:
+
+    - **カード番号**
+
+    - **有効期限切れ**
+
+    - **CVC**
+
+- 請求情報:
+
+    - **最初の名前**
+
+    - **ラストネーム**
+
+    - **会社の名前**
+
+    - **メール**
+
+    - **ストリートアドレス**
+
+        - 会社の住所を使用することをお勧めします。この住所は税金の計算に使用され、発行されたすべての請求書に表示されます。
+
+    - **国/リージョン**
+
+    - **州/県**
+
+    - **シティ**
+
+    - **ZIPコード/郵便番号**
+
+上記のフィールドはすべて必須です。入力が完了すると、**更新**ボタンが有効になり、払い戻し方法を保存できます。
+
+![update-payment-method](/img/ja-JP/update-payment-method.png)
+
+### **請求プロフィールの編集**{#}
+
+請求プロフィールを更新するには、**請求プロフィール**エリアの鉛筆アイコンをクリックします。
+
+![edit-billing-profile](/img/ja-JP/edit-billing-profile.png)
+
+### **マーケットプレイスのサブスクリプションに切り替える**{#}
+
+クレジットカードからAWS、GCP、またはAzure Marketplaceのサブスクリプションに移行したい方は、対応するMarketplaceを訪問し、Zilliz Cloudサービスに登録してください。詳細な手順については、[AWS Marketplaceで購読する](./subscribe-on-aws-marketplace)、[Google Cloud Marketplaceに登録する](./subscribe-on-gcp-marketplace)、および[Azure Marketplaceで購読する](./subscribe-on-azure-marketplace)のガイドを参照してください。
+
+サブスクリプションがAWSMarketplaceで成功すると、既存のクレジットカード情報が自動的に置き換えられます。更新内容は、**支払方法**セクションの**請求概要**ページで確認できます。
+
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>変更が反映されるまで、請求概要に数分間お時間をいただきますようお願いいたします。</p>
 
 </Admonition>
 
-## Remove payment credit card{#remove-payment-credit-card}
+## 支払いクレジットカードを削除する{#}
 
-Currently, Zilliz Cloud does not support removing payment credit card on the web console. Should you need to remove a linked credit card, please contact us and submit a ticket at the Zilliz Cloud [support portal](https://support.zilliz.com/hc/en-us).
+現在、Zilliz Cloudはウェブコンソールでの支払いクレジットカードの削除をサポートしていません。リンクされたクレジットカードを削除する必要がある場合は、Zilliz Cloud[サポートポータル](https://support.zilliz.com/hc/en-us)でチケットを送信してください。
 
-## Related topics{#related-topics}
+## 関連するトピック{#}
 
-- [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace)
+- [AWS Marketplaceで購読する](./subscribe-on-aws-marketplace)
 
-- [Subscribe on GCP Marketplace](./subscribe-on-gcp-marketplace)
+- [Google Cloud Marketplaceに登録する](./subscribe-on-gcp-marketplace)
 
-- [View Invoice](./view-invoice) 
+- [Azure Marketplaceで購読する](./subscribe-on-azure-marketplace)
+
+- [インボイス](./view-invoice)
 

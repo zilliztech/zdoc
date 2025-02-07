@@ -1,75 +1,89 @@
 ---
-title: "Release Notes (Jan 18, 2024) | Cloud"
+title: "リリースノート（2024年1月18日） | Cloud"
 slug: /release-notes-250
-sidebar_label: "Release Notes (Jan 18, 2024)"
+sidebar_label: "リリースノート（2024年1月18日）"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism. | Cloud"
+description: "Zilliz Cloudは現在、Bring-Your-Own-Cloud(BYOC)サブスクリプションプランを正式にサポートしています。さらに、データインポート機能のユーザーエクスペリエンスを最適化し、階層的な権限を持つAPIキーを改良し、メトリックとアラートのメカニズムを強化しました。 | Cloud"
 type: origin
-token: VbjiwU5RYi4bWdkC48Jceltnnpd
+token: Fd9VwkZmYiDq0LkWCigcQafEn8c
 sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (Jan 18, 2024)
+# リリースノート（2024年1月18日）
 
-Zilliz Cloud have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism.
+Zilliz Cloudは現在、Bring-Your-Own-Cloud(BYOC)サブスクリプションプランを正式にサポートしています。さらに、データインポート機能のユーザーエクスペリエンスを最適化し、階層的な権限を持つAPIキーを改良し、メトリックとアラートのメカニズムを強化しました。
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvusの互換性{#milvus}
 
-This release is compatible with **Milvus 2.2.x** and **Milvus 2.3.x (Beta)**.
+このリリースは、**Milvus 2.2. x**および**Milvus 2.3.x(Beta)**と互換性があります。
 
-## Data Import{#data-import}
+## クラウドを持ち込む{#}
 
-We are excited to announce support for the Parquet data format in our latest release. To enhance user experience, we've introduced the PyMilvus writer utility, a powerful tool designed to assist our users in effortlessly creating files in JSON or Parquet formats for seamless data import. Dive into the details and explore the new possibilities at [Data Import](./data-import).
+今日、私たちはZilliz Bring Your Own Cloud(BYOC)デプロイメントモデルを発表できることを大変嬉しく思っています。この革新的なアプローチは、Zillizがすべてのオペレーションとメンテナンスを専門的に処理することで、最高レベルのデータセキュリティのために完全に管理されたベクトルデータベースサービスを自分自身のVirtual Private Cloud(VPC)で提供します。
 
-## API Key{#api-key}
+機械学習と人工知能の急速に進化する景観において、見逃せない側面の1つはセキュリティの重要性です。厳格なセキュリティと内部コンプライアンスの要求に直面している人々にとって、データを厳密に制御することは譲れません。理想的な解決策は、すべてのデータを自分自身の仮想プライベートクラウド(VPC)内に保存および管理することです。しかし、ここに重要な洞察があります。今日のベクトルデータベースサービスの大部分はSaaSとして設計されているため、コントロールプレーンとデータプレーンの両方が通常、ベンダーのVPC内にあります。以下に示すように:
 
-In this release, Zilliz Cloud introduced a unified design for the [API Key](./manage-api-keys). Each user can access the Zilliz Cloud platform and multiple Clusters using a single unified API key.
+![HuTjbCvQyo46h0xPDjSc9gCGnEg](/img/ja-JP/HuTjbCvQyo46h0xPDjSc9gCGnEg.png)
 
-The permission design of Zilliz Cloud follows the RBAC (Role-Based Access Control) principles, divided into two layers: the Operation Layer and the Data Layer. In the Operation Layer, roles govern the operational permissions of resources such as Clusters, Projects, Users, and Billing. In the Data Layer, roles focus on controlling the capabilities of adding, deleting, modifying, and querying data.
+Bring Your Own Cloud(BYOC)は、SaaSクラウドサービスとオンプレミス展開の間に位置する展開モデルです。データプレーンの部分では、ベンダーは顧客アカウントのVPCにソフトウェアを展開します。コントロールプレーンの部分では、ベンダーは顧客のほとんどの管理を管理します
 
-![V6ZhbOu0go1AORx0dxFcELQ3ndd](/img/V6ZhbOu0go1AORx0dxFcELQ3ndd.png)
+![NJhWba8NLol2f9x0WW5cpPbCnme](/img/ja-JP/NJhWba8NLol2f9x0WW5cpPbCnme.png)
 
-In the Operation Layer, Zilliz Cloud supports four types of roles, of which Organization Owner, Project Owner, and Project Member are three commonly used roles:
+Zilliz Cloud BYOCの詳細については、*Zillizの「Bring Your Own Cloud」オプションでベクトルデータのセキュリティを確保する*を参照してください。
 
-- Organization Owner: Has full management rights over the organization, including organizational settings, managing payment methods and billing, API Keys, all projects in the organization, and related resources.
+## データインポート{#}
 
-- Project Owner: Has full management rights over the project, including project settings, all clusters within the project, API Keys, and other related resources.
+私たちは、最新リリースでParquetデータ形式のサポートを発表することを楽しみにしています。ユーザーエクスペリエンスを向上させるために、PyMilvusライターユーティリティを導入しました。これは、滑らかなデータインポートのためにJSONまたはParquet形式のファイルを簡単に作成するために設計された強力なツールです。詳細については、Data Importで新しい可能性を探索してください。
 
-- Project Member: Has read and write permissions to all clusters within the project, can view cluster details, and manage Collections and Indexes.
+## APIキー{#api}
 
-In the Data Layer, Zilliz Cloud provides three built-in roles: Admin, Read-Only, and Read-Write, to control management, write, and read permissions of data. Zilliz Cloud allows users to create custom roles. These custom roles can define permissions for specific Collections, Partitions, or operations, ensuring the principle of minimal data permissions while using Zilliz Cloud. See the *documentations* to learn the details.
+このリリースでは、Zilliz CloudはAPIキーの統一デザインを導入しました。各ユーザーは、1つの統一[APIキー](null)を使用して、Zilliz Cloudプラットフォームと複数のクラスターにアクセス可能です。
 
-## Metrics & Alert{#metrics-and-alert}
+Zilliz Cloudの権限設計は、RBAC(Role-Based Access Control)の原則に従っており、Operation LayerとData Layerの2つのレイヤーに分かれています。Operation Layerでは、役割がクラスター、プロジェクト、ユーザー、請求などのリソースの運用権限を管理します。Data Layerでは、役割がデータの追加、削除、変更、およびクエリの機能を制御することに焦点を当てています。
 
-In this release, we made a refactor of [metric boards and alert system](./metrics-and-alerts). In the new version, you have the capability to monitor a comprehensive range of metrics:
+![XWvmbywAuo8RuVxdH9UcEq9Qnrb](/img/ja-JP/XWvmbywAuo8RuVxdH9UcEq9Qnrb.png)
 
-- Resource Usage Metrics: This includes a detailed view of CU (Compute Unit) computation resource utilization, CU capacity utilization (fullness), and overall storage usage.
+オペレーションレイヤーにおいて、Zilliz Cloudは4種類の役割をサポートしています。そのうち、組織オーナー、プロジェクトオーナー、プロジェクトメンバーは一般的に使用される3つの役割です。
 
-- Performance Metrics: Keep track of critical performance indicators such as search/query throughput and latency, the efficiency of data insertion (both throughput and latency), and the rate of request failures.
+- Organization Owner:組織の設定、支払い方法と請求書の管理、APIキー、組織内のすべてのプロジェクト、関連リソースなど、組織に対する完全な管理権限を持っています。
 
-- Data Metrics: Get insights into the number of collections, the total count of entities, the number of loaded entities for search, and the number of indexed entities.
+- プロジェクトオーナー:プロジェクト設定、プロジェクト内のすべてのクラスター、APIキー、およびその他の関連リソースを含む、プロジェクトに対する完全な管理権限を持っています。
 
-Additionally, our enhanced Alert System allows you to set customized alert rules for all the aforementioned metrics. This means you can create alerts for scenarios like when the Query Per Second (QPS) rate surpasses 1000, or when the CU fullness exceeds 70%, ensuring you stay informed and proactive about your system's health and performance.
+- プロジェクトメンバー:プロジェクト内のすべてのクラスターに対する読み取りおよび書き込み権限、閲覧可能なクラスターの詳細、コレクションとインデックスの管理を行います。
 
-## Enhancements{#enhancements}
+データレイヤーにおいて、Zilliz Cloudは3つの組み込みロール、Admin、Read-Only、Read-Writeを提供し、データの管理、書き込み、読み取り権限を制御します。Zilliz Cloudでは、ユーザーがカスタムロールを作成できます。これらのカスタムロールは、特定のコレクション、パーティション、または操作の権限を定義でき、Zilliz Cloudを使用する際に最小限のデータ権限の原則を確保します。詳細については、*ドキュメント*を参照してください。
 
-This release also includes a series of enhancements:
+## メトリクスとアラート{#}
 
-- Improved experience of several web console pages.
+このリリースでは、[メトリックボードとアラートシステム](null)のリファクタリングを行いました。新しいバージョンでは、包括的な範囲のメトリックを監視する機能があります。
 
-- Stability Enhancements: addressing known issues to further enhance the reliability of our service.
+- リソース使用率のメトリクス:これには、CU(Compute Unit)の計算リソース使用率、CUの容量使用率(容量)、および全体的なストレージ使用率の詳細ビューが含まれます。
+
+- パフォーマンスメトリクス:検索/クエリのスループットとレイテンシ、データ挿入の効率（スループットとレイテンシの両方）、リクエストの失敗率などの重要なパフォーマンス指標を追跡します。
+
+- データメトリクス:コレクションの数、エンティティの合計数、検索にロードされたエンティティの数、インデックスされたエンティティの数に関する洞察を得ることができます。
+
+さらに、私たちの強化されたアラートシステムにより、上記のすべてのメトリックに対してカスタマイズされたアラートルールを設定できます。これにより、Query Per Second(QPS)レートが1000を超えた場合や、CUフルネスが70%を超えた場合などのシナリオに対してアラートを作成でき、システムの健康状態とパフォーマンスについて常に情報を把握し、積極的に対応できます。
+
+## エンハンスメント{#}
+
+このリリースには、一連の機能強化も含まれています。
+
+- いくつかのWebコンソールページのエクスペリエンスが改善されました。
+
+- 安定性の向上:既知の問題に対処して、サービスの信頼性をさらに向上させます。
 

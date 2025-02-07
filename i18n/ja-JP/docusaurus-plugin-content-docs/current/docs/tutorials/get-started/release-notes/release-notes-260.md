@@ -1,64 +1,64 @@
 ---
-title: "Release Notes (March 13, 2024) | Cloud"
+title: "リリースノート（2024年3月13日） | Cloud"
 slug: /release-notes-260
-sidebar_label: "Release Notes (March 13, 2024)"
+sidebar_label: "リリースノート（2024年3月13日）"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud has introduced two major enhancements in its latest release. Firstly, Pipelines now support six state-of-the-art (SOTA) embedding models, which expands your data processing capabilities. The other major enhancement is that the Collection Playground feature has been added to simplify your onboarding experience. With this feature, you can easily perform basic Create, Run, Update, and Delete (CRUD) operations directly from the Zilliz Cloud console, making your data interaction processes more streamlined. You can try these new features today to enjoy a more efficient and effective workflow. | Cloud"
+description: "Zilliz Cloudは最新リリースで2つの主要な改良を導入しました。まず、Pipelinesは現在、6つの最新の(SOTA)埋め込みモデルをサポートしており、データ処理能力を拡張しています。もう1つの主要な改良は、Collection Playground機能が追加され、オンボーディング体験を簡素化することです。この機能を使用すると、Zilliz Cloudコンソールから基本的な作成、実行、更新、削除(CRUD)操作を簡単に実行でき、データインタラクションプロセスをより効率的に行うことができます。これらの新機能を今すぐ試して、より効率的かつ効果的なワークフローを楽しむことができます。 | Cloud"
 type: origin
-token: NmolwVTkCiQ2yZkXsJhcftyTnhc
+token: GNqXwvnHDiFtWqk3ytcc60xlnae
 sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (March 13, 2024)
+# リリースノート（2024年3月13日）
 
-Zilliz Cloud has introduced two major enhancements in its latest release. Firstly, Pipelines now support six state-of-the-art (SOTA) embedding models, which expands your data processing capabilities. The other major enhancement is that the Collection Playground feature has been added to simplify your onboarding experience. With this feature, you can easily perform basic Create, Run, Update, and Delete (CRUD) operations directly from the Zilliz Cloud console, making your data interaction processes more streamlined. You can try these new features today to enjoy a more efficient and effective workflow.
+Zilliz Cloudは最新リリースで2つの主要な改良を導入しました。まず、Pipelinesは現在、6つの最新の(SOTA)埋め込みモデルをサポートしており、データ処理能力を拡張しています。もう1つの主要な改良は、Collection Playground機能が追加され、オンボーディング体験を簡素化することです。この機能を使用すると、Zilliz Cloudコンソールから基本的な作成、実行、更新、削除(CRUD)操作を簡単に実行でき、データインタラクションプロセスをより効率的に行うことができます。これらの新機能を今すぐ試して、より効率的かつ効果的なワークフローを楽しむことができます。
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvusの互換性{#milvus}
 
-This release is compatible with **Milvus 2.3.x**.
+このリリースは**Milvus 2.3. x**と互換性があります。
 
-## More Embedding Models{#more-embedding-models}
+## 他の組み込みモデル{#}
 
-Zilliz Cloud Pipeline now supports six SOTA embedding models to broaden your data processing capabilities.
+Zilliz Cloud Pipelineは現在、6つのSOTA埋め込みモデルをサポートしており、データ処理能力を拡大しています。
 
-- **openai/text-embedding-3-small**
+- **OPENAI/text-embedding-3-small**
 
-    Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality.
+    Open AIによってホストされています。この非常に効率的な埋め込みモデルは、前身のtext-embedding-ada-002よりも強力なパフォーマンスを持ち、推論コストと品質のバランスを取っています。
 
-- **openai/text-embedding-3-large**
+- **OPENAI/text-embedding-3-large**
 
-    Hosted by OpenAI. This is OpenAI's best performing model. Compared to **text-embedding-ada-002**, the MTEB score has increased from 61.0% to 64.6%.
+    Open AIがホストしています。これはOpen AIの最高のパフォーマンスモデルです。**text-embedding-ada-002**と比較して、MTEBスコアは61.0%から64.6%に増加しました。
 
-- **voyageai/voyage-2**
+- **タイトル: voyageai/voyage-2**
 
-    Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its more efficient version voyage-lite-02-instruct ranks top on MTEB leaderboard.
+    Voyage AIによってホストされています。この汎用モデルは、説明的なテキストやコードを含む技術文書を取得することに優れています。より効率的なバージョンvoyage-lite-02-instructは、MTEBリーダーボードでトップにランクされています。
 
-- **voyageai/voyage-code-2**
+- **voyageai/航海コード-2**
 
-    Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks.
+    Voyage AIがホストしています。このモデルはプログラミングコードに最適化されており、検索コードブロックに優れた品質を提供します。
 
-- **voyageai/voyage-large-2**
+- **voyageai/ヴォヤージュラージ2**
 
-    Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents. This model is only available when the language is ENGLISH.
+    Voyage AIによってホストされています。これはVoyage AIからの最も強力な汎用埋め込みモデルです。16 kのコンテキスト長(voyage-2の4倍)をサポートし、技術的および長いコンテキスト文書を含むさまざまなタイプのテキストで優れています。このモデルは、言語が英語の場合にのみ利用可能です。
 
-- **zilliz/bge-base-en-v1.5**
+- **zilliz/bge-based-en-v 1.5-ダウンロード**
 
-    Released by BAAI, this SOTA open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model.
+    BAAIによってリリースされたこのSOTAオープンソースモデルは、Zilliz Cloudでホストされ、ベクトルデータベースと共同配置されており、高品質で最高のネットワークレイテンシを提供します。これはデフォルトの埋め込みモデルです。
 
-## Collection Playground{#collection-playground}
+## コレクションプレイグラウンド{#}
 
-In this release, Zilliz Cloud introduced the Collection Playground in Zilliz Cloud, designed to streamline your onboarding experience. The Playground allows users to seamlessly perform basic CRUD operations directly from the Zilliz Cloud console, including the insert, upsert, search, query, get, and delete operations. To access this new feature, navigate to the Playground tab in your collection on the Zilliz Cloud console. You are invited to explore this enhancement and enjoy simplified interaction with your collections!
+このリリースでは、Zilliz CloudはZilliz CloudのCollection Playgroundを導入し、オンボーディング体験を効率化するように設計されています。Playgroundにより、ユーザーはZilliz Cloudコンソールから直接基本的なCRUD操作をシームレスに実行できます。これには、挿入、アップロード、検索、クエリ、取得、削除などの操作が含まれます。この新機能にアクセスするには、Zilliz CloudコンソールのコレクションのPlaygroundタブに移動してください。この強化機能を探索し、コレクションとの簡単なインタラクションを楽しむことができます!

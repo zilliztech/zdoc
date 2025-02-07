@@ -1,12 +1,12 @@
 ---
-title: "Text Data | Cloud"
+title: "テキストデータ | Cloud"
 slug: /pipelines-text-data
-sidebar_label: "Text Data"
+sidebar_label: "テキストデータ"
 beta: FALSE
 notebook: FALSE
-description: "The Zilliz Cloud web UI provides a simplified and intuitive way of creating, running, and managing Pipelines while the RESTful API offers more flexibility and customization compared to the Web UI. | Cloud"
+description: "Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理するためのシンプルで直感的な方法を提供し、RESTful APIはWeb UIに比べてより柔軟性とカスタマイズ性を提供します。 | Cloud"
 type: origin
-token: ISAjwB6VLiAdS5kGoXYcdPBJnbf
+token: LKM5wYZW6iaxYokW6s6cOkmLn6b
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - text data
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 
@@ -25,149 +25,149 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Text Data
+# テキストデータ
 
-The Zilliz Cloud web UI provides a simplified and intuitive way of creating, running, and managing Pipelines while the RESTful API offers more flexibility and customization compared to the Web UI.
+Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理するためのシンプルで直感的な方法を提供し、RESTful APIはWeb UIに比べてより柔軟性とカスタマイズ性を提供します。
 
-This guide walks you through the necessary steps to create text pipelines, conduct a semantic search on your embedded text data, and delete the pipeline if it is no longer needed.
+このガイドでは、テキストパイプラインの作成、埋め込みテキストデータの意味検索の実行、パイプラインが不要になった場合の削除に必要な手順を説明します。
 
-## Prerequisites and limitations{#prerequisites-and-limitations}
+## 前提条件と制限{#}
 
-- Ensure you have created a cluster deployed in us-west1 on Google Cloud Platform (GCP).
+- Google Cloud Platform(GCP)上のus-west 1にデプロイされたクラスタを作成していることを確認してください。
 
-- In one project, you can only create up to 100 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits#pipelines).
+- 一つのプロジェクトでは、同じタイプのパイプラインを最大100個まで作成できます。詳細については、[Zillizクラウドの制限](./limits#)を参照してください。
 
-## Ingest text data{#ingest-text-data}
+## テキストデータを取り込む{#}
 
-To ingest any data, you need to first create an ingestion pipeline and then run it.
+データを取り込むには、まず取り込みパイプラインを作成してから実行する必要があります。
 
-### Create text ingestion pipeline{#create-text-ingestion-pipeline}
+### テキスト取り込みパイプラインの作成{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Navigate to your project.
+1. プロジェクトに移動します。
 
-1. Click on **Pipelines** from the navigation panel. Then switch to the **Overview** tab and click **Pipelines**. To create a pipeline, click **+ Pipeline**.
+1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
 
-    ![create-pipeline](/img/create-pipeline.png)
+    ![create-pipeline](/img/ja-JP/create-pipeline.png)
 
-1. Choose the type of pipeline to create. Click on **+ Pipeline** button in the **Ingestion Pipeline** column.
+1. 作成するパイプラインの種類を選択します。[**+パイプライン**]ボタンをクリックします。**Ingestion Pipeline**列。
 
-    ![choose-pipeline](/img/choose-pipeline.png)
+    ![choose-pipeline](/img/ja-JP/choose-pipeline.png)
 
-1. Configure the Ingestion pipeline you wish to create.
+1. 作成するIngestionパイプラインを構成します。
 
     <table>
        <tr>
-         <th><p><strong>Parameters</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
+         <th><p><strong>パラメータ</strong></p></th>
+         <th><p><strong>説明する</strong></p></th>
        </tr>
        <tr>
-         <td><p>Target Cluster</p></td>
-         <td><p>The cluster where a new collection will be automatically created with this Ingestion pipeline. Currently, this can only be a cluster  deployed on GCP us-west1.</p></td>
+         <td><p>ターゲットクラスタ</p></td>
+         <td><p>このIngestionパイプラインを使用して新しいコレクションが自動的に作成されるクラスタです。現時点では、GCP us-west 1にデプロイされたクラスタのみとなります。</p></td>
        </tr>
        <tr>
-         <td><p>Collection Name</p></td>
-         <td><p>The name of the auto-created collection.</p></td>
+         <td><p>コレクション名</p></td>
+         <td><p>自動作成されたコレクションの名前。</p></td>
        </tr>
        <tr>
-         <td><p>Pipeline Name</p></td>
-         <td><p>Name of the new Ingestion pipeline. It should only contain lowercase letters, numbers, and underscores.</p></td>
+         <td><p>パイプライン名</p></td>
+         <td><p>新しいIngestionパイプラインの名前です。小文字、数字、アンダースコアのみを含める必要があります。</p></td>
        </tr>
        <tr>
-         <td><p>Description (Optional)</p></td>
-         <td><p>The description of the new Ingestion pipeline.</p></td>
+         <td><p>説明（オプション）</p></td>
+         <td><p>新しいIngestionパイプラインの説明。</p></td>
        </tr>
     </table>
 
-    ![configure-ingestion-pipeline](/img/configure-ingestion-pipeline.png)
+    ![configure-ingestion-pipeline](/img/ja-JP/configure-ingestion-pipeline.png)
 
-1. Add an **INDEX** function to the Ingestion pipeline by clicking **+ Function**. For each Ingestion pipeline, you can add exactly one **INDEX** function.
+1. Ingestionパイプラインに**INDEX**関数を追加するには、**+Function**をクリックします。各Ingestionパイプラインに対して、正確に1つの**INDEX**関数を追加できます。
 
-    1. Enter function name.
+    1. 関数名を入力します。
 
-    1. Select **INDEX_TEXT** as the function type. An **INDEX_TEXT** function can generate vector embeddings for all provided text inputs.
+    1. 関数タイプとして**INDEX_TEXT**を選択します。**INDEX_TEXT**関数は、提供されたすべてのテキスト入力に対してベクトル埋め込みを生成できます。
 
-    1. Choose the embedding model used to generate vector embeddings. Different text languages have distinct embedding models. Currently, there are 5 available models for the English language: **zilliz/bge-base-en-v1.5**, **voyageai/voyage-2**, **voyageai/voyage-code-2**, **openai/text-embedding-3-small**, and **openai/text-embedding-3-large**. For the Chinese language, only **zilliz/bge-base-zh-v1.5** is available. The following chart briefly introduces each embedding model.
+    1. ベクトル埋め込みを生成するために使用する埋め込みモデルを選択します。異なるテキスト言語には異なる埋め込みモデルがあります。現在、英語には5つの利用可能なモデルがあります:**zilliz/bge-base-en-v 1.5**、**voyageai/voyage-2**、**voyageai/voyage-code-2**、**openai/text-embedding-3-small**、および**openai/text-embedding-3-large**。中国語には、**zilliz/bge-base-zh-v 1.5**のみが利用可能です。以下の表は、各埋め込みモデルを簡単に紹介しています。
 
         <table>
            <tr>
-             <th><p><strong>Embedding Model</strong></p></th>
-             <th><p><strong>Description</strong></p></th>
+             <th><p><strong>埋め込みモデル</strong></p></th>
+             <th><p><strong>説明する</strong></p></th>
            </tr>
            <tr>
-             <td><p>zilliz/bge-base-en-v1.5</p></td>
-             <td><p>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency.</p></td>
+             <td><p>zilliz/bge-based-en-v 1.5-ダウンロード</p></td>
+             <td><p>BAAIによってリリースされたこの最先端のオープンソースモデルは、Zilliz Cloudにホストされ、ベクトルデータベースと共有されており、高品質で最高のネットワークレイテンシを提供しています。</p></td>
            </tr>
            <tr>
-             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-2</a></p></td>
-             <td><p>Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">タイトル: voyageai/voyage-2</a></p></td>
+             <td><p>Voyage AIによってホストされています。この汎用モデルは、説明的なテキストとコードを含む技術文書の取得に優れています。軽量版はvoyage-lite-02-instructMTEBリーダーボードでトップにランクされています。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
-             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-code-2</a></p></td>
-             <td><p>Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/航海コード-2</a></p></td>
+             <td><p>Voyage AIがホストしています。このモデルはソフトウェアコードに最適化されており、ソフトウェアドキュメントとソースコードを取得するための優れた品質を提供します。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
-             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-large-2</a></p></td>
-             <td><p>Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/ヴォヤージュラージ2</a></p></td>
+             <td><p>Voyage AIによってホストされています。これはVoyage AIからの最も強力な汎用埋め込みモデルです。16 kのコンテキスト長(voyage-2の4倍)をサポートし、技術的および長いコンテキスト文書を含むさまざまなタイプのテキストに優れています。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
-             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">openai/text-embedding-3-small </a></p></td>
-             <td><p>Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">OPENAI/text-embedding-3-small</a></p></td>
+             <td><p>Open AIによってホストされています。この非常に効率的な埋め込みモデルは、先行モデルよりも強力なパフォーマンスを持ちtext-embedding-ada-002推論コストと品質をバランスさせています。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
-             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">openai/text-embedding-3-large</a></p></td>
-             <td><p>Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">OPENAI/text-embedding-3-large</a></p></td>
+             <td><p>Open AIがホストしています。これはOpen AIの最高のパフォーマンスモデルです。text-embedding-ada-002と比較して、MTEBスコアは61.0%から64.6%に増加しました。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
-             <td><p>zilliz/bge-base-zh-v1.5</p></td>
-             <td><p>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when <code>language</code> is <code>CHINESE</code>.</p></td>
+             <td><p>zilliz/bge-base-zh-v 1.5-ダウンロード</p></td>
+             <td><p>BAAIによってリリースされたこの最先端のオープンソースモデルは、Zilliz Cloudにホストされ、ベクトルデータベースと共同配置されており、高品質で最高のネットワークレイテンシを提供します。これは、<code>言語</code>が<code>中国</code>語の場合のデフォルトの埋め込みモデルです。</p></td>
            </tr>
         </table>
 
-        ![add-index-text-function](/img/add-index-text-function.png)
+        ![add-index-text-function](/img/ja-JP/add-index-text-function.png)
 
-    1. Click **Add** to save your function.
+    1. [**追加**]をクリックして関数を保存します。
 
-1. (Optional) Continue to add another **PRESERVE** function if you need to preserve the metadata for your texts. A **PRESERVE** function adds additional scalar fields to the collection along with data ingestion.
+1. （オプション）テキストのメタデータを保持する必要がある場合は、別の**PRE**SERVE関数を追加してください。**PRESERVE**関数は、データ取り込みとともにコレクションにスカラーフィールドを追加します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>For each Ingestion pipeline, you can add up to 50 <strong>PRESERVE</strong> functions.</p>
+    <p>各Ingestionパイプラインについて、最大50個の<strong>PRESERVE</strong>関数を追加できます。</p>
 
     </Admonition>
 
-    1. Click **+ Function**.
+    1. [**+Function**]をクリックします。
 
-    1. Enter function name.
+    1. 関数名を入力します。
 
-    1. Configure the input field name and type. Supported input field types include **Bool**, **Int8**, **Int16**, **Int32**, **Int64**, **Float**, **Double**, and **VarChar**.
+    1. 入力フィールドの名前と種類を設定します。サポートされている入力フィールドの種類は、**Bool**、**Int 8**、**Int 16**、**Int 32**、**Int 64**、**Float**、**Double**、**VarChar**です。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="Notes" title="undefined">
 
         <ul>
-        <li><p>Currently, the output field name must be identical to the input field name. The input field name defines the field name used when running the Ingestion pipeline. The output field name defines the field name in the vector collection schema where the preserved value is kept.</p></li>
-        <li><p>For <strong>VarChar</strong> fields, the value should be a string with a maximum length of <strong>4,000</strong> alphanumeric characters.</p></li>
-        <li><p>When storing date-time in scalar fields, it is recommended to use the <strong>Int16</strong> data type for year data, and <strong>Int32</strong> for timestamps.</p></li>
+        <li><p>現在、出力フィールド名は入力フィールド名と同じでなければなりません。入力フィールド名は、Ingestionパイプラインを実行する際に使用されるフィールド名を定義します。出力フィールド名は、保存された値が保持されるベクトルコレクションスキーマ内のフィールド名を定義します。</p></li>
+        <li><p>VarCharフィールド<strong>の</strong>場合、値は最大<strong>4,000</strong>文字の英数字の文字列である必要があります。</p></li>
+        <li><p>スカラーフィールドに日時を格納する場合は、年データには<strong>Int 16</strong>データ型、タイムスタンプには<strong>Int 32</strong>データ型を使用することをお勧めします。</p></li>
         </ul>
 
         </Admonition>
 
-        ![add-preserve-function](/img/add-preserve-function.png)
+        ![add-preserve-function](/img/ja-JP/add-preserve-function.png)
 
-    1. Click **Add** to save your function.
+    1. [**追加**]をクリックして関数を保存します。
 
-1. Click **Create Ingestion Pipeline**.
+1. [**Ingestion Pipelineを作成**]をクリックします。
 
-1. Continue creating a Search pipeline and a Deletion pipeline that is auto-configured to be compatible with the just-created Ingestion pipeline. 
+1. 作成したばかりのIngestionパイプラインと互換性があるように自動構成された検索パイプラインと削除パイプラインの作成を続けます。
 
-    ![ingestion-pipeline-created-successfully](/img/ingestion-pipeline-created-successfully.png)
+    ![ingestion-pipeline-created-successfully](/img/ja-JP/ingestion-pipeline-created-successfully.png)
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>By default, the reranker feature is disabled in the auto-configured search pipeline. If you need to enable reranker, please manually <a href="./pipelines-text-data#search-text-data">create a new search pipeline</a>.</p>
+    <p>デフォルトでは、自動設定された検索パイプラインでreranker機能は無効になっています。rerankerを有効にする必要がある場合は、手動で<a href="./pipelines-text-data#">新しい検索パイプラインを作成</a>してください。</p>
 
     </Admonition>
 
@@ -175,7 +175,7 @@ To ingest any data, you need to first create an ingestion pipeline and then run 
 
 <TabItem value="Bash">
 
-The following example creates an Ingestion pipeline named `my_text_ingestion_pipeline` with an **INDEX_TEXT** function and a **PRESERVE** function added. 
+次の例では、という名前のIngestionパイプラインを作成します`my_text_ingestion_パイプライン`、**INDEX_TEXT**関数と**PRE**SERVE関数を追加します。
 
 ```bash
 curl --request POST \
@@ -207,83 +207,83 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a cluster deployed in us-west1 on GCP. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+- `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。CLUSTER_IDの確認方法については、[How can I find my CLUSTER_ID?を参照してください。](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
 
-- `projectId`: The ID of the project in which you want to create a pipeline. Learn more about [How Can I Obtain the Project ID?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
 
-- `collectionName`: The name of the collection automatically generated with the ingestion pipeline to create. Alternatively, you can also specify an existing collection.
+- `lectionName:`作成するインジェストパイプラインで自動的に生成されるコレクションの名前です。また、既存のコレクションを指定することもできます。
 
-- `name`: The name of the pipeline to create. The pipeline name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-- `description` (optional): The description of the pipeline to create.
+- `description`(オプション):作成するパイプラインの説明。
 
-- `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
+- `type`:作成するパイプラインの種類。現在利用可能なパイプラインの種類には、`INGESTION`、`SEARCH`、`DELETION`があります。
 
-- `functions`: The function(s) to add in the pipeline. **An Ingestion pipeline can have only one INDEX function and up to 50 PRESERVE functions.**
+- `functions`:パイプラインに追加する関数。**Ingestionパイプラインには、1つのINDEX関数と最大50個のPRESERVE関数しか持てません。**
 
-    - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `action`: The type of the function to add. Currently, available options include `INDEX_DOC`, `INDEX_TEXT`, `INDEX_IMAGE` and `PRESERVE`.
+    - `action`:追加する関数の種類。現在利用可能なオプションには、`INDEX_DOC`、`INDEX_TEXT`、`INDEX_IMAGE`、`PRE`SERVEがあります。
 
-    - `language`: The language of your text to ingest. Possible values include `ENGLISH` and `CHINESE`. *(This parameter is only used in the `INDEX_TEXT` and `INDEX_DOC_CHUNK` function.)*
+    - `language`:取り込むテキストの言語。使用可能な値は`ENGLISH`と`CHINESEです`。*(このパラメータは`INDEX_TEXT`と`INDEX_DOC_CHUNK`関数でのみ使用されます。)*
 
-    - `embedding`: The embedding model used to generate vector embeddings for your text. Available options are as follows. *(This parameter is only used in the `Index` function.)*
+    - `埋め込み`:テキストのベクトル埋め込みを生成するために使用する埋め込みモデルです。利用可能なオプションは以下の通りです。*（このパラメータは`In dex`関数でのみ使用されます。）*
 
         <table>
            <tr>
-             <th><p><strong>Embedding Model</strong></p></th>
-             <th><p><strong>Description</strong></p></th>
+             <th><p><strong>埋め込みモデル</strong></p></th>
+             <th><p><strong>説明する</strong></p></th>
            </tr>
            <tr>
-             <td><p>zilliz/bge-base-en-v1.5</p></td>
-             <td><p>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency.</p></td>
+             <td><p>zilliz/bge-based-en-v 1.5-ダウンロード</p></td>
+             <td><p>BAAIによってリリースされたこの最先端のオープンソースモデルは、Zilliz Cloudにホストされ、ベクトルデータベースと共有されており、高品質で最高のネットワークレイテンシを提供しています。</p></td>
            </tr>
            <tr>
-             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-2</a></p></td>
-             <td><p>Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">タイトル: voyageai/voyage-2</a></p></td>
+             <td><p>Voyage AIによってホストされています。この汎用モデルは、説明的なテキストとコードを含む技術文書の取得に優れています。軽量版はvoyage-lite-02-instructMTEBリーダーボードでトップにランクされています。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
-             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-code-2</a></p></td>
-             <td><p>Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/航海コード-2</a></p></td>
+             <td><p>Voyage AIがホストしています。このモデルはプログラミングコードに最適化されており、検索コードブロックに優れた品質を提供します。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
-             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/voyage-large-2</a></p></td>
-             <td><p>Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
+             <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/ヴォヤージュラージ2</a></p></td>
+             <td><p>Voyage AIによってホストされています。これはVoyage AIからの最も強力な汎用埋め込みモデルです。16 kのコンテキスト長(voyage-2の4倍)をサポートし、技術的および長いコンテキスト文書を含むさまざまなタイプのテキストに優れています。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
-             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">openai/text-embedding-3-small </a></p></td>
-             <td><p>Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">OPENAI/text-embedding-3-small</a></p></td>
+             <td><p>Open AIによってホストされています。この非常に効率的な埋め込みモデルは、先行モデルよりも強力なパフォーマンスを持ちtext-embedding-ada-002推論コストと品質をバランスさせています。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
-             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">openai/text-embedding-3-large</a></p></td>
-             <td><p>Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when <code>language</code> is <code>ENGLISH</code>.</p></td>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">OPENAI/text-embedding-3-large</a></p></td>
+             <td><p>Open AIがホストしています。これはOpen AIの最高のパフォーマンスモデルです。text-embedding-ada-002と比較して、MTEBスコアは61.0%から64.6%に増加しました。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
-             <td><p>zilliz/bge-base-zh-v1.5</p></td>
-             <td><p>Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when <code>language</code> is <code>CHINESE</code>.</p></td>
+             <td><p>zilliz/bge-base-zh-v 1.5-ダウンロード</p></td>
+             <td><p>BAAIによってリリースされたこの最先端のオープンソースモデルは、Zilliz Cloudにホストされ、ベクトルデータベースと共同配置されており、高品質で最高のネットワークレイテンシを提供します。これは、<code>言語</code>が<code>中国</code>語の場合のデフォルトの埋め込みモデルです。</p></td>
            </tr>
         </table>
 
-- `inputField`: The name of the `inputField`. You can customize the value but it should be identical with the `outputField`.*(This parameter is only used in the `PRESERVE` function.)*
+- `input tField`:`input`フィールドの名前です。値はカスタマイズできますが、output tFieldと同じにしてくださ`い`。*（このパラメータは`PRESERVE`関数でのみ使用されます。）*
 
-- `outputField`: The name of the output field which will be used in the collection schema. Currently, the output field name must be identical to the input field name. *(This parameter is only used in the `PRESERVE` function.)*
+- `output`Field:コレクションスキーマで使用される出力フィールドの名前。現在、出力フィールドの名前は入力フィールドの名前と同じでなければなりません。*（このパラメータは`PRESERVE`関数でのみ使用されます。）*
 
-- `fieldType`: The data type of the input and output fields. Possible values include `Bool`, `Int8`, `Int16`, `Int32`, `Int64`, `Float`, `Double`, and `VarChar`. *(This parameter is only used in the `PRESERVE` function.)*
+- `fieldType`:入力フィールドと出力フィールドのデータ型です。使用可能な値は、`Bool`、`Int 8`、`Int 16`、`Int 32`、`Int 64`、`Float`、`Double`、および`VarCharです`。*(このパラメータは`PRESERVE`関数でのみ使用されます。)*
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>When storing date-time in scalar fields, it is recommended to use the <strong>Int16</strong> data type for year data, and <strong>Int32</strong> for timestamps.</p>
-    <p>For <code>VarChar</code> field type, the <code>max_length</code> of the data in this field cannot exceed 4,000.</p>
+    <p>スカラーフィールドに日時を格納する場合は、年データには<strong>Int 16</strong>データ型、タイムスタンプには<strong>Int 32</strong>データ型を使用することをお勧めします。</p>
+    <p>VarCharフィールド<code>型</code>の場合、このフィールドのデータの<code>max_length</code>は4,000を超えることはできません。</p>
 
     </Admonition>
 
-Below is an example output.
+以下は出力例です。
 
 ```bash
 {
@@ -320,22 +320,22 @@ Below is an example output.
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The total usage data could delay by a few hours due to technical limitation.</p>
+<p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
 </Admonition>
 
-A collection named `my_collection` will be automatically if it does not exist in the cluster. However, if it exists, Zililz Cloud Pipelines will check whether the collection schema is consistent with the schema defined in the pipeline. 
+クラスタに存在しない場合、`my_collection`という名前のコレクションが自動的に作成されます。しかし、存在する場合、Zililz Cloud Pipelinesはコレクションスキーマがパイプラインで定義されたスキーマと一致しているかどうかをチェックします。
 
-This collection contains four fields:  three output fields of the **INDEX_TEXT** function, and one output field for each **PRESERVE** function. The collection schema is as follows.
+このコレクションには、**INDEX_TEXT**関数の出力フィールドが3つ、**PRE**SERVE関数ごとに1つの出力フィールドが含まれています。コレクションのスキーマは以下の通りです。
 
 <table>
    <tr>
-     <th><p>id</p><p>(Data Type: Int64)</p></th>
-     <th><p>text</p><p>(Data type: VarChar)</p></th>
-     <th><p>embedding</p><p>(Data type: FLOAT_VECTOR)</p></th>
-     <th><p>source</p><p>(Data type: VarChar)</p></th>
+     <th><p>id</p><p>(データ型: Int 64)</p></th>
+     <th><p>テキスト</p><p>(データ型: VarChar)</p></th>
+     <th><p>埋め込み</p><p>(データ型: FLOAT_VECTOR)</p></th>
+     <th><p>ソース</p><p>(データ型: VarChar)</p></th>
    </tr>
 </table>
 
@@ -343,27 +343,27 @@ This collection contains four fields:  three output fields of the **INDEX_TEXT**
 
 </Tabs>
 
-### Run text ingestion pipeline{#run-text-ingestion-pipeline}
+### テキスト取り込みパイプラインを実行する{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Click the "▶︎" button next to your Ingestion pipeline. 
+1. Ingestionパイプラインの横にある「▶︎」ボタンをクリックしてください。
 
-    ![run-pipeline](/img/run-pipeline.png)
+    ![run-pipeline](/img/ja-JP/run-pipeline.png)
 
-1. Input the text or text lists that need to be ingested in the `text_list` field. If you have added a PRESERVE function, enter the value in the defined preserved field as well. Click **Run**.
+1. text_listフィールドに取り込む必要のあるテキストまたは`テキストリスト`を入力します。PRESERVE関数を追加した場合は、定義済みの保存フィールドにも値を入力します。[**実行**]をクリックします。
 
-1. Check the results.
+1. 結果を確認してください。
 
-1. Input other texts to run again.
+1. 再度実行する他のテキストを入力します。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-The following example runs the Ingestion pipeline `my_text_ingestion_pipeline`. `source` is the metadata field that needs to be preserved. 
+次の例では、Ingestionパイプライン`my_text_ingestion_Pipeline`を実行します。`source`は、保持する必要のあるメタデータフィールドです。
 
 ```bash
 curl --request POST \
@@ -381,17 +381,17 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `text_list`: The text or text list to ingest.
+- `text_list`:取り込むテキストまたはテキストリスト。
 
-- `source` (optional): The metadata field to preserve. The input field name should be consistent with what you defined when creating the Ingestion pipeline and adding the **PRESERVE** function. The value of this field should also follow the predefined field type.
+- `source`（オプション）:保存するメタデータフィールド。入力フィールド名は、Ingestionパイプラインを作成し、**PRESERVE**関数を追加したときに定義したものと一致する必要があります。このフィールドの値は、定義済みのフィールドタイプに従う必要があります。
 
-Below is an example response.
+以下は回答例です。
 
 ```bash
 {
@@ -413,75 +413,75 @@ Below is an example response.
 
 </Tabs>
 
-## Search text data{#search-text-data}
+## テキストデータを検索する{#}
 
-To search any data, you need to first create a search pipeline and then run it. Unlike Ingestion and Deletion pipelines, when creating a Search pipeline, the cluster and collection are defined at the function level instead of the pipeline level. This is because Zilliz Cloud allows you to search from multiple collections at a time.
+任意のデータを検索するには、まず検索パイプラインを作成してから実行する必要があります。IngestionおよびDeletionパイプラインとは異なり、検索パイプラインを作成する場合、クラスタとコレクションはパイプラインレベルではなく関数レベルで定義されます。これは、Zilliz Cloudが複数のコレクションから同時に検索できるためです。
 
-### Create text search pipeline{#create-text-search-pipeline}
+### テキスト検索パイプラインの作成{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Navigate to your project.
+1. プロジェクトに移動します。
 
-1. Click on **Pipelines** from the navigation panel. Then switch to the **Overview** tab and click **Pipelines**. To create a pipeline, click **+ Pipeline**.
+1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
 
-1. Choose the type of pipeline to create. Click on **+ Pipeline** button in the **Search Pipeline** column.
+1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**検索パイプライン**欄でクリックしてください。
 
-    ![create-search-pipeline](/img/create-search-pipeline.png)
+    ![create-search-pipeline](/img/ja-JP/create-search-pipeline.png)
 
-1. Configure the Search pipeline you wish to create.
+1. 作成したい検索パイプラインを構成します。
 
     <table>
        <tr>
-         <th><p><strong>Parameters</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
+         <th><p><strong>パラメータ</strong></p></th>
+         <th><p><strong>説明する</strong></p></th>
        </tr>
        <tr>
-         <td><p>Pipeline Name</p></td>
-         <td><p>The name of the new Search pipeline. It should only contain lowercase letters, numbers, and underscores only.</p></td>
+         <td><p>パイプライン名</p></td>
+         <td><p>新しい検索パイプラインの名前です。小文字、数字、アンダースコアのみを含める必要があります。</p></td>
        </tr>
        <tr>
-         <td><p>Description (Optional)</p></td>
-         <td><p>The description of the new Search pipeline.</p></td>
+         <td><p>説明（オプション）</p></td>
+         <td><p>新しい検索パイプラインの説明。</p></td>
        </tr>
     </table>
 
-    ![configure-search-pipeline](/img/configure-search-pipeline.png)
+    ![configure-search-pipeline](/img/ja-JP/configure-search-pipeline.png)
 
-1. Add a function to the Search pipeline by clicking **+ Function**. You can add exactly one function.
+1. 「**+Function**」をクリックして、検索パイプラインに関数を追加します。正確に1つの関数を追加できます。
 
-    1. Enter function name.
+    1. 関数名を入力します。
 
-    1. Choose **Target Cluster** and **Target collection**. The **Target Cluster** must be a cluster deployed in **us-west1 on Google Cloud Platform (GCP)**. and the **Target Collection** must be created by an Ingestion pipeline, otherwise the Search pipeline will not be compatible.
+    1. 「**Target Cluster**」と「**Target collection**」を選択します。**Target Cluster**は、**us-west 1 on Google Cloud Platform(GCP)**にデプロイされたクラスタである必要があります。また、**Target Collection**はIngestionパイプラインによって作成されている必要があります。そうでない場合、Searchパイプラインは互換性がありません。
 
-    1. Select **SEARCH_TEXT** as the **Function Type**. A **SEARCH_TEXT** function can convert the query text to a vector embedding and retrieve topK most relevant text entities.
+    1. [**SEARCH_TEXT**]を**関数タイプ**として選択します。**SEARCH_TEXT**関数は、クエリテキストをベクトル埋め込みに変換し、最も関連性の高いテキストエンティティを取得できます。
 
-    1. (Optional) Enable [reranker](./reranker) if you want to rank the search results based on their relevance to the query to improve search quality. However, note that enabling reranker will lead to higher cost and search latency. By default, this feature is disabled. Once enabled, you can choose the model service used for reranking. Currently, only **zilliz/bge-reranker-base** is available.
+    1. (オプション)[reranker](./reranker)を有効にすると、クエリとの関連性に基づいて検索結果をランク付けして検索品質を向上させることができます。ただし、rerankerを有効にすると、コストと検索レイテンシが高くなることに注意してください。デフォルトでは、この機能は無効になっています。有効にすると、再ランキングに使用するモデルサービスを選択できます。現在、**zilliz/bge-reranker-base**のみが利用可能です。
 
         <table>
            <tr>
-             <th><p><strong>Reranker Model Service</strong></p></th>
-             <th><p><strong>Description</strong></p></th>
+             <th><p><strong>リランカーモデルサービス</strong></p></th>
+             <th><p><strong>説明する</strong></p></th>
            </tr>
            <tr>
-             <td><p>zilliz/bge-reranker-base</p></td>
-             <td><p>Open-source cross-encoder architecture reranker model published by BAAI. This model is hosted on Zilliz Cloud.</p></td>
+             <td><p>zilliz/bge-reranker-base-ダウンロード</p></td>
+             <td><p>オープンソースのクロスエンコーダアーキテクチャの再ランクモデルはBAAIによって公開されています。このモデルはZilliz Cloudにホストされています。</p></td>
            </tr>
         </table>
 
-        ![add-search-text-function](/img/add-search-text-function.png)
+        ![add-search-text-function](/img/ja-JP/add-search-text-function.png)
 
-    1. Click **Add** to save your function.
+    1. [**追加**]をクリックして関数を保存します。
 
-1. Click **Create Search Pipeline**.
+1. [**検索パイプラインを作成**]をクリックします。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-The following example creates a Search pipeline named `my_text_search_pipeline` with a **SEARCH_TEXT** function added. 
+次の例では、`my_text_search_Pipeline`という名前の検索パイプラインを作成し、**SEARCH_TEXT**関数を追加します。
 
 ```bash
 curl --request POST \
@@ -506,35 +506,35 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `projectId`: The ID of the project in which you want to create a pipeline. Learn more about [How Can I Obtain the Project ID?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
 
-- `name`: The name of the pipeline to create. The pipeline name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-- `description` (optional): The description of the pipeline to create.
+- `description`(オプション):作成するパイプラインの説明。
 
-- `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
+- `type`:作成するパイプラインの種類。現在利用可能なパイプラインの種類には、`INGESTION`、`SEARCH`、`DELETION`があります。
 
-- `functions`: The function(s) to add in the pipeline. **A Search pipeline can only have one function.**
+- `functions`:パイプラインに追加する関数。**Searchパイプラインには1つの関数しか持てません。**
 
-    - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `action`: The type of the function to add. Currently, available options include `SEARCH_DOC_CHUNK`, `SEARCH_TEXT`, `SEARCH_IMAGE_BY_IMAGE`, and `SEARCH_IMAGE_BY_TEXT`.
+    - `action`:追加する関数の種類。現在利用可能なオプションは、`SEARCH_DOC_CHUNK`、`SEARCH_TEXT`、`SEARCH_IMAGE_BY_IMAGE`、`SEARCH_IMAGE_BY_TEXT`です。
 
-    - `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a cluster deployed in us-west1 on GCP. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+    - `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。CLUSTER_IDの確認方法については、[How can I find my CLUSTER_ID?を参照してください。](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
 
-    - `collectionName`: The name of the collection in which you want to create a pipeline.
+    - `collection`Name:パイプラインを作成するコレクションの名前。
 
-    - `embedding`: The embedding model used during vector search. The model should be consistent with the one chosen in the compatible collection.
+    - `埋め込み`:ベクトル検索中に使用される埋め込みモデル。モデルは、互換性のあるコレクションで選択されたものと一致する必要があります。
 
-    - `reranker`(Optional): This is an optional parameter for those who want to reorder or rank a set of candidate outputs to improve the quality of the search results. If you do not need the [reranker](./reranker), you can omit this parameter. Currently, only `zilliz/bge-reranker-base` is available as the parameter value.
+    - `reranker`(オプション):検索結果の品質を向上させるために、一連の候補出力を並べ替えたりランク付けしたりするためのオプションのパラメータです。[reranker](./reranker)が必要ない場合は、このパラメータを省略できます。現在、パラメータ値として`zilliz/bge-reranker-base`のみが利用可能です。
 
-Below is an example output.
+以下は出力例です。
 
 ```bash
 {
@@ -567,9 +567,9 @@ Below is an example output.
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The total usage data could delay by a few hours due to technical limitation.</p>
+<p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
 </Admonition>
 
@@ -577,27 +577,27 @@ Below is an example output.
 
 </Tabs>
 
-### Run text search pipeline{#run-text-search-pipeline}
+### テキスト検索パイプラインの実行{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Click the "▶︎" button next to your Search pipeline. Alternatively, you can also click on the **Playground** tab.
+1. 検索パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
 
-    ![run-pipeline](/img/run-pipeline.png)
+    ![run-pipeline](/img/ja-JP/run-pipeline.png)
 
-1. Input the query text. Click **Run**.
+1. クエリテキストを入力します。[**実行**]をクリックします。
 
-1. Check the results.
+1. 結果を確認してください。
 
-1. Enter new query text to rerun the pipeline.
+1. パイプラインを再実行する新しいクエリテキストを入力します。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-The following example runs the Search pipeline named `my_text_search_pipeline`. The query text is "What is Zilliz Cloud?".
+以下の例では、`my_text_search_パイプライン`という名前の検索パイプラインを実行しています。クエリテキストは「Zilliz Cloudとは何ですか?」です。
 
 ```bash
 curl --request POST \
@@ -617,27 +617,27 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `query_text`: The query text used to conduct a semantic search.
+- `query_text`:セマンティック検索を実行するために使用されるクエリテキスト。
 
-- `params`: The search parameters to configure.
+- `params`:設定する検索パラメータ。
 
-    - `limit`: The maximum number of entities to return. The value should be an integer ranging from **1** to **500**. The sum of this value of that of `offset` should be less than **1024**.
+    - `limit`:返すエンティティの最大数。値は**1**から**500**までの整数である必要があります。この値と`offset`の値の合計は**1024**になる必要があります。
 
-    - `offset`: The number of entities to skip in the search results.
+    - `オフセット`:検索結果でスキップするエンティティの数。
 
-        The sum of this value and that of `limit` should not be greater than **1024**.The maximum value is **1024**.
+        この値と`limit`の合計は大なり**1024**ではありません。最大値は**1024**です。
 
-    - `outputFields`: An array of fields to return along with the search results. Note that `id`（entity ID）, `distance`, and `text` will be returned in the search result by default. If you need other output fields in the returned result, you can configure this parameter.
+    - `output`Fields:検索結果とともに返されるフィールドの配列です。デフォルトでは、`id`（エンティティID）、`distance`、`text`が検索結果に返されます。返された結果に他の出力フィールドが必要な場合は、このパラメータを設定できます。
 
-    - `filter`: The [filter](./filtering) in boolean expression used to find matches for the search
+    - `フィルター`:検索に一致するものを見つけるために使用されるブール式の[フィルター](./filtering)
 
-Below is an example response.
+以下は回答例です。
 
 ```bash
 {
@@ -662,58 +662,58 @@ Below is an example response.
 
 </Tabs>
 
-## Delete text data{#delete-text-data}
+## テキストデータを削除{#}
 
-To delete any data, you need to first create a deletion pipeline and then run it.
+データを削除するには、まず削除パイプラインを作成してから実行する必要があります。
 
-### Create text deletion pipeline{#create-text-deletion-pipeline}
+### テキスト削除パイプラインの作成{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Navigate to your project.
+1. プロジェクトに移動します。
 
-1. Click on **Pipelines** from the navigation panel. Then switch to the **Overview** tab and click **Pipelines**. To create a pipeline, click **+ Pipeline**.
+1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
 
-1. Choose the type of pipeline to create. Click on **+ Pipeline** button in the **Deletion Pipeline** column.
+1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**削除パイプライン**欄でクリックしてください。
 
-    ![create-deletion-pipeline](/img/create-deletion-pipeline.png)
+    ![create-deletion-pipeline](/img/ja-JP/create-deletion-pipeline.png)
 
-1. Configure the Deletion pipeline you wish to create.
+1. 作成する削除パイプラインを構成します。
 
     <table>
        <tr>
-         <th><p><strong>Parameters</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
+         <th><p><strong>パラメータ</strong></p></th>
+         <th><p><strong>説明する</strong></p></th>
        </tr>
        <tr>
-         <td><p>Pipeline Name</p></td>
-         <td><p>The name of the new Deletion pipeline. It should only contain lowercase letters, numbers, and underscores.</p></td>
+         <td><p>パイプライン名</p></td>
+         <td><p>新しい削除パイプラインの名前です。小文字、数字、アンダースコアのみを含める必要があります。</p></td>
        </tr>
        <tr>
-         <td><p>Description (Optional)</p></td>
-         <td><p>The description of the new Deletion pipeline.</p></td>
+         <td><p>説明（オプション）</p></td>
+         <td><p>新しいDeletionパイプラインの説明。</p></td>
        </tr>
     </table>
 
-    ![configure-deletion-pipeline](/img/configure-deletion-pipeline.png)
+    ![configure-deletion-pipeline](/img/ja-JP/configure-deletion-pipeline.png)
 
-1. Add a function to the Deletion pipeline by clicking **+ Function**. You can add exactly one function.
+1. 「**+Function**」をクリックして、削除パイプラインに関数を追加します。1つの関数だけを追加できます。
 
-    1. Enter function name.
+    1. 関数名を入力します。
 
-    1. Select either **PURGE_TEXT_INDEX** or **PURGE_BY_EXPRESSION** as the **Function Type**. A **PURGE_TEXT_INDEX** function can delete all text entities with the specified id while a **PURGE_BY_EXPRESSION** function can delete all text entities matching the specified filter expression.
+    1. 「**PURGE_TEXT_INDEX**」または「**PURGE_BY_EXPRESSION**」を**関数タイプ**として選択します。**PURGE_TEXT_INDEX**関数は、指定されたidを持つすべてのテキストエンティティを削除できます。**PURGE_BY_EXPRESSION**関数は、指定されたフィルタ式に一致するすべてのテキストエンティティを削除できます。
 
-    1. Click **Add** to save your function.
+    1. [**追加**]をクリックして関数を保存します。
 
-1. Click **Create Deletion Pipeline**.
+1. [**削除パイプラインを作成**]をクリックします。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-The example below creates a Deletion pipeline named `my_text_deletion_pipeline` with a **PURGE_BY_EXPRESSION** function added. 
+以下の例では、`my_text_delete_Pipeline`という名前の削除パイプラインを作成し、**PURGE_BY_EXPRESSION**関数を追加しています。
 
 ```bash
 curl --request POST \
@@ -736,31 +736,31 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `projectId`: The ID of the project in which you want to create a pipeline. Learn more about [How Can I Obtain the Project ID?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
 
-- `name`: The name of the pipeline to create. The pipeline name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-- `description` (optional): The description of the pipeline to create.
+- `description`(オプション):作成するパイプラインの説明。
 
-- `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
+- `type`:作成するパイプラインの種類。現在利用可能なパイプラインの種類には、`INGESTION`、`SEARCH`、`DELETION`があります。
 
-- `functions`: The function(s) to add in the pipeline. **A Deletion pipeline can only have one function.**
+- `functions`:パイプラインに追加する関数。**Deletionパイプラインには1つの関数しか持てません。**
 
-    - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `action`: The type of the function to add. Available options include `PURGE_DOC_INDEX`, `PURGE_TEXT_INDEX`, `PURGE_BY_EXPRESSION`, and `PURGE_IMAGE_INDEX`.
+    - `アクション`:追加する関数の種類。利用可能なオプションには、`PURGE_DOC_INDEX`、`PURGE_TEXT_INDEX`、`PURGE_BY_EXPRESSION`、`PURGE_IMAGE_INDEX`があります。
 
-- `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a cluster deployed on GCP us-west1. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+- `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP us-west 1にデプロイされたクラスタのみを選択できます。詳しくは[How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
 
-- `collectionName`: The name of the collection in which you want to create a pipeline.
+- `collection`Name:パイプラインを作成するコレクションの名前。
 
-Below is an example output.
+以下は出力例です。
 
 ```bash
 {
@@ -789,25 +789,25 @@ Below is an example output.
 
 </Tabs>
 
-### Run text deletion pipeline{#run-text-deletion-pipeline}
+### テキスト削除パイプラインを実行{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Click the "▶︎" button next to your Deletion pipeline. Alternatively, you can also click on the **Playground** tab.
+1. 削除パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
 
-    ![run-pipeline](/img/run-pipeline.png)
+    ![run-pipeline](/img/ja-JP/run-pipeline.png)
 
-1. Input the filter expression. Click **Run**.
+1. フィルタ式を入力します。[**実行**]をクリックします。
 
-1. Check the results.
+1. 結果を確認してください。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-The following example runs the Deletion pipeline named `my_text_deletion_pipeline`. 
+次の例では、`my_text_deletion_Pipeline`という名前のDeletionパイプラインを実行します。
 
 ```bash
 curl --request POST \
@@ -821,15 +821,15 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `expression`: The boolean expression used to filter out entities that need to be deleted. For more information about how to write boolean expression, refer to [Filtering](./filtering).
+- `expression`:削除する必要のあるエンティティをフィルタリングするために使用されるブール式。ブール式の書き方の詳細については、[フィルタリング](./filtering)を参照してください。
 
-Below is an example response.
+以下は回答例です。
 
 ```bash
 {
@@ -844,43 +844,43 @@ Below is an example response.
 
 </Tabs>
 
-## Manage pipeline{#manage-pipeline}
+## パイプラインの管理{#}
 
-The following are relevant operations that manages the created pipelines in the aforementioned steps.
+以下は、前述の手順で作成されたパイプラインを管理する関連する操作です。
 
-### View pipeline{#view-pipeline}
+### ビューパイプライン{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You will see all the available pipelines. 
+左ナビゲーションの**パイプライン**をクリックします。**パイプライン**タブを選択します。利用可能なすべてのパイプラインが表示されます。
 
-![view-pipelines-on-web-ui](/img/view-pipelines-on-web-ui.png)
+![view-pipelines-on-web-ui](/img/ja-JP/view-pipelines-on-web-ui.png)
 
-Click on a specific pipeline to view its detailed information including its basic information, total usage, functions, and related connectors.
+特定のパイプラインをクリックすると、基本情報、合計使用量、機能、関連コネクタなどの詳細情報が表示されます。
 
-![view-pipeline-details](/img/view-pipeline-details.png)
+![view-pipeline-details](/img/ja-JP/view-pipeline-details.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The total usage data could delay by a few hours due to technical limitation.</p>
+<p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
 </Admonition>
 
-You can also check the pipeline activities on the web UI.
+Web UIでパイプラインのアクティビティを確認することもできます。
 
-![view-pipelines-activities-on-web-ui](/img/view-pipelines-activities-on-web-ui.png)
+![view-pipelines-activities-on-web-ui](/img/ja-JP/view-pipelines-activities-on-web-ui.png)
 
 </TabItem>
 
 <TabItem value="Bash">
 
-You can call the API to list all existing pipelines or view the details of a particular pipeline.
+APIを呼び出して、既存のすべてのパイプラインを一覧表示したり、特定のパイプラインの詳細を表示したりできます。
 
-- **View all existing pipelines**
+- **既存のパイプラインをすべて表示する**
 
-    Follow the example below and specify your `projectId`.  Learn more about [how to obtain the project ID](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID-).
+    以下の例に従い、projectIdを指定してくださ`い`。[プロジェクトIDの取得方法に](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID-)ついては、こちらをご覧ください。
 
     ```bash
     curl --request GET \
@@ -889,7 +889,7 @@ You can call the API to list all existing pipelines or view the details of a par
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines?projectId=proj-xxxx"
     ```
 
-    Below is an example output.
+    以下は出力例です。
 
     ```bash
     {
@@ -966,15 +966,15 @@ You can call the API to list all existing pipelines or view the details of a par
     }
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>The total usage data could delay by a few hours due to technical limitation.</p>
+    <p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
     </Admonition>
 
-- **View the details of a specific pipeline**
+- **特定のパイプラインの詳細を表示する**
 
-    Follow the example below to view the details of a pipeline.
+    パイプラインの詳細を表示するには、以下の例に従ってください。
 
     ```bash
     curl --request GET \
@@ -983,7 +983,7 @@ You can call the API to list all existing pipelines or view the details of a par
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}"
     ```
 
-    Below is example output.
+    以下は出力例です。
 
     ```bash
     {
@@ -1020,9 +1020,9 @@ You can call the API to list all existing pipelines or view the details of a par
     }
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>The total usage data could delay by a few hours due to technical limitation.</p>
+    <p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
     </Admonition>
 
@@ -1030,32 +1030,32 @@ You can call the API to list all existing pipelines or view the details of a par
 
 </Tabs>
 
-### Delete pipeline{#delete-pipeline}
+### パイプラインを削除{#}
 
-If you no longer need a pipeline, you can drop it.  Note that dropping a pipeline will not remove the auto-created collection where it ingested data.
+パイプラインが不要になった場合は、削除できます。パイプラインを削除しても、データを取り込んだ自動作成コレクションは削除されません。
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="info" icon="Notes" title="undefined">
 
 <ul>
-<li><p>Dropped pipelines cannot be recovered. Please be cautious with the action.</p></li>
-<li><p>Dropping a data-ingestion pipeline does not affect the collection created along with the pipeline. Your data is safe.</p></li>
+<li><p>ドロップしたパイプラインは回復できません。行動には注意してください。</p></li>
+<li><p>データ取り込みパイプラインを削除しても、パイプラインと一緒に作成されたコレクションには影響しません。データは安全です。</p></li>
 </ul>
 
 </Admonition>
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-To drop a pipeline on the web UI, click the **...** button under the **Actions** column. Then click **Drop**.
+Web UIにパイプラインをドロップするには、をクリックします**。。。**「**アクション**」列の下にあるボタンをクリックします。次に、「**ドロップ**」をクリックします。
 
-![delete-pipeline](/img/delete-pipeline.png)
+![delete-pipeline](/img/ja-JP/delete-pipeline.png)
 
 </TabItem>
 
 <TabItem value="Bash">
 
-Follow the example below to drop a pipeline. 
+以下の例に従って、パイプラインを削除してください。
 
 ```bash
 curl --request GET \
@@ -1064,7 +1064,7 @@ curl --request GET \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}"
 ```
 
-The following is an example output.
+以下は出力例です。
 
 ```bash
 {
@@ -1101,9 +1101,9 @@ The following is an example output.
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The total usage data could delay by a few hours due to technical limitation.</p>
+<p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
 </Admonition>
 

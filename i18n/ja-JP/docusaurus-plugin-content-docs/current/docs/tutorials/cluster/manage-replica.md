@@ -1,12 +1,12 @@
 ---
-title: "Manage Replica | Cloud"
+title: "レプリカの管理 | Cloud"
 slug: /manage-replica
-sidebar_label: "Manage Replica"
+sidebar_label: "レプリカの管理"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud enables cluster-level replication. Each replica is an exact copy of the resources and data in a cluster. Using replicas can increase query throughput and availability. | Cloud"
+description: "Zilliz Cloudはクラスターレベルのレプリケーションを可能にします。各レプリカはクラスター内のリソースとデータの正確なコピーです。レプリカを使用することで、クエリのスループットと可用性を向上させることができます。 | Cloud"
 type: origin
-token: W8Mhwa4faiQqtRkH4t9cdexCnlf
+token: F72qwzpubibfhHkfLwbcXUNrnYg
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -14,49 +14,49 @@ keywords:
   - cloud
   - cluster
   - manage
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Manage Replica
+# レプリカの管理
 
-Zilliz Cloud enables cluster-level replication. Each replica is an exact copy of the resources and data in a cluster. Using replicas can increase query throughput and availability.
+Zilliz Cloudはクラスターレベルのレプリケーションを可能にします。各レプリカはクラスター内のリソースとデータの正確なコピーです。レプリカを使用することで、クエリのスループットと可用性を向上させることができます。
 
-For users with small datasets experiencing QPS bottlenecks, adding replicas can distribute the query workload, enhancing overall query throughput. However, adding replicas will not increase the cluster capacity because the capacity is only determined by the CU size of each replica. If you want to increase the cluster capacity, please refer to [Scale Cluster](./scale-cluster).
+QPSボトルネックが発生しているデータセットが少ないユーザーに対して、レプリカを追加することでクエリのワークロードを分散させ、全体的なクエリスループットを向上させることができます。ただし、レプリカを追加してもクラスタ容量は増加しません。なぜなら、容量は各レプリカのCU体格によってのみ決定されるためです。クラスタ容量を増やしたい場合は、Scale Clusterを参照してください。
 
-Configuring replicas will affect the cluster's monthly CU cost. The storage cost of the cluster will remain unchanged. For more information, refer to [Understand Cost](./understand-cost).
+レプリカを設定すると、クラスタの毎月のCUコストに影響します。クラスタのストレージコストは変更されません。詳細については、Understand Costを参照してください。
 
-This guide outlines the procedures of configuring replicas for a cluster in Zilliz Cloud.
+このガイドでは、Zilliz Cloudでクラスタのレプリカを構成する手順について説明します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>This feature is currently exclusively available to Dedicated (Enterprise) clusters. </p>
-
-</Admonition>
-
-## Configure replicas{#configure-replicas}
-
-You can add replicas for an existing Dedicated cluster as long as the following conditions are met:
-
-- The cluster has 8 CUs or more
-
-- For clusters whose compatible Milvus version is lower than 2.4.13, all collections in the cluster need to be released
-
-When adding replicas, please note that the cluster CU size x replica count should not exceed 256. 
-
-<Admonition type="caution" icon="🚧" title="Warning">
-
-<p>Updating the replica configurations may lead to slight service jitter. Please exercise caution.</p>
+<p>この機能は現在、専用(エンタープライズ)クラスターでのみ利用可能です。</p>
 
 </Admonition>
 
-![configure-replica](/img/configure-replica.png)
+## レプリカの設定{#}
 
-For more information about using the RESTful API to configure replicas, please refer to [Modify Cluster](/reference/restful/modify-cluster-v2).
+次の条件が満たされている限り、既存の専用クラスターのレプリカを追加できます。
+
+- クラスタには8つ以上のCUがあります
+
+- 互換性のあるMilvusバージョンが2.4.13未満のクラスタでは、クラスタ内のすべてのコレクションをリリースする必要があります。
+
+レプリカを追加する場合は、クラスターCU体格xレプリカ数が256を超えないように注意してください。
+
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>レプリカの設定を更新すると、わずかなサービスジッターが発生する可能性があります。注意してください。</p>
+
+</Admonition>
+
+![configure-replica](/img/ja-JP/configure-replica.png)
+
+RESTful APIを使用してレプリカを構成する方法の詳細については、[クラスター変更](/reference/restful/modify-cluster-v2)を参照してください。
 

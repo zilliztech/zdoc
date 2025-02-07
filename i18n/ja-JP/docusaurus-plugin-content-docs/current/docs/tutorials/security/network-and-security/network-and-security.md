@@ -1,12 +1,12 @@
 ---
-title: "Network & Security | Cloud"
+title: "ネットワークとセキュリティ | Cloud"
 slug: /network-and-security
 sidebar_label: "Network Access"
 beta: FALSE
 notebook: FALSE
-description: "Learn more about how to set up whitelist and private links to secure the access to your data on Zilliz Cloud. | Cloud"
+description: "Zilliz Cloud上のデータへのアクセスを保護するために、ホワイトリストとプライベートリンクを設定する方法について詳しく学びましょう。 | Cloud"
 type: origin
-token: WVcuwmMQ8iKlrKk7Kwacu9w1nCZ
+token: Sn0DwMXwuieTHEk7xpacEihJnVc
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,19 +14,21 @@ keywords:
   - cloud
   - network
   - security
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Network & Security
+# ネットワークとセキュリティ
 
-Learn more about how to set up whitelist and private links to secure the access to your data on Zilliz Cloud.
+Zilliz Cloud上のデータへのアクセスを保護するために、ホワイトリストとプライベートリンクを設定する方法について詳しく学びましょう。
+
+
 
 import DocCardList from '@theme/DocCardList';
 

@@ -1,12 +1,12 @@
 ---
-title: "Import Data (Console) | Cloud"
+title: "データのインポート(コンソール) | Cloud"
 slug: /import-data-on-web-ui
-sidebar_label: "Console"
+sidebar_label: "データのインポート(コンソール)"
 beta: FALSE
 notebook: FALSE
-description: "This page introduces how to import the prepared data on the Zilliz Cloud console. | Cloud"
+description: "このページでは、準備したデータをZilliz Cloudコンソールにインポートする方法を紹介します。 | Cloud"
 type: origin
-token: KkdswLx2bi4bgCkY6bEc7Do9neh
+token: IYSWwKyhAif6wrkkQLJclF2InGc
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,94 +14,94 @@ keywords:
   - cloud
   - data import
   - console
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Import Data (Console)
+# データのインポート(コンソール)
 
-This page introduces how to import the prepared data on the Zilliz Cloud console.
+このページでは、準備したデータをZilliz Cloudコンソールにインポートする方法を紹介します。
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-Make sure the following conditions are met:
+以下の条件が満たされていることを確認してください。
 
-- You have created a cluster. For details, see [Create Cluster](./create-cluster).
+- クラスタが作成されました。詳細については、Create Clusterを参照してください。
 
-- You have prepared your data in either of the supported formats. 
+- サポートされている形式のいずれかでデータを準備していること。
 
-    For details on how to prepare your data, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options). You can also refer to the end-to-end notebook [Data Import Hands-On](./data-import-zero-to-hero) to get more.
+    データの準備方法の詳細については、「Storage Options」と「Format Options」を参照してください。詳細については、エンドツーエンドのノートブック「Data Import Hands-On」を参照することもできます。
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details on creating a collection, see [Manage Collections (Console)](./manage-collections-console).
+- サンプルデータセットに一致するスキーマを持つコレクションを作成し、既にインデックスを作成して読み込んでいます。コレクションの作成の詳細については、「Manage Collections (Console)」を参照してください。
 
-## Import data on the web UI{#import-data-on-the-web-ui}
+## ウェブ上のデータをインポートするUI{#ui}
 
-Once data files are ready, you can import them directly from your local drive or upload them to an object storage bucket, such as AWS S3 or Google Cloud GCS, Azure Blob Storage for data imports.
+データファイルが準備できたら、ローカルドライブから直接インポートするか、オブジェクトストレージバケットにアップロードしてくださいデータのインポートには、AWS S 3やGoogle Cloud GCS、Azure Blob Storageなどがあります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
 <ul>
-<li><p>You can have up to 10,000 running or pending import jobs in a collection.</p></li>
-<li><p>The web console supports uploading a local JSON file of up to 1 GB. For larger files, it is recommended to <a href="./import-data-on-web-ui#remote-files-from-an-object-storage-bucket">upload from an object storage</a> instead. If you have any difficulties with data import, please <a href="https://support.zilliz.com/hc/en-us">create a support ticket</a>.</p></li>
+<li><p>コレクションには、最大10,000件の実行中または保留中のインポートジョブを含めることができます。</p></li>
+<li><p>ウェブコンソールは、最大1 GBのローカルJSONファイルのアップロードをサポートしています。より大きなファイルの場合は、代わりに<a href="./import-data-on-web-ui#">オブジェクトストレージからアップロードする</a>ことをお勧めします。データのインポートに問題がある場合は、<a href="https://support.zilliz.com/hc/en-us">サポートチケットを作成</a>してください。</p></li>
 </ul>
 
 </Admonition>
 
-### Local JSON file{#local-json-file}
+### ローカルJSONファイル{#json}
 
-To import data, you can drag and drop a local file into the upload area and click **Import**.
+データをインポートするには、ローカルファイルをアップロードエリアにドラッグアンドドロップして、[**インポート**]をクリックします。
 
-![data-import-on-console](/img/data-import-on-console.png)
+![data-import-on-console](/img/ja-JP/data-import-on-console.png)
 
-### Remote files from an object storage bucket{#remote-files-from-an-object-storage-bucket}
+### オブジェクトストレージバケットからのリモートファイル{#}
 
-To import remote files, you must first upload them to a remote bucket. You can easily convert your raw data into supported formats and upload the result files [using the BulkWriter tool](./use-bulkwriter). 
+リモートファイルをインポートするには、まずリモートバケットにアップロードする必要があります。BulkWriterツールを使用して、生データをサポートされている形式に簡単に変換し、結果ファイル[をアップロードできま](null)す。
 
-Once you have uploaded the prepared files to a remote bucket, select the object storage service and fill in the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. 
+準備したファイルをリモートバケットにアップロードしたら、オブジェクトストレージサービスを選択し、リモートバケット内のファイルへのパスと、Zilliz Cloudがバケットからデータを取得するためのバケットの認証情報を入力します。
 
-Based on your data security requirements, you can use either long-term credentials or session tokens during data import. 
+データのセキュリティ要件に基づいて、データのインポート中に長期的な資格情報またはセッショントークンを使用できます。
 
-For more information about obtaining credentials, refer to:
+資格情報の取得に関する詳細については、次を参照してください:
 
-- Amazon S3: [Authenticate using long-term credentials](https://docs.aws.amazon.com/sdkref/latest/guide/access-iam-users.html)
+- Amazon S 3:[長期認証情報を使用した認証](https://docs.aws.amazon.com/sdkref/latest/guide/access-iam-users.html)
 
-- Google Cloud Storage: [Manage HMAC keys for service accounts](https://cloud.google.com/storage/docs/authentication/managing-hmackeys)
+- Google Cloud Storage:[サービスアカウントのHMACキーを管理する](https://cloud.google.com/storage/docs/authentication/managing-hmackeys)
 
-- Azure Blob Storage: [View account access keys](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)
+- Azure Blob Storage:[アカウントアクセスキーの表示](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)
 
-For more information about using session tokens, refer to [the FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
+セッショントークンの使用方法については、[FAQを](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.</p>
+<p>Zilliz Cloudは、クラスタをホストするクラウドプロバイダに関係なく、任意のオブジェクトストレージサービスから任意のZilliz Cloudクラスタにデータをインポートできるようになりました。例えば、AWS S 3バケットからGCPにデプロイされたZilliz Cloudクラスタにデータをインポートすることができます。</p>
 
 </Admonition>
 
-![data-import-on-console-remote](/img/data-import-on-console-remote.png)
+![data-import-on-console-remote](/img/ja-JP/data-import-on-console-remote.png)
 
-## Verify resultes{#verify-resultes}
+## 結果を検証する{#}
 
-You can view the progress and status of the import job on the [Jobs](./job-center) page.
+インポートジョブの進捗状況やステータスは[求人](null)ページで閲覧可能です。
 
-## Supported object paths{#supported-object-paths}
+## サポートされるオブジェクトパス{#}
 
-For applicable object paths, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options).
+適用可能なオブジェクトパスについては、Storage OptionsとFormat Optionsを参照してください。
 
-## Related topics{#related-topics}
+## 関連するトピック{#}
 
-- [Storage Options](./data-import-storage-options)
+- Storage Options
 
-- [Format Options](./data-import-format-options)
+- Format Options
 
-- [Import Data via RESTful API](./import-data-via-restful-api)
+- Import Data via RESTful API
 
-- [Import Data via SDKs](./import-data-via-sdks)
+- Import Data via SDKs
 
-- [Data Import Hands-On](./data-import-zero-to-hero)
+- Data Import Hands-On
 

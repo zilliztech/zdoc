@@ -1,12 +1,12 @@
 ---
-title: "Full Text Search | Cloud"
+title: "フルテキスト検索 | Cloud"
 slug: /full-text-search
-sidebar_label: "Full Text Search"
+sidebar_label: "フルテキスト検索"
 beta: PUBLIC
 notebook: FALSE
-description: "Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings. | Cloud"
+description: "フルテキスト検索は、テキストデータセット内の特定の用語やフレーズを含むドキュメントを取得し、関連性に基づいて結果をランク付けする機能です。この機能は、正確な用語を見落とす可能性がある意味検索の制限を克服し、最も正確で文脈に関連する結果を受け取ることを保証します。さらに、生のテキスト入力を受け入れることにより、ベクトル検索を簡素化し、手動でベクトル埋め込みを生成する必要なく、テキストデータを疎な埋め込みに自動的に変換します。 | Cloud"
 type: origin
-token: RQTRwhOVPiwnwokqr4scAtyfnBf
+token: GnT3wO9gdiY8z4k254QchrR0nvg
 sidebar_position: 9
 keywords: 
   - zilliz
@@ -19,10 +19,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
@@ -30,55 +30,55 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Full Text Search
+# フルテキスト検索
 
-Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings.
+フルテキスト検索は、テキストデータセット内の特定の用語やフレーズを含むドキュメントを取得し、関連性に基づいて結果をランク付けする機能です。この機能は、正確な用語を見落とす可能性がある意味検索の制限を克服し、最も正確で文脈に関連する結果を受け取ることを保証します。さらに、生のテキスト入力を受け入れることにより、ベクトル検索を簡素化し、手動でベクトル埋め込みを生成する必要なく、テキストデータを疎な埋め込みに自動的に変換します。
 
-Using the BM25 algorithm for relevance scoring, this feature is particularly valuable in retrieval-augmented generation (RAG) scenarios, where it prioritizes documents that closely match specific search terms.
+BM 25アルゴリズムを使用して関連性スコアリングを行うと、この機能は、特定の検索用語に密接に一致するドキュメントを優先する検索拡張生成（RAG）シナリオで特に価値があります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>By integrating full text search with semantic-based dense vector search, you can enhance the accuracy and relevance of search results. For more information, refer to <a href="./hybrid-search">Hybrid Search</a>.</p>
+<p>フルテキスト検索とセマンティックベースの高密度ベクトル検索を統合することで、検索結果の精度と関連性を高めることができます。詳細については、Hybrid Searchを参照してください。</p>
 
 </Admonition>
 
-## Overview{#overview}
+## 概要について{#}
 
-Full text search simplifies the process of text-based searching by eliminating the need for manual embedding. This feature operates through the following workflow:
+全文検索は、手動での埋め込みの必要性を排除することで、テキストベースの検索過程を簡素化します。この機能は、以下のワークフローを通じて動作します
 
-1. **Text input**: You insert raw text documents or provide query text without any need for manual embedding.
+1. **テキスト入力**:手動の埋め込みを必要とせずに、生のテキストドキュメントを挿入したり、クエリテキストを提供したりできます。
 
-1. **Text analysis**: Zilliz Cloud uses an [analyzer](./analyzer-overview) to tokenize input text into individual, searchable terms.
+1. **テキスト分析**:Zilliz Cloudは、[アナライザー](null)を使用して入力テキストを個々の検索可能な用語にトークン化します。
 
-1. **Function processing**: The built-in function receives tokenized terms and converts them into sparse vector representations.
+1. **関数処理**:組み込み関数は、トークン化された用語を受け取り、スパースベクトル表現に変換します。
 
-1. **Collection store**: Zilliz Cloud stores these sparse embeddings in a collection for efficient retrieval.
+1. **コレクションストア**:Zilliz Cloudは、効率的な検索のためにこれらの疎な埋め込みをコレクションに保存します。
 
-1. **BM25 scoring**: During a search, Zilliz Cloud applies the BM25 algorithm to calculate scores for the stored documents and ranks matched results based on relevance to the query text.
+1. **BM 25スコアリング**:検索中、Zilliz CloudはBM 25アルゴリズムを適用して保存されたドキュメントのスコアを計算し、クエリテキストとの関連性に基づいて一致した結果をランク付けします。
 
-![DfPMwP6ZahhHlLbIN0gcG9d7nQM](/img/DfPMwP6ZahhHlLbIN0gcG9d7nQM.png)
+![LNSEwUCiXhQs8ubUcfdcQyqTnff](/img/ja-JP/LNSEwUCiXhQs8ubUcfdcQyqTnff.png)
 
-To use full text search, follow these main steps:
+全文検索を使用するには、以下の主な手順に従ってください:
 
-1. [Create a collection](./full-text-search): Set up a collection with necessary fields and define a function to convert raw text into sparse embeddings.
+1. [コレクションを作成](null)する:必要なフィールドを持つコレクションを設定し、生のテキストを疎な埋め込みに変換する関数を定義します。
 
-1. [Insert data](./full-text-search): Ingest your raw text documents to the collection.
+1. [データ挿入](null):未加工のテキストドキュメントをコレクションに挿入します。
 
-1. [Perform searches](./full-text-search): Use query texts to search through your collection and retrieve relevant results.
+1. [検索を実行](null):クエリテキストを使用してコレクションを検索し、関連する結果を取得します。
 
-## Create a collection for full text search{#create-a-collection-for-full-text-search}
+## 全文検索用のコレクションを作成する{#}
 
-To enable full text search, create a collection with a specific schema. This schema must include three necessary fields:
+全文検索を有効にするには、特定のスキーマを持つコレクションを作成します。このスキーマには、3つの必須フィールドが含まれている必要があります。
 
-- The primary field that uniquely identifies each entity in a collection.
+- コレクション内の各エンティティを一意に識別するプライマリフィールド。
 
-- A `VARCHAR` field that stores raw text documents, with the `enable_analyzer` attribute set to `True`. This allows Zilliz Cloud to tokenize text into specific terms for function processing.
+- テキストドキュメントを保存する`VARCHAR`フィールドで、`enable_analysis`属性が`True`に設定されています。これにより、Zilliz Cloudは、関数処理のためにテキストを特定の用語にトークン化できます。
 
-- A `SPARSE_FLOAT_VECTOR` field reserved to store sparse embeddings that Zilliz Cloud will automatically generate for the `VARCHAR` field.
+- スパース埋め込みを保存するために予約された`SPARSE_FLOAT_VECTOR`フィールドは、Zilliz Cloudが`VARCHAR`フィールドに対して自動的に生成します。
 
-### Define the collection schema{#define-the-collection-schema}
+### コレクションスキーマを定義する{#}
 
-First, create the schema and add the necessary fields:
+まず、スキーマを作成し、必要なフィールドを追加してください
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -192,15 +192,15 @@ export schema='{
 </TabItem>
 </Tabs>
 
-In this configuration,
+この構成では、
 
-- `id`: serves as the primary key and is automatically generated with `auto_id=True`.
+- `id`:主キーとして機能し、`auto_id=True`で自動的に生成されます。
 
-- `text`: stores your raw text data for full text search operations. The data type must be `VARCHAR`, as `VARCHAR` is Zilliz Cloud' string data type for text storage. Set `enable_analyzer=True` to allow Zilliz Cloud to tokenize the text. By default, Zilliz Cloud uses the `standard`[ analyzer](./standard-analyzer) for text analysis. To configure a different analyzer, refer to [Analyzer Overview](./analyzer-overview).
+- `text`:全文検索操作のための生のテキストデータを保存します。データ型は`VARCHAR`でなければなりません。なぜなら、`VARCHAR`はZilliz Cloud'文字列データ型をテキストストレージに使用するからです。Set`enable_analysis=True`to allowZilliz Cloudテキストをトークン化します。デフォルトでは、Zilliz Cloudはテキスト解析に`標準`[アナライザ](null)を使用します。別のアナライザを設定するには、Analyzer OverviewAnalyzer Overview
 
-- `sparse`: a vector field reserved to store internally generated sparse embeddings for full text search operations. The data type must be `SPARSE_FLOAT_VECTOR`.
+- `sparse`:全文検索操作のために内部で生成された疎な埋め込みを格納するために予約されたベクトルフィールドです。データ型は`SPARSE_FLOAT_VECTOR`でなければなりません。
 
-Now, define a function that will convert your text into sparse vector representations and then add it to the schema:
+今、テキストを疎なベクトル表現に変換する関数を定義し、スキーマに追加してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -295,36 +295,36 @@ export schema='{
 
 <table>
    <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
+     <th><p>パラメータ</p></th>
+     <th><p>説明する</p></th>
    </tr>
    <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>The name of the function. This function converts your raw text from the <code>text</code> field into searchable vectors that will be stored in the <code>sparse</code> field.</p></td>
+     <td><p><code>お名前</code></p></td>
+     <td><p>関数の名前です。この関数は、テキストフィールドの生の<code>テキスト</code>を検索可能なベクトルに変換し、<code>スパース</code>フィールドに保存します。</p></td>
    </tr>
    <tr>
-     <td><p><code>input_field_names</code></p></td>
-     <td><p>The name of the <code>VARCHAR</code> field requiring text-to-sparse-vector conversion. For <code>FunctionType.BM25</code>, this parameter accepts only one field name.</p></td>
+     <td><p><code>入力フィールド名</code></p></td>
+     <td><p>変換が必要な<code>VARCHAR</code>フィールドの名前。FunctionType. BM 25の<code>場合</code>、このパラメータは1つのフィールド名のみを受け入れます。</p></td>
    </tr>
    <tr>
-     <td><p><code>output_field_names</code></p></td>
-     <td><p>The name of the field where the internally generated sparse vectors will be stored. For <code>FunctionType.BM25</code>, this parameter accepts only one field name.</p></td>
+     <td><p><code>出力フィールド名</code></p></td>
+     <td><p>内部で生成された疎ベクトルが格納されるフィールドの名前。FunctionType. BM 25の<code>場合</code>、このパラメータは1つのフィールド名のみを受け入れます。</p></td>
    </tr>
    <tr>
-     <td><p><code>function_type</code></p></td>
-     <td><p>The type of the function to use. Set the value to <code>FunctionType.BM25</code>.</p></td>
+     <td><p><code>関数タイプ</code></p></td>
+     <td><p>使用する関数の型。値をFunctionType. BM 25に設定してくださ<code>い</code>。</p></td>
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>For collections with multiple <code>VARCHAR</code> fields requiring text-to-sparse-vector conversion, add separate functions to the collection schema, ensuring each function has a unique name and <code>output_field_names</code> value.</p>
+<p>複数の<code>VARCHAR</code>フィールドを持つコレクションでtext-to-sparse-vector変換が必要な場合は、コレクションスキーマに個別の関数を追加し、各関数に一意の名前と<code>output_field_names</code>値を割り当てます。</p>
 
 </Admonition>
 
-### Configure the index{#configure-the-index}
+### インデックスを設定する{#}
 
-After defining the schema with necessary fields and the built-in function, set up the index for your collection. To simplify this process, use `AUTOINDEX` as the `index_type`, an option that allows Zilliz Cloud to choose and configure the most suitable index type based on the structure of your data.
+必要なフィールドと組み込み関数を使用してスキーマを定義した後、コレクションのインデックスを設定します。この過程を簡素化するために、`AUTOINDEX`を`index_type`として使用します。これは、Zilliz Cloudを使用して、データの構造に基づいて最適なインデックスタイプを選択して設定できるオプションです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -387,26 +387,26 @@ export indexParams='[
 
 <table>
    <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
+     <th><p>パラメータ</p></th>
+     <th><p>説明する</p></th>
    </tr>
    <tr>
-     <td><p><code>field_name</code></p></td>
-     <td><p>The name of the vector field to index. For full text search, this should be the field that stores the generated sparse vectors. In this example, set the value to <code>sparse</code>.</p></td>
+     <td><p><code>フィールド名</code></p></td>
+     <td><p>インデックスを作成するベクトルフィールドの名前です。全文検索を行う場合は、生成された疎ベクトルを格納するフィールドである必要があります。この例では、値を<code>疎</code>に設定します。</p></td>
    </tr>
    <tr>
-     <td><p><code>index_type</code></p></td>
-     <td><p>The type of the index to create. <code>AUTOINDEX</code> allows Zilliz Cloud to automatically optimize index settings. If you need more control over your index settings, you can choose from various index types available for sparse vectors in Zilliz Cloud. .</p></td>
+     <td><p><code>インデックスの種類</code></p></td>
+     <td><p>作成するインデックスの種類です。<code>AUTOINDEX</code>allowsZilliz Cloudインデックス設定を自動的に最適化します。インデックス設定をより細かく制御する必要がある場合は、スパースベクトル用に利用可能なさまざまなインデックスタイプから選択できます。Zilliz Cloud.を参照してください。</p></td>
    </tr>
    <tr>
-     <td><p><code>metric_type</code></p></td>
-     <td><p>The value for this parameter must be set to <code>BM25</code> specifically for full text search functionality.</p></td>
+     <td><p><code>メトリックタイプ</code></p></td>
+     <td><p>このパラメータの値は、全文検索機能のために<code>BM 25</code>に設定する必要があります。</p></td>
    </tr>
 </table>
 
-### Create the collection{#create-the-collection}
+### コレクションを作成する{#}
 
-Now create the collection using the schema and index parameters defined.
+今、定義されたスキーマとインデックスパラメータを使用してコレクションを作成してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -469,9 +469,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Insert text data{#insert-text-data}
+## テキストデータを挿入{#}
 
-After setting up your collection and index, you're ready to insert text data. In this process, you need only to provide the raw text. The built-in function we defined earlier automatically generates the corresponding sparse vector for each text entry.
+コレクションとインデックスを設定したら、テキストデータを挿入する準備ができました。この過程では、生のテキストを提供するだけで済みます。前に定義した組み込み関数は、各テキストエントリに対応する疎ベクトルを自動的に生成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -544,9 +544,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Perform full text search{#perform-full-text-search}
+## 全文検索を実行する{#}
 
-Once you've inserted data into your collection, you can perform full text searches using raw text queries. Zilliz Cloud automatically converts your query into a sparse vector and ranks the matched search results using the BM25 algorithm, and then returns the topK (`limit`) results.
+コレクションにデータを挿入したら、生のテキストクエリを使用して全文検索を実行できます。Zilliz Cloudは、クエリをスパースベクトルに自動的に変換し、BM 25アルゴリズムを使用して一致した検索結果をランク付けし、上位K(`制限`)の結果を返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -632,28 +632,28 @@ curl --request POST \
 
 <table>
    <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
+     <th><p>パラメータ</p></th>
+     <th><p>説明する</p></th>
    </tr>
    <tr>
-     <td><p><code>search_params</code></p></td>
-     <td><p>A dictionary containing search parameters.</p></td>
+     <td><p><code>検索パラメータ</code></p></td>
+     <td><p>検索パラメーターを含むディクショナリ。</p></td>
    </tr>
    <tr>
-     <td><p><code>params.drop_ratio_search</code></p></td>
-     <td><p>Proportion of terms with less contribution to BM25 scoring to ignore during search. For details, refer to <a href="./use-sparse-vector">Sparse Vector</a>.</p></td>
+     <td><p><code>ドロップ比率検索</code></p></td>
+     <td><p>検索中に無視するBM 25スコアリングへの寄与が少ない用語の割合。詳細については、「Sparse Vector」を参照してください。</p></td>
    </tr>
    <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>The raw query text.</p></td>
+     <td><p><code>データ</code></p></td>
+     <td><p>生のクエリテキスト。</p></td>
    </tr>
    <tr>
-     <td><p><code>anns_field</code></p></td>
-     <td><p>The name of the field that contains internally generated sparse vectors.</p></td>
+     <td><p><code>アンズフィールド</code></p></td>
+     <td><p>内部生成された疎ベクトルを含むフィールドの名前。</p></td>
    </tr>
    <tr>
-     <td><p><code>limit</code></p></td>
-     <td><p>Maximum number of top matches to return.</p></td>
+     <td><p><code>限界</code></p></td>
+     <td><p>返すトップマッチの最大数。</p></td>
    </tr>
 </table>
 

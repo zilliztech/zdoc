@@ -49,7 +49,7 @@ To address this issue, you can follow the instructions below.
 
 - If you are using a free cluster, please [upgrade](./manage-cluster#upgrade-plan) to Serverless or Dedicated plan.
 
-- If you are using a Dedicated cluster, please [scale up your cluster](./manage-cluster) by increasing the CU size.
+- If you are using a Dedicated cluster, please [scale up your cluster](./scale-cluster#scale-up-a-cluster) by increasing the CU size.
 
 ### Can I change the CU type after my dedicated cluster is created?{#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created}
 
@@ -71,7 +71,7 @@ Yes. To change the cloud region of your cluster, you need to follow the steps be
 
 Yes. To scale down your cluster's CU size, go to the **Summary** section in the [Zilliz Cloud console](https://cloud.zilliz.com/signup) and click **Scale** next to the CU **Size**. This will open the scaling page where you can increase or decrease the CU size. Before scaling down your cluster, make sure the CU size can accommodate your data volume and workload capacity.
 
-For more information, refer to [Scale cluster](./manage-cluster).
+For more information, refer to [Scale Cluster](./scale-cluster).
 
 ### Can I deploy a free cluster on AWS?{#can-i-deploy-a-free-cluster-on-aws}
 

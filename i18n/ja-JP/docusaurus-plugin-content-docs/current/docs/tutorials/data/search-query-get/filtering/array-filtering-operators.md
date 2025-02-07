@@ -1,12 +1,12 @@
 ---
-title: "ARRAY Operators | Cloud"
+title: "アレイ演算子 | Cloud"
 slug: /array-filtering-operators
-sidebar_label: "ARRAY Operators"
+sidebar_label: "アレイ演算子"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud provides powerful operators to query array fields, allowing you to filter and retrieve entities based on the contents of arrays. | Cloud"
+description: "Zilliz Cloudは、配列フィールドをクエリするための強力な演算子を提供し、配列の内容に基づいてエンティティをフィルタリングして取得することができます。 | Cloud"
 type: origin
-token: MaWywRYCniq6vwkJsT7c2wAyn0f
+token: LqSTw6JCuiMzJnkgyAccYAxenh9
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -18,90 +18,90 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
   - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# ARRAY Operators
+# アレイ演算子
 
-Zilliz Cloud provides powerful operators to query array fields, allowing you to filter and retrieve entities based on the contents of arrays. 
+Zilliz Cloudは、配列フィールドをクエリするための強力な演算子を提供し、配列の内容に基づいてエンティティをフィルタリングして取得することができます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>All elements within an array must be the same type, and nested structures within arrays are treated as plain strings. Therefore, when working with ARRAY fields, it is advisable to avoid excessively deep nesting and ensure that your data structures are as flat as possible for optimal performance.</p>
+<p>配列内のすべての要素は同じ型でなければならず、配列内のネストされた構造はプレーンな文字列として扱われます。したがって、ARRAYフィールドを使用する場合は、過度に深いネストを避け、データ構造が最適なパフォーマンスのために可能な限りフラットであることを確認することが望ましいです。</p>
 
 </Admonition>
 
-## Available ARRAY Operators{#available-array-operators}
+## 利用可能なARRAYオペレーター{#array}
 
-The ARRAY operators allow for fine-grained querying of array fields in Zilliz Cloud clusters. These operators are:
+ARRAY演算子を使用すると、Zilliz Cloudクラスター内の配列フィールドを細かくクエリできます。これらの演算子は次のとおりです:
 
-- `ARRAY_CONTAINS(identifier, expr)`: checks if a specific element exists in an array field.
+- `ARRAY_CONTAINS(identifier, expr)`:配列フィールドに特定の要素が存在するかどうかをチェックします。
 
-- `ARRAY_CONTAINS_ALL(identifier, expr)`: ensures that all elements of the specified list are present in the array field.
+- `ARRAY_CONTAINS_ALL(identifier, expr)`:指定されたリストのすべての要素が配列フィールドに存在することを保証します。
 
-- `ARRAY_CONTAINS_ANY(identifier, expr)`: checks if any of the elements from the specified list are present in the array field.
+- `ARRAY_CONTAINS_ANY(identifier, expr)`:指定されたリストの要素のいずれかが配列フィールドに存在するかどうかをチェックします。
 
-- `ARRAY_LENGTH(identifier, expr)`: allows you to filter entities based on the number of elements in an array field.
+- `ARRAY_LENGTH(identifier, expr)`:配列フィールドの要素数に基づいてエンティティをフィルタリングできます。
 
-## ARRAY_CONTAINS{#arraycontains}
+## 配列を含む{#}
 
-The `ARRAY_CONTAINS` operator checks if a specific element exists in an array field. It’s useful when you want to find entities where a given element is present in the array.
+ARRAY_`CONTAINS`演算子は、配列フィールドに特定の要素が存在するかどうかをチェックします。特定の要素が配列内に存在するエンティティを検索する場合に便利です。
 
-**Example**
+**例**
 
-Suppose you have an array field `history_temperatures`, which contains the recorded lowest temperatures for different years. To find all entities where the array contains the value `23`, you can use the following filter expression:
+異なる年の記録された最低気温を含む配列フィールド`history_`温度があるとします。配列に値`23`が含まれるすべてのエンティティを見つけるには、次のフィルタ式を使用します。
 
 ```python
 filter = 'ARRAY_CONTAINS(history_temperatures, 23)'
 ```
 
-This will return all entities where the `history_temperatures` array contains the value `23`.
+これにより、`history_`温度配列に値`23`が含まれるすべてのエンティティが返されます。
 
-## ARRAY_CONTAINS_ALL{#arraycontainsall}
+## すべてを含む配列{#}
 
-The `ARRAY_CONTAINS_ALL` operator ensures that all elements of the specified list are present in the array field. This operator is useful when you want to match entities that contain multiple values in the array.
+ARRAY_`CONTAINS_ALL`演算子は、指定されたリストのすべての要素が配列フィールドに存在することを保証します。この演算子は、配列内に複数の値を含むエンティティを一致させたい場合に便利です。
 
-**Example**
+**例**
 
-If you want to find all entities where the `history_temperatures` array contains both `23` and `24`, you can use:
+もし`history_温度`配列に`23`と`24`の両方が含まれているすべてのエンティティを見つけたい場合は、次のようにします。
 
 ```python
 filter = 'ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])'
 ```
 
-This will return all entities where the `history_temperatures` array contains both of the specified values.
+これにより、`history_`温度配列に指定された両方の値が含まれるすべてのエンティティが返されます。
 
-## ARRAY_CONTAINS_ANY{#arraycontainsany}
+## 配列の内容{#}
 
-The `ARRAY_CONTAINS_ANY` operator checks if any of the elements from the specified list are present in the array field. This is useful when you want to match entities that contain at least one of the specified values in the array.
+ARRAY_`CONTAINS_ANY`演算子は、指定されたリストの要素のいずれかが配列フィールドに存在するかどうかをチェックします。これは、配列内の指定された値の少なくとも1つを含むエンティティに一致させたい場合に便利です。
 
-**Example**
+**例**
 
-To find all entities where the `history_temperatures` array contains either `23` or `24`, you can use:
+History_`Temperations配列`に`23`または`24`が含まれるすべてのエンティティを検索するには、次を使用します。
 
 ```python
 filter = 'ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])'
 ```
 
-This will return all entities where the `history_temperatures` array contains at least one of the values `23` or `24`.
+これにより、`history_`温度配列に`23`または`24`の値が少なくとも1つ含まれているすべてのエンティティが返されます。
 
-## ARRAY_LENGTH{#arraylength}
+## 配列の長さ{#}
 
-The `ARRAY_LENGTH` operator allows you to filter entities based on the number of elements in an array field. This is useful when you need to find entities with arrays of a certain length.
+ARRAY`_LENGTH`演算子を使用すると、配列フィールドの要素数に基づいてエンティティをフィルタリングできます。これは、特定の長さの配列を持つエンティティを見つける必要がある場合に便利です。
 
-**Example**
+**例**
 
-If you want to find all entities where the `history_temperatures` array has fewer than 10 elements, you can use:
+History_`Temperations配列`の要素数が10未満のすべてのエンティティを検索するには、次のようにします。
 
 ```python
 filter = 'ARRAY_LENGTH(history_temperatures) < 10'
 ```
 
-This will return all entities where the `history_temperatures` array has fewer than 10 elements.
+これにより、`History_Temperations`配列の要素数が10未満のすべてのエンティティが返されます。

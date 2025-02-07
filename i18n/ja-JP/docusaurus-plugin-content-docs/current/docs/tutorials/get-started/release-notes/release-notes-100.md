@@ -1,88 +1,88 @@
 ---
-title: "Release Notes (March 6, 2023) | Cloud"
+title: "リリースノート（2023年3月6日） | Cloud"
 slug: /release-notes-100
-sidebar_label: "Release Notes (March 6, 2023)"
+sidebar_label: "リリースノート（2023年3月6日）"
 beta: FALSE
 notebook: FALSE
-description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release raises the standard of vector database services for usability, security, performance, and capability to a new stage, bringing you a state-of-the-art vector database experience built for everyone. | Cloud"
+description: "私たちは、Zilliz Cloudの重要なアップデートの一般提供を発表できることを喜んでいます。このリリースにより、ベクトルデータベースサービスの使いやすさ、セキュリティ、パフォーマンス、および機能の標準が新たな段階に引き上げられ、誰でも利用できる最新のベクトルデータベース体験が提供されます。 | Cloud"
 type: origin
-token: XmUYwRgNDitesQkl9QDc3IslnOh
+token: GIf9wQ1oKilIeekY9qTcXR9JnRg
 sidebar_position: 18
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (March 6, 2023)
+# リリースノート（2023年3月6日）
 
-We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release raises the standard of vector database services for usability, security, performance, and capability to a new stage, bringing you a state-of-the-art vector database experience built for everyone.
+私たちは、Zilliz Cloudの重要なアップデートの一般提供を発表できることを喜んでいます。このリリースにより、ベクトルデータベースサービスの使いやすさ、セキュリティ、パフォーマンス、および機能の標準が新たな段階に引き上げられ、誰でも利用できる最新のベクトルデータベース体験が提供されます。
 
-- Billion-scale Vector Collection Support
+- 10億スケールのベクトルコレクションのサポート
 
-    With this release, Zilliz Cloud has pushed the capacity limit of vector databases to a billion-scale. Now enterprise users can create [32 CU database instances](https://zilliz.com/pricing) (for both performance-optimized CU and capacity-optimized CU) through the Zilliz Cloud web interface.
+    このリリースにより、Zilliz Cloudはベクトルデータベースの容量制限を10億スケールに引き上げました。これにより、エンタープライズユーザーはZilliz CloudのWebインターフェースを介して、[32 CUデータベースインスタンス](https://zilliz.com/pricing)（performance-optimizedCUと容量最適化CUの両方）を作成できます。
 
-    For users who require larger instances for PoC or production deployment, please don’t hesitate to [contact us](https://zilliz.com/contact-sales) to obtain instances up to 256 performance-optimized CUs (which can serve 1.3 billion 128-dimensional vectors) or 128 capacity-optimized CUs (which can serve 3 billion 128-dimensional vectors).
+    PoCや本番環境でより大きなインスタンスが必要な場合は、最大256個のperformance-optimizedCU(13億個の128次元ベクトルに対応)または128個のキャパシティ最適化CU(30億個の128次元ベクトルに対応)のインスタンスを取得するために、お気軽に[お問い合わせ](https://zilliz.com/contact-sales)ください。
 
-- Performance Improvements
+- パフォーマンスの改善
 
-    This updated version of Zilliz Cloud is built based on Milvus 2.2.3. With Milvus 2.2.3, we achieved a 2.5x reduction in search latency compared to the original Milvus 2.0.0 release. Lower latency benefits all users but is key when dealing with real-time information retrieval systems such as recommendation systems, image/video/text search, and question answering.
+    このZilliz Cloudのアップデートバージョンは、Milvus2.2.3に基づいて構築されています。Milvus2.2.3を使用することで、元のMilvus2.0.0リリースと比較して検索レイテンシーが2.5倍削減されました。低レイテンシーはすべてのユーザーに利益をもたらしますが、推薦システム、画像/動画/テキスト検索、質問応答などのリアルタイム情報検索システムを扱う際に重要です。
 
-    Our testing under an identical environment showed a 4.5x increase in QPS with Milvus 2.2.3 compared to 2.0.0. Due to this increase, Milvus is now even more hardware and cost-efficient, which is critical in building large-scale vector search platforms.
+    同じ環境下でのテストにより、Milvus2.2.3を使用した場合、2.0.0と比較してQPSが4.5倍増加しました。この増加により、Milvusはよりハードウェア的でコスト効率が高くなり、大規模なベクトル検索プラットフォームを構築する上で重要な役割を果たしています。
 
-    For more details, please see our [white paper](https://zilliz.com/resources/milvus-performance-benchmark).
+    詳細については、[ホワイトペーパー](https://zilliz.com/resources/milvus-performance-benchmark)をご覧ください。
 
-- Zilliz Cloud on GCP
+- トップ>Zilliz Cloud on GCP
 
-    We are pleased to announce that Zilliz Cloud is now available on Google Cloud Platform (GCP). Zilliz Cloud offers the best experience and meets the diverse requirements of various users, ranging from startups to large enterprises. You can deploy managed vector database instances on GCP with just a few clicks.
+    Zilliz CloudがGoogle Cloud Platform（GCP）で利用可能になったことをお知らせいたします。Zilliz Cloudは、スタートアップから大企業まで、さまざまなユーザーの多様な要件を満たし、最高の体験を提供します。GCP上でマネージドベクターデータベースインスタンスをわずか数クリックでデプロイできます。
 
-    The us-west1 region (The Dalles, Oregon) is now available. The cost per CU for our services on GCP is $0.215 per hour for both performance-optimized and capacity-optimized types, and the storage cost is $0.02/GB per month.
+    us-west 1リージョン（The Dalles, Oregon）が利用可能になりました。GCP上のサービスのCUあたりのコストは、performance-optimizedタイプと容量最適化タイプの両方で1時間あたり0.215ドル、ストレージコストは1 GBあたり1か月あたり0.0 2ドルです。
 
-- AWS Marketplace
+- AWSマーケットプレイス
 
-    Zilliz Cloud is likewise available on the [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio), making it easier than ever to access our fully managed vector database services on AWS. This integration couldn’t come at a better time as demand for AI applications grows. With Zilliz Cloud on AWS Marketplace, users can quickly build and scale their AI applications.
+    Zilliz Cloudは[AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio)でも利用可能であり、AWS上で完全に管理されたベクトルデータベースサービスにアクセスすることがこれまで以上に簡単になりました。AIアプリケーションの需要が高まる中、この統合はより良いタイミングで実現しました。AWS Marketplace上のZilliz Cloudを使用することで、ユーザーは迅速にAIアプリケーションを構築し、スケーリングすることができます。
 
-    One of the benefits of this integration is the ability to manage products seamlessly. Billing, cancellations, refunds, and more can all be governed and tracked on your user’s AWS account. This feature alone saves you time and hassle, streamlining the entire process.
+    この統合の利点の1つは、製品をシームレスに管理できることです。請求、キャンセル、返金などは、すべてユーザーのAWSアカウントで管理および追跡できます。この機能だけで、時間と手間を節約し、プロセス全体を効率化できます。
 
-    Another advantage is the ability to view costs through AWS Cost Explorer. This tool lets you easily track expenses and gain insight into billing and cost management processes.
+    もう一つの利点は、AWS Cost Explorerを通じてコストを表示できることです。このツールを使用すると、簡単に費用を追跡し、請求およびコスト管理プロセスに関する洞察を得ることができます。
 
-    For details, refer to [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace).
+    詳細については、「Subscribe on AWS Marketplace」を参照してください。
 
-- Rolling Upgrade
+- ローリングアップグレード
 
-    Milvus users have had to perform various maintenance tasks periodically to ensure system health. However, maintenance work on a production system can be risky. Typically, maintenance work is performed during scheduled downtime, which requires taking the database offline and suspending normal business operations. Unfortunately, today’s users are intolerant of prolonged periods of downtime.
+    Milvusのユーザーは、システムの健康を確保するために定期的にさまざまなメンテナンスタスクを実行する必要がありました。ただし、本番システムのメンテナンス作業はリスクがある場合があります。通常、メンテナンス作業はスケジュールされたダウンタイム中に実行され、データベースをオフラインにして通常のビジネス操作を一時停止する必要があります。残念ながら、今日のユーザーは長期間のダウンタイムに耐えられません。
 
-    The good news is that Zilliz Cloud now supports rolling upgrades. With your vector databases deployed on Zilliz Cloud, you no longer need to worry about scheduled maintenance. Instead, set up a maintenance window and focus on your business while we handle the rest. In most cases, service downtime due to the rolling upgrade will be less than 1 minute per month.
+    良いニュースは、Zilliz Cloudがローリングアップグレードをサポートするようになったことです。ベクトルデータベースをZilliz Cloudにデプロイすることで、スケジュールされたメンテナンスについて心配する必要がなくなります。代わりに、メンテナンスウィンドウを設定して、ビジネスに集中し、私たちが残りを処理します。ほとんどの場合、ローリングアップグレードによるサービスのダウンタイムは月に1分小なります。
 
-- Backup and Restore
+- バックアップと復元
 
-    The Backup and Restore feature is now available with Zilliz Cloud. Data loss can happen to anyone at any time. The consequences can be devastating, whether due to a hardware failure, a software glitch, or even human error. That’s why it’s critical to have a reliable backup and recovery solution for databases in place.
+    Zilliz Cloudでバックアップと復元機能が利用可能になりました。データの損失はいつでも誰にでも起こり得ます。その結果は、ハードウェアの故障、ソフトウェアの不具合、さらには人為的なミスによっても壊滅的なものになる可能性があります。そのため、データベースの信頼性の高いバックアップと復元ソリューションを置くことが重要です。
 
-    With the new backup and restore feature, you can now easily back up your database and restore it in case of an unexpected loss.
+    新しいバックアップと復元機能を使用すると、データベースを簡単にバックアップし、予期せぬ損失が発生した場合に復元できます。
 
-    For details, refer to [Backup & Restore](./backup-and-restore).
+    詳細については、Backup & Restoreを参照してください。
 
-- Recycler Bin
+- リサイクル箱
 
-    Data security is always our top priority. With this release, we are introducing the Recycler Bin on Zilliz Cloud, which makes your data even safer. For example, suppose your users drop your databases or automatically delete them due to prolonged inactivity in free trials or service suspension due to outstanding fees. In that case, Zilliz cloud will automatically move your database/collection to the recycler bin, and you can recover the data any time in the next 30 days.
+    データセキュリティは常に私たちの最優先事項です。このリリースでは、Zilliz Cloud上のRecycler Binを導入し、データをさらに安全にします。たとえば、ユーザーが無料トライアルでの長期間の活動停止や未払い料金によるサービス停止のためにデータベースを削除したり、自動的に削除したりした場合、Zilliz Cloudは自動的にデータベース/コレクションをRecycler Binに移動し、次の30日間でいつでもデータを回復できます。
 
-    For details, refer to [Use Recycle Bin](./use-recycle-bin).
+    詳しくは、Use Recycle Binうを参照してください。
 
-- Database Migration from Open Source Milvus
+- Open Source Milvusからのデータベース移行
 
-    With this release, we are introducing database migration toolkits. Now open-source Milvus users can easily migrate their local databases to Zilliz Cloud, freeing themselves from the burden of system maintenance. In addition, the migration tool is compatible with Milvus 1.x and 2.x. So with only two steps, you can easily migrate your database, regardless of the Milvus version, into Zilliz Cloud.
+    このリリースでは、データベース移行ツールキットを導入しています。これにより、オープンソースのMilvusユーザーは、システムメンテナンスの負担から解放され、ローカルデータベースをZilliz Cloudに簡単に移行できます。さらに、移行ツールはMilvus 1. xおよび2.xに対応しています。そのため、Milvusのバージョンに関係なく、わずか2つのステップで簡単にデータベースをZilliz Cloudに移行できます。
 
-    For more details, please refer to the [Migrations](./migrations).
+    詳細については、Migrationsを参照してください。
 
-- Other Great updates
+- 他の素晴らしいアップデート
 
-    The new invoice page now displays the detailed cost of different resource usage and services, how credits are used, and any applicable discount rules. Improved experience with data preview. Some bug fixes to improve stability and memory utilization.
+    新しい請求書ページには、さまざまなリソース使用量とサービスの詳細なコスト、クレジットの使用方法、および適用可能な割引ルールが表示されます。データプレビューの改善されたエクスペリエンス。安定性とメモリ使用率を改善するためのいくつかのバグ修正。

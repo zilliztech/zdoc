@@ -1,12 +1,12 @@
 ---
-title: "English | Cloud"
+title: "英語の | Cloud"
 slug: /english-analyzer
-sidebar_label: "English"
+sidebar_label: "英語の"
 beta: PUBLIC
 notebook: FALSE
-description: "The `english` analyzer in Zilliz Cloud is designed to process English text, applying language-specific rules for tokenization and filtering. | Cloud"
+description: "の`英語`アナライザZilliz Cloudは、英語のテキストを処理するように設計されています。 | Cloud"
 type: origin
-token: W0WhwqRyciRMRLklcsdca1U2nae
+token: T7dPwzkWUinkIpkskWMcrmb3nmf
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - english analyzer
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 
@@ -28,25 +28,25 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# English
+# 英語の
 
-The `english` analyzer in Zilliz Cloud is designed to process English text, applying language-specific rules for tokenization and filtering.
+の`英語`アナライザZilliz Cloudは、英語のテキストを処理するように設計されています。
 
-### Definition{#definition}
+### の定義{#}
 
-The `english` analyzer uses the following components:
+この`英語`アナライザは、次のコンポーネントを使用します。
 
-- **Tokenizer**: Uses the `standard`[ tokenizer](./standard-tokenizer) to split text into discrete word units.
+- **トークナイザー**:`標準`[トークナイザー](null)を使用して、テキストを離散的な単語単位に分割します。
 
-- **Filters**: Includes multiple filters for comprehensive text processing:
+- **フィルター**:包括的なテキスト処理のための複数のフィルターが含まれています
 
-    - `lowercase`: Converts all tokens to lowercase, enabling case-insensitive searches.
+    - `lowercase`:すべてのトークンを小文字に変換し、大文字小文字を区別しない検索を可能にします。
 
-    - `stemmer`: Reduces words to their root form to support broader matching (e.g., "running" becomes "run").
+    - `stemmer`:単語をルート形式に縮小して、より広いマッチングをサポートします(例:「ランニング」は「ラン」になります)。
 
-    - `stop_words`: Removes common English stop words to focus on key terms in text.
+    - `stop_words`:一般的な英語のストップワードを削除して、テキスト内のキーワードにフォーカスします。
 
-The functionality of the `english` analyzer is equivalent to the following custom analyzer configuration:
+英語アナライザの機能`は`、次のカスタムアナライザ構成と同等です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -91,9 +91,9 @@ analyzerParams.put("filter",
 </TabItem>
 </Tabs>
 
-### Configuration{#configuration}
+### コンフィギュレーション{#}
 
-To apply the `english` analyzer to a field, simply set `type` to `english` in `analyzer_params`, and include optional parameters as needed.
+フィールドに`英語`アナライザを適用するには、単に`type`を`英語`に設定して`、必要`に応じてオプションのパラメータを含めます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -116,20 +116,20 @@ analyzerParams.put("type", "english");
 </TabItem>
 </Tabs>
 
-The `english` analyzer accepts the following optional parameters: 
+この`英語`アナライザは、次のオプションパラメータを受け入れます。
 
 <table>
    <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
+     <th><p>パラメータ</p></th>
+     <th><p>説明する</p></th>
    </tr>
    <tr>
-     <td><p><code>stop_words</code></p></td>
-     <td><p>An array containing a list of stop words, which will be removed from tokenization. Defaults to <code>_english_</code>, a built-in set of common English stop words.</p></td>
+     <td><p><code>ストップワード</code></p></td>
+     <td><p>トークナイゼーションから削除されるストップワードのリストを含む配列です。デフォルトは<code>_english_</code>で、一般的な英語のストップワードの組み込みのセットです。</p></td>
    </tr>
 </table>
 
-Example configuration with custom stop words:
+カスタムストップワードを使用した設定例:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -154,19 +154,19 @@ analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
 </TabItem>
 </Tabs>
 
-After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview).
+検`光子_params`を定義した後、コレクションスキーマを定義する際に`VARCHAR`フィールドに適用することができます。これにより、Zilliz Cloudは、指定されたアナライザを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行うことができます。詳細は、[使用例](null)を参照してください。
 
-### Example output{#example-output}
+### 出力の例{#}
 
-Here’s how the `english` analyzer processes text.
+ここでは、`英語`のアナライザーがテキストを処理する方法を紹介します。
 
-**Original text**:
+**オリジナルテキスト**:
 
 ```python
 "The Milvus vector database is built for scale!"
 ```
 
-**Expected output**:
+**予想される出力**:
 
 ```python
 ["milvus", "vector", "databas", "built", "scale"]

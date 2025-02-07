@@ -1,12 +1,12 @@
 ---
-title: "Restore from Backup Files | Cloud"
+title: "バックアップファイルからの復元 | Cloud"
 slug: /restore-from-snapshot
-sidebar_label: "Restore from Backup Files"
+sidebar_label: "バックアップファイルからの復元"
 beta: FALSE
 notebook: FALSE
-description: "This guide walks you through how to restore clusters or collections from a listed backup file. You can only restore the backup files in the AVAILABLE state. | Cloud"
+description: "このガイドでは、リストされたバックアップファイルからクラスタまたはコレクションを復元する方法を説明します。復元できるのは、利用可能な状態のバックアップファイルのみです。 | Cloud"
 type: origin
-token: Dd6jwYIGiiz6HWkEPJqcpMA3n6g
+token: JXb5w2vmQi0aHCkP7Ewca7i3ngb
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 
@@ -25,46 +25,46 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Restore from Backup Files
+# バックアップファイルからの復元
 
-This guide walks you through how to restore clusters or collections from a listed backup file. You can only restore the backup files in the **AVAILABLE** state.
+このガイドでは、リストされたバックアップファイルからクラスタまたはコレクションを復元する方法を説明します。復元できるのは、**利用可能**な状態のバックアップファイルのみです。
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-Make sure the following conditions are met:
+以下の条件が満たされていることを確認してください。
 
-- You are granted the [Organization Owner](./organization-users) or [Project Admin](./project-users) role in the target organization.
+- ターゲット組織で[組織所有者](./organization-users)または[プロジェクト管理者](./project-users)の役割が付与されていること。
 
-- Your cluster runs on the **Dedicated** tier.
+- クラスターは**専用**レベルで実行されます。
 
-## Restore a cluster{#restore-a-cluster}
+## クラスタを復元する{#yuan}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-Navigate to the **Backups** page, locate your target backup file. If you need to restore a cluster, the type of the target backup file should be **Cluster**. Click **...** in the **Actions** column and select **Restore Cluster**.
+[**バックアップ**]ページに移動し、ターゲットバックアップファイルを探します。クラスタを復元する必要がある場合は、ターゲットバックアップファイルの種類を[**クラスタ**]にします。をクリックします**。。。**[**アクション**]列で、[**クラスタの復元**]を選択します。
 
-Set the attributes for the cluster to be restored from the backup file.
+バックアップファイルから復元するクラスタの属性を設定します。
 
-![restore_cluster](/img/restore_cluster.png)
+![restore_cluster](/img/ja-JP/restore_cluster.png)
 
-While setting these attributes, note that:
+これらの属性を設定する際には、次の点に注意してください:
 
-- You can restore from a backup file to create a target cluster in a different project, but not in a different cloud provider and region.
+- バックアップファイルから復元して、別のプロジェクトにターゲットクラスターを作成できますが、別のクラウドプロバイダーとリージョンには作成できません。
 
-- You can choose to retain the load status of the collections in the target cluster.
+- ターゲットクラスター内のコレクションの負荷状態を保持することを選択できます。
 
-- You can rename the target cluster and reset its CU size and password, but not its CU type.
+- ターゲットクラスタの名前を変更し、CU体格とパスワードをリセットすることはできますが、CUタイプはできません。
 
 - 
 
-Once you click **Restore**, Zilliz Cloud will start creating the target cluster with the specified attributes and then restore the collections in the backup file to the target cluster. A new restoration job will be generated. You can check the cluster restoration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the restoration is complete.
+「**復元**」をクリックすると、Zilliz Cloudは指定された属性を持つターゲットクラスタの作成を開始し、バックアップファイル内のコレクションをターゲットクラスタに復元します。新しい復元ジョブが生成されます。クラスタの復元の進捗状況は「[ジョブ](./job-center)」ページで確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、復元が完了します。
 
 </TabItem>
 <TabItem value="Bash">
 
-Restore a cluster. For details on parameters, refer to [Restore Cluster Backup](/reference/restful/restore-cluster-backup-v2).
+クラスタを復元します。パラメータの詳細については、[クラスタバックアップの復元](/reference/restful/restore-cluster-backup-v2)を参照してください。
 
 ```bash
 curl --request POST \
@@ -80,7 +80,7 @@ curl --request POST \
       }'
 ```
 
-Expected output:
+予想される出力:
 
 ```bash
 {
@@ -96,32 +96,32 @@ Expected output:
 </TabItem>
 </Tabs>
 
-## Restore a collection{#restore-a-collection}
+## コレクションを復元する{#yuan}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-Navigate to the **Backups** page, locate your target backup file. If you need to restore a collection, the type of the target backup file should be **Collection**. Click **...** in the **Actions** column and select **Restore Collection**.
+[**バックアップ**]ページに移動し、対象のバックアップファイルを探します。コレクションを復元する必要がある場合は、対象のバックアップファイルの種類を[**コレクション**]にします。をクリックします**。。。**[**アクション**]列で、[**コレクション**の復元]を選択します。
 
-Set the attributes for the collection to be restored from the backup file.
+バックアップファイルから復元するコレクションの属性を設定します。
 
-![restore_collection](/img/restore_collection.png)
+![restore_collection](/img/ja-JP/restore_collection.png)
 
-While setting these attributes, note that:
+これらの属性を設定する際には、次の点に注意してください:
 
-- You can restore from a backup file to create a target collection in a different project and a different running cluster.
+- バックアップファイルから復元して、別のプロジェクトおよび実行中の別のクラスターにターゲットコレクションを作成できます。
 
-- You can choose to load or unload the target collection.
+- ターゲットコレクションをロードまたはアンロードすることができます。
 
-- You can rename the target collection.
+- ターゲットコレクションの名前を変更できます。
 
-Once you click **Restore**, Zilliz Cloud will start creating the target collection with the specified attributes. A new restoration job will be generated. You can check the collection restoration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the restoration is complete.
+「**リストア**」をクリックすると、Zilliz Cloudは指定した属性を持つターゲットコレクションの作成を開始します。新しいリストアジョブが生成されます。コレクションのリストアの進捗状況は「[ジョブ](null)」ページで確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、リストアが完了します。
 
 </TabItem>
 <TabItem value="Bash">
 
-Restore a collection. For details on parameters, refer to [Restore Collection Backup](/reference/restful/restore-collection-backup-v2).
+コレクションを復元します。パラメータの詳細については、「[コレクションバックアップの復元](/reference/restful/restore-collection-backup-v2)」を参照してください。
 
 ```bash
 curl --request POST \
@@ -146,7 +146,7 @@ curl --request POST \
       }'
 ```
 
-Expected output:
+予想される出力:
 
 ```bash
 {
@@ -160,13 +160,13 @@ Expected output:
 </TabItem>
 </Tabs>
 
-## Related topics{#related-topics}
+## 関連するトピック{#}
 
-- [Create Snapshot](./create-snapshot)
+- [バックアップを作成](./create-snapshot)
 
-- [Schedule Automatic Backups](./schedule-automatic-backups)
+- [自動バックアップをスケジュールする](./schedule-automatic-backups)
 
-- [View Snapshot Details](./view-snapshot-details)
+- [バックアップファイルを表示する](./view-snapshot-details)
 
-- [Delete Snapshot](./delete-snapshot) 
+- [バックアップファイルを削除](./delete-snapshot)
 

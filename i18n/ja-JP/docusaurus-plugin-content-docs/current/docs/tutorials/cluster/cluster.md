@@ -1,31 +1,31 @@
 ---
-title: "Cluster | Cloud"
+title: "クラスタ | Cloud"
 slug: /cluster
-sidebar_label: "Cluster"
+sidebar_label: "クラスタ"
 beta: FALSE
 notebook: FALSE
-description: "Everything you need to know about managing clusters on Zilliz Cloud. | Cloud"
+description: "Zilliz Cloudでクラスタを管理するために必要なすべての情報。 | Cloud"
 type: origin
-token: BIy4we6qXiq8NpkHfXgcxuONngb
+token: G4YOwsWfHiWneAkyMOycLUQynsc
 sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - cluster
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Cluster
+# クラスタ
 
-Everything you need to know about managing clusters on Zilliz Cloud.
+Zilliz Cloudでクラスタを管理するために必要なすべての情報。
 
 
 

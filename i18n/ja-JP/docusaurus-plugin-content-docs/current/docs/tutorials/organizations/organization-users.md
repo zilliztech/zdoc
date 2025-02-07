@@ -1,12 +1,12 @@
 ---
-title: "Manage Organization Users | Cloud"
+title: "組織のユーザーを管理する | Cloud"
 slug: /organization-users
-sidebar_label: "Organization Users"
+sidebar_label: "組織のユーザーを管理する"
 beta: FALSE
 notebook: FALSE
-description: "In Zilliz Cloud, an organization typically represents a company. You can invite employees to your organization and assign them roles based on their job functions. These roles determine the user's access to specific resources and the operations they can perform. For example, developers generally require access to data but do not need billing privileges. | Cloud"
+description: "Zilliz Cloudでは、組織は通常、企業を表します。従業員を組織に招待し、彼らの職務に基づいて役割を割り当てることができます。これらの役割は、ユーザーが特定のリソースにアクセスし、実行できる操作を決定します。たとえば、開発者は一般的にデータへのアクセスが必要ですが、請求特権は必要ありません。 | Cloud"
 type: origin
-token: OzLjwMmWliJdEBkz0gPcVZrqnZb
+token: RUHMwCnJYiWEmekM1QrcTfVvnae
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,136 +14,136 @@ keywords:
   - cloud
   - organizations
   - users
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Manage Organization Users
+# 組織のユーザーを管理する
 
-In Zilliz Cloud, an organization typically represents a company. You can invite employees to your organization and assign them roles based on their job functions. These roles determine the user's access to specific resources and the operations they can perform. For example, developers generally require access to data but do not need billing privileges. 
+Zilliz Cloudでは、組織は通常、企業を表します。従業員を組織に招待し、彼らの職務に基づいて役割を割り当てることができます。これらの役割は、ユーザーが特定のリソースにアクセスし、実行できる操作を決定します。たとえば、開発者は一般的にデータへのアクセスが必要ですが、請求特権は必要ありません。
 
-This guide explains how to manage organization users, including how to invite users to an organization, revoke or resend invitations, modify the role of an organization user, or remove an organization user.
+このガイドでは、Organizationへのユーザーの招待、招待の取り消しや再送信、Organizationユーザーのロールの変更、Organizationユーザーの削除など、Organizationユーザーの管理方法について説明します。
 
-## Invite a user to your organization{#invite-a-user-to-your-organization}
+## 組織にユーザーを招待する{#}
 
-When inviting a user to your organization, you need to grant a role to the user which defines the access to resources and the privileges to perform certain operations within this organization. 
+組織にユーザーを招待する場合、リソースへのアクセスと、その組織内で特定の操作を実行する権限を定義する役割をユーザーに付与する必要があります。
 
-To invite users, enter the email addresses of the users you wish to invite. Then select the organization role you wish to grant to the new organization users. 
+ユーザーを招待するには、招待したいユーザーのメールアドレスを入力してください。そして、新しい組織のユーザーに付与したい組織の役割を選択してください。
 
-### Organization roles{#organization-roles}
+### 組織の役割{#}
 
-Zilliz Cloud provides three organization roles. These roles cannot be modified or deleted.
+Zilliz Cloudには3つの組織ロールがあります。これらのロールは変更や削除ができません。
 
-- **Organization Owner**: An Organization Owner is the top-level role in the Zilliz Cloud which has full privileges to manage an organization and all its resources (projects, clusters, databases, collections). This role should be granted only to a limited or controlled number of users in the organization.
+- **組織オーナー**:組織オーナーは、Zilliz Cloudの最上位の役割であり、組織とそのすべてのリソース（プロジェクト、クラスター、データベース、コレクション）を管理するための完全な権限を持っています。この役割は、組織内の限られたまたは制御された数のユーザーにのみ付与する必要があります。
 
-    The following table lists the corresponding UI and API privileges of this organization role.
-
-    <table>
-       <tr>
-         <th><p><strong>UI Privileges</strong></p></th>
-         <th><p><strong>Control Plane RESTful API (V2) Privileges</strong></p></th>
-         <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
-       </tr>
-       <tr>
-         <td><ul><li><p>Manage all projects in the organization</p></li><li><p>Manage <a href="./payment-billing">payments & billing</a></p></li><li><p>Manage <a href="./manage-api-keys">API keys</a></p></li><li><p>Manage <a href="./organization-users">organization users</a></p></li><li><p>Manage <a href="./metrics-and-alerts">alerts</a></p></li><li><p>View <a href="./view-activities">activities</a></p></li><li><p>Manage <a href="./organization-settings">organization settings</a></p></li><li><p>Use <a href="./use-recycle-bin">recycle bin</a></p></li><li><p>Plus all the privileges of a <a href="./project-users#project-roles">Project Admin</a> and a <a href="./cluster-roles#built-in-cluster-roles">Cluster Admin</a> roles</p></li></ul></td>
-         <td><p><a href="/reference/restful/control-plane-v2">All control plane operations</a></p></td>
-         <td><p><a href="/reference/restful/data-plane-v2">All data plane operations</a></p></td>
-       </tr>
-    </table>
-
-- **Organization Billing Admin**: An Organization Billing Admin is a role with the privileges to manage billing in an organization. This role does not have privileges to other data in the organization.
-
-    The following table lists the corresponding UI and API privileges of this organization role.
+    次の表に、この組織ロールの対応するUI権限とAPI権限を示します。
 
     <table>
        <tr>
-         <th><p><strong>UI Privileges</strong></p></th>
-         <th><p><strong>Control Plane RESTful API (V2) Privileges</strong></p></th>
-         <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
+         <th><p><strong>UIの権限</strong></p></th>
+         <th><p><strong>コントロールプレーンのRESTful API（V 2）権限</strong></p></th>
+         <th><p><strong>データプレーンのRESTful API（V 2）権限</strong></p></th>
        </tr>
        <tr>
-         <td><ul><li><p>Manage <a href="./payment-billing">payments & billing</a></p></li><li><p>View <a href="./manage-api-keys">API keys</a></p></li><li><p>Invite <a href="./organization-users">organization users</a></p></li><li><p>View <a href="./organization-settings">organization settings</a></p></li></ul></td>
-         <td><ul><li><p>List Invoices</p></li><li><p>Get Invoice</p></li><li><p>Query org daily usage</p></li></ul></td>
-         <td><p>The data plan privileges are determined by project and cluster roles. However, a Billing Admin usually does not require data plane privileges.</p></td>
+         <td><ul><li><p>組織内のすべてのプロジェクトを管理する</p></li><li><p>支払い<a href="./payment-billing">と請求を管理する</a></p></li><li><p>API<a href="./manage-api-keys">キーの管理</a></p></li><li><p>組織<a href="./organization-users">のユーザーを管理する</a></p></li><li><p>アラート<a href="./metrics-and-alerts">の管理</a></p></li><li><p>表示<a href="./view-activities">アクティビティ</a></p></li><li><p>組織<a href="./organization-settings">の設定を管理する</a></p></li><li><p>使用する<a href="./use-recycle-bin">ごみ箱</a></p></li><li><p>さらに、<a href="./cluster-roles">プロジェクト管理者</a>と<a href="./cluster-roles">クラスター管理者</a>の役割のすべての特権があります</p></li></ul></td>
+         <td><p><a href="/ja-JP/reference/restful/control-plane-v2">すべてのコントロールプレーンの操作</a></p></td>
+         <td><p><a href="/ja-JP/reference/restful/data-plane-v2">すべてのデータプレーン操作</a></p></td>
        </tr>
     </table>
 
-- **Organization Member**: An Organization Member is a role with the the privileges to view an organization and its resources. Project and cluster level privileges of an Organization Member are dependent on the project and cluster role of this user.
+- **Organization Billing Admin**: Organization Billing Adminは、組織内の請求を管理する権限を持つロールです。このロールには、組織内の他のデータに対する権限はありません。
 
-    The following table lists the corresponding UI and API privileges of this organization role.
+    次の表に、この組織ロールの対応するUI権限とAPI権限を示します。
 
     <table>
        <tr>
-         <th><p><strong>UI Privileges</strong></p></th>
-         <th><p><strong>Control Plane RESTful API (V2) Privileges</strong></p></th>
-         <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
+         <th><p><strong>UIの権限</strong></p></th>
+         <th><p><strong>コントロールプレーンのRESTful API（V 2）権限</strong></p></th>
+         <th><p><strong>データプレーンのRESTful API（V 2）権限</strong></p></th>
        </tr>
        <tr>
-         <td><ul><li><p>View <a href="./manage-api-keys">API keys</a></p></li><li><p>Invite <a href="./organization-users">organization users</a></p></li><li><p>View <a href="./organization-settings">organization settings</a></p></li></ul></td>
-         <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">All cloud meta operations</a></p></li><li><p>Part of cluster operations</p><ul><li><p><a href="/reference/restful/list-projects-v2">List Projects</a></p></li><li><p><a href="/reference/restful/list-clusters-v2">List Clusters</a></p></li><li><p><a href="/reference/restful/describe-cluster-v2">Describe Cluster</a></p></li><li><p><a href="/reference/restful/query-cluster-metrics-v2">Query Cluster Metrics</a></p></li><li><p><a href="/docs/prometheus-monitoring">Export Metrics</a></p></li></ul></li><li><p>Part of import operations</p><ul><li><p><a href="/reference/restful/get-import-job-progress-v2">Get Import Job Progress</a></p></li><li><p><a href="/reference/restful/list-import-jobs-v2">List Import Jobs </a></p></li></ul></li><li><p>Part of backup &amp; restore operations</p><ul><li><p><a href="/reference/restful/list-backups-v2">List Backups</a></p></li><li><p><a href="/reference/restful/describe-backup-v2">Describe Backup</a></p></li><li><p><a href="/reference/restful/get-backup-policy-v2">Get Backup Policy</a></p></li></ul></li><li><p><a href="/reference/restful/cloud-job-v2">All cloud job operations</a></p></li></ul></td>
-         <td><p>The data plan privileges are determined by <a href="./project-users#project-roles">project</a> and <a href="./cluster-roles">cluster</a> roles</p></td>
+         <td><ul><li><p>支払い<a href="./payment-billing">と請求を管理する</a></p></li><li><p>API<a href="./manage-api-keys">キーの表示</a></p></li><li><p>組織<a href="./organization-users">のユーザーを招待する</a></p></li><li><p>組織の<a href="./organization-settings">設定を表示する</a></p></li></ul></td>
+         <td><ul><li><p>リスト請求書</p></li><li><p>請求書を取得</p></li><li><p>クエリorg daily u sage</p></li></ul></td>
+         <td><p>データプランの権限は、プロジェクトとクラスターの役割によって決定されます。ただし、請求管理者は通常、データプレーンの権限を必要としません。</p></td>
        </tr>
     </table>
 
-Note that if you are an **Organization Member** or an **Organization Billing Admin**, you can only grant invitees the role of **Organization Member**.
+- **組織メンバー**:組織メンバーは、組織とそのリソースを表示する権限を持つロールです。組織メンバーのプロジェクトおよびクラスターレベルの権限は、このユーザーのプロジェクトおよびクラスターのロールに依存します。
 
-The invitees will receive an invitation via email, which must be accepted within 48 hours to join the organization. 
+    次の表に、この組織ロールの対応するUI権限とAPI権限を示します。
 
-<Admonition type="info" icon="📘" title="Notes">
+    <table>
+       <tr>
+         <th><p><strong>UIの権限</strong></p></th>
+         <th><p><strong>コントロールプレーンのRESTful API（V 2）権限</strong></p></th>
+         <th><p><strong>データプレーンのRESTful API（V 2）権限</strong></p></th>
+       </tr>
+       <tr>
+         <td><ul><li><p>API<a href="./manage-api-keys">キーの表示</a></p></li><li><p>組織<a href="./organization-users">のユーザーを招待する</a></p></li><li><p>組織の<a href="./organization-settings">設定を表示する</a></p></li></ul></td>
+         <td><ul><li><p><a href="/ja-JP/reference/restful/cloud-meta-v2">すべてのクラウドメタ操作</a></p></li><li><p>クラスタ操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/list-projects-v2">リストプロジェクト</a></p></li><li><p><a href="/ja-JP/reference/restful/list-clusters-v2">リストクラスタ</a></p></li><li><p><a href="/ja-JP/reference/restful/describe-cluster-v2">クラスタの説明</a></p></li><li><p><a href="/ja-JP/reference/restful/query-cluster-metrics-v2">クエリクラスタのメトリクス</a></p></li><li><p><a href="./prometheus-monitoring">メトリックのエクスポート</a></p></li></ul></li><li><p>インポート業務の一部</p><ul><li><p><a href="/ja-JP/reference/restful/get-import-job-progress-v2">仕事の進捗をインポートする</a></p></li><li><p><a href="/ja-JP/reference/restful/list-import-jobs-v2">インポートジョブ一覧</a></p></li></ul></li><li><p>バックアップと復元の操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/list-backups-v2">リストバックアップ</a></p></li><li><p><a href="/ja-JP/reference/restful/describe-backup-v2">バックアップの説明</a></p></li><li><p><a href="/ja-JP/reference/restful/get-backup-policy-v2">バックアップポリシーを取得</a></p></li></ul></li><li><p><a href="/ja-JP/reference/restful/cloud-job-v2">クラウドジョブのすべての操作</a></p></li></ul></td>
+         <td><p>データプランの権限は、<a href="./project-users">プロジェクト</a>と<a href="./cluster-roles">クラスター</a>の役割によって決定されます</p></td>
+       </tr>
+    </table>
 
-<p>Each time you can invite one or more users with the same role to the organization. Each organization can have up to 100 users.</p>
+なお、**組織メンバー**または**組織請求管理者**の場合、招待されたユーザーにのみ**組織メンバー**の役割を付与できます。
+
+招待された人たちは、組織に参加するために48時間以内に受け入れる必要がある招待状をメールで受け取ります。
+
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>毎回、同じ役割を持つ1人以上のユーザーを組織に招待することができます。各組織は最大100人のユーザーを持つことができます。</p>
 
 </Admonition>
 
-![invite-user-to-org](/img/invite-user-to-org.png)
+![invite-user-to-org](/img/ja-JP/invite-user-to-org.png)
 
-## Revoke or resend an invitation{#revoke-or-resend-an-invitation}
+## 招待を取り消すか再送信する{#}
 
-After you invite a user to join your organization, Zilliz Cloud sends an invitation email to the user. You can revoke or resend the invitation before the user accepts it.
+ユーザーを組織に招待した後、Zilliz Cloudはユーザーに招待メールを送信します。ユーザーが承諾する前に、招待を取り消したり、再送信したりすることができます。
 
-![revoke-or-resend-org-invitation](/img/revoke-or-resend-org-invitation.png)
+![revoke-or-resend-org-invitation](/img/ja-JP/revoke-or-resend-org-invitation.png)
 
-## Edit the role of an organization user{#edit-the-role-of-an-organization-user}
+## 組織のユーザーの役割を編集する{#}
 
-Once a user accepts the invitation and joins your organization, you can adjust their roles according to your needs.
+ユーザーが招待を受け入れて組織に参加すると、必要に応じて役割を調整できます。
 
-To edit the role of an organization user, you must be an **Organization Owner**.
+Organizationユーザのロールを編集するには、**Organizationオーナー**である必要があります。
 
-![edit-user-role-or-remove-org-user](/img/edit-user-role-or-remove-org-user.png)
+![edit-user-role-or-remove-org-user](/img/ja-JP/edit-user-role-or-remove-org-user.png)
 
-## Remove an organization user{#remove-an-organization-user}
+## 組織のユーザーを削除する{#}
 
-If a user no longer belongs to your organization, you can remove the user.
+ユーザーが組織に所属しなくなった場合は、そのユーザーを削除できます。
 
-To remove an organization user, you must be an **Organization Owner**.
+Organizationユーザーを削除するには、**Organizationオーナー**である必要があります。
 
-![edit-user-role-or-remove-org-user](/img/edit-user-role-or-remove-org-user.png)
+![edit-user-role-or-remove-org-user](/img/ja-JP/edit-user-role-or-remove-org-user.png)
 
-## Leave an organization{#leave-an-organization}
+## 組織を離れる{#}
 
-When you no longer belong to an organization, you have the option to leave it.
+組織に所属しなくなった場合、その組織を離れることができます。
 
-Each organization must have at least one organization owner. If you are the only owner of an organization, you cannot leave it.
+各組織には少なくとも1人の組織オーナーが必要です。組織の唯一のオーナーである場合、その組織を離れることはできません。
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Once you leave an organization, you will no longer be able to access the organization and associated resources.</p>
+<p>組織を退会すると、組織と関連するリソースにアクセスできなくなります。</p>
 
 </Admonition>
 
-You can leave an organization in either of the following ways:
+以下のいずれかの方法で組織を脱退することができます。
 
-- Leave an organization on the organization list page:
+- 組織一覧ページで組織を削除してください:
 
-    ![leave-organization](/img/leave-organization.png)
+    ![leave-organization](/img/ja-JP/leave-organization.png)
 
-- Enter an organization and leave it on the **Organization Members** page:
+- 組織を入力し、**組織メンバー**ページに残してください:
 
-    ![leave-organization](/img/leave-organization.png)
+    ![leave-organization](/img/ja-JP/leave-organization.png)
 

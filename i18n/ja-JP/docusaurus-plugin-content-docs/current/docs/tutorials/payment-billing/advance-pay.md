@@ -1,64 +1,66 @@
 ---
-title: "Use Advance Pay | Cloud"
+title: "事前支払いを利用する | Cloud"
 slug: /advance-pay
 sidebar_label: "Advance Pay"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud also accepts advance pay (bank transfer) as the payment method in alternative to adding a credit card or subscribing on AWS Marketplace. | Cloud"
+description: "Zilliz Cloudは、クレジットカードの追加やAWSMarketplaceでのサブスクリプションの代わりに、前払い(銀行振込)を支払い方法として受け付けています。 | Cloud"
 type: origin
-token: K8hFwmeBQiCSO4ktT9ScD9zMnua
+token: H3mBwoua5idJsokeRfGcii8tnHe
 sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - advance pay
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Use Advance Pay
+# 事前支払いを利用する
 
-Zilliz Cloud also accepts advance pay (bank transfer) as the payment method in alternative to adding a credit card or subscribing on AWS Marketplace.
+Zilliz Cloudは、クレジットカードの追加やAWSMarketplaceでのサブスクリプションの代わりに、前払い(銀行振込)を支払い方法として受け付けています。
 
-## Add funds to Advance Pay{#add-funds-to-advance-pay}
+## Advance Payに資金を追加する{#advance-pay}
 
-Currently, you can only [contact us](https://zilliz.com/contact-sales) to add funds to your Advance Pay balance.
+現在、Advance Payの残高に資金を追加するには、[当社までご連絡](https://zilliz.com/jp/contact-sales)ください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The payment method priority is:  Credits &gt; Advance Pay &gt; Credit card /AWS marketplace subscription.</p>
-<p>This means if there are still remaining credits, and you have added funds and added a credit card or subscribed on AWS Marketplace, your credits will be deducted first to cover your usage fee. If the credits are not sufficient, we will deduct your Advance Pay funds. If the funds and credits are still not enough to cover the fee, we will resort to charging your credit card or AWS Marketplace account.</p>
+<p>支払い方法の優先順位は、クレジット&gt;Advance Pay&gt;クレジットカード/AWSマーケットプレイスサブスクリプションです。</p>
+<p>これは、まだクレジットが残っていて、資金を追加し、クレジットカードを追加した場合、またはAWSMarketplaceで購読した場合、使用料をカバーするために最初にクレジットが差し引かれることを意味します。クレジットが十分でない場合は、Advance Payの資金を差し引きます。資金とクレジットがまだ料金をカバーするのに十分でない場合は、クレジットカードまたはAWS Marketplaceアカウントに請求することになります。</p>
 
 </Admonition>
 
-## View Advance Pay history{#view-advance-pay-history}
+## アドバンスペイの履歴を見る{#}
 
-To view your bank transfer history, click Billing on the top navigation bar or on the left navigation pane. Then click History under the Advance Pay section. On the **Bank Transfer History** page, you can view all the details of all past transfers, including the time when you made the transfer, the amount of funds you added, etc.
+銀行振込履歴を表示するには、上部ナビゲーションバーまたは左ナビゲーションペインの「請求」をクリックします。次に、「前払い」セクションの「履歴」をクリックします。**銀行振込履歴**ページでは、過去のすべての振込の詳細、振込を行った時間、追加した資金の金額などを閲覧できます。
 
-![add-fund-en](/img/add-fund-en.png)
+![add-fund-en](/img/ja-JP/add-fund-en.png)
 
-## Set monitor for Advance Pay balance{#set-monitor-for-advance-pay-balance}
+## Advance Payの残高をモニターに設定する{#advance-pay}
 
-By default, monitoring for advance pay balance is disabled. However, you can enable it to receive notifications when the Advance Pay balance is less than the amount you specified in the monitoring conditions. For more information, refer to [Manage Organization Alerts](./manage-organization-alerts). 
+既定では、事前支払い残高の監視は無効になっています。ただし、事前支払い残高が監視条件で指定した金額よりも少ない場合に通知を受け取るように有効にすることができます。詳細については、「[組織のアラートを管理する](./manage-organization-alerts)」を参照してください。
 
-## Refund Advance Pay funds{#refund-advance-pay-funds}
+## Advance Payの資金を返金する{#advance-pay}
 
-Currently, Zilliz Cloud does not support refunds on the web console. To get a refund, please contact us and submit a request at the Zilliz Cloud [support portal](https://support.zilliz.com/hc/en-us).
+現在、Zilliz Cloudはウェブコンソールでの返金をサポートしていません。返金を受けるには、Zilliz Cloud[サポートポータル](https://support.zilliz.com/hc/en-us)にお問い合わせいただき、リクエストを送信してください。
 
-## Related topics{#related-topics}
+## 関連するトピック{#}
 
-- [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)
+- [クレジットカードを追加して購読する](./subscribe-by-adding-credit-card)
 
-- [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace)
+- [AWS Marketplaceで購読する](./subscribe-on-aws-marketplace)
 
-- [Subscribe on GCP Marketplace](./subscribe-on-gcp-marketplace)
+- [Google Cloud Marketplaceに登録する](./subscribe-on-gcp-marketplace)
 
-- [View Invoice](./view-invoice) 
+- [Azure Marketplaceで購読する](./subscribe-on-azure-marketplace)
+
+- [インボイス](./view-invoice)
 

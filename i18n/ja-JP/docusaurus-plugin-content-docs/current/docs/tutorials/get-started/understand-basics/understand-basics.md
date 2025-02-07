@@ -1,12 +1,12 @@
 ---
-title: "Understand Basics | Cloud"
+title: "基本を理解する | Cloud"
 slug: /understand-basics
-sidebar_label: "Concepts"
+sidebar_label: "基本を理解する"
 beta: FALSE
 notebook: FALSE
-description: "Explanations about the common terms we use when discussing how to use Zilliz Cloud. | Cloud"
+description: "Zilliz Cloudの使い方を議論する際に使用する一般的な用語についての説明。 | Cloud"
 type: origin
-token: L4qDwChWLi1Vy6kbt30cd7W4ntC
+token: JACqwQ7uJiVGCsk02HhcI0TRnjg
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -14,19 +14,19 @@ keywords:
   - cloud
   - basics
   - milvus
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Understand Basics
+# 基本を理解する
 
-Explanations about the common terms we use when discussing how to use Zilliz Cloud.
+Zilliz Cloudの使い方を議論する際に使用する一般的な用語についての説明。
 
 
 

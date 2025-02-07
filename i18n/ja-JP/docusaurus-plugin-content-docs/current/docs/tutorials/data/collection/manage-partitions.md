@@ -1,12 +1,12 @@
 ---
-title: "Manage Partitions | Cloud"
+title: "パーティションの管理 | Cloud"
 slug: /manage-partitions
-sidebar_label: "Manage Partitions"
+sidebar_label: "パーティションの管理"
 beta: FALSE
 notebook: FALSE
-description: "A partition is a subset of a collection. Each partition shares the same data structure with its parent collection but contains only a subset of the data in the collection. This page helps you understand how to manage partitions. | Cloud"
+description: "パーティションはコレクションのサブセットです。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータのサブセットのみを含みます。このページでは、パーティションの管理方法を理解するのに役立ちます。 | Cloud"
 type: origin
-token: JCMPwIyVciCT4Hk4O20c96MEnch
+token: OFb3wIDSDiEXYTkEdAactjalnQd
 sidebar_position: 7
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 
@@ -26,28 +26,28 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Manage Partitions
+# パーティションの管理
 
-A partition is a subset of a collection. Each partition shares the same data structure with its parent collection but contains only a subset of the data in the collection. This page helps you understand how to manage partitions.
+パーティションはコレクションのサブセットです。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータのサブセットのみを含みます。このページでは、パーティションの管理方法を理解するのに役立ちます。
 
-## Overview{#overview}
+## 概要について{#}
 
-When creating a collection, Zilliz Cloud also creates a partition named **_default** in the collection. If you are not going to add any other partitions, all entities inserted into the collection go into the default partition, and all searches and queries are also carried out within the default partition.
+コレクションを作成する場合、Zilliz Cloudはコレクション内に**_default**という名前のパーティションを作成します。他のパーティションを追加しない場合、コレクションに挿入されたすべてのエンティティはデフォルトパーティションに入り、すべての検索とクエリもデフォルトパーティション内で実行されます。
 
-You can add more partitions and insert entities into them based on certain criteria. Then you can restrict your searches and queries within certain partitions, improving search performance.
+パーティションを追加し、特定の条件に基づいてエンティティを挿入することができます。その後、特定のパーティション内で検索とクエリを制限し、検索パフォーマンスを向上させることができます。
 
-A collection can have a maximum of 1,024 partitions.
+1つのコレクションには最大1,024個のパーティションを含めることができます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>The <strong>Partition Key</strong> feature is a search optimization based on partitions and allows Zilliz Cloud to distribute entities into different partitions based on the values in a specific scalar field. This feature helps implement partition-oriented multi-tenancy and improves search performance.</p>
-<p>This feature will not be discussed on this page. To find more, refer to <a href="./use-partition-key">Use Partition Key</a>.</p>
+<p>「<strong>パーティションキー</strong>」機能は、パーティションに基づく検索最適化であり、Zilliz Cloudが特定のスカラーフィールドの値に基づいてエンティティを異なるパーティションに分散することを可能にします。この機能により、パーティション指向のマルチテナントを実装し、検索パフォーマンスを向上させることができます。</p>
+<p>この機能については、このページでは説明しません。詳細については、Use Partition Keyするを参照してください。</p>
 
 </Admonition>
 
-## List Partitions{#list-partitions}
+## リストパーティション{#}
 
-When creating a collection, Zilliz Cloud also creates a partition named **_default** in the collection. You can list the partitions in a collection as follows.
+コレクションを作成する場合、Zilliz Cloudはコレクション内に**_default**という名前のパーティションを作成します。コレクション内のパーティションは以下のようにリストできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -185,9 +185,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Create Partition{#create-partition}
+## パーティションを作成{#}
 
-You can add more partitions to the collection and insert entities into these partitions based on certain criteria.
+コレクションにさらにパーティションを追加し、特定の条件に基づいてこれらのパーティションにエンティティを挿入できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -322,9 +322,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Check for a Specific Partition{#check-for-a-specific-partition}
+## 特定のパーティションを確認する{#}
 
-The following code snippets demonstrate how to check whether a partition exists in a specific collection.
+次のコードスニペットは、特定のコレクションにパーティションが存在するかどうかを確認する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -427,13 +427,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Load and Release Partitions{#load-and-release-partitions}
+## パーティションのロードと解放{#}
 
-You can separately load or release one or certain partitions.
+1つまたは特定のパーティションを個別にロードまたは解放できます。
 
-### Load Partitions{#load-partitions}
+### パーティションをロードする{#}
 
-You can separately load specific partitions in a collection. It is worth noting that the load status of a collection stays unloaded if there is an unloaded partition in the collection.
+コレクション内の特定のパーティションを別々にロードすることができます。コレクション内にアンロードされたパーティションがある場合、コレクションのロード状態はアンロードされたままになることに注意してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -570,9 +570,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Release Partitions{#release-partitions}
+### リリースパーティション{#}
 
-You can also release specific partitions.
+特定のパーティションを解放することもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -702,29 +702,29 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Data Operations Within Partitions{#data-operations-within-partitions}
+## パーティション内のデータ操作{#}
 
-### Insert and Delete Entities{#insert-and-delete-entities}
+### 図形の挿入と削除{#}
 
-You can perform insert, upsert, and delete operations in specific operations. For details, refer to
+特定の操作で挿入、挿入、削除を行うことができます。詳細については、以下を参照してください。
 
-- [Insert Entities into Partition](./insert-entities#insert-entities-into-a-partition)
+- [パーティションにエンティティを挿入](null)
 
-- [Upsert Entities into Partition](./upsert-entities#upsert-entities-in-a-partition)
+- [パーティションにエンティティを挿入](null)
 
-- [Delete Entities from Partition](./delete-entities#delete-entities-from-partitions)
+- [パーティションからエンティティを削除](null)
 
-### Search and Query{#search-and-query}
+### 検索とクエリ{#}
 
-You can conduct searches and queries within specific partitions. For details, refer to 
+特定のパーティション内で検索やクエリを実行できます。詳細については、参照してください。
 
-- [Conduct ANN Searches within Partitions](./single-vector-search#ann-search-in-partition)
+- [パーティション内でANN検索を実行する](null)
 
-- [Conduct Metadata Filtering within Partitions](./get-and-scalar-query#queries-in-partitions)
+- [パーティション内でメタデータのフィルタリングを行う](null)
 
-## Drop Partition{#drop-partition}
+## ドロップパーティション{#}
 
-You can drop partitions that are no longer needed. Before dropping a partition, ensure that the partition has been released.
+不要になったパーティションを削除することができます。パーティションを削除する前に、パーティションが解放されていることを確認してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

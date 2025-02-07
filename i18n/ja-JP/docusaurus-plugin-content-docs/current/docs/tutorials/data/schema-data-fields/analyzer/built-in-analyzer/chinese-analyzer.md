@@ -1,12 +1,12 @@
 ---
-title: "Chinese | Cloud"
+title: "中国語の | Cloud"
 slug: /chinese-analyzer
-sidebar_label: "Chinese"
+sidebar_label: "中国語の"
 beta: PUBLIC
 notebook: FALSE
-description: "The `chinese` analyzer is designed specifically to handle Chinese text, providing effective segmentation and tokenization. | Cloud"
+description: "中国語アナライザは、`中国` 語のテキストを処理するために特別に設計されており、効果的なセグメンテーションとトークン化を提供します。 | Cloud"
 type: origin
-token: Of8PwuunCihBfxksNJJcSCRYnsf
+token: Q7Xaw6Khxi6jxnkJSqqcYuYWnPd
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - chinese analyzer
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 
@@ -28,19 +28,19 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Chinese
+# 中国語の
 
-The `chinese` analyzer is designed specifically to handle Chinese text, providing effective segmentation and tokenization.
+中国語アナライザは、`中国` 語のテキストを処理するために特別に設計されており、効果的なセグメンテーションとトークン化を提供します。
 
-### Definition{#definition}
+### の定義{#}
 
-The `chinese` analyzer consists of:
+中国の`分析装置`はから成っています:
 
-- **Tokenizer**: Uses the `jieba` tokenizer to segment Chinese text into tokens based on vocabulary and context. For more information, refer to [Jieba](./jieba-tokenizer).
+- **トークナイザー**: jiebaトーク`ナイザーを`使用して、語彙と文脈に基づいて中国語のテキストをトークンに分割します。詳細については、Jiebaを参照してください。
 
-- **Filter**: Uses the `cnalphanumonly` filter to remove tokens that contain any non-Chinese characters. For more information, refer to [Cnalphanumonly](./cnalphanumonly-filter).
+- **フィルター**: cnalphanumonlyフィルターを使用して、中国語以外の文字を含むトークンを削除します。詳細については、Cnalphanumonlyを参照して。
 
-The functionality of the `chinese` analyzer is equivalent to the following custom analyzer configuration:
+中国語アナライザの機能`は`、次のカスタムアナライザの設定と同等です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -65,9 +65,9 @@ analyzerParams.put("filter", Arrays.asList("cnalphanumonly"));
 </TabItem>
 </Tabs>
 
-### Configuration{#configuration}
+### コンフィギュレーション{#}
 
-To apply the `chinese` analyzer to a field, simply set `type` to `chinese` in `analyzer_params`.
+フィールドに`中国`語アナライザを適用するには、単に`type`を`中国`語に`設定します`。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -90,23 +90,23 @@ analyzerParams.put("type", "chinese");
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>The <code>chinese</code> analyzer does not accept any optional parameters.</p>
+<p>この<code>中国</code>語アナライザは、任意のパラメータを受け付けません。</p>
 
 </Admonition>
 
-### Example output{#example-output}
+### 出力の例{#}
 
-Here’s how the `chinese` analyzer processes text.
+ここでは、`中国`のアナライザーがテキストを処理する方法を紹介します。
 
-**Original text**:
+**オリジナルテキスト**:
 
 ```python
 "Milvus 是一个高性能、可扩展的向量数据库！"
 ```
 
-**Expected output**:
+**予想される出力**:
 
 ```python
 ["Milvus", "是", "一个", "高性", "性能", "高性能", "可", "扩展", "的", "向量", "数据", "据库", "数据库"]

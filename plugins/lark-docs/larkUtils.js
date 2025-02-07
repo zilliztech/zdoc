@@ -58,6 +58,43 @@ class larkUtils {
         //     const index_path = `${outputDir}/${index_file}/${index_file}.md`
         //     fs.rmSync(index_path, { force: true })
         // }
+
+        // check broken links and anchors
+        const mds = fs.readdirSync(outputDir, {recursive: true}).filter(path => path.endsWith('.md'))
+        const broken_links = []
+        const broken_anchors = []
+
+        for (const md of mds) {
+            const content = fs.readFileSync(`${outputDir}/${md}`, {encoding: 'utf-8', flag: 'r'})
+            
+            var regex = new RegExp(/\[.*?\]\(null\)/g)
+            var matches = [... content.matchAll(regex)]
+            if (matches.length > 0) {
+                broken_links.push({
+                    file: `${outputDir}/${md}`,
+                    links: matches.map(match => match[0])
+                })
+            }
+
+            regex = new RegExp(/#\)/g)
+            matches = [... content.matchAll(regex)]
+            if (matches.length > 0) {
+                broken_anchors.push({
+                    file: `${outputDir}/${md}`,
+                    anchors: matches.map(match => match[0])
+                })
+            }
+        }
+
+        if (broken_links.length > 0) {
+            console.log('Broken links')
+            console.log(JSON.stringify(broken_links, null, 2))            
+        }
+
+        if (broken_anchors.length > 0) {
+            console.log('Broken anchors')
+            console.log(JSON.stringify(broken_anchors, null, 2))
+        }
     }
 
     list_valid_targets(targets, root='') {

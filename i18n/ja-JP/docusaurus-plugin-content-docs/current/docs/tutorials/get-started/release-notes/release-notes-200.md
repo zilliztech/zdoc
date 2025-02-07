@@ -1,84 +1,84 @@
 ---
-title: "Release Notes (June 11, 2023) | Cloud"
+title: "リリースノート（2023年6月11日） | Cloud"
 slug: /release-notes-200
-sidebar_label: "Release Notes (June 11, 2023)"
+sidebar_label: "リリースノート（2023年6月11日）"
 beta: FALSE
 notebook: FALSE
-description: "The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, organization and collaboration support, RBAC support, partition key, dynamic schema, and JSON type support. Try out this game-changing update today! | Cloud"
+description: "Zilliz Cloudのリリースは、ベクトルデータベース管理の新しい標準を設定します。初心者向けのユーザーエクスペリエンスを大幅に向上させ、より手頃で柔軟な価格オプションを提供し、スムーズなチームコラボレーションを可能にし、柔軟なスキーマ管理を提供します。このアップデートの主な機能には、サーバーレスクラスター、多様なティアプラン、組織とコラボレーションのサポート、RBACサポート、パーティションキー、ダイナミックスキーマ、JSONタイプのサポートが含まれます。この画期的なアップデートを今すぐお試しください! | Cloud"
 type: origin
-token: BcXMwUYQ3iD7mEkWKFhcU5PUnB5
+token: Da7Cw01LEiw51HkaX01crbJ7nse
 sidebar_position: 16
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Knowledge base
-  - natural language processing
   - AI chatbots
   - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (June 11, 2023)
+# リリースノート（2023年6月11日）
 
-The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, organization and collaboration support, RBAC support, partition key, dynamic schema, and JSON type support. Try out this game-changing update today!
+Zilliz Cloudのリリースは、ベクトルデータベース管理の新しい標準を設定します。初心者向けのユーザーエクスペリエンスを大幅に向上させ、より手頃で柔軟な価格オプションを提供し、スムーズなチームコラボレーションを可能にし、柔軟なスキーマ管理を提供します。このアップデートの主な機能には、サーバーレスクラスター、多様なティアプラン、組織とコラボレーションのサポート、RBACサポート、パーティションキー、ダイナミックスキーマ、JSONタイプのサポートが含まれます。この画期的なアップデートを今すぐお試しください!
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvusの互換性{#milvus}
 
-This release is compatible with **Milvus 2.1.x**.
+このリリースは**Milvus 2.1. x**と互換性があります。
 
-## Zilliz Cloud Serverless Vector Database Service Launch{#zilliz-cloud-serverless-vector-database-service-launch}
+## Zilliz Cloudサーバーレスベクターデータベースサービスのローンチ{#zilliz-cloud}
 
-We are excited to announce the launch of Zilliz Cloud's Serverless Vector Database Service. This new offering provides an even more effortless vector data search experience compared to our dedicated cluster solutions.
+Zilliz Cloudのサーバーレスベクターデータベースサービスのローンチを発表できることを嬉しく思います。この新しいサービスは、専用のクラスターソリューションと比較して、より簡単なベクターデータ検索体験を提供します。
 
-To support early-stage ventures, we are offering two free collections as part of our Serverless Service. Each collection has the capacity to handle 500,000 vectors on a 768-dimensional scale, providing substantial data handling capabilities without the need for extensive infrastructure. Try our innovative new feature and boost your data processing capabilities today. [Free Trials](./free-trials).
+初期段階のベンチャーをサポートするために、Serverlessサービスの一環として2つの無料コレクションを提供しています。各コレクションには、768次元スケールで500,000個のベクトルを処理できる容量があり、広範なインフラストラクチャを必要とせずに大規模なデータ処理機能を提供します。私たちの革新的な新機能を試して、今すぐデータ処理能力を向上させてください。Free Trials。
 
-## Zilliz Cloud's Plan Tiers: Starter, Standard, Enterprise, and Self-hosted{#zilliz-clouds-plan-tiers-starter-standard-enterprise-and-self-hosted}
+## Zilliz Cloudのプラン階層: Starter、Standard、Enterprise、およびSelf-Hosted{#zilliz-cloud-starterstandardenterpriseself-hosted}
 
-We are pleased to offer a range of plan tiers: Starter, Standard, Enterprise, and Self-hosted. Each tier is designed to balance cost, service, and security considerations, ensuring that every user has a plan that meets their needs. With Zilliz Cloud, you have the flexibility to scale and evolve your vector database management in alignment with your business growth.
+Zilliz Cloudでは、Starter、Standard、Enterprise、Self-hostのプランを提供しています。各プランは、コスト、サービス、セキュリティのバランスを考慮して設計されており、すべてのユーザーがニーズに合ったプランを持つことができます。Zilliz Cloudを使用すると、ビジネスの成長に合わせてベクトルデータベース管理を拡張および進化させる柔軟性があります。
 
-- Starter Plan: The simplest way to experience fully-managed vector databases with our Serverless instances. Minimal configuration is required, and it is available on GCP.
+- スタータープラン: Serverlessインスタンスを使用して完全に管理されたベクトルデータベースを体験する最も簡単な方法です。最小限の設定が必要で、GCPで利用できます。
 
-- Standard Plan: Designed for teams with fewer than five engineers and complex workloads. It offers a dedicated cluster with advanced database features and configurations, as well as excellent cost-efficiency. Available on both AWS and GCP.
+- スタンダードプラン: 5人未満のエンジニアと複雑なワークロードを持つチーム向けに設計されています。高度なデータベース機能と構成を備えた専用クラスタと優れたコスト効率を提供します。AWSとGCPの両方で利用可能です。
 
-- Enterprise Plan: Designed for at-scale organizations with advanced security and support needs. It offers a dedicated cluster with full features, high availability, and advanced configurations, providing robust database solutions on both AWS and GCP.
+- エンタープライズプラン:高度なセキュリティとサポートのニーズを持つ大規模な組織向けに設計されています。完全な機能、高可用性、高度な構成を備えた専用クラスターを提供し、AWSとGCPの両方で堅牢なデータベースソリューションを提供します。
 
-- Self-hosted Plan: Ideal for businesses prioritizing privacy and regulatory adherence. It provides self-managed vector database services within your Virtual Private Cloud (VPC), giving you full control. Suitable for environments prioritizing privacy and regulatory adherence.
+- セルフホストプラン:プライバシーと規制遵守を優先する企業に最適です。Virtual Private Cloud（VPC）内で自己管理型のベクトルデータベースサービスを提供し、完全なコントロールを提供します。プライバシーと規制遵守を優先する環境に適しています。
 
-[Learn more on the pricing page.](https://zilliz.com/pricing)
+[価格ページで詳しく学びましょう。](https://zilliz.com/pricing)
 
-## Organization, Collaboration, and RBAC{#organization-collaboration-and-rbac}
+## 組織、コラボレーション、RBAC{#rbac}
 
-We are excited to announce that Zilliz Cloud now offers sophisticated organizational and member management capabilities. This allows multiple users to collaborate seamlessly across various levels, including Cluster, Project, and Organization.
+Zilliz Cloudは、高度な組織およびメンバー管理機能を提供するようになりました。これにより、クラスター、プロジェクト、組織など、さまざまなレベルで複数のユーザーがシームレスにコラボレーションできるようになります。
 
-This major update is supported by the integration of Role-Based Access Control (RBAC), which allows fine-grained control over who can access specific resources. This ensures both security and flexibility, enabling teams to work together more efficiently while maintaining a high degree of data protection.
+この大規模なアップデートは、ロールベースのアクセス制御(RBAC)の統合によってサポートされており、特定のリソースにアクセス可能なユーザーを細かく制御することができます。これにより、セキュリティと柔軟性の両方が確保され、チームがより効率的に協力しながら高度なデータ保護を維持することができます。
 
-This enhancement not only offers greater control over project access but also streamlines the collaborative process, making it easier for teams to manage their vector database in a more secure and organized environment. Dive into this feature today and experience a new level of collaborative efficiency with Zilliz Cloud. For details, refer to [Access Control](./access-control).
+この強化により、プロジェクトへのアクセスに対するより大きな制御が可能になるだけでなく、共同作業の過程が簡素化され、チームがより安全で整理された環境でベクトルデータベースを管理しやすくなります。Zilliz Cloudでこの機能を今すぐ利用して、新しいレベルの共同作業効率を体験してください。詳細については、「Access Control」を参照してください。
 
-## Partition Key{#partition-key}
+## パーティションキー{#}
 
-Zilliz Cloud 2.0.0 introduces the Partition Key feature. This feature allows you to designate a specific field as a partition key when creating a collection. Entities are then stored into partitions based on the values of their partition keys.
+Zilliz Cloud2.0.0では、パーティションキー機能を導入しています。この機能を使用すると、コレクションを作成する際に特定のフィールドをパーティションキーとして指定できます。エンティティは、パーティションキーの値に基づいてパーティションに保存されます。
 
-This feature is particularly useful during query filtering, as conditions on the partition key field can be executed significantly faster than traditional scan-based filtering methods. Essentially, entities with the same partition key are physically grouped together, thus avoiding unnecessary scans.
+この機能は、パーティションキーフィールドの条件が従来のスキャンベースのフィルタリング方法よりも大幅に高速に実行できるため、クエリフィルタリング中に特に役立ちます。基本的に、同じパーティションキーを持つエンティティは物理的にグループ化されるため、不必要なスキャンを回避できます。
 
-## Dynamic Schema{#dynamic-schema}
+## 動的スキーマ{#}
 
-We are excited to announce that Zilliz Cloud now supports Dynamic Schema starting from version 2.0.0. This major enhancement significantly improves flexibility in accommodating diverse business requirements. Users can now insert entities with dynamically varied fields into a collection, rather than being limited by a pre-defined static schema.
+Zilliz Cloudは、バージョン2.0.0からDynamic Schemaをサポートするようになりました。この大幅な強化により、多様なビジネス要件に対応する柔軟性が大幅に向上しました。ユーザーは、事前に定義された静的スキーマに制限されることなく、動的に変化するフィールドを持つエンティティをコレクションに挿入できるようになりました。
 
-For advanced users, we have incorporated a hybrid approach to collection creation by blending Dynamic and Static Schema. This allows users to designate "required" fields in the schema design and activate advanced indexing optimizations. Meanwhile, "optional" fields are supported by the dynamic schema mechanism. This novel approach boosts query performance while maintaining schema flexibility.
+上級ユーザー向けに、動的スキーマと静的スキーマをブレンドしてコレクション作成にハイブリッドアプローチを取り入れました。これにより、ユーザーはスキーマ設計で「必須」フィールドを指定し、高度なインデックス最適化を有効にすることができます。一方、「オプション」フィールドは動的スキーマメカニズムでサポートされています。この画期的なアプローチにより、スキーマの柔軟性を維持しながらクエリのパフォーマンスが向上します。
 
-Explore this feature in Zilliz Cloud 2.0.0 and witness a significant uplift in your database schema's adaptability. [Learn more about this feature](./enable-dynamic-field).
+Zilliz Cloudのこの機能を試して2.0.0データベーススキーマの適応性を大幅に向上させましょう。[この機能についてもっと学び](null)ましょう。
 
-## JSON Type Support{#json-type-support}
+## JSONタイプのサポート{#json}
 
-We are excited to announce a major enhancement to Zilliz Cloud in our latest update - the integration of JSON data management and Approximate Nearest Neighbor (ANN) Search capabilities.
+Zilliz Cloudの最新のアップデートでは、JSONデータ管理と近似近傍探索(ANN)機能の統合が大幅に強化されました。
 
-JSON, or JavaScript Object Notation, is a crucial data interchange format that has become essential in today's database management world. With the introduction of JSON support in Zilliz Cloud, you can now easily store and manage JSON data, opening up endless possibilities for data manipulation and querying.
+JSON、またはJava Script Object Notationは、今日のデータベース管理の世界で必須となっている重要なデータ交換形式です。Zilliz CloudでJSONサポートが導入されたことにより、JSONデータを簡単に保存および管理できるようになり、データ操作およびクエリの無限の可能性が開かれました。
 
-The real power lies in the innovative coupling of this with our existing ANN Search feature. This combination means you can now perform complex queries that combine the flexibility of JSON data structure with the precision of ANN search, offering a significant leap forward in database querying capabilities.
+真のパワーは、既存のANN検索機能との革新的なカップリングにあります。この組み合わせにより、JSONデータ構造の柔軟性とANN検索の精度を組み合わせた複雑なクエリを実行できるようになり、データベースクエリ機能が大幅に向上しました。
 
-Experience the synergistic benefits of these two powerful technologies in one place, and unlock a new level of efficiency and precision in your data management and querying tasks. Step into the future of database technology with Zilliz Cloud today. [Learn more about this feature](./use-json-fields).
+これらの2つの強力なテクノロジーの相乗効果を1つの場所で体験し、データ管理とクエリタスクの効率性と精度を新たなレベルに引き上げましょう。Zilliz Cloudでデータベーステクノロジーの未来を今すぐ体験しましょう。[この機能についてもっと学び](null)ましょう。

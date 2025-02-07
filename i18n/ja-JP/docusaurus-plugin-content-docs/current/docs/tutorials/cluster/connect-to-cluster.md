@@ -1,12 +1,12 @@
 ---
-title: "Connect to Cluster | Cloud"
+title: "Clusterに接続 | Cloud"
 slug: /connect-to-cluster
-sidebar_label: "Connect to Cluster"
+sidebar_label: "Clusterに接続"
 beta: FALSE
 notebook: FALSE
-description: "This article offers a systematic guide on connecting to a cluster. | Cloud"
+description: "この記事では、クラスターへの接続に関する体系的なガイドを提供しています。 | Cloud"
 type: origin
-token: IVFfws0lJi8gIVkRvrvc9aXvnNe
+token: BSk2wF8rpifuDkk4iYMcqyR0nwg
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -25,29 +25,27 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Connect to Cluster
+# Clusterに接続
 
-This article offers a systematic guide on connecting to a cluster.
+この記事では、クラスターへの接続に関する体系的なガイドを提供しています。
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-Ensure the following prerequisites are met before proceeding:
+次に進む前に、次の前提条件が満たされていることを確認してください:
 
-- You have registered an account with Zilliz Cloud. For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+- クラスタが作成されました。詳細については、Create Clusterを参照してください。
 
-- You have created a cluster. For details, see [Create Cluster](./create-cluster).
+- ユースケースに適したMilvusSDKがインストールされています。詳細については、Install SDKsを参照してください。
 
-- You have installed a Milvus SDK applicable to your use case. For details, see [Install SDKs](./install-sdks).
+<Admonition type="info" icon="Notes" title="undefined">
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>For those leaning towards the utilization of RESTful APIs over SDKs, it's important to understand that a continuous connection cannot be established. This is attributed to the HTTP protocol's unidirectional communication mode.</p>
+<p>SDKよりもRESTful APIを利用する傾向にある人にとって、継続的な接続は確立できないことを理解することが重要です。これは、HTTPプロトコルの単方向通信モードに起因しています。</p>
 
 </Admonition>
 
-## Connect to a cluster{#connect-to-a-cluster}
+## クラスタに接続する{#}
 
-Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can be  an [API key](./manage-api-keys) or a [cluster credential](./cluster-credentials) that consists of a username and password pair.
+クラスターが稼働したら、そのパブリックエンドポイントと認証トークンを使用して接続します。このトークンは、[API](null)キーまたはユーザー名とパスワードのペアで構成される[クラスター資格情報](null)のいずれかです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>

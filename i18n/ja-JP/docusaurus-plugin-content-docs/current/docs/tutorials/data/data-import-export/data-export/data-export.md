@@ -1,31 +1,31 @@
 ---
-title: "Data Export | Cloud"
+title: "データエクスポート | Cloud"
 slug: /data-export
-sidebar_label: "Data Export"
+sidebar_label: "データエクスポート"
 beta: FALSE
 notebook: FALSE
-description: "This guide offers examples of how to export data from Zilliz Cloud using various methods. | Cloud"
+description: "このガイドでは、さまざまな方法を使用してZilliz Cloudからデータをエクスポートする方法の例を紹介します。 | Cloud"
 type: origin
-token: CeH9wPtUfiOdDckoPszcAuLonce
+token: OyMpwQi09iopGikeSojcMGTDnsh
 sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - data export
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Data Export
+# データエクスポート
 
-This guide offers examples of how to export data from Zilliz Cloud using various methods.
+このガイドでは、さまざまな方法を使用してZilliz Cloudからデータをエクスポートする方法の例を紹介します。
 
 
 

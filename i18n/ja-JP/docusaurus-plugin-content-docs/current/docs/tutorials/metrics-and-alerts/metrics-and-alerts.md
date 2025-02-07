@@ -1,12 +1,12 @@
 ---
-title: "Metrics & Alerts | Cloud"
+title: "メトリクスとアラート | Cloud"
 slug: /metrics-and-alerts
-sidebar_label: "Metrics & Alerts"
+sidebar_label: "メトリクスとアラート"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud provides handy metric charts and alerts for you to know what is happening in your organization and clusters. | Cloud"
+description: "Zilliz Cloudは、組織やクラスターで何が起こっているかを知るための便利なメトリックチャートとアラートを提供します。 | Cloud"
 type: origin
-token: Xma9w6Ne9ihcsZkFkSmcHidEnZg
+token: ZrlmwoHRUiZCLGkng9wc6nlzn0g
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -14,19 +14,19 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Metrics & Alerts
+# メトリクスとアラート
 
-Zilliz Cloud provides handy metric charts and alerts for you to know what is happening in your organization and clusters.
+Zilliz Cloudは、組織やクラスターで何が起こっているかを知るための便利なメトリックチャートとアラートを提供します。
 
 import DocCardList from '@theme/DocCardList';
 

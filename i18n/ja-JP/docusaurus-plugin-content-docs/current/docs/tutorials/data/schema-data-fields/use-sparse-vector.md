@@ -1,12 +1,12 @@
 ---
-title: "Sparse Vector | Cloud"
+title: "疎ベクトル | Cloud"
 slug: /use-sparse-vector
-sidebar_label: "Sparse Vector"
+sidebar_label: "疎ベクトル"
 beta: FALSE
 notebook: FALSE
-description: "Sparse vectors are an important method of data representation in information retrieval and natural language processing. While dense vectors are popular for their excellent semantic understanding capabilities, sparse vectors often provide more accurate results when it comes to applications that require precise matching of keywords or phrases. | Cloud"
+description: "疎ベクトルは、情報検索や自然言語処理におけるデータ表現の重要な方法です。密ベクトルは、優れた意味理解能力のために人気がありますが、疎ベクトルは、キーワードやフレーズの正確なマッチングが必要なアプリケーションにおいて、より正確な結果を提供することがよくあります。 | Cloud"
 type: origin
-token: JbPDwHqd0iZZSuk5tYicGqKbn9c
+token: PwpKw029PiDnQSk0eeIcGeGJnnf
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 
@@ -26,43 +26,43 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Sparse Vector
+# 疎ベクトル
 
-Sparse vectors are an important method of data representation in information retrieval and natural language processing. While dense vectors are popular for their excellent semantic understanding capabilities, sparse vectors often provide more accurate results when it comes to applications that require precise matching of keywords or phrases.
+疎ベクトルは、情報検索や自然言語処理におけるデータ表現の重要な方法です。密ベクトルは、優れた意味理解能力のために人気がありますが、疎ベクトルは、キーワードやフレーズの正確なマッチングが必要なアプリケーションにおいて、より正確な結果を提供することがよくあります。
 
-## Overview{#overview}
+## 概要について{#}
 
-A sparse vector is a special representation of high-dimensional vectors where most elements are zero, and only a few dimensions have non-zero values. This characteristic makes sparse vectors particularly effective in handling large-scale, high-dimensional, but sparse data. Common applications include:
+疎ベクトルとは、ほとんどの要素がゼロであり、わずかな次元のみが非ゼロ値を持つ高次元ベクトルの特別な表現です。この特性により、疎ベクトルは大規模で高次元であるが疎なデータを処理するのに特に効果的です。一般的なアプリケーションには、次のものがあります:
 
-- **Text Analysis:** Representing documents as bag-of-words vectors, where each dimension corresponds to a word, and only words that appear in the document have non-zero values.
+- **テキスト分析:**文書を単語の袋ベクトルとして表現し、各次元が単語に対応し、文書に現れる単語のみがゼロ以外の値を持つようにします。
 
-- **Recommendation Systems:** User-item interaction matrices, where each dimension represents a user's rating for a particular item, with most users interacting with only a few items.
+- **レコメンデーションシステム:**各ディメンションが特定のアイテムに対するユーザーの評価を表し、ほとんどのユーザーがわずかなアイテムしかインタラクションしないユーザーアイテムインタラクション行列。
 
-- **Image Processing:** Local feature representation, focusing only on key points in the image, resulting in high-dimensional sparse vectors.
+- **画像処理:**画像内のキーポイントに焦点を当てた局所的な特徴表現により、高次元の疎ベクトルが生成されます。
 
-As shown in the diagram below, dense vectors are typically represented as continuous arrays where each position has a value (e.g., `[0.3, 0.8, 0.2, 0.3, 0.1]`). In contrast, sparse vectors store only non-zero elements and their indices, often represented as key-value pairs (e.g., `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`). This representation significantly reduces storage space and increases computational efficiency, especially when dealing with extremely high-dimensional data (e.g., 10,000 dimensions).
+以下の図に示すように、密集ベクトルは通常、各位置に値がある連続配列として表されます(例:`[0.3、0.8、0.2、0.3、0.1]`)。対照的に、疎ベクトルは非ゼロ要素とそのインデックスのみを格納し、しばしばキーと値のペアとして表されます(例:`[{2: 0.2}、。。。,{9997: 0.5},{9999:0.7}]`)。この表現は、特に非常に高次元のデータ(例:10,000次元)を扱う場合に、ストレージスペースを大幅に削減し、計算効率を向上させます。
 
-![RHlkwqC3Mh1tBSb7G3gcMc8PnUO](/img/RHlkwqC3Mh1tBSb7G3gcMc8PnUO.png)
+![ShX4wNrWLhLww4bLgAtcxT7rnAg](/img/ja-JP/ShX4wNrWLhLww4bLgAtcxT7rnAg.png)
 
-Sparse vectors can be generated using various methods, such as [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) (Term Frequency-Inverse Document Frequency) and [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) in text processing. Additionally, Zilliz Cloud offers convenient methods to help generate and process sparse vectors. 
+テキスト処理において、[TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)(Term Frequency-Inverse Document Frequency)や[BM 25](https://en.wikipedia.org/wiki/Okapi_BM25)などの様々な手法を用いて、疎ベクトルを生成することができます。また、Zilliz Cloudでは、疎ベクトルの生成や過程を簡単に行うことができます。
 
-For text data, Zilliz Cloud also provides full-text search capabilities, allowing you to perform vector searches directly on raw text data without using external embedding models to generate sparse vectors. For more information, refer to [Full Text Search](./full-text-search).
+テキストデータの場合、Zilliz Cloudは全文検索機能も提供しており、外部の埋め込みモデルを使用してスパースベクトルを生成することなく、生のテキストデータに直接ベクトル検索を実行できます。詳細については、Full Text Searchを参照してください。
 
-After vectorization, the data can be stored in Zilliz Cloud for management and vector retrieval. The diagram below illustrates the basic process.
+ベクトル化後、データは管理とベクトル取得のためにZilliz Cloudに保存できます。以下の図は基本的な過程を示しています。
 
-![QcKewe4XchpFUUblEyOcgEUpnbc](/img/QcKewe4XchpFUUblEyOcgEUpnbc.png)
+![TbzFwKxRehqywAbVObVczg9Tnke](/img/ja-JP/TbzFwKxRehqywAbVObVczg9Tnke.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>In addition to sparse vectors, Zilliz Cloud also supports dense vectors and binary vectors. Dense vectors are ideal for capturing deep semantic relationships, while binary vectors excel in scenarios like quick similarity comparisons and content deduplication. For more information, refer to <a href="./use-dense-vector">Dense Vector</a> and <a href="./use-binary-vector">Binary Vector</a>.</p>
+<p>疎ベクトルに加えて、Zilliz Cloudは密ベクトルとバイナリベクトルもサポートしています。密ベクトルは深い意味関係を捉えるのに最適であり、バイナリベクトルは迅速な類似性比較やコンテンツの重複排除などのシナリオで優れています。詳細については、Dense VectorとBinary Vectorを参照してください。</p>
 
 </Admonition>
 
-## Use sparse vectors{#use-sparse-vectors}
+## 疎ベクトルを使用{#}
 
-Zilliz Cloud supports representing sparse vectors in any of the following formats:
+Zilliz Cloudは、スパースベクトルを以下のいずれかの形式で表現できます:
 
-- **Sparse Matrix (using the `scipy.sparse` class)**
+- **疎行列(scipy. sparseクラスを`使用`)**
 
     ```python
     from scipy.sparse import csr_matrix
@@ -77,7 +77,7 @@ Zilliz Cloud supports representing sparse vectors in any of the following format
     sparse_vector = sparse_matrix.getrow(0)
     ```
 
-- **List of Dictionaries (formatted as `{dimension_index: value, ...}`)**
+- **辞書のリスト（`{ディメンションインデックス:値、.。。}`)**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
     <TabItem value='python'>
@@ -103,20 +103,20 @@ Zilliz Cloud supports representing sparse vectors in any of the following format
     </TabItem>
     </Tabs>
 
-- **List of Tuple Iterators (formatted as `[(dimension_index, value)]`)**
+- **タプルイテレータのリスト（`[(ディメンションインデックス,値)]`形式）**
 
     ```python
     # Represent sparse vector using a list of tuples
     sparse_vector = [[(1, 0.5), (100, 0.3), (500, 0.8), (1024, 0.2), (5000, 0.6)]]
     ```
 
-### Add vector field{#add-vector-field}
+### ベクトルフィールドを追加{#}
 
-To use sparse vectors in Zilliz Cloud clusters, define a field for storing sparse vectors when creating a collection. This process includes:
+スパースベクトルを使用するにはZilliz Cloudクラスタコレクションを作成するときにスパースベクトルを格納するフィールドを定義します。この過程には以下が含まれます:
 
-1. Setting `datatype` to the supported sparse vector data type, `SPARSE_FLOAT_VECTOR`.
+1. データ`型`をサポートされている疎ベクトルデータ型、`SPARSE_FLOAT_VECTOR`に設定します。
 
-1. No need to specify the dimension.
+1. 寸法を指定する必要はありません。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -225,11 +225,11 @@ export schema="{
 </TabItem>
 </Tabs>
 
-In this example, a vector field named `sparse_vector` is added for storing sparse vectors. The data type of this field is `SPARSE_FLOAT_VECTOR`.
+この例では、疎ベクトルを格納するために`sparse_vector`という名前のベクトルフィールドが追加されています。このフィールドのデータ型は`SPARSE_FLOAT_VECTOR`です。
 
-### Set index params for vector field{#set-index-params-for-vector-field}
+### ベクトル場のインデックスパラメータを設定する{#}
 
-The process of creating an index for sparse vectors is similar to that for [dense vectors](./use-dense-vector), but with differences in the specified index type (`index_type`), distance metric (`metric_type`), and index parameters (`params`).
+疎ベクトルのインデックスを作成する過程は、[密ベクトル](null)のインデックスと似ていますが、指定されたインデックスタイプ(`index_type`)、距離メトリック(`metric_type`)、およびインデックスパラメータ(`params`)に違いがあります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -301,39 +301,39 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-In the example above:
+上記の例では:
 
-- `index_type`: The type of index to create for the sparse vector field. Valid Values:
+- `index_type`:疎ベクトル場に対して作成するインデックスのタイプ。有効な値:
 
-    - `SPARSE_INVERTED_INDEX`: A general-purpose inverted index for sparse vectors.
+    - `SPARSE_INVERTED_INDEX`:スパースベクトル用の汎用逆インデックス。
 
-    - `SPARSE_WAND`: A specialized index type supported in Milvus v2.5.3 and earlier.
+    - `SPARSE_WAND`: Milvus v 2.5.3以前でサポートされていた特殊なインデックス型。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="ノート">
 
-        <p>From Milvus 2.5.4 onward, <code>SPARSE_WAND</code> is being deprecated. Instead, it is recommended to use <code>"inverted_index_algo": "DAAT_WAND"</code> for equivalency while maintaining compatibility.</p>
+        <p>Milvus2.5.4以降、<code>SPARSE_WAND</code>は非推奨となっています。その代わりに、互換性を維持しながら等価性を保つために<code>"inverted_index_algo":"DAAT_WAND"</code>を使用することをお勧めします。</p>
 
         </Admonition>
 
-- `metric_type`: The metric used to calculate similarity between sparse vectors. Valid Values:
+- `metric_type:`疎ベクトル間の類似度を計算するために使用されるメトリック。有効な値:
 
-    - `IP` (Inner Product): Measures similarity using dot product.
+    - `IP`(内積):ドット積を使用して類似度を測定します。
 
-    - `BM25`: Typically used for full-text search, focusing on textual similarity.
+    - `BM 25`:通常、テキストの類似性に焦点を当てた全文検索に使用されます。
 
-        For further details, refer to [Metric Types](./search-metrics-explained) and [Full Text Search](./full-text-search).
+        詳細については、Metric TypesとFull Text Searchを参照してください。
 
-- `params.inverted_index_algo`: The algorithm used for building and querying the index. Valid values:
+- `params. inverted_index_algo`:インデックスの構築とクエリに使用されるアルゴリズム。有効な値:
 
-    - `"DAAT_MAXSCORE"` (default): Optimized Document-at-a-Time (DAAT) query processing using the MaxScore algorithm. MaxScore provides better performance for high *k* values or queries with many terms by skipping terms and documents likely to have minimal impact. It achieves this by partitioning terms into essential and non-essential groups based on their maximum impact scores, focusing on terms that can contribute to the top-k results.
+    - `"DAAT_MAXSCORE"`(デフォルト):MaxScoreアルゴリズムを使用した最適化されたDocument-at-a-Time(DAAT)クエリ処理。MaxScoreは、最小限の影響を持つ可能性がある用語やドキュメントをスキップすることにより、高*k*値または多数の用語を持つクエリに対してより良いパフォーマンスを提供します。これは、最大の影響スコアに基づいて用語を必須および非必須グループに分割し、トップkの結果に貢献できる用語に焦点を当てることによって実現されます。
 
-    - `"DAAT_WAND"`: Optimized DAAT query processing using the WAND algorithm. WAND evaluates fewer hit documents by leveraging maximum impact scores to skip non-competitive documents, but it has a higher per-hit overhead. This makes WAND more efficient for queries with small *k* values or short queries, where skipping is more feasible.
+    - `「DAAT_WAND」`: WANDアルゴリズムを使用した最適化されたDAATクエリ処理。WANDは、最大の影響スコアを活用して非競合ドキュメントをスキップすることで、より少ないヒットドキュメントを評価しますが、ヒットあたりのオーバーヘッドが高くなります。これにより、スキップがより実現可能な小さな*k*値や短いクエリに対して、WANDはより効率的になります。
 
-    - `"TAAT_NAIVE"`: Basic Term-at-a-Time (TAAT) query processing. While it is slower compared to `DAAT_MAXSCORE` and `DAAT_WAND`, `TAAT_NAIVE` offers a unique advantage. Unlike DAAT algorithms, which use cached maximum impact scores that remain static regardless of changes to the global collection parameter (avgdl), `TAAT_NAIVE` dynamically adapts to such changes.
+    - `"TAAT_NAIVE"`:基本的なTerm-at-a-Time(TAAT)クエリ処理。`DAAT_MAXSCORE`や`DAAT_WAND`に比べると遅いですが、`TAAT_NAIVE`には独自の利点があります。グローバルコレクションパラメータ(avgdl)の変更に関係なく静的なキャッシュされた最大影響スコアを使用するDAATアルゴリズムとは異なり、`TAAT_NAIVE`はそのような変更に動的に適応します。
 
-### Create collection{#create-collection}
+### コレクションを作成{#}
 
-Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the `create_collection` method to create a collection named `my_sparse_collection`.
+スパースベクトルとインデックスの設定が完了したら、スパースベクトルを含むコレクションを作成できます。以下の例では、`create_collection`メソッドを使用して`my_sparse_collection`という名前のコレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -403,9 +403,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Insert data{#insert-data}
+### データの挿入{#}
 
-After creating the collection, insert data containing sparse vectors.
+コレクションを作成した後、疎ベクトルを含むデータを挿入してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -498,9 +498,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Perform similarity search{#perform-similarity-search}
+### 類似検索を行う{#}
 
-To perform similarity search using sparse vectors, prepare the query vector and search parameters.
+疎ベクトルを使用して類似検索を行うには、クエリベクトルと検索パラメータを準備してください。
 
 ```python
 # Prepare search parameters
@@ -512,9 +512,9 @@ search_params = {
 query_vector = [{1: 0.2, 50: 0.4, 1000: 0.7}]
 ```
 
-In this example, `drop_ratio_search` is an optional parameter specifically for sparse vectors, allowing fine-tuning of small values in the query vector during the search. For example, with `{"drop_ratio_search": 0.2}`, the smallest 20% of values in the query vector will be ignored during the search.
+この例では、`drop_ratio_search`はスパースベクトル専用のオプションパラメータであり、検索中にクエリベクトル内の小さな値を微調整することができます。例えば、`{"drop_ratio_search": 0.2}`の場合、クエリベクトル内の最小20%の値は検索中に無視されます。
 
-Then, execute the similarity search using the `search` method:
+次に、searchメソッドを使用して類似`検索`を実行します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -613,4 +613,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-For more information on similarity search parameters, refer to [Basic ANN Search](./single-vector-search).
+類似検索パラメータの詳細については、Basic ANN Searchを参照してください。

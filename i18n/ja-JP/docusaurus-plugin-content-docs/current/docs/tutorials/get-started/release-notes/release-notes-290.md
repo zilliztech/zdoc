@@ -1,105 +1,105 @@
 ---
-title: "Release Notes (June 18, 2024) | Cloud"
+title: "リリースノート（2024年6月18日） | Cloud"
 slug: /release-notes-290
-sidebar_label: "Release Notes (June 18, 2024)"
+sidebar_label: "リリースノート（2024年6月18日）"
 beta: FALSE
 notebook: FALSE
-description: "In this release, Zilliz Cloud has unveiled an array of new features backed by Milvus 2.4, including sparse vector support, enhanced multi-vector and hybrid search, an inverted index and fuzzy matching for faster queries, and grouping search for document-level recall. It also introduces Float16 and BFloat16 data types for improved search efficiency. In addition, the Pipelines feature now tracks token usage stats with every data ingestion and search request, streamlining performance monitoring. You can find detailed stats on the invoice page. | Cloud"
+description: "このリリースでは、Zilliz CloudはMilvus 2.4によってバックアップされた新しい機能の配列を発表しました。これには、スパースベクトルサポート、強化されたマルチベクトルおよびハイブリッド検索、より高速なクエリのための反転インデックスとファジーマッチング、およびドキュメントレベルのリコールのためのグループ化検索が含まれます。また、Float 16およびBFloat 16データ型を導入して、検索効率を向上させています。さらに、パイプライン機能は、データの取り込みと検索リクエストごとにトークン使用統計を追跡し、パフォーマンスモニタリングを効率化しています。詳細な統計情報は請求書ページで確認できます。 | Cloud"
 type: origin
-token: GanXwLnJkiymKVkNPhecdi9MnGf
+token: XcDewg5DmibYwXk3K6ucJQAInRd
 sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (June 18, 2024)
+# リリースノート（2024年6月18日）
 
-In this release, Zilliz Cloud has unveiled an array of new features backed by Milvus 2.4, including sparse vector support, enhanced multi-vector and hybrid search, an inverted index and fuzzy matching for faster queries, and grouping search for document-level recall. It also introduces Float16 and BFloat16 data types for improved search efficiency. In addition, the Pipelines feature now tracks token usage stats with every data ingestion and search request, streamlining performance monitoring. You can find detailed stats on the invoice page.
+このリリースでは、Zilliz CloudはMilvus 2.4によってバックアップされた新しい機能の配列を発表しました。これには、スパースベクトルサポート、強化されたマルチベクトルおよびハイブリッド検索、より高速なクエリのための反転インデックスとファジーマッチング、およびドキュメントレベルのリコールのためのグループ化検索が含まれます。また、Float 16およびBFloat 16データ型を導入して、検索効率を向上させています。さらに、パイプライン機能は、データの取り込みと検索リクエストごとにトークン使用統計を追跡し、パフォーマンスモニタリングを効率化しています。詳細な統計情報は請求書ページで確認できます。
 
-### Milvus Compatibility{#milvus-compatibility}
+### Milvusの互換性{#milvus}
 
-This release is compatible with **Milvus 2.3.x**.
+このリリースは**Milvus 2.3. x**と互換性があります。
 
-If you prefer to upgrade your clusters to BETA, **Milvus 2.4.x** features are available after the upgrade.
+クラスタをBETAにアップグレードしたい場合は、アップグレード後に**Milvus 2.4. x**の機能を利用できます。
 
-## Milvus 2.4.x New Features Available on Zilliz Cloud{#milvus-24x-new-features-available-on-zilliz-cloud}
+## Zilliz CloudでMilvus 2.4. xの新機能が利用可能になりました。{#zilliz-cloudmilvus-24-x}
 
-Milvus 2.4 offers many efficient capabilities for RAG and multimodal data search. If you want to try these new features, you can update your cluster to BETA. 
+Milvus 2.4は、RAGおよびマルチモーダルデータ検索のための多くの効率的な機能を提供します。これらの新機能を試したい場合は、クラスタをBETAに更新することができます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Milvus 2.4 has not reached a stable version. Be cautious when you adopt Milvus 2.4 features in your production environment.</p>
+<p>Milvus 2.4は安定版に達していません。本番環境でMilvus 2.4の機能を採用する際は注意してください。</p>
 
 </Admonition>
 
-### Sparse Vector{#sparse-vector}
+### 疎ベクトル{#}
 
-Sparse vectors differ from their dense counterparts as they tend to have several magnitude higher numbers of dimensions with only a handful being non-zero. This feature offers better interpretability due to its term-based nature and can be more effective in certain domains. Learned sparse models such as SPLADEv2/BGE-M3 have proven useful for common first-stage ranking tasks. The main use case for this new feature is to allow efficient approximate semantic nearest neighbor search over sparse vectors generated by neural models such as SPLADEv2/BGE-M3 and statistics models such as the BM25 algorithm. Zilliz Cloud now supports effective and high-performance storage, indexing, and searching (MIPS, Maximum Inner Product Search) of sparse vectors.
+疎ベクトルは、非ゼロのものがわずかしかなく、次元数が数桁高くなる傾向があるため、密ベクトルと異なります。この機能は、用語ベースの性質により、より良い解釈性を提供し、特定の領域でより効果的になることがあります。SPLADEv 2/BGE-M 3などの学習済み疎モデルは、一般的な第一段階のランキングタスクに役立つことが証明されています。この新機能の主な用途は、SPLADEv 2/BGE-M 3などのニューラルモデルやBM 25アルゴリズムなどの統計モデルによって生成された疎ベクトルに対する効率的な近似意味最近傍探索を可能にすることです。Zilliz Cloudは、疎ベクトルの効果的かつ高性能なストレージ、インデックス付け、および検索(MIPS、最大内積検索)をサポートしています。
 
-For details, check out the [Sparse Vector](./use-sparse-vector) guide and the example code in [hello_sparse.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/hello_sparse.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
+詳細については、Sparse Vectorガイドと[hello_sparse.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/hello_sparse.py)のサンプルコードを参照してください。*Zilliz Cloudクラスタの認証情報を使用して、サンプルコードの接続詳細を必ず更新してください。*
 
-### Multi Embedding & Hybrid Search{#multi-embedding-and-hybrid-search}
+### マルチ埋め込み&ハイブリッド検索{#and}
 
-Multi-vector support is the cornerstone for applications that require multi-model data processing or a mix of dense and sparse vectors. With multi-vector support, now you can:
+マルチベクトルサポートは、マルチモデルデータ処理や密なベクトルと疎なベクトルの混合を必要とするアプリケーションの基盤となります。マルチベクトルサポートにより、以下のことが可能になります:
 
-- Store vector embeddings generated for unstructured text, image, or audio samples from multiple models.
+- 複数のモデルから生成された非構造化テキスト、画像、またはオーディオサンプルのベクトル埋め込みを保存します。
 
-- Conduct ANN searches against a collection that carries multiple vectors in each entity.
+- 各エンティティに複数のベクトルを持つコレクションに対してANN検索を実行します。
 
-- Customize search strategies by assigning weights to different embedding models.
+- 異なる埋め込みモデルに重みを割り当てることで、検索戦略をカスタマイズできます。
 
-- Experiment with various embedding models to find the optimal model combination.
+- 最適なモデルの組み合わせを見つけるために、さまざまな埋め込みモデルを実験してください。
 
-Multi-vector support allows storing, indexing, and applying reranking strategies to multiple vector fields of different types, such as FLOAT_VECTOR and SPARSE_FLOAT_VECTOR, in a collection. Currently, two reranking strategies are available: **Reciprocal Rank Fusion (RRF)** and **Average Weighted Scoring**. Both strategies combine the search results from different vector fields into a unified result set. The first strategy prioritizes the entities that consistently appear in the search results from various vector fields, and the other strategy assigns weights to the search results from each vector field to determine their importance in the final result set.
+マルチベクトルサポートにより、FLOAT_VECTORやSPARSE_FLOAT_VECTORなど、異なるタイプの複数のベクトルフィールドに対して、コレクションに格納、インデックス化、再ランキング戦略を適用することができます。現在、2つの再ランキング戦略が利用可能です。**相互ランクフュージョン(RRF)**と**平均重み付けスコアリング**です。両方の戦略は、異なるベクトルフィールドからの検索結果を統一された結果セットに結合します。最初の戦略は、さまざまなベクトルフィールドからの検索結果に一貫して表示されるエンティティを優先し、もう一方の戦略は、各ベクトルフィールドからの検索結果に重みを割り当てて、最終結果セットでの重要性を決定します。
 
-For details, check out the [Basic ANN Search](./single-vector-search) and [Hybrid Search](./hybrid-search) guides and the example code in [hybrid_search.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/hybrid_search.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
+詳細については、Basic ANN SearchおよびHybrid Searchガイド、および[hybrid_search.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/hybrid_search.py)のサンプルコードを参照してください。*Zilliz Cloudクラスターの認証情報を使用して、サンプルコードの接続詳細を必ず更新してください。*
 
-### Inverted Index and Fuzzy Match{#inverted-index-and-fuzzy-match}
+### インバーテッドインデックスとファジーマッチ{#}
 
-In previous releases of Milvus, memory-based binary search indexes and Marisa Trie indexes were used for scalar field indexing. However, these methods were memory-intensive. The latest release of Zilliz Cloud now employs auto-index to optimize these mechanism, which can be applied to all numeric and string data types. This new index dramatically improves scalar query performance, reducing the query of keywords in strings by ten times. In addition, the inverted index consumes less memory, thanks to additional optimizations in data compression and the Memory-mapped storage (MMap) mechanism of the internal indexing structure.
+Milvusの以前のリリースでは、メモリベースのバイナリサーチインデックスとMarisa Trieインデックスがスカラーフィールドインデックスに使用されていました。しかし、これらの方法はメモリを大量に消費しました。Zilliz Cloudの最新リリースでは、自動インデックスを使用してこれらのメカニズムを最適化し、すべての数値および文字列データ型に適用できます。この新しいインデックスは、スカラークエリのパフォーマンスを劇的に向上させ、文字列内のキーワードのクエリを10倍削減します。さらに、反転インデックスは、データ圧縮の追加最適化と内部インデックス構造のメモリマップドストレージ(MMap)メカニズムのおかげで、より少ないメモリを消費します。
 
-This release also supports fuzzy matches in scalar filtering using prefixes, infixes, and suffixes.
+このリリースでは、プレフィックス、インフィックス、およびサフィックスを使用したスカラーフィルタリングでのファジーマッチもサポートされています。
 
-For details, check out the [Binary Vector](./use-binary-vector), [Index Scalar Fields](./index-scalar-fields), and [Use the ](./basic-filtering-operators#example-2-using-like-for-pattern-matching)`like`[ Operator](./basic-filtering-operators#example-2-using-like-for-pattern-matching) guides as well as the example code in [inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) and [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials and use AUTOINDEX instead.*
+詳細については、Binary Vector、Index Scalar Fields、[Use the](null)`like`[Operator](null)guide、および[inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py)と[fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py)のサンプルコードを参照してください。*Zilliz Cloudクラスターの資格情報でサンプルコードの接続詳細を更新し、代わりにAUTOINDEXを使用してください。*
 
-### Grouping Search{#grouping-search}
+### グループ検索{#}
 
-You can now aggregate the search results by the values in a specific scalar field. This helps RAG applications to implement document-level recall. Consider a collection of documents, each document splits into various passages. Each passage is represented by one vector embedding and belongs to one document. To find the most relevant documents instead of scattering passages, you can include the **group_by_field** argument in the **search()** operation to group results by the document ID.
+特定のスカラーフィールドの値によって検索結果を集計できるようになりました。これにより、RAGアプリケーションはドキュメントレベルのリコールを実装するのに役立ちます。ドキュメントのコレクションを考え、各ドキュメントはさまざまなパッセージに分割されます。各パッセージは1つのベクトル埋め込みで表され、1つのドキュメントに属します。パッセージを散らす代わりに、**group_by_field**引数を**search()**操作に含めて、ドキュメントIDで結果をグループ化することで、最も関連性の高いドキュメントを見つけることができます。
 
-For details, check out the [Grouping Search](./grouping-search) guide and the example code in [example_group_by.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/example_group_by.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
+詳細については、Grouping Searchガイドと[example_group_by.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/example_group_by.py)のサンプルコードを参照してください。*Zilliz Cloudクラスターの認証情報を使用して、サンプルコードの接続詳細を必ず更新してください。*
 
-### Float16 and BFloat- Vector DataType{#float16-and-bfloat-vector-datatype}
+### Float 16とBFloatベクトルデータ型{#float-16bfloat}
 
-Machine learning and neural networks often use half-precision data types, such as Float16 and BFloat- While these data types can improve query efficiency and reduce memory usage, they come with a tradeoff of reduced accuracy. With this release, Zilliz Cloud now supports these data types for vector fields.
+機械学習やニューラルネットワークは、しばしばFloat 16やBFloatなどの半精度データ型を使用します。これらのデータ型はクエリの効率を向上させ、メモリ使用量を減らすことができますが、精度が低下するというトレードオフがあります。このリリースにより、Zilliz Cloudはベクトルフィールドに対してこれらのデータ型をサポートするようになりました。
 
-For deatils, refer to the [Search & Rerank](./search-query-get) and the example code in [float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/float16_example.py) and [bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/bfloat16_example.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
+deatilsについては、Search & Rerankと[float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/float16_example.py)and[bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/bfloat16_example.py)のサンプルコードを参照してください。*Zilliz Cloudクラスタの認証情報を使用して、サンプルコードの接続詳細を必ず更新してください。*
 
-### Refined MilvusClient Interfaces{#refined-milvusclient-interfaces}
+### 改良されたMilvusClientインターフェース{#milvusclient}
 
-MilvusClient is an easy-to-use alternative to the ORM module. It adopts a purely functional approach to simplify interactions with the server. Instead of maintaining a connection pool, each MilvusClient establishes a gRPC connection to the server. The MilvusClient module has implemented most of the functionalities of the ORM module. To learn more about the MilvusClient module, visit [pymilvus](https://github.com/milvus-io/pymilvus) and the [reference documents](/reference/python).
+MilvusClientは、ORMモジュールの使いやすい代替品です。サーバーとのやり取りを簡素化するために、純粋に機能的なアプローチを採用しています。接続プールを維持する代わりに、各MilvusClientはサーバーへのgRPC接続を確立します。MilvusClientモジュールは、ORMモジュールのほとんどの機能を実装しています。MilvusClientモジュールについて詳しくは、[pymilvus](https://github.com/milvus-io/pymilvus)と[リファレンスドキュメント](/reference/python)をご覧ください。
 
-## Pipelines{#pipelines}
+## パイプライン{#}
 
-Zilliz Cloud now monitors token usage for your pipeline requests, with details available on the invoice page and within each API response. However, you will not be charged until this feature is generally available.
+Zilliz Cloudは現在、パイプラインリクエストのトークン使用状況を監視しており、詳細は請求書ページおよび各API応答内で確認できます。ただし、この機能が一般提供されるまでは、料金は請求されません。
 
-The image embedding model has been upgraded to `clip-vit-base-patch32` from the previous `clip-vit-base-patch16` to fulfill a wider range of requirements. Additionally, support for multilingual text embeddings is scheduled for implementation shortly.
+以前の`clip-vit-base-patch32`から画像埋め込みモデルがアップグレードされ、より広い要件を満たすことができるようになりました。さらに、多言語テキストの埋め込みサポートも近日中に実装予定で`clip-vit-base-patch16`。
 
-For details, check out [Pipelines Pricing](./understand-pipelines-billing).
+詳細については、Pipelines Pricingをご覧ください。
 
-### Enhancements{#enhancements}
+### エンハンスメント{#}
 
-This release also includes a series of enhancements:
+このリリースには、一連の機能強化も含まれています。
 
-- Now you can scale your dedicated cluster to 256 CUs in a self-service manner. You can also contact us for an even larger cluster.
+- これで、セルフサービス方式で専用クラスタを256 CUまで拡張できます。さらに大きなクラスタについては、お問い合わせください。
 

@@ -1,50 +1,50 @@
 ---
-title: "Release Notes (Feb 13, 2023) | Cloud"
+title: "リリースノート（2023年2月13日） | Cloud"
 slug: /release-notes-011
-sidebar_label: "Release Notes (Feb 13, 2023)"
+sidebar_label: "リリースノート（2023年2月13日）"
 beta: FALSE
 notebook: FALSE
-description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release adds email notifications and inline guidance for beginners. | Cloud"
+description: "Zilliz Cloudの重要なアップデートの一般提供を発表できることを嬉しく思います。このリリースでは、メール通知と初心者向けのインラインガイダンスが追加されます。 | Cloud"
 type: origin
-token: E76ywex6GiUKUKkgbFAc95Q0nxe
+token: CrKDw4WQAiFaEFkfcCwc6t5ynoh
 sidebar_position: 19
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (Feb 13, 2023)
+# リリースノート（2023年2月13日）
 
-We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release adds email notifications and inline guidance for beginners.
+Zilliz Cloudの重要なアップデートの一般提供を発表できることを嬉しく思います。このリリースでは、メール通知と初心者向けのインラインガイダンスが追加されます。
 
-- Email notifications
+- メール通知
 
-    In this release, the email notification feature is reinforced. You will receive email notifications at the following events:
+    今回のリリースでは、メール通知機能が強化されました。以下のイベントでメール通知を受け取ることができます。
 
-    - Account verification, suspension, reactivation, etc.
+    - アカウントの確認、停止、再開など
 
-    - Credit balance and expiration
+    - クレジット残高と有効期限
 
-    - Billing and payment
+    - 請求と支払い
 
-    - Database inactivities
+    - データベースの非アクティブ
 
-    - Upcoming system maintenance
+    - 今後のシステムメンテナンス
 
-    - Subscribed resource alerts
+    - リソースアラートを購読しました
 
-    - Confirmed receipt of user feedback
+    - ユーザーからのフィードバックを確認しました
 
-- Inline guidance for beginners
+- 初心者向けのインラインガイダンス
 
-    In this release, the inline guidance for beginners is greatly improved for fast onboarding. Now you can finish the online tutorial within five minutes, with no background knowledge required. [Enjoy it!](https://cloud.zilliz.com/signup)
+    このリリースでは、初心者向けのインラインガイダンスが大幅に改善され、オンボーディングが迅速に行えるようになりました。これで、オンラインチュートリアルを5分以内で完了できます。背景知識は必要ありません。[お楽しみください!](https://cloud.zilliz.com/signup)

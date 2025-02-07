@@ -1,12 +1,12 @@
 ---
-title: "Schema Design Hands-On | Cloud"
+title: "スキーマデザインハンズオン | Cloud"
 slug: /schema-design-hands-on
-sidebar_label: "Hands-On"
+sidebar_label: "スキーマデザインハンズオン"
 beta: FALSE
 notebook: FALSE
-description: "Information Retrieval (IR) systems, also known as search engines, are essential for various AI applications such as Retrieval-augmented generation (RAG), image search, and product recommendation. The first step in developing an IR system is designing the data model, which involves analyzing business requirements, determining how to organize information, and indexing data to make it semantically searchable. | Cloud"
+description: "情報検索(IR)システムは、検索エンジンとしても知られており、検索拡張生成(RAG)、画像検索、製品推薦などのさまざまなAIアプリケーションに不可欠です。IRシステムを開発する最初のステップは、ビジネス要件を分析し、情報をどのように整理するかを決定し、データを意味的に検索可能にするためにインデックス化するデータモデルの設計です。 | Cloud"
 type: origin
-token: PV2bwNENViEjXWkOgzZcXoKHnce
+token: B2Z9whq7IigVE7kgFVJcQAeQnqd
 sidebar_position: 13
 keywords: 
   - zilliz
@@ -16,74 +16,74 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Schema Design Hands-On
+# スキーマデザインハンズオン
 
-Information Retrieval (IR) systems, also known as search engines, are essential for various AI applications such as Retrieval-augmented generation (RAG), image search, and product recommendation. The first step in developing an IR system is designing the data model, which involves analyzing business requirements, determining how to organize information, and indexing data to make it semantically searchable.
+情報検索(IR)システムは、検索エンジンとしても知られており、検索拡張生成(RAG)、画像検索、製品推薦などのさまざまなAIアプリケーションに不可欠です。IRシステムを開発する最初のステップは、ビジネス要件を分析し、情報をどのように整理するかを決定し、データを意味的に検索可能にするためにインデックス化するデータモデルの設計です。
 
-Zilliz Cloud supports defining the data model through a collection schema. A collection organizes unstructured data like text and images, along with their vector representations, including dense and sparse vectors in various precision used for semantic search. Additionally, Zilliz Cloud supports storing and filtering non-vector data types called "Scalar". Scalar types include BOOL, INT8/16/32/64, FLOAT/DOUBLE, VARCHAR, JSON, and Array.
+Zilliz Cloudは、コレクションスキーマを介してデータモデルを定義することをサポートしています。コレクションは、テキストや画像などの非構造化データと、セマンティック検索に使用されるさまざまな精度の密なベクトルや疎なベクトル表現を整理します。さらに、Zilliz Cloudは、「Scalar」と呼ばれる非ベクトルデータ型の格納とフィルタリングをサポートしています。Scalarタイプには、BOOL、INT 8/16/32/64、FLOAT/DOUBLE、VARCHAR、JSON、Arrayが含まれます。
 
-![WeYVbC63So5YT2xSV5EcHf8qn3f](/img/WeYVbC63So5YT2xSV5EcHf8qn3f.png)
+![IWEWbHv43o2w4lxtAQxcuNz7nBg](/img/ja-JP/IWEWbHv43o2w4lxtAQxcuNz7nBg.png)
 
-The data model design of a search system involves analyzing business needs and abstracting information into a schema-expressed data model. For instance, to search a piece of text, it must be "indexed" by converting the literal string into a vector through "embedding", enabling vector search. Beyond this basic requirement, it may be necessary to store other properties such as publication timestamp and author. This metadata allows for semantic searches to be refined through filtering, returning only texts published after a specific date or by a particular author. They may also need to be retrieved together with the main text, for rendering the search result in the application. To organize these text pieces, each should be assigned a unique identifier, expressed as an integer or string. These elements are essential for achieving sophisticated search logic.
+検索システムのデータモデル設計には、ビジネスニーズを分析し、情報をスキーマ表現されたデータモデルに抽象化することが含まれます。たとえば、テキストを検索するには、リテラル文字列を「埋め込み」を介してベクトルに変換して「インデックス化」する必要があります。この基本的な要件を超えて、出版タイムスタンプや著者などの他のプロパティを保存する必要がある場合があります。このメタデータにより、特定の日付以降または特定の著者によって公開されたテキストのみを返すフィルタリングを通じて意味検索を洗練することができます。また、アプリケーションで検索結果をレンダリングするために、メインテキストと一緒に取得する必要がある場合もあります。これらのテキストピースを整理するには、それぞれに整数または文字列として表される一意の識別子を割り当てる必要があります。これらの要素は、洗練された検索ロジックを実現するために不可欠です。
 
-A well-designed schema is important as it abstracts the data model and decides if the business objectives can be achieved through search. Furthermore, since every row of data inserted into the collection needs to follow the schema, it greatly helps to maintain data consistency and long-term quality. From a technical perspective, a well-defined schema leads to well-organized column data storage and a cleaner index structure, which can boost search performance.
+よく設計されたスキーマは、データモデルを抽象化し、ビジネス目標を検索によって達成できるかどうかを決定するために重要です。さらに、コレクションに挿入されるすべてのデータ行がスキーマに従う必要があるため、データの一貫性と長期的な品質を維持するのに大いに役立ちます。技術的な観点からは、よく定義されたスキーマは、整理された列データストレージとクリーンなインデックス構造につながり、検索パフォーマンスを向上させることができます。
 
-# An Example: News Search{#an-example-news-search}
+# 例:ニュース検索{#}
 
-Let's say we want to build search for a news website and we have a corpus of news with text, thumbnail images, and other metadata. First, we need to analyze how we want to utilize the data to support the business requirement of search. Imagine the requirement is to retrieve the news based the thumbnail image and the summary of the content, and taking the metadata such as author info and publishing time as criteria to filter the search result. These requirements can be further broken down into:
+ニュースウェブサイトの検索を構築したいとしましょう。テキスト、サムネイル画像、その他のメタデータを含むニュースのコーパスがあります。まず、データをどのように活用して検索のビジネス要件をサポートするかを分析する必要があります。サムネイル画像とコンテンツの要約に基づいてニュースを取得し、著者情報や公開時間などのメタデータを基準に検索結果をフィルタリングする必要があると想像してください。これらの要件はさらに次のように分解できます:
 
-- To search images via text, we can embed images into vectors via multimodal embedding model that can map text and image data into the same latent space.
+- テキストを介して画像を検索するために、テキストと画像データを同じ潜在空間にマップできるマルチモーダル埋め込みモデルを介して画像をベクトルに埋め込むことができます。
 
-- The summary text of an article is embedded into vectors via text embedding model.
+- 記事の要約テキストは、テキスト埋め込みモデルを介してベクトルに埋め込まれます。
 
-- To filter based on the publish time, the dates are stored as a scalar field and an index is needed for the scalar field for efficient filtering. Other more complex data structures such a JSON can be stored in a scalar and a filtered search performed on their contents (indexing JSON is an upcoming feature).
+- 公開時間に基づいてフィルタリングするには、日付はスカラーフィールドとして保存され、効率的なフィルタリングのためにスカラーフィールドにインデックスが必要です。JSONなどのより複雑なデータ構造は、スカラーに保存され、その内容に対してフィルタリングされた検索が実行されます(インデックスJSONは今後の機能です)。
 
-- To retrieve the image thumbnail bytes and render it on the search result page, the image url is also stored. Similarly, for the summary text and title. (Alternatively, we could store the raw text and image file data as scalar fields if required.)
+- 画像のサムネイルバイトを取得して検索結果ページに表示するには、画像のURLも保存されます。同様に、サマリーテキストとタイトルも保存されます（必要に応じて、生のテキストと画像ファイルデータをスカラーフィールドとして保存することもできます）。
 
-- To improve the search result on the summary text, we design a hybrid search approach. For one retrieval path, we use regular embedding model to generate dense vector from the text, such as OpenAI's `text-embedding-3-large` or the open-source `bge-large-en-v1.5`. These models are good at representing the overall semantic of the text. The other path is to use sparse embedding models such as BM25 or SPLADE to generate a sparse vector, resembling the full-text search which is good at grasping the details and individual concepts in the text. Zilliz Cloud supports using both in the same data collection thanks to its multi-vector feature. The search on multiple vectors can be done in a single `hybrid_search()` operation.
+- 要約テキストの検索結果を改善するために、ハイブリッド検索アプローチを設計します。1つの検索パスについて、Open AIの「text-embedding-3-large」やオープンソースの「bge-large-en-v 1.5」などの通常の埋め込みモデルを使用して、テキストから密なベクトルを生成します。これらのモデルは、テキストの全体的な意味を表現するのに適しています。もう1つのパスは、BM 25やSPLADEなどの疎な埋め込みモデルを使用して疎なベクトルを生成し、テキストの詳細や個々の概念を把握するのに適した全文検索に似ています。Zilliz Cloudは、マルチベクトル機能により、同じデータコレクションで両方を使用できます。複数のベクトルに対する検索は、単一の'brid_search()'操作で実行できます。
 
-- Finally, we also need an ID field to identify each individual news page, formally referred to as an "entity" in Zilliz Cloud terminology. This field is used as the primary key (or "pk" for short).
+- 最後に、個々のニュースページを識別するためのIDフィールドが必要です。これは、Zilliz Cloudの用語で「エンティティ」として正式に言及されます。このフィールドは主キー(略して「pk」)として使用されます。
 
 <table>
    <tr>
-     <th><p>Field Name</p></th>
-     <th><p>article_id (Primary Key)</p></th>
-     <th><p>title</p></th>
-     <th><p>author_info</p></th>
-     <th><p>publish_ts</p></th>
-     <th><p>image_url</p></th>
-     <th><p>image_vector</p></th>
-     <th><p>summary</p></th>
-     <th><p>summary_dense_vector</p></th>
-     <th><p>summary_sparse_vector</p></th>
+     <th><p>フィールド名</p></th>
+     <th><p>アーティクルID（プライマリキー）</p></th>
+     <th><p>タイトル</p></th>
+     <th><p>著者の情報</p></th>
+     <th><p>tsを公開する</p></th>
+     <th><p>画像のURL</p></th>
+     <th><p>画像ベクトル</p></th>
+     <th><p>要約する</p></th>
+     <th><p>サマリー密度ベクトル</p></th>
+     <th><p>スパースベクトルの概要</p></th>
    </tr>
    <tr>
-     <td><p>Type</p></td>
-     <td><p>INT64</p></td>
+     <td><p>タイプ</p></td>
+     <td><p>INT 64</p></td>
      <td><p>VARCHAR</p></td>
      <td><p>JSON</p></td>
-     <td><p>INT32</p></td>
+     <td><p>INT 32</p></td>
      <td><p>VARCHAR</p></td>
-     <td><p>FLOAT_VECTOR</p></td>
+     <td><p>フロートベクトル</p></td>
      <td><p>VARCHAR</p></td>
-     <td><p>FLOAT_VECTOR</p></td>
-     <td><p>SPARSE_FLOAT_VECTOR</p></td>
+     <td><p>フロートベクトル</p></td>
+     <td><p>浮動小数点ベクトル</p></td>
    </tr>
    <tr>
-     <td><p>Need Index</p></td>
+     <td><p>インデックスが必要</p></td>
      <td><p>N</p></td>
      <td><p>N</p></td>
-     <td><p>N (Support coming soon)</p></td>
+     <td><p>N(近日サポート予定)</p></td>
      <td><p>Y</p></td>
      <td><p>N</p></td>
      <td><p>Y</p></td>
@@ -93,13 +93,13 @@ Let's say we want to build search for a news website and we have a corpus of new
    </tr>
 </table>
 
-# How to Implement the Example Schema{#how-to-implement-the-example-schema}
+# サンプルスキーマの実装方法{#}
 
-## Create Schema{#create-schema}
+## スキーマの作成{#}
 
-First, we create a Milvus client instance, which can be used to connect to the Zilliz Cloud cluster and manage collections and data. 
+まず、Milvusクライアントインスタンスを作成します。これを使用して、Zilliz Cloudクラスタに接続し、コレクションとデータを管理できます。
 
-To set up a schema, we use `create_schema()` to create a schema object and `add_field()` to add fields to the schema.
+スキーマを設定するには、`create_schema()`を使用してスキーマオブジェクトを作成し、`add_field()`を使用してスキーマにフィールドを追加します。
 
 ```python
 from pymilvus import MilvusClient, DataType
@@ -126,17 +126,23 @@ schema.add_field(field_name="summary_dense_vector", datatype=DataType.FLOAT_VECT
 schema.add_field(field_name="summary_sparse_vector", datatype=DataType.SPARSE_FLOAT_VECTOR, description="summary sparse vector")
 ```
 
-You might notice the argument `uri` in `MilvusClient`, which is used to connect to the Zilliz Cloud cluster. You can set the arguments as follows:
+MilvusClientの引数`uri`に気づくかもしれません。`これ`はZilliz Cloudクラスタに接続するために使用されます。引数は以下のように設定できます:
 
-Set `uri` to your Zilliz Cloud cluster's endpoint and `token` to either a colon-separated username and password of a cluster user or a valid Zilliz Cloud API key with the necessary permissions.
+\<ターゲットを含める="zilliz">
 
-As for the `auto_id` in `MilvusClient.create_schema`, AutoID is an attribute of the primary field that determines whether to enable auto increment for the primary field.  Since we set the field`article_id` as the primary key and want to add article id manually, we set `auto_id` False to disable this feature.
+Zilliz Cloudクラスターのエンドポイントに`uri`を設定し、クラスターユーザーのユーザー名とパスワードをコロンで区切るか、必要な権限を持つ有効なZilliz Cloud APIキーを`トークン`に設定してください。
 
-After adding all the fields to the schema object, our schema object agrees with the entries in the table above.
+\</include>
 
-## Define Index{#define-index}
+MilvusClient. create_schemaの`auto_id`について、`AutoIDはプライマリフィールド`の属性であり、プライマリフィールドの自動インクリメントを有効にするかどうかを決定します。`fieldarticle_id`をプライマリキーとして設定し、記事IDを手動で追加したいため、`auto_id`をFalseに設定してこの機能を無効にします。
 
-After defining the schema with various fields, including metadata and vector fields for image and summary data, the next step involves preparing the index parameters. Indexing is crucial for optimizing the search and retrieval of vectors, ensuring efficient query performance. In the following section, we will define the index parameters for the specified vector and scalar fields in the collection.
+スキーマオブジェクトにすべてのフィールドを追加した後、スキーマオブジェクトは上の表のエントリと一致します。
+
+## インデックスを定義{#}
+
+様々なフィールドを含むスキーマを定義した後、メタデータや画像およびサマリーデータのベクトルフィールドを含め、次のステップはインデックスパラメータを準備することです。インデックス付けは、ベクトルの検索と取得を最適化し、効率的なクエリパフォーマンスを確保するために重要です。次のセクションでは、コレクション内の指定されたベクトルフィールドとスカラーフィールドのインデックスパラメータを定義します。
+
+\<ターゲットを含める="zilliz">
 
 ```python
 index_params = client.prepare_index_params()
@@ -162,13 +168,15 @@ index_params.add_index(
 )
 ```
 
-Once the index parameters are set up and applied, Zilliz Cloud clusters are optimized for handling complex queries on vector and scalar data. This indexing enhances the performance and accuracy of similarity searches within the collection, allowing for efficient retrieval of articles based on image vectors and summary vectors. By leveraging the `AUTOINDEX` for both the specified vector and scalar fields, Zilliz Cloud can quickly identify and return the most relevant results, significantly improving the overall user experience and effectiveness of the data retrieval process.
+インデックスパラメータが設定され、適用されると、Zilliz Cloudクラスターはベクトルおよびスカラーデータの複雑なクエリを処理するために最適化されます。このインデックス化により、コレクション内の類似検索のパフォーマンスと精度が向上し、画像ベクトルとサマリーベクトルに基づく記事の効率的な検索が可能になります。指定されたベクトルフィールドとスカラーフィールドの両方に`AUTOINDEX`を活用することで、Zilliz Cloudは迅速に最も関連性の高い結果を特定して返すことができ、全体的なユーザーエクスペリエンスとデータ検索過程の効果が大幅に向上します。
 
-Zilliz Cloud supports AUTOINDEX as the only index type, but provides multiple metric types. For more information about them, you can refer to [AUTOINDEX Explained](./autoindex-explained) and [Metric Types](./search-metrics-explained)..
+\</include>
 
-## Create Collection{#create-collection}
+Zilliz Cloudは唯一のインデックスタイプとしてAUTOINDEXをサポートしていますが、複数のメトリックタイプを提供しています。詳細については、AUTOINDEX ExplainedandMetric Types.を参照してください。
 
-With the schema and indexes defined, we create a "collection" with these parameters. Collection to a Zilliz Cloud cluster is like a table to a relational DB.
+## コレクションを作成{#}
+
+スキーマとインデックスが定義されたら、これらのパラメータを使用して「コレクション」を作成します。Zilliz Cloudクラスタ\</include>へのコレクションは、リレーショナルDBへのテーブルのようなものです。
 
 ```python
 client.create_collection(
@@ -178,7 +186,7 @@ client.create_collection(
 )
 ```
 
-We can verify that the collection has been successfully created by describing the collection.
+コレクションを説明することで、コレクションが正常に作成されたことを確認できます。
 
 ```python
 collection_desc = client.describe_collection(
@@ -187,14 +195,14 @@ collection_desc = client.describe_collection(
 print(collection_desc)
 ```
 
-# Other Considerations{#other-considerations}
+# その他の考慮事項{#}
 
-## Loading Index{#loading-index}
+## インデックスの読み込み{#}
 
-When creating a collection in a Zilliz Cloud cluster, you can choose to load the index immediately or defer it until after bulk ingesting some data. Typically, you don't need to make an explicit choice about this, as the above examples show that the index is automatically built for any ingested data right after collection creation. This allows for immediate searchability of the ingested data. However, if you have a large bulk insert after collection creation and don't need to search for any data until a certain point, you can defer the index building by omitting index_params in the collection creation and build the index by calling load explicitly after ingesting all the data. This method is more efficient for building the index on a large collection, but no searches can be done until calling load().
+Zilliz Cloudクラスタでコレクションを作成する場合、インデックスをすぐにロードするか、データを一括取得するまで遅延させることができます。通常、上記の例は、インデックスがコレクション作成直後に自動的に取得されることを示しているため、明示的な選択をする必要はありません。これにより、取得されたデータをすぐに検索できます。ただし、コレクション作成後に大量の一括挿入があり、特定のポイントまでデータを検索する必要がない場合は、コレクション作成時にindex_paramsを省略してインデックスの構築を遅延させ、すべてのデータを取得した後に明示的にloadを呼び出してインデックスを構築できます。この方法は、大きなコレクションでインデックスを構築する場合にはより効率的ですが、load()を呼び出すまで検索はできません。
 
-## How to Define Data Model For Multi-tenancy{#how-to-define-data-model-for-multi-tenancy}
+## マルチテナントのデータモデルを定義する方法{#}
 
-The concept of multiple tenants is commonly used in scenarios where a single software application or service needs to serve multiple independent users or organizations, each with their own isolated environment. This is frequently seen in cloud computing, SaaS (Software as a Service) applications, and database systems. For example, a cloud storage service may utilize multi-tenancy to allow different companies to store and manage their data separately while sharing the same underlying infrastructure. This approach maximizes resource utilization and efficiency while ensuring data security and privacy for each tenant.
+複数のテナントの概念は、単一のソフトウェアアプリケーションまたはサービスが複数の独立したユーザーまたは組織にサービスを提供する必要があるシナリオで一般的に使用されます。これは、クラウドコンピューティング、SaaS(Software as a Service)アプリケーション、およびデータベースシステムでよく見られます。たとえば、クラウドストレージサービスは、マルチテナントを利用して、異なる企業が同じ基盤を共有しながらデータを別々に保存および管理できるようにすることができます。このアプローチにより、リソースの利用率と効率が最大化され、各テナントのデータセキュリティとプライバシーが確保されます。
 
-The easiest way to differentiate tenants is by isolating their data and resources from each other. Each tenant either has exclusive access to specific resources or shares resources with others to manage Zilliz Cloud entities such as databases, collections, and partitions. There are specific methods aligned with these entities to implement multi-tenancy. You can refer to the [Milvus multi-tenancy page](https://milvus.io/docs/multi_tenancy.md#Multi-tenancy-strategies) for more information.
+テナントを区別する最も簡単な方法は、データとリソースを互いに分離することです。各テナントは、特定のリソースに排他的にアクセスするか、他のテナントとリソースを共有して、データベース、コレクション、パーティションなどのZilliz Cloudエンティティを管理します。これらのエンティティに合わせた特定の方法があり、マルチテナントを実装することができます。詳細については、[Milvusマルチテナントページ](https://milvus.io/docs/multi_tenancy.md#Multi-tenancy-strategies)を参照してください。

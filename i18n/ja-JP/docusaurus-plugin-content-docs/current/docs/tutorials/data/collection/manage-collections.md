@@ -1,12 +1,12 @@
 ---
-title: "Collection Explained | Cloud"
+title: "コレクションの説明 | Cloud"
 slug: /manage-collections
-sidebar_label: "Collection Explained"
+sidebar_label: "コレクションの説明"
 beta: FALSE
 notebook: FALSE
-description: "On Zilliz Cloud, you can create multiple collections to manage your data, and insert your data as entities into the collections. Collection and entity are similar to tables and records in relational databases. This page helps you to learn about the collection and related concepts. | Cloud"
+description: "Zilliz Cloudでは、複数のコレクションを作成してデータを管理し、データをエンティティとしてコレクションに挿入することができます。コレクションとエンティティは、リレーショナルデータベースのテーブルやレコードに似ています。このページでは、コレクションと関連する概念について学ぶことができます。 | Cloud"
 type: origin
-token: Z9AMwNkVLiog0jkXxNscuMpJnjL
+token: BWo2wmAPgiWYIBkX7DmcWAWpn1e
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,181 +14,143 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Collection Explained
+# コレクションの説明
 
-On Zilliz Cloud, you can create multiple collections to manage your data, and insert your data as entities into the collections. Collection and entity are similar to tables and records in relational databases. This page helps you to learn about the collection and related concepts.
+Zilliz Cloudでは、複数のコレクションを作成してデータを管理し、データをエンティティとしてコレクションに挿入することができます。コレクションとエンティティは、リレーショナルデータベースのテーブルやレコードに似ています。このページでは、コレクションと関連する概念について学ぶことができます。
 
-## Collection{#collection}
+## コレクション{#}
 
-A collection is a two-dimensional table with fixed columns and variant rows. Each column represents a field, and each row represents an entity. 
+コレクションは、固定列とバリアント行を持つ2次元テーブルです。各列はフィールドを表し、各行はエンティティを表します。
 
-The following chart shows a collection with eight columns and six entities.
+次のグラフは、8つの列と6つのエンティティを持つコレクションを示しています。
 
-![BitLbgzN4oYspwxM4vQcAmg2n9f](/img/BitLbgzN4oYspwxM4vQcAmg2n9f.png)
+![OU4cbQJr8ovxJgxmUGGc6837nVb](/img/ja-JP/OU4cbQJr8ovxJgxmUGGc6837nVb.png)
 
-## Schema and Fields{#schema-and-fields}
+## スキーマとフィールド{#}
 
-When describing an object, we usually mention its attributes, such as size, weight, and position. You can use these attributes as fields in a collection. Each field has various constraining properties, such as the data type and the dimensionality of a vector field. You can form a collection schema by creating the fields and defining their order. For possible applicable data types, refer to [Schema Explained](./schema-explained).
+オブジェクトを説明する際には、通常、体格、重さ、位置などの属性を言及します。これらの属性をコレクション内のフィールドとして使用できます。各フィールドには、データ型やベクトルフィールドの次元など、さまざまな制約プロパティがあります。フィールドを作成し、その順序を定義することで、コレクションスキーマを形成できます。適用可能なデータ型については、「Schema Explained」を参照してください。
 
-You should include all schema-defined fields in the entities to insert. To make some of them optional, consider enabling dynamic field. For details, refer to [Dynamic Field](./enable-dynamic-field).
+挿入するエンティティには、すべてのスキーマ定義フィールドを含める必要があります。いくつかのフィールドをオプションにするには、動的フィールドを有効にすることを検討してください。詳細については、Dynamic Fieldを参照してください。
 
-- **Making them nullable or setting default values**
+- **nullを許容するか、デフォルト値を設定する**
 
-    For details on how to make a field nullable or set the default value, refer to [Nullable & Default](./nullable-and-default).
+    フィールドをnullにする方法やデフォルト値を設定する方法については、Nullable & Defaultを参照してください。
 
-- **Enabling dynamic field**
+- **ダイナミックフィールドの有効化**
 
-    For details on how to enable and use the dynamic field, refer to [Dynamic Field](./enable-dynamic-field).
+    ダイナミックフィールドの有効化と使用方法については、Dynamic Fieldを参照してください。
 
-## Primary key and AutoId{#primary-key-and-autoid}
+## 主キーとAutoId{#autoid}
 
-Similar to the primary field in a relational database, a collection has a primary field to distinguish an entity from others. Each value in the primary field is globally unique and corresponds to one specific entity. 
+リレーショナルデータベースのプライマリフィールドと同様に、コレクションにはエンティティを他のものと区別するためのプライマリフィールドがあります。プライマリフィールドの各値はグローバルに一意であり、1つの特定のエンティティに対応します。
 
-As shown in the above chart, the field named **id** serves as the primary field, and the first ID **0** corresponds to an entity titled *The Mortality Rate of Coronavirus is Not Important*. There will not be any other entity that has the primary field of 0. 
+上記のチャートに示されているように、**id**という名前のフィールドがプライマリフィールドとして機能し、最初のID**0**は*The Mortality Rate of Coronavirus is Not Important*というタイトルのエンティティに対応します。プライマリフィールドが0のエンティティは他に存在しません。
 
-A primary field accepts only integers or strings. When inserting entities, you should include the primary field values by default. However, if you have enabled **AutoId** upon collection creation, Zilliz Cloud will generate those values upon data insertion. In such a case, exclude the primary field values from the entities to be inserted.
+プライマリフィールドは整数または文字列のみを受け入れます。エンティティを挿入する場合、デフォルトでプライマリフィールドの値を含める必要があります。ただし、コレクション作成時に**AutoId**を有効にしている場合は、Zilliz Cloudがデータ挿入時にこれらの値を生成します。その場合、プライマリフィールドの値を挿入するエンティティから除外してください。
 
-For more information, please refer to [Primary Field & AutoId](./primary-field-auto-id).
+詳細については、Primary Field & AutoIdを参照してください。
 
-## Index{#index}
+## インデックス{#}
 
-Creating indexes on specific fields improves search efficiency. You are advised to create indexes for all the fields your service relies on, among which indexes on vector fields are mandatory.
+特定のフィールドにインデックスを作成すると、検索の効率が向上します。サービスが依存するすべてのフィールドにインデックスを作成することをお勧めします。その中でも、ベクトルフィールドのインデックスは必須です。
 
-Unlike in Milvus, AUTOINDEX is the only applicable index type to the vector fields in collections on Zilliz Cloud. For more details, refer to [AUTOINDEX Explained](./autoindex-explained).
+\<ターゲットを含める="zilliz">
 
-## Entity{#entity}
+Milvusとは異なり、Zilliz Cloud上のコレクション内のベクトルフィールドに適用可能なインデックスタイプはAUTOINDEXのみです。詳細については、AUTOINDEX Explainedを参照してください。
 
-Entities are data records that share the same set of fields in a collection. The values in all fields of the same row comprise an entity.
+\</include>
 
-You can insert as many entities as you need into a collection. However, as the number of entities mounts, the memory size it takes also increases, affecting search performance.
+## エンティティ{#}
 
-For more information, refer to [Schema Explained](./schema-explained).
+エンティティは、コレクション内の同じフィールドセットを共有するデータレコードです。同じ行のすべてのフィールドの値がエンティティを構成します。
 
-## Load and Release{#load-and-release}
+コレクションには必要な数のエンティティを挿入することができます。ただし、エンティティの数が増えるにつれて、必要なメモリ体格も増加し、検索のパフォーマンスに影響を与えます。
 
-Loading a collection is the prerequisite to conducting similarity searches and queries in collections. When you load a collection, Zilliz Cloud loads all index files and the raw data in each field into memory for fast response to searches and queries.
+詳細は、Schema Explainedを参照してください。
 
-Searches and queries are memory-intensive operations. To save the cost, you are advised to release the collections that are currently not in use.
+## ロードとリリース{#}
 
-For more details, refer to [Load & Release](./load-release-collections).
+コレクションをロードすることは、コレクション内の類似検索やクエリを実行するための前提条件です。コレクションをロードすると、Zilliz Cloudは、検索やクエリに迅速に応答するために、すべてのインデックスファイルと各フィールドの生データをメモリにロードします。
 
-## Search and Query{#search-and-query}
+検索とクエリはメモリを大量に消費する操作です。コストを節約するために、現在使用されていないコレクションを解放することをお勧めします。
 
-Once you create indexes and load the collection, you can start a similarity search by feeding one or several query vectors. For example, when receiving the vector representation of your query carried in a search request, Zilliz Cloud uses the specified metric type to measure the similarity between the query vector and those in the target collection before returning those that are semantically similar to the query.
+詳細については、Load & Releaseを参照してください。
 
-You can also include metadata filtering within searches and queries to improve the relevancy of the results. Note that, metadata filtering conditions are mandatory in queries but optional in searches.
+## 検索とクエリ{#}
 
-For details on applicable metric types, refer to [Metric Types](./search-metrics-explained).
+インデックスを作成してコレクションをロードしたら、1つまたは複数のクエリベクトルを入力することで類似性検索を開始できます。たとえば、検索リクエストでクエリのベクトル表現を受け取った場合、Zilliz Cloudは指定されたメトリックタイプを使用して、クエリベクトルとターゲットコレクション内のベクトルの類似性を測定し、クエリに意味的に類似したものを返します。
 
-For more information about searches and queries, refer to the articles in the [Search & Rerank](./search-query-get) chapter, among which, basic features are:
+検索やクエリにメタデータフィルタリングを含めることで、結果の関連性を向上させることもできます。なお、メタデータフィルタリング条件はクエリでは必須ですが、検索では任意です。
 
-- [Basic ANN Search](./single-vector-search)
+適用可能なメトリックタイプの詳細については、Metric Typesを参照してください。
 
-- [Filtered Search](./filtered-search)
+検索とクエリの詳細については、「Search & Rerank」の章の記事を参照してください。
 
-- [Range Search](./range-search)
+- Basic ANN Search
 
-- [Grouping Search](./grouping-search)
+- Filtered Search
 
-- [Hybrid Search](./hybrid-search)
+- Range Search
 
-- [Search Iterator](./with-iterators)
+- Grouping Search
 
-- [Query](./get-and-scalar-query)
+- Hybrid Search
 
-- [Full Text Search](./full-text-search)
+- Search Iterator
 
-- [Text Match](./text-match)
+- Query
 
-In addition, Zilliz Cloud also provides enhancements to improve search performance and efficiency. They are disabled by default, and you can enable and use them according to your service requirements. They are
+- Full Text Search
 
-- [Use Partition Key](./use-partition-key)
+- Text Match
 
-- [Use mmap](./use-mmap)
+さらに、Zilliz Cloudでは、検索のパフォーマンスと効率を向上させるための機能強化も提供されています。これらはデフォルトで無効になっており、サービス要件に応じて有効にして使用することができます。
 
-## Partition{#partition}
+- Use Partition Key
 
-Partitions are subsets of a collection, which share the same field set with its parent collection, each containing a subset of entities.
+- Use mmap
 
-By allocating entities into different partitions, you can create entity groups. You can conduct searches and queries in specific partitions to have Zilliz Cloud ignore entities in other partitions, and improve search efficiency.
+## パーティション{#}
 
-For details, refer to [Manage Partitions](./manage-partitions).
+パーティションはコレクションのサブセットであり、親コレクションと同じフィールドセットを共有し、それぞれにエンティティのサブセットが含まれています。
 
-## Shard{#shard}
-
-Shards are horizontal slices of a collection. Each shard corresponds to a data input channel. Every collection has a shard by default. You can set the appropriate number of shards when creating a collection based on the expected throughput and the volume of the data to insert into the collection.
-
-For details on how to set the shard number, refer to [Create Collection](./manage-collections-sdks).
-
-## Alias{#alias}
-
-You can create aliases for your collections. A collection can have several aliases, but collections cannot share an alias. Upon receiving a request against a collection, Zilliz Cloud locates the collection based on the provided name. If the collection by the provided name does not exist, Zilliz Cloud continues locating the provided name as an alias. You can use collection aliases to adapt your code to different scenarios.
-
-For more details, refer to [Manage Aliases](./manage-aliases).
-
-## Function{#function}
-
-You can set functions for Zilliz Cloud to derive fields upon collection creation. For example, the full-text search function uses the user-defined function to derive a sparse vector field from a specific varchar field. For more information on full-text search, refer to [Full Text Search](./full-text-search).
-
-## Consistency Level{#consistency-level}
-
-Distributed database systems usually use the consistency level to define the data sameness across data nodes and replicas. You can set separate consistency levels when you create a collection or conduct similarity searches within the collection. The applicable consistency levels are **Strong**, **Bounded Staleness**, **Session**, and **Eventually**.
-
- For details on these consistency levels, refer to [Consistency Level](./consistency-level).
-
-## Limits{#limits}
-
-The following table lists the limits on the maximum number of collections you can create when using different cluster types. 
-
-<table>
-   <tr>
-     <th><p><strong>Cluster Type</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Free cluster</p></td>
-     <td><p>5</p></td>
-     <td><p>You can create up to 5 collections.</p></td>
-   </tr>
-   <tr>
-     <td><p>Serverless cluster</p></td>
-     <td><p>100</p></td>
-     <td><p>You can create up to 100 collections.</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster</p></td>
-     <td><p>64 per CU, and &lt;= 4096</p></td>
-     <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
-   </tr>
-</table>
-
-In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following table lists the limits on the general capacity of a cluster.
-
-<table>
-   <tr>
-     <th><p><strong>Number of CUs</strong></p></th>
-     <th><p><strong>General Capacity</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>1-8 CUs</p></td>
-     <td><p>&lt;= 4,096</p></td>
-   </tr>
-   <tr>
-     <td><p>12+ CUs</p></td>
-     <td><p>Min(512 x Number of CUs, 65536)</p></td>
-   </tr>
-</table>
-
-For details on the calculation of general and consumed capacity, refer to [Zilliz Cloud Limits](./limits#collections).
+エンティティを異なるパーティションに割り当てることで、エンティティグループを作成できます。Zilliz Cloudが他のパーティションのエンティティを無視するように、特定のパーティションで検索やクエリを実行し、検索効率を向上させることができます。
+
+詳細については、「Manage Partitionsする」を参照してください。
+
+## シャード{#}
+
+シャードはコレクションの水平スライスです。各シャードはデータ入力チャネルに対応します。すべてのコレクションにはデフォルトでシャードがあります。コレクションを作成する際に、期待されるスループットとコレクションに挿入するデータの量に基づいて、適切なシャード数を設定できます。
+
+シャード番号の設定方法については、Create Collectionするを参照してください。
+
+## エイリアス{#}
+
+コレクションのエイリアスを作成できます。コレクションには複数のエイリアスを含めることができますが、コレクションはエイリアスを共有することはできません。コレクションに対するリクエストを受け取ると、Zilliz Cloudは指定された名前に基づいてコレクションを検索します。指定された名前のコレクションが存在しない場合、Zilliz Cloudは指定された名前をエイリアスとして検索し続けます。コレクションのエイリアスを使用して、コードをさまざまなシナリオに適応させることができます。
+
+詳細については、Manage Aliasesするを参照してください。
+
+## 機能する{#}
+
+Zilliz Cloudに対して関数を設定することで、コレクション作成時にフィールドを導出することができます。例えば、全文検索関数は、特定のvarcharフィールドから疎ベクトルフィールドを導出するために、ユーザー定義関数を使用します。全文検索の詳細については、Full Text Searchを参照してください。
+
+## 一貫性レベル{#}
+
+分散データベースシステムは通常、データノードとレプリカ間のデータの同一性を定義するために一貫性レベルを使用します。コレクションを作成するときやコレクション内で類似性検索を実行するときに、別々の一貫性レベルを設定できます。適用可能な一貫性レベルは、**Strong**、**Bounded Staleness**、**Session**、および**Eventally**です。
+
+これらの一貫性レベルの詳細については、Consistency Levelを参照してください。
+
+\<ターゲットを含める="zilliz">
+
+## 限界{#}
 

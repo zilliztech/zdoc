@@ -1,52 +1,52 @@
 ---
-title: "Release Notes (Dec 5, 2022) | Cloud"
+title: "リリースノート（2022年12月5日） | Cloud"
 slug: /release-notes-009
-sidebar_label: "Release Notes (Dec 5, 2022)"
+sidebar_label: "リリースノート（2022年12月5日）"
 beta: FALSE
 notebook: FALSE
-description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release introduces a new console for Zilliz Cloud services, supports new cloud regions, and allows secure cluster access through private links. | Cloud"
+description: "Zilliz Cloudの重要なアップデートの一般提供を発表できることを嬉しく思います。このリリースでは、Zilliz Cloudサービス用の新しいコンソールが導入され、新しいクラウドリージョンがサポートされ、プライベートリンクを介して安全なクラスターアクセスが可能になります。 | Cloud"
 type: origin
-token: QZXVwFVH3i1p08kal8vcAmmxnie
+token: Zbxlw0dTIilIRFkgKvxco0vqnwb
 sidebar_position: 21
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (Dec 5, 2022)
+# リリースノート（2022年12月5日）
 
-We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release introduces a new console for Zilliz Cloud services, supports new cloud regions, and allows secure cluster access through private links.
+Zilliz Cloudの重要なアップデートの一般提供を発表できることを嬉しく思います。このリリースでは、Zilliz Cloudサービス用の新しいコンソールが導入され、新しいクラウドリージョンがサポートされ、プライベートリンクを介して安全なクラスターアクセスが可能になります。
 
-- New UI for Zilliz Cloud services
+- Zilliz Cloudサービスの新しいUI
 
-    With this release, we are pleased to introduce the new UI for Zilliz Cloud. A tree-based navigation structure in the brand-new UI offers you much more intuitive guidance. All the functionalities are organized into five categories:
+    今回のリリースでは、Zilliz Cloudの新しいUIをご紹介できることを嬉しく思います。新しいUIのツリーベースのナビゲーション構造により、より直感的なガイダンスを提供します。すべての機能は5つのカテゴリに分類されています。
 
-    All these functions are now available in a 90-day free trial on Zilliz Cloud. [Try Now!](https://cloud.zilliz.com/)
+    Zilliz Cloudでは、これらの機能を90日間の無料トライアルでご利用いただけます。[今すぐお試しください!](https://cloud.zilliz.com/)
 
-- Support AWS region **US-East-2**
+- サポートAWSリージョン**US-East-2**
 
-    We are pleased to announce that Zilliz Cloud now supports service deployment on a new AWS region **US-East-2**. Currently, the supported regions are AWS **US-West-2** and **US-East-2**.
+    Zilliz Cloudは、新しいAWSリージョン**US-East-2**でのサービス展開をサポートすることをお知らせいたします。現在サポートされているリージョンは、AWS**US-West-2**と**US-East-2**です。
 
-- Private link
+- プライベートリンク
 
-    Private link provides a private connection from your application to a database. The private link solution caters to the need for private, more secure, and more efficient connectivity to Zilliz Cloud services.
+    プライベートリンクは、アプリケーションからデータベースへのプライベート接続を提供します。プライベートリンクソリューションは、Zilliz Cloudサービスへのプライベートでより安全かつ効率的な接続のニーズに応えます。
 
-    To set up a database connection with a private link, you need to register your VPC endpoint with Zilliz Cloud to create a private link and map the link to the DNS name of the endpoint. 
+    プライベートリンクを使用してデータベース接続を設定するには、Zilliz CloudにVPCエンドポイントを登録してプライベートリンクを作成し、そのリンクをエンドポイントのDNS名にマッピングする必要があります。
 
-    For details, refer to [Set up a Private Link](./setup-a-private-link).
+    詳細については、「Set up a Private Link」を参照してください。
 
-- Data import from large files
+- 大きなファイルからのデータインポート
 
-    We are pleased to announce that Zilliz Cloud now supports data import from large files. You can bulk-insert data into your collection from a file up to 512 MB. The files can be located either in an S3 bucket or on your local disk.
+    Zilliz Cloudが大きなファイルからのデータインポートをサポートすることをお知らせいたします。最大512 MBのファイルからデータを一括でコレクションに挿入できます。ファイルはS 3バケットまたはローカルディスクに配置できます。
 
-    For details, refer to [Data Import](./data-import).
+    詳細はData Importを参照してください。

@@ -1,123 +1,123 @@
 ---
-title: "Release Notes (Sept 4, 2024) | Cloud"
+title: "リリースノート（2024年9月4日） | Cloud"
 slug: /release-notes-2100
-sidebar_label: "Release Notes (Sept 4, 2024)"
+sidebar_label: "リリースノート（2024年9月4日）"
 beta: FALSE
 notebook: FALSE
-description: "This release brings several key updates to Zilliz Cloud, starting with the GA of Zilliz Cloud Serverless, which offers automatic scaling and enables up to 50x cost savings. Milvus 2.4 features are now GA, introducing capabilities such as sparse vectors, multi-vector hybrid search, and inverted index with fuzzy matching. This release also includes multi-replica functionality in public preview, allowing users to improve query throughput and availability by distributing workloads across replicas in multiple Availability Zones (AZs). Additionally, Zilliz Cloud’s new Migration Service supports migration from open-source Milvus, pgvector, Elasticsearch, and enables intra-organization and cross-organization data migrations within Zilliz Cloud. The expanded RESTful APIs for backup, restore, migration, and job management empower users to build automated operational workflows. Further enhancements include support for Project Read-only roles and the ability to rename clusters and snapshots. | Cloud"
+description: "このリリースでは、Zilliz Cloud ServerlessのGAから始まり、自動スケーリングを提供し、最大50倍のコスト削減が可能になりました。Milvus 2.4機能がGAになり、スパースベクトル、マルチベクトルハイブリッド検索、ファジーマッチング付き逆インデックスなどの機能が導入されました。このリリースには、パブリックプレビューのマルチレプリカ機能も含まれており、複数の可用性ゾーン(AZ)のレプリカにワークロードを分散することで、クエリのスループットと可用性を向上させることができます。さらに、Zilliz Cloudの新しいMigration Serviceは、オープンソースのMilvus、pgvector、Elasticsearchからの移行をサポートし、Zilliz Cloud内での組織内および組織間のデータ移行を可能にします。バックアップ、リストア、移行、ジョブ管理のための拡張されたRESTful APIにより、ユーザーは自動化された運用ワークフローをその他の機能強化には、プロジェクトの読み取り専用ロールのサポート、クラスターとスナップショットの名前変更機能が含まれます。 | Cloud"
 type: origin
-token: PJ4hwwD1DiVnv0kWPZBceLrdnSf
+token: IAMrwQHwWiHZHekyLuZcVMVunyg
 sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (Sept 4, 2024)
+# リリースノート（2024年9月4日）
 
-This release brings several key updates to Zilliz Cloud, starting with the **GA of Zilliz Cloud Serverless**, which offers automatic scaling and enables up to 50x cost savings. **Milvus 2.4 features** are now GA, introducing capabilities such as sparse vectors, multi-vector hybrid search, and inverted index with fuzzy matching. This release also includes **multi-replica functionality** in public preview, allowing users to improve query throughput and availability by distributing workloads across replicas in multiple Availability Zones (AZs). Additionally, Zilliz Cloud’s new **Migration Service** supports migration from open-source Milvus, pgvector, Elasticsearch, and enables intra-organization and cross-organization data migrations within Zilliz Cloud. The expanded **RESTful APIs** for backup, restore, migration, and job management empower users to build automated operational workflows. Further enhancements include support for Project Read-only roles and the ability to rename clusters and snapshots.
+このリリースでは、**Zilliz Cloud ServerlessのGA**から始まり、自動スケーリングを提供し、最大50倍のコスト削減が可能になりました。**Milvus 2.4機能**がGAになり、スパースベクトル、マルチベクトルハイブリッド検索、ファジーマッチング付き逆インデックスなどの機能が導入されました。このリリースには、パブリックプレビューの**マルチレプリカ機能**も含まれており、複数の可用性ゾーン(AZ)のレプリカにワークロードを分散することで、クエリのスループットと可用性を向上させることができます。さらに、Zilliz Cloudの新しい**Migration Service**は、オープンソースのMilvus、pgvector、Elasticsearchからの移行をサポートし、Zilliz Cloud内での組織内および組織間のデータ移行を可能にします。バックアップ、リストア、移行、ジョブ管理のための拡張された**RESTful API**により、ユーザーは自動化された運用ワークフローをその他の機能強化には、プロジェクトの読み取り専用ロールのサポート、クラスターとスナップショットの名前変更機能が含まれます。
 
-### Milvus Compatibility{#milvus-compatibility}
+### Milvusの互換性{#milvus}
 
-This release is compatible with **Milvus 2.4.x**.
+このリリースは**Milvus 2.4. x**と互換性があります。
 
-### Serverless GA{#serverless-ga}
+### サーバーレスGA{#ga}
 
-After a year of refinement, Zilliz Cloud Serverless is now generally available. Designed as a hassle-free serverless vector database for GenAI applications, Zilliz Cloud Serverless offers automatic scaling that adjusts to your app's demands, delivering up to 50x cost savings. Its cost-efficiency is made possible by a tiered storage system that optimizes data placement across DRAM, SSD, and object storage, ensuring quick access to active data while reducing costs for less frequently used data — all without manual intervention.
+1年間の改良の後、Zilliz Cloud Serverlessが一般的に利用可能になりました。Gen AIアプリケーション向けの手間のかからないサーバーレスベクトルデータベースとして設計されたZilliz Cloud Serverlessは、アプリの要求に合わせて自動スケーリングを提供し、最大50倍のコスト削減を実現します。DRAM、SSD、オブジェクトストレージ全体にわたるデータ配置を最適化する段階的なストレージシステムにより、アクティブなデータへの迅速なアクセスを確保しながら、より頻繁に使用されないデータのコストを削減することができ、すべて手動の介入なしに実現されます。
 
-Unlike dedicated clusters, the serverless service ensures you only pay for what you use, eliminating the costs for idle servers. With convenient migration features, you can easily transfer your data from open-source Milvus to Zilliz Cloud Serverless, or from Serverless to a Dedicated Cluster, to accommodate your changing needs.
+専用クラスターとは異なり、サーバーレスサービスは使用した分だけ支払うことを保証し、アイドルサーバーのコストを排除します。便利な移行機能により、オープンソースのMilvusからZilliz Cloud Serverlessに、またはServerlessから専用クラスターにデータを簡単に転送して、変化するニーズに対応できます。
 
-[Learn more or get a free trial.](https://zilliz.com/serverless)
+[もっと学ぶか、無料トライアルを受けてください。](https://zilliz.com/serverless)
 
-### Milvus 2.4.x New Features GA on Zilliz Cloud{#milvus-24x-new-features-ga-on-zilliz-cloud}
+### Zilliz CloudでMilvus 2.4. xの新機能がGAしました。{#zilliz-cloudmilvus-24-xga}
 
-Milvus 2.4 offers many highly practical capabilities for RAG and multimodal data search. If you want to try these new features, you can update your cluster to Public Preview. Since Milvus 2.4 has not reached a stable version, be cautious when you adopt Milvus 2.4 features in your production environment.
+Milvus 2.4は、RAGおよびマルチモーダルデータ検索のための多くの非常に実用的な機能を提供しています。これらの新機能を試したい場合は、クラスタをパブリックプレビューに更新することができます。Milvus 2.4は安定したバージョンに達していないため、本番環境でMilvus 2.4の機能を採用する際には注意が必要です。
 
-#### Sparse Vector{#sparse-vector}
+#### 疎ベクトル{#}
 
-Sparse vectors are different from their dense counterparts as they tend to have several magnitude higher number of dimensions with only a handful being non-zero. This feature offers better interpretability due to its term-based nature and can be more effective in certain domains. Learned sparse models such as SPLADEv2/BGE-M3 have proven to be very useful for common first-stage ranking tasks. The main use case for this new feature is to allow efficient approximate semantic nearest neighbor search over sparse vectors generated by neural models such as SPLADEv2/BGE-M3 and statistics models such as the BM25 algorithm. Zilliz Cloud now supports effective and high-performance storage, indexing, and searching (MIPS, Maximum Inner Product Search) of sparse vectors.
+疎ベクトルは、非ゼロのものがわずかしかなく、次元数が数桁高くなる傾向があるため、密ベクトルとは異なります。この機能は、用語ベースの性質により、より良い解釈性を提供し、特定の領域でより効果的になることがあります。SPLADE v 2/BGE-M 3などの学習済み疎モデルは、一般的な第一段階のランキングタスクに非常に役立つことが証明されています。この新機能の主な用途は、SPLADE v 2/BGE-M 3などのニューラルモデルやBM 25アルゴリズムなどの統計モデルによって生成された疎ベクトルに対する効率的な近似意味最近傍探索を可能にすることです。Zilliz Cloudは、疎ベクトルの効果的かつ高性能なストレージ、インデックス付け、および検索(MIPS、最大内積検索)をサポートしています。
 
-Example code can be found in [hello_sparse.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/hello_sparse.py).
+サンプルコードは[hello_sparse.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/hello_sparse.py)にあります。
 
-#### Multi-vector & Hybrid Search{#multi-vector-and-hybrid-search}
+#### マルチベクトル&ハイブリッド検索{#and}
 
-Multi-vector support is the cornerstone for applications that require multi-model data processing or a mix of dense and sparse vectors. With multi-vector support, now you can:
+マルチベクトルサポートは、マルチモデルデータ処理や密なベクトルと疎なベクトルの混合を必要とするアプリケーションの基盤となります。マルチベクトルサポートにより、以下のことが可能になります:
 
-- Store vector embeddings generated for unstructured text, image, or audio samples from multiple models.
+- 複数のモデルから生成された非構造化テキスト、画像、またはオーディオサンプルのベクトル埋め込みを保存します。
 
-- Conduct ANN searches that include multiple vectors of each entity.
+- 各エンティティの複数のベクトルを含むANN検索を実行してください。
 
-- Customize search strategies by assigning weights to different embedding models.
+- 異なる埋め込みモデルに重みを割り当てることで、検索戦略をカスタマイズできます。
 
-- Experiment with various embedding models to find the optimal model combination.
+- 最適なモデルの組み合わせを見つけるために、さまざまな埋め込みモデルを実験してください。
 
-Multi-vector support allows storing, indexing, and applying reranking strategies to multiple vector fields of different types, such as FLOAT_VECTOR and SPARSE_FLOAT_VECTOR, in a collection. Currently, two reranking strategies are available: **Reciprocal Rank Fusion (RRF)** and **Average Weighted Scoring**. Both strategies combine the search results from different vector fields into a unified result set. RRF considers the positions of items in the original rankings, giving higher importance to those that rank higher across multiple lists and prioritizing entities that consistently appear in different vector fields. Average Weighted Scoring assigns weights to the search results of each vector field to determine their importance in the final result set.
+マルチベクトルサポートにより、FLOAT_VECTORやSPARSE_FLOAT_VECTORなど、異なるタイプの複数のベクトルフィールドに対して、コレクション内に格納、インデックス化、再ランキング戦略を適用することができます。現在、2つの再ランキング戦略が利用可能です。**Reciprocal Rank Fusion(RRF)**と**Average Weighted Scoring**です。両方の戦略は、異なるベクトルフィールドからの検索結果を統一された結果セットに結合します。RRFは、元のランキング内のアイテムの位置を考慮し、複数のリストで上位にランクされるアイテムに高い重要性を与え、異なるベクトルフィールドに一貫して表示されるエンティティに優先順位を付けます。Average Weighted Scoringは、各ベクトルフィールドの検索結果に重みを割り当て、最終結果セットでの重要性を決定します。
 
-Example code can be found in [hybrid_search.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/hybrid_search.py).
+サンプルコードは[hybrid_search.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/hybrid_search.py)にあります。
 
-#### Improved Metadata Filtering and Substring Matching{#improved-metadata-filtering-and-substring-matching}
+#### メタデータのフィルタリングと部分文字列のマッチングの改善{#}
 
-In this release, we made two key improvements to metadata filtering. First, we improved the performance for filtering scalar data types by introducing a new scalar inverted index. Second, we expanded our support for substring matching during metadata filtering
+今回のリリースでは、メタデータフィルタリングに2つの重要な改善を加えました。1つ目は、新しいスカラー反転インデックスを導入することで、スカラーデータ型のフィルタリングのパフォーマンスを向上させました。2つ目は、メタデータフィルタリング中の部分文字列マッチングのサポートを拡大しました
 
-In previous releases of Milvus, metadata filtering was implemented with memory-based binary search indexes and Marisa Trie indexes. These methods are memory-intensive. The latest release of Zilliz Cloud now employs the Tantivy-based inverted index, which can be applied to all numeric and string data types. This new index improves the performance of scalar query on strings by 10x. It also consumes less memory, by applying data compression and Memory-mapped storage (MMap) mechanism on the internal indexing structure. Example code can be found in [inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py)
+Milvusの以前のリリースでは、メモリベースのバイナリサーチインデックスとMarisa Trieインデックスを使用してメタデータフィルタリングが実装されていました。これらの方法はメモリを大量に消費します。Zilliz Cloudの最新リリースでは、すべての数値および文字列データ型に適用できるTantivyベースの逆インデックスが使用されています。この新しいインデックスは、文字列に対するスカラークエリのパフォーマンスを10倍向上させます。また、内部インデックス構造にデータ圧縮とメモリマップドストレージ(MMap)メカニズムを適用することで、より少ないメモリを消費します。サンプルコードは以下にあります[inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py)
 
-This release also adds support for more flexible string matching, including prefix, infix, postfix, and wildcard patterns.
+このリリースでは、プレフィックス、インフィックス、ポストフィックス、ワイルドカードパターンなど、より柔軟な文字列マッチングのサポートも追加されています。
 
-#### Grouping Search{#grouping-search}
+#### グループ検索{#}
 
-You can now aggregate search results by the values in a specific scalar field. This is useful in RAG for retrieving document chunks as well as returning unique document IDs related to the search query. Considering a collection of documents where each document is split into several chunks, with each chunk represented by a vector embedding, you can use the `group_by_field` argument in the `search()` operation to group results by document ID, allowing you to find the list of relevant documents while searching for semantically relevant chunks.
+特定のスカラーフィールドの値によって検索結果を集計できるようになりました。これは、検索クエリに関連する一意のドキュメントIDを返すだけでなく、ドキュメントチャンクを取得するためにRAGで役立ちます。各ドキュメントが複数のチャンクに分割され、各チャンクがベクトル埋め込みで表されるドキュメントのコレクションを考慮すると、`group_by_field`引数を`search()`操作で使用して、ドキュメントIDによって結果をグループ化し、意味的に関連するチャンクを検索しながら関連するドキュメントのリストを見つけることができます。
 
-Example code can be found in [example_group_by.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/example_group_by.py).
+サンプルコードは[example_group_by.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/example_group_by.py)にあります。
 
-#### Float16 and BFloat- Vector DataType{#float16-and-bfloat-vector-datatype}
+#### Float 16とBFloatベクトルデータ型{#float-16bfloat}
 
-Machine learning and neural networks often use half-precision data types, such as Float16 and BFloat. These data types can improve query efficiency and reduce memory usage at a cost of reduced accuracy. With this release, Zilliz Cloud now supports these data types for vector fields.
+機械学習やニューラルネットワークは、しばしばFloat 16やBFloatなどの半精度データ型を使用します。これらのデータ型は、クエリの効率を向上させ、メモリ使用量を減らすことができますが、精度は低下します。このリリースにより、Zilliz Cloudはベクトルフィールドに対してこれらのデータ型をサポートするようになりました。
 
-Example code can be found in [float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/float16_example.py) and [bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/bfloat16_example.py).
+サンプルコードは[float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/float16_example.py)と[bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/bfloat16_example.py)にあります。
 
-### Multi-replica{#multi-replica}
+### マルチレプリカ{#}
 
-Multi-replica is now available in Zilliz Cloud, enabling cluster-level replication to boost both query throughput and availability.
+Zilliz Cloudでマルチレプリカが利用可能になりました。これにより、クラスターレベルのレプリケーションが可能になり、クエリのスループットと可用性の両方が向上します。
 
-- **Improved Query Performance**: For users requiring high query-per-second (QPS), multi-replica allows query workloads to be distributed across replicas. This parallel processing enhances overall throughput, reduces latency, and improves efficiency for query-intensive applications. In most cases, the overall QPS can be improved linearly as replicas are added.
+- **改善されたクエリパフォーマンス**:高いクエリ毎秒(QPS)を必要とするユーザーにとって、マルチレプリカはクエリワークロードをレプリカ全体に分散させることができます。この並列処理により、全体的なスループットが向上し、レイテンシが減少し、クエリ集中型アプリケーションの効率が向上します。ほとんどの場合、レプリカが追加されるにつれて、全体的なQPSは線形に改善されます。
 
-- **Enhanced Availability**: Multi-replica strengthens availability by distributing replicas across multiple Availability Zones (AZs). This setup ensures continuous access to data, even in the event of an AZ outage, offering greater reliability for mission-critical applications.
+- **拡張可用性**:マルチレプリカは、複数の可用性ゾーン(AZ)にレプリカを配布することで可用性を強化します。この設定により、AZの障害が発生してもデータへの継続的なアクセスが確保され、ミッションクリティカルなアプリケーションの信頼性が向上します。
 
-Currently, the multi-replica feature is in public preview and is available on the Enterprise Plan. To find more, read [Manage Replica](./manage-replica).
+現在、マルチレプリカ機能はパブリックプレビューであり、Enterprise Planで利用可能です。詳細については、「Manage Replica」をご覧ください。
 
-### Migration Service{#migration-service}
+### マイグレーションサービス{#}
 
-Zilliz Cloud now offers a comprehensive Migration Service, allowing users to complete migration tasks at ease. Currently, three types of migrations are supported:
+Zilliz Cloudは、ユーザーが簡単に移行タスクを完了できる包括的な移行サービスを提供しています。現在、3種類の移行がサポートされています。
 
-- Migrate from open-source Milvus to Zilliz Cloud. The migration target can be a Free Plan instance, Serverless instance, or Dedicated Cluster. For details, refer to [Migrate from Milvus to Zilliz Cloud](./migrate-from-milvus).
+- オープンソースのMilvusからZilliz Cloudへの移行を行います。移行対象は、Free Planインスタンス、Serverlessインスタンス、Dedicated Clusterのいずれかです。詳細については、「Migrate from Milvus to Zilliz Cloudする」を参照してください。
 
-- Migrate from other open-source databases to Zilliz Cloud, with current support for migrations from pgvector and Elasticsearch. The migration target can be a Free Plan instance, Serverless instance, or Dedicated Cluster. For details, refer to [Migrate from Elasticsearch to Zilliz Cloud](./migrate-from-elasticsearch) and [Migrate from pgvector to Zilliz Cloud](./migrate-from-pgvector).
+- 他のオープンソースデータベースからZilliz Cloudへの移行をサポートしています。現在、pgvectorとElasticsearchからの移行がサポートされています。移行対象は、Free Planインスタンス、Serverlessインスタンス、またはDedicated Clusterです。詳細については、「Migrate from Elasticsearch to Zilliz Cloud」と「Migrate from pgvector to Zilliz Cloud」を参照してください。
 
-- Migrate data within Zilliz Cloud, supporting both intra-organization and cross-organization data migrations. For details, refer to [Cross-Cluster Migrations](./migrate-between-clusters).
+- Zilliz Cloud内でデータを移行し、組織内および組織間のデータ移行をサポートします。詳細については、Cross-Cluster Migrationsを参照してください。
 
-### Backup/Restore/Migration/Jobs RESTful API{#backuprestoremigrationjobs-restful-api}
+### バックアップ/復元/移行/ジョブRESTful API{#yuanrestful-api}
 
-With this update, Zilliz Cloud has expanded the control plane API, introducing new functionalities that support backup, restore, migration, and job management.
+このアップデートにより、Zilliz CloudはコントロールプレーンAPIを拡張し、バックアップ、リストア、移行、ジョブ管理をサポートする新しい機能を導入しました。
 
-These RESTful APIs allow users to build their own automated operational workflows, providing greater flexibility and control over their data management and maintenance processes.
+これらのRESTful APIにより、ユーザーは独自の自動化された運用ワークフローを構築し、データ管理およびメンテナンスプロセスに対するより大きな柔軟性と制御を提供できます。
 
-[Learn more about the API details.](/reference/restful)
+[APIの詳細については、こちらをご覧ください。](/reference/restful)
 
-### Other Enhancements{#other-enhancements}
+### その他の機能強化{#}
 
-This release also includes a series of enhancements:
+このリリースには、一連の機能強化も含まれています。
 
-- Support for [Project Read-only Role](./project-users)
+- プロジェクトの[読み取り専用ロールSupport for Project Read-only Role](null)
 
-- Support for renaming clusters and snapshots
+- クラスタとスナップショットの名前変更のサポート
 

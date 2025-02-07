@@ -1,12 +1,12 @@
 ---
-title: "Nullable & Default | Cloud"
+title: "Nullableデフォルト(D) | Cloud"
 slug: /nullable-and-default
-sidebar_label: "Nullable & Default"
+sidebar_label: "Nullableデフォルト(D)"
 beta: PUBLIC
 notebook: FALSE
-description: "Zilliz Cloud allows you to set the `nullable` attribute and default values for scalar fields, except the primary field. For fields marked as `nullable=True`, you can skip the field when inserting data, or set it directly to a null value, and the system will treat it as null without causing an error. When a field has a default value, the system will automatically apply this value if no data is specified for the field during insertion. | Cloud"
+description: "Zilliz Cloudを使用すると、プライマリフィールドを除くスカラーフィールドの`nullable`属性とデフォルト値を設定できます。`nullable=True`としてマークされたフィールドの場合、データを挿入するときにフィールドをスキップするか、直接null値に設定すると、システムはエラーを引き起こすことなくnullとして扱います。フィールドにデフォルト値がある場合、挿入中にフィールドにデータが指定されていない場合、システムは自動的にこの値を適用します。 | Cloud"
 type: origin
-token: DjROwgK6ziCf7Rkoji6ccyEUnsg
+token: MoOdww8nbiV1Tvkpvu3cIV9Kn1R
 sidebar_position: 11
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 
@@ -27,33 +27,33 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Nullable & Default
+# Nullableデフォルト(D)
 
-Zilliz Cloud allows you to set the `nullable` attribute and default values for scalar fields, except the primary field. For fields marked as `nullable=True`, you can skip the field when inserting data, or set it directly to a null value, and the system will treat it as null without causing an error. When a field has a default value, the system will automatically apply this value if no data is specified for the field during insertion.
+Zilliz Cloudを使用すると、プライマリフィールドを除くスカラーフィールドの`nullable`属性とデフォルト値を設定できます。`nullable=True`としてマークされたフィールドの場合、データを挿入するときにフィールドをスキップするか、直接null値に設定すると、システムはエラーを引き起こすことなくnullとして扱います。フィールドにデフォルト値がある場合、挿入中にフィールドにデータが指定されていない場合、システムは自動的にこの値を適用します。
 
-The default value and nullable attributes streamline data migration from other database systems to Zilliz Cloud by allowing handling of datasets with null values and preserving default value settings. When creating a collection, you can also enable nullable or set default values for fields where values might be uncertain.
+デフォルト値とnullable属性は、null値を持つデータセットの処理を可能にし、デフォルト値の設定を保持することで、他のデータベースシステムからZilliz Cloudへのデータ移行を効率化します。コレクションを作成する際に、値が不確定なフィールドに対してnullableを有効にしたり、デフォルト値を設定することもできます。
 
-## Limits{#limits}
+## 限界{#}
 
-- Only scalar fields, excluding the primary field, support default values and the nullable attribute.
+- プライマリフィールドを除くスカラーフィールドのみが、デフォルト値とnull許容属性をサポートしています。
 
-- JSON and Array fields do not support default values.
+- JSONとArrayフィールドはデフォルト値をサポートしていません。
 
-- Default values or the nullable attribute can only be configured during collection creation and cannot be modified afterward.
+- デフォルト値またはnullable属性は、コレクションの作成時にのみ構成でき、その後は変更できません。
 
-- Scalar fields with the nullable attribute enabled cannot be used as `group_by_field` in Grouping Search. For more information about grouping search, refer to [Grouping Search](./grouping-search).
+- null属性が有効なスカラーフィールドは、グルーピング検索の`group_by_field`として使用できません。グルーピング検索の詳細については、Grouping Searchを参照してください。
 
-- Fields marked as nullable cannot be used as partition keys. For more information about partition keys, refer to [Use Partition Key](./use-partition-key).
+- NULLとマークされたフィールドはパーティションキーとして使用できません。パーティションキーの詳細については、「Use Partition Keyする」を参照してください。
 
-- When creating an index on a scalar field with the nullable attribute enabled, null values will be excluded from the index.
+- null属性を有効にしたスカラーフィールドにインデックスを作成すると、インデックスからnull値が除外されます。
 
-## Nullable attribute{#nullable-attribute}
+## Nullableな属性{#nullable}
 
-The `nullable` attribute allows you to store null values in a collection, providing flexibility when handling unknown data.
+nullable属性`を`使用すると、コレクションにnull値を格納できるため、未知のデータを柔軟に処理できます。
 
-### Set the nullable attribute{#set-the-nullable-attribute}
+### null許容属性を設定する{#null}
 
-When creating a collection, use `nullable=True` to define nullable fields (defaults to `False`). The following example creates a collection named `user_profiles_null` and sets the `age` field as nullable:
+コレクションを作成する場合は、`nullable=True`を使用してnullableフィールドを定義します（デフォルトは`False`）。次の例では、`user_profiles_null`という名前のコレクションを作成し、`age`フィールドをnullableに設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -232,9 +232,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Insert entities{#insert-entities}
+### 図形を挿入{#}
 
-When you insert data into a nullable field, insert null or directly omit this field:
+null許容フィールドにデータを挿入する場合は、nullを挿入するか、このフィールドを直接省略してください
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -312,9 +312,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Search and query with null values{#search-and-query-with-null-values}
+### NULL値を使用した検索とクエリ{#null}
 
-When using the `search` method, if a field contains `null` values, the search result will return the field as null:
+この`search`メソッドを使用した場合、フィールドに`null`値が含まれている場合、検索結果はそのフィールドをnullとして返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -403,7 +403,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-When you use the `query` method for scalar filtering, the filtering results for null values are all false, indicating that they will not be selected.
+スカラーフィルターに`query`メソッドを使用すると、null値のフィルター結果はすべてfalseになり、選択されないことを示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -481,7 +481,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-To query entities with `null` values, use an empty expression `""`:
+値が`null`のエンティティをクエリするには、空の式`""`を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -545,13 +545,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Default values{#default-values}
+## デフォルト値{#}
 
-Default values are preset values assigned to scalar fields. If you do not provide a value for a field with a default during insertion, the system automatically uses the default value.
+デフォルト値は、スカラーフィールドに割り当てられたプリセット値です。挿入時にデフォルトのフィールドに値を指定しない場合、システムは自動的にデフォルト値を使用します。
 
-### Set default values{#set-default-values}
+### デフォルト値を設定{#}
 
-When creating a collection, use the `default_value` parameter to define the default value for a field. The following example shows how to set the default value of `age` to `18` and `status` to `"active"`:
+コレクションを作成する際には、`default_value`パラメータを使用してフィールドのデフォルト値を定義します。以下の例では、`age`のデフォルト値を`18`に設定し、`status`を`"active"`に設定する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -735,9 +735,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Insert entities{#insert-entities}
+### 図形を挿入{#}
 
-When inserting data, if you omit fields with a default value or set their value to null, the system uses the default value:
+データを挿入するとき、デフォルト値のフィールドを省略するか、値をnullに設定すると、システムはデフォルト値を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -818,17 +818,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>For more information on how nullable and default value settings take effect, refer to <a href="./nullable-and-default">Applicable rules</a>. </p>
+<p>nullableとデフォルト値の設定がどのように有効になるかについては、適用されるルールを参照<a href="./nullable-and-default#">してください</a>。</p>
 
 </Admonition>
 
-### Search and query with default values{#search-and-query-with-default-values}
+### デフォルト値を使用した検索とクエリ{#}
 
-Entities that contain default values are treated the same as any other entities during vector searches and scalar filtering. You can include default values as part of your `search` and `query` operations.
+デフォルト値を含むエンティティは、ベクトル検索やスカラーフィルターで他のエンティティと同じように扱われます。`検索`や`クエリ`操作の一部としてデフォルト値を含めることができます。
 
-For example, in a `search` operation, entities with `age` set to the default value of `18` will be included in the results:
+例えば、`検索`操作では、`年齢`がデフォルト値の`18`に設定されたエンティティが結果に含まれます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -921,7 +921,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In a `query` operation, you can match or filter by default values directly:
+クエリ操作で`は`、デフォルト値を直接一致またはフィルタリングできます
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1027,58 +1027,58 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Applicable rules{#applicable-rules}
+## 適用ルール{#}
 
-The following table summarizes the behavior of nullable columns and default values under different configuration combinations. These rules determine how Zilliz Cloud handles data when attempting to insert null values or if field values are not provided.
+以下の表は、異なる構成の組み合わせにおけるnull許容列とデフォルト値の動作をまとめたものです。これらのルールは、Zilliz Cloudがnull値を挿入しようとした場合やフィールド値が提供されなかった場合にデータを処理する方法を決定します。
 
 <table>
    <tr>
-     <th><p>Nullable</p></th>
-     <th><p>Default Value</p></th>
-     <th><p>Default Value Type</p></th>
-     <th><p>User Input</p></th>
-     <th><p>Result</p></th>
-     <th><p>Example</p></th>
+     <th><p>Nullableは無効です。</p></th>
+     <th><p>デフォルト値</p></th>
+     <th><p>デフォルト値の型</p></th>
+     <th><p>ユーザー入力</p></th>
+     <th><p>結果を表示</p></th>
+     <th><p>例</p></th>
    </tr>
    <tr>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
-     <td><p>Non-null</p></td>
-     <td><p>None/null</p></td>
-     <td><p>Uses the default value</p></td>
-     <td><p>Field: <code>age</code></p><p>Default value: <code>18</code></p><p>User input: null</p><p>Result: stored as <code>18</code></p></td>
+     <td><p>非ヌル</p></td>
+     <td><p>なし/null</p></td>
+     <td><p>デフォルト値を使用する</p></td>
+     <td><p>フィールド:<code>年齢</code></p><p>デフォルト値:<code>18</code></p><p>ユーザー入力: null</p><p>結果:として保存<code>18</code></p></td>
    </tr>
    <tr>
      <td><p>✅</p></td>
      <td><p>❌</p></td>
      <td><p>-</p></td>
-     <td><p>None/null</p></td>
-     <td><p>Stored as null</p></td>
-     <td><p>Field: <code>middle_name</code></p><p>Default value: -</p><p>User input: null</p><p>Result: stored as null</p></td>
+     <td><p>なし/null</p></td>
+     <td><p>nullとして保存</p></td>
+     <td><p>フィールド:<code>mid dle_name</code></p><p>デフォルト値:-</p><p>ユーザー入力: null</p><p>結果: nullとして保存</p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
      <td><p>✅</p></td>
-     <td><p>Non-null</p></td>
-     <td><p>None/null</p></td>
-     <td><p>Uses the default value</p></td>
-     <td><p>Field: <code>status</code></p><p>Default value: <code>"active"</code></p><p>User input: null</p><p>Result: stored as <code>"active"</code></p></td>
+     <td><p>非ヌル</p></td>
+     <td><p>なし/null</p></td>
+     <td><p>デフォルト値を使用する</p></td>
+     <td><p>フィールド:<code>ステータス</code></p><p>デフォルト値:<code>"active"</code></p><p>ユーザー入力: null</p><p>結果:"active"として保存されました<code>。</code></p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
      <td><p>-</p></td>
-     <td><p>None/null</p></td>
-     <td><p>Throws an error</p></td>
-     <td><p>Field: <code>email</code></p><p>Default value: -</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
+     <td><p>なし/null</p></td>
+     <td><p>エラーをスローする</p></td>
+     <td><p>フィールド:<code>メール</code></p><p>デフォルト値:-</p><p>ユーザー入力: null</p><p>結果:操作が拒否され、システムがエラーをスローします</p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
      <td><p>✅</p></td>
-     <td><p>Null</p></td>
-     <td><p>None/null</p></td>
-     <td><p>Throws an error</p></td>
-     <td><p>Field: <code>username</code></p><p>Default value: null</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
+     <td><p>ヌル</p></td>
+     <td><p>なし/null</p></td>
+     <td><p>エラーをスローする</p></td>
+     <td><p>フィールド:<code>username</code></p><p>デフォルト値: null</p><p>ユーザー入力: null</p><p>結果:操作が拒否され、システムがエラーをスローします</p></td>
    </tr>
 </table>
 

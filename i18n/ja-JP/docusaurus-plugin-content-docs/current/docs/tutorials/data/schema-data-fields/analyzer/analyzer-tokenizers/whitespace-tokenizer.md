@@ -1,12 +1,12 @@
 ---
-title: "Whitespace | Cloud"
+title: "ホワイトスペース | Cloud"
 slug: /whitespace-tokenizer
-sidebar_label: "Whitespace"
+sidebar_label: "ホワイトスペース"
 beta: PUBLIC
 notebook: FALSE
-description: "The `whitespace` tokenizer divides text into terms whenever there is a space between words. | Cloud"
+description: "空白トークナイザ`は`、単語の間にスペースがあるときにテキストを用語に分割します。 | Cloud"
 type: origin
-token: F2QrwjFSziSUkJkyXzbcwovUnCg
+token: NZ6gwJIr8isL3KkgVvxcIqsEnjg
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - whitespace-tokenizer
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 
@@ -28,13 +28,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Whitespace
+# ホワイトスペース
 
-The `whitespace` tokenizer divides text into terms whenever there is a space between words.
+空白トークナイザ`は`、単語の間にスペースがあるときにテキストを用語に分割します。
 
-## Configuration{#configuration}
+## コンフィギュレーション{#}
 
-To configure an analyzer using the `whitespace` tokenizer, set `tokenizer` to `whitespace` in `analyzer_params`.
+空白トークナイザを使用してアナライザを`設定`するには、`tokenizer`を`空白`に`設定します`。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -57,7 +57,7 @@ analyzerParams.put("tokenizer", "whitespace");
 </TabItem>
 </Tabs>
 
-The whitespace tokenizer can work in conjunction with one or more filters. For example, the following code defines an analyzer that uses the `whitespace` tokenizer and `lowercase`[ filter](./lowercase-filter):
+空白トークナイザーは、1つ以上のフィルターと組み合わせて使用できます。例えば、以下のコードは、`空白`トークナイザーと`小文字`[フィルター](null)を使用するアナライザーを定義しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -82,19 +82,19 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 </TabItem>
 </Tabs>
 
-After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview).
+検`光子_params`を定義した後、コレクションスキーマを定義する際に`VARCHAR`フィールドに適用することができます。これにより、Zilliz Cloudは、指定されたアナライザを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行うことができます。詳細は、[使用例](null)を参照してください。
 
-## Example output{#example-output}
+## 出力の例{#}
 
-Here’s an example of how the `whitespace` tokenizer processes text:
+以下は、`空白`トークナイザーがテキストを処理する方法の例です。
 
-**Original text**:
+**オリジナルテキスト**:
 
 ```python
 "The Milvus vector database is built for scale!"
 ```
 
-**Expected output**:
+**予想される出力**:
 
 ```python
 ["The", "Milvus", "vector", "database", "is", "built", "for", "scale!"]

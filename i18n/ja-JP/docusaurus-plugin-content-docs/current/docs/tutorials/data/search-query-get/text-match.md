@@ -1,12 +1,12 @@
 ---
-title: "Text Match | Cloud"
+title: "テキスト一致 | Cloud"
 slug: /text-match
-sidebar_label: "Text Match"
+sidebar_label: "テキスト一致"
 beta: PUBLIC
 notebook: FALSE
-description: "Text match in Zilliz Cloud enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria. | Cloud"
+description: "Text match inZilliz Cloudは、特定の用語に基づく正確なドキュメント検索を可能にします。この機能は、特定の条件を満たすために主にフィルタリングされた検索に使用され、スカラーフィルタリングを組み込んでクエリ結果を絞り込むことができ、スカラー基準を満たすベクトル内の類似検索を可能にします。 | Cloud"
 type: origin
-token: RQQKwqhZUiubFzkHo4WcR62Gnvh
+token: Wf3IwGzjsi02c2kGaJlcTePAnfe
 sidebar_position: 10
 keywords: 
   - zilliz
@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -29,35 +29,35 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Text Match
+# テキスト一致
 
-Text match in Zilliz Cloud enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria.
+Text match inZilliz Cloudは、特定の用語に基づく正確なドキュメント検索を可能にします。この機能は、特定の条件を満たすために主にフィルタリングされた検索に使用され、スカラーフィルタリングを組み込んでクエリ結果を絞り込むことができ、スカラー基準を満たすベクトル内の類似検索を可能にします。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Text match focuses on finding exact occurrences of the query terms, without scoring the relevance of the matched documents. If you want to retrieve the most relevant documents based on the semantic meaning and importance of the query terms, we recommend you use <a href="./full-text-search">Full Text Search</a>.</p>
+<p>テキスト一致は、一致したドキュメントの関連性をスコアリングせずに、クエリ用語の正確な出現を見つけることに焦点を当てています。クエリ用語の意味と重要性に基づいて最も関連性の高いドキュメントを取得する場合は、Full Text Searchを使用することをお勧めします。</p>
 
 </Admonition>
 
-## Overview{#overview}
+## 概要について{#}
 
-Zilliz Cloud integrates [Tantivy](https://github.com/quickwit-oss/tantivy) to power its underlying inverted index and term-based text search. For each text entry, Zilliz Cloud indexes it following the procedure:
+Zilliz Cloudは、Tantivyを統合[し](https://github.com/quickwit-oss/tantivy)て、基礎となる転置インデックスと用語ベースのテキスト検索を強化しています。各テキストエントリについて、Zilliz Cloudは手順に従ってインデックス化します
 
-1. [Analyzer](./analyzer-overview): The analyzer processes input text by tokenizing it into individual words, or tokens, and then applying filters as needed. This allows Zilliz Cloud to build an index based on these tokens.
+1. [アナライザ](null):アナライザは、入力テキストを個々の単語またはトークンにトークン化し、必要に応じてフィルタを適用することで処理します。これにより、Zilliz Cloudは、これらのトークンに基づいてインデックスを構築できます。
 
-1. [Indexing](./manage-indexes): After text analysis, Zilliz Cloud creates an inverted index that maps each unique token to the documents containing it.
+1. [インデックス作成](null):テキスト解析後、Zilliz Cloudは、各一意のトークンを含むドキュメントにマップする反転インデックスを作成します。
 
-When a user performs a text match, the inverted index is used to quickly retrieve all documents containing the terms. This is much faster than scanning through each document individually.
+ユーザーがテキストマッチを実行すると、転置インデックスが使用され、用語を含むすべてのドキュメントが迅速に取得されます。これは、各ドキュメントを個別にスキャンするよりもはるかに高速です。
 
-![N43zw7HuGhmCHRbYDDmctO1bnkd](/img/N43zw7HuGhmCHRbYDDmctO1bnkd.png)
+![Hj7ZwCqNnhHOktbDnstcOeYXn3s](/img/ja-JP/Hj7ZwCqNnhHOktbDnstcOeYXn3s.png)
 
-## Enable text match{#enable-text-match}
+## テキストマッチを有効にする{#}
 
-Text match works on the `VARCHAR` field type, which is essentially the string data type in Zilliz Cloud. To enable text match, set both `enable_analyzer` and `enable_match` to `True` and then optionally configure an [analyzer](./analyzer-overview) for text analysis when defining your collection schema.
+テキストマッチは、`VARCHAR`フィールドタイプで動作します。これは、Zilliz Cloudの文字列データ型です。テキストマッチを有効にするには、`enable_analysis`と`enable_match`の両方を`True`に設定し、コレクションスキーマを定義する際にテキスト分析用の[アナライザ](null)をオプションで設定します。
 
-### Set `enable_analyzer` and `enable_match`{#set-enableanalyzer-and-enablematch}
+### Enable_Analyzer`とEnable_Match`を`設定してください。`{#enableanalyzerenablematch}
 
-To enable text match for a specific `VARCHAR` field, set both the `enable_analyzer` and `enable_match` parameters to `True` when defining the field schema. This instructs Zilliz Cloud to tokenize text and create an inverted index for the specified field, allowing fast and efficient text matches.
+特定の`VARCHAR`フィールドに対してテキストマッチを有効にするには、フィールドスキーマを定義する際に`enable_analysis`と`enable_match`パラメータの両方を`True`に設定します。これにより、Zilliz Cloudにテキストをトークン化し、指定されたフィールドに対して反転インデックスを作成するよう指示し、高速かつ効率的なテキストマッチを可能にします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -157,13 +157,13 @@ export schema='{
 </TabItem>
 </Tabs>
 
-### Optional: Configure an analyzer{#optional-configure-an-analyzer}
+### 任意:アナライザを設定する{#}
 
-The performance and accuracy of keyword matching depend on the selected analyzer. Different analyzers are tailored to various languages and text structures, so choosing the right one can significantly impact search results for your specific use case.
+キーワードマッチングのパフォーマンスと精度は、選択したアナライザに依存します。異なるアナライザは、さまざまな言語やテキスト構造に合わせて調整されているため、適切なアナライザを選択すると、特定のユースケースの検索結果に大きな影響を与える可能性があります。
 
-By default, Zilliz Cloud uses the `standard` analyzer, which tokenizes text based on whitespace and punctuation, removes tokens longer than 40 characters, and converts text to lowercase. No additional parameters are needed to apply this default setting. For more information, refer to [Standard](./standard-analyzer).
+デフォルトでは、Zilliz Cloudは`標準`アナライザを使用します。このアナライザは、空白と句読点に基づいてテキストをトークン化し、40文字以上のトークンを削除し、テキストを小文字に変換します。このデフォルト設定を適用するために、追加のパラメータは必要ありません。詳細については、Standardを参照してください。
 
-In cases where a different analyzer is required, you can configure one using the `analyzer_params` parameter. For example, to apply the `english` analyzer for processing English text:
+別のアナライザが必要な場合は、`検光子_params`パラメータを使用して設定できます。例えば、`英語`のテキストを処理するために英語のアナライザを適用するには:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -263,25 +263,25 @@ export schema='{
 </TabItem>
 </Tabs>
 
-Zilliz Cloud also provides various other analyzers suited to different languages and scenarios. For more details, refer to [Analyzer Overview](./analyzer-overview).
+Zilliz Cloudには、さまざまな言語やシナリオに適したさまざまなアナライザも用意されています。詳細については、Analyzer Overviewを参照してください。
 
-## Use text match{#use-text-match}
+## テキストマッチを使用{#}
 
-Once you have enabled text match for a VARCHAR field in your collection schema, you can perform text matches using the `TEXT_MATCH` expression.
+コレクションスキーマのVARCHARフィールドのテキスト一致を有効にしたら、`TEXT_MATCH`式を使用してテキスト一致を実行できます。
 
-### TEXT_MATCH expression syntax{#textmatch-expression-syntax}
+### TEXT_MATCH式の構文{#textmatch}
 
-The `TEXT_MATCH` expression is used to specify the field and the terms to search for. Its syntax is as follows:
+検索するフィールドと用語を指定するために、`TEXT_MATCH`式が使用されます。その構文は以下の通りです:
 
 ```python
 TEXT_MATCH(field_name, text)
 ```
 
-- `field_name`: The name of the VARCHAR field to search for.
+- `field_name`:検索するVARCHARフィールドの名前。
 
-- `text`: The terms to search for. Multiple terms can be separated by spaces or other appropriate delimiters based on the language and configured analyzer.
+- `テキスト`:検索する用語。複数の用語は、言語と設定されたアナライザに基づいて、スペースまたはその他の適切な区切り文字で区切ることができます。
 
-By default, `TEXT_MATCH` uses the **OR** matching logic, meaning it will return documents that contain any of the specified terms. For example, to search for documents containing the term `machine` or `deep` in the `text` field, use the following expression:
+デフォルトでは、`TEXT_MATCH`は**OR**マッチングロジックを使用します。つまり、指定された用語のいずれかを含むドキュメントを返します。たとえば、用語`マシン`または`深`い`テキスト`フィールドを含むドキュメントを検索するには、次の式を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -317,9 +317,9 @@ export filter="\"TEXT_MATCH(text, 'machine deep')\""
 </TabItem>
 </Tabs>
 
-You can also combine multiple `TEXT_MATCH` expressions using logical operators to perform **AND** matching. 
+論理演算子を使用して複数の`TEXT_MATCH`式を組み合わせて、**AND**マッチングを実行することもできます。
 
-- To search for documents containing both `machine` and `deep` in the `text` field, use the following expression:
+- テキストフィールドに`machine`と`deep`の両方を含むドキュメントを検索するには、`次`の式を使用します。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -355,7 +355,7 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
     </TabItem>
     </Tabs>
 
-- To search for documents containing both `machine` and `learning` but without `deep` in the `text` field, use the following expressions:
+- ドキュメントに`機械`学習と`学習`の両方が含まれているが、`深`い`テキスト`フィールドは含まれていない場合は、次の式を使用します。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -391,11 +391,11 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
     </TabItem>
     </Tabs>
 
-### Search with text match{#search-with-text-match}
+### テキスト一致で検索{#}
 
-Text match can be used in combination with vector similarity search to narrow the search scope and improve search performance. By filtering the collection using text match before vector similarity search, you can reduce the number of documents that need to be searched, resulting in faster query times.
+テキスト一致は、ベクトル類似検索と組み合わせて使用することで、検索範囲を狭め、検索パフォーマンスを向上させることができます。ベクトル類似検索の前にテキスト一致を使用してコレクションをフィルタリングすることで、検索する必要があるドキュメントの数を減らし、クエリ時間を短縮することができます。
 
-In this example, the `filter` expression filters the search results to only include documents that match the specified term `keyword1` or `keyword2`. The vector similarity search is then performed on this filtered subset of documents.
+この例では、`フィルター`式は、指定された用語`キーワード1`または`キーワード2`に一致するドキュメントのみを含むように検索結果をフィルタリングします。その後、このフィルタリングされたドキュメントのサブセットに対してベクトル類似検索が実行されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -485,11 +485,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Query with text match{#query-with-text-match}
+### テキストが一致するクエリ{#}
 
-Text match can also be used for scalar filtering in query operations. By specifying a `TEXT_MATCH` expression in the `expr` parameter of the `query()` method, you can retrieve documents that match the given terms.
+テキストの一致は、クエリ操作のスカラーフィルタリングにも使用できます。`TEXT_MATCH`式を`expr`パラメーターに指定することで、`query()`メソッドで指定された用語に一致するドキュメントを取得できます。
 
-The example below retrieves documents where the `text` field contains both terms `keyword1` and `keyword2`.
+以下の例は、`テキスト`フィールドにキーワード1とキーワード2の両方が含まれているドキュメント`を`取得し`ま`す。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -559,17 +559,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Considerations{#considerations}
+## 考慮事項{#}
 
-- Enabling term matching for a field triggers the creation of an inverted index, which consumes storage resources. Consider storage impact when deciding to enable this feature, as it varies based on text size, unique tokens, and the analyzer used.
+- フィールドの用語マッチングを有効にすると、ストレージリソースを消費する反転インデックスが作成されます。この機能を有効にする場合は、テキストの体格、一意のトークン、使用するアナライザによって異なるため、ストレージへの影響を考慮してください。
 
-- Once you've defined an analyzer in your schema, its settings become permanent for that collection. If you decide that a different analyzer would better suit your needs, you may consider dropping the existing collection and creating a new one with the desired analyzer configuration.
+- スキーマにアナライザを定義すると、その設定はそのコレクションに対して永続的になります。別のアナライザが必要に応じて適していると判断した場合は、既存のコレクションを削除して、希望のアナライザ構成で新しいコレクションを作成することを検討してください。
 
-- Escape rules in `filter` expressions:
+- フィルタ式のエスケープ`ルール`:
 
-    - Characters enclosed in double quotes or single quotes within expressions are interpreted as string constants. If the string constant includes escape characters, the escape characters must be represented with escape sequence. For example, use `\` to represent `\`, `\t` to represent a tab `\t`, and `\n` to represent a newline.
+    - 式内で二重引用符または一重引用符で囲まれた文字は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれる場合、エスケープ文字はエスケープシーケンスで表現する必要があります。例えば、`\`を使用して`\`を表し、`\t`を使用してタブ`\t`を表し、`\n`を使用して改行を表します。
 
-    - If a string constant is enclosed by single quotes, a single quote within the constant should be represented as `\'` while a double quote can be represented as either `"` or `\"`. Example: `'It\'s milvus'`.
+    - 文字列定数がシングルクォートで囲まれている場合、定数内のシングルクォートは`\'`として表され、ダブルクォートは`"`または`\"`として表すことができます。例:`'It\'s milvus'`。
 
-    - If a string constant is enclosed by double quotes, a double quote within the constant should be represented as `\"` while a single quote can be represented as either `'` or `\'`. Example: `"He said \"Hi\""`.
+    - 文字列定数が二重引用符で囲まれている場合、定数内の二重引用符は`\"`として表され、単一引用符は`'`または`\'`として表すことができます。例:`"He said\"Hi\""`。
 

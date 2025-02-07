@@ -1,12 +1,12 @@
 ---
-title: "Binary Vector | Cloud"
+title: "バイナリベクトル | Cloud"
 slug: /use-binary-vector
-sidebar_label: "Binary Vector"
+sidebar_label: "バイナリベクトル"
 beta: FALSE
 notebook: FALSE
-description: "Binary vectors are a special form of data representation that convert traditional high-dimensional floating-point vectors into binary vectors containing only 0s and 1s. This transformation not only compresses the size of the vector but also reduces storage and computational costs while retaining semantic information. When precision for non-critical features is not essential, binary vectors can effectively maintain most of the integrity and utility of the original floating-point vectors. | Cloud"
+description: "バイナリベクトルは、従来の高次元浮動小数点ベクトルを0と1のみを含むバイナリベクトルに変換する特別な形式のデータ表現です。この変換により、ベクトルの体格が圧縮されるだけでなく、意味情報を保持しながらストレージおよび計算コストが削減されます。非重要な特徴の精度が必要でない場合、バイナリベクトルは、元の浮動小数点ベクトルのほとんどの整合性と有用性を効果的に維持できます。 | Cloud"
 type: origin
-token: NTwawtvYdiXTkukbss7ccw2RnXc
+token: WhnwwB2AmiGiZWkBVk1cNfVGnpg
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 
@@ -26,51 +26,51 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Binary Vector
+# バイナリベクトル
 
-Binary vectors are a special form of data representation that convert traditional high-dimensional floating-point vectors into binary vectors containing only 0s and 1s. This transformation not only compresses the size of the vector but also reduces storage and computational costs while retaining semantic information. When precision for non-critical features is not essential, binary vectors can effectively maintain most of the integrity and utility of the original floating-point vectors.
+バイナリベクトルは、従来の高次元浮動小数点ベクトルを0と1のみを含むバイナリベクトルに変換する特別な形式のデータ表現です。この変換により、ベクトルの体格が圧縮されるだけでなく、意味情報を保持しながらストレージおよび計算コストが削減されます。非重要な特徴の精度が必要でない場合、バイナリベクトルは、元の浮動小数点ベクトルのほとんどの整合性と有用性を効果的に維持できます。
 
-Binary vectors have a wide range of applications, particularly in situations where computational efficiency and storage optimization are crucial. In large-scale AI systems, such as search engines or recommendation systems, real-time processing of massive amounts of data is key. By reducing the size of the vectors, binary vectors help lower latency and computational costs without significantly sacrificing accuracy. Additionally, binary vectors are useful in resource-constrained environments, such as mobile devices and embedded systems, where memory and processing power are limited. Through the use of binary vectors, complex AI functions can be implemented in these restricted settings while maintaining high performance.
+バイナリベクトルは、計算効率とストレージ最適化が重要な状況で特に幅広い応用があります。検索エンジンやレコメンデーションシステムなどの大規模なAIシステムでは、大量のデータをリアルタイムで処理することが重要です。バイナリベクトルは、ベクトルの体格を減らすことにより、精度を大幅に犠牲にすることなく、レイテンシと計算コストを低減するのに役立ちます。さらに、バイナリベクトルは、メモリや処理能力が限られているモバイルデバイスや組み込みシステムなどのresource-constrained環境でも役立ちます。バイナリベクトルを使用することで、複雑なAI機能をこれらの制限された設定で実装しながら、高いパフォーマンスを維持することができます。
 
-## Overview{#overview}
+## 概要について{#}
 
-Binary vectors are a method of encoding complex objects (like images, text, or audio) into fixed-length binary values. In Zilliz Cloud clusters, binary vectors are typically represented as bit arrays or byte arrays. For example, an 8-dimensional binary vector can be represented as `[1, 0, 1, 1, 0, 0, 1, 0]`.
+バイナリベクトルは、複雑なオブジェクト(画像、テキスト、オーディオなど)を固定長のバイナリ値にエンコードする方法です。Zilliz Cloudクラスターでは、バイナリベクトルは通常、ビット配列またはバイト配列として表されます。たとえば、8次元のバイナリベクトルは`[1,0,1,1,0,0,1,0]`として表すことができます。
 
-The diagram below shows how binary vectors represent the presence of keywords in text content. In this example, a 10-dimensional binary vector is used to represent two different texts (**Text 1** and **Text 2**), where each dimension corresponds to a word in the vocabulary: 1 indicates the presence of the word in the text, while 0 indicates its absence.
+以下の図は、バイナリベクトルがテキストコンテンツ内のキーワードの存在を表す方法を示しています。この例では、10次元のバイナリベクトルを使用して、2つの異なるテキスト(**テキスト1**と**テキスト2**)を表します。各次元は語彙内の単語に対応します。1はテキスト内の単語の存在を示し、0はその不在を示します。
 
-![TuIGwtyEkh9g04bvo0icsWdynBd](/img/TuIGwtyEkh9g04bvo0icsWdynBd.png)
+![Cp6WwpBBvhzfBCbuFkycFjz7noc](/img/ja-JP/Cp6WwpBBvhzfBCbuFkycFjz7noc.png)
 
-Binary vectors have the following characteristics:
+バイナリベクトルには以下の特徴があります。
 
-- **Efficient Storage:** Each dimension requires only 1 bit of storage, significantly reducing storage space.
+- **効率的なストレージ:**各ディメンションは1ビットのストレージのみを必要とし、ストレージスペースを大幅に削減します。
 
-- **Fast Computation:** Similarity between vectors can be quickly calculated using bitwise operations like XOR.
+- **高速計算:**ベクトル間の類似度は、XORなどのビット演算を使用して迅速に計算できます。
 
-- **Fixed Length:** The length of the vector remains constant regardless of the original text length, making indexing and retrieval easier.
+- **固定長:**ベクトルの長さは元のテキストの長さに関係なく一定であり、インデックス作成や検索が容易になります。
 
-- **Simple and Intuitive:** Directly reflects the presence of keywords, making it suitable for certain specialized retrieval tasks.
+- **シンプルで直感的:**キーワードの存在を直接反映し、特定の特殊な検索タスクに適しています。
 
-Binary vectors can be generated through various methods. In text processing, predefined vocabularies can be used to set corresponding bits based on word presence. For image processing, perceptual hashing algorithms (like [pHash](https://en.wikipedia.org/wiki/Perceptual_hashing)) can generate binary features of images. In machine learning applications, model outputs can be binarized to obtain binary vector representations.
+バイナリベクトルは、さまざまな方法で生成できます。テキスト処理では、事前に定義された語彙を使用して、単語の存在に基づいて対応するビットを設定できます。画像処理では、知覚ハッシングアルゴリズム([pHash](https://en.wikipedia.org/wiki/Perceptual_hashing)など)を使用して、画像のバイナリ特徴を生成できます。機械学習アプリケーションでは、モデル出力をバイナリ化してバイナリベクトル表現を取得できます。
 
-After binary vectorization, the data can be stored in Zilliz Cloud clusters for management and vector retrieval. The diagram below shows the basic process.
+バイナリベクトル化後、データは管理とベクトル取得のためにZilliz Cloudクラスターに保存できます。以下の図は基本的な過程を示しています。
 
-![TF1uw4AQVhFdmBbrhyVcJO6WnXe](/img/TF1uw4AQVhFdmBbrhyVcJO6WnXe.png)
+![BW8awBfRThXBnobymw9cBYEzn3c](/img/ja-JP/BW8awBfRThXBnobymw9cBYEzn3c.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Although binary vectors excel in specific scenarios, they have limitations in their expressive capability, making it difficult to capture complex semantic relationships. Therefore, in real-world scenarios, binary vectors are often used alongside other vector types to balance efficiency and expressiveness. For more information, refer to <a href="./use-dense-vector">Dense Vector</a> and <a href="./use-sparse-vector">Sparse Vector</a>.</p>
+<p>バイナリベクトルは特定のシナリオで優れていますが、表現能力に制限があるため、複雑な意味関係を捉えることが困難です。そのため、現実世界のシナリオでは、バイナリベクトルは効率と表現力をバランスさせるために他のベクトルタイプと一緒に使用されることがよくあります。詳細については、「Dense Vector」と「Sparse Vector」を参照してください。</p>
 
 </Admonition>
 
-## Use binary vectors{#use-binary-vectors}
+## バイナリベクトルを使用{#}
 
-### Add vector field{#add-vector-field}
+### ベクトルフィールドを追加{#}
 
-To use binary vectors in Zilliz Cloud clusters, first define a vector field for storing binary vectors when creating a collection. This process includes:
+バイナリベクトルをZilliz Cloudクラスタで使用するには、まずコレクションを作成するときにバイナリベクトルを格納するベクトルフィールドを定義します。この過程には以下が含まれます:
 
-1. Setting `datatype` to the supported binary vector data type, i.e., `BINARY_VECTOR`.
+1. データ`型`をサポートされているバイナリベクトルデータ型、すなわち`BINARY_VECTOR`に設定します。
 
-1. Specifying the vector's dimensions using the `dim` parameter. Note that `dim` must be a multiple of 8 as binary vectors must be converted into a byte array when inserting. Every 8 boolean values (0 or 1) will be packed into 1 byte. For example, if `dim=128`, a 16-byte array is required for insertion.
+1. ベクトルの次元を`dim`パラメータを使用して指定します。バイナリベクトルは挿入時にバイト配列に変換する必要があるため、`dim`は8の倍数でなければなりません。8つのブール値(0または1)ごとに1バイトにパックされます。たとえば、`dim=128`の場合、挿入には16バイトの配列が必要です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -172,11 +172,11 @@ export schema="{
 </TabItem>
 </Tabs>
 
-In this example, a vector field named `binary_vector` is added for storing binary vectors. The data type of this field is `BINARY_VECTOR`, with a dimension of 128.
+この例では、バイナリベクトルを格納するために`binary_vector`という名前のベクトルフィールドが追加されています。このフィールドのデータ型は`BINARY_VECTOR`で、次元は128です。
 
-### Set index params for vector field{#set-index-params-for-vector-field}
+### ベクトル場のインデックスパラメータを設定する{#}
 
-To speed up searches, an index must be created for the binary vector field. Indexing can significantly enhance the retrieval efficiency of large-scale vector data.
+検索を高速化するために、バイナリベクトル場のインデックスを作成する必要があります。インデックスを作成することで、大規模なベクトルデータの検索効率を大幅に向上させることができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -244,13 +244,13 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-In the example above, an index named `binary_vector_index` is created for the `binary_vector` field, using the `AUTOINDEX` index type. The `metric_type` is set to `HAMMING`, indicating that Hamming distance is used for similarity measurement.
+上記の例では、`binary_vector_index`という名前のインデックスが`binary_vector`フィールドに対して`AUTOINDEX`インデックスタイプを使用して作成されています。`メトリックタイプ`は`HAMMING`に設定されており、ハミング距離が類似度測定に使用されていることを示しています。
 
-Additionally, Zilliz Cloud supports other similarity metrics for binary vectors. For more information, refer to [Metric Types](./search-metrics-explained).
+さらに、Zilliz Cloudはバイナリベクトルに対して他の類似性メトリックをサポートしています。詳細については、Metric Typesを参照してください。
 
-### Create collection{#create-collection}
+### コレクションを作成{#}
 
-Once the binary vector and index settings are complete, create a collection that contains binary vectors. The example below uses the `create_collection` method to create a collection named `my_binary_collection`.
+バイナリベクトルとインデックスの設定が完了したら、バイナリベクトルを含むコレクションを作成します。以下の例では、`create_collection`メソッドを使用して`my_binary_collection`という名前のコレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -320,11 +320,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Insert data{#insert-data}
+### データの挿入{#}
 
-After creating the collection, use the `insert` method to add data containing binary vectors. Note that binary vectors should be provided in the form of a byte array, where each byte represents 8 boolean values.
+コレクションを作成した後、`挿入`メソッドを使用してバイナリベクトルを含むデータを追加します。バイナリベクトルは、各バイトが8つのブール値を表すバイト配列の形式で提供する必要があることに注意してください。
 
-For example, for a 128-dimensional binary vector, a 16-byte array is required (since 128 bits ÷ 8 bits/byte = 16 bytes). Below is an example code for inserting data:
+例えば、128次元のバイナリベクトルの場合、16バイトの配列が必要です(128ビット÷8ビット/バイト=16バイト)。以下はデータを挿入するための例のコードです
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -433,11 +433,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Perform similarity search{#perform-similarity-search}
+### 類似検索を行う{#}
 
-Similarity search is one of the core features of Zilliz Cloud clusters, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search using binary vectors, prepare the query vector and search parameters, then call the `search` method.
+類似検索は、Zilliz Cloudクラスターのコア機能の1つであり、ベクトル間の距離に基づいてクエリベクトルに最も類似したデータをすばやく見つけることができます。バイナリベクトルを使用して類似検索を実行するには、クエリベクトルと検索パラメータを準備し、`検索`メソッドを呼び出します。
 
-During search operations, binary vectors must also be provided in the form of a byte array. Ensure that the dimensionality of the query vector matches the dimension specified when defining `dim` and that every 8 boolean values are converted into 1 byte.
+検索操作中には、バイナリベクトルもバイト配列の形式で提供する必要があります。クエリベクトルの次元が`dim`を定義する際に指定された次元と一致し、8つのブール値が1バイトに変換されるようにしてください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -540,5 +540,5 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-For more information on similarity search parameters, refer to [Basic ANN Search](./single-vector-search).
+類似検索パラメータの詳細については、Basic ANN Searchを参照してください。
 

@@ -1,12 +1,12 @@
 ---
-title: "Estimate Pipeline Usage | Cloud"
+title: "パイプライン利用予測 | Cloud"
 slug: /estimate-pipelines-usage
-sidebar_label: "Estimate Pipeline Usage"
+sidebar_label: "パイプライン利用予測"
 beta: FALSE
 notebook: FALSE
-description: "The cost of running pipelines is measured by tokens. Similar to Large Language Model (LLM) that uses token as a basic unit, pipelines process documents and search queries by parsing and embedding the text as a series of tokens. To understand the cost of a pipeline run, you can use our Estimate Pipeline Usage tool to count tokens of a file or a text string. | Cloud"
+description: "パイプラインの実行コストはトークンによって測定されます。トークンを基本単位として使用する大規模言語モデル(LLM)と同様に、パイプラインはテキストを解析して一連のトークンとして埋め込むことによって、ドキュメントや検索クエリを過程化します。パイプラインの実行コストを理解するには、ファイルまたはテキスト文字列のトークンをカウントするために、当社の推定パイプライン使用量ツールを使用できます。 | Cloud"
 type: origin
-token: LNuqwIPPai9GUYk5U4ccAQhQn1b
+token: LrTAwIXn1ih4aPkotM1cYvHjnAd
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -15,81 +15,81 @@ keywords:
   - pipelines
   - pricing
   - usage
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Estimate Pipeline Usage
+# パイプライン利用予測
 
-The cost of running pipelines is measured by tokens. Similar to Large Language Model (LLM) that uses token as a basic unit, pipelines process documents and search queries by parsing and embedding the text as a series of tokens. To understand the cost of a pipeline run, you can use our Estimate Pipeline Usage tool to count tokens of a file or a text string. 
+パイプラインの実行コストはトークンによって測定されます。トークンを基本単位として使用する大規模言語モデル(LLM)と同様に、パイプラインはテキストを解析して一連のトークンとして埋め込むことによって、ドキュメントや検索クエリを過程化します。パイプラインの実行コストを理解するには、ファイルまたはテキスト文字列のトークンをカウントするために、当社の推定パイプライン使用量ツールを使用できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>This tool uses a Byte-Pair Encoding (BPE) tokenizer and the estimated usage may vary by 30% based on different processing strategy. Therefore, you should only use the estimated usage as a reference. For actual usage, please refer to the <a href="./pipelines-ingest-search-delete-data">Pipelines list</a>.</p>
+<p>このツールはByte-Pair Encoding(BPE)トークナイザーを使用しており、処理戦略によって推定使用量が30%異なる場合があります。そのため、推定使用量は参考としてのみ使用してください。実際の使用方法については、<a href="./pipelines-ingest-search-delete-data">パイプラインリスト</a>を参照してください。</p>
 
 </Admonition>
 
-## What are tokens?{#what-are-tokens}
+## トークンとは何ですか?{#}
 
-Token is a special concept in NLP. It can be thought of as a sub-word. Some word is a token itself, while some longer words may contain multiple tokens. Token is also language dependent. As a rule of thumb, on average:
+トークンはNLPにおける特別な概念です。それはサブワードと考えることができます。一部の単語はトークンそのものであり、一部の長い単語には複数のトークンが含まれる場合があります。トークンは言語にも依存します。一般的には、次のようになります:
 
-- 1 token is 3 to 4 English characters
+- 1トークンは3～4文字の英語です
 
-- 1 token is 1.12 Chinese characters
+- 1トークンは1.12漢字です
 
-- 1 English word contains 1.3 tokens
+- 1英単語には1.3トークンが含まれています
 
-## How is the token processed by Pipelines?{#how-is-the-token-processed-by-pipelines}
+## Pipelinesはトークンをどのように処理しますか?{#pipelines}
 
-Ingestion Pipeline processes documents by parsing files into tokens and then splitting and embedding the token series. Search Pipeline processes the query by embedding the token series. By passing the tokens to a deep learning model (called embedding model), the "essence" of the text is converted into a vector representation, which can be stored in and retrieved by a vector database. With the help of this process, Pipelines is able to help the API users to understand the meaning and semantics of different words and their context within a sentence or text.
+Ingestion Pipelineは、ファイルをトークンに解析し、トークンシリーズを分割して埋め込むことでドキュメントを処理します。Search Pipelineは、トークンシリーズを埋め込むことでクエリを処理します。トークンを深層学習モデル(埋め込みモデルと呼ばれる)に渡すことで、テキストの「本質」をベクトル表現に変換し、ベクトルデータベースに格納して取得できます。この過程の助けを借りて、PipelinesはAPIユーザーが文やテキスト内の異なる単語の意味や意味、およびその文脈を理解するのを支援することができます。
 
-Deletion Pipelines usually doesn't involve processing text as tokens.
+削除パイプラインは通常、テキストをトークンとして処理することはありません。
 
-## Estimate Pipelines Usage{#estimate-pipelines-usage}
+## パイプラインの利用予測{#}
 
-To help easily understand the cost implication of any pipeline run, we offer a web UI tool that can estimate the token of a file or text string. You can use this tool to estimate cost before running a pipeline.
+パイプラインの実行に伴うコストの影響を簡単に理解するために、ファイルやテキスト文字列のトークンを推定できるWeb UIツールを提供しています。このツールを使用して、パイプラインを実行する前にコストを推定できます。
 
-![estimate-piplines-usage-tool-entrance](/img/estimate-piplines-usage-tool-entrance.png)
+![estimate-piplines-usage-tool-entrance](/img/ja-JP/estimate-piplines-usage-tool-entrance.png)
 
-1. Input
+1. 入力する
 
-    - An Ingestion pipeline takes a file as input. You can directly upload a local file or use a file from object storage to estimate the usage of an Ingestion pipeline run.
+    - インジェスチョンパイプラインは、ファイルを入力として受け取ります。ローカルファイルを直接アップロードするか、オブジェクトストレージからファイルを使用して、インジェスチョンパイプラインの実行の使用状況を推定できます。
 
-        - Upload a local file
+        - ローカルファイルをアップロードする
 
-            Upload a local file of no more than 10 MB. Supported file formats include `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`.
+            10 MB以下のローカルファイルをアップロードしてください。サポートされているファイル形式は、`. txt`、.`pdf`、`.md`、`.html`、`.epub`、`.csv`、`.document`、`.docx`、`.xls`、.xlsx`、.ppt`、`.pptx`です。
 
-        - Import a file from object storage
+        - オブジェクトストレージからファイルをインポートする
 
-            Provide the public or pre-signed URLs on [AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html) or [GCS](https://cloud.google.com/storage/docs/access-control/signed-urls). Enter one URL each time.
+            公開または事前署名されたURLを[AWS S 3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html)または[GCS](https://cloud.google.com/storage/docs/access-control/signed-urls)で提供してください。毎回1つのURLを入力してください。
 
-    - A Search pipeline takes a query string as input. You can directly input a text string to estimate the usage of a Search pipeline run.
+    - 検索パイプラインはクエリ文字列を入力として受け取ります。テキスト文字列を直接入力することで、検索パイプラインの実行状況を推定することができます。
 
-        - Directly input the text for tokenization in the input box.
+        - 入力ボックスにトークン化するテキストを直接入力してください。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="Notes" title="undefined">
 
-        <p>You can only input a maximum of 100,000 characters.</p>
+        <p>最大10万文字まで入力できます。</p>
 
         </Admonition>
 
-1. Click **Calculate**.
+1. 「**計算**」をクリックします。
 
-    ![estimate-piplines-usage](/img/estimate-piplines-usage.png)
+    ![estimate-piplines-usage](/img/ja-JP/estimate-piplines-usage.png)
 
-1. Check the estimated token count of your file.
+1. ファイルの推定トークン数を確認してください。
 
-1. Click **Reset** to upload another local file.
+1. [**リセット**]をクリックして、別のローカルファイルをアップロードします。
 
-## Related topics{#related-topics}
+## 関連するトピック{#}
 
-- [Zilliz Cloud Limits](./limits#pipelines)
+- [Zillizクラウドの制限](./limits)
 
-- [FAQs](/docs/faq-pipelines)
+- [よくある質問(FAQ)](./faqs)
 

@@ -1,12 +1,12 @@
 ---
-title: "Built-in Analyzer Reference | Cloud"
+title: "組み込みアナライザのリファレンス | Cloud"
 slug: /built-in-analyzer
-sidebar_label: "Built-in Analyzer"
+sidebar_label: "組み込みアナライザのリファレンス"
 beta: PUBLIC
 notebook: FALSE
-description: "This section provides detailed information about built-in analyzers. | Cloud"
+description: "このセクションでは、組み込みアナライザに関する詳細情報を提供します。 | Cloud"
 type: origin
-token: VvJowcWXeiFPlDkYU7ScezGznIb
+token: RWl2wA3omiCIo2ksxxTcN6oYnrf
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -16,19 +16,19 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Built-in Analyzer Reference
+# 組み込みアナライザのリファレンス
 
-This section provides detailed information about built-in analyzers.
+このセクションでは、組み込みアナライザに関する詳細情報を提供します。
 
 import DocCardList from '@theme/DocCardList';
 

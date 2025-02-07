@@ -1,12 +1,12 @@
 ---
-title: "API & SDKs | Cloud"
+title: "APIとSDK | Cloud"
 slug: /api-sdks
-sidebar_label: "API & SDKs"
+sidebar_label: "APIとSDK"
 beta: FALSE
 notebook: FALSE
-description: "This chapter provides access to the procedure for using or installing RESTful API and SDKs and their reference docs. | Cloud"
+description: "この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。 | Cloud"
 type: origin
-token: Ecwpw6cImiFV0gkkusgcQhvBnLe
+token: AiLpwtyT3ieHFikJsUDc9kgunUb
 sidebar_position: 10
 keywords: 
   - zilliz
@@ -20,19 +20,19 @@ keywords:
   - go
   - node
   - nodejs
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# API & SDKs
+# APIとSDK
 
-This chapter provides access to the procedure for using or installing RESTful API and SDKs and their reference docs. 
+この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。
 
 import DocCardList from '@theme/DocCardList';
 

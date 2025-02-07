@@ -1,12 +1,12 @@
 ---
-title: "Query | Cloud"
+title: "クエリ | Cloud"
 slug: /get-and-scalar-query
-sidebar_label: "Query"
+sidebar_label: "クエリ"
 beta: FALSE
 notebook: FALSE
-description: "In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering. | Cloud"
+description: "Zilliz Cloudは、ANN検索に加えて、クエリによるメタデータフィルタリングもサポートしています。このページでは、Query、Get、QueryIteratorsを使用してメタデータフィルタリングを実行する方法を紹介します。 | Cloud"
 type: origin
-token: R7F7wY8pCiJ5Q4kbntxcMsE6nLf
+token: D47Qw0Zo7iWNEukOUWVcNWANnBc
 sidebar_position: 7
 keywords: 
   - zilliz
@@ -17,10 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -28,58 +28,58 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Query
+# クエリ
 
-In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering.
+Zilliz Cloudは、ANN検索に加えて、クエリによるメタデータフィルタリングもサポートしています。このページでは、Query、Get、QueryIteratorsを使用してメタデータフィルタリングを実行する方法を紹介します。
 
-## Overview{#overview}
+## 概要について{#}
 
-A Collection can store various types of scalar fields. You can have Zilliz Cloud filter Entities based on one or more scalar fields. Zilliz Cloud offers three types of queries: Query, Get, and QueryIterator. The table below compares these three query types.
+コレクションには、さまざまな種類のスカラーフィールドを格納できます。Zilliz Cloudフィルタ1つ以上のスカラーフィールドに基づくエンティティ。Zilliz Cloudには、Query、Get、QueryIteratorの3種類のクエリがあります。以下の表は、これら3つのクエリタイプを比較しています。
 
 <table>
    <tr>
      <th></th>
-     <th><p>Get</p></th>
-     <th><p>Query</p></th>
+     <th><p>ゲット</p></th>
+     <th><p>クエリ</p></th>
      <th><p>QueryIterator</p></th>
    </tr>
    <tr>
-     <td><p>Applicable scenarios</p></td>
-     <td><p>To find entities that hold the specified primary keys.</p></td>
-     <td><p>To find all or a specified number of entities that meet the custom filtering conditions</p></td>
-     <td><p>To find all entities that meet the custom filtering conditions in paginated queries.</p></td>
+     <td><p>適用可能なシナリオ</p></td>
+     <td><p>指定された主キーを保持するエンティティを検索する。</p></td>
+     <td><p>カスタムフィルタリング条件を満たすエンティティのすべてまたは指定された数を検索するには</p></td>
+     <td><p>ページ分割されたクエリでカスタムフィルタリング条件を満たすすべてのエンティティを検索する。</p></td>
    </tr>
    <tr>
-     <td><p>Filtering method</p></td>
-     <td><p>By primary keys</p></td>
-     <td><p>By filtering expressions.</p></td>
-     <td><p>By filtering expressions.</p></td>
+     <td><p>フィルタリング方法</p></td>
+     <td><p>主キーによる</p></td>
+     <td><p>式をフィルタリングすることで。</p></td>
+     <td><p>式をフィルタリングすることで。</p></td>
    </tr>
    <tr>
-     <td><p>Mandatory parameters</p></td>
-     <td><ul><li><p>Collection name</p></li><li><p>Primary keys</p></li></ul></td>
-     <td><ul><li><p>Collection name</p></li><li><p>Filtering expressions</p></li></ul></td>
-     <td><ul><li><p>Collection name</p></li><li><p>Filtering expressions</p></li><li><p>Number of entities to return per query</p></li></ul></td>
+     <td><p>必須パラメータ</p></td>
+     <td><ul><li><p>コレクション名</p></li><li><p>プライマリキー</p></li></ul></td>
+     <td><ul><li><p>コレクション名</p></li><li><p>式のフィルタリング</p></li></ul></td>
+     <td><ul><li><p>コレクション名</p></li><li><p>式のフィルタリング</p></li><li><p>クエリごとに返すエンティティの数</p></li></ul></td>
    </tr>
    <tr>
-     <td><p>Optional parameters</p></td>
-     <td><ul><li><p>Partition name</p></li><li><p>Output fields</p></li></ul></td>
-     <td><ul><li><p>Partition name</p></li><li><p>Number of entities to return</p></li><li><p>Output fields</p></li></ul></td>
-     <td><ul><li><p>Partition name</p></li><li><p>Number of entities to return in total</p></li><li><p>Output fields</p></li></ul></td>
+     <td><p>任意のパラメータ</p></td>
+     <td><ul><li><p>パーティション名</p></li><li><p>出力フィールド</p></li></ul></td>
+     <td><ul><li><p>パーティション名</p></li><li><p>返すエンティティの数</p></li><li><p>出力フィールド</p></li></ul></td>
+     <td><ul><li><p>パーティション名</p></li><li><p>返すエンティティの総数</p></li><li><p>出力フィールド</p></li></ul></td>
    </tr>
    <tr>
-     <td><p>Returns</p></td>
-     <td><p>Returns entities that hold the specified primary keys in the specified collection or partition.</p></td>
-     <td><p>Returns all or a specified number of entities that meet the custom filtering conditions in the specified collection or partition.</p></td>
-     <td><p>Returns all entities that meet the custom filtering conditions in the specified collection or partition through paginated queries.</p></td>
+     <td><p>リターン</p></td>
+     <td><p>指定されたコレクションまたはパーティション内の指定されたプライマリキーを保持するエンティティを返します。</p></td>
+     <td><p>指定したコレクションまたはパーティション内のカスタムフィルター条件を満たすエンティティのすべてまたは指定した数を返します。</p></td>
+     <td><p>指定されたコレクションまたはパーティションのカスタムフィルター条件を満たすすべてのエンティティを、ページ分割されたクエリで返します。</p></td>
    </tr>
 </table>
 
-For more on metadata filtering, refer to [Filtering](./filtering).
+メタデータのフィルタリングについては、Filteringを参照してください。
 
-## Use Get{#use-get}
+## Getを使用{#get}
 
-When you need to find entities by their primary keys, you can use the **Get** method. The following code examples assume that there are three fields named `id`, `vector`, and `color` in your collection and return the entities with primary keys `1`, `2`, and `3`.
+主キーでエンティティを検索する必要がある場合は、**Get**メソッドを使用できます。次のコード例では、コレクションに`id`、`vector`、`color`という3つのフィールドがあると仮定し、主キーが`1`、`2`、`3`のエンティティを返します。
 
 ```python
 [
@@ -96,7 +96,7 @@ When you need to find entities by their primary keys, you can use the **Get** me
 ]
 ```
 
-You can get entities by their IDs as follows.
+以下のようにIDでエンティティを取得できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -195,9 +195,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Use Query{#use-query}
+## クエリを使用{#}
 
-When you need to find entities by custom filtering conditions, use the **Query** method. The following code examples assume there are three fields named `id`, `vector`, and `color` and return the specified number of entities that hold a `color` value starting with `red`.
+カスタムフィルタリング条件でエンティティを検索する必要がある場合は、**Query**メソッドを使用してください。次のコード例では、`id`、`vector`、`color`という3つのフィールドがあると仮定し、`color`値が`red`で始まる指定された数のエンティティを返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -330,9 +330,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Use QueryIterator{#use-queryiterator}
+## QueryIteratorを使う{#queryiterator}
 
-When you need to find entities by custom filtering conditions through paginated queries, create a **QueryIterator** and use its **next()** method to iterate over all entities to find those meeting the filtering conditions. The following code examples assume that there are three fields named `id`, `vector`, and `color` and return all entities that hold a `color` value starting with `red`.
+ページ分割されたクエリを通じてカスタムフィルタリング条件でエンティティを検索する必要がある場合は、**QueryIterator**を作成し、その**next()**メソッドを使用してすべてのエンティティを反復処理して、フィルタリング条件を満たすものを見つけます。次のコード例では、`id`、`vector`、`color`という3つのフィールドがあると仮定し、`color`値が`red`で始まるすべてのエンティティを返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -434,9 +434,9 @@ for await (const value of iterator) {
 </TabItem>
 </Tabs>
 
-## Queries in Partitions{#queries-in-partitions}
+## パーティション内のクエリ{#}
 
-You can also perform queries within one or multiple partitions by including the partition names in the Get, Query, or QueryIterator request. The following code examples assume that there is a partition named **PartitionA** in the collection.
+Get、Query、またはQueryIterator要求にパーティション名を含めることで、1つまたは複数のパーティション内でクエリを実行することもできます。次のコード例では、コレクションにPartitionAという名前のパーティションがあると仮定**し**ています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

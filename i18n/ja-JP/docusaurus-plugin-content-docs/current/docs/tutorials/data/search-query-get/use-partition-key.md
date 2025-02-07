@@ -1,12 +1,12 @@
 ---
-title: "Use Partition Key | Cloud"
+title: "パーティションキーを使う | Cloud"
 slug: /use-partition-key
-sidebar_label: "Use Partition Key"
+sidebar_label: "パーティションキーを使う"
 beta: FALSE
 notebook: FALSE
-description: "The Partition Key is a search optimization solution based on partitions. By designating a specific scalar field as the Partition Key and specifying filtering conditions based on the Partition Key during the search, the search scope can be narrowed down to several partitions, thereby improving search efficiency. This article will introduce how to use the Partition Key and related considerations. | Cloud"
+description: "パーティションキーは、パーティションに基づく検索最適化ソリューションです。特定のスカラーフィールドをパーティションキーとして指定し、検索中にパーティションキーに基づくフィルタリング条件を指定することで、検索範囲を複数のパーティションに絞り込むことができ、検索効率を向上させることができます。この記事では、パーティションキーの使用方法と関連する考慮事項を紹介します。 | Cloud"
 type: origin
-token: QWqiwrgJViA5AJkv64VcgQX2nKd
+token: LBGuwDfViiZHc5k0ETRcJ4tJnvg
 sidebar_position: 13
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 
@@ -27,39 +27,39 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Use Partition Key
+# パーティションキーを使う
 
-The Partition Key is a search optimization solution based on partitions. By designating a specific scalar field as the Partition Key and specifying filtering conditions based on the Partition Key during the search, the search scope can be narrowed down to several partitions, thereby improving search efficiency. This article will introduce how to use the Partition Key and related considerations.
+パーティションキーは、パーティションに基づく検索最適化ソリューションです。特定のスカラーフィールドをパーティションキーとして指定し、検索中にパーティションキーに基づくフィルタリング条件を指定することで、検索範囲を複数のパーティションに絞り込むことができ、検索効率を向上させることができます。この記事では、パーティションキーの使用方法と関連する考慮事項を紹介します。
 
-## Overview{#overview}
+## 概要について{#}
 
-In Zilliz Cloud, you can use partitions to implement data segregation and improve search performance by restricting the search scope to specific partitions. If you choose to manage partitions manually, you can create a maximum of 1,024 partitions in a collection, and insert entities into these partitions based on a specific rule so that you can narrow the search scope by restricting searches within a specific number of partitions.
+Zilliz Cloudでは、パーティションを使用してデータの分離を実装し、検索範囲を特定のパーティションに制限することで検索パフォーマンスを向上させることができます。パーティションを手動で管理する場合、コレクション内に最大1,024のパーティションを作成し、特定のルールに基づいてこれらのパーティションにエンティティを挿入して、特定のパーティション数内で検索を制限することで検索範囲を狭めることができます。
 
-Zilliz Cloud introduces the Partition Key for you to reuse partitions in data segregation to overcome the limit on the number of partitions you can create in a collection. When creating a collection, you can use a scalar field as the Partition Key. Once the collection is ready, Zilliz Cloud creates the specified number of partitions inside the collection with each partition corresponding to a range of the values in the Partition Key. Upon receiving inserted entities, Zilliz Cloud stores them into different partitions based on their Partition Key values.
+Zilliz Cloudは、データ分離においてパーティションを再利用し、コレクション内で作成できるパーティションの数の制限を克服するためのパーティションキーを導入しました。コレクションを作成する際には、スカラーフィールドをパーティションキーとして使用できます。コレクションが準備できたら、Zilliz Cloudは、パーティションキーの値の範囲に対応する各パーティションをコレクション内に指定された数作成します。挿入されたエンティティを受信すると、Zilliz Cloudは、パーティションキーの値に基づいて異なるパーティションに格納します。
 
-![IXXIwZdOYhRFXmbTMdwcaN6fnPe](/img/IXXIwZdOYhRFXmbTMdwcaN6fnPe.png)
+![XSRjw74AshkuVqbJ4ahcY6b1nRu](/img/ja-JP/XSRjw74AshkuVqbJ4ahcY6b1nRu.png)
 
-The following figure illustrates how Zilliz Cloud processes the search requests in a collection with or without the Partition Key feature enabled. 
+次の図は、Zilliz Cloudが、パーティションキー機能を有効にしているかどうかにかかわらず、コレクション内の検索リクエストを処理する方法を示しています。
 
-- If the Partition Key is disabled, Zilliz Cloud searches for entities that are the most similar to the query vector within the collection. You can narrow the search scope if you know which partition contains the most relevant results.
+- パーティションキーが無効になっている場合、Zilliz Cloudは、コレクション内のクエリベクトルに最も類似したエンティティを検索します。最も関連性の高い結果を含むパーティションがわかっている場合は、検索範囲を狭めることができます。
 
-- If the Partition Key is enabled, Zilliz Cloud determines the search scope based on the Partition Key value specified in a search filter and scans only the entities within the partitions that match.
+- パーティションキーが有効になっている場合、Zilliz Cloudは、検索フィルターで指定されたパーティションキーの値に基づいて検索範囲を決定し、一致するパーティション内のエンティティのみをスキャンします。
 
-![RTaqwdaWXhRWPTb4uJTc9Uknn5c](/img/RTaqwdaWXhRWPTb4uJTc9Uknn5c.png)
+![SMKhwOsK0hu7mrbLc9LcTexdnVc](/img/ja-JP/SMKhwOsK0hu7mrbLc9LcTexdnVc.png)
 
-## Use Partition Key{#use-partition-key}
+## パーティションキーを使う{#}
 
-To use the Partition Key, you need to
+パーティションキーを使用するには、
 
-- Set the Partition Key,
+- パーティションキーを設定します。
 
-- Set the number of partitions to create (Optional), and
+- 作成するパーティションの数を設定します（オプション）。
 
-- Create a filtering condition based on the Partition Key.
+- パーティションキーに基づいてフィルタリング条件を作成してください。
 
-### Set Partition Key{#set-partition-key}
+### パーティションキーを設定{#}
 
-To designate a scalar field as the Partition Key, you need to set its `is_partition_key` attribute to `true` when you add the scalar field.
+スカラーフィールドをパーティションキーとして指定するには、スカラーフィールドを追加するときにその`is_artition_key`属性を`true`に設定する必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -175,11 +175,11 @@ export schema='{
 </TabItem>
 </Tabs>
 
-### Set Partition Numbers{#set-partition-numbers}
+### パーティション番号を設定する{#}
 
-When you designate a scalar field in a collection as the Partition Key, Zilliz Cloud automatically creates 16 partitions in the collection. Upon receiving an entity, Zilliz Cloud chooses a partition based on the Partition Key value of this entity and stores the entity in the partition, resulting in some or all partitions holding entities with different Partition Key values. 
+コレクション内のスカラーフィールドをパーティションキーとして指定すると、Zilliz Cloudは自動的にコレクション内に16のパーティションを作成します。エンティティを受け取ると、Zilliz Cloudはこのエンティティのパーティションキー値に基づいてパーティションを選択し、エンティティをパーティションに保存します。その結果、いくつかまたはすべてのパーティションに異なるパーティションキー値を持つエンティティが保持されます。
 
-You can also determine the number of partitions to create along with the collection. This is valid only if you have a scalar field designated as the Partition Key.
+コレクションと一緒に作成するパーティションの数を決定することもできます。これは、パーティションキーとして指定されたスカラーフィールドがある場合にのみ有効です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -246,11 +246,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Create Filtering Condition{#create-filtering-condition}
+### フィルタリング条件の作成{#}
 
-When conducting ANN searches in a collection with the Partition Key feature enabled, you need to include a filtering expression involving the Partition Key in the search request. In the filtering expression, you can restrict the Partition Key value within a specific range so that Zilliz Cloud restricts the search scope within the corresponding partitions.
+パーティションキー機能を有効にしてコレクション内でANN検索を実行する場合、検索要求にパーティションキーを含むフィルタリング式を含める必要があります。フィルタリング式では、Zilliz Cloudが対応するパーティション内の検索範囲を制限するように、パーティションキーの値を特定の範囲内に制限できます。
 
-The following examples demonstrate Partition-Key-based filtering based on a specific Partition Key value and a set of Partition Key values.
+次の例は、特定のパーティションキー値と一連のパーティションキー値に基づくパーティションキーベースのフィルタリングを示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -302,25 +302,27 @@ export filter='partition_key in ["x", "y", "z"] && <other conditions>'
 </TabItem>
 </Tabs>
 
-## Use Partition Key Isolation{#use-partition-key-isolation}
+\<ターゲットを含める="zilliz">
 
-In the multi-tenancy scenario, you can designate the scalar field related to tenant identities as the partition key and create a filter based on a specific value in this scalar field. To further improve search performance in similar scenarios, Zilliz Cloud introduces the Partition Key Isolation feature.
+## パーティションキーの分離を使用する{#}
 
-![BVotwv5BvhBWXXbvotUccowZnng](/img/BVotwv5BvhBWXXbvotUccowZnng.png)
+マルチテナントシナリオでは、テナントIDに関連するスカラーフィールドをパーティションキーとして指定し、このスカラーフィールドの特定の値に基づいてフィルタを作成できます。同様のシナリオで検索パフォーマンスをさらに向上させるために、Zilliz Cloudにはパーティションキー分離機能が導入されています。
 
-As shown in the above figure, Zilliz Cloud groups entities based on the Partition Key value and creates a separate index for each of these groups. Upon receiving a search request, Zilliz Cloud locates the index based on the Partition Key value specified in the filtering condition and restricts the search scope within the entities included in the index, thus avoiding scanning irrelevant entities during the search and greatly enhancing the search performance.
+![SYAKwuWqThNNg0banPLcqkhhn3e](/img/ja-JP/SYAKwuWqThNNg0banPLcqkhhn3e.png)
 
-Once you have enabled Partition Key Isolation, you can include only a specific value in the Partition-key-based filter so that Zilliz Cloud can restrict the search scope within the entities included in the index that match.
+上記の図に示すように、Zilliz Cloudは、パーティションキーの値に基づいてエンティティをグループ化し、これらのグループごとに別々のインデックスを作成します。検索リクエストを受け取ると、Zilliz Cloudは、フィルタリング条件で指定されたパーティションキーの値に基づいてインデックスを検索し、インデックスに含まれるエンティティ内で検索範囲を制限するため、検索中に関係のないエンティティをスキャンすることを回避し、検索パフォーマンスを大幅に向上させます。
 
-<Admonition type="info" icon="📘" title="Notes">
+パーティションキーの分離を有効にすると、パーティションキーベースのフィルターに特定の値のみを含めることができます。これにより、Zilliz Cloudは、一致するインデックスに含まれるエンティティ内の検索範囲を制限できます。
 
-<p>Currently, the Partition-Key Isolation feature applies only to <strong>Performance-optimized</strong> clusters.</p>
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>現在、パーティションキーの分離機能は<strong>Performance-optimized</strong>クラスタにのみ適用されます。</p>
 
 </Admonition>
 
-### Enable Partition Key Isolation{#enable-partition-key-isolation}
+### パーティションキーの分離を有効にする{#}
 
-The following code examples demonstrate how to enable Partition Key Isolation.
+次のコード例は、パーティションキー分離を有効にする方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -392,5 +394,6 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Once you have enabled Partition Key Isolation, you can still set the Partition Key and number of partitions as described in [Use Partition Key](./use-partition-key#use-partition-key). Note that the Partition-Key-based filter should include only a specific Partition Key value.
+「パーティションキーの分離」を有効にした後でも、「Use Partition Keyする」で説明されているように、パーティションキーとパーティション数を設定できます。パーティションキーベースのフィルタには、特定のパーティションキー値のみを含める必要があることに注意してください。
 
+\</include>

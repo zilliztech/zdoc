@@ -1,31 +1,31 @@
 ---
-title: "Migrations | Cloud"
+title: "マイグレーション | Cloud"
 slug: /migrations
-sidebar_label: "Migrations"
+sidebar_label: "マイグレーション"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud provides migration options from external sources such as Milvus, Elasticsearch, and pgvector, as well as cross-cluster migrations within the same or different organizations, enabling efficient data integration and management. | Cloud"
+description: "Zilliz Cloudは、Milvus、Elasticsearch、pgvectorなどの外部ソースからの移行オプションを提供し、同じ組織内または異なる組織内でのクラスタ間の移行を可能にし、効率的なデータ統合と管理を可能にします。 | Cloud"
 type: origin
-token: IeNswy8ySiutKAkdphRc4lfynsf
+token: ZIXkwM3J6izNagkeSmscEVMvngf
 sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Migrations
+# マイグレーション
 
-Zilliz Cloud provides migration options from external sources such as Milvus, Elasticsearch, and pgvector, as well as cross-cluster migrations within the same or different organizations, enabling efficient data integration and management.
+Zilliz Cloudは、Milvus、Elasticsearch、pgvectorなどの外部ソースからの移行オプションを提供し、同じ組織内または異なる組織内でのクラスタ間の移行を可能にし、効率的なデータ統合と管理を可能にします。
 
 
 

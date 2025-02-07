@@ -1,12 +1,12 @@
 ---
-title: "Backup & Restore | Cloud"
+title: "バックアップと復元 | Cloud"
 slug: /backup-and-restore
-sidebar_label: "Backup & Restore"
+sidebar_label: "バックアップと復元"
 beta: FALSE
 notebook: FALSE
-description: "Data backup and restore for your data stored in Zilliz Cloud clusters. | Cloud"
+description: "Zilliz Cloudクラスターに保存されたデータのバックアップと復元。 | Cloud"
 type: origin
-token: VvikwOKc9iZ5vBkgMnycrXKmnId
+token: AXmzw3QBKixR0skM8LWc39jwnAe
 sidebar_position: 6
 keywords: 
   - zilliz
@@ -14,19 +14,19 @@ keywords:
   - cloud
   - backup
   - restore
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Backup & Restore
+# バックアップと復元
 
-Data backup and restore for your data stored in Zilliz Cloud clusters.
+Zilliz Cloudクラスターに保存されたデータのバックアップと復元。
 
 
 

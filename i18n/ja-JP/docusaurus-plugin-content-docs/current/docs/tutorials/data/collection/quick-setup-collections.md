@@ -1,12 +1,12 @@
 ---
-title: "Create Collection Instantly | Cloud"
+title: "コレクションを即座に作成 | Cloud"
 slug: /quick-setup-collections
-sidebar_label: "Create Collection Instantly"
+sidebar_label: "コレクションを即座に作成"
 beta: FALSE
 notebook: FALSE
-description: "You can create a collection instantly by setting its name and the vector field dimensionality. Zilliz Cloud automatically indexes the vector field and loads the collection upon creation. This page demonstrates how to create a collection instantly with default settings. | Cloud"
+description: "名前とベクトルフィールドの次元を設定することで、コレクションを即座に作成できます。Zilliz Cloudはベクトルフィールドを自動的にインデックス化し、作成時にコレクションを読み込みます。このページでは、デフォルト設定でコレクションを即座に作成する方法を説明します。 | Cloud"
 type: origin
-token: BkpkwR8Y1iwxPokhqy0cKY3xn8b
+token: AOMMwYmMOi7WSyktWWLcICV7neg
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - quick-setup
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -26,39 +26,39 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create Collection Instantly
+# コレクションを即座に作成
 
-You can create a collection instantly by setting its name and the vector field dimensionality. Zilliz Cloud automatically indexes the vector field and loads the collection upon creation. This page demonstrates how to create a collection instantly with default settings.
+名前とベクトルフィールドの次元を設定することで、コレクションを即座に作成できます。Zilliz Cloudはベクトルフィールドを自動的にインデックス化し、作成時にコレクションを読み込みます。このページでは、デフォルト設定でコレクションを即座に作成する方法を説明します。
 
-## Overview{#overview}
+## 概要について{#}
 
-A collection is a two-dimensional table with fixed columns and variant rows. Each column represents a field, and each row represents an entity. A schema is required to implement such structural data management. Every entity to insert has to meet the constraints defined in the schema.
+コレクションは、固定列とバリアント行を持つ2次元テーブルです。各列はフィールドを表し、各行はエンティティを表します。このような構造データ管理を実装するにはスキーマが必要です。挿入するすべてのエンティティは、スキーマで定義された制約を満たす必要があります。
 
-AIGC applications usually use vector databases as a knowledge base to manage the data generated during the interaction between users and Large Language Models (LLMs). Such knowledge bases are almost similar. To accelerate the use of Zilliz Cloud clusters in such scenarios, an instant method is available for you to create a collection with only two parameters, namely the collection name and the vector field dimensionality.
+AIGCアプリケーションは通常、ユーザーと大規模言語モデル(LLM)の相互作用中に生成されたデータを管理するための知識ベースとしてベクトルデータベースを使用します。このような知識ベースはほぼ同様です。このようなシナリオでZilliz Cloudクラスターの使用を加速するために、コレクション名とベクトルフィールド次元の2つのパラメータだけでコレクションを作成するためのインスタントメソッドが利用可能です。
 
-When you create a collection instantly with default settings, the following settings apply:
+デフォルト設定でコレクションを即座に作成する場合、次の設定が適用されます。
 
-- The primary and vector fields are added to the schema (**id** and **vector**).
+- プライマリフィールドとベクターフィールドがスキーマ(**id**と**vector**)に追加されます。
 
-- The primary field accepts integers and disables **AutoId**.
+- プライマリフィールドは整数を受け入れ、**AutoId**を無効にします。
 
-- The vector field accepts floating vector embeddings.
+- ベクトル場は浮動ベクトルの埋め込みを受け入れます。
 
-- **AUTOINDEX** is used to create an index on the vector field.
+- **AUTOINDEX**はベクトル場のインデックスを作成するために使用されます。
 
-- **COSINE** is used to measure similarities between vector embeddings.
+- **COSINE**はベクトル埋め込みの類似性を測定するために使用されます。
 
-- The reserves dynamic field named **$meta** is enabled to save non-schema-defined fields and their values in key-value pairs.
+- スキーマ定義されていない項目とその値をキーと値のペアで保存するには、**$meta**という名前の予約動的項目が有効になります。
 
-- The collection is automatically loaded upon creation.
+- コレクションは作成時に自動的に読み込まれます。
 
-For details on the terminologies above, refer to [Collection Explained](./manage-collections). 
+上記の用語の詳細については、Collection Explainedを参照してください。
 
-It is worth noting that creating a collection instantly with default settings does not fit all scenarios. You are advised to familiarize yourself with the [common collection creation procedure](./manage-collections-sdks) so that you can gain a better understanding of Zilliz Cloud's capabilities.
+デフォルト設定で即座にコレクションを作成することは、すべてのシナリオに適合するわけではないことに注意する価値があります。[一般的なコレクション作成手順](null)に慣れておくことをお勧めします。これにより、Zilliz Cloudの機能をより良く理解することができます。
 
-## Quick Setup{#quick-setup}
+## クイックセットアップ{#}
 
-In this manner, you can create a collection instantly with only the collection name and the vector field dimensionality.
+このようにして、コレクション名とベクトル場の次元だけでコレクションを即座に作成できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -222,9 +222,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Quick Setup with Custom Fields{#quick-setup-with-custom-fields}
+## カスタムフィールドを使用したクイックセットアップ{#}
 
-If the default metric type, field names, and data types does not meet your need, you can tune these settings as follows.
+デフォルトのメトリックタイプ、フィールド名、およびデータ型が必要に応じていない場合は、次のようにこれらの設定を調整できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -390,4 +390,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-If the collections created using the above two manners still cannot meet your needs, consider following the procedure in [Create Collection](./manage-collections-sdks).
+上記の2つの方法で作成したコレクションでもニーズを満たせない場合は、Create Collectionの手順に従ってください。

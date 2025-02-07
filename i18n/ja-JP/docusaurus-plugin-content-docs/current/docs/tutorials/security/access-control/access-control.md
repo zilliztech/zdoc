@@ -1,12 +1,12 @@
 ---
-title: "Access Control | Cloud"
+title: "アクセス制御 | Cloud"
 slug: /access-control
-sidebar_label: "Access Control"
+sidebar_label: "アクセス制御"
 beta: FALSE
 notebook: FALSE
-description: "Learn more about how Zilliz Cloud implements RBAC for more efficient access control and how to manage cluster users and roles, privileges. | Cloud"
+description: "Zilliz Cloudがより効率的なアクセス制御のためにRBACを実装する方法や、クラスターのユーザーやロール、特権を管理する方法について詳しく学びましょう。 | Cloud"
 type: origin
-token: UEFXwAUL4icMjMkUej9cqncJncd
+token: KVrtwkOo8i9B0wk50UUcno8vnjc
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -15,19 +15,19 @@ keywords:
   - cluster
   - access control
   - rbac
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Access Control
+# アクセス制御
 
-Learn more about how Zilliz Cloud implements RBAC for more efficient access control and how to manage cluster users and roles, privileges.
+Zilliz Cloudがより効率的なアクセス制御のためにRBACを実装する方法や、クラスターのユーザーやロール、特権を管理する方法について詳しく学びましょう。
 
 
 

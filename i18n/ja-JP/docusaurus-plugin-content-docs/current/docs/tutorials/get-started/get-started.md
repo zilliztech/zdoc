@@ -1,31 +1,31 @@
 ---
-title: "Get Started | Cloud"
+title: "始める | Cloud"
 slug: /get-started
-sidebar_label: "Get Started"
+sidebar_label: "始める"
 beta: FALSE
 notebook: FALSE
-description: "A comprehensive quick start guide and related topics to help you build your apps on Zilliz Cloud. | Cloud"
+description: "Zilliz Cloud上でアプリを構築するための包括的なクイックスタートガイドと関連トピック。 | Cloud"
 type: origin
-token: BDOHwqlMDiei78kdUefcjSQUnEg
+token: FDtOwKSriiayeQkFsPAcOMmQnNc
 sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - get started
   - milvus
-  - knn algorithm
   - HNSW
   - What is unstructured data
   - Vector embeddings
+  - Vector store
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Get Started
+# 始める
 
-A comprehensive quick start guide and related topics to help you build your apps on Zilliz Cloud.
+Zilliz Cloud上でアプリを構築するための包括的なクイックスタートガイドと関連トピック。
 
 
 

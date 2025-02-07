@@ -1,12 +1,12 @@
 ---
-title: "Filtered Search | Cloud"
+title: "フィルター検索 | Cloud"
 slug: /filtered-search
-sidebar_label: "Filtered Search"
+sidebar_label: "フィルター検索"
 beta: FALSE
 notebook: FALSE
-description: "An ANN search finds vector embeddings most similar to specified vector embeddings. However, the search results may not always be correct. You can include filtering conditions in a search request so that Zilliz Cloud conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions. | Cloud"
+description: "ANN検索は、指定されたベクトル埋め込みに最も似たベクトル埋め込みを見つけます。ただし、検索結果が常に正しいとは限りません。検索リクエストにフィルタリング条件を含めることで、Zilliz CloudがANN検索を実行する前にメタデータフィルタリングを実行し、指定されたフィルタリング条件に一致するエンティティのみに検索範囲を縮小できます。 | Cloud"
 type: origin
-token: CpBbwcJ87irHp0k9oCSc2RNIn3d
+token: JDIXwKfxWi5Xpgk9KiMcuLzXnud
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 
@@ -27,27 +27,27 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Filtered Search
+# フィルター検索
 
-An ANN search finds vector embeddings most similar to specified vector embeddings. However, the search results may not always be correct. You can include filtering conditions in a search request so that Zilliz Cloud conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions.
+ANN検索は、指定されたベクトル埋め込みに最も似たベクトル埋め込みを見つけます。ただし、検索結果が常に正しいとは限りません。検索リクエストにフィルタリング条件を含めることで、Zilliz CloudがANN検索を実行する前にメタデータフィルタリングを実行し、指定されたフィルタリング条件に一致するエンティティのみに検索範囲を縮小できます。
 
-## Overview{#overview}
+## 概要について{#}
 
-If a collection contains both vector embeddings and their metadata, you can filter metadata before ANN search to improve the relevancy of the search result. Once Zilliz Cloud receives a search request carrying a filtering condition, it restricts the search scope within the entities matching the specified filtering condition.
+コレクションにベクトル埋め込みとメタデータの両方が含まれている場合、ANN検索の前にメタデータをフィルタリングして、検索結果の関連性を向上させることができます。Zilliz Cloudがフィルタリング条件を持つ検索リクエストを受信すると、指定されたフィルタリング条件に一致するエンティティ内で検索範囲が制限されます。
 
-![QIeKwvDN1h7lTnb9iJ7cPubknrb](/img/QIeKwvDN1h7lTnb9iJ7cPubknrb.png)
+![PJ8Aw3h8xh0OyEbrkPUctjpnnHf](/img/ja-JP/PJ8Aw3h8xh0OyEbrkPUctjpnnHf.png)
 
-As shown in the above diagram, the search request carries `chunk like "%red%"` as the filtering condition, indicating that Zilliz Cloud should conduct the ANN search within all the entities that have the word `red` in the `chunk` field. Specifically, Zilliz Cloud does the following:
+上の図に示されているように、検索リクエストには`「%red%」など`のチャンクがフィルタリング条件として含まれており、Zilliz Cloudは、`red`という単語が`チャンク`フィールドに含まれるすべてのエンティティ内でANN検索を実行する必要があることを示しています。具体的には、Zilliz Cloudは以下のように行います:
 
-- Filter entities that match the filtering conditions carried in the search request.
+- 検索リクエストに含まれるフィルタリング条件に一致するエンティティをフィルタリングします。
 
-- Conduct the ANN search within the filtered entities.
+- フィルターされたエンティティ内でANN検索を実行します。
 
-- Returns top-K entities.
+- 上位K個のエンティティを返します。
 
-## Examples{#examples}
+## 例例{#}
 
-This section demonstrates how to conduct a filtered search. Code snippets in this section assume  you already have the following entities in your collection. Each entity has four fields, namely **id**, **vector**, **color**, and **likes**.
+このセクションでは、フィルタリングされた検索を実行する方法を示します。このセクションのコードスニペットは、コレクションに次のエンティティがすでにあることを前提としています。各エンティティには、**id**、**vector**、**color**、**likes'**の4つのフィールドがあります。
 
 ```json
 [
@@ -64,7 +64,7 @@ This section demonstrates how to conduct a filtered search. Code snippets in thi
 ]
 ```
 
-The search request in the following code snippet carries a filtering condition and several output fields.
+次のコードスニペットの検索要求には、フィルタリング条件といくつかの出力フィールドが含まれています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -240,7 +240,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-The filtering condition carried in the search request reads `color like "red%" and likes > 50`. It uses the and operator to include two conditions: the first one asks for entities that have a value starting with `red` in the `color` field, and the other asks for entities with a value greater than `50` in the `likes` field. There are only two entities meeting these requirements. With the top-K set to `3`, Zilliz Cloud will calculate the distance between these two entities to the query vector and return them as the search results.
+検索リクエストに含まれるフィルタリング条件は、`color like"red%"and likes>50`となっています。and演算子を使用して、2つの条件を含めます。最初の条件は、`red`で始まる値を持つエンティティを`カラー`フィールドに入力することを要求し、もう1つの条件は、`50`以上の値を持つエンティティを`likesフィールド`に入力することを要求します。これらの要件を満たすエンティティは2つしかありません。top-Kを`3`に設定した場合、Zilliz Cloudは、これら2つのエンティティ間のクエリベクトルまでの距離を計算し、検索結果として返します。
 
 ```json
 [
@@ -265,4 +265,4 @@ The filtering condition carried in the search request reads `color like "red%" a
 ]
 ```
 
-For more information on the operators that you can use in metadata filtering, refer to [Filtering](./filtering).
+メタデータフィルタリングで使用できる演算子の詳細については、「Filtering」を参照してください。

@@ -1,12 +1,12 @@
 ---
-title: "Format Options | Cloud"
+title: "書式オプション | Cloud"
 slug: /data-import-format-options
-sidebar_label: "Format Options"
+sidebar_label: "書式オプション"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud supports importing data in various formats, including Parquet (recommended), JSON, and NumPy files. In this section, you will find the procedures for importing data in these formats and the aspects you should pay attention to to. | Cloud"
+description: "Zilliz Cloudは、Parquet（推奨）、JSON、NumPyファイルなど、さまざまな形式のデータのインポートをサポートしています。このセクションでは、これらの形式でデータをインポートする手順と、注意すべき点について説明します。 | Cloud"
 type: origin
-token: MtGywZwmXiHg0AkJMavcWAtxnCg
+token: OPv7wuxYdiwnzXkDGYhcC971nfb
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -15,19 +15,19 @@ keywords:
   - data import
   - milvus
   - format options
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Format Options
+# 書式オプション
 
-Zilliz Cloud supports importing data in various formats, including Parquet (recommended), JSON, and NumPy files. In this section, you will find the procedures for importing data in these formats and the aspects you should pay attention to to.
+Zilliz Cloudは、Parquet（推奨）、JSON、NumPyファイルなど、さまざまな形式のデータのインポートをサポートしています。このセクションでは、これらの形式でデータをインポートする手順と、注意すべき点について説明します。
 
 import DocCardList from '@theme/DocCardList';
 

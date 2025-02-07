@@ -1,12 +1,12 @@
 ---
-title: "Cloud Providers & Regions | Cloud"
+title: "クラウドプロバイダー&地域 | Cloud"
 slug: /cloud-providers-and-regions
-sidebar_label: "Cloud Providers & Regions"
+sidebar_label: "クラウドプロバイダー&地域"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud is a cloud-based service that offers vector database clusters on public clouds. With our service, you can easily create and manage your own vector database clusters on the public cloud platform of your choice. | Cloud"
+description: "Zilliz Cloudは、パブリッククラウド上でベクトルデータベースクラスタを提供するクラウドベースのサービスです。当社のサービスを使用すると、お好みのパブリッククラウドプラットフォーム上で独自のベクトルデータベースクラスタを簡単に作成および管理できます。 | Cloud"
 type: origin
-token: CPLrwghdWiSvGBkdeEecGjgLnSb
+token: D8EKw1MRViXdv8kgQvWcAk2Ynje
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -14,180 +14,180 @@ keywords:
   - cloud
   - providers
   - regions
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Cloud Providers & Regions
+# クラウドプロバイダー&地域
 
-Zilliz Cloud is a cloud-based service that offers vector database clusters on public clouds. With our service, you can easily create and manage your own vector database clusters on the public cloud platform of your choice.
+Zilliz Cloudは、パブリッククラウド上でベクトルデータベースクラスタを提供するクラウドベースのサービスです。当社のサービスを使用すると、お好みのパブリッククラウドプラットフォーム上で独自のベクトルデータベースクラスタを簡単に作成および管理できます。
 
-Zilliz Cloud provides clusters across various regions on Amazon Web Services (AWS), Google Cloud Platform (GCP), and Microsoft Azure. To request a new region, feel free to [contact us](https://zilliz.com/cloud-region-request?).
+Zilliz Cloudは、Amazon Web Services（AWS）、Google Cloud Platform（GCP）、およびMicrosoft Azure上のさまざまなリージョンにクラスターを提供しています。新しいリージョンをリクエストする場合は、お気軽に[お問い合わせくださ](https://zilliz.com/cloud-region-request?)い。
 
 ## AWS{#aws}
 
-Zilliz Cloud supports deploying dedicated clusters on AWS.
+Zilliz CloudはAWS上で専用クラスタのデプロイをサポートしています。
 
 <table>
    <tr>
-     <th><p><strong>AWS Region</strong></p></th>
-     <th><p><strong>Location</strong></p></th>
-     <th><p><strong>Free Cluster</strong></p></th>
-     <th><p><strong>Serverless Cluster</strong></p></th>
-     <th><p><strong>Dedicated Cluster (Standard)</strong></p></th>
-     <th><p><strong>Dedicated Cluster (Enterprise)</strong></p></th>
+     <th><p><strong>AWSリージョン</strong></p></th>
+     <th><p><strong>ロケーション</strong></p></th>
+     <th><p><strong>フリークラスタ</strong></p></th>
+     <th><p><strong>サーバーレスクラスタ</strong></p></th>
+     <th><p><strong>専用クラスタ(Standard)</strong></p></th>
+     <th><p><strong>専用クラスタ(Enterprise)</strong></p></th>
    </tr>
    <tr>
-     <td><p>us-east-1</p></td>
-     <td><p>N. Virginia, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
+     <td><p>us-east-1ファイル</p></td>
+     <td><p>アメリカ合衆国バージニア州</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>us-east-2</p></td>
-     <td><p>Ohio, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
+     <td><p>us-east-2ファイル</p></td>
+     <td><p>アメリカ、オハイオ州</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>us-west-2</p></td>
-     <td><p>Oregon, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
+     <td><p>us-west-2ファイル</p></td>
+     <td><p>アメリカ合衆国オレゴン州</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>ap-southeast-1</p></td>
-     <td><p>Singapore</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
+     <td><p>ap-1のダウンロード</p></td>
+     <td><p>シンガポール</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>eu-central-1</p></td>
-     <td><p>Frankfurt</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
+     <td><p>eu-central-1ダウンロード</p></td>
+     <td><p>フランクフルト</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>ap-northeast-1</p></td>
-     <td><p>Tokyo</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
+     <td><p>ap-北東の1</p></td>
+     <td><p>東京</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
    </tr>
 </table>
 
-For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
+クラスタータイプの詳細については、「Select Cluster Plans」を参照してください。
 
 ## GCP{#gcp}
 
-Free, serverless, and dedicated clusters can be deployed on GCP.
+無料、サーバーレス、専用クラスターはGCPにデプロイできます。
 
 <table>
    <tr>
-     <th><p><strong>GCP Region</strong></p></th>
-     <th><p><strong>Location</strong></p></th>
-     <th><p><strong>Free Cluster</strong></p></th>
-     <th><p><strong>Serverless Cluster</strong></p></th>
-     <th><p><strong>Dedicated Cluster (Standard)</strong></p></th>
-     <th><p><strong>Dedicated Cluster (Enterprise)</strong></p></th>
+     <th><p><strong>GCPリージョン</strong></p></th>
+     <th><p><strong>ロケーション</strong></p></th>
+     <th><p><strong>フリークラスタ</strong></p></th>
+     <th><p><strong>サーバーレスクラスタ</strong></p></th>
+     <th><p><strong>専用クラスタ(Standard)</strong></p></th>
+     <th><p><strong>専用クラスタ(Enterprise)</strong></p></th>
    </tr>
    <tr>
-     <td><p>us-west1</p></td>
-     <td><p>Oregon, USA</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
+     <td><p>us-westとは</p></td>
+     <td><p>アメリカ合衆国オレゴン州</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>us-east4</p></td>
-     <td><p>Virginia, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
+     <td><p>私たちの東4</p></td>
+     <td><p>アメリカ合衆国バージニア州</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>us-central1</p></td>
-     <td><p>Iowa, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
+     <td><p>us-centralダウンロード</p></td>
+     <td><p>アイオワ州、アメリカ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>europe-west3</p></td>
-     <td><p>Frankfurt, Germany</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
+     <td><p>ヨーロッパ西3</p></td>
+     <td><p>フランクフルト,ドイツ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>asia-southeast1</p></td>
-     <td><p>Singapore</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
+     <td><p>アジア南東部1</p></td>
+     <td><p>シンガポール</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
    </tr>
 </table>
 
-For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
+クラスタータイプの詳細については、「Select Cluster Plans」を参照してください。
 
-## Microsoft Azure{#microsoft-azure}
+## マイクロソフトAzure{#azure}
 
-Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
+Zilliz Cloudは、Microsoft Azure上で専用クラスタを展開することをサポートしています。
 
 <table>
    <tr>
-     <th><p><strong>Azure Region</strong></p></th>
-     <th><p><strong>Location</strong></p></th>
-     <th><p><strong>Free Cluster</strong></p></th>
-     <th><p><strong>Serverless Cluster</strong></p></th>
-     <th><p><strong>Dedicated Cluster (Standard)</strong></p></th>
-     <th><p><strong>Dedicated Cluster (Enterprise)</strong></p></th>
+     <th><p><strong>Azureリージョン</strong></p></th>
+     <th><p><strong>ロケーション</strong></p></th>
+     <th><p><strong>フリークラスタ</strong></p></th>
+     <th><p><strong>サーバーレスクラスタ</strong></p></th>
+     <th><p><strong>専用クラスタ(Standard)</strong></p></th>
+     <th><p><strong>専用クラスタ(Enterprise)</strong></p></th>
    </tr>
    <tr>
-     <td><p>East US</p></td>
-     <td><p>Virginia, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
+     <td><p>アメリカ東部</p></td>
+     <td><p>アメリカ合衆国バージニア州</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>Germany West Central</p></td>
-     <td><p>Frankfurt, Germany</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
+     <td><p>ドイツ西中部</p></td>
+     <td><p>フランクフルト,ドイツ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
    </tr>
 </table>
 
-For more information on cluster plans, see [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
+クラスタープランの詳細については、「Select the Right Cluster Plan」を参照してください。
 
-## Related topics{#related-topics}
+## 関連するトピック{#}
 
-- [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans)
+- Select the Right Cluster Plan
 
-- [Select the Right CU](./cu-types-explained)
+- Select the Right CU
 

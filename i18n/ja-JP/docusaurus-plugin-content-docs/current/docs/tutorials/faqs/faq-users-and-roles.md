@@ -1,53 +1,53 @@
 ---
-title: "FAQ: Users & Roles | CLOUD"
+title: "FAQ:ユーザーと役割 | CLOUD"
 slug: /faq-users-and-roles
-sidebar_label: "FAQ: Users & Roles"
+sidebar_label: "FAQ:ユーザーと役割"
 beta: FALSE
 notebook: FALSE
-description: "This topic lists the possible issues about users, roles, and access that you may encounter on Zilliz Cloud and the corresponding solution. | CLOUD"
+description: "このトピックでは、Zilliz Cloudで発生する可能性のあるユーザー、ロール、アクセスに関する問題とそれに対応する解決策をリストアップしています。 | CLOUD"
 type: origin
-token: EV41wG08BiOWW8kbo9xcTGoPnKd
+token: LKxiwykkhi5VyLkTfAGcE3LinBe
 sidebar_position: 9
 
 ---
 
-# FAQ: Users & Roles
+# FAQ:ユーザーと役割
 
-This topic lists the possible issues about users, roles, and access that you may encounter on Zilliz Cloud and the corresponding solution.
+このトピックでは、Zilliz Cloudで発生する可能性のあるユーザー、ロール、アクセスに関する問題とそれに対応する解決策をリストアップしています。
 
 ## Contents
 
-- [Can I leave my organization?](#can-i-leave-my-organization)
-- [How can I edit my organization name?](#how-can-i-edit-my-organization-name)
-- [How can I invite a colleague or teammate to collaborate?](#how-can-i-invite-a-colleague-or-teammate-to-collaborate)
+- [組織を辞めることはできますか?](#can-i-leave-my-organization)
+- [法人名を編集するにはどうすればいいですか?](#how-can-i-edit-my-organization-name)
+- [同僚やチームメイトをコラボレーションに招待するにはどうすればよいですか?](#how-can-i-invite-a-colleague-or-teammate-to-collaborate)
 
 ## FAQs
 
 
 
 
-### Can I leave my organization?{#can-i-leave-my-organization}
+### 組織を辞めることはできますか?{#can-i-leave-my-organization}
 
-If you are an organization member, you can freely leave the organization. 
+組織のメンバーであれば、自由に組織を離れることができます。
 
-If you are an organization owner, you can only leave the organization when you are not the last owner in the organization. An organization has to have at least one owner and the only owner in the organization cannot leave it.
+Organizationのオーナーである場合、Organizationの最後のオーナーでない場合にのみOrganizationを離れることができます。Organizationには少なくとも1人のオーナーが必要であり、Organization内の唯一のオーナーは組織を離れることはできません。
 
-### How can I edit my organization name?{#how-can-i-edit-my-organization-name}
+### 法人名を編集するにはどうすればいいですか?{#how-can-i-edit-my-organization-name}
 
-1. Select the organization.
+1. 組織を選択します。
 
-1. Click **Settings** on the left navigation.
+1. 左ナビゲーションの[**設定**]をクリックします。
 
-1. Under the **Organization Information** section on the **Organization** **Settings** Page, click **Edit**.
+1. [**組織情報**]セクションの[**組織** **設定**]ページで、[**編集**]をクリックします。
 
-1. Enter the new organization name and click **Confirm**.
+1. 新しい法人名を入力し、「**確認**」をクリックします。
 
-1. You will receive a message that your organization name has been successfully changed.
+1. 法人名が正常に変更されたというメッセージが表示されます。
 
-### How can I invite a colleague or teammate to collaborate?{#how-can-i-invite-a-colleague-or-teammate-to-collaborate}
+### 同僚やチームメイトをコラボレーションに招待するにはどうすればよいですか?{#how-can-i-invite-a-colleague-or-teammate-to-collaborate}
 
-If you are an organization owner, you can invite users to your organization. Refer to [Manage Organization Users](./organization-users) for more detailed instructions.
+Organizationのオーナーであれば、Organizationにユーザーを招待することができます。詳しい手順については、「[組織のユーザーを管理する](./organization-users)」を参照してください。
 
-If you are an organization member, you can contact your organization owner to invite other users.
+組織のメンバーの場合は、組織の所有者に連絡して他のユーザーを招待できます。
 
-Additionally, Zilliz Cloud also supports inviting users to projects. If you are a project admin, you can invite other project users to your project. Refer to [Manage Project Users](./project-users) for more detailed instructions.
+さらに、Zilliz Cloudはユーザーをプロジェクトに招待することもサポートしています。プロジェクト管理者の場合、他のプロジェクトユーザーをプロジェクトに招待することができます。詳しい手順については、「[プロジェクトのユーザーを管理する](./project-users)」を参照してください。

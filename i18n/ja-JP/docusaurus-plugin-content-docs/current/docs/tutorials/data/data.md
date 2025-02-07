@@ -1,12 +1,12 @@
 ---
-title: "Data | Cloud"
+title: "データ | Cloud"
 slug: /data
-sidebar_label: "Data"
+sidebar_label: "データ"
 beta: FALSE
 notebook: FALSE
-description: "This chapter focuses on data operations. | Cloud"
+description: "この章では、データ操作に焦点を当てる。 | Cloud"
 type: origin
-token: KyTFwqmCJiIJsuk9d6Ncg2eDnDd
+token: W9XywM68GiqcrokcwmDcIsDxnQe
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,19 +14,19 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Data
+# データ
 
-This chapter focuses on data operations.
+この章では、データ操作に焦点を当てる。
 
 import DocCardList from '@theme/DocCardList';
 

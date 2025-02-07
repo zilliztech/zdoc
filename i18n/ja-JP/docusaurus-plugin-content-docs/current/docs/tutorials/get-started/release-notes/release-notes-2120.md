@@ -1,89 +1,87 @@
 ---
-title: "Release Notes (Dec 26, 2024) | Cloud"
+title: "リリースノート（2024年12月26日） | Cloud"
 slug: /release-notes-2120
-sidebar_label: "Release Notes (Dec 26, 2024)"
+sidebar_label: "リリースノート（2024年12月26日）"
 beta: FALSE
 notebook: FALSE
-description: "With this release, Zilliz Cloud introduces significant enhancements to improve security, performance, and usability across its BYOC solution. A global mmap strategy is now implemented, offering customizable configurations at both the field and index levels, which enables increased collection capacity while maintaining search performance. Building on Milvus, Zilliz Cloud now supports database creation within clusters and provides collection-level Role-Based Access Control (RBAC) for better data management and multi-tenancy. Additionally, search precision settings have been refined, and these are now coupled with recall rate estimation capabilities to help optimize search accuracy and performance effectively. | Cloud"
+description: "このリリースにより、Zilliz CloudはBYOCソリューション全体でセキュリティ、パフォーマンス、使いやすさを向上させるための重要な強化を導入しています。グローバルmmap戦略が実装され、フィールドレベルとインデックスレベルの両方でカスタマイズ可能な構成が提供され、検索パフォーマンスを維持しながら収集容量を増やすことができます。MilvusをベースにしたZilliz Cloudは、クラスタ内でのデータベース作成をサポートし、コレクションレベルのロールベースアクセス制御(RBAC)を提供して、より良いデータ管理とマルチテナントを実現しています。さらに、検索精度設定が改良され、これらはリコール率推定機能と組み合わせて、検索精度とパフォーマンスを効果的に最適化するのに役立ちます。 | Cloud"
 type: origin
-token: OJVrwOiE4i3fFjk2J3NcneLznfh
+token: B9TFwpoIxijeyNkSylxcOQ2wnqd
 sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (Dec 26, 2024)
+# リリースノート（2024年12月26日）
 
-With this release, Zilliz Cloud introduces significant enhancements to improve security, performance, and usability across its BYOC solution. A global mmap strategy is now implemented, offering customizable configurations at both the field and index levels, which enables increased collection capacity while maintaining search performance. Building on Milvus, Zilliz Cloud now supports database creation within clusters and provides collection-level Role-Based Access Control (RBAC) for better data management and multi-tenancy. Additionally, search precision settings have been refined, and these are now coupled with recall rate estimation capabilities to help optimize search accuracy and performance effectively.
+このリリースにより、Zilliz CloudはBYOCソリューション全体でセキュリティ、パフォーマンス、使いやすさを向上させるための重要な強化を導入しています。グローバルmmap戦略が実装され、フィールドレベルとインデックスレベルの両方でカスタマイズ可能な構成が提供され、検索パフォーマンスを維持しながら収集容量を増やすことができます。MilvusをベースにしたZilliz Cloudは、クラスタ内でのデータベース作成をサポートし、コレクションレベルのロールベースアクセス制御(RBAC)を提供して、より良いデータ管理とマルチテナントを実現しています。さらに、検索精度設定が改良され、これらはリコール率推定機能と組み合わせて、検索精度とパフォーマンスを効果的に最適化するのに役立ちます。
 
-## Milvus compatibility{#milvus-compatibility}
+## Milvusの互換性{#milvus}
 
-This release is compatible with **Milvus 2.4.x**. 
+このリリースは**Milvus 2.4. x**と互換性があります。
 
-## BYOC - A Brand New Solution for Data Security and Permission Control{#byoc-a-brand-new-solution-for-data-security-and-permission-control}
+## BYOC–セキュリティと許可管理をさらに改善{#byoc}
 
-As enterprise adoption of Zilliz Cloud grows, more and more become concerned with data security governance and permission control. Therefore, this release introduces a brand new Bring-Your-Own (BYOC) solution to meet their stringent requirements for data security and service quality in vector database services. This solution ensures:
+企業がZilliz CloudのBYOC（Bring Your Own Cloud）ソリューションを採用し続ける中、ベクトルデータベースサービスのデータセキュリティとサービス品質に関する厳しい要件を満たすために、常にアップグレードを導入してきました。最新の改善点は以下の通りです:
 
-- **Secure Communication**: Communication between the control and data planes now occurs exclusively over outbound port 443, ensuring a robust and secure connection.
+- **安全な通信**:コントロールプレーンとデータプレーン間の通信は、アウトバウンドポート443を介してのみ行われ、堅牢で安全な接続が確保されます。
 
-- **Optimized Permissions**: Deployment and operational tasks now require minimized, fine-grained permission settings, improving security and ease of management. Please take a look at the full permission list [here](/docs/byoc/permissions-in-roles).
+- **最適化され**た権限:デプロイメントおよび運用タスクでは、最小限のきめ細かい権限管理が必要になり、セキュリティと管理の容易さが向上しました。[こちら](/docs/byoc/permissions-in-roles)の完全な権限リストをご覧ください。
 
-For more details, refer to [BYOC Overview](/byoc-intro) and [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws).
+## 新しいリージョンが利用可能になりました: GCP us-central 1(lowa){#gcp-us-central-1lowa}
 
-## New Region Available: GCP us-central1 (lowa){#new-region-available-gcp-us-central1-lowa}
+Zilliz Cloudは現在、GCP us-central 1リージョン（アイオワ州）でアクセス可能であり、中部アメリカのユーザーに対してレイテンシーとパフォーマンスが向上しています。
 
-Zilliz Cloud is now accessible in the GCP us-central1 region (Iowa), offering enhanced latency and performance for users in the central United States.
+利用可能なすべての地域の詳細な価格情報については、[価格ページ](https://zilliz.com/pricing)をご覧ください。
 
-For detailed pricing information of all available regions, please visit the [pricing page](https://zilliz.com/pricing).
+## データベースレイヤーのサポート{#}
 
-## Support for Database Layer{#support-for-database-layer}
+Zilliz Cloudには、クラスターとコレクションの間に配置されたデータベースレイヤーが含まれており、マルチテナントを可能にしながらデータを効率的に管理および整理する方法を提供しています。この構造では、データベースはデータを整理および管理するための論理ユニットです。ユーザーは複数のデータベースを作成して、異なるアプリケーションまたはテナント間でデータを論理的に分離し、データセキュリティを強化し、マルチテナントを有効にすることができます。データベースに[ついて詳しく学ぶ](/docs/database)。
 
-Zilliz Cloud now includes a database layer positioned between clusters and collections, offering an efficient way to manage and organize data while enabling multi-tenancy. In this structure, a database is a logical unit for organizing and managing data. Users can create multiple databases to logically isolate data across different applications or tenants to enhance data security and enable multi-tenancy. [Learn more about databases](/docs/database).
+## 拡張データ容量に対するmmapサポート{#mmap}
 
-## mmap Support for Expanded Data Capacity{#mmap-support-for-expanded-data-capacity}
+このリリースにより、Zilliz Cloudに`mmap`サポートが追加され、最大3倍のデータを最適に提供できるようになりました。`mmap`により、ディスクに保存された大きなファイルに直接メモリアクセスできるため、Zilliz Cloudはインデックスとデータをメモリとディスクの両方に保存できます。このセットアップにより、アクセス頻度に基づいてデータ配置が最適化され、検索パフォーマンスを維持しながらコレクションのストレージ容量が大幅に拡大されます。
 
-This release brings `mmap` support to Zilliz Cloud, enabling it to serve up to 3x more data optimally. `mmap` allows direct memory access to large files stored on disk, enabling Zilliz Cloud to store indexes and data across both memory and disk. This setup optimizes data placement based on access frequency, significantly expanding storage capacity for collections while preserving search performance.
+専用クラスターユーザーの場合、`mmap`設定はワークロード要件に基づいて完全にカスタマイズできます。ユーザーは、各コレクション内のベクトルデータ、スカラーデータ、およびスカラーインデックスの`mmap`戦略を柔軟に制御できます。グローバルmmap戦略の詳細については、「Use mmap」を参照してください。
 
-For dedicated cluster users, `mmap` settings are fully customizable based on workload requirements. Users can flexibly control `mmap` strategies for vector data, scalar data, and scalar indexes within each collection. For more details on the global mmap strategies, read [Use mmap](./use-mmap).
+## コレクションレベルのRBACサポート{#rbac}
 
-## Collection Level RBAC Support{#collection-level-rbac-support}
+このリリースでは、コレクションレベルのロールベースのアクセス制御(RBAC)のサポートが導入され、ユーザーはコレクションレベルでアクセス許可を管理し、マルチテナントの分離を強制できるようになりました。
 
-This release introduces support for collection-level Role-Based Access Control (RBAC), enabling users to manage permissions and enforce multi-tenancy isolation at the collection level.
+3つの組み込みのコレクションレベルの特権グループが利用可能になりました。
 
-Three built-in collection-level privilege groups are now available:
+- **CollectionReadOnly(COLL_RO)**:コレクションデータへの読み取り専用アクセスを許可します。
 
-- **CollectionReadOnly (COLL_RO)**: Grants read-only access to collection data.
+- **CollectionReadWrite(COLL_RW)**:コレクションデータへの読み取りと書き込みの両方のアクセスを許可します。
 
-- **CollectionReadWrite (COLL_RW)**: Grants both read and write access to collection data.
+- **CollectionAdmin(COLL_ADMIN)**:コレクションデータへの読み取りおよび書き込みアクセス権と、コレクションを管理する権限を付与します。
 
-- **CollectionAdmin (COLL_ADMIN)**: Grants read and write access to collection data, along with permissions to manage collections.
+詳細については、[コレクションレベル特権グループを参照](null)してください。
 
-For more details, [see collection level privilege groups](./cluster-privileges#collection-level-privilege-groups).
+## 高いリコール検索{#}
 
-## High Recall Search{#high-recall-search}
+Zilliz Cloudは、検索精度を制御してベクトル検索を最適化するための`level`という検索パラメータを導入しています。このパラメータの範囲は**1から10**で、デフォルトは**1**です。パラメータを調整することで、ユーザーは検索の再現性とパフォーマンスのバランスを取ることができます
 
-Zilliz Cloud introduces a search parameter called `level` to optimize vector searches by controlling search precision. This parameter ranges from **1 to 10** and defaults to **1**. Adjusting the parameter allows users to balance search recall and performance:
+- **デフォルト値(leve=1)**:最適な検索パフォーマンスを維持しながら、典型的なケースでは90%以上のリコールを提供します。
 
-- **Default Value (leve=1)**: Provides above 90% recall in typical cases while maintaining optimal search performance.
+- **High Recall Search(level=6~10)**:高いリコール率(99%以上)を必要とするシナリオでは、ユーザーはパラメータを**6**~**10**の間で設定するか、パフォーマンスがそれほど重要でない場合は**10**を選択できます。
 
-- **High Recall Search (level=6~10)**: For scenarios requiring high recall rates (e.g., 99% or even higher), users can set the parameter between **6** and **10**, or select **10** if performance is less critical.
+この柔軟性により、ユーザーは特定の要件に合わせて検索動作を調整し、精度と速度の望ましいバランスを実現できます。詳細については、[「level」パラメータを使用](null)してください。
 
-This flexibility allows users to tailor search behavior to their specific requirements, achieving the desired balance between precision and speed. See [use the 'level' parameter](./single-vector-search#use-level) for more details.
+## リコール率の推定{#}
 
-## Recall Rate Estimation{#recall-rate-estimation}
+今回、検索中のリコール率を推定する機能を導入しました。`enable_recol_計算`パラメータを`search_params`で有効にし、`true`に設定することで、システムが推定したリコール率を検索結果の一部として受け取ることができます。
 
-We’ve introduced a feature to estimate recall rates during searches. By enabling the `enable_recall_calculation` parameter in `search_params` and setting it to `true`, you can receive system-estimated recall rates as part of your search results.
-
-By combining recall rate estimation with the `level` parameter, users can easily identify the appropriate `level` setting to achieve the desired recall rates for their applications. For more details, refer to [get recall rate](./single-vector-search#get-recall-rate).
+リコール率の推定と`レベル`パラメータを組み合わせることで、ユーザーはアプリケーションに適した`レベル`設定を簡単に特定して、望ましいリコール率を達成できます。詳細については、「[リコール率取得](null)」を参照してください。
 

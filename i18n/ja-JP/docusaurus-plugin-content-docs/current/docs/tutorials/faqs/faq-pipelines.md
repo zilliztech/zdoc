@@ -1,105 +1,105 @@
 ---
-title: "FAQ: Pipelines | CLOUD"
+title: "FAQ:パイプライン | CLOUD"
 slug: /faq-pipelines
-sidebar_label: "FAQ: Pipelines"
+sidebar_label: "FAQ:パイプライン"
 beta: FALSE
 notebook: FALSE
-description: "This topic lists the possible issues you may encounter while using pipelines. | CLOUD"
+description: "このトピックでは、パイプラインを使用する際に発生する可能性のある問題について説明します。 | CLOUD"
 type: origin
-token: EV41wG08BiOWW8kbo9xcTGoPnKd
+token: LKxiwykkhi5VyLkTfAGcE3LinBe
 sidebar_position: 5
 
 ---
 
-# FAQ: Pipelines
+# FAQ:パイプライン
 
-This topic lists the possible issues you may encounter while using pipelines.
+このトピックでは、パイプラインを使用する際に発生する可能性のある問題について説明します。
 
 ## Contents
 
-- [How can Zilliz Cloud Pipelines enhance my semantic search capabilities?](#how-can-zilliz-cloud-pipelines-enhance-my-semantic-search-capabilities)
-- [Which Zilliz Cloud Product Tiers are Pipelines available in?](#which-zilliz-cloud-product-tiers-are-pipelines-available-in)
-- [Which embedding model does Zilliz Cloud Pipelines use?](#which-embedding-model-does-zilliz-cloud-pipelines-use)
-- [How is Zilliz Cloud Pipelines charged?](#how-is-zilliz-cloud-pipelines-charged)
-- [Can I use Zilliz Cloud Pipelines standalone?](#can-i-use-zilliz-cloud-pipelines-standalone)
-- [What data sources are supported by Ingestion Pipelines?](#what-data-sources-are-supported-by-ingestion-pipelines)
-- [What document file formats are supported by Pipelines?](#what-document-file-formats-are-supported-by-pipelines)
+- [Zilliz Cloud Pipelinesは、私のセマンティック検索機能をどのように強化できますか?](#how-can-zilliz-cloud-pipelines-enhance-my-semantic-search-capabilities)
+- [パイプラインはどのZilliz Cloud製品層で利用可能ですか?](#which-zilliz-cloud-product-tiers-are-pipelines-available-in)
+- [Zilliz Cloud Pipelinesはどの埋め込みモデルを使用していますか?](#which-embedding-model-does-zilliz-cloud-pipelines-use)
+- [Zilliz Cloud Pipelinesはどのように課金されますか?](#how-is-zilliz-cloud-pipelines-charged)
+- [Zilliz Cloud Pipelinesをスタンドアロンで使用できますか?](#can-i-use-zilliz-cloud-pipelines-standalone)
+- [Ingestion Pipelinesがサポートするデータソースは何ですか?](#what-data-sources-are-supported-by-ingestion-pipelines)
+- [Pipelinesでサポートされているドキュメントファイル形式は何ですか?](#what-document-file-formats-are-supported-by-pipelines)
 
 ## FAQs
 
 
 
 
-### How can Zilliz Cloud Pipelines enhance my semantic search capabilities?{#how-can-zilliz-cloud-pipelines-enhance-my-semantic-search-capabilities}
+### Zilliz Cloud Pipelinesは、私のセマンティック検索機能をどのように強化できますか?{#how-can-zilliz-cloud-pipelines-enhance-my-semantic-search-capabilities}
 
-Pipelines help create high-quality vector embeddings, which serve as the foundation for relevant semantic search results.
+パイプラインは、関連する意味検索結果の基盤となる高品質のベクトル埋め込みを作成するのに役立ちます。
 
-### Which Zilliz Cloud Product Tiers are Pipelines available in?{#which-zilliz-cloud-product-tiers-are-pipelines-available-in}
+### パイプラインはどのZilliz Cloud製品層で利用可能ですか?{#which-zilliz-cloud-product-tiers-are-pipelines-available-in}
 
-Zilliz Cloud Pipeline is available on all tiers as long as you have created a cluster on GCP us-west1. 
+Zilliz Cloud Pipelineは、GCP us-west 1でクラスタを作成している限り、すべての階層で利用できます。
 
-### Which embedding model does Zilliz Cloud Pipelines use?{#which-embedding-model-does-zilliz-cloud-pipelines-use}
+### Zilliz Cloud Pipelinesはどの埋め込みモデルを使用していますか?{#which-embedding-model-does-zilliz-cloud-pipelines-use}
 
-The text and doc ingestion and search pipelines support various embedding models.
+テキストと文書の取り込みと検索パイプラインは、さまざまな埋め込みモデルをサポートしています。
 
-- **For English:**
+- **英語の場合:**
 
-    - zilliz/bge-base-en-v1.5
+    - zilliz/bge-based-en-v 1.5-ダウンロード
 
-        Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model.
+        BAAIによってリリースされたこの最先端のオープンソースモデルは、Zilliz Cloud上にホストされ、ベクトルデータベースと共有されており、高品質で最高のネットワークレイテンシを提供します。これがデフォルトの埋め込みモデルです。
 
-    - voyageai/voyage-2
+    - タイトル: voyageai/voyage-2
 
-        Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard.
+        Voyage AIによってホストされています。この汎用モデルは、説明的なテキストやコードを含む技術文書を取得することに優れています。軽量版voyage-lite-02-instructはMTEBリーダーボードでトップにランクされています。
 
-    - voyageai/voyage-code-2
+    - voyageai/航海コード-2
 
-        Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code.
+        Voyage AIがホストしています。このモデルはソフトウェアコードに最適化されており、ソフトウェアドキュメントやソースコードを取得するための優れた品質を提供します。
 
-    - voyageai/voyage-large-2
+    - voyageai/ヴォヤージュラージ2
 
-        Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents.
+        Voyage AIによってホストされています。これはVoyage AIからの最も強力なジェネラリスト埋め込みモデルです。16 kのコンテキスト長（voyage-2の4倍）をサポートし、技術的および長いコンテキスト文書を含むさまざまなタイプのテキストに優れています。
 
-    - openai/text-embedding-3-small 
+    - OPENAI/text-embedding-3-small
 
-        Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality.
+        Open AIによってホストされています。この非常に効率的な埋め込みモデルは、前身のtext-embedding-ada-002よりも強力なパフォーマンスを持ち、推論コストと品質のバランスを取っています。
 
-    - openai/text-embedding-3-large
+    - OPENAI/text-embedding-3-large
 
-        Hosted by OpenAI. This is OpenAI's best performing model. Compared to `text-embedding-ada-002`, the MTEB score has increased from 61.0% to 64.6%.
+        Open AIがホストしています。これはOpen AIの最高のパフォーマンスモデルです。`text-embedding-ada-002`と比較して、MTEBスコアは61.0%から64.6%に増加しました。
 
-- **For Chinese:**
+- **中国の場合:**
 
-    - zilliz/bge-base-zh-v1.5 
+    - zilliz/bge-base-zh-v 1.5-ダウンロード
 
-        Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model.
+        BAAIによってリリースされたこの最先端のオープンソースモデルは、Zilliz Cloud上にホストされ、ベクトルデータベースと共有されており、高品質で最高のネットワークレイテンシを提供します。これがデフォルトの埋め込みモデルです。
 
-The image ingestion and search pipelines support the following embedding models:
+画像取り込みと検索パイプラインは、次の埋め込みモデルをサポートしています
 
-- zilliz/vit-base-patch16-224
+- ジリズ/vit-base-patch16-224
 
-    The Vision Transformer (ViT) is a transformer encoder model (BERT-like) open-sourced by Google. The model is pretrained on a large collection of images to embed the semantic of image content to a vector space. The model is hosted on Zilliz Cloud to provide the best latency.
+    Vision Transformer(ViT)は、Googleによってオープンソース化されたトランスエンコーダーモデル(BERTのようなもの)です。このモデルは、画像コンテンツの意味をベクトル空間に埋め込むために、大量の画像コレクションで事前にトレーニングされています。このモデルは、最適なレイテンシを提供するためにZilliz Cloudにホストされています。
 
-- zilliz/clip-vit-base-patch32
+- ジリズ/clip-vit-base-patch32
 
-    A multi-modal model released by OpenAI. This vision model and its pairing text model are capable of embedding images and texts into the same vector space, enabling semantic search between visual and textual information. The model is hosted on Zilliz Cloud to provide the best latency.
+    Open AIによってリリースされたマルチモーダルモデル。このビジョンモデルとそのペアリングテキストモデルは、画像とテキストを同じベクトル空間に埋め込むことができ、視覚情報とテキスト情報の間の意味検索を可能にします。モデルはZilliz Cloudにホストされ、最高のレイテンシを提供します。
 
-- zilliz/clip-vit-base-patch32-multilingual-v1
+- ジリズ/clip-vit-base-patch32-multilingual-v1
 
-    A multi-lingual variant of OpenAI's CLIP-ViT-B32 model. It is designed to work together with CLIP-ViT-B32's vision model and can process text in more than 50 languages. This model is hosted on Zilliz Cloud to provide the best latency.
+    Open AIのCLIP-ViT-B 32モデルの多言語バリアントです。CLIP-ViT-B 32のビジョンモデルと連携するように設計されており、50以上の言語でテキストを過程化することができます。このモデルはZilliz Cloudにホストされ、最高のレイテンシを提供します。
 
-### How is Zilliz Cloud Pipelines charged?{#how-is-zilliz-cloud-pipelines-charged}
+### Zilliz Cloud Pipelinesはどのように課金されますか?{#how-is-zilliz-cloud-pipelines-charged}
 
-Currently, Zilliz Cloud Pipelines offer free quotas. Your initial spend of $20 is complimentary. For more details, please refer to [Pricing](https://zilliz.com/pricing).
+現在、Zilliz Cloud Pipelinesでは無料のクォータを提供しています。初回のご利用料金は20ドルです。詳細については、[料金](https://zilliz.com/jp/pricing)を参照してください。
 
-### Can I use Zilliz Cloud Pipelines standalone?{#can-i-use-zilliz-cloud-pipelines-standalone}
+### Zilliz Cloud Pipelinesをスタンドアロンで使用できますか?{#can-i-use-zilliz-cloud-pipelines-standalone}
 
-No, you must be a Zilliz Cloud vector database customer to access the Pipelines functionalities.
+いいえ、Pipelinesの機能にアクセスするには、Zilliz Cloudベクターデータベースのお客様である必要があります。
 
-### What data sources are supported by Ingestion Pipelines?{#what-data-sources-are-supported-by-ingestion-pipelines}
+### Ingestion Pipelinesがサポートするデータソースは何ですか?{#what-data-sources-are-supported-by-ingestion-pipelines}
 
-Currently, Ingestion Pipelines support local files and files stored on AWS S3 and Google Cloud Storage. We are actively working to expand support for additional data sources in the future.
+現在、Ingestion PipelinesはローカルファイルとAWS S 3およびGoogle Cloud Storageに保存されたファイルをサポートしています。今後、追加のデータソースのサポートを拡大するために積極的に取り組んでいます。
 
-### What document file formats are supported by Pipelines?{#what-document-file-formats-are-supported-by-pipelines}
+### Pipelinesでサポートされているドキュメントファイル形式は何ですか?{#what-document-file-formats-are-supported-by-pipelines}
 
-Supported file formats include `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`. When running an Ingestion pipeline, you can either upload a local file or use an S3 presigned URL or a GCS signed URL.
+サポートされているファイル形式には、`. txt`、.`pdf`、.`md`、`.html`、`.epub`、`.csv`、`.文書`、`.docx`、`.xls`、`.xlsx`、.`ppt`、`.pptx`があります。Ingestionパイプラインを実行する場合は、ローカルファイルをアップロードするか、S 3事前署名URLまたはGCS署名URLを使用できます。

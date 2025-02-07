@@ -1,12 +1,12 @@
 ---
-title: "AUTOINDEX Explained | Cloud"
+title: "AUTOINDEXの説明 | Cloud"
 slug: /autoindex-explained
-sidebar_label: "AUTOINDEX Explained"
+sidebar_label: "AUTOINDEXの説明"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, AUTOINDEX comes into play. | Cloud"
+description: "Zilliz Cloudは、Performance-optimizedと容量に最適化されたクラスターを提供しています。これらのクラスターにインデックスを構築するためには、異なる目的があるため、異なるアプローチが必要です。ユーザーがインデックスパラメータの調整や微調整の手間を省くために、AUTOINDEXが役立ちます。 | Cloud"
 type: origin
-token: EA2twSf5oiERMDkriKScU9GInc4
+token: Tf2kwQ3i3iGlsxkL8EVcpCPInde
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,57 +14,57 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# AUTOINDEX Explained
+# AUTOINDEXの説明
 
-Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, **AUTOINDEX** comes into play.
+Zilliz Cloudは、Performance-optimizedと容量に最適化されたクラスターを提供しています。これらのクラスターにインデックスを構築するためには、異なる目的があるため、異なるアプローチが必要です。ユーザーがインデックスパラメータの調整や微調整の手間を省くために、**AUTOINDEX**が役立ちます。
 
-**AUTOINDEX** is a proprietary index type available on Zilliz Cloud that can help you achieve better search performance. Whenever you want to index a vector field in your collection on Zilliz Cloud, **AUTOINDEX** applies.
+**AUTOINDEX**は、Zilliz Cloud上で利用可能な独自のインデックスタイプであり、検索パフォーマンスを向上させるのに役立ちます。Zilliz Cloud上でコレクション内のベクトルフィールドをインデックス化したい場合は、**AUTOINDEX**が適用されます。
 
-## Features and benefits{#features-and-benefits}
+## 特徴と利点{#}
 
-**AUTOINDEX** offers a significant performance advantage over open-source Milvus, achieving up to 3x QPS on specific datasets. You can use AUTOINDEX to create indexes on all field types that Zilliz Cloud clusters support, including [Dense Vector](./use-dense-vector), [Binary Vector](./use-binary-vector), and [Binary Vector](./use-binary-vector).
+**AUTOINDEX**は、特定のデータセットで最大3倍のQPSを達成するため、オープンソースのMilvusに比べて大幅なパフォーマンスの優位性を提供します。AUTOINDEXを使用して、Zilliz Cloudクラスターがサポートするすべてのフィールドタイプにインデックスを作成できます。これには、[密集ベクトル](./use-dense-vector)、[バイナリベクトル](./use-binary-vector)、[疎ベクトル](./use-sparse-vector)が含まれます。
 
-**AUTOINDEX** delivers high performance in these aspects:
+**AUTOINDEX**は以下の点で高いパフォーマンスを発揮します:
 
-- Leverage Single Instruction, Multiple Data (SIMD) to speed up queries and storage, squeezing every possible bit of performance out of machines.
+- SIMD（Single Instruction, Multiple Data）を活用して、クエリとストレージを高速化し、マシンから可能な限りのパフォーマンスを引き出します。
 
-- Optimize data graphing and cropping strategies to significantly reduce the number of data points accessed when searching.
+- 検索時にアクセスするデータポイントの数を大幅に減らすために、データのグラフ化とクロッピング戦略を最適化します。
 
-- Implement a dynamic quantization strategy to reduce distance calculation costs.
+- 距離計算コストを削減するために動的量子化戦略を実装してください。
 
-### Cost efficiency{#cost-efficiency}
+### コスト効率{#}
 
-**AUTOINDEX** supports pure in-memory, hybrid disk, and memory-mapped (MMAP) modes to meet users' varying needs for capacity and performance. In in-memory mode, **AUTOINDEX** uses dynamic quantization to significantly reduce memory usage. In hybrid disk mode, **AUTOINDEX** can dynamically cache data and use algorithms to minimize I/O operations and maintain high performance.
+**AUTOINDEX**は、容量とパフォーマンスに対するユーザーのさまざまなニーズに対応するために、純粋なインメモリ、ハイブリッドディスク、およびメモリマップ(MMAP)モードをサポートしています。インメモリモードでは、**AUTOINDEX**は動的量子化を使用してメモリ使用量を大幅に削減します。ハイブリッドディスクモードでは、**AUTOINDEX**はデータを動的にキャッシュし、アルゴリズムを使用してI/O操作を最小限に抑え、高いパフォーマンスを維持できます。
 
-### Autonomous tuning{#autonomous-tuning}
+### 自律チューニング{#}
 
-Approximate nearest neighbor (ANN) algorithms require a trade-off between recall and performance. Query parameters have a significant impact on the results. If the query parameter size is too small, the recall will be extremely low and may not meet business requirements. Conversely, if the query parameter size is excessively large, the performance will be severely degraded.
+近似最近傍法(ANN)アルゴリズムには、リコールとパフォーマンスのトレードオフが必要です。クエリパラメータは結果に重大な影響を与えます。クエリパラメータ体格が小さすぎる場合、リコールは非常に低くなり、ビジネス要件を満たさない可能性があります。逆に、クエリパラメータ体格が極端に大きい場合、パフォーマンスは深刻に低下します。
 
-Choosing query parameters requires a lot of domain-specific knowledge, which greatly increases the learning curve for users. To address this issue, **AUTOINDEX** has developed an intelligent algorithm that facilitates the selection of query parameters. By analyzing the distribution of users' datasets during index building, **AUTOINDEX** achieves a trade-off between recall and performance, powered by a machine learning model for query parameter recommendation. This way, users no longer need to manually set query parameters.
+クエリパラメータを選択するには、多くのドメイン固有の知識が必要であり、これによりユーザーの学習曲線が大幅に増加します。この問題に対処するために、**AUTOINDEX**はクエリパラメータの選択を容易にするインテリジェントアルゴリズムを開発しました。インデックス構築中にユーザーのデータセットの分布を分析することにより、**AUTOINDEX**は、クエリパラメータの推奨のための機械学習モデルによって駆動され、リコールとパフォーマンスのトレードオフを実現します。これにより、ユーザーはもはやクエリパラメータを手動で設定する必要がありません。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>When migrating your Milvus codebase to Zilliz Cloud, you do not need to change the index type used manually. Zilliz Cloud automatically applies AUTOINDEX when creating indexes.</p>
+<p>MilvusのコードベースをZilliz Cloudに移行する際、インデックスの種類を手動で変更する必要はありません。Zilliz Cloudはインデックス作成時に自動的にAUTOINDEXを適用します。</p>
 
 </Admonition>
 
-## Index building and search settings{#index-building-and-search-settings}
+## インデックスの構築と検索の設定{#}
 
-The process of building an index involves sorting out the entities in a collection in a specific order so that results can be retrieved more quickly.
+インデックスを作成する過程では、結果をより迅速に取得できるように、コレクション内のエンティティを特定の順序でソートします。
 
-Indexing a floating vector on Zilliz Cloud is not an obstacle. Simply set the index type to `AUTOINDEX` and choose the metric type for Zilliz Cloud to determine the most suitable configurations for the index-building and search processes. The metric type determines how the distances between vectors are measured and is the only thing you need to consider.
+Zilliz Cloud上でフローティングベクトルをインデックス化することは障害ではありません。インデックスタイプを`AUTOINDEX`に設定し、Zilliz Cloudのメトリックタイプを選択して、インデックス構築と検索プロセスに最適な構成を決定するだけです。メトリックタイプは、ベクトル間の距離の測定方法を決定し、考慮する必要がある唯一のものです。
 
-The differences between the index-building settings on Milvus and Zilliz Cloud are shown below:
+MilvusとZilliz Cloudのインデックス構築設定の違いを以下に示します。
 
 ```python
 # For index-building
@@ -90,7 +90,7 @@ index_params = {
 }
 ```
 
-The differences between the search parameter settings are as follows:
+検索パラメータの設定の違いは次のとおりです。
 
 ```python
 # For searches
@@ -111,22 +111,22 @@ search_params = {
 }
 ```
 
-### About the `level` parameter{#about-the-level-parameter}
+### levelパラメータに`つ`いて{#level}
 
-Tunning search performance requires adjusting different sets of parameters that vary with index types. For instance, when using HNSW, the parameter you should tune is `ef`, whereas when using IVF, the parameter to adjust is `nprobe`. To reach a balance between an optimal recall rate and search performance, it is necessary to fine-tune these parameters specific to the type of index being used.
+検索パフォーマンスをチューニングするには、インデックスタイプによって異なるパラメータセットを調整する必要があります。たとえば、HNSWを使用する場合、調整する必要があるパラメータは`ef`ですが、IVFを使用する場合、調整するパラメータは`nprobe`です。最適なリコール率と検索パフォーマンスのバランスを取るためには、使用されるインデックスのタイプに特化したこれらのパラメータを微調整する必要があります。
 
-Zilliz Cloud uses a unified parameter `level` to simplify search parameter tuning instead of leaving you to work with the above-mentioned complex parameter sets. 
+Zilliz Cloudは、上記の複雑なパラメータセットで作業する代わりに、統一されたパラメータ`レベル`を使用して検索パラメータのチューニングを簡素化します。
 
-Increasing the `level` parameter will result in a higher recall rate, but may also lead to degraded search performance. The value defaults to `1` and ranges from `1` to `10`. The default value results in a recall rate of 90%, which is typically sufficient for most use cases. However, if you require a higher recall rate, increase this value.
+「`レベル`」パラメータを増やすと、リコール率が高くなりますが、検索パフォーマンスが低下する可能性もあります。値はデフォルトで`1`で、`1`から`10`までの範囲です。デフォルト値により、リコール率は90%になり、ほとんどのユースケースで十分です。ただし、より高いリコール率が必要な場合は、この値を増やしてください。
 
-You can also set `enable_recall_calculation` to `true`when you tweek the `level` parameter so that you can evaluate the precisions of your search with different `level` values.
+levelパラメータを微調整するときに`enable_recol_計算をtrueに設定することもできます。これにより、異なるlevel`値で検索の精度を評価でき`ま`す。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>The <code>level</code> and <code>enable_recall_calculation</code> parameters are still in <strong>Public Preview</strong>, and you might not be able to fully use them due to compatibility issues. For any assistance, please contact us at support@zilliz.com.</p>
+<p>「<code>level</code>」と「<code>enable_リコール_計算</code>」パラメーターはまだ<strong>パブリックプレビュー</strong>のため、互換性の問題により完全に使用できない可能性があります。サポートが必要な場合は、support@zilliz.comまでお問い合わせください。</p>
 
 </Admonition>
 
-## Conclusion{#conclusion}
+## 結論として{#}
 
-We hope this article has helped you better understand AUTOINDEX, a powerful tool that simplifies the process of building and optimizing indexes for vector fields in collections on Zilliz Cloud. By automatically determining the most suitable configurations for your searches and indexes, AUTOINDEX saves users time and effort when compared to traditional methods. Whether you are using a Performance-optimized or Capacity-optimized cluster, AUTOINDEX can help you achieve faster and more efficient searches with optimized indexes tailored to your needs. If you have any questions about AUTOINDEX or any other feature of Zilliz Cloud, don't hesitate to reach out to our team. We are always happy to help!
+この記事があなたがAUTOINDEXをよりよく理解するのに役立ったことを願っています。AUTOINDEXは、Zilliz Cloud上のコレクション内のベクトルフィールドのインデックスを構築および最適化する過程を簡素化する強力なツールです。検索とインデックスに最適な構成を自動的に決定することにより、AUTOINDEXは従来の方法と比較してユーザーの時間と労力を節約します。Performance-optimizedまたは容量最適化されたクラスターを使用している場合でも、AUTOINDEXはあなたのニーズに合わせた最適化されたインデックスでより速く効率的な検索を実現するのに役立ちます。AUTOINDEXまたはZilliz Cloudのその他の機能に関する質問がある場合は、私たちのチームにお気軽にお問い合わせください。私たちはいつでもお手伝いできます!

@@ -1,40 +1,40 @@
 ---
-title: "Release Notes (Jan 10, 2023) | Cloud"
+title: "リリースノート（2023年1月10日） | Cloud"
 slug: /release-notes-010
-sidebar_label: "Release Notes (Jan 10, 2023)"
+sidebar_label: "リリースノート（2023年1月10日）"
 beta: FALSE
 notebook: FALSE
-description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release adds the data preview feature and a demo dataset that can be easily imported into your collection on the console. | Cloud"
+description: "Zilliz Cloudの大幅なアップデートの一般提供を発表できることを嬉しく思います。このリリースには、データプレビュー機能と、コンソール上のコレクションに簡単にインポートできるデモデータセットが追加されています。 | Cloud"
 type: origin
-token: UIaAwGay9iJHhlkxx8VcxfZ3nvb
+token: WLh0wMeUPiTonGkKnvScVNOYnGd
 sidebar_position: 20
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (Jan 10, 2023)
+# リリースノート（2023年1月10日）
 
-We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release adds the data preview feature and a demo dataset that can be easily imported into your collection on the console.
+Zilliz Cloudの大幅なアップデートの一般提供を発表できることを嬉しく思います。このリリースには、データプレビュー機能と、コンソール上のコレクションに簡単にインポートできるデモデータセットが追加されています。
 
-- Data preview
+- データのプレビュー
 
-    In this release, Zilliz Cloud offers a data preview capability. You can find the **Data Preview** feature tab on each collection page. The preview table lets you view all the values of a set of sampled entities in a collection, which makes it easy to verify your data.
+    今回のリリースでは、Zilliz Cloudにデータプレビュー機能が追加されました。各コレクションページにある**データプレビュー**機能タブで確認できます。プレビューテーブルでは、コレクション内のサンプルされたエンティティのセットのすべての値を表示できるため、データの検証が容易になります。
 
-    Along with the data preview capabilities, you can select any of the vectors in the preview table and use them as the query vector. This allows you to quickly verify the neighboring data in your collection.
+    データのプレビュー機能に加えて、プレビューテーブル内の任意のベクトルを選択してクエリベクトルとして使用することができます。これにより、コレクション内の隣接するデータをすばやく検証できます。
 
-- Demo dataset
+- デモデータセット
 
-    Zilliz Cloud now provides a demo dataset to help beginners get familiar with the functionalities of vector databases. The demo dataset is derived from a Kaggle dataset. It contains details of over 5,000 articles published between Jan 2020 to August 2020 in prominent publications.
+    Zilliz Cloudは現在、初心者がベクトルデータベースの機能に慣れるのを助けるデモデータセットを提供しています。デモデータセットはKaggleデータセットから派生しています。2020年1月から2020年8月にかけて主要な出版物に掲載された5,000以上の記事の詳細が含まれています。
 
-    Now, you can experience the whole set of vector database functionalities easily, with no extra effort needed for data preparation. [Enjoy it!](https://cloud.zilliz.com/signup)
+    今なら、データの準備に余分な手間をかけることなく、ベクトルデータベースの全機能を簡単に体験できます。[お楽しみください!](https://cloud.zilliz.com/signup)

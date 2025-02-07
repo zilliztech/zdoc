@@ -1,12 +1,12 @@
 ---
-title: "Set up a Private Endpoint | Cloud"
+title: "プライベートエンドポイントを設定する | Cloud"
 slug: /setup-a-private-link
-sidebar_label: "Set up a Private Endpoint"
+sidebar_label: "プライベートエンドポイントを設定する"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers private access to your cluster through a private link. This is useful if you do not want your cluster traffic to go over the Internet. | Cloud"
+description: "Zilliz Cloudは、プライベートリンクを介してクラスタへのプライベートアクセスを提供します。これは、クラスタのトラフィックがインターネットを経由しないようにする場合に便利です。 | Cloud"
 type: origin
-token: O5W3wHvmbiVSoLkzKgHcvB9XnUb
+token: LIehwcqZFiGZitkmzdrckoP0n8d
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -18,27 +18,27 @@ keywords:
   - aws
   - gcp
   - azure
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Set up a Private Endpoint
+# プライベートエンドポイントを設定する
 
-Zilliz Cloud offers private access to your cluster through a private link. This is useful if you do not want your cluster traffic to go over the Internet.
+Zilliz Cloudは、プライベートリンクを介してクラスタへのプライベートアクセスを提供します。これは、クラスタのトラフィックがインターネットを経由しないようにする場合に便利です。
 
-To enable private client access to clusters on Zilliz Cloud, you must create an endpoint in each of the subnets within your application's VPC. Then, register the VPC, subnets, and endpoints with Zilliz Cloud so that it can allocate a private link for you to set up a DNS record mapping the private link to the endpoints.
+Zilliz Cloud上のクラスタへのプライベートクライアントアクセスを有効にするには、アプリケーションのVPC内の各サブネットにエンドポイントを作成する必要があります。その後、VPC、サブネット、エンドポイントをZilliz Cloudに登録して、プライベートリンクを割り当て、プライベートリンクをエンドポイントにマッピングするDNSレコードを設定できるようにします。
 
-The following figure demonstrates how it works.
+次の図は、その動作を示しています。
 
-![BkbRwb8YhhqePCbZn2Kc8lWknNc](/img/BkbRwb8YhhqePCbZn2Kc8lWknNc.png)
+![XUG2wLW0vhuX4kbAggzctrnknie](/img/ja-JP/XUG2wLW0vhuX4kbAggzctrnknie.png)
 
-This guide walks you through setting up a private endpoint for a cluster.
+このガイドでは、クラスターのプライベートエンドポイントの設定方法について説明します。
 
 import DocCardList from '@theme/DocCardList';
 

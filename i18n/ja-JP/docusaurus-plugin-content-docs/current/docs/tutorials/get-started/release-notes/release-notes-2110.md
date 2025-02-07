@@ -1,67 +1,67 @@
 ---
-title: "Release Notes (Nov 6, 2024) | Cloud"
+title: "リリースノート（2024年11月6日） | Cloud"
 slug: /release-notes-2110
-sidebar_label: "Release Notes (Nov 6, 2024)"
+sidebar_label: "リリースノート（2024年11月6日）"
 beta: FALSE
 notebook: FALSE
-description: "This release includes a fresh web console user interface, support for migrating data from Qdrant, Pinecone Serverless, and Tencent VectorDB, a smoother payment process, and a revamped Invoice page with detailed payment info. | Cloud"
+description: "このリリースには、新しいWebコンソールのユーザーインターフェイス、Qdrant、Pinecone Serverless、およびテンセントVectorDBからのデータ移行のサポート、よりスムーズな支払い過程、および詳細な支払い情報を含む刷新された請求書ページが含まれています。 | Cloud"
 type: origin
-token: HwWfwN9SViqU0Ukcv68cufBAnBe
+token: FrALwj4ihi3BEtk7vQjc1zRInUb
 sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (Nov 6, 2024)
+# リリースノート（2024年11月6日）
 
-This release includes a fresh web console user interface, support for migrating data from Qdrant, Pinecone Serverless, and Tencent VectorDB, a smoother payment process, and a revamped Invoice page with detailed payment info.
+このリリースには、新しいWebコンソールのユーザーインターフェイス、Qdrant、Pinecone Serverless、およびテンセントVectorDBからのデータ移行のサポート、よりスムーズな支払い過程、および詳細な支払い情報を含む刷新された請求書ページが含まれています。
 
-## Milvus compatibility{#milvus-compatibility}
+## Milvusの互換性{#milvus}
 
-This release is compatible with **Milvus 2.4.x**.
+このリリースは**Milvus 2.4. x**と互換性があります。
 
-## A Brand-new Web Console User Interface{#a-brand-new-web-console-user-interface}
+## ウェブコンソールの新しいユーザーインターフェース{#}
 
-In this release, Zilliz Cloud introduces a fully upgraded web console UI. While maintaining familiar workflows, the new interface significantly enhances both the interactive and visual experience for users.
+このリリースでは、Zilliz Cloudは完全にアップグレードされたWebコンソールUIを導入しました。使い慣れたワークフローを維持しながら、新しいインターフェースはユーザーのインタラクティブな体験とビジュアルな体験の両方を大幅に向上させます。
 
-Log in to your [Zilliz Cloud](https://cloud.zilliz.com) account to try out the new interface for yourself!
+Zilliz[Cloud](https://cloud.zilliz.com)アカウントにログインして、新しいインターフェースをお試しください!
 
-## Enhanced Data Migration with Expanded Source Support{#enhanced-data-migration-with-expanded-source-support}
+## 拡張されたソースサポートによるデータ移行の強化{#}
 
-In this release, Zilliz Cloud has upgraded its data migration feature to support additional data sources, including:
+このリリースでは、Zilliz Cloudはデータ移行機能をアップグレードし、以下のような追加のデータソースをサポートしました。
 
 - Qdrant
 
-- Pinecone Serverless
+- 松ぼっくりサーバーレス
 
-- Tencent VectorDB
+- テンセントVectorDB
 
-With these enhancements, you can easily migrate your data from these vendors to Zilliz Cloud, leveraging the unique features and capabilities that Zilliz Cloud offers. For detailed instructions on migrating data from these sources, read [Migrate from Qdrant to Zilliz Cloud](./migrate-from-qdrant), [Migrate from Pinecone to Zilliz Cloud](./migrate-from-pinecone), and [Migrate from Tencent Cloud to Zilliz Cloud](./migrate-from-tencent-cloud).
+これらの機能強化により、Zilliz Cloudが提供する独自の機能を活用して、これらのベンダーからデータを簡単にZilliz Cloudに移行できます。これらのソースからデータを移行する詳細な手順については、Migrate from Qdrant to Zilliz Cloud,Migrate from Pinecone to Zilliz Cloud, andMigrate from Tencent Cloud to Zilliz Cloudを参照してください。
 
-## Improved Payment Process and Redesigned Invoice Page{#improved-payment-process-and-redesigned-invoice-page}
+## 支払いプロセスの改善と請求書ページの再設計{#}
 
-In this release, Zilliz Cloud has streamlined the payment process and refreshed the Invoice page, offering greater clarity and convenience in managing your costs. Key updates include:
+今回のリリースでは、Zilliz Cloudが支払い過程を簡素化し、請求書ページを一新し、コスト管理をより明確かつ便利にしました。主な更新内容は以下の通りです:
 
-- Timely notifications when payments are due
+- 支払いが期限切れになったときのタイムリーな通知
 
-- Support for extended billing cycles, aligning payment terms with enterprise financial workflows to ensure uninterrupted service
+- 企業の財務ワークフローに合わせて支払い条件を調整し、継続的なサービスを確保するために、長期間の請求サイクルをサポートします。
 
-- Itemized invoices with visibility into costs and download options
+- コストとダウンロードオプションを可視化した項目別請求書
 
-For further details on these updates, please read [Invoices](./view-invoice).
+これらの更新の詳細については、Invoicesをご覧ください。
 
-### Enhancements{#enhancements}
+### エンハンスメント{#}
 
-- We've optimized the replica configuration process. In this new version, users can now directly adjust the number of replicas without needing to release all collections beforehand.
+- レプリカの構成過程を最適化しました。この新しいバージョンでは、ユーザーは事前にすべてのコレクションをリリースする必要なく、レプリカの数を直接調整できます。
 

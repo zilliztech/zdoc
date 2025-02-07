@@ -1,144 +1,144 @@
 ---
-title: "Email Accounts | Cloud"
+title: "メールアカウント | Cloud"
 slug: /email-accounts
-sidebar_label: "Email Accounts"
+sidebar_label: "メールアカウント"
 beta: FALSE
 notebook: FALSE
-description: "Once you have registered an account with Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account. | Cloud"
+description: "Zilliz Cloudにアカウントを登録すると、アカウント情報の管理、ログイン方法の切り替え、GoogleまたはGitHubアカウントからのリンク解除が可能になります。 | Cloud"
 type: origin
-token: GMdhwQQCRi2QaLkimNOcc3qNnbh
+token: WiyZwvV6IicSb5kM8HPc0VQAn9b
 sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - email accounts
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Email Accounts
+# メールアカウント
 
-Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account.
+Zilliz Cloudに[アカウントを登録](./register-with-zilliz-cloud)すると、アカウント情報の管理、ログイン方法の切り替え、GoogleまたはGitHubアカウントからのリンク解除が可能になります。
 
-## Modify your profile information{#modify-your-profile-information}
+## プロフィール情報を変更する{#}
 
-1. Go to your **Profile** and click **Account Settings**.
+1. あなたの**プロフィール**に行き、**アカウント設定**をクリックしてください。
 
-1. You can edit the following account information:
+1. 以下のアカウント情報を編集できます。
 
-    - Name
+    - お名前
 
-    - Company
+    - 会社名
 
-    - Country
+    - 国
 
-![modify_account_info](/img/modify_account_info.png)
+![modify_account_info](/img/ja-JP/modify_account_info.png)
 
-## Update account email address{#update-account-email-address}
+## アカウントのメールアドレスを更新{#}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Updating the email address will not affect the receiver of billing invoices and alerts. Please update these information manually if necessary.</p>
-
-</Admonition>
-
-## Change account password{#change-account-password}
-
-## Enable and disable MFA{#enable-and-disable-mfa}
-
-Refer to [MFA](./multi-factor-auth)for more information.
-
-## Switch login method{#switch-login-method}
-
-Maintaining a consistent login method with your initial registration is required, but Zilliz Cloud offers flexibility if you need to switch your login method.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>For organization users, you can set up Single Sign-on (SSO) with the identity provider (IdP) Okta. This allows your organization users to authenticate with Okta and then seamlessly access Zilliz Cloud using their business email rather than creating a separate Zilliz Cloud account. For details, refer to <a href="./saml-2-0">Single Sign-on with Okta</a>.</p>
+<p>メールアドレスを更新しても、請求書やアラートの受信者には影響しません。必要に応じて、これらの情報を手動で更新してください。</p>
 
 </Admonition>
 
-### Switch from password login to third-party login{#switch-from-password-login-to-third-party-login}
+## アカウントのパスワードを変更する{#}
 
-To switch from password to third-party (Google or GitHub) login, follow the same steps for [linking your Zilliz Cloud account to a third-party service](./register-with-zilliz-cloud#linking-to-google-account), ensuring that [MFA is disabled](./multi-factor-auth#disable-mfa) beforehand.
+## MFAの有効化と無効化{#mfa}
 
-### Switch from third-party login to password login{#switch-from-third-party-login-to-password-login}
+MFAMFAMFA
 
-To revert to using an email and password for login after linking your Zilliz Cloud account to a third-party account, simply [unlink your Zilliz Cloud account from the third-party service](./email-accounts#unlink-from-third-party-authentication).
+## ログイン方法を切り替える{#}
 
-### Switch between third-party logins{#switch-between-third-party-logins}
+初期登録時に一貫したログイン方法を維持する必要がありますが、Zilliz Cloudはログイン方法を切り替える必要がある場合に柔軟性を提供します。
 
-If you have already linked your Zilliz Cloud account with a third-party account and wish to switch to another third-party login, you can follow the following instructions.
+<Admonition type="info" icon="📘" title="ノート">
 
-1. [Unlink from the current third-party account](./email-accounts#unlink-from-third-party-authentication).
-
-1. [Link your Zilliz Cloud account to the new desired third-party account](./register-with-zilliz-cloud).
-
-## Unlink from third-party authentication{#unlink-from-third-party-authentication}
-
-### Unlink from your Google account{#unlink-from-your-google-account}
-
-1. Go to your **Profile** and click **Account Settings**.
-
-1. Click **Unlink from Google**.
-
-1. Click **Unlink**. 
-
-    - If you have already set a password, your Google account will be unlinked directly and you can log in with your original email and password.
-
-    - If you have not set a password yet, set a new password via the link sent to your email. Once the password is set, your login method is changed to your work email and the new password.
-
-![unlink_from_google](/img/unlink_from_google.png)
-
-### Unlink from your GitHub account{#unlink-from-your-github-account}
-
-1. Go to your **Profile** and click **Account Settings**.
-
-1. Click **Unlink from GitHub**.
-
-1. Click **Unlink**. 
-
-    - If you have already set a password, your GitHub account will be unlinked directly and you can log in with your original email and password.
-
-    - If you have not set a password yet, set a new password via the link sent to your email. Once the password is set, your login method is changed to your work email and the new password.
-
-![unlink_from_github](/img/unlink_from_github.png)
-
-## Close your account{#close-your-account}
-
-<Admonition type="caution" icon="🚧" title="Warning">
-
-<p>Once the account is closed, you cannot use it to log into Zilliz Cloud. If you change your mind and need to reopen the account, please create a support ticket at the <a href="https://support.zilliz.com/hc/en-us">Zilliz Cloud Support Portal</a>. After 30 days, all data in this account will be cleaned.</p>
+<p>組織のユーザーは、アイデンティティプロバイダー（IdP）のOktaとシングルサインオン（SSO）を設定することができます。これにより、組織のユーザーはOktaで認証し、ビジネスメールを使用してZilliz Cloudにシームレスにアクセスできます。詳細については、<a href="./saml-2-0">SAML 2.0ダウンロード</a>を参照してください。</p>
 
 </Admonition>
 
-### Before you start{#before-you-start}
+### パスワードログインからサードパーティログインに切り替える{#}
 
-Ensure you meet the following criteria before proceeding:
+パスワードからサードパーティ(GoogleまたはGitHub)のログインに切り替えるには、[Zilliz Cloudアカウントをサードパーティサービスにリンク](./register-with-zilliz-cloud#google)する手順と同じ手順に従い、事前に[MFAが無効](./multi-factor-auth#mfa)になっていることを確認してください。
 
-- If you are the only project admin in a project with clusters, [delete the project clusters](./manage-cluster).
+### サードパーティログインからパスワードログインに切り替える{#}
 
-- If you are the only organization owner, delete the organization.
+Zilliz Cloudアカウントをサードパーティのアカウントにリンクした後、ログインにメールアドレスとパスワードを使用するように戻すには、[Zilliz Cloudアカウントをサードパーティサービスから解除](./email-accounts#)してください。
 
-### Procedures{#procedures}
+### サードパーティのログインを切り替える{#}
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+Zilliz Cloudアカウントを既にサードパーティのアカウントにリンクしており、別のサードパーティのログインに切り替えたい場合は、以下の手順に従ってください。
 
-1. Click the profile icon in the upper right corner. Click **Account Settings**.
+1. [現在のサードパーティアカウントからリンクを解除します](./email-accounts#)。
 
-1. In the **Account** **Settings** window, click the **Close Account** button.
+1. [Zilliz Cloudアカウントを新しいサードパーティアカウントにリンクします](./register-with-zilliz-cloud)。
 
-1. Before confirming to delete your account, fill out the feedback form first. Click the button to proceed with the deletion.
+## サードパーティ認証からのリンク解除{#}
 
-1. Enter your account email address again in the text box. Click **Send Verification Code** and enter the code you received in your email inbox. Read the information below and tick the boxes. Click **Next** to continue.
+### Googleアカウントからのリンクを解除してください。{#google}
 
-1. You will receive an email notification when your account is successfully deleted.
+1. あなたの**プロフィール**に行き、**アカウント設定**をクリックしてください。
 
-![delete-account-en](/img/delete-account-en.png)
+1. [**Googleからリンク解除**]をクリックします。
+
+1. [**リンク解除**]をクリックします。
+
+    - すでにパスワードを設定している場合、Googleアカウントは直接リンク解除され、元のメールアドレスとパスワードでログインできます。
+
+    - パスワードをまだ設定していない場合は、メールに送信されたリンクから新しいパスワードを設定してください。パスワードが設定されると、ログイン方法が仕事用のメールと新しいパスワードに変更されます。
+
+![unlink_from_google](/img/ja-JP/unlink_from_google.png)
+
+### GitHubアカウントからのリンク解除{#github}
+
+1. あなたの**プロフィール**に行き、**アカウント設定**をクリックしてください。
+
+1. [**GitHubからUnlink**]をクリックします。
+
+1. [**リンク解除**]をクリックします。
+
+    - すでにパスワードを設定している場合、GitHubアカウントは直接リンク解除され、元のメールアドレスとパスワードでログインできます。
+
+    - パスワードをまだ設定していない場合は、メールに送信されたリンクから新しいパスワードを設定してください。パスワードが設定されると、ログイン方法が仕事用のメールと新しいパスワードに変更されます。
+
+![unlink_from_github](/img/ja-JP/unlink_from_github.png)
+
+## アカウントを閉じてください{#}
+
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>アカウントが閉鎖されると、Zilliz Cloudにログインすることはできません。アカウントを再開する必要がある場合は、<a href="https://support.zilliz.com/hc/en-us">Zilliz Cloudサポートポータル</a>でサポートチケットを作成してください。30日後、このアカウントのすべてのデータが消去されます。</p>
+
+</Admonition>
+
+### 始める前に{#}
+
+次に進む前に、以下の基準を満たしていることを確認してください。
+
+- クラスタがあるプロジェクトで唯一のプロジェクト管理者である場合は、[プロジェクトクラスタを削除](./manage-cluster)します。
+
+- 組織の所有者があなただけの場合は、組織を削除してください。
+
+### 手続き{#}
+
+1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
+
+1. 右上隅のプロフィールアイコンをクリックします。**アカウント設定**をクリックします。
+
+1. [**アカウント** **設定**]ウィンドウで、[**アカウントを閉じ**る]ボタンをクリックします。
+
+1. アカウントの削除を確認する前に、まずフィードバックフォームに記入してください。ボタンをクリックして削除を続行してください。
+
+1. テキストボックスにアカウントのメールアドレスを再度入力します。[**確認コードを送信**]をクリックし、メール受信トレイに受け取ったコードを入力します。以下の情報を読み、ボックスにチェックを入れます。[**次**へ]をクリックして続行します。
+
+1. アカウントが正常に削除されると、メール通知が届きます。
+
+![delete-account-en](/img/ja-JP/delete-account-en.png)

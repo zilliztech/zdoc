@@ -1,12 +1,12 @@
 ---
-title: "Ingest, Search, and Delete Data | Cloud"
+title: "データの取り込み、検索、削除 | Cloud"
 slug: /pipelines-ingest-search-delete-data
 sidebar_label: "Ingest, Search, Delete"
 beta: FALSE
 notebook: FALSE
-description: "Learn how to ingest, search, and delete various formats of unstructured data (eg. Images, texts, docs, etc.) with Zilliz Cloud Pipelines. Currently, three data formats are supported. | Cloud"
+description: "Zilliz Cloud Pipelinesを使用して、さまざまな形式の非構造化データ（画像、テキスト、ドキュメントなど）を取り込み、検索、削除する方法を学びましょう。現在、3つのデータ形式がサポートされています。 | Cloud"
 type: origin
-token: ZSPVwfZyTilSfKkuVxWcCG58nzb
+token: ZnuxwyKQFiLbVIkw68KcVvu5nFV
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -16,19 +16,19 @@ keywords:
   - ingest
   - search
   - delete
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Ingest, Search, and Delete Data
+# データの取り込み、検索、削除
 
-Learn how to ingest, search, and delete various formats of unstructured data (eg. Images, texts, docs, etc.) with Zilliz Cloud Pipelines. Currently, three data formats are supported.
+Zilliz Cloud Pipelinesを使用して、さまざまな形式の非構造化データ（画像、テキスト、ドキュメントなど）を取り込み、検索、削除する方法を学びましょう。現在、3つのデータ形式がサポートされています。
 
 
 

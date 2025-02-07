@@ -1,12 +1,12 @@
 ---
-title: "Subscribe on AWS Marketplace | Cloud"
+title: "AWS Marketplaceで購読する | Cloud"
 slug: /subscribe-on-aws-marketplace
 sidebar_label: "AWS Marketplace"
 beta: FALSE
 notebook: FALSE
-description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on AWS Marketplace. | Cloud"
+description: "このガイドでは、サブスクリプションの過程をステップバイステップで説明し、AWS Marketplace上のZilliz Cloudの価格条件を概説します。 | Cloud"
 type: origin
-token: LDlOweEzmiLkdQkvPFec5lrcnbf
+token: MjrLwXGCqidVczk2LuScB81Nnc2
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,199 +14,199 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Subscribe on AWS Marketplace
+# AWS Marketplaceで購読する
 
-This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on AWS Marketplace. 
+このガイドでは、サブスクリプションの過程をステップバイステップで説明し、AWS Marketplace上のZilliz Cloudの価格条件を概説します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Once subscribed, you can pay for the usage of AWS clusters via AWS Marketplace. If you have clusters deployed on other cloud providers, you can also use AWS Marketplace to pay.</p>
+<p>一度購読すると、AWS Marketplaceを介してAWSクラスターの使用料を支払うことができます。他のクラウドプロバイダーにクラスターをデプロイしている場合は、AWS Marketplaceを使用して支払うこともできます。</p>
 
 </Admonition>
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-- Ensure you have an AWS Marketplace account.
+- 必ずAWSMarketplaceアカウントをお持ちください。
 
-- Set your AWS Buyer ID's default payment method to the Invoicing Plan. [Learn how to change your default payment method](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-payment-method.html).
+- インボイスプランにAWSバイヤーIDのデフォルトの支払い方法を設定してください。[デフォルトの支払い方法を変更する方法を学びましょう](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-payment-method.html)。
 
-- If you’re an existing Zilliz Cloud user, use a different email to subscribe on AWS Marketplace.
+- 既存のZilliz Cloudユーザーの場合は、別のメールアドレスを使用してAWSMarketplaceに登録してください。
 
-- If your AWS account is part of an organization, you must be authorized to make purchases by the billing administrator.
+- AWSアカウントが組織の一部である場合は、請求管理者によって購入を行う権限が必要です。
 
-## Subscribe on AWS Marketplace{#subscribe-on-aws-marketplace}
+## 購読するAWSMarketplace{#awsmarketplace}
 
-Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribing to Zilliz Cloud as follows:
+以下の手順で[AWS Marketplace](https://aws.amazon.com/marketplace)にアクセスし、Zilliz Cloudの購読を開始してください:
 
-1. Search for **Zilliz Cloud** in the search box, or [go to AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?trk=8d276e92-b310-40ce-908f-23a198ca7ffc&sc_channel=el&source=zilliz) to view the Zilliz Cloud portal page.
+1. 検索ボックスで**Zilliz Cloud**を検索するか、[AWS Marketplaceにアクセス](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?trk=8d276e92-b310-40ce-908f-23a198ca7ffc&sc_channel=el&source=zilliz)してZilliz Cloudポータルページを表示してください。
 
-    ![search_for_zilliz_on_aws](/img/search_for_zilliz_on_aws.png)
+    ![search_for_zilliz_on_aws](/img/ja-JP/search_for_zilliz_on_aws.png)
 
-1. Click **Zilliz Cloud**.
+1. [**Zilliz Cloud**]をクリックします。
 
-    Familiarize yourself with the services and pricing. 
+    サービスと価格について理解してください。
 
-    If you have already used Zilliz Cloud, click **View purchase options**.
+    すでにZilliz Cloudをお使いの場合は、**購入オプションを表示**をクリックしてください。
 
-    If you have not used Zilliz Cloud before, you can click **Try for free**, which is a 30-day free trial offered by AWS. Once the free trial ends, you need to [upgrade the subscription](./subscribe-on-aws-marketplace#upgrade-subscription-from-free-trial) to continue using Zilliz Cloud.
+    Zilliz Cloudを使用したことがない場合は、AWSが提供する30日間の無料トライアルである「**Try for free**」をクリックしてください。無料トライアルが終了したら、Zilliz Cloudを引き続き使用するために[サブスクリプションをアップグレード](./subscribe-on-aws-marketplace#)する必要があります。
 
-    ![view_purchase_options](/img/view_purchase_options.png)
+    ![view_purchase_options](/img/ja-JP/view_purchase_options.png)
 
-1. Scroll down the page and click **Subscribe**. 
+1. ページを下にスクロールし、[**購読**]をクリックします。
 
-    ![aws_flash_message](/img/aws_flash_message.png)
+    ![aws_flash_message](/img/ja-JP/aws_flash_message.png)
 
-1. Follow the prompt to **Set up your account** on Zilliz Cloud.
+1. Zilliz Cloudで**アカウントを設定**するには、プロンプトに従ってください。
 
-    ![set-up-account](/img/set-up-account.png)
+    ![set-up-account](/img/ja-JP/set-up-account.png)
 
-1.  In the new tab, follow the steps below to complete subscription.
+1. 新しいしいタブで、以下の手順に従ってサブスクリプションを完了します。
 
-    1. If you already have a Zilliz Cloud account, simply log in. If not, choose a [sign-up option](./register-with-zilliz-cloud) and follow the process. Ensure all query strings in the URL are retained to link your AWS identity to your Zilliz Cloud account.
+    1. すでにZilliz Cloudアカウントをお持ちの場合は、ログインしてください。お持ちでない場合は、[サインアップオプション](./register-with-zilliz-cloud)を選択し、手順に従ってください。URL内のすべてのクエリ文字列が保持されていることを確認し、AWSIDをZilliz Cloudアカウントにリンクしてください。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="ノート">
 
-        <p>AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.</p>
+        <p>AWSMarketplaceは、URLのクエリ文字列を使用して、お客様のID情報をZilliz Cloudに渡します。サインアップに失敗すると、これらのクエリ文字列が失われる可能性があります。その結果、Zilliz Cloudは、AWS IDを当社に登録されたアカウントに関連付けることができない場合があります。この場合は、AWS Marketplaceに戻り、<b>アカウントの設定</b>を再度クリックしてください。</p>
 
         </Admonition>
 
-    1. Link your subscription to an existing Zilliz Cloud organization.
+    1. 既存のZilliz Cloud組織にサブスクリプションをリンクしてください。
 
-        ![aws-marketplace-dialog](/img/aws-marketplace-dialog.png)
+        ![aws-marketplace-dialog](/img/ja-JP/aws-marketplace-dialog.png)
 
-    1. Complete authorization.
+    1. 完全な承認。
 
-1. Go to **Billing** to ensure your AWS Marketplace subscription is set as your payment method.
+1. [**請求**]に移動して、AWSMarketplaceサブスクリプションが支払い方法として設定されていることを確認します。
 
-    ![aws-marketplace-success](/img/aws-marketplace-success.png)
+    ![aws-marketplace-success](/img/ja-JP/aws-marketplace-success.png)
 
-## Upgrade subscription from free trial{#upgrade-subscription-from-free-trial}
+## 無料トライアルからサブスクリプションをアップグレードする{#}
 
-Once your free trial ends, you need to upgrade the subscription to continue using Zilliz Cloud. To upgrade, simply repeat the [subscription process](./subscribe-on-aws-marketplace#subscribe-on-aws-marketplace) again:
+無料トライアルが終了したら、Zilliz Cloudを引き続き使用するためにサブスクリプションをアップグレードする必要があります。アップグレードするには、[サブスクリプションプロセス](./subscribe-on-aws-marketplace#awsmarketplace)をもう一度繰り返します。
 
-1. Navigate to the [Zilliz Cloud page](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?sr=0-1&ref_=beagle&applicationId=AWSMPContessa) on AWS Marketplace.
+1. AWS Marketplaceの[Zilliz Cloudページ](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?sr=0-1&ref_=beagle&applicationId=AWSMPContessa)に移動してください。
 
-1. Click **View purchase options**.
+1. [**購入オプションを表示**]をクリックします。
 
-1. Scroll down the page and click **Subscribe**.
+1. ページを下にスクロールし、[**購読**]をクリックします。
 
-1. Click **Set up your account** in the prompt.
+1. プロンプトで[**アカウントを設定]を**クリックします。
 
-1. Log into your Zilliz Cloud account and link the AWS Marketplace subscription to a Zilliz Cloud organization.
+1. Zilliz Cloudアカウントにログインし、AWS MarketplaceサブスクリプションをZilliz Cloud組織にリンクしてください。
 
-You can check if the upgrade is successful by navigating to the **Payment Method** card on the **Billing Overview** page. If the `Free Trial` tag next to AWS Marketplace Subscription disappears, the upgrade is successful. 
+アップグレードが成功したかどうかは、**支払い方法**カードの**請求概要**ページに移動して確認できます。AWS Marketplaceサブスクリプションの横にある`無料トライアル`タグが消えている場合、アップグレードは成功しました。
 
-## Update AWS Marketplace subscription{#update-aws-marketplace-subscription}
+## アップデートAWSMarketplaceサブスクリプション{#awsmarketplace}
 
-After successfully subscribing from AWS Marketplace, you can always update your subscription at any time that you see fit. More specifically, you can either change the AWS Marketplace account used for the subscription to another one or switch your payment method from an AWS Marketplace subscription to a credit card.
+AWS Marketplaceから正常にサブスクライブした後は、必要に応じていつでもサブスクリプションを更新できます。具体的には、サブスクリプションに使用されるAWS Marketplaceアカウントを別のアカウントに変更するか、AWSMarketplaceサブスクリプションからクレジットカードに払い戻し方法を切り替えることができます。
 
-### Change AWS Marketplace subscription account{#change-aws-marketplace-subscription-account}
+### ・AWS Marketplaceのサブスクリプションアカウントを変更する{#aws-marketplace}
 
-1. Sign in to AWS Marketplace with the original AWS account you used for the subscription.
+1. サブスクリプションに使用した元のAWSアカウントでAWS Marketplaceにサインインします。
 
-1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your product subscription](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription) for more details.
+1. Zilliz Cloudのサブスクリプションをキャンセルしてください。詳細については、[製品サブスクリプションをキャンセル](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription)するを参照してください。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>Please rest assured that canceling the subscription will not delete your Zilliz Cloud data.</p>
-
-    </Admonition>
-
-    It takes a few minutes for AWS Marketplace to complete the cancellation process.
-
-1. Sign out of your original AWS account.
-
-1. Sign in to AWS Marketplace with a different AWS account that you want to use for the subscription.
-
-1. Follow steps 1 to 4 in the [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace#subscribe-on-aws-marketplace) section to complete your subscription to Zilliz Cloud with the new account.
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p>When updating AWS Marketplace subscription, you must click the <strong>Set up your account</strong> button to link your new subscription with Zilliz Cloud organization.</p>
+    <p>サブスクリプションをキャンセルしても、Zilliz Cloudのデータは削除されませんのでご安心ください。</p>
 
     </Admonition>
 
-1. Verify the update in the **Payment Method** section on the **Billing Overview** page. Click on the Subscription ID and verify if the subscription **Account ID** has been updated to the new Marketplace account.
+    キャンセルプロセスが完了するまで、AWSMarketplaceには数分かかります。
 
-    ![view-aws-subscription-id](/img/view-aws-subscription-id.png)
+1. 元のAWSアカウントからサインアウトします。
 
-<Admonition type="info" icon="📘" title="Notes">
+1. サブスクリプションに使用する別のAWSアカウントでAWS Marketplaceにサインインします。
 
-<p>We recommend completing the operations within 1 hour to avoid service interruption.</p>
+1. 新しいアカウントでZilliz Cloudのサブスクリプションを完了するには、[AWS Marketplaceで購読](./subscribe-on-aws-marketplace#awsmarketplace)するセクションの手順1から4に従ってください。
+
+    <Admonition type="info" icon="Notes" title="undefined">
+
+    <p>AWS Marketplaceのサブスクリプションを更新する場合は、[<strong>アカウントを設定</strong>]ボタンをクリックして、新しいサブスクリプションをZilliz Cloud組織にリンクする必要があります。</p>
+
+    </Admonition>
+
+1. [**支払方法**]セクションの[**請求概要**]ページで更新を確認します。[サブスクリプションID]をクリックし、サブスクリプション**アカウントID**が新しいMarketplaceアカウントに更新されたかどうかを確認します。
+
+    ![view-aws-subscription-id](/img/ja-JP/view-aws-subscription-id.png)
+
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>サービスの中断を避けるために、1時間以内に操作を完了することをお勧めします。</p>
 
 </Admonition>
 
-### Switch to payment credit card{#switch-to-payment-credit-card}
+### クレジットカード決済に切り替える{#}
 
-1. Sign in to AWS Marketplace with the original AWS account you used for the subscription.
+1. サブスクリプションに使用した元のAWSアカウントでAWS Marketplaceにサインインします。
 
-1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your product subscription](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription) for more details.
+1. Zilliz Cloudのサブスクリプションをキャンセルしてください。詳細については、[製品サブスクリプションをキャンセル](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription)するを参照してください。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>Please rest assured that canceling the subscription will not delete your Zilliz Cloud data.</p>
+    <p>サブスクリプションをキャンセルしても、Zilliz Cloudのデータは削除されませんのでご安心ください。</p>
 
     </Admonition>
 
-    It takes a few minutes for AWS Marketplace to complete the cancellation process.
+    AWS Marketplaceがキャンセル過程を完了するには数分かかります。
 
-1. Follow the steps in [Add a payment method](./subscribe-by-adding-credit-card#add-a-credit-card) to add a payment credit card.
+1. 「[支払い方法の](./subscribe-by-adding-credit-card)[追加](./subscribe-by-adding-credit-card)」の手順に従って、支払いクレジットカードを追加します。
 
-1. Verify the update in the **Payment Method** section on the **Billing Overview** page.
+1. [**支払方法**]セクションの[**請求概要**]ページで更新を確認します。
 
-## Cancel AWS Marketplace subscription{#cancel-aws-marketplace-subscription}
+## AWS Marketplaceのサブスクリプションをキャンセルする{#aws-marketplace}
 
-To cancel your AWS Marketplace subscription, you need to open the AWS Marketplace console and follow the instructions [in the AWS guides](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html).
+AWS Marketplaceのサブスクリプションをキャンセルするには、AWSMarketplaceコンソールを開き、[AWSガイドの](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html)指示に従ってください。
 
-## AWS Marketplace pricing terms{#aws-marketplace-pricing-terms}
+## AWSMarketplaceの価格条件{#awsmarketplace}
 
-Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more information.
+詳細については、[支払いと請求](./payment-billing)を参照してください。
 
-## Troubleshooting{#troubleshooting}
+## トラブルシューティング{#}
 
-**What I can do if I encounter issues when linking a marketplace subscription to Zilliz Cloud?**
+**マーケットプレイスのサブスクリプションをZilliz Cloudにリンクする際に問題が発生した場合、どうすればよいですか?**
 
-There are several possible reasons:
+いくつかの理由が考えられます:
 
-1. **Insufficient permissions** (UI prompt: Insufficient Permissions)
+1. **不十分な権限**（UIプロンプト:「不十分な権限」）
 
-    To link an organization with a marketplace subscription, you must be an organization owner. But if you are an organization member, you do not have the required permissions. Please contact the organization owner for assistance.
+    組織をマーケットプレイスサブスクリプションにリンクするには、組織の所有者である必要があります。ただし、組織のメンバーの場合、必要な権限がありません。組織の所有者にお問い合わせください。
 
-1. **All organizations have already been successfully linked to a Marketplace subscription** (UI prompt: Marketplace Linked)
+1. **すべての組織はすでにMarketplaceサブスクリプションに正常にリンクされています**(UIプロンプト: Marketplace Linked)
 
-    1. If you need to update an existing marketplace subscription, please [unlink](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription) the current subscription of the organization first and then set up a new subscription.
+    1. 既存のMarketplaceサブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションの[リンク](./subscribe-on-aws-marketplace#aws-marketplace)を解除してから、新しいサブスクリプションを設定してください。
 
-    1. If you need multiple organizations for different Marketplace subscription, you can:
+    1. 異なるマーケットプレイスのサブスクリプションに複数の組織が必要な場合は、次のことができます:
 
-        1. [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
+        1. [新し](./register-with-zilliz-cloud)いZilliz Cloudアカウントを登録して、新しい組織を作成します。その後、組織のオーナーを新しい組織に[招待](./organization-users#)します。この組織のオーナーは複数の組織に所属し、組織ごとに異なるマーケットプレイスのサブスクリプションを設定できます。
 
-        1. [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+        1. [サポートチケットを作成](http://support.zilliz.com)すると、新しい組織が作成されます。現在、Zilliz Cloudでは、ユーザーが手動で組織を作成することはサポートされていません。
 
-1. **No organizations in the list**
+1. **リストに組織がありません**
 
-    This can happen if your account has been closed or if you have left all organizations. In this case, you can:
+    アカウントが閉鎖された場合や、すべての組織から離脱した場合に発生する可能性があります。この場合、次のことができます:
 
-    1. Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organization as an organization owner.
+    1. 他のユーザに自分をOrganizationの所有者としてOrganizationに[招待](./organization-users#)するように依頼します。
 
-    1. [Submit a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
+    1. [サポートチケットを送信](https://support.zilliz.com/hc/en-us)すると、新しい組織が作成されます。
 
-## Related topics{#related-topics}
+## 関連するトピック{#}
 
-- [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)
+- [クレジットカードを追加して購読する](./subscribe-by-adding-credit-card)
 
-- [Subscribe on Azure Marketplace](./subscribe-on-azure-marketplace)
+- [Google Cloud Marketplaceに登録する](./subscribe-on-gcp-marketplace)
 
-- [Subscribe on GCP Marketplace](./subscribe-on-gcp-marketplace)
+- [Azure Marketplaceで購読する](./subscribe-on-azure-marketplace)
 
-- [View Invoice](./view-invoice) 
+- [インボイス](./view-invoice)
 

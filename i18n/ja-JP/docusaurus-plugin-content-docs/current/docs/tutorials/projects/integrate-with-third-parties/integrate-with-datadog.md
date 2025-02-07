@@ -1,12 +1,12 @@
 ---
-title: "Integrate with Datadog | Cloud"
+title: "Datadogとの統合 | Cloud"
 slug: /integrate-with-datadog
-sidebar_label: "Datadog"
+sidebar_label: "Datadogとの統合"
 beta: PRIVATE
 notebook: FALSE
-description: "Datadog is a cloud monitoring and analytics platform that provides real-time insights into application performance, infrastructure, and log management. By integrating Zilliz Cloud with Datadog, you can send metric data about your Zilliz Cloud clusters to your Datadog dashboards. | Cloud"
+description: "Datadogは、アプリケーションのパフォーマンス、インフラストラクチャ、ログ管理に関するリアルタイムの洞察を提供するクラウドモニタリングおよび分析プラットフォームです。Zilliz CloudとDatadogを統合することで、Zilliz Cloudクラスターに関するメトリックデータをDatadogダッシュボードに送信できます。 | Cloud"
 type: origin
-token: JGFQwMcVmiikeOkhepGcQ8Ken0e
+token: K7YDwvt60iLXG9k0jV1cGzpbn7k
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -15,56 +15,56 @@ keywords:
   - third-party
   - services
   - datadog
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Integrate with Datadog
+# Datadogとの統合
 
-[Datadog](https://www.datadoghq.com/) is a cloud monitoring and analytics platform that provides real-time insights into application performance, infrastructure, and log management. By integrating Zilliz Cloud with Datadog, you can send metric data about your Zilliz Cloud clusters to your Datadog dashboards.
+[Datadog](https://www.datadoghq.com/)は、アプリケーションのパフォーマンス、インフラストラクチャ、ログ管理に関するリアルタイムの洞察を提供するクラウドモニタリングおよび分析プラットフォームです。Zilliz CloudとDatadogを統合することで、Zilliz Cloudクラスターに関するメトリックデータをDatadogダッシュボードに送信できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p><a href="https://www.datadoghq.com/">Datadog</a> integration is available only for Zilliz Cloud clusters running the <strong>Dedicated-Enterprise</strong> plan. To upgrade your plan tier, refer to <a href="./manage-cluster">Manage Cluster</a>.</p>
+<p><a href="https://www.datadoghq.com/">Datadog</a>の統合は、<strong>Dedicated-Enterprise</strong>プランを実行しているZilliz Cloudクラスターでのみ利用できます。プランレベルをアップグレードするには、<a href="./manage-cluster">クラスタ管理</a>を参照してください。</p>
 
 </Admonition>
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-- To integrate with Datadog, you must have **Organization Owner** or **Project Admin** access to the project. If you do not have necessary permissions, contact your Zilliz Cloud administrator.
+- Datadogと統合するには、**Organization Owner**また**はプロジェクト管理者**がプロジェクトにアクセスできる必要があります。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
 
-- You must have a Datadog account and a Datadog API key. For information on how to access your API key, refer to [API and Application Keys](https://docs.datadoghq.com/account_management/api-app-keys/#application-keys).
+- DatadogアカウントとDatadog APIキーが必要です。APIキーへのアクセス方法については、[APIとApplication Keys](https://docs.datadoghq.com/account_management/api-app-keys/#application-keys)を参照してください。
 
-## Procedure{#procedure}
+## 手続き{#}
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. In the left-side navigation pane of the project page, click **Integrations**.
+1. プロジェクトページの左側のナビゲーションウィンドウで、[**統合**]をクリックします。
 
-1. Locate the **Datadog** section and click **+ Configuration** next to it.
+1. [**Datadog**]セクションを見つけ、その横にある[**+構成**]をクリックします。
 
-1. In the dialog box that appears, link Datadog to your project and assign clusters to collect metric data.
+1. 表示されるダイアログボックスで、Datadogをプロジェクトにリンクし、クラスタを割り当ててメトリックデータを収集します。
 
-    1. In the **Configure Datadog Integration** step, configure Datadog settings.
+    1. [**Datadog統合**の構成]ステップで、Datadogの設定を構成します。
 
-        1. In **Configuration Name**, Enter a name for the integration (e.g., `DG_configuration`).
+        1. [**構成名**]に、統合の名前を入力します(例:`DG_configuration`)。
 
-        1. In **Datadog API Key**, enter your Datadog API key.
+        1. [**Datadog API Key**]にDatadog APIキーを入力します。
 
-        1. In **Datadog Site**, select your Datadog site. Zilliz Cloud supports the following Datadog sites:
+        1. [**Datadogサイト**]で、Datadogサイトを選択します。Zilliz Cloudは、以下のDatadogサイトをサポートしています。
 
             <table>
                <tr>
-                 <th><p>Site</p></th>
-                 <th><p>Site URL</p></th>
-                 <th><p>Site Parameter</p></th>
-                 <th><p>Location</p></th>
+                 <th><p>サイト</p></th>
+                 <th><p>サイトのURL</p></th>
+                 <th><p>サイトパラメータ</p></th>
+                 <th><p>ロケーション</p></th>
                </tr>
                <tr>
                  <td><p><code>US1</code></p></td>
@@ -88,171 +88,171 @@ import Admonition from '@theme/Admonition';
                  <td><p><code>EU1</code></p></td>
                  <td><p><code>https://app.datadoghq.eu</code></p></td>
                  <td><p><code>datadoghq.eu</code></p></td>
-                 <td><p>EU (Germany)</p></td>
+                 <td><p>EU（ドイツ）</p></td>
                </tr>
                <tr>
                  <td><p><code>AP1</code></p></td>
                  <td><p><code>https://ap1.datadoghq.com</code></p></td>
                  <td><p><code>ap1.datadoghq.com</code></p></td>
-                 <td><p>Japan</p></td>
+                 <td><p>日本</p></td>
                </tr>
             </table>
 
-            For details on Datadog sites, refer to [Access Datadog Sites](https://docs.datadoghq.com/getting_started/site/#access-the-datadog-site). 
+            Datadogサイトの詳細については、[Datadogサイトにアクセス](https://docs.datadoghq.com/getting_started/site/#access-the-datadog-site)するを参照してください。
 
-        1. Click **Test Integration** to verify the connection between Zilliz Cloud and Datadog. If the test is successful, proceed to assign clusters.
+        1. [**Test Integration**]をクリックして、Zilliz CloudとDatadogの接続を確認します。テストが成功した場合は、クラスターの割り当てに進みます。
 
-    1. In the **Assign Configuration to Zilliz Cloud Cluster(s)** step, select one or more clusters from which metric data will be pushed to Datadog.
+    1. [**Assign Configuration to Zilliz Cloud Cluster(s)**]ステップで、メトリックデータをDatadogにプッシュするクラスタを1つ以上選択します。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="ノート">
 
-        <p>Only clusters of the <strong>Dedicated-Enterprise</strong> plan tier can be selected.</p>
+        <p>選択できるのは、<strong>Dedicated-Enterprise</strong>プランレベルのクラスターのみです。</p>
 
         </Admonition>
 
-    1. Click **Create**.
+    1. [**作成**]をクリックします。
 
-![integrate-with-datadog-1](/img/integrate-with-datadog-1.png)
+![integrate-with-datadog-1](/img/ja-JP/integrate-with-datadog-1.png)
 
-## Monitor integration progress{#monitor-integration-progress}
+## インテグレーションの進捗をモニターする{#}
 
-After setup, return to the **Integrations** page and verify that your Datadog integration is listed with the provided configuration details. If the status changes to **Active**, the integration is successful. Zilliz Cloud pushes data to Datadog at a minute-level frequency, ensuring near real-time updates.
+セットアップが完了したら、**インテグレーション**ページに戻り、Datadogインテグレーションが提供された設定の詳細とともにリストされていることを確認します。ステータスが**Active**に変更された場合、インテグレーションは成功です。Zilliz Cloudは、データを1分単位でDatadogにプッシュし、ほぼリアルタイムで更新します。
 
-By clicking the external link icon next to the integration, you can open the associated Datadog dashboard to view cluster metrics that are pushed from the selected Zilliz Cloud clusters.
+インテグレーションの横にある外部リンクアイコンをクリックすると、関連するDatadogダッシュボードを開き、選択したZilliz Cloudクラスターからプッシュされたクラスターメトリクスを表示できます。
 
-![integrate-with-datadog-2](/img/integrate-with-datadog-2.png)
+![integrate-with-datadog-2](/img/ja-JP/integrate-with-datadog-2.png)
 
-## Manage integrations{#manage-integrations}
+## インテグレーションの管理{#}
 
-To manage your Datadog integration, use the **Actions** column:
+Datadogインテグレーションを管理するには、[**アクション**]列を使用します。
 
-- **Edit**: Update the monitoring cluster or modify integration settings as needed.
+- **編集**:必要に応じて監視クラスタを更新するか、統合設定を変更します。
 
-- **Remove**: Delete the integration if it is no longer required.
+- **削除**:必要がなくなった場合は、統合を削除します。
 
-![integrate-with-datadog-3](/img/integrate-with-datadog-3.png)
+![integrate-with-datadog-3](/img/ja-JP/integrate-with-datadog-3.png)
 
-## Performance metrics available to Datadog{#performance-metrics-available-to-datadog}
+## Datadogで利用可能なパフォーマンスメトリクス{#datadog}
 
-[Datadog](https://www.datadoghq.com/) tracks the following metric data for your Zilliz Cloud cluster. The metric names in parentheses are the names used in the Datadog UI.
+[Datadog](https://www.datadoghq.com/)は、Zilliz Cloudクラスターの以下のメトリックデータを追跡します。括弧内のメトリック名は、Datadog UIで使用される名前です。
 
-### Resource{#resource}
+### リソース{#}
 
 <table>
    <tr>
-     <th><p>Metric Name</p></th>
-     <th><p>Metric Type</p></th>
-     <th><p>Description</p></th>
+     <th><p>メトリック名</p></th>
+     <th><p>メートルタイプ</p></th>
+     <th><p>説明する</p></th>
    </tr>
    <tr>
-     <td><p>CU Computation</p><p>(<code>zilliz.cluster.cu.computation.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>A measure of the used capacity relative to the total capacity of the CU. Range from 0 to 1.</p></td>
+     <td><p>CUコンピュテーション</p><p>(.<code>zilliz.cluster.cu. current</code>)</p></td>
+     <td><p>ゲージ</p></td>
+     <td><p>CUの総容量に対する使用容量の尺度。0から1までの範囲。</p></td>
    </tr>
    <tr>
-     <td><p>CU Capacity</p><p>(<code>zilliz.cluster.cu.capacity.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>A measure of the utilized computational power relative to the total computational capacity of the CU. Range from 0 to 1.</p></td>
+     <td><p>CUの容量</p><p>(<code>zilliz.cluster.cu. current</code>)</p></td>
+     <td><p>ゲージ</p></td>
+     <td><p>CUの総計算能力に対する利用された計算能力の尺度。0から1までの範囲。</p></td>
    </tr>
    <tr>
-     <td><p>Storage</p><p>(<code>zilliz.cluster.storage.bytes.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The total amount of persistent storage consumed by data and indexes.</p></td>
+     <td><p>ストレージ</p><p>(.<code>zilliz.cluster.storage. current</code>)</p></td>
+     <td><p>ゲージ</p></td>
+     <td><p>データとインデックスによって消費される永続ストレージの合計金額。</p></td>
    </tr>
 </table>
 
-### Performance{#performance}
+### パフォーマンス{#}
 
 <table>
    <tr>
-     <th><p>Metric Name</p></th>
-     <th><p>Metric Type</p></th>
-     <th><p>Description</p></th>
+     <th><p>メトリック名</p></th>
+     <th><p>メートルタイプ</p></th>
+     <th><p>説明する</p></th>
    </tr>
    <tr>
-     <td><p>Cluster Write Performance Capacity</p><p>(<code>zilliz.cluster.write.performance.capacity.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>A measure of the current rate of write operation relative to the write rate limit. Range from 0 to 1.</p></td>
+     <td><p>クラスタ書き込み性能Capacity</p><p>(zilliz. cluster.<code>write.performance</code>.current)ファイル</p></td>
+     <td><p>ゲージ</p></td>
+     <td><p>現在の書き込み操作の速度を、書き込み速度の制限に対して相対的に測定したものです。範囲は0から1までです。</p></td>
    </tr>
    <tr>
-     <td><p>Slow Query Count</p><p>(<code>zilliz.request.slow.queries.total</code>)</p></td>
-     <td><p>Count</p></td>
-     <td><p>The total number of slow query requests.</p></td>
+     <td><p>クエリー数が遅い</p><p>(<code>zilliz.request.slow.queries.total</code>)</p></td>
+     <td><p>数える</p></td>
+     <td><p>遅いクエリ要求の総数。</p></td>
    </tr>
    <tr>
-     <td><p>QPS, Request Failure Rate, Number of Flush Operations</p><p>(<code>zilliz.requests.total</code>)</p></td>
-     <td><p>Count</p></td>
-     <td><p>The total number of requests processed.</p></td>
+     <td><p>QPS、要求の失敗率、フラッシュ操作の回数</p><p>(<code>zilliz.requests.total</code>)</p></td>
+     <td><p>数える</p></td>
+     <td><p>処理されたリクエストの総数。</p></td>
    </tr>
    <tr>
      <td><p>VPS</p><p>(<code>zilliz.request.vectors.total</code>)</p></td>
-     <td><p>Count</p></td>
-     <td><p>The total number of vectors manipulated across all requests.</p></td>
+     <td><p>数える</p></td>
+     <td><p>すべての要求で操作されたベクトルの総数。</p></td>
    </tr>
    <tr>
-     <td><p>Latency</p><p>(<code>zilliz.request.latency.milliseconds.average</code>, <code>zilliz.request.latency.milliseconds.p99</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The average/P99 latency of requests processed.</p></td>
-   </tr>
-</table>
-
-### Data{#data}
-
-<table>
-   <tr>
-     <th><p>Metric Name</p></th>
-     <th><p>Metric Type</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p>Entity Count</p><p>(<code>zilliz.entities.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The number of entities.</p></td>
-   </tr>
-   <tr>
-     <td><p>Loaded Entities</p><p>(<code>zilliz.loaded.entities.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The number of loaded entities.</p></td>
-   </tr>
-   <tr>
-     <td><p>Collection Count</p><p>(<code>zilliz.collections.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The number of collections.</p></td>
-   </tr>
-   <tr>
-     <td><p>Number of Unloaded Collections</p><p>(<code>zilliz.unloaded.collections.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The number of unloaded collections.</p></td>
+     <td><p>レイテンシ</p><p>(zilliz. request<code>.latency</code>.miliseconds.<code>p 99</code>)を表示</p></td>
+     <td><p>ゲージ</p></td>
+     <td><p>処理された要求の平均/P 99待機時間。</p></td>
    </tr>
 </table>
 
-## Tags available to Datadog{#tags-available-to-datadog}
-
-Datadog sends the following tags on certain metrics to help you better understand, organize, and identify resources. For more information, refer to [Resource Tags](https://www.mongodb.com/docs/atlas/tags/#std-label-configure-resource-tags).
+### データ{#}
 
 <table>
    <tr>
-     <th><p>Tag Name</p></th>
-     <th><p>Description</p></th>
+     <th><p>メトリック名</p></th>
+     <th><p>メートルタイプ</p></th>
+     <th><p>説明する</p></th>
+   </tr>
+   <tr>
+     <td><p>エンティティカウント</p><p>(<code>zilliz</code>ファイル)</p></td>
+     <td><p>ゲージ</p></td>
+     <td><p>エンティティの数。</p></td>
+   </tr>
+   <tr>
+     <td><p>ロードされたエンティティ</p><p>(<code>zilliz</code>ファイル)</p></td>
+     <td><p>ゲージ</p></td>
+     <td><p>読み込まれたエンティティの数。</p></td>
+   </tr>
+   <tr>
+     <td><p>コレクション数</p><p>(<code>zilliz</code>コレクション)</p></td>
+     <td><p>ゲージ</p></td>
+     <td><p>コレクションの数。</p></td>
+   </tr>
+   <tr>
+     <td><p>アンロードされたコレクション数</p><p>ダウンロード(<code>zilliz.</code>unloaded.)</p></td>
+     <td><p>ゲージ</p></td>
+     <td><p>アンロードされたコレクションの数。</p></td>
+   </tr>
+</table>
+
+## Datadogで利用可能なタグ{#datadog}
+
+Datadogは、リソースをよりよく理解し、整理し、特定するために、特定のメトリックに対して次のタグを送信します。
+
+<table>
+   <tr>
+     <th><p>タグ名</p></th>
+     <th><p>説明する</p></th>
    </tr>
    <tr>
      <td><p><code>org_id</code></p></td>
-     <td><p>The ID of the Zilliz Cloud organization associated with the metric.</p></td>
+     <td><p>メトリックに関連付けられたZilliz Cloud組織のID。</p></td>
    </tr>
    <tr>
      <td><p><code>project_id</code></p></td>
-     <td><p>The ID of the Zilliz Cloud project associated with the metric.</p></td>
+     <td><p>メトリックに関連付けられたZilliz CloudプロジェクトのID。</p></td>
    </tr>
    <tr>
      <td><p><code>cluster_id</code></p></td>
-     <td><p>The ID of the Zilliz Cloud cluster associated with the metric.</p></td>
+     <td><p>メトリックに関連付けられたZilliz CloudクラスタのID。</p></td>
    </tr>
    <tr>
      <td><p><code>request_type</code></p></td>
-     <td><p>The type of operation that is  being monitored. Possible values: <code>insert</code>, <code>upsert</code>, <code>delete</code>, <code>bulk_insert</code>, <code>flush</code>, <code>search</code>, <code>query</code></p></td>
+     <td><p>監視されている操作の種類です。可能な値は、<code>挿入</code>、<code>挿入</code>、<code>削除</code>、<code>バルク_挿入</code>、<code>フラッシュ</code>、<code>検索</code>、<code>クエリです。</code></p></td>
    </tr>
    <tr>
      <td><p><code>status</code></p></td>
-     <td><p>The outcome of the operation. Possible values: <code>success</code>, <code>fail</code></p></td>
+     <td><p>オペレーションの結果。可能な値:<code>成功</code>、<code>失敗</code></p></td>
    </tr>
 </table>

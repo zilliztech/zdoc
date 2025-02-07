@@ -1,12 +1,12 @@
 ---
-title: "Migrate from Milvus to Zilliz Cloud Via Endpoint | Cloud"
+title: "MilvusからZilliz Cloudへの移行 | Cloud"
 slug: /via-endpoint
-sidebar_label: "Via Endpoint"
+sidebar_label: "MilvusからZilliz Cloudへの移行"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly. | Cloud"
+description: "Zilliz Cloudは、インフラストラクチャを自分で管理する必要がなく、Milvusベクトルデータベースを使用したいユーザー向けに、完全に管理されたクラウドホストソリューションとしてMilvusを提供しています。スムーズな移行を可能にするために、データベースエンドポイントを介してソースMilvusに接続するか、バックアップファイルを直接アップロードすることができます。 | Cloud"
 type: origin
-token: PlX3wo82Di6oWVkg2ercRWCUnvV
+token: YRFowK2X8i7Tm8k5X8kcJDgBnGf
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -15,79 +15,79 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Migrate from Milvus to Zilliz Cloud Via Endpoint
+# MilvusからZilliz Cloudへの移行
 
-Zilliz Cloud offers [Milvus](https://milvus.io/) as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly.
+Zilliz Cloudは、インフラストラクチャを自分で管理する必要がなく、[Milvus](https://milvus.io/)ベクトルデータベースを使用したいユーザー向けに、完全に管理されたクラウドホストソリューションとしてMilvusを提供しています。スムーズな移行を可能にするために、データベースエンドポイントを介してソースMilvusに接続するか、バックアップファイルを直接アップロードすることができます。
 
-This topic describes how to migrate from Milvus via database endpoint. For information on how to upload backup files, refer to [Via Backup Files](./via-backup-files).
+このトピックでは、Milvusからデータベースエンドポイントを介して移行する方法について説明します。バックアップファイルのアップロード方法については、「Via Backup Files」を参照してください。
 
-## Considerations{#considerations}
+## 考慮事項{#}
 
-- Each migration task is limited to a single source Milvus database. If you have data in multiple source databases, you can set up separate migration jobs for each one.
+- 各移行タスクは単一のソースMilvusデータベースに制限されます。複数のソースデータベースにデータがある場合は、それぞれに別々の移行ジョブを設定できます。
 
-- During the migration process, Zilliz Cloud will replicate the exact collection schema from the source Milvus collection. Modifying the schema is not allowed while the migration is in progress.
+- 移行の過程で、Zilliz CloudはソースのMilvusコレクションから正確なコレクションスキーマを複製します。移行中にスキーマを変更することはできません。
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-- The source Milvus instance is running version 2.3.6 or later and is accessible from the public internet.
+- ソースのMilvusインスタンスはバージョン2.3.6以降を実行しており、パブリックインターネットからアクセスできます。
 
-- If you have an allowlist configured in your network environment, ensure that Zilliz Cloud IP addresses are added to it. For more information, refer to [Zilliz Cloud IPs](./zilliz-cloud-ips).
+- ネットワーク環境で許可リストが設定されている場合は、Zilliz CloudのIPアドレスが追加されていることを確認してください。詳細については、Zilliz Cloud IPsを参照してください。
 
-- If authentication has been enabled for the source Milvus, make sure you have obtained necessary connection credentials. For details, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md?tab=docker#Authenticate-User-Access).
+- 移行元のMilvusで認証が有効になっている場合は、必要な接続認証情報を取得していることを確認してください。詳細については、[ユーザーアクセス認証](https://milvus.io/docs/authenticate.md?tab=docker#Authenticate-User-Access)を参照してください。
 
-- You have been granted the Organization Owner or Project Admin role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
+- 組織オーナーまたはプロジェクト管理者の役割が付与されています。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
 
-## Migrate from Milvus via database endpoint{#migrate-from-milvus-via-database-endpoint}
+## データベースエンドポイントを介してMilvusから移行する{#milvus}
 
-You can migrate one or more collections from a single Milvus database at a time.
+1つのMilvusデータベースから1つ以上のコレクションを同時に移行できます。
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. Go to the target project and select **Migrations** > **Milvus** > **Via Endpoint**.
+1. ターゲットプロジェクトに移動し、**Migrations**>**Milvus**>**Via Endpoint**を選択してください。
 
-1. In the **Database Endpoint** field of the **Connect to Data Source** step, enter the server address of the source Milvus. If [authentication](https://milvus.io/docs/authenticate.md) has been enabled for the source Milvus, enter **Username** and **Password** as access credentials. Then, click **Next**.
+1. [**Database Endpoint**]フィールドの[**Connect to Data Source**]ステップで、ソースMilvusのサーバーアドレスを入力します。ソースMilvusの[認証](https://milvus.io/docs/authenticate.md)が有効になっている場合は、アクセス資格情報として**ユーザー名**と**パスワード**を入力します。次に、[**次**へ]をクリックします。
 
-1. In the **Select Source and Target** step, configure settings for the source Milvus and target Zilliz Cloud cluster. Then, click **Next**.
+1. 「**ソースとターゲットを選択**」ステップで、ソースのMilvusとターゲットのZilliz Cloudクラスタの設定を行います。次に、「**次**へ」をクリックしてください。
 
-1. In the **Configure Schema** step,
+1. 「**スキーマ構成**」ステップでは、
 
-    1. Review the target collections and their field settings in the schema preview.
+    1. スキーマプレビューでターゲットコレクションとそのフィールド設定を確認します。
 
-    1. In **Advanced Settings**, verify **Dynamic Field** and **Partition Key** settings, which inherits the settings of the source collection and cannot be altered. For more information, refer to [Dynamic Field](./enable-dynamic-field) and [Use Partition Key](./use-partition-key).
+    1. [**詳細設定**]で、ソースコレクションの設定を継承し、変更できない**ダイナミックフィールド**と**パーティションキー**の設定を確認します。詳細については、「Dynamic FieldとUse Partition Key」を参照してください。
 
-    1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
+    1. [**ターゲットコレクション名**と**説明**]で、ターゲットコレクション名と説明をカスタマイズします。コレクション名は、各クラスターで一意である必要があります。名前が既存の名前と重複する場合は、コレクション名を変更します。
 
-1. Click **Migrate**.
+1. [**移行**]をクリックします。
 
-![migrate_from_milvus_via_endpoint_1](/img/migrate_from_milvus_via_endpoint_1.png)
+![migrate_from_milvus_via_endpoint_1](/img/ja-JP/migrate_from_milvus_via_endpoint_1.png)
 
-## Monitor the migration process{#monitor-the-migration-process}
+## 移行過程を監視する{#}
 
-Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the migration is complete.
+「**移行**」をクリックすると、移行ジョブが生成されます。[ジョブ](null)ページで移行の進捗状況を確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、移行が完了します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>After migration, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.</p>
+<p>移行後、ターゲットクラスタ内のコレクションとエンティティの数がデータソースと一致していることを確認してください。不一致が見つかった場合は、エンティティが欠落しているコレクションを削除して再移行してください。</p>
 
 </Admonition>
 
-![verify_collection](/img/verify_collection.png)
+![verify_collection](/img/ja-JP/verify_collection.png)
 
-## Cancel migration job{#cancel-migration-job}
+## 移行ジョブをキャンセル{#}
 
-If the migration process encounters any issues, you can take the following steps to troubleshoot and resume the migration:
+移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
 
-1. On the [Jobs](./job-center) page, identify the failed migration job and cancel it.
+1. [[ジョブ](null)]ページで、失敗した移行ジョブを特定してキャンセルします。
 
-1. Click **View Details** in the **Actions** column to access the error log.
+1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
 

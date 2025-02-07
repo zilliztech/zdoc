@@ -1,13 +1,13 @@
 ---
-title: "Reranking | Cloud"
+title: "リランキング | Cloud"
 slug: /reranking
-sidebar_label: "Reranking"
+sidebar_label: "リランキング"
 beta: FALSE
 notebook: FALSE
-description: "Hybrid Search achieves more precise search results through multiple simultaneous ANN searches. Multiple searches return several sets of results, which require a reranking strategy to help merge and reorder the results and return a single set of results. This guide will introduce the reranking strategies supported by Zilliz Cloud and provide tips for selecting the appropriate reranking strategy. | Cloud"
+description: "ハイブリッド検索は、複数の同時ANN検索により、より正確な検索結果を実現します。複数の検索は複数の結果セットを返し、結果をマージして並べ替え、単一の結果セットを返すために再ランキング戦略が必要です。このガイドでは、Zilliz Cloudでサポートされる再ランキング戦略を紹介し、適切な再ランキング戦略を選択するためのヒントを提供します。 | Cloud"
 type: origin
-token: M4IYwThFKiatBkk0Cp3c9p4QnZc
-sidebar_position: 19
+token: JnVlwz9BSigBwkksiubcMAcUn1b
+sidebar_position: 17
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 
@@ -27,50 +27,50 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Reranking
+# リランキング
 
-Hybrid Search achieves more precise search results through multiple simultaneous ANN searches. Multiple searches return several sets of results, which require a reranking strategy to help merge and reorder the results and return a single set of results. This guide will introduce the reranking strategies supported by Zilliz Cloud and provide tips for selecting the appropriate reranking strategy.
+ハイブリッド検索は、複数の同時ANN検索により、より正確な検索結果を実現します。複数の検索は複数の結果セットを返し、結果をマージして並べ替え、単一の結果セットを返すために再ランキング戦略が必要です。このガイドでは、Zilliz Cloudでサポートされる再ランキング戦略を紹介し、適切な再ランキング戦略を選択するためのヒントを提供します。
 
-## Overview{#overview}
+## 概要について{#}
 
-The following diagram shows the main workflow of conducting a Hybrid Search in a multi-modal search application . In the diagram, one path is basic ANN search on texts and the other path is basic ANN search on images. Each path generates a set of results based on the text and image similarity score respectively (**Limit 1** and **Limit 2**). Then a reranking strategy is applied to rerank two sets of results based on a unified standard, ultimately merging the two sets of results into a final set of search results, **Limit(final)**.
+次の図は、マルチモーダル検索アプリケーションでハイブリッド検索を実行する主なワークフローを示しています。図では、1つのパスはテキスト上の基本的なANN検索であり、もう1つのパスは画像上の基本的なANN検索です。各パスは、それぞれテキストと画像の類似スコアに基づいて一連の結果を生成します(**Limit 1**および**Limit 2**)。その後、再ランキング戦略が適用され、統一された基準に基づいて2つの結果セットが再ランク付けされ、最終的に2つの結果セットが最終的な検索結果セットである**Limit(final)**にマージされます。
 
-![YCR9bk8xsoY2PNxPc97cyK7bnYf](/img/YCR9bk8xsoY2PNxPc97cyK7bnYf.png)
+![DdtYbb5iDoaVTixnk4vc2izTnph](/img/ja-JP/DdtYbb5iDoaVTixnk4vc2izTnph.png)
 
-In Hybrid Search, reranking is a crucial step that integrates the results from multiple vector searches to ensure the final output is the most relevant and accurate. Currently, Zilliz Cloud supports the following two reranking strategies:
+ハイブリッド検索において、再ランキングは複数のベクトル検索の結果を統合し、最終的な出力が最も関連性が高く正確であることを確認するための重要なステップです。現在、Zilliz Cloudは、以下の2つの再ランキング戦略をサポートしています
 
-- **[WeightedRanker](./reranking#weightedranker)**: This strategy merges results by calculating a weighted score of scores (or distances) from different vector searches. Weights are assigned based on the importance of each vector field, allowing for customization according to specific use-case priorities.
+- **[WeightedRanker](./reranking#weightedranker)**:この戦略は、異なるベクトル検索からのスコア(または距離)の重み付けスコアを計算することによって結果を統合します。重みは、各ベクトルフィールドの重要度に基づいて割り当てられ、特定のユースケースの優先順位に応じてカスタマイズすることができます。
 
-- **[RRFRanker](./reranking#rrfranker) (Reciprocal Rank Fusion Ranker)**: This strategy combines results based on ranking. It uses a method that balances the ranks of results from different searches, often leading to a more fair and effective integration of diverse data types or modalities.
+- **[RRFRanker](./reranking#rrfranker)(Reciprocal Rank Fusion Ranker)**:この戦略は、ランキングに基づいて結果を組み合わせます。異なる検索からの結果のランクをバランスさせる方法を使用し、しばしば多様なデータタイプやモダリティのより公正かつ効果的な統合につながります。
 
 ## WeightedRanker{#weightedranker}
 
-The WeightedRanker strategy allocates different weights to the results of each path of vector search based on their importance. 
+WeightedRanker戦略は、ベクトル検索の各パスの重要度に基づいて、結果に異なる重みを割り当てます。
 
-### Mechanism of WeightedRanker{#mechanism-of-weightedranker}
+### WeightedRankerの仕組み{#weightedranker}
 
-The main workflow of the WeightedRanker strategy is as follows:
+WeightedRanker戦略の主なワークフローは以下の通りです:
 
-1. **Collect Search Scores**: Gather the results and scores from each path of vector search (score_1, score_2).
+1. **検索スコア収集**:ベクトル検索の各パス（スコア1、スコア2）から結果とスコアを収集します。
 
-1. **Score Normalization**: Each search may use different similarity metrics, resulting in varied score distributions. For instance, using Inner Product (IP) as a similarity type could result in scores ranging from [−∞,+∞], while using Euclidean distance (L2) results in scores ranging from [0,+∞]. Because the score ranges from different searches vary and cannot be directly compared, it is necessary to normalize the scores from each path of search. Typically, `arctan` function is applied to transform the scores into a range between [0, 1] (score_1_normalized, score_2_normalized). Scores closer to 1 indicate higher similarity.
+1. **スコア正規化**:各検索は異なる類似性メトリックを使用する場合があり、異なるスコア分布が得られます。たとえば、内積(IP)を類似性タイプとして使用すると、[-∞、+∞]のスコアが得られますが、ユークリッド距離(L 2)を使用すると、[0、+∞]のスコアが得られます。異なる検索からのスコア範囲が異なり、直接比較できないため、検索の各パスのスコアを正規化する必要があります。通常、`arctan`関数を適用して、スコアを[0、1]の範囲に変換します(スコア_1_正規化、スコア_2_正規化)。1に近いスコアは、より高い類似性を示します。
 
-1. **Assign Weights**: Based on the importance assigned to different vector fields, weights (**wi**) are allocated to the normalized scores (score_1_normalized, score_2_normalized). The weights of each path should range between [0,1]. The resulting weighted scores are score_1_weighted and score_2_weighted.
+1. **重みを割り当て**る:異なるベクトル場に割り当てられた重要度に基づいて、重み(**wi**)が正規化されたスコア(スコア_1_正規化、スコア_2_正規化)に割り当てられます。各パスの重みは[0,1]の範囲である必要があります。結果として得られる重み付きスコアは、スコア_1_重みとスコア_2_重みです。
 
-1. **Merge Scores**: The weighted scores (score_1_weighted, score_2_weighted) are ranked from highest to lowest to produce a final set of scores (score_final).
+1. **Merge Scores**:加重されたスコア(score_1_、score_2_)は、最高から最低までランク付けされ、最終的なスコアセット(score_final)が生成されます。
 
-![J6SLwimvFh8bzcbFYrQcgfKcnph](/img/J6SLwimvFh8bzcbFYrQcgfKcnph.png)
+![VUOkwss1fhKELVbfYcUcj24WnYJ](/img/ja-JP/VUOkwss1fhKELVbfYcUcj24WnYJ.png)
 
-### Example of WeightedRanker{#example-of-weightedranker}
+### WeightedRankerの例{#weightedranker}
 
-This example demonstrates a multimodal Hybrid Search (topK=5) involving images and text and illustrates how the WeightedRanker strategy reranks the results from two ANN searches.
+この例は、画像とテキストを含むマルチモーダルハイブリッド検索（topK=5）を示し、WeightedRanker戦略が2つのANN検索の結果を再ランク付けする方法を示しています。
 
-- Results of ANN search on images （topK=5)：
+- 画像のANN検索の結果（topK=5）:
 
 <table>
    <tr>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (image)</strong></p></th>
+     <th><p><strong>スコア（画像）</strong></p></th>
    </tr>
    <tr>
      <td><p>101</p></td>
@@ -94,12 +94,12 @@ This example demonstrates a multimodal Hybrid Search (topK=5) involving images a
    </tr>
 </table>
 
-- Results of ANN search on texts （topK=5)：
+- テキストに対するANN検索の結果（topK=5）:
 
 <table>
    <tr>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (text)</strong></p></th>
+     <th><p><strong>スコア(テキスト)</strong></p></th>
    </tr>
    <tr>
      <td><p>198</p></td>
@@ -123,14 +123,14 @@ This example demonstrates a multimodal Hybrid Search (topK=5) involving images a
    </tr>
 </table>
 
-- Use WeightedRanker assign weights to image and text search results. Suppose the weight for the image ANN search is 0.6 and the weight for the text search is 0.4.
+- WeightedRankerを使用して、画像とテキストの検索結果に重みを付けます。画像ANN検索の重みが0.6、テキスト検索の重みが0.4とします。
 
 <table>
    <tr>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (图像)</strong></p></th>
-     <th><p><strong>Score (文本)</strong></p></th>
-     <th><p><strong>最终加权后的 Score</strong></p></th>
+     <th><p><strong>スコア(画像)</strong></p></th>
+     <th><p><strong>Score(テキスト)</strong></p></th>
+     <th><p><strong>最終的な加重スコア</strong></p></th>
    </tr>
    <tr>
      <td><p>101</p></td>
@@ -164,25 +164,25 @@ This example demonstrates a multimodal Hybrid Search (topK=5) involving images a
    </tr>
    <tr>
      <td><p>110</p></td>
-     <td><p>Not in Image</p></td>
+     <td><p>画像にない</p></td>
      <td><p>0.85</p></td>
      <td><p>0.6×0+0.4×0.85=0.34</p></td>
    </tr>
    <tr>
      <td><p>250</p></td>
-     <td><p>Not in Image</p></td>
+     <td><p>画像にない</p></td>
      <td><p>0.78</p></td>
      <td><p>0.6×0+0.4×0.78=0.312</p></td>
    </tr>
 </table>
 
-- The final results after reranking（topK=5)：
+- リランキング後の最終結果（topK=5）:
 
 <table>
    <tr>
-     <th><p><strong>排名</strong></p></th>
+     <th><p><strong>ランキング</strong></p></th>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>最终 Score</strong></p></th>
+     <th><p><strong>最終スコア</strong></p></th>
    </tr>
    <tr>
      <td><p>1</p></td>
@@ -211,11 +211,11 @@ This example demonstrates a multimodal Hybrid Search (topK=5) involving images a
    </tr>
 </table>
 
-### Usage of WeightedRanker{#usage-of-weightedranker}
+### WeightedRankerの使い方{#weightedranker}
 
-When using the WeightedRanker strategy, it is necessary to input weight values. The number of weight values to input should correspond to the number of basic ANN search requests in the Hybrid Search. The input weight values should fall in the range of [0,1], with values closer to 1 indicating greater importance.
+WeightedRanker戦略を使用する場合、重み値を入力する必要があります。入力する重み値の数は、ハイブリッド検索の基本ANN検索リクエストの数に対応する必要があります。入力重み値は[0,1]の範囲内にあり、1に近い値ほど重要度が高いことを示します。
 
-For example, suppose there are two basic ANN search requests in a Hybrid Search: text search and image search. If the text search is considered more important, it should be assigned a greater weight.
+例えば、ハイブリッド検索にはテキスト検索と画像検索の2つの基本的なANN検索リクエストがあるとします。テキスト検索がより重要と考えられる場合は、より大きな重みを割り当てる必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -260,32 +260,32 @@ export rerank='{
 
 ## RRFRanker{#rrfranker}
 
-Reciprocal Rank Fusion (RRF) is a data fusion method that combines ranked lists based on the reciprocal of their rankings. This reranking strategy effectively balances the importance of each path of vector search.
+相互ランクフュージョン(RRF)は、ランキングの逆数に基づいてランク付けされたリストを組み合わせるデータフュージョン手法です。この再ランキング戦略は、ベクトル検索の各パスの重要性を効果的にバランスさせます。
 
-### Mechanism of RRFRanker{#mechanism-of-rrfranker}
+### RRFRankerの仕組み{#rrfranker}
 
-The main workflow of the RRFRanker strategy is as follows:
+RRFRanker戦略の主なワークフローは以下の通りです:
 
-1. **Collect Search Rankings**: Collect the rankings of results from each path of vector search (rank_1, rank_2).
+1. **検索ランキングの収集**:ベクトル検索の各パスから結果のランキングを収集します（ランク_1、ランク_2）。
 
-1. **Merge Rankings**: Convert the rankings from each path (rank_rrf_1, rank_rrf_2) according to a formula .
+1. **ランキング**の統合:レシピに従って、各パス（rank_rrf_1、rank_rrf_2）のランキングを変換します。
 
-    The calculation formula involves *N*, which represents the number of retrievals. *ranki*(*d*) is the ranking position of document *d*  generated by the *i(th)* retriever. *k* is a smoothing parameter typically set at 60.
+    計算レシピには、検索回数を表す*N*が含まれます。*ranki*(*d*)は、*i(th)*リトリーバによって生成された文書*d*のランキング位置です。*k*は、通常60に設定されるスムージングパラメータです。
 
-1. **Aggregate Rankings**: Re-rank the search results based on the combined rankings to produce the final results.
+1. **集計ランキング**:組み合わせたランキングに基づいて検索結果を再ランク付けし、最終結果を生成します。
 
-![VUAxwsbmdhMDL8bWgj4cG2RWnxb](/img/VUAxwsbmdhMDL8bWgj4cG2RWnxb.png)
+![NR0nw4yJhhlqVqbkPIxcG3eanqc](/img/ja-JP/NR0nw4yJhhlqVqbkPIxcG3eanqc.png)
 
-### Example of RRFRanker{#example-of-rrfranker}
+### RRFRankerの例{#rrfranker}
 
-This example demonstrates a Hybrid Search (topK=5) on sparse-dense vectors and illustrates how the RRFRanker strategy reranks the results from two ANN searches.
+この例は、疎密度ベクトルに対するハイブリッド検索（topK=5）を示し、RRFRanker戦略が2つのANN検索の結果を再ランク付けする方法を示しています。
 
-- Results of ANN search on sparse vectors of texts （topK=5)：
+- テキストの疎ベクトルに対するANN検索の結果（topK=5）:
 
 <table>
    <tr>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Rank (sparse)</strong></p></th>
+     <th><p><strong>ランク（スパース）</strong></p></th>
    </tr>
    <tr>
      <td><p>101</p></td>
@@ -309,12 +309,12 @@ This example demonstrates a Hybrid Search (topK=5) on sparse-dense vectors and i
    </tr>
 </table>
 
-- Results of ANN search on dense vectors of texts （topK=5)：
+- テキストの密なベクトルに対するANN検索の結果（topK=5）:
 
 <table>
    <tr>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Rank (dense)</strong></p></th>
+     <th><p><strong>ランク（密）</strong></p></th>
    </tr>
    <tr>
      <td><p>198</p></td>
@@ -338,14 +338,14 @@ This example demonstrates a Hybrid Search (topK=5) on sparse-dense vectors and i
    </tr>
 </table>
 
-- Use RRF to rearrange the rankings of the two sets of search results. Assume that the smoothing parameter `k` is set at 60.
+- RRFを使用して、2つの検索結果のランキングを再配置します。スムージングパラメータ`k`が60に設定されていると仮定します。
 
 <table>
    <tr>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (稀疏)</strong></p></th>
-     <th><p><strong>Score (稠密)</strong></p></th>
-     <th><p><strong>最终 Score</strong></p></th>
+     <th><p><strong>スコア(スパース)</strong></p></th>
+     <th><p><strong>スコア(密)</strong></p></th>
+     <th><p><strong>最終スコア</strong></p></th>
    </tr>
    <tr>
      <td><p>101</p></td>
@@ -391,13 +391,13 @@ This example demonstrates a Hybrid Search (topK=5) on sparse-dense vectors and i
    </tr>
 </table>
 
-- The final results after reranking（topK=5)：
+- リランキング後の最終結果（topK=5）:
 
 <table>
    <tr>
-     <th><p><strong>排名</strong></p></th>
+     <th><p><strong>ランキング</strong></p></th>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>最终 Score</strong></p></th>
+     <th><p><strong>最終スコア</strong></p></th>
    </tr>
    <tr>
      <td><p>1</p></td>
@@ -426,9 +426,9 @@ This example demonstrates a Hybrid Search (topK=5) on sparse-dense vectors and i
    </tr>
 </table>
 
-### Usage of RRFRanker{#usage-of-rrfranker}
+### RRFRankerの使い方{#rrfranker}
 
-When using the RRF reranking strategy, you need to configure the parameter `k`. It is a smoothing parameter that can effectively alter the relative weights of full-text search versus vector search. The default value of this parameter is 60, and it can be adjusted within a range of (0, 16384). The value should be floating-point numbers. The recommended value is between [10, 100]. While `k=60` is a common choice, the optimal `k` value can vary depending on your specific applications and datasets. We recommend testing and adjusting this parameter based on your specific use case to achieve the best performance.
+RRF再ランキング戦略を使用する場合、パラメータ`k`を設定する必要があります。これは、全文検索とベクトル検索の相対的な重みを効果的に変更できるスムージングパラメータです。このパラメータのデフォルト値は60で、(0,163 8 4)の範囲内で調整できます。値は浮動小数点数である必要があります。推奨値は[10,100]の間です。`k=60`が一般的な選択肢ですが、最適な`k`値は、特定のアプリケーションやデータセットによって異なる場合があります。最高のパフォーマンスを実現するために、このパラメータをテストして調整することをお勧めします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -477,11 +477,11 @@ export rerank='{
 </TabItem>
 </Tabs>
 
-## Select the right reranking strategy{#select-the-right-reranking-strategy}
+## 適切な再ランキング戦略を選択してください{#}
 
-When choosing a reranking strategy, one thing to consider is whether to there is any emphasis for one or more basic ANN search on the vector fields.
+再ランキング戦略を選択する際に考慮すべきことの1つは、ベクトル場に対して1つ以上の基本的なANN検索に重点があるかどうかです。
 
-- **WeightedRanker**: This strategy is recommended if you require the results to emphasize a particular vector field. The WeightedRanker allows you to assign higher weights to certain vector fields, emphasizing them more. For instance, in multimodal searches, textual descriptions of an image might be considered more important than the colors in this image.
+- **WeightedRanker**:この戦略は、特定のベクトルフィールドを強調する必要がある場合に推奨されます。WeightedRankerを使用すると、特定のベクトルフィールドにより高い重みを割り当て、それらをより強調することができます。たとえば、マルチモーダル検索では、画像のテキストの説明が、この画像の色よりも重要と考えられる場合があります。
 
-- **RRFRanker (Reciprocal Rank Fusion Ranker)**: This strategy is recommended when there is no specific emphasis. The RRF can effectively balance the importance of each vector field.
+- **RRFRanker(Reciprocal Rank Fusion Ranker)**:この戦略は、特定の強調がない場合に推奨されます。RRFは、各ベクトル場の重要性を効果的にバランスさせることができます。
 

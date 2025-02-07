@@ -1,12 +1,12 @@
 ---
-title: "Manage Organization Settings | Cloud"
+title: "組織の設定を管理する | Cloud"
 slug: /organization-settings
-sidebar_label: "Organization Settings"
+sidebar_label: "組織の設定を管理する"
 beta: FALSE
 notebook: FALSE
-description: "If you are an Organization Owner, you have the privileges to manage the organization settings. | Cloud"
+description: "Organizationのオーナーの場合、Organizationの設定を管理する権限があります。 | Cloud"
 type: origin
-token: AAqUwQW3qia3akkjfDNc0kwanlh
+token: RZLNwAWMBihTsNkl61VcYDCWnyd
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -14,105 +14,105 @@ keywords:
   - cloud
   - organizations
   - settings
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Manage Organization Settings
+# 組織の設定を管理する
 
-If you are an Organization Owner, you have the privileges to manage the organization settings.
+Organizationのオーナーの場合、Organizationの設定を管理する権限があります。
 
-This guide will walk you through the steps of managing organization settings.
+このガイドでは、組織の設定を管理する手順を説明します。
 
-## View organizations{#view-organizations}
+## 組織を見る{#}
 
-Once you sign up for Zilliz Cloud, a default organization will be created for you. While you cannot create new organizations, you can join other use's organizations by invitation. 
+Zilliz Cloudにサインアップすると、デフォルトの組織が作成されます。新しい組織を作成することはできませんが、招待により他のユーザーの組織に参加することができます。
 
-After logging into the [Zilliz Cloud console](https://cloud.zilliz.com/login), you'll land on the page listing the organizations you're part of. You can check out and enter these organizations.
+Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインすると、所属している組織の一覧が表示されます。これらの組織を確認して入力することができます。
 
-For a quick view of all the organizations you've joined, just click **All Organizations** in the top left corner.
+参加しているすべてのコミュニティをすばやく表示するには、左上の[**すべてのコミュニティ**]をクリックします。
 
-![view-organizations](/img/view-organizations.png)
+![view-organizations](/img/ja-JP/view-organizations.png)
 
-## Rename an organization{#rename-an-organization}
+## 組織の名前を変更する{#}
 
-To rename an organization, you must be an [Organization Owner](./organization-users).
+組織の名前を変更するには、[組織オーナー](./organization-users)である必要があります。
 
-You can rename an organization in either of the following ways:
+以下のいずれかの方法で組織の名前を変更できます:
 
-- Rename an organization on the organization list page:
+- 組織一覧ページで組織名を変更します:
 
-    ![rename-organization](/img/rename-organization.png)
+    ![rename-organization](/img/ja-JP/rename-organization.png)
 
-- Enter an organization and rename it on the **System Settings** page:
+- 組織を入力し、**システム設定**ページで名前を変更します。
 
-    ![edit-organization-name](/img/edit-organization-name.png)
+    ![edit-organization-name](/img/ja-JP/edit-organization-name.png)
 
-## Manage timezone{#manage-timezone}
+## タイムゾーンの管理{#}
 
-The system time zone is set to where your first login occurs and applies to all time strings displayed on Zilliz Cloud.
+システムのタイムゾーンは、最初のログインが行われる場所に設定され、Zilliz Cloudに表示されるすべての時間文字列に適用されます。
 
-To view the current time zone, you can either be an Organization Owner or an Organization Member. For details on roles in an organization, refer to [Manage Organization Users](./organization-users).
+現在のタイムゾーンを表示するには、組織オーナーまたは組織メンバーのいずれかになります。組織の役割の詳細については、「[組織のユーザーを管理する](./organization-users)」を参照してください。
 
-![timezone-settings](/img/timezone-settings.png)
+![timezone-settings](/img/ja-JP/timezone-settings.png)
 
-To modify the system time zone, you must be an [Organization Owner](./organization-users). Click **Edit** to open the **Time Zone Settings** dialog box, and select a time zone from the drop-down list. You can also enter the name of a time zone to quickly filter the desired time zone.
+システムのタイムゾーンを変更するには、[組織オーナー](./organization-users)である必要があります。**編集**をクリックして**タイムゾーン設定**ダイアログボックスを開き、ドロップダウンリストからタイムゾーンを選択します。また、タイムゾーンの名前を入力して、希望のタイムゾーンを素早くフィルタリングすることもできます。
 
-## Set up maintenance window{#set-up-maintenance-window}
+## メンテナンスウィンドウを設定する{#}
 
-You can set up a maintenance window to allow Zilliz Cloud to schedule maintenance for your hosted cluster. This makes impactful maintenance events more predictable and less disruptive for your workload.
+Zilliz Cloudがホストされたクラスターのメンテナンスをスケジュールするためのメンテナンスウィンドウを設定することができます。これにより、影響力のあるメンテナンスイベントがより予測可能になり、ワークロードの混乱が少なくなります。
 
-Currently, the maintenance window setting is global and applies to all clusters hosted on Zilliz Cloud.
+現在、メンテナンスウィンドウの設定はグローバルであり、Zilliz Cloudでホストされているすべてのクラスタに適用されます。
 
-By default, Zilliz Cloud blocks most impactful updates from 0 AM to 2 PM local time daily to avoid disruptions during peak business hours. You will receive a notification in advance for an upcoming maintenance event on a specific day. On that day, Zilliz Cloud takes action during the preferred window hours.
+デフォルトでは、Zilliz Cloudは、ピーク時の営業時間中に中断を避けるために、毎日現地時間の午前0時から午後2時まで、最も影響力のある更新をブロックします。特定の日に予定されているメンテナンスイベントについては、事前に通知が届きます。その日、Zilliz Cloudは希望する時間帯に対応します。
 
-A maintenance event usually lasts two hours and may cause service interruptions. The default maintenance window is between 2 AM and 4 AM local time. You can adjust the maintenance window by selecting an option in "System Maintenance Window" to fit your needs.
+メンテナンスイベントは通常2時間続き、サービスの中断を引き起こす可能性があります。デフォルトのメンテナンスウィンドウは、現地時間の午前2時から午前4時の間です。「システムメンテナンスウィンドウ」のオプションを選択して、必要に応じてメンテナンスウィンドウを調整できます。
 
-You will receive another notification after a maintenance event has finished. Zilliz Cloud also lists the start and end of every maintenance event in "Activities" for further checks in case you miss the notifications.
+メンテナンスイベントが終了すると、別の通知が届きます。また、Zilliz Cloudでは、メンテナンスイベントの開始と終了を「アクティビティ」にリストしており、通知を見逃した場合に備えてさらに確認することができます。
 
-To view the current time zone, choose **Settings** from the left navigation pane and find the currently applied maintenance window hours under the **System Maintenance Window** area.
+現在のタイムゾーンを表示するには、左ナビゲーションウィンドウの[**設定**]を選択し、[**システムメンテナンスウィンドウ**]領域で現在適用されているメンテナンスウィンドウの時間を確認します。
 
-To change the system maintenance window hours, click **Edit** to open the Edit System Maintenance Window dialog box, and select a time window from the **System Maintenance Window** drop-down list.
+システムメンテナンスウィンドウの時間を変更するには、[**編集**]をクリックして[システムメンテナンスウィンドウの編集]ダイアログボックスを開き、[**システムメンテナンスウィンドウ**]ドロップダウンリストから時間ウィンドウを選択します。
 
-![maintenance-window](/img/maintenance-window.png)
+![maintenance-window](/img/ja-JP/maintenance-window.png)
 
-## Delete organization{#delete-organization}
+## 組織を削除{#}
 
-Before you start, make sure the following conditions are met:
+始める前に、以下の条件が満たされていることを確認してください。
 
-- All clusters in the current organizations are [deleted](./manage-cluster).
+- 現在の組織内のすべてのクラスタが[削除され](./manage-cluster)ます。
 
-- All organization [bills](./view-invoice) are paid.
+- すべての組織の[請求書](./view-invoice)が支払われます。
 
-- You are granted the [Organization Owner](./organization-users) role in the target organization.
+- ターゲット組織で[Organization Owner](./organization-users)ロールが付与されていること。
 
-- All remaining advance pay funds need to be refunded.
+- すべての残りの前払い資金は返金する必要があります。
 
-- Third-party [marketplace subscription needs to be cancelled](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription).
+- サードパーティの[マーケットプレイスサブスクリプションはキャンセルする必要があり](./subscribe-on-aws-marketplace)ます。
 
-To delete an organization: 
+組織を削除するには:
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. Enter the organization that you want to delete.
+1. 削除する組織を入力します。
 
-1. In the left-side navigation pane, click **Settings**.
+1. 左側のナビゲーションウィンドウで、[**設定**]をクリックします。
 
-1. On the **System Settings** page, find the **Delete Organization** area and click the button.
+1. [**システム設定**]ページで、[**組織削除**]領域を見つけて、ボタンをクリックします。
 
-1. Follow the instructions in the pop-up window and click the button to complete deleting the organization.
+1. ポップアップウィンドウの指示に従い、ボタンをクリックして組織の削除を完了します。
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The action of deleting an organization cannot be undone. Please take extra caution with this action.</p>
+<p>組織を削除する操作は元に戻すことができません。この操作には特に注意してください。</p>
 
 </Admonition>
 
-![delete-organization-en](/img/delete-organization-en.png)
+![delete-organization-en](/img/ja-JP/delete-organization-en.png)
 

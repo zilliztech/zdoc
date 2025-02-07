@@ -1,22 +1,22 @@
 ---
-title: "Create Backup | Cloud"
+title: "バックアップを作成 | Cloud"
 slug: /create-snapshot
-sidebar_label: "Create Backup"
+sidebar_label: "バックアップを作成"
 beta: FALSE
 notebook: FALSE
-description: "Backups are point-of-time copies of a managed cluster or a specific collection on Zilliz Cloud. You can use it as a baseline for new clusters and collections or just for data backup. | Cloud"
+description: "バックアップは、Zilliz Cloud上の管理されたクラスタまたは特定のコレクションのポイントオブタイムコピーです。新しいクラスタやコレクションのベースラインとして、またはデータバックアップとして使用できます。 | Cloud"
 type: origin
-token: HHXewT7wTiM1zqkySjHcMNX5n9b
+token: EPjawOTTtigqJkkgDOecRXxGnpg
 sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - backup
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 
@@ -24,42 +24,42 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create Backup
+# バックアップを作成
 
-Backups are point-of-time copies of a managed cluster or a specific collection on Zilliz Cloud. You can use it as a baseline for new clusters and collections or just for data backup.
+バックアップは、Zilliz Cloud上の管理されたクラスタまたは特定のコレクションのポイントオブタイムコピーです。新しいクラスタやコレクションのベースラインとして、またはデータバックアップとして使用できます。
 
-Manually created backups are permanently retained on Zilliz Cloud, which means they will not be automatically deleted.
+手動で作成されたバックアップはZilliz Cloudに永久に保持されるため、自動的に削除されることはありません。
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-Make sure the following conditions are met:
+以下の条件が満たされていることを確認してください。
 
-- You are granted the [Organization Owner](./organization-users) or [Project Admin](./project-users) role in the target organization.
+- ターゲット組織で[組織所有者](./organization-users)または[プロジェクト管理者](./project-users)の役割が付与されていること。
 
-- Your cluster runs on the **Dedicated** tier.
+- クラスターは**専用**レベルで実行されます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Backups are available only to the <strong>Dedicated</strong> clusters. If your cluster runs on the <strong>Free</strong>, <a href="./manage-cluster#upgrade-plan">upgrade</a> it first. If your cluster runs on the <strong>Serverless</strong> tier, <a href="./migrate-between-clusters">migrate</a> it to a dedicated cluster first. Creating backups may incur charges. For more information about backup cost, please refer to <a href="./understand-cost">Understand Cost</a>.</p>
+<p>バックアップは<strong>専用</strong>クラスターでのみ利用可能です。クラスターが<strong>Free</strong>レベルで実行されている場合は、まず<a href="./manage-cluster">アップグレード</a>してください。クラスターが<strong>Serverless</strong>レベルで実行されている場合は、まず専用クラスターに<a href="./undefined">移行</a>してください。バックアップの作成には料金がかかる場合があります。バックアップコストの詳細については、「<a href="./billing-rules">請求ルール</a>について」を参照してください。</p>
 
 </Admonition>
 
-## Create backup{#create-backup}
+## バックアップを作成する{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-You can create a backup file of your cluster or collection based on the following figure. Your cluster is still in service while Zilliz Cloud is creating the backup file.
+次の図に基づいて、クラスタまたはコレクションのバックアップファイルを作成できます。クラスタはまだサービス中ですが、ZillizCloudはバックアップファイルを作成しています。
 
-![create-snapshot](/img/create-snapshot.png)
+![create-snapshot](/img/ja-JP/create-snapshot.png)
 
 </TabItem>
 <TabItem value="Bash">
 
-You can create a backup for an entire cluster or a specific collection. For details on parameters, refer to [Create Backup](/reference/restful/create-backup-v2).
+クラスタ全体または特定のコレクションのバックアップを作成できます。パラメータの詳細については、「[バックアップを作成](/reference/restful/create-backup-v2)する」を参照してください。
 
-- Create a backup for an entire cluster.
+- クラスタ全体のバックアップを作成します。
 
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
@@ -74,7 +74,7 @@ You can create a backup for an entire cluster or a specific collection. For deta
           }'
     ```
 
-    Expected output:
+    予想される出力:
 
     ```bash
     {
@@ -87,7 +87,7 @@ You can create a backup for an entire cluster or a specific collection. For deta
     }
     ```
 
-- Create a backup for a specific collection.
+- 特定のコレクションのバックアップを作成します。
 
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
@@ -109,7 +109,7 @@ You can create a backup for an entire cluster or a specific collection. For deta
     }'
     ```
 
-    Expected output:
+    予想される出力:
 
     ```bash
     {
@@ -125,23 +125,23 @@ You can create a backup for an entire cluster or a specific collection. For deta
 </TabItem>
 </Tabs>
 
-A backup job will be generated. You can check the backup progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the backup is created successfully.
+バックアップジョブが生成されます。[ジョブ](./job-center)ページでバックアップの進捗状況を確認できます。ジョブのステータスが**IN PROGRESS**から**SUCCESS FUL**に切り替わると、バックアップは正常に作成されます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Within the same cluster, only one manually created backup job can be in progress or pending at a time. You can manually create another backup file when the previously requested job is completed. </p>
+<p>同じクラスター内では、手動で作成されたバックアップジョブは1つしか実行中または保留中にできません。以前に要求されたジョブが完了したら、手動で別のバックアップファイルを作成できます。</p>
 
 </Admonition>
 
-Please note that the time it takes to create a backup varies. For cluster backups, it depends on the size of the cluster and the size of the CUs accommodating the cluster. For example, a single-collection cluster holding over 120 million records of 128-dimensional vectors on a 4-CU instance takes approximately 5 minutes to create a backup file.
+バックアップを作成するのにかかる時間は異なることに注意してください。クラスタバックアップの場合、クラスタの体格とクラスタを収容するCUの体格によって異なります。例えば、4-CUインスタンス上の128次元ベクトルの1億2000万レコード以上を保持する単一コレクションクラスタは、バックアップファイルを作成するのに約5分かかります。
 
-## Related topics{#related-topics}
+## 関連するトピック{#}
 
-- [Schedule Automatic Backups](./schedule-automatic-backups)
+- [自動バックアップをスケジュールする](./schedule-automatic-backups)
 
-- [View Snapshot Details](./view-snapshot-details)
+- [バックアップファイルを表示する](./view-snapshot-details)
 
-- [Restore from Snapshot](./restore-from-snapshot)
+- [バックアップファイルからの復元](./restore-from-snapshot)
 
-- [Delete Snapshot](./delete-snapshot) 
+- [バックアップファイルを削除](./delete-snapshot)
 

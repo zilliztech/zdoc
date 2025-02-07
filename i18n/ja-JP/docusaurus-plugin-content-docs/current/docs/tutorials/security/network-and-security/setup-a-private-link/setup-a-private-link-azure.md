@@ -1,12 +1,12 @@
 ---
-title: "Set up a Private Link (Azure) | Cloud"
+title: "Azureでプライベートリンクを設定する | Cloud"
 slug: /setup-a-private-link-azure
-sidebar_label: "Set up a Private Link (Azure)"
+sidebar_label: "Azureでプライベートリンクを設定する"
 beta: FALSE
 notebook: FALSE
-description: "This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different Microsoft Azure VPCs. | Cloud"
+description: "このガイドでは、Zilliz Cloudクラスターから異なるMicrosoft Azure VPCでホストされているサービスへのプライベートリンクを設定する手順を示します。 | Cloud"
 type: origin
-token: W2fZwrrhVibvpGkd0MbcQGJQnib
+token: YminwoNGmi0ECFktXDlcH44inOe
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -19,188 +19,188 @@ keywords:
   - aws
   - gcp
   - azure
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Set up a Private Link (Azure)
+# Azureでプライベートリンクを設定する
 
-This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different Microsoft Azure VPCs.
+このガイドでは、Zilliz Cloudクラスターから異なるMicrosoft Azure VPCでホストされているサービスへのプライベートリンクを設定する手順を示します。
 
-This feature is exclusively available to Dedicated (Enterprise) clusters.
+この機能は、専用(エンタープライズ)クラスターでのみ利用可能です。
 
-A private link is set up at the project level and is effective for all clusters deployed within the same cloud provider and region under this project.
+プライベートリンクはプロジェクトレベルで設定され、このプロジェクトの下で同じクラウドプロバイダーとリージョンにデプロイされたすべてのクラスターに対して有効です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Zilliz Cloud does not charge you for private links. However, your cloud provider may <a href="https://azure.microsoft.com/en-us/pricing/details/private-link/">charge you for each endpoint</a> that you create to access Zilliz Cloud.</p>
+<p>Zilliz Cloudはプライベートリンクに対して料金を請求しません。ただし、Zilliz Cloudにアクセスするために作成した<a href="https://azure.microsoft.com/ja-jp/pricing/details/private-link/">エンドポイントごと</a>に、クラウドプロバイダーから料金が請求される場合があります。</p>
 
 </Admonition>
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-Make sure the following condition is met:
+以下の条件が満たされていることを確認してください。
 
-- A Dedicated (Enterprise) cluster has been created. For information on how to create a cluster, see [Create Cluster](./create-cluster).
+- 専用(Enterprise)クラスタが作成されました。クラスタの作成方法については、「[クラスタ作成](./create-cluster)する」を参照してください。
 
-## Create private endpoint{#create-private-endpoint}
+## プライベートエンドポイントの作成{#}
 
-Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network > Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
+Zilliz Cloudは、プライベートエンドポイントを追加するための直感的なWebコンソールを提供しています。ターゲットプロジェクトに移動し、左側のナビゲーションで**ネットワーク>プライベートエンドポイント**をクリックします。**+プライベートエンドポイント**をクリックします。
 
-![setup_private_link_aws_01](/img/setup_private_link_aws_01.png)
+![setup_private_link_aws_01](/img/ja-JP/setup_private_link_aws_01.png)
 
-### Select a cloud provider and region{#select-a-cloud-provider-and-region}
+### クラウドプロバイダーと地域を選択してください{#}
 
-To create a private endpoint for a cluster deployed in an Azure region, select **Azure** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. Click **Next**. 
+Azureリージョンにデプロイされたクラスターのプライベートエンドポイントを作成するには、[**Azure**]を[**クラウドプロバイダー**]ドロップダウンリストから選択します。[**リージョン**]で、プライベートにアクセスするクラスターを収容するリージョンを選択します。[**次**へ]をクリックします。
 
-For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions). 
+利用可能なクラウドプロバイダーとリージョンの詳細については、「[クラウドプロバイダー&地域](./cloud-providers-and-regions)」を参照してください。
 
-![setup_private_link_window_azure](/img/setup_private_link_window_azure.png)
+![setup_private_link_window_azure](/img/ja-JP/setup_private_link_window_azure.png)
 
-### Establish and endpoint service{#establish-and-endpoint-service}
+### エンドポイントサービスを確立する{#}
 
-![establish_endpoint_service_azure](/img/establish_endpoint_service_azure.png)
+![establish_endpoint_service_azure](/img/ja-JP/establish_endpoint_service_azure.png)
 
-Enter the subcription ID copied from the [Microsoft Azure Subscription page](https://portal.azure.com/#view/Microsoft_Azure_Billing/SubscriptionsBladeV1). Below is an example
+以下は[Microsoft Azureサブスクリプションページ](https://portal.azure.com/#view/Microsoft_Azure_Billing/SubscriptionsBladeV1)からコピーしたサブスクリプションIDの例です。
 
-### Create an endpoint{#create-an-endpoint}
+### エンドポイントを作成する{#}
 
-You need to complete this step on your cloud provider console.
+クラウドプロバイダーコンソールでこの手順を完了する必要があります。
 
-1. Go to [Private Link Center](https://portal.azure.com/#view/Microsoft_Azure_Network/PrivateLinkCenterBlade/~/privateendpoints), and click **+ Create**.
+1. [[プライベートリンクセンター](https://portal.azure.com/#view/Microsoft_Azure_Network/PrivateLinkCenterBlade/~/privateendpoints)]に移動し、[**+作成**]をクリックします。
 
-    ![TQB9bT5KKojscoxcOZbcZ4Q6nNf](/img/TQB9bT5KKojscoxcOZbcZ4Q6nNf.png)
+    ![NMJVb8eq1o8cysxlcM4c3N6rneh](/img/ja-JP/NMJVb8eq1o8cysxlcM4c3N6rneh.png)
 
-1. Fill in the basic information for the private endpoint to create.
+1. 作成するプライベートエンドポイントの基本情報を入力してください。
 
-    ![ECcPbN4Kaog5bdxyed3cyP3HnHe](/img/ECcPbN4Kaog5bdxyed3cyP3HnHe.png)
+    ![RSAebLea3oj1OyxXT6jc1IrJnph](/img/ja-JP/RSAebLea3oj1OyxXT6jc1IrJnph.png)
 
-1. Click **Next: Resource >** and choose **Connect to an Azure resource by resource ID or alias**. Then paste the one copied from the Zilliz Cloud console into **Resource ID or alias**.
+1. [**Next: Resource>**]をクリックし、[**Connect to an Azure resource by resource ID or alias**]を選択します。次に、Zilliz Cloudコンソールからコピーしたリソースを**リソースIDまたはエイリアス**に貼り付けます。
 
-    ![TDJVb0pkWoxVPIxCThvct9Hpnae](/img/TDJVb0pkWoxVPIxCThvct9Hpnae.png)
+    ![P5jUbCghNoJ26bxKnoycO1Lnn6r](/img/ja-JP/P5jUbCghNoJ26bxKnoycO1Lnn6r.png)
 
-1. Select proper values in **Virtual network** and **Subnet**, and keep the default for other settings on this tab.
+1. [**仮想ネットワーク**]と[**サブネット**]で適切な値を選択し、このタブのその他の設定はデフォルトのままにします。
 
-    ![SNdZbzo0EoP7PYxg1z4clUijnQg](/img/SNdZbzo0EoP7PYxg1z4clUijnQg.png)
+    ![CthVb5C4Eouf0mxVARnc7RPEnZf](/img/ja-JP/CthVb5C4Eouf0mxVARnc7RPEnZf.png)
 
-1. Click **Next** until you reach the **Review + create** tab. If the validation passes, click **Create** to create the private endpoint.
+1. [**次**へ]をクリックして、[**レビュー+作成**]タブに移動します。検証に合格した場合は、[**作成**]をクリックしてプライベートエンドポイントを作成します。
 
-    ![FJ95b4S4voMavqxFWEac3JdinAc](/img/FJ95b4S4voMavqxFWEac3JdinAc.png)
+    ![LxXxbI88joBShBxnK1McboINnTf](/img/ja-JP/LxXxbI88joBShBxnK1McboINnTf.png)
 
-1. Once the deployment succeeds, you will see the following.
+1. 展開が成功すると、以下が表示されます。
 
-    ![QNHubedZWoJFe7xkX5ac5TOInzg](/img/QNHubedZWoJFe7xkX5ac5TOInzg.png)
+    ![H5TUbOss2oRNoMxIEp8cj9tdnmb](/img/ja-JP/H5TUbOss2oRNoMxIEp8cj9tdnmb.png)
 
-1. Click **Go to resource** and see the overview page of the created Private Endpoint.
+1. [**リソースに移動**]をクリックして、作成したプライベートエンドポイントの概要ページを表示します。
 
-1. Click **JSON View** in the upper right corner on the **Overview** page. Note that the **Connection Status** is displayed as **Pending**. 
+1. Overviewページの右上にある**JSON View**をクリックしてくださ**い**。**Connection Status**は**Pending**と表示されます。
 
-    ![YYrobZKr4oFJJ8xNRYicL2PZnde](/img/YYrobZKr4oFJJ8xNRYicL2PZnde.png)
+    ![Yf3CbAO3MoklJAxopqUck54dnvc](/img/ja-JP/Yf3CbAO3MoklJAxopqUck54dnvc.png)
 
-    In the **Resource JSON** panel, copy the values of `name` and `properties.resourceGuid`. Your endpoint ID should be these two values joined by a period (`.`). 
+    「**リソースJSON**」パネルで、`name`とproperties. resourceGuidの値をコピーし`ま`す。エンドポイントIDは、これら2つの値にピリオド(.)を付けたものである必要があり`ま`す。
 
-    ![Vm7pbEGggo2tx6xirE3c9ZyRnSg](/img/Vm7pbEGggo2tx6xirE3c9ZyRnSg.png)
+    ![MKJQbI9THo4gQ3xQKuocGhBOnjg](/img/ja-JP/MKJQbI9THo4gQ3xQKuocGhBOnjg.png)
 
-    For example, the value of the key `name` is `zilliz`, and the value of the key `properties.resourceGuid` is `d73e9b55-7b9c-4f8d-8f0a-40e737f1ccbf`. Your Private Endpoint ID should be `zilliz.d73e9b55-7b9c-4f8d-8f0a-40e737f1ccbf`.
+    例えば、キー`名`の値は`zilliz`で、キーproperties. resourceGuidの値は`d73e9b55-7b9c-4f8d-8f0a-40e737f1ccbf`です。プライベートエンドポイントIDは`d73e9b55-7b9c-4f8d-8f0a-40e737f1ccbf`である必要がありま`す。`
 
-### Authorize your endpoint{#authorize-your-endpoint}
+### エンドポイントを承認する{#}
 
-Paste the endpoint ID you obtained from the Azure console into the **Endpoint ID** box on Zilliz Cloud. Click **Create**.
+Azureコンソールから取得したエンドポイントIDをZilliz Cloudの[**エンドポイントID**]ボックスに貼り付けます。[**作成**]をクリックします。
 
-## Obtain a private link{#obtain-a-private-link}
+## プライベートリンクを取得する{#}
 
-After verifying and accepting the preceding attributes you have submitted, Zilliz Cloud allocates a private link for this endpoint. This process takes about 5 minutes. 
+送信した属性を確認して承認した後、Zilliz Cloudはこのエンドポイントにプライベートリンクを割り当てます。この過程には約5分かかります。
 
-When the private link is ready, you can view it on the **Private Link** page on Zilliz Cloud.
+プライベートリンクが準備できたら、Zilliz Cloudの**プライベートリンク**ページで閲覧可能です。
 
-## Set up DNS{#set-up-dns}
+## DNSの設定{#dns}
 
-Before you can access your cluster via the private link allocated by Zilliz Cloud, it is necessary to set up DNS.
+Zilliz Cloudが割り当てたプライベートリンクを使用してクラスタをアクセス可能にする前に、DNSを設定する必要があります。
 
-### Create a Private DNS Zone on the Azure portal{#create-a-private-dns-zone-on-the-azure-portal}
+### AzureポータルでプライベートDNSゾーンを作成する{#azuredns}
 
-1. On the **Overview** page of the created Private Endpoint, choose **Settings** > **DNS configuration**, and copy the **IP address** of the network interface created along with the Private Endpoint.
+1. 作成したプライベートエンドポイントの[**概要**]ページで、[**設定**]>[**DNS構成**]を選択し、プライベートエンドポイントとともに作成したネットワークインターフェイスの**IPアドレス**をコピーします。
 
-    ![GC9jbsUp2oXgCZxkojbcrmJanJb](/img/GC9jbsUp2oXgCZxkojbcrmJanJb.png)
+    ![Ro6obryyhoNnVCxExrLcu97DnFb](/img/ja-JP/Ro6obryyhoNnVCxExrLcu97DnFb.png)
 
-    The example value in the screen shot above is **10.0.0.4.**
+    上のスクリーンショットの値の例は**10.0.0.4。**
 
-1. Go to [Create a Private DNS zone](https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.Network%2FprivateDnsZones), and click **+ Create** to start the process.
+1. [[プライベートDNSゾーンの作成](https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.Network%2FprivateDnsZones)]に移動し、[**+作成**]をクリックしてプロセスを開始します。
 
-1. In the **Basics** tab, select the subscription and resource group used above, and paste the Private Link URI copied from the Zilliz Cloud console in **Instance details** > **Name**. Then click **Review create**.
+1. [**基本**]タブで、上記で使用したサブスクリプションとリソースグループを選択し、Zilliz CloudコンソールからコピーしたプライベートリンクURIを[**インスタンス詳細**]>[**名前**]に貼り付けます。次に、[**作成を確認**]をクリックします。
 
-    ![QweWbLRSioY9Cix8nMUc0Q75n1e](/img/QweWbLRSioY9Cix8nMUc0Q75n1e.png)
+    ![XD2TbAf62osTeRxQ2ZPcn1rQnkh](/img/ja-JP/XD2TbAf62osTeRxQ2ZPcn1rQnkh.png)
 
-1. Once the validation passes, click Create to start the process.
+1. 検証が完了したら、作成をクリックして過程を開始します。
 
-    ![LsmabNzrwoz9lvxJpKac2gEdnGG](/img/LsmabNzrwoz9lvxJpKac2gEdnGG.png)
+    ![LoMUbPFMkoO4EdxEAiScfOJ7nVf](/img/ja-JP/LoMUbPFMkoO4EdxEAiScfOJ7nVf.png)
 
-1. If the deployment succeeds, you will see the following.
+1. デプロイが成功した場合、以下が表示されます。
 
-    ![LGB3bC80FoQnXIxx527cVkTMnAe](/img/LGB3bC80FoQnXIxx527cVkTMnAe.png)
+    ![Vro4b1Yfbonb5QxGhvRccgginSd](/img/ja-JP/Vro4b1Yfbonb5QxGhvRccgginSd.png)
 
-1. Click **Go to resource** to see the **Overview** page of the created Private DNS zone.
+1. [**リソースに移動**]をクリックして、作成したプライベートDNSゾーンの**概要**ページを表示します。
 
-    ![M401b0RiNoauaHxbBH6crLXlnXc](/img/M401b0RiNoauaHxbBH6crLXlnXc.png)
+    ![EhaqbNu1homiZRxUC8BcDSf3nHd](/img/ja-JP/EhaqbNu1homiZRxUC8BcDSf3nHd.png)
 
-### Link the Private DNS Zone to your virtual network.{#link-the-private-dns-zone-to-your-virtual-network}
+### プライベートDNSゾーンを仮想ネットワークにリンクします。{#dns}
 
-1. On the Overview page of the created Private DNS Zone, choose **Settings** > **Virtual network links** in the left navigation pane.
+1. 作成したプライベートDNSゾーンの[概要]ページで、左側のナビゲーションウィンドウの[**設定**]>[**仮想ネットワークリンク**]を選択します。
 
-1. Click **+ Add**. In the **Add virtual network link** dialog box, enter a **Link name**, and select **Subscription** and **Virtual network** you have used above. In the **Configuration** section, select **Enable auto registration** also.
+1. [**+追加**]をクリックします。[**仮想ネットワークリンク**の追加]ダイアログボックスで、**リンク名**を入力し、上記で使用した[**サブスクリプション**と**仮想ネットワーク**]を選択します。[**構成**]セクションで、[**自動登録**も有効にする]を選択します。
 
-    ![KQZ2bvbbUodBlAxV98ccbrwxnWg](/img/KQZ2bvbbUodBlAxV98ccbrwxnWg.png)
+    ![NWyGbpkMXogi8kx5MLDciI1GnYf](/img/ja-JP/NWyGbpkMXogi8kx5MLDciI1GnYf.png)
 
-    Once everything is set up as expected, click **OK** to continue. The link status of the created virtual network link will change to **Completed** after the deployment succeeds.
+    すべてが期待どおりに設定されたら、[**OK**]をクリックして続行します。デプロイが成功すると、作成された仮想ネットワークリンクのリンクステータスが[**完了**]に変わります。
 
-    ![R84pbAxcKo24pDxQvlKcyxV7n4b](/img/R84pbAxcKo24pDxQvlKcyxV7n4b.png)
+    ![ZIbEbBZQho5R9jxelfncfpkjnEc](/img/ja-JP/ZIbEbBZQho5R9jxelfncfpkjnEc.png)
 
-1. Click **Overview** in the left navigation pane to go back to the **Overview** page of the Private DNS zone.
+1. 左ナビゲーションウィンドウの**概要**をクリックして、プライベートDNSゾーンの**概要**ページに戻ります。
 
-    ![S4bTb3ICwoWnlgxqSFrcYwEInvh](/img/S4bTb3ICwoWnlgxqSFrcYwEInvh.png)
+    ![AIzobdHXwoN0evxn1yRc9ooKnBf](/img/ja-JP/AIzobdHXwoN0evxn1yRc9ooKnBf.png)
 
-1. Click **+ Record set**. In the **Add record set** dialog box, enter your cluster ID suffixed with `-privatelink` in **Name**, select **A - Address record** in **Type**, and set **TTL** to **10 Minutes**. Check whether the listed IP address is the one you have noted down.
+1. [**+レコードセット**]をクリックします。[**レコードセット追加**]ダイアログボックスで、`名前`に-privatelinkを付けたクラスターIDを入力し、**タイプ**で**A-アドレスレコード**を**選択**し、**TTL**を**10分**に設定します。リストされたIPアドレスがメモしたものであるかどうかを確認してください。
 
-    ![DtFQb18jloG9JDxYg0AcSlRsn75](/img/DtFQb18jloG9JDxYg0AcSlRsn75.png)
+    ![YJpzbctcJoiAz3xEAsTc7Rp2n6g](/img/ja-JP/YJpzbctcJoiAz3xEAsTc7Rp2n6g.png)
 
-    Click **OK** to save the record set.
+    [**OK**]をクリックしてレコードセットを保存します。
 
-    ![YWSZbd4qEoAW64xf9gHcamC8nyd](/img/YWSZbd4qEoAW64xf9gHcamC8nyd.png)
+    ![IL9UbOvjaosxTqxp9XlcQGbdnmf](/img/ja-JP/IL9UbOvjaosxTqxp9XlcQGbdnmf.png)
 
-1. Go back to the Overview page of the created Private Endpoint on the Azure portal, and you will see that the **Connection Status** of the Private Endpoint turns from **Pending** to **Approved**. 
+1. Azure Portalで作成したプライベートエンドポイントの[概要]ページに戻ると、プライベートエンドポイントの**接続状態**が[**保留中**]から[**承認済み**]に変わります。
 
-    ![CqAEbOjDUogQGdxl3gjclaPAn1e](/img/CqAEbOjDUogQGdxl3gjclaPAn1e.png)
+    ![Shh8b9DoWorTdOxksckcey6Cnch](/img/ja-JP/Shh8b9DoWorTdOxksckcey6Cnch.png)
 
-    Now the resources in your Azure virtual network can access the Zilliz Cloud cluster privately.
+    Azure仮想ネットワーク内のリソースは、Zilliz Cloudクラスターにプライベートでアクセス可能になりました。
 
-## Manage internet access to your clusters{#manage-internet-access-to-your-clusters}
+## クラスタへのインターネットアクセスを管理する{#}
 
-After configuring your private endpoint, you can choose to disable the cluster public endpoints to restrict internet access to your project. Once you have disabled the public endpoint, users can only connect to the cluster using the private link.
+プライベートエンドポイントを設定した後、クラスターのパブリックエンドポイントを無効にして、プロジェクトへのインターネットアクセスを制限することができます。パブリックエンドポイントを無効にすると、ユーザーはプライベートリンクを使用してクラスターにのみ接続できます。
 
-To disable public endpoints:
+パブリックエンドポイントを無効にするには:
 
-1. Go to the **Cluster Details** page of your target cluster.
+1. ターゲットクラスタの**クラスタ詳細**ページに移動します。
 
-1. Navigate to the **Connection** section.
+1. [**接続**]セクションに移動します。
 
-1. Click on the configurations icon next to the cluster public endpoint.
+1. クラスターパブリックエンドポイントの横にある構成アイコンをクリックしてください。
 
-1. Read the information and click **Disable** in the **Disable Public Endpoint** dialog box.
+1. 情報を読んで、**無効**にするをクリックして、**パブリックエンドポイントを無効**にするダイアログボックス。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
 <ul>
-<li><p>Private endpoints only impact <a href="/reference/restful/data-plane-v2">data plane</a> access. <a href="/reference/restful/control-plane-v2">Control plane</a> can still be accessed over the public internet.</p></li>
-<li><p>After you re-enable the public endpoint, you may need to wait until the local DNS cache to expire before you can access the public endpoint.</p></li>
+<li><p>プライベートエンドポイントは<a href="/ja-JP/reference/restful/data-plane-v2">データプレーン</a>へのアクセスにのみ影響します。<a href="/ja-JP/reference/restful/control-plane-v2">コントロールプレーン</a>は引き続きパブリックインターネットからアクセスできます。</p></li>
+<li><p>パブリックエンドポイントを再度有効にした後、ローカルDNSキャッシュの有効期限が切れるまで、パブリックエンドポイントにアクセス可能にする必要がある場合があります。</p></li>
 </ul>
 
 </Admonition>
 
-![disable_public_endpoint](/img/disable_public_endpoint.png)
+![disable_public_endpoint](/img/ja-JP/disable_public_endpoint.png)
 

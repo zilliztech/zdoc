@@ -1,12 +1,12 @@
 ---
-title: "Resource Planning | Cloud"
+title: "リソースプランニング | Cloud"
 slug: /resource-planning
-sidebar_label: "Resource Planning"
+sidebar_label: "リソースプランニング"
 beta: FALSE
 notebook: FALSE
-description: "Topics related to resource planning before you move your data to Zilliz Cloud. | Cloud"
+description: "Zilliz Cloudにデータを移動する前のリソースプランニングに関するトピック。 | Cloud"
 type: origin
-token: NM2OwCcfVijX8DkNsIxcdajEnr7
+token: QShBwEVusiPyWDkfnjfc8yxFnHe
 sidebar_position: 7
 keywords: 
   - zilliz
@@ -14,19 +14,19 @@ keywords:
   - cloud
   - resource
   - planning
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Resource Planning
+# リソースプランニング
 
-Topics related to resource planning before you move your data to Zilliz Cloud.
+Zilliz Cloudにデータを移動する前のリソースプランニングに関するトピック。
 
 import DocCardList from '@theme/DocCardList';
 

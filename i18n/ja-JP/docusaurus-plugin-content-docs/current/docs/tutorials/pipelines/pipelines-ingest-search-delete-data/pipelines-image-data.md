@@ -1,12 +1,12 @@
 ---
-title: "Image Data | Cloud"
+title: "画像データ | Cloud"
 slug: /pipelines-image-data
-sidebar_label: "Image Data"
+sidebar_label: "画像データ"
 beta: FALSE
 notebook: FALSE
-description: "The Zilliz Cloud web UI provides a simplified and intuitive way of creating, running, and managing Pipelines while the RESTful API offers more flexibility and customization compared to the Web UI. | Cloud"
+description: "Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理するためのシンプルで直感的な方法を提供し、RESTful APIはWeb UIに比べてより柔軟性とカスタマイズ性を提供します。 | Cloud"
 type: origin
-token: QpFSwxXbni8lM9kj22uc8THsnzg
+token: JUOuwYrwtih4omkraU3cNc45nyb
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - image data
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
@@ -25,131 +25,131 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Image Data
+# 画像データ
 
-The Zilliz Cloud web UI provides a simplified and intuitive way of creating, running, and managing Pipelines while the RESTful API offers more flexibility and customization compared to the Web UI.
+Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理するためのシンプルで直感的な方法を提供し、RESTful APIはWeb UIに比べてより柔軟性とカスタマイズ性を提供します。
 
-This guide walks you through the necessary steps to create image pipelines, conduct a reverse image search on your embedded image data, and delete the pipeline if it is no longer needed.
+このガイドでは、画像パイプラインの作成、埋め込み画像データの逆画像検索の実行、パイプラインが不要になった場合の削除に必要な手順を説明します。
 
-## Prerequisites and limitations{#prerequisites-and-limitations}
+## 前提条件と制限{#}
 
-- Ensure you have created a cluster deployed in us-west1 on Google Cloud Platform (GCP).
+- Google Cloud Platform(GCP)上のus-west 1にデプロイされたクラスタを作成していることを確認してください。
 
-- In one project, you can only create up to 100 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits#pipelines).
+- 一つのプロジェクトでは、同じタイプのパイプラインを最大100個まで作成できます。詳細については、[Zillizクラウドの制限](./limits#)を参照してください。
 
-## Ingest image data{#ingest-image-data}
+## イメージデータを取り込む{#}
 
-To ingest any data, you need to first create an ingestion pipeline and then run it.
+データを取り込むには、まず取り込みパイプラインを作成してから実行する必要があります。
 
-### Create image ingestion pipeline{#create-image-ingestion-pipeline}
+### イメージ取り込みパイプラインを作成する{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Navigate to your project.
+1. プロジェクトに移動します。
 
-1. Click on **Pipelines** from the navigation panel. Then switch to the **Overview** tab and click **Pipelines**. To create a pipeline, click **+ Pipeline**.
+1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
 
-    ![create-pipeline](/img/create-pipeline.png)
+    ![create-pipeline](/img/ja-JP/create-pipeline.png)
 
-1. Choose the type of pipeline to create. Click on **+ Pipeline** button in the **Ingestion Pipeline** column.
+1. 作成するパイプラインの種類を選択します。[**+パイプライン**]ボタンをクリックします。**Ingestion Pipeline**列。
 
-    ![choose-pipeline](/img/choose-pipeline.png)
+    ![choose-pipeline](/img/ja-JP/choose-pipeline.png)
 
-1. Configure the Ingestion pipeline you wish to create.
+1. 作成するIngestionパイプラインを構成します。
 
     <table>
        <tr>
-         <th><p><strong>Parameters</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
+         <th><p><strong>パラメータ</strong></p></th>
+         <th><p><strong>説明する</strong></p></th>
        </tr>
        <tr>
-         <td><p>Target Cluster</p></td>
-         <td><p>The cluster where a new collection will be automatically created with this Ingestion pipeline. Currently, this can only be a cluster deployed on GCP us-west1.</p></td>
+         <td><p>ターゲットクラスタ</p></td>
+         <td><p>このIngestionパイプラインを使用して新しいコレクションが自動的に作成されるクラスタです。現時点では、GCP us-west 1にデプロイされたクラスタのみとなります。</p></td>
        </tr>
        <tr>
-         <td><p>Collection Name</p></td>
-         <td><p>The name of the auto-created collection.</p></td>
+         <td><p>コレクション名</p></td>
+         <td><p>自動作成されたコレクションの名前。</p></td>
        </tr>
        <tr>
-         <td><p>Pipeline Name</p></td>
-         <td><p>Name of the new Ingestion pipeline. It should only contain lowercase letters, numbers, and underscores.</p></td>
+         <td><p>パイプライン名</p></td>
+         <td><p>新しいIngestionパイプラインの名前です。小文字、数字、アンダースコアのみを含める必要があります。</p></td>
        </tr>
        <tr>
-         <td><p>Description (Optional)</p></td>
-         <td><p>The description of the new Ingestion pipeline.</p></td>
+         <td><p>説明（オプション）</p></td>
+         <td><p>新しいIngestionパイプラインの説明。</p></td>
        </tr>
     </table>
 
-    ![configure-ingestion-pipeline](/img/configure-ingestion-pipeline.png)
+    ![configure-ingestion-pipeline](/img/ja-JP/configure-ingestion-pipeline.png)
 
-1. Add an **INDEX** function to the Ingestion pipeline by clicking **+ Function**. For each Ingestion pipeline, you can add exactly one **INDEX** function.
+1. Ingestionパイプラインに**INDEX**関数を追加するには、**+Function**をクリックします。各Ingestionパイプラインに対して、正確に1つの**INDEX**関数を追加できます。
 
-    1. Enter function name.
+    1. 関数名を入力します。
 
-    1. Select **INDEX_IMAGE** as the function type. An **INDEX_IMAGE** function can generate vector embeddings for the images in the provided URLs.
+    1. 関数タイプとして**INDEX_IMAGE**を選択してください。**INDEX_IMAGE**関数は、提供されたURL内の画像のベクトル埋め込みを生成できます。
 
-    1. Choose the embedding model used to generate vector embeddings. Currently, there are 2 available models: **zilliz/vit-base-patch16-224** and **zilliz/clip-vit-base-patch32**. The following chart briefly introduces each embedding model.
+    1. ベクトル埋め込みを生成するために使用する埋め込みモデルを選択してください。現在、利用可能なモデルは2つあります:**zilliz/vit-base-patch16-224**と**zilliz/clip-vit-base-patch32**。以下のチャートは、各埋め込みモデルを簡単に紹介しています。
 
         <table>
            <tr>
-             <th><p><strong>Embedding Model</strong></p></th>
-             <th><p><strong>Description</strong></p></th>
+             <th><p><strong>埋め込みモデル</strong></p></th>
+             <th><p><strong>説明する</strong></p></th>
            </tr>
            <tr>
-             <td><p>zilliz/<a href="https://huggingface.co/google/vit-base-patch16-224">vit-base-patch16-224</a></p></td>
-             <td><p>The Vision Transformer (ViT) is a transformer encoder model (BERT-like) open-sourced by Google. The model is pretrained on a large collection of images to embed the semantic of image content to a vector space. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
+             <td><p>ジリズ/<a href="https://huggingface.co/google/vit-base-patch16-224">vit-base-patch16-224</a></p></td>
+             <td><p>Vision Transformer(ViT)は、Googleによってオープンソース化されたトランスエンコーダーモデル(BERTのようなもの)です。このモデルは、画像コンテンツの意味をベクトル空間に埋め込むために、大量の画像コレクションで事前にトレーニングされています。このモデルは、最適なレイテンシを提供するためにZilliz Cloudにホストされています。</p></td>
            </tr>
            <tr>
-             <td><p>zilliz/<a href="https://huggingface.co/openai/clip-vit-base-patch32">clip-vit-base-patch32</a></p></td>
-             <td><p>A multi-modal model released by OpenAI. This vision model and its pairing text model are capable of embedding images and texts into the same vector space, enabling semantic search between visual and textual information. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
+             <td><p>ジリズ/<a href="https://huggingface.co/openai/clip-vit-base-patch32">clip-vit-base-patch32</a></p></td>
+             <td><p>Open AIによってリリースされたマルチモーダルモデル。このビジョンモデルとそのペアリングテキストモデルは、画像とテキストを同じベクトル空間に埋め込むことができ、視覚情報とテキスト情報の間の意味検索を可能にします。モデルはZilliz Cloudにホストされ、最高のレイテンシを提供します。</p></td>
            </tr>
         </table>
 
-        ![add-index-image-function](/img/add-index-image-function.png)
+        ![add-index-image-function](/img/ja-JP/add-index-image-function.png)
 
-    1. Click **Add** to save your function.
+    1. [**追加**]をクリックして関数を保存します。
 
-1. (Optional) Continue to add another **PRESERVE** function if you need to preserve the metadata for your texts. A **PRESERVE** function adds additional scalar fields to the collection along with data ingestion.
+1. （オプション）テキストのメタデータを保持する必要がある場合は、別の**PRE**SERVE関数を追加してください。**PRE SERVE**関数は、データ取り込みとともにコレクションにスカラーフィールドを追加します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>For each Ingestion pipeline, you can add up to 50 <strong>PRESERVE</strong> functions.</p>
+    <p>各Ingestionパイプラインについて、最大50個の<strong>PRESERVE</strong>関数を追加できます。</p>
 
     </Admonition>
 
-    1. Click **+ Function**.
+    1. [**+Function**]をクリックします。
 
-    1. Enter function name.
+    1. 関数名を入力します。
 
-    1. Configure the input field name and type. Supported input field types include **Bool**, **Int8**, **Int16**, **Int32**, **Int64**, **Float**, **Double**, and **VarChar**.
+    1. 入力フィールドの名前と種類を設定します。サポートされている入力フィールドの種類は、**Bool**、**Int 8**、**Int 16**、**Int 32**、**Int 64**、**Float**、**Double**、**VarChar**です。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="Notes" title="undefined">
 
         <ul>
-        <li><p>Currently, the output field name must be identical to the input field name. The input field name defines the field name used when running the Ingestion pipeline. The output field name defines the field name in the vector collection schema where the preserved value is kept.</p></li>
-        <li><p>For <strong>VarChar</strong> fields, the value should be a string with a maximum length of <strong>4,000</strong> alphanumeric characters.</p></li>
-        <li><p>When storing date-time in scalar fields, it is recommended to use the <strong>Int16</strong> data type for year data, and <strong>Int32</strong> for timestamps.</p></li>
+        <li><p>現在、出力フィールド名は入力フィールド名と同じでなければなりません。入力フィールド名は、Ingestionパイプラインを実行する際に使用されるフィールド名を定義します。出力フィールド名は、保存された値が保持されるベクトルコレクションスキーマ内のフィールド名を定義します。</p></li>
+        <li><p>VarCharフィールド<strong>の</strong>場合、値は最大<strong>4,000</strong>文字の英数字の文字列である必要があります。</p></li>
+        <li><p>スカラーフィールドに日時を格納する場合は、年データには<strong>Int 16</strong>データ型、タイムスタンプには<strong>Int 32</strong>データ型を使用することをお勧めします。</p></li>
         </ul>
 
         </Admonition>
 
-    ![add-preserve-function](/img/add-preserve-function.png)
+    ![add-preserve-function](/img/ja-JP/add-preserve-function.png)
 
-    1. Click **Add** to save your function.
+    1. [**追加**]をクリックして関数を保存します。
 
-1. Click **Create Ingestion Pipeline**.
+1. [**Ingestion Pipelineを作成**]をクリックします。
 
-1. Continue creating a Search pipeline and a Deletion pipeline that is auto-configured to be compatible with the just-created Ingestion pipeline. 
+1. 作成したばかりのIngestionパイプラインと互換性があるように自動構成された検索パイプラインと削除パイプラインの作成を続けます。
 
-    ![auto-create-image-search-and-delete-pipelines](/img/auto-create-image-search-and-delete-pipelines.png)
+    ![auto-create-image-search-and-delete-pipelines](/img/ja-JP/auto-create-image-search-and-delete-pipelines.png)
 
 </TabItem>
 
 <TabItem value="Bash">
 
-The following example creates an Ingestion pipeline named `my_image_ingestion_pipeline` with an **INDEX_IMAGE** function and a **PRESERVE** function added. 
+次の例では、という名前のIngestionパイプラインを作成します`my_image_ingestion_パイプライン`、**INDEX_IMAGE**関数と**PRESERVE**関数が追加されました。
 
 ```bash
 curl --request POST \
@@ -180,61 +180,61 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a cluster deployed in us-west1 on GCP. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+- `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。CLUSTER_IDの確認方法については、[How can I find my CLUSTER_ID?を参照してください。](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
 
-- `projectId`: The ID of the project in which you want to create a pipeline. Learn more about [How Can I Obtain the Project ID?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
 
-- `collectionName`: The name of the collection automatically generated with the ingestion pipeline to create. Alternatively, you can also specify an existing collection.
+- `lectionName:`作成するインジェストパイプラインで自動的に生成されるコレクションの名前です。また、既存のコレクションを指定することもできます。
 
-- `name`: The name of the pipeline to create. The pipeline name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-- `description` (optional): The description of the pipeline to create.
+- `description`(オプション):作成するパイプラインの説明。
 
-- `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
+- `type`:作成するパイプラインの種類。現在利用可能なパイプラインの種類には、`INGESTION`、`SEARCH`、`DELETION`があります。
 
-- `functions`: The function(s) to add in the pipeline. **An Ingestion pipeline can have only one INDEX function and up to 50 PRESERVE functions.**
+- `functions`:パイプラインに追加する関数。**Ingestionパイプラインには、1つのINDEX関数と最大50個のPRESERVE関数しか持てません。**
 
-    - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `action`: The type of the function to add. Currently, available options include `INDEX_DOC`, `INDEX_TEXT`, `INDEX_IMAGE` and `PRESERVE`.
+    - `action`:追加する関数の種類。現在利用可能なオプションには、`INDEX_DOC`、`INDEX_TEXT`、`INDEX_IMAGE`、`PRE`SERVEがあります。
 
-    - `embedding`: The embedding model used to generate vector embeddings for your image. Available options are as follows. *(This parameter is only used in the `INDEX` function.)*
+    - `埋め込み`:画像のベクトル埋め込みを生成するために使用される埋め込みモデルです。利用可能なオプションは以下の通りです。*（このパラメータは`INDEX`関数でのみ使用されます。）*
 
         <table>
            <tr>
-             <th><p><strong>Embedding Model</strong></p></th>
-             <th><p><strong>Description</strong></p></th>
+             <th><p><strong>埋め込みモデル</strong></p></th>
+             <th><p><strong>説明する</strong></p></th>
            </tr>
            <tr>
-             <td><p>zilliz/vit-base-patch16-224</p></td>
-             <td><p>The Vision Transformer (ViT) is a transformer encoder model (BERT-like) open-sourced by Google. The model is pretrained on a large collection of images to embed the semantic of image content to a vector space. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
+             <td><p>ジリズ/vit-base-patch16-224</p></td>
+             <td><p>Vision Transformer(ViT)は、Googleによってオープンソース化されたトランスエンコーダーモデル(BERTのようなもの)です。このモデルは、画像コンテンツの意味をベクトル空間に埋め込むために、大量の画像コレクションで事前にトレーニングされています。このモデルは、最適なレイテンシを提供するためにZilliz Cloudにホストされています。</p></td>
            </tr>
            <tr>
-             <td><p>zilliz/clip-vit-base-patch32</p></td>
-             <td><p>A multi-modal model released by OpenAI. This vision model and its pairing text model are capable of embedding images and texts into the same vector space, enabling semantic search between visual and textual information. The model is hosted on Zilliz Cloud to provide the best latency.</p></td>
+             <td><p>ジリズ/clip-vit-base-patch32</p></td>
+             <td><p>Open AIによってリリースされたマルチモーダルモデル。このビジョンモデルとそのペアリングテキストモデルは、画像とテキストを同じベクトル空間に埋め込むことができ、視覚情報とテキスト情報の間の意味検索を可能にします。モデルはZilliz Cloudにホストされ、最高のレイテンシを提供します。</p></td>
            </tr>
         </table>
 
-- `inputField`: The name of the `inputField`. You can customize the value but it should be identical with the `outputField`.*(This parameter is only used in the `PRESERVE` function.)*
+- `input tField`:`input`フィールドの名前です。値はカスタマイズできますが、output tFieldと同じにしてくださ`い`。*（このパラメータは`PRESERVE`関数でのみ使用されます。）*
 
-- `outputField`: The name of the output field which will be used in the collection schema. Currently, the output field name must be identical to the input field name. *(This parameter is only used in the `PRESERVE` function.)*
+- `output`Field:コレクションスキーマで使用される出力フィールドの名前。現在、出力フィールドの名前は入力フィールドの名前と同じでなければなりません。*（このパラメータは`PRESERVE`関数でのみ使用されます。）*
 
-- `fieldType`: The data type of the input and output fields. Possible values include `Bool`, `Int8`, `Int16`, `Int32`, `Int64`, `Float`, `Double`, and `VarChar`. *(This parameter is only used in the `PRESERVE` function.)*
+- `fieldType`:入力フィールドと出力フィールドのデータ型です。使用可能な値は、`Bool`、`Int 8`、`Int 16`、`Int 32`、`Int 64`、`Float`、`Double`、および`VarCharです`。*(このパラメータは`PRESERVE`関数でのみ使用されます。)*
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>When storing date-time in scalar fields, it is recommended to use the <strong>Int16</strong> data type for year data, and <strong>Int32</strong> for timestamps.</p>
-    <p>For <code>VarChar</code> field type, the <code>max_length</code> of the data in this field cannot exceed 4,000.</p>
+    <p>スカラーフィールドに日時を格納する場合は、年データには<strong>Int 16</strong>データ型、タイムスタンプには<strong>Int 32</strong>データ型を使用することをお勧めします。</p>
+    <p>VarCharフィールド<code>型</code>の場合、このフィールドのデータの<code>max_length</code>は4,000を超えることはできません。</p>
 
     </Admonition>
 
-Below is an example output.
+以下は出力例です。
 
 ```bash
 {
@@ -270,21 +270,21 @@ Below is an example output.
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The total usage data could delay by a few hours due to technical limitation.</p>
+<p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
 </Admonition>
 
-When the Ingestion pipeline is created, a collection named `my_collection` is automatically created.
+Ingestionパイプラインが作成されると、`my_collection`という名前のコレクションが自動的に作成されます。
 
-This collection contains three fields:  two output fields of the **INDEX_IMAGE** function, and one output field for each **PRESERVE** function. The collection schema is as follows.
+このコレクションには、**INDEX_IMAGE**関数の2つの出力フィールドと、**PRE**SERVE関数ごとに1つの出力フィールドが含まれています。コレクションのスキーマは以下の通りです。
 
 <table>
    <tr>
-     <th><p>image_id</p><p>(Data Type: Int64)</p></th>
-     <th><p>embedding</p><p>(Data type: FLOAT_VECTOR)</p></th>
-     <th><p>image_title</p><p>(Data type: VarChar)</p></th>
+     <th><p>イメージID</p><p>(データ型: Int 64)</p></th>
+     <th><p>埋め込み</p><p>(データ型: FLOAT_VECTOR)</p></th>
+     <th><p>画像タイトル</p><p>(データ型: VarChar)</p></th>
    </tr>
 </table>
 
@@ -292,27 +292,27 @@ This collection contains three fields:  two output fields of the **INDEX_IMAGE**
 
 </Tabs>
 
-### Run image ingestion pipeline{#run-image-ingestion-pipeline}
+### イメージ取り込みパイプラインを実行する{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Click the "▶︎" button next to your Ingestion pipeline. Alternatively, you can also click on the **Playground** tab.
+1. インジェスチョンパイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
 
-    ![run-pipeline](/img/run-pipeline.png)
+    ![run-pipeline](/img/ja-JP/run-pipeline.png)
 
-1. Input the query image ID and URL in the `image_id` and `image_url` fields. If you have added a PRESERVE function, enter the value in the defined preserved field as well. Click **Run**.
+1. 画像IDとURLを`image_id`と`image_url`フィールドに入力してください。PRESERVE関数を追加した場合は、定義済みの保存フィールドにも値を入力してください。**実行**をクリックしてください。
 
-1. Check the results.
+1. 結果を確認してください。
 
-1. Input other texts to run again.
+1. 再度実行する他のテキストを入力します。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-The following example runs the Ingestion pipeline `my_image_ingestion_pipeline`. 
+次の例では、Ingestionパイプライン`my_image_ingestion_Pipeline`を実行します。
 
 ```python
 curl --request POST \
@@ -328,19 +328,19 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `image_id`: The ID of the image stored on an object storage.
+- `image_id`:オブジェクトストレージに保存されている画像のID。
 
-- `image_url`: The URL of the image stored on an object storage. You should use a URL that is either not encoded or encoded in UTF-8. Ensure that the URL remains valid for at least one hour.
+- `image_url`:オブジェクトストレージに保存されている画像のURLです。エンコードされていないか、UTF-8でエンコードされたURLを使用してください。URLが少なくとも1時間有効であることを確認してください。
 
-- `image_title`：The metadata field that needs to be preserved.
+- `image_title:`保存する必要のあるメタデータフィールド。
 
-Below is an example response.
+以下は回答例です。
 
 ```bash
 {
@@ -358,66 +358,66 @@ Below is an example response.
 
 </Tabs>
 
-## Search image data{#search-image-data}
+## 画像データを検索する{#}
 
-To search any data, you need to first create a search pipeline and then run it. Unlike Ingestion and Deletion pipelines, when creating a Search pipeline, the cluster and collection are defined at the function level instead of the pipeline level. This is because Zilliz Cloud allows you to search from multiple collections at a time.
+任意のデータを検索するには、まず検索パイプラインを作成してから実行する必要があります。IngestionおよびDeletionパイプラインとは異なり、検索パイプラインを作成する場合、クラスタとコレクションはパイプラインレベルではなく関数レベルで定義されます。これは、Zilliz Cloudが複数のコレクションから同時に検索できるためです。
 
-There are two ways to search image data: [conduct a reverse image search](./pipelines-image-data#conduct-a-reverse-image-search) or [search image by text](./pipelines-image-data#search-image-by-text).
+画像データを検索するには2つの方法があります。[逆画像検索を行う](./pipelines-image-data#)か、[テキストによる画像検索](./pipelines-image-data#)を行います。
 
-### Conduct a reverse image search{#conduct-a-reverse-image-search}
+### 逆画像検索を行う{#}
 
-#### Create image search pipeline{#create-image-search-pipeline}
+#### 画像検索パイプラインの作成{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Navigate to your project.
+1. プロジェクトに移動します。
 
-1. Click on **Pipelines** from the navigation panel. Then switch to the **Overview** tab and click **Pipelines**. To create a pipeline, click **+ Pipeline**.
+1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
 
-1. Choose the type of pipeline to create. Click on **+ Pipeline** button in the **Search Pipeline** column.
+1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**検索パイプライン**欄でクリックしてください。
 
-    ![create-search-pipeline](/img/create-search-pipeline.png)
+    ![create-search-pipeline](/img/ja-JP/create-search-pipeline.png)
 
-1. Configure the Search pipeline you wish to create.
+1. 作成したい検索パイプラインを構成します。
 
     <table>
        <tr>
-         <th><p><strong>Parameters</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
+         <th><p><strong>パラメータ</strong></p></th>
+         <th><p><strong>説明する</strong></p></th>
        </tr>
        <tr>
-         <td><p>Pipeline Name</p></td>
-         <td><p>The name of the new Search pipeline. It should only contain lowercase letters, numbers, and underscores only.</p></td>
+         <td><p>パイプライン名</p></td>
+         <td><p>新しい検索パイプラインの名前です。小文字、数字、アンダースコアのみを含める必要があります。</p></td>
        </tr>
        <tr>
-         <td><p>Description (Optional)</p></td>
-         <td><p>The description of the new Search pipeline.</p></td>
+         <td><p>説明（オプション）</p></td>
+         <td><p>新しい検索パイプラインの説明。</p></td>
        </tr>
     </table>
 
-    ![configure-search-pipeline](/img/configure-search-pipeline.png)
+    ![configure-search-pipeline](/img/ja-JP/configure-search-pipeline.png)
 
-1. Add a function to the Search pipeline by clicking **+ Function**. You can add exactly one function.
+1. 「**+Function**」をクリックして、検索パイプラインに関数を追加します。正確に1つの関数を追加できます。
 
-    1. Enter function name.
+    1. 関数名を入力します。
 
-    1. Choose **Target Cluster** and **Target collection**. The **Target Cluster** must be a cluster deployed in **us-west1 on Google Cloud Platform (GCP)**. and the **Target Collection** must be created by an Ingestion pipeline, otherwise the Search pipeline will not be compatible.
+    1. 「**Target Cluster**」と「**Target collection**」を選択します。**Target Cluster**は、**us-west 1 on Google Cloud Platform(GCP)**にデプロイされたクラスタである必要があります。また、**Target Collection**はIngestionパイプラインによって作成されている必要があります。そうでない場合、Searchパイプラインは互換性がありません。
 
-    1. Select **SEARCH_IMAGE_BY_IMAGE** as the **Function Type**. A **SEARCH_IMAGE_BY_IMAGE** function can convert the query image to a vector embedding and retrieve topK most similar images.
+    1. Function Typeとして**SEARCH_IMAGE_BY_IMAGE**を選択してください。**Function Type**として**SEARCH_IMAGE_BY_IMAGE**関数を使用すると、クエリ画像をベクトル埋め込みに変換し、最も類似した画像を取得できます。
 
-        ![add-search-image-function](/img/add-search-image-function.png)
+        ![add-search-image-function](/img/ja-JP/add-search-image-function.png)
 
-    1. Click **Add** to save your function.
+    1. [**追加**]をクリックして関数を保存します。
 
-1. Click **Create Search Pipeline**.
+1. [**検索パイプラインを作成**]をクリックします。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-The following example creates a Search pipeline named `my_image_search_pipeline` with a **SEARCH_IMAGE_BY_IMAGE** function added. 
+次の例では、`my_image_search_Pipeline`という名前の検索パイプラインを作成し、**SEARCH_IMAGE_BY_IMAGE**関数を追加します。
 
 ```bash
 curl --request POST \
@@ -441,33 +441,33 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `projectId`: The ID of the project in which you want to create a pipeline. Learn more about [How Can I Obtain the Project ID?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
 
-- `name`: The name of the pipeline to create. The pipeline name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-- `description` (optional): The description of the pipeline to create.
+- `description`(オプション):作成するパイプラインの説明。
 
-- `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
+- `type`:作成するパイプラインの種類。現在利用可能なパイプラインの種類には、`INGESTION`、`SEARCH`、`DELETION`があります。
 
-- `functions`: The function(s) to add in the pipeline. **A Search pipeline can only have one function.**
+- `functions`:パイプラインに追加する関数。**Searchパイプラインには1つの関数しか持てません。**
 
-    - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `action`: The type of the function to add. Currently, available options include `SEARCH_DOC_CHUNK`, `SEARCH_TEXT`, `SEARCH_IMAGE_BY_IMAGE`, and `SEARCH_IMAGE_BY_TEXT`.
+    - `action`:追加する関数の種類。現在利用可能なオプションは、`SEARCH_DOC_CHUNK`、`SEARCH_TEXT`、`SEARCH_IMAGE_BY_IMAGE`、`SEARCH_IMAGE_BY_TEXT`です。
 
-    - `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a cluster deployed in us-west1 on GCP. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+    - `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。CLUSTER_IDの確認方法については、[How can I find my CLUSTER_ID?を参照してください。](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
 
-    - `collectionName`: The name of the collection in which you want to create a pipeline.
+    - `collection`Name:パイプラインを作成するコレクションの名前。
 
-    - `embedding`: The embedding model used during vector search. The model should be consistent with the one chosen in the compatible collection.
+    - `埋め込み`:ベクトル検索中に使用される埋め込みモデル。モデルは、互換性のあるコレクションで選択されたものと一致する必要があります。
 
-Below is an example output.
+以下は出力例です。
 
 ```bash
 {
@@ -495,9 +495,9 @@ Below is an example output.
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The total usage data could delay by a few hours due to technical limitation.</p>
+<p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
 </Admonition>
 
@@ -505,27 +505,27 @@ Below is an example output.
 
 </Tabs>
 
-#### Run image search pipeline{#run-image-search-pipeline}
+#### 画像検索パイプラインの実行{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Click the "▶︎" button next to your Search pipeline. Alternatively, you can also click on the **Playground** tab.
+1. 検索パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
 
-    ![run-pipeline](/img/run-pipeline.png)
+    ![run-pipeline](/img/ja-JP/run-pipeline.png)
 
-1. Input the query image URL. Click **Run**.
+1. クエリ画像のURLを入力し、**実行**をクリックします。
 
-1. Check the results.
+1. 結果を確認してください。
 
-1. Enter a new query image URL to rerun the pipeline.
+1. パイプラインを再実行するための新しいクエリイメージURLを入力してください。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-The following example runs the Search pipeline named `my_image_search_pipeline`. 
+次の例では、`my_image_search_パイプライン`という名前の検索パイプラインを実行します。
 
 ```bash
 curl --request POST \
@@ -545,27 +545,27 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `query_image_url`: The URL of the query image used to conduct a similarity search.
+- `query_image_url`:類似検索を実行するために使用されるクエリ画像のURL。
 
-- `params`: The search parameters to configure.
+- `params`:設定する検索パラメータ。
 
-    - `limit`: The maximum number of entities to return. The value should be an integer ranging from **1** to **500**. The sum of this value of that of `offset` should be less than **1024**.
+    - `limit`:返すエンティティの最大数。値は**1**から**500**までの整数である必要があります。この値と`offset`の値の合計は**1024**になる必要があります。
 
-    - `offset`: The number of entities to skip in the search results.
+    - `オフセット`:検索結果でスキップするエンティティの数。
 
-        The sum of this value and that of `limit` should not be greater than **1024**.The maximum value is **1024**.
+        この値と`limit`の合計は大なり**1024**ではありません。最大値は**1024**です。
 
-    - `outputFields`: An array of fields to return along with the search results. Note that `id`（entity ID）, `distance` will be returned in the search result by default. If you need other output fields in the returned result, you can configure this parameter.
+    - `output`Fields:検索結果とともに返されるフィールドの配列です。デフォルトでは、検索結果に`id`（エンティティID）、`distance`が返されます。返される結果に他の出力フィールドが必要な場合は、このパラメータを設定できます。
 
-    - `filter`: The [filter](./filtering) in boolean expression used to find matches for the search
+    - `フィルター`:検索に一致するものを見つけるために使用されるブール式の[フィルター](./filtering)
 
-Below is an example response.
+以下は回答例です。
 
 ```bash
 {
@@ -586,9 +586,9 @@ Below is an example response.
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The usage data could delay by a few hours due to technical limitation.</p>
+<p>技術的な制限により、使用データが数時間遅れる可能性があります。</p>
 
 </Admonition>
 
@@ -596,68 +596,68 @@ Below is an example response.
 
 </Tabs>
 
-### Search image by text{#search-image-by-text}
+### テキストで画像を検索する{#}
 
-#### Create image search pipeline{#create-image-search-pipeline}
+#### 画像検索パイプラインの作成{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Navigate to your project.
+1. プロジェクトに移動します。
 
-1. Click on **Pipelines** from the navigation panel. Then switch to the **Overview** tab and click **Pipelines**. To create a pipeline, click **+ Pipeline**.
+1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
 
-1. Choose the type of pipeline to create. Click on **+ Pipeline** button in the **Search Pipeline** column.
+1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**検索パイプライン**欄でクリックしてください。
 
-    ![create-search-pipeline](/img/create-search-pipeline.png)
+    ![create-search-pipeline](/img/ja-JP/create-search-pipeline.png)
 
-1. Configure the Search pipeline you wish to create.
+1. 作成したい検索パイプラインを構成します。
 
     <table>
        <tr>
-         <th><p><strong>Parameters</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
+         <th><p><strong>パラメータ</strong></p></th>
+         <th><p><strong>説明する</strong></p></th>
        </tr>
        <tr>
-         <td><p>Pipeline Name</p></td>
-         <td><p>The name of the new Search pipeline. It should only contain lowercase letters, numbers, and underscores only.</p></td>
+         <td><p>パイプライン名</p></td>
+         <td><p>新しい検索パイプラインの名前です。小文字、数字、アンダースコアのみを含める必要があります。</p></td>
        </tr>
        <tr>
-         <td><p>Description (Optional)</p></td>
-         <td><p>The description of the new Search pipeline.</p></td>
+         <td><p>説明（オプション）</p></td>
+         <td><p>新しい検索パイプラインの説明。</p></td>
        </tr>
     </table>
 
-    ![configure-search-pipeline](/img/configure-search-pipeline.png)
+    ![configure-search-pipeline](/img/ja-JP/configure-search-pipeline.png)
 
-1. Add a function to the Search pipeline by clicking **+ Function**. You can add exactly one function.
+1. 「**+Function**」をクリックして、検索パイプラインに関数を追加します。正確に1つの関数を追加できます。
 
-    1. Enter function name.
+    1. 関数名を入力します。
 
-    1. Choose **Target Cluster** and **Target collection**. The **Target Cluster** must be a cluster deployed in **us-west1 on Google Cloud Platform (GCP)**. and the **Target Collection** must be created by an Ingestion pipeline, otherwise the Search pipeline will not be compatible.
+    1. 「**Target Cluster**」と「**Target collection**」を選択します。**Target Cluster**は、**us-west 1 on Google Cloud Platform(GCP)**にデプロイされたクラスタである必要があります。また、**Target Collection**はIngestionパイプラインによって作成されている必要があります。そうでない場合、Searchパイプラインは互換性がありません。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="Notes" title="undefined">
 
-        <p>The SEARCH<em>IMAGE</em>BY_TEXT function is only available when there is a compatible image ingestion pipeline using the multimodal image model service <code>zilliz/clip-vit-base-patch32</code>.</p>
+        <p>SEARCH<em>IMAGE</em>BY_TEXT関数は、マルチモーダル画像モデルサービス<code>zilliz/clip-vit-base-patch32</code>を使用して互換性のある画像取り込みパイプラインがある場合にのみ使用できます。</p>
 
         </Admonition>
 
-    1. Select **SEARCH_IMAGE_BY_TEXT** as the **Function Type**. A **SEARCH_IMAGE_BY_TEXT** function can convert the query text to a vector embedding and retrieve topK most similar images.
+    1. Function Typeとして**SEARCH_IMAGE_BY_TEXT**を選択してください。**Function Type**として**SEARCH_IMAGE_BY_TEXT関数**を使用すると、クエリテキストをベクトル埋め込みに変換し、最も類似した画像を取得できます。
 
-        If you choose the **SEARCH_IMAGE_BY_TEXT** function, the  multimodal text embedding service `zilliz/clip-vit-base-patch32-multilingual-v1` will be used by default to match the corresponding ingestion pipeline and target collection.
+        関数**SEARCH_IMAGE_BY_TEXT**を選択した場合、マルチモーダルテキスト埋め込みサービス`zilliz/clip-vit-base-patch32-multilingual-v1`がデフォルトで使用され、対応する取り込みパイプラインとターゲットコレクションに一致します。
 
-        ![add-search-image-by-text-function](/img/add-search-image-by-text-function.png)
+        ![add-search-image-by-text-function](/img/ja-JP/add-search-image-by-text-function.png)
 
-    1. Click **Add** to save your function.
+    1. [**追加**]をクリックして関数を保存します。
 
-1. Click **Create Search Pipeline**.
+1. [**検索パイプラインを作成**]をクリックします。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-The following example creates a Search pipeline named `my_image_search_pipeline` with a **SEARCH_IMAGE_BY_TEXT** function added. 
+次の例では、`my_image_search_Pipeline`という名前の検索パイプラインを作成し、**SEARCH_IMAGE_BY_TEXT**関数を追加します。
 
 ```bash
 curl --request POST \
@@ -681,33 +681,33 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `projectId`: The ID of the project in which you want to create a pipeline. Learn more about [How Can I Obtain the Project ID?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
 
-- `name`: The name of the pipeline to create. The pipeline name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-- `description` (optional): The description of the pipeline to create.
+- `description`(オプション):作成するパイプラインの説明。
 
-- `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
+- `type`:作成するパイプラインの種類。現在利用可能なパイプラインの種類には、`INGESTION`、`SEARCH`、`DELETION`があります。
 
-- `functions`: The function(s) to add in the pipeline. **A Search pipeline can only have one function.**
+- `functions`:パイプラインに追加する関数。**Searchパイプラインには1つの関数しか持てません。**
 
-    - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `action`: The type of the function to add. Currently, available options include `SEARCH_DOC_CHUNK`, `SEARCH_TEXT`, `SEARCH_IMAGE_BY_IMAGE`, and `SEARCH_IMAGE_BY_TEXT`.
+    - `action`:追加する関数の種類。現在利用可能なオプションは、`SEARCH_DOC_CHUNK`、`SEARCH_TEXT`、`SEARCH_IMAGE_BY_IMAGE`、`SEARCH_IMAGE_BY_TEXT`です。
 
-    - `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a cluster deployed in us-west1 on GCP. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+    - `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。CLUSTER_IDの確認方法については、[How can I find my CLUSTER_ID?を参照してください。](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
 
-    - `collectionName`: The name of the collection in which you want to create a pipeline.
+    - `collection`Name:パイプラインを作成するコレクションの名前。
 
-    - `embedding`: The embedding model used during vector search. Here, you should use the embedding model `zilliz/clip-vit-base-patch32-multilingual-v1`. This model is a multi-lingual variant of OpenAI's [CLIP-ViT-B32](https://huggingface.co/openai/clip-vit-base-patch32) model. It is designed to work together with `zilliz/clip-vit-base-patch32` vision model and can process text in more than 50 languages.
+    - `埋め込み`:ベクトル検索中に使用される埋め込みモデルです。ここでは、埋め込みモデル`zilliz/clip-vit-base-patch32-multilingual-v1`を使用する必要があります。このモデルは、Open AIの[CLIP-ViT-B 32](https://huggingface.co/openai/clip-vit-base-patch32)モデルの多言語バリアントです。`zilliz/clip-vit-base-patch32`ビジョンモデルと一緒に動作するように設計されており、50以上の言語でテキストを処理できます。
 
-Below is an example output.
+以下は出力例です。
 
 ```bash
 {
@@ -735,9 +735,9 @@ Below is an example output.
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The total usage data could delay by a few hours due to technical limitation.</p>
+<p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
 </Admonition>
 
@@ -745,27 +745,27 @@ Below is an example output.
 
 </Tabs>
 
-#### Run image search pipeline{#run-image-search-pipeline}
+#### 画像検索パイプラインの実行{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Click the "▶︎" button next to your Search pipeline. Alternatively, you can also click on the **Playground** tab.
+1. 検索パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
 
-    ![run-pipeline](/img/run-pipeline.png)
+    ![run-pipeline](/img/ja-JP/run-pipeline.png)
 
-1. Input the query text. Click **Run**.
+1. クエリテキストを入力します。[**実行**]をクリックします。
 
-1. Check the results.
+1. 結果を確認してください。
 
-1. Enter a new query text to rerun the pipeline.
+1. パイプラインを再実行する新しいクエリテキストを入力してください。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-The following example runs the Search pipeline named `my_image_search_pipeline`. 
+次の例では、`my_image_search_パイプライン`という名前の検索パイプラインを実行します。
 
 ```bash
 curl --request POST \
@@ -785,27 +785,27 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `query_text`: The query text used to conduct a similarity search.
+- `query_text`:類似検索を実行するために使用されるクエリテキスト。
 
-- `params`: The search parameters to configure.
+- `params`:設定する検索パラメータ。
 
-    - `limit`: The maximum number of entities to return. The value should be an integer ranging from **1** to **100**. The sum of this value of that of `offset` should be less than **1024**.
+    - `limit`:返すエンティティの最大数。値は**1**から**100**までの整数である必要があります。この値と`offset`の値の合計は**1024**になる必要があります。
 
-    - `offset`: The number of entities to skip in the search results.
+    - `オフセット`:検索結果でスキップするエンティティの数。
 
-        The sum of this value and that of `limit` should not be greater than **1024**.The maximum value is **1024**.
+        この値と`limit`の合計は大なり**1024**ではありません。最大値は**1024**です。
 
-    - `outputFields`: An array of fields to return along with the search results. Note that `id`（entity ID）, `distance` will be returned in the search result by default. If you need other output fields in the returned result, you can configure this parameter.
+    - `output`Fields:検索結果とともに返されるフィールドの配列です。デフォルトでは、検索結果に`id`（エンティティID）、`distance`が返されます。返される結果に他の出力フィールドが必要な場合は、このパラメータを設定できます。
 
-    - `filter`: The [filter](./filtering) in boolean expression used to find matches for the search
+    - `フィルター`:検索に一致するものを見つけるために使用されるブール式の[フィルター](./filtering)
 
-Below is an example response.
+以下は回答例です。
 
 ```bash
 {
@@ -826,9 +826,9 @@ Below is an example response.
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The usage data could delay by a few hours due to technical limitation.</p>
+<p>技術的な制限により、使用データが数時間遅れる可能性があります。</p>
 
 </Admonition>
 
@@ -836,64 +836,64 @@ Below is an example response.
 
 </Tabs>
 
-## Delete image data{#delete-image-data}
+## 画像データの削除{#}
 
-To delete any data, you need to first create a deletion pipeline and then run it.
+データを削除するには、まず削除パイプラインを作成してから実行する必要があります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>You must <a href="./pipelines-image-data#create-image-ingestion-pipeline">create an </a><a href="./pipelines-image-data#create-image-ingestion-pipeline">Ingestion pipeline</a> first. Upon successful creation of an Ingestion pipeline, you can create a Search pipeline and a Deletion pipeline to work with your newly created Ingestion pipeline. </p>
+<p>まず<a href="./pipelines-image-data#">、</a><a href="./pipelines-image-data#">Ingestionパイプライン</a>を作成する必要があります。Ingestionパイプラインの作成に成功したら、検索パイプラインと削除パイプラインを作成して、新しく作成したIngestionパイプラインを操作できます。</p>
 
 </Admonition>
 
-### Create image deletion pipeline{#create-image-deletion-pipeline}
+### イメージ削除パイプラインの作成{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Navigate to your project.
+1. プロジェクトに移動します。
 
-1. Click on **Pipelines** from the navigation panel. Then switch to the **Overview** tab and click **Pipelines**. To create a pipeline, click **+ Pipeline**.
+1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
 
-1. Choose the type of pipeline to create. Click on **+ Pipeline** button in the **Deletion Pipeline** column.
+1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**削除パイプライン**欄でクリックしてください。
 
-    ![create-deletion-pipeline](/img/create-deletion-pipeline.png)
+    ![create-deletion-pipeline](/img/ja-JP/create-deletion-pipeline.png)
 
-1. Configure the Deletion pipeline you wish to create.
+1. 作成する削除パイプラインを構成します。
 
     <table>
        <tr>
-         <th><p><strong>Parameters</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
+         <th><p><strong>パラメータ</strong></p></th>
+         <th><p><strong>説明する</strong></p></th>
        </tr>
        <tr>
-         <td><p>Pipeline Name</p></td>
-         <td><p>The name of the new Deletion pipeline. It should only contain lowercase letters, numbers, and underscores.</p></td>
+         <td><p>パイプライン名</p></td>
+         <td><p>新しい削除パイプラインの名前です。小文字、数字、アンダースコアのみを含める必要があります。</p></td>
        </tr>
        <tr>
-         <td><p>Description (Optional)</p></td>
-         <td><p>The description of the new Deletion pipeline.</p></td>
+         <td><p>説明（オプション）</p></td>
+         <td><p>新しいDeletionパイプラインの説明。</p></td>
        </tr>
     </table>
 
-    ![configure-deletion-pipeline](/img/configure-deletion-pipeline.png)
+    ![configure-deletion-pipeline](/img/ja-JP/configure-deletion-pipeline.png)
 
-1. Add a function to the Deletion pipeline by clicking **+ Function**. You can add exactly one function.
+1. 「**+Function**」をクリックして、削除パイプラインに関数を追加します。1つの関数だけを追加できます。
 
-    1. Enter function name.
+    1. 関数名を入力します。
 
-    1. Select either **PURGE_IMAGE_INDEX** or **PURGE_BY_EXPRESSION** as the **Function Type**. A **PURGE_IMAGE_INDEX** function can delete all images with the specified image_id while a **PURGE_BY_EXPRESSION** function can delete all text entities matching the specified filter expression.
+    1. 「**PURGE_IMAGE_INDEX**」または「**PURGE_BY_EXPRESSION**」を**関数タイプ**として選択します。**PURGE_IMAGE_INDEX**関数は指定されたimage_idを持つすべての画像を削除できますが、**PURGE_BY_EXPRESSION**関数は指定されたフィルタ式に一致するすべてのテキストエンティティを削除できます。
 
-    1. Click **Add** to save your function.
+    1. [**追加**]をクリックして関数を保存します。
 
-1. Click **Create Deletion Pipeline**.
+1. [**削除パイプラインを作成**]をクリックします。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-The example below creates a Deletion pipeline named `my_image_deletion_pipeline` with a **PURGE_IMAGE_INDEX** function added. 
+以下の例では、`my_image_delete_Pipeline`という名前のDeletionパイプラインを作成し、**PURGE_IMAGE_INDEX**関数を追加しています。
 
 ```bash
 curl --request POST \
@@ -916,31 +916,31 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `projectId`: The ID of the project in which you want to create a pipeline. Learn more about [How Can I Obtain the Project ID?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
 
-- `name`: The name of the pipeline to create. The pipeline name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-- `description` (optional): The description of the pipeline to create.
+- `description`(オプション):作成するパイプラインの説明。
 
-- `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
+- `type`:作成するパイプラインの種類。現在利用可能なパイプラインの種類には、`INGESTION`、`SEARCH`、`DELETION`があります。
 
-- `functions`: The function(s) to add in the pipeline. **A Deletion pipeline can only have one function.**
+- `functions`:パイプラインに追加する関数。**Deletionパイプラインには1つの関数しか持てません。**
 
-    - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
+    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `action`: The type of the function to add. Available options include `PURGE_DOC_INDEX`, `PURGE_TEXT_INDEX`, `PURGE_BY_EXPRESSION`, and `PURGE_IMAGE_INDEX`.
+    - `アクション`:追加する関数の種類。利用可能なオプションには、`PURGE_DOC_INDEX`、`PURGE_TEXT_INDEX`、`PURGE_BY_EXPRESSION`、`PURGE_IMAGE_INDEX`があります。
 
-- `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a cluster deployed on GCP us-west1. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+- `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP us-west 1にデプロイされたクラスタのみを選択できます。詳しくは[How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
 
-- `collectionName`: The name of the collection in which you want to create a pipeline.
+- `collection`Name:パイプラインを作成するコレクションの名前。
 
-Below is an example output.
+以下は出力例です。
 
 ```bash
 {
@@ -969,25 +969,25 @@ Below is an example output.
 
 </Tabs>
 
-### Run image deletion pipeline{#run-image-deletion-pipeline}
+### イメージ削除パイプラインの実行{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Click the "▶︎" button next to your Deletion pipeline. Alternatively, you can also click on the **Playground** tab.
+1. 削除パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
 
-    ![run-pipeline](/img/run-pipeline.png)
+    ![run-pipeline](/img/ja-JP/run-pipeline.png)
 
-1. Input the filter expression. Click **Run**.
+1. フィルタ式を入力します。[**実行**]をクリックします。
 
-1. Check the results.
+1. 結果を確認してください。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-The following example runs the Deletion pipeline named `my_image_deletion_pipeline`. 
+次の例では、Deletionパイプライン`my_image_deletion_Pipelineを`実行します。
 
 ```bash
 curl --request POST \
@@ -1001,15 +1001,15 @@ curl --request POST \
     }'
 ```
 
-The parameters in the above code are described as follows:
+上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#api)方法については、こちらをご覧ください。
 
-- `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
-- `image_id`: The ID of the image to delete.
+- `image_id`:削除する画像のID。
 
-Below is an example response.
+以下は回答例です。
 
 ```bash
 {
@@ -1024,43 +1024,43 @@ Below is an example response.
 
 </Tabs>
 
-## Manage pipeline{#manage-pipeline}
+## パイプラインの管理{#}
 
-The following are relevant operations that manages the created pipelines in the aforementioned steps.
+以下は、前述の手順で作成されたパイプラインを管理する関連する操作です。
 
-### View pipeline{#view-pipeline}
+### ビューパイプライン{#}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You will see all the available pipelines. 
+左ナビゲーションの**パイプライン**をクリックします。**パイプライン**タブを選択します。利用可能なすべてのパイプラインが表示されます。
 
-![view-pipelines-on-web-ui](/img/view-pipelines-on-web-ui.png)
+![view-pipelines-on-web-ui](/img/ja-JP/view-pipelines-on-web-ui.png)
 
-Click on a specific pipeline to view its detailed information including its basic information, total usage, functions, and related connectors.
+特定のパイプラインをクリックすると、基本情報、合計使用量、機能、関連コネクタなどの詳細情報が表示されます。
 
-![view-pipeline-details](/img/view-pipeline-details.png)
+![view-pipeline-details](/img/ja-JP/view-pipeline-details.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The total usage data could delay by a few hours due to technical limitation.</p>
+<p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
 </Admonition>
 
-You can also check the pipeline activities on the web UI.
+Web UIでパイプラインのアクティビティを確認することもできます。
 
-![view-pipelines-activities-on-web-ui](/img/view-pipelines-activities-on-web-ui.png)
+![view-pipelines-activities-on-web-ui](/img/ja-JP/view-pipelines-activities-on-web-ui.png)
 
 </TabItem>
 
 <TabItem value="Bash">
 
-You can call the API to list all existing pipelines or view the details of a particular pipeline.
+APIを呼び出して、既存のすべてのパイプラインを一覧表示したり、特定のパイプラインの詳細を表示したりできます。
 
-- **View all existing pipelines**
+- **既存のパイプラインをすべて表示する**
 
-    Follow the example below and specify your `projectId`.  Learn more about [how to obtain the project ID](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID-).
+    以下の例に従い、projectIdを指定してくださ`い`。[プロジェクトIDの取得方法に](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID-)ついては、こちらをご覧ください。
 
     ```bash
     curl --request GET \
@@ -1069,7 +1069,7 @@ You can call the API to list all existing pipelines or view the details of a par
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines?projectId=proj-xxxx"
     ```
 
-    Below is an example output.
+    以下は出力例です。
 
     ```bash
     {
@@ -1146,15 +1146,15 @@ You can call the API to list all existing pipelines or view the details of a par
     }
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>The total usage data could delay by a few hours due to technical limitation.</p>
+    <p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
     </Admonition>
 
-- **View the details of a specific pipeline**
+- **特定のパイプラインの詳細を表示する**
 
-    Follow the example below to view the details of a pipeline.
+    パイプラインの詳細を表示するには、以下の例に従ってください。
 
     ```bash
     curl --request GET \
@@ -1163,7 +1163,7 @@ You can call the API to list all existing pipelines or view the details of a par
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}"
     ```
 
-    Below is example output.
+    以下は出力例です。
 
     ```bash
     {
@@ -1200,9 +1200,9 @@ You can call the API to list all existing pipelines or view the details of a par
     }
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>The total usage data could delay by a few hours due to technical limitation.</p>
+    <p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
     </Admonition>
 
@@ -1210,32 +1210,32 @@ You can call the API to list all existing pipelines or view the details of a par
 
 </Tabs>
 
-### Delete pipeline{#delete-pipeline}
+### パイプラインを削除{#}
 
-If you no longer need a pipeline, you can drop it.  Note that dropping a pipeline will not remove the auto-created collection where it ingested data.
+パイプラインが不要になった場合は、削除できます。パイプラインを削除しても、データを取り込んだ自動作成コレクションは削除されません。
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="info" icon="Notes" title="undefined">
 
 <ul>
-<li><p>Dropped pipelines cannot be recovered. Please be cautious with the action.</p></li>
-<li><p>Dropping a data-ingestion pipeline does not affect the collection created along with the pipeline. Your data is safe.</p></li>
+<li><p>ドロップしたパイプラインは回復できません。行動には注意してください。</p></li>
+<li><p>データ取り込みパイプラインを削除しても、パイプラインと一緒に作成されたコレクションには影響しません。データは安全です。</p></li>
 </ul>
 
 </Admonition>
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-To drop a pipeline on the web UI, click the **...** button under the **Actions** column. Then click **Drop**.
+Web UIにパイプラインをドロップするには、をクリックします**。。。**「**アクション**」列の下にあるボタンをクリックします。次に、「**ドロップ**」をクリックします。
 
-![delete-pipeline](/img/delete-pipeline.png)
+![delete-pipeline](/img/ja-JP/delete-pipeline.png)
 
 </TabItem>
 
 <TabItem value="Bash">
 
-Follow the example below to drop a pipeline. 
+以下の例に従って、パイプラインを削除してください。
 
 ```bash
 curl --request GET \
@@ -1244,7 +1244,7 @@ curl --request GET \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/${YOUR_PIPELINE_ID}"
 ```
 
-The following is an example output.
+以下は出力例です。
 
 ```bash
 {
@@ -1281,9 +1281,9 @@ The following is an example output.
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The total usage data could delay by a few hours due to technical limitation.</p>
+<p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
 </Admonition>
 

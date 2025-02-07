@@ -1,67 +1,67 @@
 ---
-title: "Release Notes (April 6, 2023) | Cloud"
+title: "リリースノート（2023年4月6日） | Cloud"
 slug: /release-notes-110
-sidebar_label: "Release Notes (April 6, 2023)"
+sidebar_label: "リリースノート（2023年4月6日）"
 beta: FALSE
 notebook: FALSE
-description: "We're thrilled to unveil the newest Zilliz Cloud update, featuring a pricing calculator for cost estimation, a data backup and restore process for enhanced data security, a customizable timezone setting for global users, a collection rename tool for better organization, the removal of storage quotas for unrestricted usage, and improved credit conservation for inactive databases. | Cloud"
+description: "私たちは、最新のZilliz Cloudアップデートを発表できることを大変嬉しく思っています。このアップデートには、コスト見積もりのための価格計算ツール、強化されたデータセキュリティのためのデータバックアップと復元過程、グローバルユーザー向けのカスタマイズ可能なタイムゾーン設定、より良い組織化のためのコレクション名変更ツール、制限のない使用のためのストレージクォータの削除、非アクティブなデータベースのクレジット保全の改善が含まれています。 | Cloud"
 type: origin
-token: ZvSOwB7zkir7PjkzrOPciC5WnTe
+token: EKmAwMwAMii8VjkOh4vcnW3nnqf
 sidebar_position: 17
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (April 6, 2023)
+# リリースノート（2023年4月6日）
 
-We're thrilled to unveil the newest Zilliz Cloud update, featuring a pricing calculator for cost estimation, a data backup and restore process for enhanced data security, a customizable timezone setting for global users, a collection rename tool for better organization, the removal of storage quotas for unrestricted usage, and improved credit conservation for inactive databases.
+私たちは、最新のZilliz Cloudアップデートを発表できることを大変嬉しく思っています。このアップデートには、コスト見積もりのための価格計算ツール、強化されたデータセキュリティのためのデータバックアップと復元過程、グローバルユーザー向けのカスタマイズ可能なタイムゾーン設定、より良い組織化のためのコレクション名変更ツール、制限のない使用のためのストレージクォータの削除、非アクティブなデータベースのクレジット保全の改善が含まれています。
 
-- Pricing Calculator
+- 価格計算ツール
 
-    We are excited to announce the launch of our new feature - Pricing Calculator. This new feature is designed to help our users plan and estimate their costs effectively. With the Pricing Calculator, users can easily select their CU type, enter their number of entities and vector dimensions, and get recommended CU size and cost estimates of Zilliz Cloud. [Click here](https://zilliz.com/pricing#calculator) to try it out.
+    私たちは、新しい機能「Pricing Calculator」のローンチを発表することを楽しみにしています。この新しい機能は、ユーザーがコストを効果的に計画し、見積もるのを支援するために設計されています。Pricing Calculatorを使用すると、ユーザーは簡単にCUタイプを選択し、エンティティ数とベクトルディメンションを入力して、Zilliz Cloudの推奨CU体格とコスト見積もりを取得できます。[ここをクリック](https://zilliz.com/pricing#calculator)して試してみてください。
 
-    Our Pricing Calculator only supports vector data now, and we plan to expand its capabilities to include scalar data in the future, providing even more accurate cost estimates for our users.
+    私たちの価格計算機は現在ベクトルデータのみをサポートしており、将来的にはスカラーデータも含めて機能を拡張し、ユーザーにより正確なコスト見積もりを提供する予定です。
 
-- Backup and Restore on GCP
+- GCPでのバックアップとリストア
 
-    With this release, our platform now supports database backup and restore on Google Cloud Platform (GCP). This latest release enables our users to easily backup and restore their databases on GCP, ensuring data recovery and business continuity.
+    今回のリリースにより、Google Cloud Platform（GCP）上でデータベースのバックアップと復元をサポートするようになりました。この最新リリースにより、ユーザーはGCP上でデータベースを簡単にバックアップおよび復元できるようになり、データの復元とビジネスの継続性を確保できます。
 
-    For details, refer to [Backup & Restore](./backup-and-restore).
+    詳細については、Backup & Restoreを参照してください。
 
-- Custom Timezone
+- カスタムタイムゾーン
 
-    We have added support for timezone settings, enabling users to customize their timezone preferences and ensure accurate timestamps on all their data.
+    タイムゾーン設定のサポートが追加され、ユーザーはタイムゾーンの設定をカスタマイズし、すべてのデータに正確なタイムスタンプを付けることができるようになりました。
 
-    For details, refer to [Manage Timezone](./organization-settings#manage-timezone).
+    詳しくは、[タイムゾーンを管理](null)するを参照してください。
 
-- Collection Rename
+- コレクション名の変更
 
-    We are pleased to announce that our latest release includes a new feature that enables users to rename database collections. This feature is designed to help users better manage their database structure and make necessary changes without having to create new collections and migrate data.
+    最新リリースには、ユーザーがデータベースコレクションの名前を変更できる新機能が含まれています。この機能は、新しいコレクションを作成したりデータを移行したりすることなく、データベース構造をより適切に管理し、必要な変更を行うのに役立つように設計されています。
 
-- Removal of storage quota
+- ストレージクォータの削除
 
-    With this release, we have removed the storage quota from our platform. This means that users can now import data into an unloaded collection without having to worry about storage limits. Although there is no limit to data storage, the load capacity of each database is dependent on the size of the database. We strongly recommend that you use the Pricing Calculator to choose a suitable database size.
+    このリリースでは、プラットフォームからストレージクォータを削除しました。これにより、ユーザーはストレージの制限を心配することなく、アンロードされたコレクションにデータをインポートできるようになりました。データストレージに制限はありませんが、各データベースの負荷容量はデータベースの体格に依存します。適切なデータベース体格を選択するには、価格計算ツールを使用することを強くお勧めします。
 
-    In addition, we have also improved our user notifications when a database cannot fit into the pre-allocated CUs. Users will receive a notification when their database is beyond capacity. This will help users to better understand why their data failed to be imported and allow them to take appropriate actions.
+    さらに、データベースが事前に割り当てられたCUに収まらない場合のユーザー通知も改善しました。ユーザーは、データベースが容量を超えた場合に通知を受け取ります。これにより、ユーザーはデータのインポートに失敗した理由をよりよく理解し、適切なアクションを取ることができます。
 
-- Improved credit-saving for inactive databases
+- 非アクティブなデータベースのクレジット節約を改善しました
 
-    We have optimized the product logic and reminder notifications of inactive databases. If a user's database has been inactive for 14 consecutive days, we will automatically stop the database for the user to help save their free credits. Data security is always our top priority, so we will not delete any data from inactive databases. Users whose databases have been stopped can resume them at any time. In addition, we have updated our Terms of Service to include this optimization.
+    私たちは、非アクティブなデータベースの製品ロジックとリマインダー通知を最適化しました。ユーザーのデータベースが14日間連続で非アクティブである場合、無料クレジットを保存するために自動的にデータベースを停止します。データセキュリティは常に最優先事項であり、非アクティブなデータベースからデータを削除しません。停止されたデータベースのユーザーはいつでも再開できます。さらに、この最適化を含めるために、利用規約を更新しました。
 
-- Other Improvements
+- その他の改善
 
-    - Improved UI of Billing.
+    - 課金のUIを改善しました。
 
-    - Updated the naming for CU types - "High Performance" is now named "Performance-optimized" and "Big Data" is named "Capacity-optimized".
+    - CUタイプの命名を更新しました。「High Performance」は「Performance-optimized」、「Big Data」は「Capacity-Optimized」と命名されました。
 

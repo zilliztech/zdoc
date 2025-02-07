@@ -1,63 +1,63 @@
 ---
-title: "Release Notes (Aug 16, 2023) | Cloud"
+title: "リリースノート（2023年8月16日） | Cloud"
 slug: /release-notes-210
-sidebar_label: "Release Notes (Aug 16, 2023)"
+sidebar_label: "リリースノート（2023年8月16日）"
 beta: FALSE
 notebook: FALSE
-description: "We are excited to announce the launch of Zilliz Cloud. This release includes a variety of enhancements and features, including expanded region support and enhanced usability features, such as migration and serverless instance management. In addition, we have enhanced the RESTful API with Bulk-insert and Dedicated Cluster support. | Cloud"
+description: "Zilliz Cloudのローンチを発表できることを嬉しく思います。このリリースには、拡張されたリージョンサポートや移行、サーバーレスインスタンス管理などの拡張されたユーザビリティ機能を含む、さまざまな強化と機能が含まれています。さらに、RESTful APIをBulk-sertおよびDedicated Clusterサポートで強化しました。 | Cloud"
 type: origin
-token: Ti5uwysf0iZhuyk4xvjcFmsSnhG
+token: Ek0fwJOE0iIKKbkna9fcfp4InGf
 sidebar_position: 15
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (Aug 16, 2023)
+# リリースノート（2023年8月16日）
 
-We are excited to announce the launch of Zilliz Cloud. This release includes a variety of enhancements and features, including expanded region support and enhanced usability features, such as migration and serverless instance management. In addition, we have enhanced the RESTful API with Bulk-insert and Dedicated Cluster support.
+Zilliz Cloudのローンチを発表できることを嬉しく思います。このリリースには、拡張されたリージョンサポートや移行、サーバーレスインスタンス管理などの拡張されたユーザビリティ機能を含む、さまざまな強化と機能が含まれています。さらに、RESTful APIをBulk-sertおよびDedicated Clusterサポートで強化しました。
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvusの互換性{#milvus}
 
-This release is compatible with **Milvus 2.1.x**.
+このリリースは**Milvus 2.1. x**と互換性があります。
 
-## Expanded Regional Support{#expanded-regional-support}
+## 地域サポートの拡大{#}
 
-Zilliz Cloud has expanded its services to include public cloud regions in Singapore, specifically **ap-southeast-1** of AWS and **asia-southeast-1** of GCP. This expansion ensures that our users in Southeast Asia have a broader reach and better performance.
+Zilliz Cloudは、シンガポールのパブリッククラウドリージョン、具体的には**ap-南東-1**のAWSと**asia-南東-1**のGCPを含めてサービスを拡大しました。この拡大により、東南アジアのユーザーはより広い範囲でより良いパフォーマンスを得ることができます。
 
-For all supported public cloud regions, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
+サポートされているすべてのパブリッククラウドリージョンについては、「Cloud Providers & Regions」を参照してください。
 
-## Enhanced Usability Features{#enhanced-usability-features}
+## 使いやすさの向上{#}
 
-- Migration support:
+- 移行サポート:
 
-    We now offer support for seamless migration of collections from serverless instances to dedicated clusters. This provides greater flexibility in scaling and operations.
+    サーバーレスインスタンスから専用クラスターへのコレクションの滑らかな移行をサポートするようになりました。これにより、スケーリングと操作の柔軟性が向上します。
 
-- Serverless instance management:
+- サーバーレスインスタンス管理:
 
-    The ability to drop serverless instances provides users with better control over their resource allocation.
+    サーバーレスインスタンスを削除する機能により、ユーザーはリソース割り当てをよりよく制御できます。
 
-    To provide greater flexibility in scaling and operations, we now offer support for seamlessly migrating collections from serverless instances to dedicated clusters.
+    スケーリングと操作の柔軟性を高めるために、サーバーレスインスタンスから専用クラスターへのコレクションのシームレスな移行をサポートするようになりました。
 
-For details, refer to [Manage Cluster](./manage-cluster).
+詳細は、Manage Clusterを参照してください。
 
-## RESTful API Enhancements{#restful-api-enhancements}
+## RESTfulAPIの強化{#restfulapi}
 
-- Bulk Insert
+- バルクインサート
 
-    To streamline the data ingestion process, we have introduced a new RESTful API that is specifically designed for bulk data imports. This feature aims to significantly reduce the time and complexity of data uploads. For details, see the [API reference](/reference/restful/import-operations).
+    データ取り込みプロセスを効率化するために、バルクデータインポート用に特別に設計された新しいRESTfulAPIを導入しました。この機能は、データアップロードの時間と複雑さを大幅に削減することを目的としています。詳細については、[APIリファレンス](/reference/restful/import-operations)を参照してください。
 
-- Dedicated Cluster Access
+- クラスタへの専用アクセス
 
-    To provide users with wider control and flexibility, dedicated clusters can now be accessed and managed via RESTful API, making integrations and automation more straightforward. For details, see the [API reference](/reference/restful/cloud-meta).
+    ユーザーにより広範な制御と柔軟性を提供するために、RESTfulAPIを介して専用クラスターにアクセスして管理できるようになり、統合と自動化がより簡単になりました。詳細については、[APIリファレンス](/reference/restful/cloud-meta)を参照してください。
 

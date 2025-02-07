@@ -1,148 +1,148 @@
 ---
-title: "SAML 2.0 | Cloud"
+title: "SAML 2.0ダウンロード | Cloud"
 slug: /saml-2-0
 sidebar_label: "Configure SAML SSO with Okta"
 beta: PUBLIC
 notebook: FALSE
-description: "This topic describes how to configure single sign-on (SSO) with Okta using the SAML 2.0 protocol. | Cloud"
+description: "このトピックでは、SAML 2.0プロトコルを使用してOktaでシングルサインオン(SSO)を構成する方法について説明します。 | Cloud"
 type: origin
-token: QUC4wfVYTi73ctkMzEec17oVnjh
+token: B7MUwxwWLi4KBLkNVC7cwJtVn8b
 sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - sso
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# SAML 2.0
+# SAML 2.0ダウンロード
 
-This topic describes how to configure single sign-on (SSO) with Okta using the SAML 2.0 protocol.
+このトピックでは、SAML 2.0プロトコルを使用してOktaでシングルサインオン(SSO)を構成する方法について説明します。
 
-SAML 2.0 is a standard protocol used by many identity providers and offers broad compatibility. Choose this option if your organization requires SAML 2.0 for compliance reasons. For details, refer to [Okta official documentation](https://help.okta.com/en-us/content/topics/apps/apps-about-saml.htm).
+SAML 2.0は、多くのIDプロバイダで使用されている標準プロトコルであり、幅広い互換性を提供します。コンプライアンス上の理由から組織がSAML 2.0を必要とする場合は、このオプションを選択してください。詳細については、[Okta公式ドキュメント](https://help.okta.com/ja-jp/content/topics/apps/apps-about-saml.htm)を参照してください。
 
-![KywHwe7VIhcwsAbecTpcEsL3njb](/img/KywHwe7VIhcwsAbecTpcEsL3njb.png)
+![AeT1wzWGeh44b1bb4qwci5dnnzJ](/img/ja-JP/AeT1wzWGeh44b1bb4qwci5dnnzJ.png)
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-Before you begin the SSO configuration, make sure the following conditions are met:
+SSO設定を開始する前に、次の条件が満たされていることを確認してください。
 
-- You are the Organization Owner of the organization where SSO is to be configured.
+- SSOを設定する組織の組織オーナーです。
 
-- You have Admin access to the Okta console. For more information, refer to [Okta official documentation](https://help.okta.com/en-us/content/topics/security/administrators-learn-about-admins.htm).
+- Oktaコンソールには管理者権限があります。詳細については、[Okta公式ドキュメント](https://help.okta.com/ja-jp/content/topics/security/administrators-learn-about-admins.htm)を参照してください。
 
-## Step 1: Create SAML app integration in Okta{#step-1-create-saml-app-integration-in-okta}
+## ステップ1: OktaでSAMLアプリの統合を作成する{#1-oktasaml}
 
-1. Log in to the [Okta Admin console](https://login.okta.com/).
+1. Okta[管理コンソール](https://login.okta.com/)にログインします。
 
-1. In the left-side navigation pane, choose **Applications** > **Applications**.
+1. 左側のナビゲーションウィンドウで、[**アプリケーション**]>[**アプリケーション**]を選択します。
 
-1. Click **Create App Integration**.
+1. [**Create App Integration**]をクリックします。
 
-1. In the **Create a new app integration** dialog box, select **SAML 2.0** and click **Next**.
+1. 「**新しいアプリ統合を作成**」ダイアログボックスで、「**SAML 2.0**」を選択し、「**次**へ」をクリックしてください。
 
-1. Set a custom app name and click **Next**.
+1. カスタムアプリ名を設定し、[**次**へ]をクリックします。
 
-1. In the **Configure SAML** step, you'll need to provide some information. For now, use any placeholder values. Example:
+1. 「**SAMLの設定**」ステップでは、いくつかの情報を提供する必要があります。今のところ、任意のプレースホルダ値を使用してください。例:
 
-    - **Single Sign On URL**: **https://cloud.zilliz.com/sso/saml/acs** (You'll update this later)
+    - **シングルサインオンURL**:**https://cloud.zilliz.com/sso/saml/acs**（後で更新します）
 
-    - **Audience Restriction**: **https://cloud.zilliz.com** (You'll update this later)
+    - **オーディエンス制限**:**https://cloud.zilliz.com**（後で更新します）
 
-1. Click **Next**, review your settings, then click **Finish**. You will be redirected to the application page.
+1. 「**次**へ」をクリックして設定を確認し、「**完了**」をクリックします。アプリケーションページにリダイレクトされます。
 
-    ![sso-2-1](/img/sso-2-1.png)
+    ![sso-2-1](/img/ja-JP/sso-2-1.png)
 
-1. In the **SAML 2.0** card of the **Sign On** tab, click **More details**. Then, copy the following credentials and certificate: **Sign on URL**, **Issuer**, and **Signing Certificate**. This will be required for setting up your IdP in the Zilliz Cloud console.
+1. [**SAML 2.0**]カードの[**Sign On**]タブで[**詳細**]をクリックします。次に、次の認証情報と証明書をコピーします:**Sign on URL**、**Issuer**、**Signing Certificate**。これは、Zilliz CloudコンソールでIdPを設定するために必要です。
 
-    For more information about Okta settings, refer to [Okta official documentation](https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_saml.htm).
+    Oktaの設定の詳細については、[Okta公式ドキュメント](https://help.okta.com/ja-jp/content/topics/apps/apps_app_integration_wizard_saml.htm)を参照してください。
 
-    ![sso-2-2](/img/sso-2-2.png)
+    ![sso-2-2](/img/ja-JP/sso-2-2.png)
 
-## Step 2: Configure SAML SSO on Zilliz Cloud{#step-2-configure-saml-sso-on-zilliz-cloud}
+## ステップ2: Zilliz CloudでSAML SSOを設定する{#2-zilliz-cloudsaml-sso}
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login) and go to the organization for which you want to configure SSO.
+1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインし、SSOを設定したい組織に移動してください。
 
-1. In the left-side navigation pane, choose **Settings**.
+1. 左側のナビゲーションウィンドウで、[**設定**]を選択します。
 
-1. On the **Settings** page, find the **Single Sign-On (SSO)** section and click **Configure**.
+1. [**設定**]ページで、[**シングルサインオン(SSO)**]セクションを見つけ、[**構成**]をクリックします。
 
-1. In the **Configure Single Sign-On (SSO)** dialog, you will see two options - **SAML 2.0** and **Okta Workforce**. For this guide, select **SAML 2.0** to proceed with the SAML 2.0 integration.
+1. [**シングルサインオン（SSO）**の設定]ダイアログには、**SAML 2.0**と**Okta Workforce**の2つのオプションが表示されます。このガイドでは、**SAML 2.0**を選択してSAML 2.0の統合を進めてください。
 
-1. In the **Configure Single Sign-On (SSO)** step, enter the IdP settings using the credentials and certificate obtained from Okta in [Step 1](./saml-2-0).
+1. [**シングルサインオン(SSO)の構成**]ステップで、[ステップ1](./saml-2-0#1-oktasaml)でOktaから取得した資格情報と証明書を使用してIdP設定を入力します。
 
-    - **Single Sign-On URL**: Paste the **Sign on URL** value obtained from Okta into this field. This URL receives the SAML authentication requests from Okta.
+    - **シングルサインオンURL**: Oktaから取得した**サインオンURL**値をこのフィールドに貼り付けます。このURLはOktaからSAML認証要求を受け取ります。
 
-    - **Entity ID**: Paste the **Issuer** value obtained from Okta into this field. This identifier is used to distinguish the issuer of SAML requests, responses, or assertions,  ensuring that messages from Okta are correctly recognized and accepted by Zilliz Cloud.
+    - **エンティティID**: Oktaから取得した**発行者**値をこのフィールドに貼り付けます。この識別子は、SAMLリクエスト、レスポンス、またはアサーションの発行者を区別するために使用され、OktaからのメッセージがZilliz Cloudによって正しく認識され、受け入れられるようにします。
 
-    - **Certificate**: Paste the **Signing Certificate** value obtained from Okta into this field. This public key certificate is used to verify the digital signatures of SAML assertions, enabling Zilliz Cloud to authenticate the source of the SAML data securely.
+    - **証明書**: Oktaから取得した**署名証明書**の値をこのフィールドに貼り付けます。この公開鍵証明書は、SAMLアサーションのデジタル署名を検証するために使用され、Zilliz CloudがSAMLデータのソースを安全に認証できるようにします。
 
-1. Click **Save** to proceed.
+1. [**保存]**をクリックします。
 
-![sso-saml-1](/img/sso-saml-1.png)
+![sso-saml-1](/img/ja-JP/sso-saml-1.png)
 
-## Step 3: Update Okta app integration{#step-3-update-okta-app-integration}
+## ステップ3: Oktaアプリの統合を更新する{#3-okta}
 
-After saving the Okta integration details on Zilliz Cloud, you'll be provided with a redirect URL:
+Zilliz CloudにOktaの統合詳細を保存した後、リダイレクトURLが提供されます。
 
-1. Copy the provided redirect URL from the Zilliz Cloud console.
+1. Zilliz Cloudコンソールから提供されたリダイレクトURLをコピーしてください。
 
-1. Return to the Okta Admin console and navigate to the Zilliz Cloud application you created.
+1. Okta管理コンソールに戻り、作成したZilliz Cloudアプリケーションに移動してください。
 
-1. Edit the SAML settings and update the following fields with the redirect URL you copied from Zilliz Cloud: 
+1. SAML設定を編集し、Zilliz CloudからコピーしたリダイレクトURLで以下のフィールドを更新してください。
 
-    - **Single sign-on URL**
+    - **シングルサインオンURL**
 
-    - **Audience Restriction**
+    - **オーディエンスの制限**
 
-1. Save the changes in the Okta Admin Console.
+1. Okta Admin Consoleで変更を保存します。
 
-1. Go back to the Zilliz Cloud console and confirm that you've added the redirect URL in Okta.
+1. Zilliz Cloudコンソールに戻り、OktaにリダイレクトURLを追加したことを確認してください。
 
-You will also see a Zilliz Cloud login URL. Save this URL as it will be used for SSO login once the setup is complete.
+Zilliz CloudのログインURLも表示されます。設定が完了すると、SSOログインに使用されるため、このURLを保存してください。
 
-![sso-3](/img/sso-3.png)
+![sso-3](/img/ja-JP/sso-3.png)
 
-## Step 4: Assign Okta application to users{#step-4-assign-okta-application-to-users}
+## ステップ4:ユーザーにOktaアプリケーションを割り当てる{#4okta}
 
-Before users can access Zilliz Cloud through SSO, you need to assign the Okta application to them:
+ユーザーがSSOを介してZilliz Cloudをアクセス可能にする前に、Oktaアプリケーションをユーザーに割り当てる必要があります。
 
-1. In the [Okta Admin console](https://login.okta.com/), go to **Directory** > **People**.
+1. Okta[管理コンソール](https://login.okta.com/)で、**ディレクトリ**>**人**に移動してください。
 
-1. Select a user and go to the **Applications** tab.
+1. ユーザーを選択し、[**アプリケーション**]タブに移動します。
 
-1. Click **Assign Applications** and find the Zilliz Cloud application.
+1. [**アプリケーションの割り当て**]をクリックして、Zilliz Cloudアプリケーションを見つけます。
 
-1. Assign the application to the user and save the changes.
+1. アプリケーションをユーザーに割り当て、変更を保存します。
 
-Repeat this process for all users who need SSO access to Zilliz Cloud. For more information, refer to [Okta official documentation](https://help.okta.com/oie/en-us/content/topics/provisioning/lcm/lcm-assign-app-groups.htm).
+Zilliz CloudへのSSOアクセスが必要なすべてのユーザーに対して、このプロセスを繰り返してください。詳細については、[Okta公式ドキュメント](https://help.okta.com/oie/ja-jp/content/topics/provisioning/lcm/lcm-assign-app-groups.htm)を参照してください。
 
-![sso-4](/img/sso-4.png)
+![sso-4](/img/ja-JP/sso-4.png)
 
-## Test configuration{#test-configuration}
+## テスト設定{#}
 
-To ensure your SSO setup is functional:
+SSOの設定が機能するようにするには:
 
-1. Open a new browser window and navigate to the Zilliz Cloud SSO login URL provided earlier.
+1. 新しいブラウザウィンドウを開き、以前に提供されたZilliz Cloud SSOログインURLに移動してください。
 
-1. You should be redirected to the Okta login page.
+1. Oktaのログインページにリダイレクトされるはずです。
 
-1. Log in using the credentials of a user who has been assigned the Zilliz Cloud application in Okta.
+1. OktaでZilliz Cloudアプリケーションを割り当てられたユーザーの資格情報を使用してログインしてください。
 
-1. If SSO is configured correctly, you will be redirected to the Zilliz Cloud console after successful authentication.
+1. SSOが正しく設定されている場合、認証に成功するとZilliz Cloudコンソールにリダイレクトされます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>By default, users logging in via SSO are granted the Organization Member role. To expand their permissions, you can modify their roles in the Zilliz Cloud console.</p>
+<p>デフォルトでは、SSOを使用してログインしたユーザーには、組織メンバーの役割が付与されます。権限を拡張するには、Zilliz Cloudコンソールで役割を変更できます。</p>
 
 </Admonition>
 
-If you encounter any issues during the setup or testing process, please contact Zilliz support for assistance.
+セットアップやテストの過程で問題が発生した場合は、Zillizサポートにお問い合わせください。

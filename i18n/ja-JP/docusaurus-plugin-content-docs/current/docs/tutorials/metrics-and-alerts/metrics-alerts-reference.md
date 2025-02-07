@@ -1,12 +1,12 @@
 ---
-title: "Metrics & Alerts Reference | Cloud"
+title: "メトリクスとアラートのリファレンス | Cloud"
 slug: /metrics-alerts-reference
-sidebar_label: "Metrics & Alerts Reference"
+sidebar_label: "メトリクスとアラートのリファレンス"
 beta: FALSE
 notebook: FALSE
-description: "In this reference, you can find descriptions of monitoring metrics for Zilliz Cloud clusters, as well as alert targets that you can set up at organization and project levels. | Cloud"
+description: "このリファレンスでは、Zilliz Cloudクラスターの監視メトリクスの説明、および組織およびプロジェクトレベルで設定できるアラートターゲットについて説明しています。 | Cloud"
 type: origin
-token: KnnBwce9JifxvXkd070cvgUPnag
+token: Nn8fwYNLmiBZLBkeJIycUARFnfd
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,409 +14,159 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Metrics & Alerts Reference
+# メトリクスとアラートのリファレンス
 
-In this reference, you can find descriptions of monitoring metrics for Zilliz Cloud clusters, as well as alert targets that you can set up at organization and project levels.
+このリファレンスでは、Zilliz Cloudクラスターの監視メトリクスの説明、および組織およびプロジェクトレベルで設定できるアラートターゲットについて説明しています。
 
-## Cluster metrics{#cluster-metrics}
+## クラスタメトリクス{#}
 
-The **Metrics** tab in the Zilliz Cloud console presents various graphical representations.
+Zilliz Cloudコンソールの**メトリクス**タブには、さまざまなグラフィカルな表現が表示されます。
 
-The table provides a description of each metric and the actions that you are advised to perform when the usage of your cluster resource exceeds a threshold.
+表には、各メトリックの説明と、クラスターリソースの使用量がしきい値を超えた場合に実行することをお勧めするアクションが示されています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Currently, free clusters offer only one metric, CU Capacity. To unlock a range of advanced metrics, <a href="./manage-cluster#upgrade-plan">upgrade your plan tier</a>.</p>
+<p>現在、無料クラスタではCU容量という1つのメトリックしか提供されていません。高度なメトリックの範囲を解除するには、<a href="./manage-cluster">プランレベルをアップグレード</a>してください。</p>
 
 </Admonition>
 
 <table>
    <tr>
-     <th><p>Metric Name</p></th>
-     <th><p>Unit</p></th>
-     <th><p>Description</p></th>
-     <th><p>Recommended Action</p></th>
+     <th><p>メトリック名</p></th>
+     <th><p>ユニット</p></th>
+     <th><p>説明する</p></th>
+     <th><p>推奨アクション</p></th>
    </tr>
    <tr>
-     <td colspan="4"><p><strong>Resources</strong></p></td>
+     <td colspan="4"><p><strong>リソース</strong></p></td>
    </tr>
    <tr>
-     <td><p>Read vCUs</p></td>
-     <td><p>Count</p></td>
-     <td><p>A measure of vCU consumption of search and query operations.</p><p>This metric is available only for <strong>Free</strong> or <strong>Serverless</strong> clusters. For more information on cluster plan tiers, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
-     <td><p>-</p></td>
+     <td><p>vCUを読む</p></td>
+     <td><p>カウント</p></td>
+     <td><p>検索およびクエリ操作のvCU消費量の測定。</p><p>このメトリックは、<strong>Free</strong>クラスターまたは<strong>Serverless</strong>クラスターでのみ使用できます。クラスタープランレベルの詳細については、「<a href="./select-zilliz-cloud-service-plans">詳細なプラン比較</a>」を参照してください。\</include></p></td>
+     <td><p>-\</除外する></p></td>
    </tr>
    <tr>
-     <td><p>Write vCUs</p></td>
-     <td><p>Count</p></td>
-     <td><p>A measure of vCU consumption of insert, delete, and upsert operations.</p><p>This metric is available only for <strong>Free</strong> or <strong>Serverless</strong> clusters. For more information on cluster plan tiers, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
-     <td><p>-</p></td>
+     <td><p>vCUを書く</p></td>
+     <td><p>カウント</p></td>
+     <td><p>挿入、削除、および挿入操作のvCU消費量の尺度。</p><p>このメトリックは、<strong>Free</strong>クラスターまたは<strong>Serverless</strong>クラスターでのみ使用できます。クラスタープランレベルの詳細については、「<a href="./select-zilliz-cloud-service-plans">詳細なプラン比較</a>」を参照してください。\</include></p></td>
+     <td><p>-\</除外する></p></td>
    </tr>
    <tr>
-     <td><p>CU Computation</p></td>
+     <td><p>CUコンピュテーション</p></td>
      <td><p>%</p></td>
-     <td><p>A measure of the utilized computational power relative to the total computational capacity of the CU.</p><p>This metric is available only for <strong>Dedicated</strong> or <strong>BYOC</strong> clusters. For more information on cluster plan tiers, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
-     <td><p><strong>70%-80%</strong>: Check service status and prepare for <a href="./manage-cluster">scaling up</a>.</p><p><strong>> 90%</strong>: <a href="./manage-cluster">Scale up</a> immediately to avoid service interruption.</p></td>
+     <td><p>CUの総計算能力に対する利用された計算能力の尺度。</p><p>このメトリックは、<strong>専用</strong>クラスターまたは<strong>BYOC</strong>クラスターでのみ使用できます。クラスタープランレベルの詳細については、「<a href="./select-zilliz-cloud-service-plans">詳細なプラン比較</a>.」を参照してください。</p></td>
+     <td><p><strong>70%-80%</strong>:サービスの状態を確認し、<a href="./manage-cluster">スケールアップ</a>の準備をしてください。</p><p><strong>>90%</strong>:サービスの中断を避けるためにすぐに<a href="./manage-cluster">スケールアップ</a>してください。</p></td>
    </tr>
    <tr>
-     <td><p>CU Capacity</p></td>
+     <td><p>CUの容量</p></td>
      <td><p>%</p></td>
-     <td><p>A measure of the used capacity relative to the total capacity of the CU.</p><p>This metric is available for <strong>Free</strong>, <strong>Dedicated</strong> or <strong>BYOC</strong> clusters. For more information on cluster plan tiers, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
-     <td><p><strong>70%-80%</strong>: Check service status and prepare for scaling up.</p><p><strong>> 90%</strong>: <a href="./manage-cluster">Scale up</a> immediately to avoid service interruption.</p><p><strong>100%</strong>: When CU capacity reaches 100%, you will be unable to write data into the cluster. Please <a href="./manage-cluster">scale up</a> immediately to avoid service interruption.</p></td>
+     <td><p>CUの総容量に対する使用済み容量の尺度。</p><p>このメトリックは、<strong>Free</strong>、<strong>Dedicated</strong>、または<strong>BYOC</strong>クラスターで使用できます。</p></td>
+     <td><p><strong>70%-80%</strong>:サービスの状態を確認し、スケールアップの準備をしてください。</p><p><strong>>90%</strong>:サービスの中断を避けるためにすぐに<a href="./manage-cluster">スケールアップ</a>してください。</p><p><strong>100%</strong>: CU容量が100%になると、クラスタにデータを書き込むことができなくなります。サービスの中断を避けるために、すぐに<a href="./manage-cluster">スケールアップ</a>してください。</p></td>
    </tr>
    <tr>
-     <td><p>Storage</p></td>
+     <td><p>ストレージ</p></td>
      <td><p>GB</p></td>
-     <td><p>The total amount of persistent storage consumed by data and indexes. </p></td>
-     <td><p><a href="./manage-project-alerts">Configure alerts</a> for monitoring storage usage.</p></td>
+     <td><p>データとインデックスによって消費される永続ストレージの合計金額。</p></td>
+     <td><p><a href="./manage-project-alerts">アラートを構成</a>してストレージの使用状況を監視します。</p></td>
    </tr>
    <tr>
-     <td colspan="4"><p><strong>Performance</strong></p></td>
+     <td colspan="4"><p><strong>パフォーマンス</strong></p></td>
    </tr>
    <tr>
-     <td><p>QPS/VPS (Read)</p></td>
-     <td><p>QPS/VPS</p></td>
-     <td><p><strong>QPS</strong>: The number of read requests (search and query) per second.</p><p><strong>VPS</strong>: The number of read requests (search) on vectors per second. VPS is not available for query requests as query operations do not involve vectors.</p></td>
-     <td><p>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.</p></td>
+     <td><p>QPS/VPS（読み取り）</p></td>
+     <td><p>QPS/VPSの</p></td>
+     <td><p><strong>QPS</strong>: 1秒あたりの読み取りリクエスト(検索とクエリ)の数。</p><p><strong>VPS</strong>:ベクトルに対する1秒あたりの読み取りリクエスト(検索)の数。クエリ操作にベクトルが含まれないため、VPSはクエリリクエストには使用できません。</p></td>
+     <td><p>システムパフォーマンスの監視については、<a href="https://zilliz.com/vector-database-benchmark-tool">ベンチマーク</a>を参照してください。</p></td>
    </tr>
    <tr>
-     <td><p>QPS/VPS (Write)</p></td>
-     <td><p>QPS/VPS</p></td>
-     <td><p><strong>QPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) per second.</p><p><strong>VPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) on vectors per second.</p></td>
-     <td><p>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.</p></td>
+     <td><p>QPS/VPS（書き込み）</p></td>
+     <td><p>QPS/VPSの</p></td>
+     <td><p><strong>QPS</strong>: 1秒あたりの書き込み要求(挿入、一括挿入、アップロード、削除)の数。</p><p><strong>VPS</strong>:ベクトルに対する1秒あたりの書き込み要求(挿入、一括挿入、挿入、削除)の数。</p></td>
+     <td><p>システムパフォーマンスの監視については、<a href="https://zilliz.com/vector-database-benchmark-tool">ベンチマーク</a>を参照してください。</p></td>
    </tr>
    <tr>
-     <td><p>Latency (Read)</p></td>
+     <td><p>レイテンシ（読み取り）</p></td>
      <td><p>ms</p></td>
-     <td><p>The time elapsed between a client sending a read request (search and query) to a server and the client receiving a response. </p><p>Selecting <strong>Average</strong> or <strong>P99</strong> from the expanded dropdown menu on the right displays an average or P99 latency.</p></td>
+     <td><p>クライアントがサーバーに読み取り要求（検索とクエリ）を送信し、クライアントが応答を受信するまでの経過時間。</p><p>右側の拡張ドロップダウンメニューから<strong>平均</strong>または<strong>P 99</strong>を選択すると、平均またはP 99レイテンシーが表示されます。</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>Latency (Write)</p></td>
+     <td><p>レイテンシー（書き込み）</p></td>
      <td><p>ms</p></td>
-     <td><p>The time elapsed between a client sending a write request (insert, upsert, and delete) to a server and the client receiving a response. </p><p>Selecting <strong>Average</strong> or <strong>P99</strong> from the expanded dropdown menu on the right displays an average or P99 latency.</p></td>
+     <td><p>クライアントがサーバーに書き込み要求(挿入、挿入、削除)を送信してから、クライアントが応答を受信するまでの経過時間。</p><p>右側の拡張ドロップダウンメニューから<strong>平均</strong>または<strong>P 99</strong>を選択すると、平均またはP 99レイテンシーが表示されます。</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>Request Failure Rate (Read)</p></td>
+     <td><p>リクエストの失敗率（読み取り）</p></td>
      <td><p>%</p></td>
-     <td><p>The percentage of failed read requests (search and query) in all read requests per second.</p></td>
-     <td><p><a href="./manage-project-alerts">Configure alerts</a> to monitor read request failure rate.</p></td>
+     <td><p>1秒あたりのすべての読み取り要求における失敗した読み取り要求(検索およびクエリ)の割合。</p></td>
+     <td><p><a href="./manage-project-alerts">アラートを設定</a>して、読み取り要求の失敗率を監視します。</p></td>
    </tr>
    <tr>
-     <td><p>Request Failure Rate (Write)</p></td>
+     <td><p>リクエストの失敗率（書き込み）</p></td>
      <td><p>%</p></td>
-     <td><p>The percentage of failed write requests (insert, bulk insert, upsert, and delete) in all write requests per second.</p></td>
-     <td><p><a href="./manage-project-alerts">Configure alerts</a> to monitor write request failure rate.</p></td>
+     <td><p>1秒あたりのすべての書き込み要求における失敗した書き込み要求(挿入、一括挿入、upsert、削除)の割合。</p></td>
+     <td><p><a href="./manage-project-alerts">アラートを設定</a>して、書き込み要求の失敗率を監視します。</p></td>
    </tr>
    <tr>
-     <td><p>Slow Query Count</p></td>
-     <td><p>count/min</p></td>
-     <td><p>The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries.</p><p>This metric type is available only for <strong>Dedicated</strong> clusters of the <strong>Enterprise</strong> edition or <strong>BYOC</strong> clusters. For more information on cluster types, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
-     <td><p>Identify problematic queries and tune performance by adjusting cluster configuration as necessary.</p></td>
+     <td><p>クエリー数が遅い</p></td>
+     <td><p>カウント/分</p></td>
+     <td><p>すべての検索およびクエリリクエストを含む遅いクエリ操作の数。デフォルトでは、レイテンシが5秒のすべてのリクエストは遅いクエリと見なされます。</p><p>このメトリックタイプは、<strong>Dedicated</strong>Clusters of the<strong>Enterprise</strong>Editionまたは<strong>BYOC</strong>Clustersでのみ使用できます。クラスタータイプの詳細については、「<a href="./select-zilliz-cloud-service-plans">詳細なプラン比較</a>」を参照してください。</p></td>
+     <td><p>必要に応じてクラスター構成を調整して、問題のあるクエリを特定し、パフォーマンスを調整します。</p></td>
    </tr>
    <tr>
-     <td><p>Cluster Write Performance Capacity</p></td>
+     <td><p>クラスタ書き込み性能Capacity</p></td>
      <td><p>%</p></td>
-     <td><p>The current rate of write operations/write rate limit.</p><p>This metric type is available only for <strong>Dedicated</strong> clusters of the <strong>Enterprise</strong> edition or <strong>BYOC</strong> clusters. For more information on cluster types, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
-     <td><p>If the current rate is too high (suggested to be over 80%), it is recommended that you lower the write rate.</p></td>
+     <td><p>書き込み操作の現在のレート/書き込みレートの制限。</p><p>このメトリックタイプは、<strong>Dedicated</strong>Clusters of the<strong>Enterprise</strong>Editionまたは<strong>BYOC</strong>Clustersでのみ使用できます。クラスタータイプの詳細については、「<a href="./select-zilliz-cloud-service-plans">詳細なプラン比較</a>」を参照してください。</p></td>
+     <td><p>現在のレートが高すぎる場合（80%を超えることが推奨されます）、書き込みレートを下げることをお勧めします。</p></td>
    </tr>
    <tr>
-     <td><p>Number of Flush Operations</p></td>
-     <td><p>count/min</p></td>
-     <td><p>The number of flush operations on a cluster.</p><p>This metric type is available only for <strong>Dedicated</strong> clusters of the <strong>Enterprise</strong> edition or <strong>BYOC</strong> clusters. For more information on cluster types, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
-     <td><p>Performing flush operations too frequently can negatively impact the overall performance of the cluster. For more information, refer to <a href="./limits#flush">Zilliz Cloud Limits</a>.</p></td>
+     <td><p>フラッシュ操作の回数</p></td>
+     <td><p>カウント/分</p></td>
+     <td><p>クラスターに対するフラッシュ操作の数。</p><p>このメトリックタイプは、<strong>Dedicated</strong>Clusters of the<strong>Enterprise</strong>Editionまたは<strong>BYOC</strong>Clustersでのみ使用できます。クラスタータイプの詳細については、「<a href="./select-zilliz-cloud-service-plans">詳細なプラン比較</a>」を参照してください。</p></td>
+     <td><p>フラッシュ操作を頻繁に実行すると、クラスタの全体的なパフォーマンスに悪影響を及ぼす可能性があります。詳細については、<a href="./limits">Zillizクラウドの制限</a>を参照してください。</p></td>
    </tr>
    <tr>
-     <td colspan="4"><p><strong>Data</strong></p></td>
+     <td colspan="4"><p><strong>データ</strong></p></td>
    </tr>
    <tr>
-     <td><p>Collection Count</p></td>
-     <td><p>count</p></td>
-     <td><p>The number of collections created in a cluster.</p></td>
+     <td><p>コレクション数</p></td>
+     <td><p>数える</p></td>
+     <td><p>クラスター内に作成されたコレクションの数。</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>Entity Count</p></td>
-     <td><p>count</p></td>
-     <td><p>The number of entities inserted into a cluster.</p><p>Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.</p></td>
+     <td><p>エンティティカウント</p></td>
+     <td><p>数える</p></td>
+     <td><p>クラスタに挿入されるエンティティの数。</p><p>右側の拡張ドロップダウンメニューから特定のコレクションを選択すると、コレクションレベルのエンティティの数が表示されます。</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>Loaded Entities</p></td>
-     <td><p>count</p></td>
-     <td><p>The number of entities loaded (actively served) by a cluster.</p><p>Selecting a specific collection from the expanded dropdown menu on the right displays the number of loaded entities at the collection level.</p><p>This metric is available only for <strong>Dedicated</strong> or <strong>BYOC</strong> clusters. For more information on cluster plan tiers, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
+     <td><p>ロードされたエンティティ</p></td>
+     <td><p>数える</p></td>
+     <td><p>クラスタによってロードされた(アクティブにサービスされている)エンティティの数。</p><p>右側の拡張ドロップダウンメニューから特定のコレクションを選択すると、コレクションレベルでロードされたエンティティの数が表示されます。</p><p>このメトリックは、<strong>専用</strong>クラスターまたは<strong>BYOC</strong>クラスターでのみ使用できます。クラスタープランレベルの詳細については、「<a href="./select-zilliz-cloud-service-plans">詳細なプラン比較</a>.」を参照してください。</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>Number of Unloaded Collections</p></td>
-     <td><p>count</p></td>
-     <td><p>The number of unloaded collections in a cluster.</p><p>This metric type is available only for <strong>Dedicated</strong> clusters of the <strong>Enterprise</strong> edition or <strong>BYOC</strong> clusters. For more information on cluster types, refer to <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p></td>
+     <td><p>アンロードされたコレクション数</p></td>
+     <td><p>数える</p></td>
+     <td><p>クラスター内のアンロードされたコレクションの数。</p><p>このメトリックタイプは、<strong>Dedicated</strong>Clusters of the<strong>Enterprise</strong>Editionまたは<strong>BYOC</strong>Clustersでのみ使用できます。クラスタータイプの詳細については、「<a href="./select-zilliz-cloud-service-plans">詳細なプラン比較</a>」を参照してください。</p></td>
      <td></td>
    </tr>
 </table>
 
-## Organization alerts{#organization-alerts}
+## 組織のアラート{#}
 
-Organization alerts keep you informed about billing-related issues such as expiring credit cards, the status of free credits, balance alerts for advance payments, and notifications regarding usage costs.
-
-<table>
-   <tr>
-     <th><p>Alert Target</p></th>
-     <th><p>Unit</p></th>
-     <th><p>Description</p></th>
-     <th><p>Recommended Action</p></th>
-     <th><p>Default Trigger Condition</p></th>
-   </tr>
-   <tr>
-     <td><p>Expiration Date of Credit card</p></td>
-     <td><p>Day</p></td>
-     <td><p>Monitor the remaining days until the credit card's expiration to ensure uninterrupted service.</p></td>
-     <td><p>Renew or update credit card information before the expiration date.</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts within 30 days of card expiration.</p><p><strong>CRITICAL</strong>: Trigger alerts within 7 days of card expiration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Remaining Credits</p></td>
-     <td><p>$</p></td>
-     <td><p>Track the balance of free credits, alerting the user when it falls low to prompt a top-up.</p></td>
-     <td><p>Top up credits to maintain account functionality.</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts when the balance of free credits falls below $10.</p></td>
-   </tr>
-   <tr>
-     <td><p>Credit Validity Period</p></td>
-     <td><p>Day</p></td>
-     <td><p>Monitor the remaining validity period of free credits, alerting the user to encourage usage or extension.</p></td>
-     <td><p>Extend the validity period or use the credits before they expire.</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts when the validity period of free credits reaches 0 days.</p></td>
-   </tr>
-   <tr>
-     <td><p>Advance Pay Balance</p></td>
-     <td><p>$</p></td>
-     <td><p>Monitor the advance pay balance, alerting the user when it falls low to prevent service disruption.</p></td>
-     <td><p>Add funds to the advance pay balance to avoid service interruption.</p></td>
-     <td><p>Trigger <strong>CRITICAL</strong> alerts when the balance falls below $100.</p></td>
-   </tr>
-   <tr>
-     <td><p>Usage Amount</p></td>
-     <td><p>$</p></td>
-     <td><p>Track the usage amount, informing the user when it exceeds a set threshold to suggest monitoring and management.</p></td>
-     <td><p>Monitor and manage usage to stay within budget limits.</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts when the amount of usage exceeds $100.</p></td>
-   </tr>
-</table>
-
-## Project alerts{#project-alerts}
-
-Project alerts focus on the operational aspects of your clusters, including notifications on the CU usage, QPS thresholds, latency issues, and request anomalies, ensuring you maintain optimal cluster performance.
-
-For each project alert target, the trigger condition includes a threshold value and a duration value that must be met for the alert to be triggered. The condition can be set to one of the following operators: >, >=, \<, \<=, =. The threshold value can be a numeric value, such as a number for metrics like query latency, query QPS, search QPS, CU Capacity, and CU Computation. The duration specifies how long the threshold must be exceeded, which is set to a minimum of 1 minute and a maximum of 30 minutes.
-
-### Default alert targets{#default-alert-targets}
-
-Zilliz Cloud predefines common alert targets to ensure that critical issues are quickly identified and addressed with the appropriate actions.
-
-For more information about recommended actions, refer to [Cluster metrics](./metrics-alerts-reference#cluster-metrics).
-
-<table>
-   <tr>
-     <th><p>Alert Target</p></th>
-     <th><p>Unit</p></th>
-     <th><p>Default Trigger Condition</p></th>
-   </tr>
-   <tr>
-     <td><p>CU Computation</p></td>
-     <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>CU Capacity</p></td>
-     <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized CU capacity for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized CU capacity for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Search (QPS)</p></td>
-     <td><p>QPS</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at &gt;50 search operations per second for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Query (QPS)</p></td>
-     <td><p>QPS</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at &gt;50 query operations per second for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Search Latency (P99)</p></td>
-     <td><p>ms</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Query Latency (P99)</p></td>
-     <td><p>ms</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</p></td>
-   </tr>
-</table>
-
-### Custom alert targets{#custom-alert-targets}
-
-In addition to the predefined default project alerts , you can also configure custom alert targets as needed.
-
-<table>
-   <tr>
-     <th><p>Alert Target</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Resource</strong></p></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p>Storage</p></td>
-     <td><p>Monitor storage usage and send notifications if the usage exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Performance (read/write)</strong></p></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p>Bulk Insert (QPS)</p></td>
-     <td><p>Monitor the rate of bulk insert operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete (QPS)</p></td>
-     <td><p>Monitor the rate of delete operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert (QPS)</p></td>
-     <td><p>Monitor the rate of insert operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert (VPS)</p></td>
-     <td><p>Monitor the rate of vector insert operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Search (VPS)</p></td>
-     <td><p>Monitor the rate of vector search operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Upsert (QPS)</p></td>
-     <td><p>Monitor the rate of upsert operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Upsert (VPS)</p></td>
-     <td><p>Monitor the rate of vector upsert operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Writes to Cluster Are Disabled</p></td>
-     <td><p>Monitor the write operations to the cluster to ensure they are not prohibited. Please scale out immediately if write prohibition has been triggered.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Performance (latency)</strong></p></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p>Delete Latency (Average)</p></td>
-     <td><p>Monitor the average latency for delete requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete Latency (P99)</p></td>
-     <td><p>Monitor the P99 latency for delete requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert Latency (Average)</p></td>
-     <td><p>Monitor the average latency for insert requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert Latency (P99)</p></td>
-     <td><p>Monitor the P99 latency for insert requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Query Latency (Average)</p></td>
-     <td><p>Monitor the average latency for query requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Search Request Latency (Average)</p></td>
-     <td><p>Monitor the average latency for search requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Upsert Latency (Average)</p></td>
-     <td><p>Monitor the average latency for upsert requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Upsert Latency (P99)</p></td>
-     <td><p>Monitor the P99 latency for upsert requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Performance (request failure rate)</strong></p></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p>Bulk Insert Failure Rate</p></td>
-     <td><p>Monitor the failure rate of bulk insert requests and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete Failure Rate</p></td>
-     <td><p>Monitor the failure rate of delete requests and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert Failure Rate</p></td>
-     <td><p>Monitor the failure rate of insert requests and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Query Failure Rate</p></td>
-     <td><p>Monitor the failure rate of query requests and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Search Failure Rate</p></td>
-     <td><p>Monitor the failure rate of search requests and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Slow Query Count</p></td>
-     <td><p>Monitor the number of slow queries and send notifications if the value exceeds a threshold for a certain duration.</p><p>By default, all requests whose latency is 5 seconds are considered slow queries.</p><p>This alert target is available only for <a href="./select-zilliz-cloud-service-plans">BYOC</a> clusters or clusters of the <a href="/docs/select-zilliz-cloud-service-plans?_highlight=enterprise#enterprise-plan">Enterprise</a> edition.</p></td>
-   </tr>
-   <tr>
-     <td><p>Upsert Failure Rate</p></td>
-     <td><p>Monitor the failure rate of upsert requests and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Data</strong></p></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p>Loaded Entities</p></td>
-     <td><p>Monitor the number of loaded entities and send notifications if the count exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Total Collections</p></td>
-     <td><p>Monitor the number of total collections and send notifications if the count exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Total Entities</p></td>
-     <td><p>Monitor the number of total entities and send notifications if the count exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Others</strong></p></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p>Cluster Is Abnormal</p></td>
-     <td><p>Monitor the status of a cluster to ensure it is functioning properly. This includes checking the cluster load and usage.</p></td>
-   </tr>
-</table>
-
-## Related topics{#related-topics}
-
-- [View Cluster Metric Charts](./view-cluster-metric-charts)
-
-- [Manage Organization Alerts](./manage-organization-alerts)
-
-- [Manage Project Alerts](./manage-project-alerts)
+組織のアラートによって、請求に関連する\</include>問題、例えばなどが通知されます。
 

@@ -1,12 +1,12 @@
 ---
-title: "Set up Whitelist | Cloud"
+title: "ホワイトリストの設定 | Cloud"
 slug: /setup-whitelist
-sidebar_label: "Set up Whitelist"
+sidebar_label: "ホワイトリストの設定"
 beta: FALSE
 notebook: FALSE
-description: "Whitelisting on Zilliz Cloud serves as a robust security layer at the project level, extending its benefits to every cluster within a specified project. By implementing a whitelist, you effectively narrow down access to your project’s clusters to a select group of IP addresses, substantially mitigating the risk of malicious attacks. | Cloud"
+description: "Zilliz Cloudのホワイトリストは、プロジェクトレベルで堅牢なセキュリティレイヤーとして機能し、指定されたプロジェクト内のすべてのクラスターにその利点を拡張します。ホワイトリストを実装することで、プロジェクトのクラスターへのアクセスを特定のIPアドレスグループに効果的に絞り込み、悪意のある攻撃のリスクを大幅に軽減できます。 | Cloud"
 type: origin
-token: FnS1wY0iuia4qgkMycVclZyHnOf
+token: D1TiwX8o1iIBL3kMyCacjFwMnEf
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,76 +14,76 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Set up Whitelist
+# ホワイトリストの設定
 
-Whitelisting on Zilliz Cloud serves as a robust security layer at the project level, extending its benefits to every cluster within a specified project. By implementing a whitelist, you effectively narrow down access to your project’s clusters to a select group of IP addresses, substantially mitigating the risk of malicious attacks.
+Zilliz Cloudのホワイトリストは、プロジェクトレベルで堅牢なセキュリティレイヤーとして機能し、指定されたプロジェクト内のすべてのクラスターにその利点を拡張します。ホワイトリストを実装することで、プロジェクトのクラスターへのアクセスを特定のIPアドレスグループに効果的に絞り込み、悪意のある攻撃のリスクを大幅に軽減できます。
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-Ensure the following prerequisites are met before proceeding:
+次に進む前に、次の前提条件が満たされていることを確認してください:
 
-- You have signed up for Zilliz Cloud. For information on how to register an account, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+- Zilliz Cloudにサインアップしました。アカウントの登録方法については、「[Zilliz Cloudに登録する](./register-with-zilliz-cloud)」を参照してください。
 
-- You are the owner of the organization or project in which you want to set up a whitelist. For information on roles and permissions, see [Manage Organization Users](./organization-users) and [Manage Project Users](./project-users).
+- ホワイトリストを設定する組織またはプロジェクトの所有者です。役割と権限については、「[組織のユーザーを管理する](./organization-users)」および「[プロジェクトのユーザーを管理する](./project-users)」を参照してください。
 
-## Procedure{#procedure}
+## 手続き{#}
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. Navigate to the specific organization and project where the whitelist is to be configured.
+1. ホワイトリストを構成する特定の組織とプロジェクトに移動してください。
 
-1. In the left-side navigation pane, choose **Network** >  **IP Address**.
+1. 左側のナビゲーションウィンドウで、[**ネットワーク**]>[**IPアドレス**]を選択します。
 
-1. Click **Add IP Address**.
+1. [**IPアドレスを追加**]をクリックします。
 
-1. In the dialog box that appears, specify **IP Address (CIDR)** and **Description**.
+1. 表示されるダイアログボックスで、**IPアドレス(CIDR)**と**説明**を指定してください。
 
-    The following table describes the fields.
+    フィールドの説明を次の表に示します。
 
     <table>
        <tr>
-         <th><p><strong>Field</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
+         <th><p><strong>フィールド</strong></p></th>
+         <th><p><strong>説明する</strong></p></th>
        </tr>
        <tr>
-         <td><p>IP Address (CIDR)</p></td>
-         <td><p>The IP addresses or CIDR block that you want to add to the whitelist. Up to 20 CIDR blocks are allowed. Example value: 192.168.1.1/20.</p></td>
+         <td><p>IPアドレス(CIDR)</p></td>
+         <td><p>ホワイトリストに追加するIPアドレスまたはCIDRブロック。最大20個のCIDRブロックを許可します。例:192.168.1.1/20。</p></td>
        </tr>
        <tr>
-         <td><p>Description</p></td>
-         <td><p>The description of the whitelisted IP addresses or CIDR block.</p></td>
+         <td><p>説明する</p></td>
+         <td><p>ホワイトリストに登録されたIPアドレスまたはCIDRブロックの説明。</p></td>
        </tr>
     </table>
 
-1. Click **Add**.
+1. [**追加**]をクリックします。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
 <ul>
-<li><p>Without any entries in the whitelist, Zilliz Cloud allows access from any IP address.</p></li>
-<li><p>Upon adding a CIDR block, cluster access is exclusively limited to the IP addresses within that block.</p></li>
-<li><p>Adding 0.0.0.0/0 equates to having an empty whitelist.</p></li>
+<li><p>ホワイトリストにエントリがない場合、Zilliz Cloudは任意のIPアドレスからアクセスを許可します。</p></li>
+<li><p>CIDRブロックを追加すると、クラスターアクセスはそのブロック内のIPアドレスに限定されます。</p></li>
+<li><p>「0.0.0.0/0」を追加すると、ホワイトリストが空になります。</p></li>
 </ul>
 
 </Admonition>
 
-![whitelist-ip-access](/img/whitelist-ip-access.png)
+![whitelist-ip-access](/img/ja-JP/whitelist-ip-access.png)
 
-## Related topics{#related-topics}
+## 関連するトピック{#}
 
-- [API Keys](./manage-api-keys)
+- [APIキー](./manage-api-keys)
 
-- [Cluster Credentials (Console)](./cluster-credentials-console)
+- [クラスタの認証情報(コンソール)](./cluster-credentials-sdk)
 
-- [Set up a Private Link](./setup-a-private-link)
+- [プライベートエンドポイントを設定する](./setup-a-private-link)
 

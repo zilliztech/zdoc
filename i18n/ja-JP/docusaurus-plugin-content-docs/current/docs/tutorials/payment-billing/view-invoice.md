@@ -1,12 +1,12 @@
 ---
-title: "Invoices | Cloud"
+title: "インボイス | Cloud"
 slug: /view-invoice
 sidebar_label: "Invoices"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud charges at the organization level. To access invoices, you must have either Organization Owner or Billing Admin permissions. | Cloud"
+description: "Zilliz Cloudは組織レベルで請求を行います。請求書にアクセスするには、組織所有者または請求管理者の権限が必要です。 | Cloud"
 type: origin
-token: PBEbwjRu9iyyaFkZnuzcINHCnke
+token: IUl2wkH64i6baBk1MRwc0rv9n4g
 sidebar_position: 7
 keywords: 
   - zilliz
@@ -14,285 +14,254 @@ keywords:
   - cloud
   - invoice
   - view
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Invoices
+# インボイス
 
-Zilliz Cloud charges at the organization level. To access invoices, you must have either **Organization Owner** or **Billing Admin** permissions.
+Zilliz Cloudは組織レベルで請求を行います。請求書にアクセスするには、**組織所有者**または**請求管理者**の権限が必要です。
 
-This guide explains how to view, pay, and download invoices, as well as how to interpret your invoice details.
+このガイドでは、請求書の表示、支払い、ダウンロード方法、および請求書の詳細の解釈方法について説明します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>If you subscribe on Marketplace, you will receive invoices for your Zilliz Cloud usage through the Marketplace. </p>
+<p>マーケットプレイスに登録すると、マーケットプレイスを通じてZilliz Cloudの使用に関する請求書が届きます。</p>
 
 </Admonition>
 
-## Understand your invoices{#understand-your-invoices}
+## インボイスを理解する{#}
 
-Each invoice is composed of several key components. This section will walk through an example invoice to help you understand each element.
+各請求書は、いくつかの重要なコンポーネントで構成されています。このセクションでは、各要素を理解するのに役立つ請求書の例を説明します。
 
-![example-invoice](/img/example-invoice.png)
+![example-invoice](/img/ja-JP/example-invoice.png)
 
-### Billing cycle{#billing-cycle}
+### 請求サイクル{#}
 
-The billing cycle, displayed at the top of your invoice, shows the period during which charges are calculated, along with the payment due date.
+請求書の上部に表示される請求サイクルには、請求が計算される期間と支払い期日が表示されます。
 
-![Vp6Rwz3Eph1IuXbQgKScVcSEnZg](/img/Vp6Rwz3Eph1IuXbQgKScVcSEnZg.png)
+![TBj1w2bjshgRfabC34Fc6WeEnSc](/img/ja-JP/TBj1w2bjshgRfabC34Fc6WeEnSc.png)
 
-- **Billing Cycle:** Typically a month-long period starting at 00:00:00 (UTC) on the first day of the previous month and ending at 23:59:59 (UTC) on the last day of that month. For example, Zilliz Cloud issues the invoice for August on September 1, 2024, with the billing period running from August 1, 2024, at 00:00:00 (UTC) to August 31, 2024, at 23:59:59 (UTC). Charges accumulate for your usage throughout this period and your invoice status remains “**unbilled**”.
+- **請求サイクル:**通常、前月の最初の日の00: 0 0:0 0(UTC)から、その月の最終日の23:59:59(UTC)までの1か月間の期間です。たとえば、Zilliz Cloudは2024年9月1日に8月の請求書を発行し、請求期間は2024年8月1日の00:0 0:0 0(UTC)から2024年8月31日の23:59:59(UTC)までです。この期間中に使用料が蓄積され、請求書のステータスは「**未請求**」のままです。
 
-- **Data of Issue:** The date your invoice is generated. On this day, the invoice status changes to “**unpaid**,” and payment can be made. If you have added a payment method (e.g., credit card or marketplace subscription), it will be charged automatically. Upon successful payment, the invoice status updates to “**paid**”. In case of a failed payment, notification emails will be sent to the **Organization Owner(s)** and **Billing Admin(s)**.
+- **問題のデータ:**請求書が生成された日付です。この日、請求書のステータスが「**未払い**」に変更され、支払いが可能になります。支払い方法(例:クレジットカードまたはマーケットプレイスのサブスクリプション)を追加した場合、自動的に請求されます。支払いが成功すると、請求書のステータスが「**支払**済み」に更新されます。支払いに失敗した場合、通知メールが**Organization Owner(s)**および**Billing Admin(s)**に送信されます。
 
-- **Due Date:** The final day to make your payment. If payment is not received by this date, your invoice enters the **Grace Period**.
+- **期日:**支払いを行う最終日。この日までに支払いがない場合、請求書は**猶予期間**に入ります。
 
-- **Grace Period:** A 14-day window during which payments can still be made. During this time, daily email reminders are sent, and the invoice status remains “**unpaid**” until successful payment.
+- **猶予期間:**支払いを行うことができる14日間の期間です。この間、毎日メールでリマインダーが送信され、支払いが成功するまで請求書のステータスは「**未払い**」のままです。
 
-- **Overdue Date:** If the payment remains unpaid, the invoice status becomes “**overdue**”. It is recommended to pay promptly, as your organization may be frozen the next day. Without payment within one day of freezing, all clusters (Serverless and Dedicated) will be automatically moved to [recycle bin](./use-recycle-bin) and will be retained there for 30 days.
+- **延滞日:**支払いが未払いの場合、請求書のステータスは「**延滞**」となります。組織が翌日凍結される可能性があるため、速やかに支払うことをお勧めします。凍結後1日以内に支払いがない場合、すべてのクラスター(サーバーレスおよび専用)は自動的に[ごみ箱](./use-recycle-bin)に移動され、30日間そこに保持されます。
 
-### Invoice status{#invoice-status}
+### 請求書のステータス{#}
 
-In Zilliz Cloud, invoice statuses represent different stages in the payment process. The following table explains each possible status:
+Zilliz Cloudでは、請求書のステータスは支払い過程の異なる段階を表します。以下の表は、可能な各ステータスを説明しています。
 
 <table>
    <tr>
-     <th><p><strong>Status</strong></p></th>
-     <th><p><strong>Definition</strong></p></th>
+     <th><p><strong>ステータス</strong></p></th>
+     <th><p><strong>の定義</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>Unbilled</strong></p></td>
-     <td><p>Transactions that occur after the billing cycle but before the statement is generated. These amounts are not immediately due but will be included in the next billing cycle.</p></td>
+     <td><p><strong>請求なし</strong></p></td>
+     <td><p>請求サイクルの後、明細書が生成される前に発生する取引。これらの金額は直ちに支払われるわけではありませんが、次の請求サイクルに含まれます。</p></td>
    </tr>
    <tr>
-     <td><p><strong>Unpaid</strong></p></td>
-     <td><p>The invoice is billed and is within the due timeframe.</p></td>
+     <td><p><strong>未払い</strong></p></td>
+     <td><p>請求書は請求され、期限内です。</p></td>
    </tr>
    <tr>
-     <td><p><strong>Overdue</strong></p></td>
-     <td><p>The invoice is billed but not paid within the due timeframe.</p></td>
+     <td><p><strong>期限切れ</strong></p></td>
+     <td><p>請求書は請求されますが、期限内に支払われません。</p></td>
    </tr>
    <tr>
-     <td><p><strong>Paid</strong></p></td>
-     <td><p>Payment has been completed with no outstanding amounts.</p></td>
+     <td><p><strong>支払った</strong></p></td>
+     <td><p>未払い金額がないまま支払いが完了しました。</p></td>
    </tr>
    <tr>
-     <td><p><strong>Free</strong></p></td>
-     <td><p>All amounts due are paid with credits.</p></td>
+     <td><p><strong>フリー</strong></p></td>
+     <td><p>すべての金額はクレジットで支払われます。</p></td>
    </tr>
 </table>
 
-### Invoice Summary{#invoice-summary}
+### 請求書の概要{#}
 
-The summary section provides a high-level overview of the charges on your invoice.
+サマリーセクションには、請求書の料金の概要が記載されています。
 
-- **Usage Amount:** The monthly total for all billable items (including CU, storage, backup, pipelines, and read and write costs).
+- **使用量:**すべての請求可能なアイテムの月間合計(CU、ストレージ、バックアップ、パイプライン、読み取りと書き込みのコストを含む)。
 
-- **Credits:** Any credits applied toward the payment.
+- **クレジット:**支払いに適用されるクレジット。
 
-- **Subtotal:** Subtotal = Usage Amount - Credits.
+- **小計:小計**=使用量-クレジット。
 
-- **Tax:** Tax = Subtotal x Tax rate. Tax rates are based on the country in your billing address.
+- **税金:**税金=小計x税率。税率は請求先住所の国に基づいています。
 
-- **Total Amount:** Total Amount = Subtotal + Tax.
+- **合計金額:**合計金額=小計+税金です。
 
-- **Advance Pay:** The amount of Advance Pay used to offset the payment.
+- **Advance Pay:**支払いを相るために使用されるAdvance Payの金額。
 
-- **Amount Due/Amount Paid:** The final amount you need to pay or have paid.
+- **Amount Due/Amount Paid:**あなたが支払う必要がある、または支払った最終金額。
 
-### Summary by Cluster Plan{#summary-by-cluster-plan}
+### クラスター計画の概要{#}
 
-Zilliz Cloud offers three cluster types: Free, Serverless, and Dedicated. Charges apply only for Serverless and Dedicated clusters.
+Zilliz Cloudには、Free、Serverless、Dedicatedの3つのクラスタータイプがあります。料金はServerlessとDedicatedのクラスターにのみ適用されます。
 
-- **Dedicated Clusters:** Billed based on usage. Charges are calculated as `Cluster Cost = Cluster CU Size x Runtime x Unit Price`. Unlike Serverless clusters, for dedicated clusters charges apply even without active read/write operations due to dedicated resource allocation.
+- **専用クラスター:**使用量に基づいて請求されます。料金は、`クラスターコスト=クラスターCUサイズxランタイムxユニット価格`として計算されます。サーバーレスクラスターとは異なり、専用クラスターの場合、専用リソース割り当てのためにアクティブな読み取り/書き込み操作がなくても料金が適用されます。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p>For Dedicated cluster cost, runtime is defined as the period during which the cluster status is "<strong>Running</strong>", "<strong>Modifying</strong>", "<strong>Frozen</strong>", etc. Cluster under the following four statuses is not charged: "<strong>Creating</strong>", "<strong>Suspending</strong>", "<strong>Resuming</strong>", or "<strong>Suspended</strong>." </p>
-
-    </Admonition>
-
-- **Serverless Clusters:** Billed on a pay-as-you-go basis for vCU consumption during read/write operations. The cost is calculated as `Read and Write Cost = vCU Usage x vCU Unit Price`. If no operations occur, only storage fees are billed.
-
-Additional charges include:
-
-- **Backup Costs:** Calculated as `Backup File Size x Backup Retention Period` and measured in  "GB-month", which refers to the usage of 1 GB of backup file retained for 1 month. **Backup is billed at a minimum of 1 day, even for shorter retention period.** This means if the backup file is created but kept for less than one day, it will still be charged at the rate for one day.
-
-- **Storage Costs:** Calculated as `Current Storage Size x Cluster Runtime` and measured in "GB-Hour", which refers to the usage of 1 GB of data stored for 1 hour. **Storage is billed at a minimum of 1 hour, even for shorter storage durations.** 
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p>For storage cost, runtime is defined as the period during which the cluster status is "<strong>Running</strong>", "<strong>Modifying</strong>", "<strong>Frozen</strong>", etc. Cluster under the following status is not charged: "<strong>Creating</strong>".</p>
+    <p>Dedicatedクラスタのコストについて、ランタイムはクラスタの状態が「<strong>実行中</strong>」「<strong>変更</strong>中」「<strong>凍結</strong>中」などの期間として定義されます。以下の4つの状態のクラスタは課金されません:「<strong>作成</strong>中」「<strong>一時停止中</strong>」「<strong>再開中</strong>」「<strong>一時停止中</strong>」。</p>
 
     </Admonition>
 
-### Invoice Details{#invoice-details}
+- **サーバーレスクラスター:**読み書き操作中のvCU消費に対して従量課金制で請求されます。コストは、`読み取りおよび書き込みコスト=vCU使用量×vCUユニット価格`として計算されます。操作が行われない場合、ストレージ料金のみが請求されます。
 
-This section provides a detailed breakdown of charges for each billable item. 
+追加料金には以下が含まれます:
 
-### Billing Profile{#billing-profile}
+- **バックアップコスト:**`Backup File Size x Backup Retention Periodとして計算され、「GB-month」で測定されます。これは、1か月間保持された1 GBのバックアップファイルの使用量を指します。バックアップは最低1日で請求されます。`これは、バックアップファイルが作成されたが1日だけ保持された場合でも、1日分の料金が請求されることを意味します。
 
-Your billing profile includes details about where and to whom invoices are issued. To edit the billing profile, refer to [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card#edit-billing-profile).
+- **ストレージコスト:**現在の`ストレージサイズ×クラスタランタイム`として計算され、「GB-Hour」で測定されます。これは、1時間に保存された1 GBのデータの使用量を指します。**ストレージは、短いストレージ期間でも最低1時間で請求されます。**
 
-## Manage Invoices{#manage-invoices}
+    <Admonition type="info" icon="📘" title="ノート">
 
-If you are an Organization Owner or a Billing Admin, you can view, pay, and download your invoices.
+    <p>ストレージコストについて、ランタイムはクラスターの状態が「<strong>実行中</strong>」、「<strong>変更中</strong>」、「<strong>凍結</strong>中」などの期間と定義されます。以下の状態のクラスターは課金されません:「<strong>作成</strong>中」。</p>
 
-### View Invoice{#view-invoice}
+    </Admonition>
 
-1. Click **Billing** on the left navigation.
+### インボイスの詳細{#}
 
-1. Switch to the **Invoices** tab. You can see all current and past invoices.
+このセクションでは、各請求項目の料金の詳細な内訳を示します。
 
-1. Click on the billing period of a target invoice to view its details.
+### 請求プロフィール{#}
 
-![view-invoices](/img/view-invoices.png)
+請求プロフィールには、請求書がどこで誰に発行されるかの詳細が含まれています。請求プロフィールを編集するには、「[クレジットカードを追加して購読する](./subscribe-by-adding-credit-card)する」を参照してください。
 
-### Pay Invoice{#pay-invoice}
+## 請求書の管理{#}
 
-When your invoice is overdue, you can first check and update your payment method and then retry the payment on the invoice details page.
+組織のオーナーまたは請求管理者の場合、請求書を閲覧、支払い、ダウンロードできます。
 
-![pay-invoice](/img/pay-invoice.png)
+### 請求書を見る{#}
 
-### Download Invoice{#download-invoice}
+1. 左ナビゲーションの[**請求**]をクリックします。
 
-To download an invoice, click the download icon next to the target invoice.
+1. 「**請求書**」タブに切り替えます。現在と過去のすべての請求書が表示されます。
 
-![download-invoices](/img/download-invoices.png)
+1. 対象の請求書の請求期間をクリックすると、その詳細が表示されます。
 
-## Troubleshooting / FAQ{#troubleshooting-faq}
+![view-invoices](/img/ja-JP/view-invoices.png)
 
-#### What is the start and end time of an invoice?{#what-is-the-start-and-end-time-of-an-invoice}
+### インボイスを支払う{#}
 
-- **Explanation:** The billing period starts at 00:00:00 (UTC) on the first day of the previous month and ending at 23:59:59 (UTC) on the last day of that month.
+請求書が期限を過ぎている場合は、まず支払い方法を確認して更新してから、請求書の詳細ページで支払いを再試行してください。
 
-- **Example:** Zilliz Cloud issues the invoice for August on September 1, 2024, with the billing period running from August 1, 2024, at 00:00:00 (UTC) to August 31, 2024, at 23:59:59 (UTC).
+![pay-invoice](/img/ja-JP/pay-invoice.png)
 
-#### How precise are the amounts displayed in the invoices on Zilliz Cloud?{#how-precise-are-the-amounts-displayed-in-the-invoices-on-zilliz-cloud}
+### 請求書をダウンロード{#}
 
-- **Explanation:** Zilliz Cloud prices products with a precision of 8 decimal places. As a result, charges are calculated to eight decimals. During the billing process, these detailed daily charges are summed and then rounded to 2 decimal places.
+請求書をダウンロードするには、対象の請求書の横にあるダウンロードアイコンをクリックします。
 
-    On the web UI, displayed amounts are rounded to 2 decimal places (for example: $60.00). 
+![download-invoices](/img/ja-JP/download-invoices.png)
 
-    ![precision_invoice_cn](/img/precision_invoice_cn.png)
+## トラブルシューティング/FAQ{#faq}
 
-    \<include target = "indev">
+#### 請求書の開始時刻と終了時刻は何時ですか?{#}
 
-    The amounts in the invoices retrieved from List Invoice and Get Invoice APIs are also rounded to 2 decimal places. Below is an example output of the Get Invoice API.
+- **説明:**請求期間は、前月の最初の日の00: 0 0:0 0(UTC)から、その月の最終日の23:59:59(UTC)までとなります。
 
-    ```bash
-    {
-      "code": 0,
-      "data": {
-            "id": "invo-xxxxxx",
-            "orgId": "org-xxxxxx",
-            "periodStart": "2024-01-01T00:00:00Z",
-            "periodEnd": "2024-02-01T00:00:00Z",
-            "invoiceDate": "2024-02-01T00:00:00Z",,
-            "dueDate": "2024-02-01T00:00:00Z",
-            
-            "currency": "RMB",
-            "status": "unpaid",
-            
-            "usageAmount": 708.94,
-            "creditsApplied": 30.00,
-            "subtotal": 678.94,
-            "tax": 0.00,
-            "total": 678.94,
-            "advancePayAmount": 0.00,
-            "amountDue": 678.94
-        }
-    }
-    ```
+- **例:**Zilliz Cloudは2024年9月1日に8月の請求書を発行し、請求期間は2024年8月1日00: 0 0:0 0(UTC)から2024年8月31日23:59:59(UTC)までです。
 
-    For reconciliation, we recommend using the Query Org Daily Usage API to retrieve daily usage details with a precision of eight decimal places. The daily usage stats begin at 00:00:00 each day and run until 23:59:59 the same day. For example, the daily usage period for August 1, 2024, starts at 00:00:00 on August 1, 2024, and ends at 23:59:59 on August 1, 2024. After summing the daily amounts, you will get a total usage amount with an eight-decimal precision. Rounding this amount from the third decimal place will provide you with a two-decimal monthly usage total, which should match the total usage amount displayed on the invoices on the web UI.
+#### Zilliz Cloudの請求書に表示される金額はどの程度正確ですか?{#zilliz-cloud}
 
-- **Example:** Suppose during reconciliation, you first retrieve three days of daily usage data via the Query Org Daily Usage API for August 1 to August 3, 2024. Each day's amount has an eight-decimal precision.
+- **説明:**Zilliz Cloudは小数点以下8桁の精度で製品の価格を設定します。その結果、料金は小数点以下8桁で計算されます。請求過程では、これらの詳細な日次料金が合計され、小数点以下2桁に丸められます。
 
-    - Total for August 1: $105.03331200
+    ウェブUIでは、表示される金額は小数点以下2桁に丸められます（例:$60.0 0）。
 
-    - Total for August 2: $92.03000245
+    ![precision_invoice_cn](/img/ja-JP/precision_invoice_cn.png)
 
-    - Total for August 3: $114.25300000
+- **例:**調整中に、Query Org Daily U sage APIを使用して、2024年8月1日から8月3日までの3日間の毎日の使用データを取得したとします。各日の使用量の精度は8桁です。
 
-    Adding up the three daily totals gives a sum of $311.31631445, which rounds to $311.32 after considering the third decimal. This figure should match the total usage amount shown in the invoices on the web UI.
+    - 8月1日の合計:$105.0 3 3 3 1200
 
-#### Why haven’t I received my invoice?{#why-havent-i-received-my-invoice}
+    - 8月2日の合計:$92.0300 02 4 5
 
-- **Possible Cause:** Only **Organization Owners** or **Billing Admins** have access to invoices.
+    - 8月3日の合計:$11 4.25300000
 
-- **Solution:** Ensure you have the necessary permissions. Contact your Organization Owner or Billing Admin if you're not able to access invoices.
+    3つの日次合計を合計すると、31 1.316 3 1 4 45ドルの合計が得られ、3番目の小数点を考慮した後、31 1.32ドルに丸められます。この数字は、Web UIの請求書に表示される総使用量と一致する必要があります。
 
-#### What happens if my payment method fails?{#what-happens-if-my-payment-method-fails}
+#### 請求書が届かないのはなぜですか?{#}
 
-- **Possible Cause:** The payment method (e.g., credit card) you’ve provided may have expired, or there could be insufficient funds.
+- **考えられる原因:**請求書にアクセスできるのは**Organizationオーナー**または**請求管理者**のみです。
 
-- **Solution:**
+- **解決策:**必要な権限を持っていることを確認してください。請求書にアクセスできない場合は、組織のオーナーまたは請求管理者にお問い合わせください。
 
-    - Zilliz Cloud will notify **Organization Owners** and **Billing Admins** via email if a payment fails.
+#### 支払い方法が失敗した場合はどうなりますか?{#}
 
-    - You can update your payment method by navigating to the **Billing Profile** section of your account and adding a valid credit card or payment method.
+- **考えられる原因:**提供した払い戻し方法(クレジットカードなど)の有効期限が切れているか、資金が不足している可能性があります。
 
-    - You can retry the payment within the **Grace** **Period**, which lasts **14 days**.
+- **ソリューション:**
 
-#### What is the Grace Period?{#what-is-the-grace-period}
+    - 支払いが失敗した場合、Zilliz Cloudは**オーガニゼーションオーナー**と**請求管理者**にメールで通知します。
 
-- **Explanation:** The **Grace Period** is a 14-day window after the payment due date, during which you can still make payments before your invoice becomes overdue.
+    - アカウントの**請求プロフィール**セクションに移動し、有効なクレジットカードまたは支払い方法を追加することで、支払い方法を更新できます。
 
-- **Tip:** During this period, you'll receive daily email reminders, and your invoice status will remain unpaid until the payment is completed.
+    - 支払いは**猶予** **期間**(**14日間**)内に再試行できます。
 
-#### What happens if I don’t make a payment after the overdue date?{#what-happens-if-i-dont-make-a-payment-after-the-overdue-date}
+#### 何が猶予期間ですか?{#}
 
-- **Explanation:** If payment is not made within the **Grace Period**:
+- **説明:**「**猶予期間**」とは、支払い期日から14日間の期間であり、請求書が期限を過ぎる前に支払いを行うことができます。
 
-    - On the **Overdue Date**, your invoice will be marked as overdue.
+- **ヒント:**この期間中、毎日メールでリマインダーが送信され、支払いが完了するまで請求書のステータスは未払いのままとなります。
 
-    - One day after the **Overdue Date**, your organization will be **frozen**, limiting access to Zilliz Cloud services.
+#### 延滞日以降に支払いをしない場合はどうなりますか?{#}
 
-    - If payment is still not made one day after the organization is frozen, all clusters (Serverless and Dedicated) will be automatically deleted.
+- **説明:**支払いが**猶予期間**内に行われない場合:
 
-- **Solution:** Make sure to resolve the payment before the **Overdue Date** to avoid service disruption and data loss.
+    - 延滞**日に**は、請求書は延滞としてマークされます。
 
-#### **Why am I being charged even if there is no operations in my Serverless cluster?**{#why-am-i-being-charged-even-if-there-is-no-operations-in-my-serverless-cluster}
+    - 期限**超過日**の翌日、組織は**凍結**され、Zilliz Cloudサービスへのアクセスが制限されます。
 
-- **Explanation:** Even if no read or write operations occur in a Serverless cluster, you are still charged for storage. Storage costs are calculated based on the size of data stored and the time it is kept in Zilliz Cloud.
+    - 組織が凍結されてから1日経っても支払いが行われない場合、すべてのクラスタ（サーバーレスおよび専用）が自動的に削除されます。
 
-- **Solution:** To minimize storage costs, consider deleting unused data.
+- **解決策:**サービスの中断やデータの損失を避けるために、**延滞日**の前に支払いを解決してください。
 
-#### **I received an email about my organization being frozen. What should I do?**{#i-received-an-email-about-my-organization-being-frozen-what-should-i-do}
+#### **サーバーレスクラスターに操作がなくても、なぜ請求されるのですか?**{#}
 
-- **Explanation:** If you have received an email indicating that your organization has been frozen, it means your payment is overdue and access to Zilliz Cloud services is limited.
+- **説明:**サーバーレスクラスターで読み取りや書き込み操作が行われなくても、ストレージに対して料金が発生します。ストレージコストは、Zilliz Cloudに保存されたデータの体格と時間に基づいて計算されます。
 
-- **Solution:** 
+- **解決策:**ストレージコストを最小限に抑えるために、未使用のデータを削除することを検討してください。
 
-    To unfreeze the organization:
+#### **組織が凍結されたというメールを受け取りました。どうすればいいですか?**{#}
 
-    - Make the necessary payment within one day after freezing to prevent automatic deletion of your clusters.
+- **説明:**組織が凍結されたことを示すメールを受け取った場合は、支払いが期限切れであり、Zilliz Cloudサービスへのアクセスが制限されていることを意味します。
 
-    - Once the payment is processed, your organization will be unfrozen, and full cluster access will be restored.
+- **ソリューション:** 
 
-#### **How can I recover my automatically deleted clusters due to an overdue invoice?**{#how-can-i-recover-my-automatically-deleted-clusters-due-to-an-overdue-invoice}
+    組織の凍結を解除するには:
 
-- **Explanation:** If your clusters were automatically deleted, it means you still fail to make payments after the organization is frozen.
+    - クラスタの自動削除を防ぐために、凍結後1日以内に必要な支払いを行ってください。
 
-- **Solution:**
+    - 支払いが処理されると、組織は凍結解除され、完全なクラスターアクセスが復元されます。
 
-    To restore automatically deleted clusters,
+#### **期限切れの請求書が原因で自動的に削除されたクラスタを回復するにはどうすればよいですか?**{#}
 
-    - Make the payment to unfreeze the organization first.
+- **説明:**クラスタが自動的に削除された場合、組織が凍結された後も支払いができないことを意味します。
 
-    - When payment is successful, go to Recycle Bin to restore your deleted cluster.
+- **ソリューション:**
 
-- **Tip:** 
+    自動的に削除されたクラスタを復元するには、
 
-    - Deleted clusters are retained in the recycle bin for 30 days. If you still need the clusters, pease make the overdue payments within 30 days from cluster deletion.
+    - 最初に組織の凍結を解除するための支払いを行ってください。
 
-    - If you have any problems when making the payment or restoring the clusters, please [submit a support ticket](http://support.zilliz.com).
+    - 支払いが成功したら、ごみ箱に移動して削除したクラスタを復元します。
+
+- **ヒント:** 
+
+    - 削除されたクラスタは、ごみ箱に30日間保持されます。それでもクラスタが必要な場合は、クラスタの削除から3 0日以内に延滞支払いを行ってください。
+
+    - 支払いやクラスタの復元に問題がある場合は、[サポートチケットを提出](http://support.zilliz.com)してください。
 

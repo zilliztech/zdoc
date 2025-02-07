@@ -1,94 +1,94 @@
 ---
-title: "Release Notes (Oct 17, 2023) | Cloud"
+title: "リリースノート（2023年10月17日） | Cloud"
 slug: /release-notes-230
-sidebar_label: "Release Notes (Oct 17, 2023)"
+sidebar_label: "リリースノート（2023年10月17日）"
 beta: FALSE
 notebook: FALSE
-description: "We're pleased to announce the launch of our AWS Frankfurt region in the EU. Accompanying this expansion, we introduce beta features Range Search, Upsert, and Cosine Metric Type, enhancing search capabilities and data management efficiency. Additional functionalities include API Key Access, Retrieve Raw Vectors, JSONCONTAINS Filter, and Entity Count. Noteworthy improvements in RBAC, billing, pricing calculation, account management, and service stability have also been implemented for an enhanced user experience. | Cloud"
+description: "私たちは、EUにおけるAWSフランクフルト地域のローンチを発表できることを喜んでいます。この拡張に伴い、ベータ機能であるRange Search、Upsert、Cosine Metric Typeを導入し、検索機能とデータ管理の効率を向上させました。追加機能には、APIKey Access、Retrieve Raw Vectors、JSONCONTAINS Filter、Entity Countが含まれます。RBAC、請求、価格計算、アカウントマネジメント、サービスの安定性にも注目すべき改善が実装され、ユーザーエクスペリエンスが向上しました。 | Cloud"
 type: origin
-token: MocQwCCItiHYEbkkJtOcROPTnod
+token: QEWhwhoNciJQCDklDF4cJEYrnfh
 sidebar_position: 12
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (Oct 17, 2023)
+# リリースノート（2023年10月17日）
 
-We're pleased to announce the launch of our AWS Frankfurt region in the EU. Accompanying this expansion, we introduce beta features: Range Search, Upsert, and Cosine Metric Type, enhancing search capabilities and data management efficiency. Additional functionalities include API Key Access, Retrieve Raw Vectors, JSON_CONTAINS Filter, and Entity Count. Noteworthy improvements in RBAC, billing, pricing calculation, account management, and service stability have also been implemented for an enhanced user experience. 
+私たちは、EUにおけるAWSフランクフルト地域のローンチを発表できることを喜んでいます。この拡張に伴い、ベータ機能であるRange Search、Upsert、Cosine Metric Typeを導入し、検索機能とデータ管理の効率を向上させました。追加機能には、APIKey Access、Retrieve Raw Vectors、JSON_CONTAINS Filter、Entity Countが含まれます。RBAC、請求、価格計算、アカウントマネジメント、サービスの安定性にも注目すべき改善が実装され、ユーザーエクスペリエンスが向上しました。
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvusの互換性{#milvus}
 
-This release is compatible with **Milvus 2.2.x** and **Milvus 2.3.x (Beta)**.
+このリリースは、**Milvus 2.2. x**および**Milvus 2.3.x(Beta)**と互換性があります。
 
-## New AWS Region: Frankfurt (aws-eu-central-1) - Now Live{#new-aws-region-frankfurt-aws-eu-central-1-now-live}
+## 新しいAWSリージョン:フランクフルト(aws-eu-central-1)が利用可能になりました。{#awsaws-eu-central-1}
 
-We're delighted to unveil our new AWS Frankfurt region, designed to better cater to our European user base. This region not only provides enhanced support but also offers the convenience of AWS Marketplace payment options. For all available cloud regions, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
+私たちは、ヨーロッパのユーザーベースにより適した新しいAWSフランクフルトリージョンを発表できることを喜んでいます。このリージョンは、強化されたサポートだけでなく、AWS Marketplaceの支払いオプションの利便性も提供しています。利用可能なすべてのクラウドリージョンについては、「Cloud Providers & Regions」を参照してください。
 
-## Innovative Beta Features{#innovative-beta-features}
+## 革新的なベータ機能{#}
 
-Explore the future with our latest beta features, available for dedicated clusters. Upgrade now to experience these enhancements:
+専用クラスタで利用可能な最新のベータ機能で未来を探索しましょう。今すぐアップグレードして、以下の機能強化を体験してください:
 
-- *Range Search*
+- *レンジ検索*
 
-    Redefine your queries with [Range Search](./range-search), enabling you to set a radius for your searches. Unlike traditional ANN Search, Range Search ensures the inclusion of all vectors within the specified radius, providing a more comprehensive view.
+    範囲検索を使用してクエリを再定義し、[検索](null)の半径を設定できるようにします。従来のANN検索とは異なり、範囲検索は指定された半径内のすべてのベクトルを確実に含めるため、より包括的なビューを提供します。
 
-- *Upsert*
+- *アップサート*
 
-    Seamlessly manage dynamic datasets with [Upsert](./upsert-entities), a fusion of 'update' and 'insert'. Enjoy increased efficiency for datasets where changes are frequent.
+    「更新」と「挿入」を融合した[Upsert](null)を使用して、動的なデータセットをシームレスに管理できます。頻繁に変更が行われるデータセットの効率を高めることができます。
 
-- *Cosine Metric Type*
+- *コサインメトリック型*
 
-    Experience advanced vector search with [Cosine](./search-metrics-explained#cosine-similarity), [Inner Product](./search-metrics-explained#inner-product-ip), and [Euclidean Distance](./search-metrics-explained#euclidean-distance-l2) support. Cosine metric eliminates the need for prior vector normalization, streamlining your search process.
+    高度なベクトル検索を[コサイン](null)、[内積](null)、[ユークリッド距離](null)のサポートで体験できます。コサインメトリックにより、事前のベクトル正規化が不要になり、検索過程が効率化されます。
 
-- *Access Control*
+- *アクセス制御*
 
-    Securely access dedicated clusters and serverless instances with [API Key](./manage-api-keys) or [username password authentication](./cluster-credentials-console).
+    専用クラスタやサーバーレスインスタンスには、[APIキー](null)または[ユーザー名パスワード認証](null)で安全にアクセスできます。
 
-- *Return Raw Vectors*
+- *生のベクトルを返す*
 
-    Specify vector fields in your [search parameters](./single-vector-search#use-output-fields) to receive them as part of your search results.
+    検索結果の一部として受け取るために、[検索パラメータ](null)にベクトルフィールドを指定してください。
 
-- *JSON_CONTAINS Filter*
+- *JSON_CONTAINSフィルタ*
 
-    Refine searches further with the [JSON_CONTAINS operator](./json-filtering-operators), allowing you to specify filtering conditions based on JSON field values.
+    さらに[JSON_CONTAINS演算子](null)を使用して検索を絞り込むと、JSONフィールドの値に基づいてフィルタリング条件を指定できます。
 
-- *Entity Count*
+- *エンティティカウント*
 
-    Get a quick overview of [the total number of entities within loaded collections](./single-vector-search#use-output-fields) for better data management.
+    データ管理を改善するために、[ロードされたコレクション内のエンティティの総数](null)の概要をすばやく確認できます。
 
-## Enhancements{#enhancements}
+## エンハンスメント{#}
 
-We've also implemented several enhancements to improve your overall experience:
+あなたの全体的な体験を改善するために、いくつかの改良も実装しました。
 
-- *New Role for RBAC*
+- *RBACの新しい役割*
 
-    Grant [Project Member Role](./project-users) to project collaborators for more streamlined collaboration.
+    より効率的なコラボレーションのために、[プロジェクトメンバーロール](null)をプロジェクトコラボレーターに付与します。
 
-- *Billing Optimizations*
+- *課金の最適化*
 
-    Enjoy more efficient billing management with streamlined processes.
+    合理化されたプロセスでより効率的な請求管理をお楽しみください。
 
-- *Advanced [Pricing Calculator](https://zilliz.com/pricing#calculator)*
+- *高度な[価格計算ツール](https://zilliz.com/pricing#calculator)*
 
-    Get comprehensive estimations that combine primary keys, vector fields, and string fields for a more accurate pricing overview.
+    主キー、ベクトルフィールド、文字列フィールドを組み合わせた包括的な見積もりを取得して、より正確な価格概要を確認します。
 
-- *Self-Service Account Deletion*
+- *セルフサービスアカウントの削除*
 
-    Easily [delete your own accounts](./email-accounts#close-your-account) or [organizations](./organization-settings#delete-organization) for greater control over your profile.
+    簡単に[自分のアカウント](null)や[組織](null)を削除して、プロフィールをより細かく管理できます。
 
-- *Stability Enhancements*
+- *安定性の強化*
 
-    We've addressed known issues to enhance the reliability of our service.
+    私たちは、サービスの信頼性を高めるために既知の問題に対処しました。
 
-Thank you for choosing Zilliz Cloud, where innovation meets performance!
+イノベーションとパフォーマンスが融合したZilliz Cloudをお選びいただきありがとうございます!

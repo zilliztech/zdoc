@@ -1,12 +1,12 @@
 ---
-title: "JSON Field | Cloud"
+title: "JSONフィールド | Cloud"
 slug: /use-json-fields
-sidebar_label: "JSON Field"
+sidebar_label: "JSONフィールド"
 beta: FALSE
 notebook: FALSE
-description: "JSON is a lightweight data exchange format that provides a flexible way to store and query complex data structures. In Zilliz Cloud clusters you can store additional structured information alongside vector data using JSON fields, enabling advanced searches and queries that combine vector similarity with structured filtering. | Cloud"
+description: "JSONは、複雑なデータ構造を格納およびクエリする柔軟な方法を提供する軽量データ交換形式です。Zilliz Cloudクラスターでは、JSONフィールドを使用してベクトルデータと一緒に追加の構造化情報を格納でき、ベクトルの類似性と構造化フィルタリングを組み合わせた高度な検索およびクエリが可能になります。 | Cloud"
 type: origin
-token: BkDMwo71MiZMazk7gbtc7fqknbh
+token: DOUswo6Y8iXFeNkYc1xcX1QBnkc
 sidebar_position: 8
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - json field
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 
@@ -26,11 +26,11 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# JSON Field
+# JSONフィールド
 
-[JSON](https://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) is a lightweight data exchange format that provides a flexible way to store and query complex data structures. In Zilliz Cloud clusters you can store additional structured information alongside vector data using JSON fields, enabling advanced searches and queries that combine vector similarity with structured filtering.
+[JSON](https://en.wikipedia.org/wiki/JSON)(Java Script Object Notation)は、複雑なデータ構造を格納およびクエリする柔軟な方法を提供する軽量データ交換形式です。Zilliz Cloudクラスターでは、JSONフィールドを使用してベクトルデータと一緒に追加の構造化情報を格納でき、ベクトルの類似性と構造化フィルタリングを組み合わせた高度な検索およびクエリが可能になります。
 
-JSON fields are ideal for applications that require metadata to optimize retrieval results. For example, in e-commerce, product vectors can be enhanced with attributes like category, price, and brand. In recommendation systems, user vectors can be combined with preferences and demographic information. Below is an example of a typical JSON field:
+JSONフィールドは、検索結果を最適化するためにメタデータが必要なアプリケーションに最適です。例えば、eコマースでは、カテゴリー、価格、ブランドなどの属性で製品ベクトルを強化することができます。レコメンデーションシステムでは、ユーザーベクトルを好みや人口統計情報と組み合わせることができます。以下は典型的なJSONフィールドの例です
 
 ```python
 {
@@ -40,11 +40,11 @@ JSON fields are ideal for applications that require metadata to optimize retriev
 }
 ```
 
-## Add JSON field{#add-json-field}
+## JSONフィールドを追加してください。{#json}
 
-To use JSON fields in Zilliz Cloud clusters, define the relevant field type in the collection schema, setting the `datatype` to the supported JSON type, i.e., `JSON`.
+JSONフィールドを使用するにはZilliz Cloudクラスター、コレクションスキーマで関連するフィールドタイプを定義し、`データ型`をサポートされているJSONタイプ、つまり`JSON`に設定します。
 
-Here’s how to define a collection schema that includes a JSON field:
+JSONフィールドを含むコレクションスキーマを定義する方法は次のとおりです:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -162,17 +162,17 @@ export schema="{
 </TabItem>
 </Tabs>
 
-In this example, we add a JSON field called `metadata` to store additional metadata related to vector data, such as product category, price, and brand information.
+この例では、`メタデータ`というJSONフィールドを追加して、商品カテゴリ、価格、ブランド情報などのベクトルデータに関連する追加のメタデータを格納します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>The primary field and vector field are mandatory when you create a collection. The primary field uniquely identifies each entity, while the vector field is crucial for similarity search. For more details, refer to <a href="./primary-field-auto-id">Primary Field & AutoId</a>, <a href="./use-dense-vector">Dense Vector</a>, <a href="./use-binary-vector">Binary Vector</a>, or <a href="./use-sparse-vector">Sparse Vector</a>.</p>
+<p>コレクションを作成する際には、プライマリフィールドとベクトルフィールドは必須です。プライマリフィールドは各エンティティを一意に識別し、ベクトルフィールドは類似検索に重要です。詳細については、Primary Field &amp; AutoId、Dense Vector、Binary Vector、またはSparse Vectorを参照してください。</p>
 
 </Admonition>
 
-## Create collection{#create-collection}
+## コレクションを作成{#}
 
-When creating a collection, you must create an index for the vector field to ensure retrieval performance. In this example, we use `AUTOINDEX` to simplify index setup. For more details, refer to [AUTOINDEX Explained](./autoindex-explained).
+コレクションを作成する際には、検索性能を確保するためにベクトル場のインデックスを作成する必要があります。この例では、インデックスの設定を簡単にするために`AUTOINDEX`を使用しています。詳細については、AUTOINDEX Explainedを参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -234,7 +234,7 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-Use the defined schema and index parameters to create a collection:
+定義されたスキーマとインデックスパラメータを使用して、コレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -291,9 +291,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Insert data{#insert-data}
+## データの挿入{#}
 
-After creating the collection, you can insert data that includes JSON fields.
+コレクションを作成した後、JSONフィールドを含むデータを挿入できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -411,19 +411,19 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example:
+この例では:
 
-- Each data entry includes a primary field (`pk`), `metadata` as a JSON field to store information such as product category, price, and brand.
+- 各データエントリには、プライマリフィールド(`pk`)、製品カテゴリ、価格、ブランドなどの情報を格納するJSONフィールドとしての`メタデータ`が含まれます。
 
-- `embedding` is a 3-dimensional vector field used for vector similarity search.
+- `埋め込み`は、ベクトル類似性検索に使用される3次元ベクトル場です。
 
-## Search and query{#search-and-query}
+## 検索とクエリ{#}
 
-JSON fields allow scalar filtering during searches, enhancing Zilliz Cloud's vector search capabilities. You can query based on JSON properties alongside vector similarity.
+JSONフィールドを使用すると、検索中にスカラーフィルタリングが可能になり、Zilliz Cloudのベクトル検索機能が強化されます。ベクトルの類似性に加えて、JSONプロパティに基づいてクエリを実行できます。
 
-### Filter queries{#filter-queries}
+### クエリのフィルター{#}
 
-You can filter data based on JSON properties, such as matching specific values or checking if a number falls within a certain range.
+JSONプロパティに基づいてデータをフィルタリングすることができます。例えば、特定の値を一致させたり、数値が特定の範囲内にあるかどうかを確認することができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -497,11 +497,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In the above query, Zilliz Cloud filters out entities where the `metadata` field has a category of `"electronics"` and a price below 150, returning entities that match these criteria.
+上記のクエリでは、Zilliz Cloudは、`メタデータ`フィールドのカテゴリが`"electronics"`で価格が150未満のエンティティをフィルタリングし、これらの条件に一致するエンティティを返します。
 
-### Vector search with JSON filtering{#vector-search-with-json-filtering}
+### JSONフィルタリングによるベクトル検索{#json}
 
-By combining vector similarity with JSON filtering, you can ensure that the retrieved data not only matches semantically but also meets specific business conditions, making the search results more precise and aligned with user needs.
+ベクトル類似性とJSONフィルタリングを組み合わせることで、検索されたデータが意味的に一致するだけでなく、特定のビジネス条件を満たしていることを確認し、検索結果をより正確かつユーザーのニーズに合わせることができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -592,21 +592,21 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example, Zilliz Cloud returns the top 5 entities most similar to the query vector, with the `metadata` field containing a brand of `"BrandA"`.
+この例では、Zilliz Cloudは、`メタデータ`フィールドに`"BrandA"`というブランドが含まれるクエリベクトルに最も類似した上位5つのエンティティを返します。
 
-Additionally, Zilliz Cloud supports advanced JSON filtering operators such as `JSON_CONTAINS`, `JSON_CONTAINS_ALL`, and `JSON_CONTAINS_ANY`, which can further enhance query capabilities. For more details, refer to [JSON Operators](./json-filtering-operators).
+さらに、Zilliz Cloudは、`JSON_CONTAINS`、`JSON_CONTAINS_ALL`、`JSON_CONTAINS_ANY`などの高度なJSONフィルタリング演算子をサポートしています。詳細については、JSON Operatorsを参照してください。
 
-## Limits{#limits}
+## 限界{#}
 
-- **Indexing Limitations**: Due to the complexity of data structures, indexing JSON fields is not supported.
+- **インデックスの制限**:データ構造が複雑なため、JSONフィールドのインデックスはサポートされていません。
 
-- **Data Type Matching**: If a JSON field's key value is an integer or floating point, it can only be compared with another integer or float key or `INT32/64` or `FLOAT32/64` fields. If the key value is a string (`VARCHAR`), it can only be compared with another string key.
+- **データ型マッチング**: JSONフィールドのキー値が整数または浮動小数点の場合、他の整数または浮動小数点キー、`INT32/64`または`FLOAT 32/64`フィールドとのみ比較できます。キー値が文字列(`VARCHAR`)の場合、他の文字列キーとのみ比較できます。
 
-- **Naming Restrictions**: When naming JSON keys, it is recommended to use only letters, numeric characters, and underscores, as other characters may cause issues during filtering or searching.
+- **命名制限**: JSONキーに名前を付ける場合、文字、数字、アンダースコアのみを使用することをお勧めします。他の文字は、フィルタリングや検索中に問題を引き起こす可能性があります。
 
-- **Handling String Values**: For string values (`VARCHAR`), Zilliz Cloud stores JSON field strings as-is without semantic conversion. For example: `'a"b'`, `"a'b"`, `'a\'b'`, and `"a\"b"` are stored as entered; however, `'a'b'` and `"a"b"` are considered invalid.
+- **文字列値の処理**:文字列値(`VARCHAR`)の場合、Zilliz Cloudは、JSONフィールド文字列を意味変換せずにそのまま保存します。例:`'a"b'`、`"a'b"`、`'a\'b'`、`"a\"b"`は入力されたまま保存されますが、`'a'b'`と`"a"b"`は無効と見なされます。
 
-- **Handling Nested Dictionaries**: Any nested dictionaries within JSON field values are treated as strings.
+- **ネストされた辞書**の処理: JSONフィールド値内のネストされた辞書は文字列として扱われます。
 
-- **JSON Field Size Limit**: JSON fields are limited to 65,536 bytes.
+- **JSONフィールドサイズ制限**: JSONフィールドは65,536バイトに制限されています。
 

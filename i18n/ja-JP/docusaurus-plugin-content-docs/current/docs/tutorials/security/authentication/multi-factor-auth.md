@@ -4,19 +4,19 @@ slug: /multi-factor-auth
 sidebar_label: "MFA"
 beta: FALSE
 notebook: FALSE
-description: "Authentication serves as a gateway to verify one's identity during the login process. Zilliz Cloud enhances this security by offering Multi-factor Authentication (MFA), an advanced login method requiring additional verification beyond a password. MFA is an effective measure against unauthorized access and is recommended for all users. Currently, only users registered with a work email and password can manage MFA on the web console. With MFA enabled, you must enter both your password and the email verification code during each login attempt for added security. | Cloud"
+description: "認証は、ログイン過程で自分の身元を確認するためのゲートウェイとして機能します。Zilliz Cloudは、パスワード以外の追加の検証が必要な高度なログイン方法であるマルチファクタ認証(MFA)を提供することで、このセキュリティを強化しています。MFAは、不正アクセスに対する効果的な対策であり、すべてのユーザーに推奨されています。現在、Webコンソールで作業用メールとパスワード管理可能なMFAに登録したユーザーのみが対象です。MFAを有効にすると、追加のセキュリティのために、各ログイン試行時にパスワードとメール検証コードの両方を入力する必要があります。 | Cloud"
 type: origin
-token: KHAMwm0HUiU6qdkH2LOcu0FFnug
+token: Wj8NwX9SeidXQokJn3qctFuWnzY
 sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - mfa
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
@@ -25,45 +25,45 @@ import Admonition from '@theme/Admonition';
 
 # MFA
 
-Authentication serves as a gateway to verify one's identity during the login process. Zilliz Cloud enhances this security by offering Multi-factor Authentication (MFA), an advanced login method requiring additional verification beyond a password. MFA is an effective measure against unauthorized access and is recommended for all users. Currently, only users registered with a work email and password can manage MFA on the web console. With MFA enabled, you must enter both your password and the email verification code during each login attempt for added security.
+認証は、ログイン過程で自分の身元を確認するためのゲートウェイとして機能します。Zilliz Cloudは、パスワード以外の追加の検証が必要な高度なログイン方法であるマルチファクタ認証(MFA)を提供することで、このセキュリティを強化しています。MFAは、不正アクセスに対する効果的な対策であり、すべてのユーザーに推奨されています。現在、Webコンソールで作業用メールとパスワード管理可能なMFAに登録したユーザーのみが対象です。MFAを有効にすると、追加のセキュリティのために、各ログイン試行時にパスワードとメール検証コードの両方を入力する必要があります。
 
-### Enable MFA{#enable-mfa}
+### MFAを有効にする{#mfa}
 
-1. Go to your **Profile** and choose **Account Settings**.
+1. あなたの**プロフィール**に行き、**アカウント設定**を選択してください。
 
-1. Activate the Multi-Factor Authentication toggle.
+1. [多要素認証]トグルをオンにします。
 
-1. In the dialog box, confirm by entering your account password.
+1. ダイアログボックスで、アカウントのパスワードを入力して確認してください。
 
-1. Enter the verification code sent to your registered email to verify your identity.
+1. 登録したメールアドレスに送信された認証コードを入力して、本人確認を行ってください。
 
-1. You will be redirected to the login page. A prompt will appear notifying you that MFA is successfully enabled.
+1. ログインページにリダイレクトされます。MFAが正常に有効になったことを通知するプロンプトが表示されます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Users with accounts linked to Google are subject to Google's own MFA settings. For more information, see <a href="https://support.google.com/accounts/answer/185839?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">Turn on 2-Step Verification</a>. </p>
-<p>Similarly, MFA settings for GitHub-linked accounts are managed by GitHub. For more information, see <a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication">Configuring two-factor authentication</a>.</p>
+<p>Googleにリンクされたアカウントを持つユーザーは、Google独自のMFA設定の対象となります。詳細については、「<a href="https://support.google.com/accounts/answer/185839?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">2段階認証をオン</a>にする」を参照してください。</p>
+<p>同様に、GitHubにリンクされたアカウントのMFA設定はGitHubによって管理されます。詳細については、<a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication">2要素認証の構成</a>を参照してください。</p>
 
 </Admonition>
 
-![enable_mfa_en](/img/enable_mfa_en.png)
+![enable_mfa_en](/img/ja-JP/enable_mfa_en.png)
 
-### Disable MFA{#disable-mfa}
+### MFAを無効にする{#mfa}
 
-1. Go to your **Profile** and choose **Account Settings**.
+1. あなたの**プロフィール**に行き、**アカウント設定**を選択してください。
 
-1. Deactivate the Multi-Factor Authentication toggle.
+1. [多要素認証]トグルをオフにします。
 
-1. In the dialog box, click **Disable** to confirm your action.
+1. ダイアログボックスで、[**無効**にする]をクリックしてアクションを確認します。
 
-1. Verify your identity by entering the verification code sent to your email address. Click **Disable**.
+1. メールアドレスに送信された認証コードを入力して、本人確認を行います。**無効**にするをクリックします。
 
-1. A prompt will appear notifying you that MFA is successfully disabled.
+1. MFAが正常に無効になったことを通知するプロンプトが表示されます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Users with accounts linked to Google are subject to Google's own MFA settings. For more information, see  <a href="https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">Turn off 2-Step Verification</a>. </p>
-<p>Similarly, MFA settings for GitHub-linked accounts are managed by GitHub. For more information, see <a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account">Disabling two-factor authentication for your personal account</a>.</p>
+<p>Googleにリンクされたアカウントを持つユーザーは、Google独自のMFA設定の対象となります。詳細については、「<a href="https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">2段階認証をオフ</a>にする」を参照してください。</p>
+<p>同様に、GitHubにリンクされたアカウントのMFA設定はGitHubによって管理されます。詳細については、「<a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account">個人アカウントの2要素認証を無効</a>にする」を参照してください。</p>
 
 </Admonition>
 

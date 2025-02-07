@@ -248,7 +248,7 @@ module.exports = function (context, options) {
     
                             var token = fs.readdirSync(docSourceDir).filter(file => {
                                 source = JSON.parse(fs.readFileSync(docSourceDir + '/' + file, 'utf8'))
-                                return source.title === 'FAQs'
+                                return source.slug === 'faqs'
                             }).map(file => {
                                 source = JSON.parse(fs.readFileSync(docSourceDir + '/' + file, 'utf8'))
                                 return source.node_token

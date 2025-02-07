@@ -190,6 +190,29 @@ const config = {
           }
         }
       },
+      guidesJapanese: {
+        root: 'KSvxw0h8LiXtIdkpAnCcrl7cnio',
+        base: 'LkxfbrY6sa5jQ4sHquEcMqOsnCe',
+        sourceType: 'wiki',
+        displayedSidebar: 'default',
+        docSourceDir: './plugins/lark-docs/meta/sources/guidesJapanese',
+        targets: {
+          milvus: {
+            outputDir: 'milvus/guides/docs',
+            imageDir: 'milvus/guides/images'
+          },
+          zilliz: {
+            saas: {
+              outputDir: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/docs/tutorials',
+              imageDir: 'static/img/ja-JP',
+            },
+            paas: {
+              outputDir: 'i18n/ja-JP/docusaurus-plugin-content-docs/versioned_docs/version-byoc/tutorials',
+              imageDir: 'static/byoc/ja-JP'
+            } 
+          }
+        }        
+      },
       python: {
         root: 'PTJzfzI0ulKGjwdUsxQcFxfJn6b',
         base: 'D1VabelmAansLwsNTvLc2Wxxn1g',

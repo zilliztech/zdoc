@@ -1,12 +1,12 @@
 ---
-title: "Migrate from Elasticsearch to Zilliz Cloud | Cloud"
+title: "ElasticsearchからZilliz Cloudへの移行 | Cloud"
 slug: /migrate-from-elasticsearch
-sidebar_label: "Migrate from Elasticsearch"
+sidebar_label: "ElasticsearchからZilliz Cloudへの移行"
 beta: FALSE
 notebook: FALSE
-description: "Elasticsearch is a highly scalable search and analytics engine known for its speed and flexibility in handling large volumes of data. By leveraging Zilliz Cloud's migration capabilities, you can seamlessly transfer data from your Elasticsearch instances to your Zilliz Cloud cluster. | Cloud"
+description: "Elasticsearchは、大量のデータを処理するスピードと柔軟性で知られる、スケーラブルな検索および分析エンジンです。Zilliz Cloudの移行機能を活用することで、ElasticsearchインスタンスからZilliz Cloudクラスタへデータをシームレスに転送できます。 | Cloud"
 type: origin
-token: Y8nwwbi0KiwtVZkMaSQcsPcwnkf
+token: VCqgwwtyEieCCokZ0QGcYGalnoe
 sidebar_position: 6
 keywords: 
   - zilliz
@@ -14,161 +14,161 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Migrate from Elasticsearch to Zilliz Cloud
+# ElasticsearchからZilliz Cloudへの移行
 
-[Elasticsearch](https://www.elastic.co/elasticsearch) is a highly scalable search and analytics engine known for its speed and flexibility in handling large volumes of data. By leveraging Zilliz Cloud's migration capabilities, you can seamlessly transfer data from your Elasticsearch instances to your Zilliz Cloud cluster.
+[Elasticsearch](https://www.elastic.co/elasticsearch)は、大量のデータを処理するスピードと柔軟性で知られる、スケーラブルな検索および分析エンジンです。Zilliz Cloudの移行機能を活用することで、ElasticsearchインスタンスからZilliz Cloudクラスタへデータをシームレスに転送できます。
 
-This migration process involves establishing a connection with your existing Elasticsearch source and replicating its data indices to the corresponding target collections in Zilliz Cloud, preserving both the structure and performance of your original data while enabling advanced vector search functionalities.
+この移行過程では、既存のElasticsearchソースとの接続を確立し、そのデータインデックスをZilliz Cloudの対応するターゲットコレクションにレプリケートします。
 
-## Considerations{#considerations}
+## 考慮事項{#}
 
-- Currently, you can migrate the following Elasticsearch data types: **dense_vector**, **text**, **string**, **keyword**, **ip**, **date**, **timestamp**, **long**, **integer**, **short**, **byte**, **double**, **float**, **boolean**, **object**, **arrays**. If your table has fields with unsupported data types, you can choose not to migrate those fields or submit a [support ticket](https://support.zilliz.com/hc/en-us/requests/new). For information on how Elasticsearch data types are mapped to Zilliz Cloud, refer to [Field mapping reference](./migrate-from-elasticsearch#field-mapping-reference).
+- 現在、次のElasticsearchデータ型を移行できます:**dence_vector**、**text**、**string**、**キーワード**、**ip**、**date**、**timestamp**、**long**、**integer**、**short**、**byte**、**double**、**float**、**boolean**、**object**、**配列**。テーブルにサポートされていないデータ型のフィールドがある場合は、それらのフィールドを移行しないか、[サポートチケット](https://support.zilliz.com/hc/en-us/requests/new)を送信することができます。Elasticsearchデータ型がZilliz Cloudにマップされる方法については、[フィールドマッピングリファレンス<-atag-36/>を参照してください。](./migrate-from-elasticsearch#)
 
-- To ensure compatibility, Auto ID will be disabled and cannot be modified for each target collection on Zilliz Cloud.
+- 互換性を確保するため、Auto IDは無効になり、Zilliz Cloud上の各ターゲットコレクションに対して変更することはできません。
 
-- For each migration task, you can select only one vector field from each source index.
+- 各移行タスクについて、各ソースインデックスから1つのベクトルフィールドのみを選択できます。
 
-- Each migration task is limited to a single source Elasticsearch cluster. If you have data in multiple source clusters, you can set up separate migration jobs for each one.
+- 各移行タスクは、単一のソースElasticsearchクラスタに制限されます。複数のソースクラスタにデータがある場合は、それぞれに別々の移行ジョブを設定できます。
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-Make sure the following prerequisites are met:
+次の前提条件が満たされていることを確認してください。
 
-- The source Elasticsearch cluster is running version 7.x or later and is accessible from the public internet.
+- ソースのElasticsearchクラスタはバージョン7. x以降が実行されており、パブリックインターネットからアクセスできます。
 
-- If you have an allowlist configured in your network environment, ensure that Zilliz Cloud IP addresses are added to it. For more information, refer to [Zilliz Cloud IPs](./zilliz-cloud-ips).
+- ネットワーク環境で許可リストが設定されている場合は、Zilliz CloudのIPアドレスが追加されていることを確認してください。詳細については、Zilliz Cloud IPsを参照してください。
 
-- You have been granted the Organization Owner or Project Admin role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
+- 組織オーナーまたはプロジェクト管理者の役割が付与されています。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
 
-## Migrate from Elasticsearch to Zilliz Cloud{#migrate-from-elasticsearch-to-zilliz-cloud}
+## ElasticsearchからZilliz Cloudへの移行{#elasticsearchzilliz-cloud}
 
-You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided its CU size can accommodate the source data.
+ソースデータを任意のプランレベルのZilliz Cloudクラスタに移行できます(CU体格がソースデータに対応している場合)。
 
-![migrate_from_es](/img/migrate_from_es.png)
+![migrate_from_es](/img/ja-JP/migrate_from_es.png)
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. Go to the target project page and select **Migrations** > **Elasticsearch**.
+1. ターゲットプロジェクトページに移動し、**Migrations**>**Elasticsearch**を選択してください。
 
-1. In the **Connect to Data Source** step, select **Via Endpoint** or **Via Cloud ID** as the connection method to interact with the source Elasticsearch cluster. Then, click **Next**.
+1. 「**Connect to Data Source**」ステップで、ソースElasticsearchクラスタとやり取りする接続方法として、「**Via Endpoint**」または「**Via Cloud ID**」を選択します。次に、「**Next**」をクリックします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p><a href="https://www.elastic.co/guide/en/cloud-enterprise/current/ece-connect.html#ece-connect">Connect to your cluster</a> and <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-get-api-key.html">Get API key information</a> can guide you on obtaining the required connection information.</p>
-
-    </Admonition>
-
-1. In the **Select Source and Target** step, configure settings for the source Elasticsearch cluster and target Zilliz Cloud cluster. Then, click **Next**.
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p>Each source index you choose to migrate from Elasticsearch must include a vector field.</p>
+    <p><a href="https://www.elastic.co/guide/en/cloud-enterprise/current/ece-connect.html#ece-connect">クラスターに接続</a>し、<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-get-api-key.html">APIキー情報を取得</a>することで、必要な接続情報を取得できます。</p>
 
     </Admonition>
 
-1. In the **Configure Schema** step,
+1. 「**ソースとターゲットを選択**」ステップで、ソースElasticsearchクラスタとターゲットZilliz Cloudクラスタの設定を行います。次に、「**次**へ」をクリックします。
 
-    1. Verify the data mapping between your Elasticsearch data and the corresponding Zilliz Cloud data types. Zilliz Cloud has a default mechanism for mapping Elasticsearch data types to its own, but you can review and make necessary adjustments. Currently, you can rename fields, but cannot change the underlying data types.
+    <Admonition type="info" icon="📘" title="ノート">
 
-    1. In **Advanced Settings**, configure **Dynamic Field** and **Partition Key**. For more information, refer to [Dynamic Field](./enable-dynamic-field) and [Use Partition Key](./use-partition-key).
+    <p>Elasticsearchから移行する各ソースインデックスには、ベクトルフィールドを含める必要があります。</p>
 
-    1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
+    </Admonition>
 
-1. Click **Migrate**.
+1. 「**スキーマ構成**」ステップでは、
 
-## Monitor the migration process{#monitor-the-migration-process}
+    1. あなたのElasticsearchデータと対応するZilliz Cloudデータタイプとのデータマッピングを確認してください。Zilliz Cloudには、Elasticsearchデータタイプを自分自身にマッピングするためのデフォルトのメカニズムがありますが、必要に応じてレビューして調整することができます。現在、フィールドの名前を変更することはできますが、基礎となるデータタイプを変更することはできません。
 
-Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the migration is complete.
+    1. 「**詳細設定**」で、**ダイナミックフィールド**と**パーティションキー**を設定します。詳細については、「Dynamic FieldとUse Partition Keyする」を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+    1. [**ターゲットコレクション名**と**説明**]で、ターゲットコレクション名と説明をカスタマイズします。コレクション名は、各クラスターで一意である必要があります。名前が既存の名前と重複する場合は、コレクション名を変更します。
 
-<p>After migration, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.</p>
+1. [**移行**]をクリックします。
+
+## 移行過程を監視する{#}
+
+「**移行**」をクリックすると、移行ジョブが生成されます。[ジョブ](null)ページで移行の進捗状況を確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、移行が完了します。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>移行後、ターゲットクラスタ内のコレクションとエンティティの数がデータソースと一致していることを確認してください。不一致が見つかった場合は、エンティティが欠落しているコレクションを削除して再移行してください。</p>
 
 </Admonition>
 
-![verify_collection](/img/verify_collection.png)
+![verify_collection](/img/ja-JP/verify_collection.png)
 
-## Cancel migration job{#cancel-migration-job}
+## 移行ジョブをキャンセル{#}
 
-If the migration process encounters any issues, you can take the following steps to troubleshoot and resume the migration:
+移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
 
-1. On the [Jobs](./job-center) page, identify the failed migration job and cancel it.
+1. [[ジョブ](null)]ページで、失敗した移行ジョブを特定してキャンセルします。
 
-1. Click **View Details** in the **Actions** column to access the error log.
+1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
 
-## Field mapping reference{#field-mapping-reference}
+## フィールドマッピングリファレンス{#}
 
-Review the table below to understand how Elasticsearch data types map to Zilliz Cloud field types.
+以下の表を参照して、Elasticsearchのデータ型がZilliz Cloudのフィールド型にどのようにマップされるかを理解してください。
 
 <table>
    <tr>
-     <th><p><strong>Elasticsearch Field Type</strong></p></th>
-     <th><p><strong>Zilliz Cloud Field Type</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Elasticsearchのフィールドタイプ</strong></p></th>
+     <th><p><strong>Zilliz Cloudフィールドタイプ</strong></p></th>
+     <th><p><strong>説明する</strong></p></th>
    </tr>
    <tr>
-     <td><p>dense_vector</p></td>
-     <td><p>FloatVector</p></td>
-     <td><p>Vector dimensions remain unchanged. Specify <strong>L2</strong> or <strong>IP</strong> as the metric type.</p></td>
+     <td><p>密度ベクトル</p></td>
+     <td><p>FloatVectorの</p></td>
+     <td><p>ベクトルの寸法は変更されません。メトリックタイプとして<strong>L 2</strong>または<strong>IP</strong>を指定してください。</p></td>
    </tr>
    <tr>
-     <td><p>text, string, keyword, ip, date, timestamp</p></td>
+     <td><p>テキスト、文字列、キーワード、ip、日付、タイムスタンプ</p></td>
      <td><p>VarChar</p></td>
-     <td><p>Set Max Length (1 to 65,535). Strings exceeding the limit can trigger migration errors.</p></td>
+     <td><p>最大長(1から65,535)を設定します。制限を超える文字列は移行エラーを引き起こす可能性があります。</p></td>
    </tr>
    <tr>
-     <td><p>long</p></td>
-     <td><p>Int64</p></td>
+     <td><p>長い</p></td>
+     <td><p>Int 64の</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>integer</p></td>
-     <td><p>Int32</p></td>
+     <td><p>整数</p></td>
+     <td><p>Int 32の</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>short</p></td>
-     <td><p>int16</p></td>
+     <td><p>短い</p></td>
+     <td><p>int 16</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>byte</p></td>
-     <td><p>int8</p></td>
+     <td><p>バイト</p></td>
+     <td><p>int 8</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>double</p></td>
-     <td><p>Double</p></td>
+     <td><p>ダブル</p></td>
+     <td><p>ダブル</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>float</p></td>
-     <td><p>Float</p></td>
+     <td><p>フロート</p></td>
+     <td><p>フロート</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>boolean</p></td>
+     <td><p>ブール値</p></td>
      <td><p>Bool</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>object</p></td>
+     <td><p>オブジェクト</p></td>
      <td><p>JSON</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>arrays</p></td>
-     <td><p>Array</p></td>
+     <td><p>配列</p></td>
+     <td><p>アレイ</p></td>
      <td><p>-</p></td>
    </tr>
 </table>

@@ -1,12 +1,12 @@
 ---
-title: "Migrate from Milvus to Zilliz Cloud | Cloud"
+title: "MilvusからZilliz Cloudへの移行 | Cloud"
 slug: /migrate-from-milvus
-sidebar_label: "Migrate from Milvus"
+sidebar_label: "MilvusからZilliz Cloudへの移行"
 beta: FALSE
 notebook: FALSE
-description: "Milvus is an open-source vector database optimized for scalable similarity search and AI applications. Known for its high performance and ease of use, it is widely used for managing large-scale vector data. | Cloud"
+description: "Milvusは、スケーラブルな類似検索やAIアプリケーションに最適化されたオープンソースのベクトルデータベースです。高いパフォーマンスと使いやすさで知られており、大規模なベクトルデータの管理に広く使用されています。 | Cloud"
 type: origin
-token: TDkbwhwMyi7bPykZAoUc5PFfnIb
+token: InQ3w8128iPyOikHjXacMF0unAd
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,27 +14,27 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Migrate from Milvus to Zilliz Cloud
+# MilvusからZilliz Cloudへの移行
 
-[Milvus](https://milvus.io/docs) is an open-source vector database optimized for scalable similarity search and AI applications. Known for its high performance and ease of use, it is widely used for managing large-scale vector data.
+[Milvus](https://milvus.io/docs)は、スケーラブルな類似検索やAIアプリケーションに最適化されたオープンソースのベクトルデータベースです。高いパフォーマンスと使いやすさで知られており、大規模なベクトルデータの管理に広く使用されています。
 
-Zilliz Cloud simplifies deployment and maintenance by offering managed Milvus services, enabling easy migration of your existing Milvus deployments to the cloud. By connecting to your Milvus instance or uploading backups, you can transfer your vector data to Zilliz Cloud.
+Zilliz Cloudは、Milvusのマネージドサービスを提供することで、デプロイとメンテナンスを簡素化し、既存のMilvusデプロイをクラウドに簡単に移行できます。Milvusインスタンスに接続するか、バックアップをアップロードすることで、ベクトルデータをZilliz Cloudに転送できます。
 
-Zilliz Cloud provides two primary methods for migrating your data from Milvus:
+Zilliz Cloudは、Milvusからデータを移行するための2つの主要な方法を提供しています
 
-- [Via endpoint](./via-endpoint): allows you to migrate one database at a time from Milvus to Zilliz Cloud. Each database is migrated individually in sequence, making it ideal for scenarios where you need to carefully manage each database's migration process.
+- [エンドポイント経由](null): MilvusからZilliz Cloudへ一度に1つのデータベースを移行できます。各データベースは順番に個別に移行されるため、各データベースの移行過程を慎重に管理する必要があるシナリオに最適です。
 
-- [Via backup files](./via-backup-files): supports migrating multiple databases simultaneously, making it much faster and more efficient for large-scale migrations.
+- [バックアップファイルを介](null)して:複数のデータベースを同時に移行することをサポートし、大規模な移行をより迅速かつ効率的に行うことができます。
 
 
 

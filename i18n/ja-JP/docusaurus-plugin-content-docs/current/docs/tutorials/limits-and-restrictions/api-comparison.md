@@ -1,12 +1,12 @@
 ---
-title: "API Availability | Cloud"
+title: "API の可用性 | Cloud"
 slug: /api-comparison
-sidebar_label: "API Availability"
+sidebar_label: "API の可用性"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud operates slightly differently from Milvus in order to provide a better user experience. This article aims to clarify the differences between the two platforms in terms of APIs. | Cloud"
+description: "Zilliz Cloudは、より良いユーザーエクスペリエンスを提供するために、Milvusとはやや異なる方法で動作します。この記事では、APIに関する2つのプラットフォームの違いを明確にすることを目的としています。 | Cloud"
 type: origin
-token: DAk8w3GCJiuUTTkms6IcMtnAnMf
+token: LlLcwvH1FirFu7k0dhXcL3AZnCb
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -14,29 +14,29 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# API Availability
+# API の可用性
 
-Zilliz Cloud operates slightly differently from Milvus in order to provide a better user experience. This article aims to clarify the differences between the two platforms in terms of APIs.
+Zilliz Cloudは、より良いユーザーエクスペリエンスを提供するために、Milvusとはやや異なる方法で動作します。この記事では、APIに関する2つのプラットフォームの違いを明確にすることを目的としています。
 
-If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make some necessary changes to your legacy code.
+MilvusからZilliz Cloudへの移行を計画している場合は、レガシーコードに必要な変更を加える必要があります。
 
-## Scenario-specific privileges{#scenario-specific-privileges}
+## シナリオ固有の権限{#}
 
-The table below provides a comparison of API availability across various service tiers. Note that the availability of the API for the [Bring Your Own Cloud (BYOC)](/docs/byoc/byoc-intro) solution is consistent with that of the **Standard and Enterprise** tiers.
+以下の表では、さまざまなサービスレベルでのAPIの可用性を比較しています。[Bring Your Own Cloud (BYOC)](./byoc-intro) ソリューションのAPIの可用性は、StandardおよびEnterpriseレベルと一致しています。
 
 <table>
    <tr>
-     <th><p><strong>Category</strong></p></th>
+     <th><p><strong>カテゴリー</strong></p></th>
      <th><p><strong>API</strong></p></th>
      <th><p><strong>Console</strong></p></th>
      <th><p><strong>Free</strong></p></th>
@@ -511,11 +511,11 @@ The table below provides a comparison of API availability across various service
    </tr>
 </table>
 
-## Related topics{#related-topics}
+## 関連するトピック{#}
 
-- [Migrate from Milvus 1.x](./via-backup-files)
+- [バックアップファイルを使用してMilvusからZilliz Cloudに移行する](./via-backup-files)
 
-- [AUTOINDEX Explained](./autoindex-explained)
+- [AUTOINDEXの説明](./autoindex-explained)
 
-- [Select the Right CU](./cu-types-explained) 
+- [適切なCUを選択してください](./cu-types-explained)
 

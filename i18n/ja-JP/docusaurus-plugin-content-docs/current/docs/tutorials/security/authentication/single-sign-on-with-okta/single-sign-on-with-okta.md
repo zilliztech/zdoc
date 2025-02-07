@@ -1,33 +1,35 @@
 ---
-title: "Single Sign-on with Okta | Cloud"
+title: "Oktaによるシングルサインオン | Cloud"
 slug: /single-sign-on-with-okta
 sidebar_label: "SSO with Okta"
 beta: PUBLIC
 notebook: FALSE
-description: "Single sign-on (SSO) is a feature that allows users to log in to multiple applications or services with a single set of credentials, rather than requiring separate logins for each. | Cloud"
+description: "シングルサインオン（SSO）とは、複数のアプリケーションやサービスに対して別々のログインを必要とせず、1つの資格情報でログインできる機能です。 | Cloud"
 type: origin
-token: SXBNw91txiJhL6kq2ARcvYbRntg
+token: ALx5wPXhzi6ocCkDqN5cojpAnKe
 sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - sso
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Single Sign-on with Okta
+# Oktaによるシングルサインオン
 
-Single sign-on (SSO) is a feature that allows users to log in to multiple applications or services with a single set of credentials, rather than requiring separate logins for each.
+シングルサインオン（SSO）とは、複数のアプリケーションやサービスに対して別々のログインを必要とせず、1つの資格情報でログインできる機能です。
 
-Zilliz Cloud supports using [Okta](https://www.okta.com/) as the identity provider (IdP) to enable SSO via the OpenID Connect ([OIDC](https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_oidc.htm)) or [SAML 2.0](https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_saml.htm) protocol. This feature works at the organization level. By integrating with Okta, you can sign in using your Okta credentials to access Zilliz Cloud resources.
+Zilliz Cloudは、[Okta](https://www.okta.com/)をアイデンティティプロバイダ(IdP)として使用して、Open ID Connect([OIDC](https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_oidc.htm))または[SAML 2.0](https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_saml.htm)プロトコルを介してSSOを有効にすることをサポートしています。この機能は組織レベルで機能します。Oktaと統合することで、Oktaの資格情報を使用してサインインし、Zilliz Cloudリソースにアクセスできます。
+
+
 
 import DocCardList from '@theme/DocCardList';
 

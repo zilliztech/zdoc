@@ -1,12 +1,12 @@
 ---
-title: "View Backup Files | Cloud"
+title: "バックアップファイルを表示する | Cloud"
 slug: /view-snapshot-details
-sidebar_label: "View Backup Files"
+sidebar_label: "バックアップファイルを表示する"
 beta: FALSE
 notebook: FALSE
-description: "This guide walks you through how to view automatically or manually created backup files. | Cloud"
+description: "このガイドでは、自動または手動で作成されたバックアップファイルを表示する方法について説明します。 | Cloud"
 type: origin
-token: Fob2w8LZaifGSHkxjoZcHcTtngf
+token: RjYAwee7ViHHPQkxxY3cA7Vynq9
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - backup
   - files
   - view
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -26,22 +26,22 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# View Backup Files
+# バックアップファイルを表示する
 
-This guide walks you through how to view automatically or manually created backup files.
+このガイドでは、自動または手動で作成されたバックアップファイルを表示する方法について説明します。
 
-## View all backup files{#view-all-backup-files}
+## すべてのバックアップファイルを表示する{#}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-![view_all_backups](/img/view_all_backups.png)
+![view_all_backups](/img/ja-JP/view_all_backups.png)
 
 </TabItem>
 <TabItem value="Bash">
 
-List backup files created for a cluster. For details on parameters, refer to [List Backups](/reference/restful/list-backups-v2).
+クラスタ用に作成されたバックアップファイルを一覧表示します。パラメータの詳細については、[List Backups](/reference/restful/list-backups-v2)を参照してください。
 
 ```bash
 curl --request GET \
@@ -50,7 +50,7 @@ curl --request GET \
      --header "Accept: application/json"
 ```
 
-Expected output:
+予想される出力:
 
 ```bash
 {
@@ -82,18 +82,18 @@ Expected output:
 </TabItem>
 </Tabs>
 
-## View backup file details{#view-backup-file-details}
+## バックアップファイルの詳細を表示する{#}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-![view_snapshot_details](/img/view_snapshot_details.png)
+![view_snapshot_details](/img/ja-JP/view_snapshot_details.png)
 
 </TabItem>
 <TabItem value="Bash">
 
-View the details of a specific backup file. For details on parameters, refer to [Describe Backup](/reference/restful/describe-backup-v2).
+特定のバックアップファイルの詳細を表示します。パラメータの詳細については、「[バックアップの説明](/reference/restful/describe-backup-v2)」を参照してください。
 
 ```bash
 curl --request GET \
@@ -102,7 +102,7 @@ curl --request GET \
      --header "Accept: application/json"
 ```
 
-Expected output:
+予想される出力:
 
 ```bash
 {
@@ -128,13 +128,13 @@ Expected output:
 </TabItem>
 </Tabs>
 
-## Related topics{#related-topics}
+## 関連するトピック{#}
 
-- [Create Snapshot](./create-snapshot)
+- [バックアップを作成](./create-snapshot)
 
-- [Schedule Automatic Backups](./schedule-automatic-backups)
+- [自動バックアップをスケジュールする](./schedule-automatic-backups)
 
-- [Restore from Snapshot](./restore-from-snapshot)
+- [バックアップファイルからの復元](./restore-from-snapshot)
 
-- [Delete Snapshot](./delete-snapshot) 
+- [バックアップファイルを削除](./delete-snapshot)
 

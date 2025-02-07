@@ -1,12 +1,12 @@
 ---
-title: "Connect to Your Data | Cloud"
+title: "データに接続する | Cloud"
 slug: /connectors
-sidebar_label: "Connect to Your Data"
+sidebar_label: "データに接続する"
 beta: FALSE
 notebook: FALSE
-description: "The connector is an in-built free tool that makes it easy to connect various data sources to a vector database. This guide will explain the concept of a connector and provide instructions on how to create and manage connectors in Zilliz Cloud Pipelines. | Cloud"
+description: "コネクターは、様々なデータソースをベクターデータベースに簡単に接続できる無料のツールです。このガイドでは、コネクターの概念を説明し、Zilliz Cloud Pipelinesでコネクターを作成および管理する方法について説明します。 | Cloud"
 type: origin
-token: UcAvwL6N0iAq7bkuDcQcJgWqn3b
+token: Vw7zwhnd7ifEWAk6w9vcYR6lnQe
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,221 +14,221 @@ keywords:
   - cloud
   - connect
   - data
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Connect to Your Data
+# データに接続する
 
-The connector is an in-built free tool that makes it easy to connect various data sources to a vector database. This guide will explain the concept of a connector and provide instructions on how to create and manage connectors in Zilliz Cloud Pipelines.
+コネクターは、様々なデータソースをベクターデータベースに簡単に接続できる無料のツールです。このガイドでは、コネクターの概念を説明し、Zilliz Cloud Pipelinesでコネクターを作成および管理する方法について説明します。
 
-## Understanding Connectors{#understanding-connectors}
+## コネクターの理解{#}
 
-A connector is a tool for ingesting data to Zilliz Cloud from various data sources, including Object Storage, Kafka (coming soon) and more. Taking object storage connector as an example, a connector can monitor a directory in object storage bucket and sync files such as PDFs and HTMLs to Zilliz Cloud Pipelines, so that they can be converted to vector representation and stored in vector database for search. With ingestion and deletion pipelines, the files and their vector representation in Zilliz Cloud are kept in sync. Any addition or removal of files in the object storage will be mapped to the vector database collection.
+コネクタは、オブジェクトストレージ、Kafka(近日公開予定)など、さまざまなデータソースからZilliz Cloudにデータを取り込むためのツールです。オブジェクトストレージコネクタを例にとると、コネクタはオブジェクトストレージバケット内のディレクトリを監視し、PDFやHTMLなどのファイルをZilliz Cloudパイプラインに同期して、ベクトル表現に変換してベクトルデータベースに保存して検索できます。インジェストおよび削除パイプラインを使用すると、Zilliz Cloud内のファイルとそのベクトル表現が同期されます。オブジェクトストレージ内のファイルの追加または削除は、ベクトルデータベースコレクションにマップされます。
 
-![connector-overview](/img/connector-overview.png)
+![connector-overview](/img/ja-JP/connector-overview.png)
 
-### Why use a connector?{#why-use-a-connector}
+### なぜコネクタを使用するのですか?{#}
 
-1. **Real-time Data Ingestion**
+1. **リアルタイムデータ取り込み**
 
-    Effortlessly ingest and index data in real-time, guaranteeing that the freshest content is instantly accessible for all search inquiries.
+    リアルタイムでデータを楽々と取り込み、インデックス化することで、すべての検索問い合わせに対して最新のコンテンツが即座にアクセス可能になります。
 
-1. **Scalable and Adaptive**
+1. **スケーラブルで適応性がある**
 
-    Easily scale up your data ingestion pipeline with zero DevOps hassle. The adaptive connectors seamlessly handle fluctuating traffic loads, ensuring smooth scalability.
+    DevOpsの手間をかけずに、データ取り込みパイプラインを簡単に拡張できます。アダプティブコネクタは、変動するトラフィック負荷をシームレスに処理し、スムーズなスケーラビリティを確保します。
 
-1. **Search Index Kept in Sync With Heterogeneous Sources**
+1. **異種ソースと同期された検索インデックス**
 
-    Automatically sync the addition and deletion of documents to the search index. Moreover, fuse all common types of data source (coming soon).
+    ドキュメントの追加と削除を検索インデックスに自動的に同期します。また、すべての一般的なデータソースを融合します（近日公開予定）。
 
-1. **Observability**
+1. **可観測性**
 
-    Gain insight into your dataflow with detailed logging, ensuring transparency and detecting any anomalies that may arise.
+    詳細なログを記録し、透明性を確保し、発生する可能性のある異常を検出することで、データフローの洞察を得ることができます。
 
-## Create Connector{#create-connector}
+## コネクタの作成{#}
 
-Zilliz Cloud Pipelines provides flexible options when you create a connector. Once a connector is created, it will periodically scan your data sources and ingest data into your vector database at regular intervals.
+Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプションを提供します。コネクタが作成されると、定期的にデータソースをスキャンし、定期的な間隔でベクトルデータベースにデータを取り込みます。
 
-### Prerequisites{#prerequisites}
+### 前提条件{#}
 
-- Ensure you have [created a collection](./manage-collections-sdks).
+- 必ず[コレクションを作成し](./manage-collections-sdks)てください。
 
-- Ensure the created collection has a doc ingestion pipeline and deletion pipeline(s).
+- 作成されたコレクションには、文書の取り込みパイプラインと削除パイプラインがあることを確認してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Currently, Zilliz Cloud Connector only supports processing doc data.</p>
+<p>現在、Zilliz Cloud Connectorは文書データの処理のみをサポートしています。</p>
 
 </Admonition>
 
-### Procedures{#procedures}
+### 手続き{#}
 
-1. Navigate to your project. Click on **Pipelines** from the navigation panel. Then switch to the **Connectors** tab. Click **+ Connectors**.
+1. プロジェクトに移動します。ナビゲーションパネルから[**パイプライン**]をクリックします。次に、[**コネクタ**]タブに切り替えます。[**+コネクタ**]をクリックします。
 
-    ![create-connector](/img/create-connector.png)
+    ![create-connector](/img/ja-JP/create-connector.png)
 
-1. Link to your data source.
+1. データソースへのリンク。
 
-    1. Set up the basic information of the connector. 
-
-        <table>
-           <tr>
-             <th><p><strong>Parameter</strong></p></th>
-             <th><p><strong>Description</strong></p></th>
-           </tr>
-           <tr>
-             <td><p>Connector Name</p></td>
-             <td><p>The name of the connector to create.</p></td>
-           </tr>
-           <tr>
-             <td><p>Description (optional)</p></td>
-             <td><p>The description of the connector.</p></td>
-           </tr>
-        </table>
-
-    1. Configure the data source information.
+    1. コネクタの基本情報を設定します。
 
         <table>
            <tr>
-             <th><p><strong>Parameter</strong></p></th>
-             <th><p><strong>Description</strong></p></th>
+             <th><p><strong>パラメータ</strong></p></th>
+             <th><p><strong>説明する</strong></p></th>
            </tr>
            <tr>
-             <td><p>Object Storage Service</p></td>
-             <td><p>Select the object storage service of your data source. Available options include: </p><ul><li><p>AWS S3</p></li><li><p>Google Cloud Storage.</p></li></ul></td>
+             <td><p>コネクタ名</p></td>
+             <td><p>作成するコネクタの名前。</p></td>
            </tr>
            <tr>
-             <td><p>Bucket URL</p></td>
-             <td><p>Provide the bucket URL used for accessing your source data. Please make sure you enter the URL of a file directory instead of a specific file. In addition, root directory is not supported.</p><p>To learn more about how to obtain the URL, please refer to:</p><ul><li><p><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html">Accessing and listing an Amazon S3 bucket</a></p></li><li><p><a href="https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object">Discover object storage with the Google Cloud console</a></p></li></ul></td>
-           </tr>
-           <tr>
-             <td><p>Access Keys for authorization (optional)</p></td>
-             <td><p>Provide the following information for authorization if necessary:</p><ul><li><p>For AWS S3, please provide the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey">access key and secret key</a>.</p></li><li><p>For Google Cloud Storage, please provide the <a href="https://cloud.google.com/storage/docs/authentication/managing-hmackeys">access key ID and secret access key</a>.</p></li></ul></td>
+             <td><p>説明（オプション）</p></td>
+             <td><p>コネクタの説明。</p></td>
            </tr>
         </table>
 
-        Click **Link and Continue** to proceed to the next step.
+    1. データソース情報を構成します。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <table>
+           <tr>
+             <th><p><strong>パラメータ</strong></p></th>
+             <th><p><strong>説明する</strong></p></th>
+           </tr>
+           <tr>
+             <td><p>オブジェクトストレージサービス</p></td>
+             <td><p>データソースのオブジェクトストレージサービスを選択してください。利用可能なオプションには、次のものがあります:</p><ul><li><p>AWSのS 3</p></li><li><p>Google Cloud Storageです。</p></li></ul></td>
+           </tr>
+           <tr>
+             <td><p>バケットURL</p></td>
+             <td><p>ソースデータにアクセスするために使用するバケットURLを指定してください。特定のファイルではなく、ファイルディレクトリのURLを入力してください。また、ルートディレクトリはサポートされていません。</p><p>URLを取得する方法の詳細については、以下を参照してください:</p><ul><li><p><a href="https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/access-bucket-intro.html">Amazon S 3バケットへのアクセスとリスティング</a></p></li><li><p><a href="https://cloud.google.com/storage/docs/discover-object-storage-console?hl=ja#share_the_object">Google Cloudコンソールでオブジェクトストレージを発見する</a></p></li></ul></td>
+           </tr>
+           <tr>
+             <td><p>認証のためのアクセスキー（任意）</p></td>
+             <td><p>必要に応じて、承認のために以下の情報を提供してください</p><ul><li><p>AWS S 3の場合、<a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey">アクセスキーとシークレットキー</a>を提供してください。</p></li><li><p>Google Cloud Storageの場合、<a href="https://cloud.google.com/storage/docs/authentication/managing-hmackeys">アクセスキーIDとシークレットアクセスキー</a>を提供してください。</p></li></ul></td>
+           </tr>
+        </table>
 
-        <p>Zilliz Cloud will verify the connection to your data source before moving to the next step.</p>
+        次のステップに進むには**、リンクと続行**をクリックしてください。
+
+        <Admonition type="info" icon="Notes" title="undefined">
+
+        <p>次のステップに進む前に、Zilliz Cloudはデータソースへの接続を確認します。</p>
 
         </Admonition>
 
-        ![link-data-source](/img/link-data-source.png)
+        ![link-data-source](/img/ja-JP/link-data-source.png)
 
-1. Add target Pipelines. 
+1. ターゲットパイプラインを追加します。
 
-    First, choose a target cluster, then a collection with one ingestion pipeline and deletion pipeline(s). The target ingestion pipeline should **only** have an INDEX_DOC function. If multiple deletion pipelines are available, select the appropriate one manually.
+    まず、ターゲットクラスタを選択し、次に1つのインジェストパイプラインと削除パイプラインを持つコレクションを選択します。ターゲットインジェストパイプラインにはINDEX_DOC関数**のみ**が必要です。複数の削除パイプラインが利用可能な場合は、適切なものを手動で選択してください。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>This step can be skipped and completed later before initiating a scan.</p>
+    <p>スキャンを開始する前に、このステップをスキップして後で完了することができます。</p>
 
     </Admonition>
 
-    ![add-target-pipelines](/img/add-target-pipelines.png)
+    ![add-target-pipelines](/img/ja-JP/add-target-pipelines.png)
 
-1. Choose whether to enable auto scan. 
+1. 自動スキャンを有効にするかどうかを選択します。
 
-    - When it is disabled, you will need to manually trigger a scan if there are any updates to the source data.
+    - 無効になっている場合、ソースデータに更新がある場合は、手動でスキャンをトリガーする必要があります。
 
-    - When it is enabled, Zilliz Cloud will periodically scan the data source and sync the file addition/deletion to vector database collection through the designated ingestion/deletion pipelines. You will need to set up the auto scan schedule.
+    - 有効にすると、Zilliz Cloudは定期的にデータソースをスキャンし、指定された取り込み/削除パイプラインを介してベクトルデータベースコレクションにファイルの追加/削除を同期します。自動スキャンスケジュールを設定する必要があります。
 
         <table>
            <tr>
-             <th><p><strong>Parameter</strong></p></th>
-             <th><p><strong>Description</strong></p></th>
+             <th><p><strong>パラメータ</strong></p></th>
+             <th><p><strong>説明する</strong></p></th>
            </tr>
            <tr>
-             <td><p>Frequency</p></td>
-             <td><p>Set how often the system performs scans.</p><ul><li><p>Daily: Choose any number from 1 to 7.</p></li><li><p>Hourly: Options are 1, 6, 12, or 18 hours.</p></li></ul></td>
+             <td><p>周波数</p></td>
+             <td><p>システムがスキャンを実行する頻度を設定します。</p><ul><li><p>デイリー: 1から7までの数字を選択してください。</p></li><li><p>毎時:オプションは1、6、12、または18時間です。</p></li></ul></td>
            </tr>
            <tr>
-             <td><p>Next Run at</p></td>
-             <td><p>Specify the time for the next scan. The time zone is consistent with the <a href="./organization-settings#manage-timezone">system time zone</a> in organization settings.</p></td>
+             <td><p>次のRun at</p></td>
+             <td><p>次のスキャンの時間を指定します。タイムゾーンは、<a href="./organization-settings#">システムタイムゾーン</a>と組織設定で一致しています。</p></td>
            </tr>
         </table>
 
-        ![enable-auto-scan](/img/enable-auto-scan.png)
+        ![enable-auto-scan](/img/ja-JP/enable-auto-scan.png)
 
-1. Click **Create**.
+1. [**作成**]をクリックします。
 
-## Manage Connector{#manage-connector}
+## コネクタの管理{#}
 
-Managing connectors efficiently is integral to maintaining a smooth data integration process. This guide provides detailed instructions on how to manage connectors.
+コネクタを効率的に管理することは、スムーズなデータ統合過程を維持するために不可欠です。このガイドでは、コネクタの管理方法について詳しく説明します。
 
-### Enable or disable a connector{#enable-or-disable-a-connector}
+### コネクタを有効または無効にする{#}
 
-1. Locate the connector you want to manage.
+1. 管理するコネクタを探します。
 
-1. Click **...** under **Actions**.
+1. クリック**。。。**下の**アクション**。
 
-1. Choose **Enable** or **Disable**.
+1. [**有効**]または[**無効**]を選択します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>To activate a connector, ensure the target pipelines are configured. </p>
-
-</Admonition>
-
-![enable-connector](/img/enable-connector.png)
-
-### Trigger a manual scan{#trigger-a-manual-scan}
-
-Perform a manual scan if the auto scan feature is off. 
-
-Click "**...**" under **Actions** next to the target connector, then click **Scan**.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Ensure the connector is enabled before initiating a manual scan.</p>
+<p>コネクタをアクティブにするには、ターゲットパイプラインが構成されていることを確認します。</p>
 
 </Admonition>
 
-### Configure a connector{#configure-a-connector}
+![enable-connector](/img/ja-JP/enable-connector.png)
 
-You can modify the following settings of a connector:
+### 手動スキャンをトリガーする{#}
 
-- Storage bucket access credentials:
+自動スキャン機能がオフの場合は、手動スキャンを実行してください。
 
-    - (For AWS S3) access key and secret key
+をクリック**。。。**"ターゲットコネクタの横にある**アクション**の下で、**スキャン**をクリックします。
 
-    - (For Google Cloud Storage) access key ID and secret access key
+<Admonition type="info" icon="Notes" title="undefined">
 
-- Auto scan schedule. For more information, refer to step 4 in [the procedure for creating connectors](./connectors#procedures).
-
-![configure-connector](/img/configure-connector.png)
-
-### Drop a connector{#drop-a-connector}
-
-You can drop a connector if it is no longer necessary.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>The connector must be disabled before being dropped.</p>
+<p>手動スキャンを開始する前に、コネクタが有効になっていることを確認してください。</p>
 
 </Admonition>
 
-![drop-connector](/img/drop-connector.png)
+### コネクタの設定{#}
 
-### View connector logs{#view-connector-logs}
+コネクタの次の設定を変更できます。
 
-Monitor connector activities and troubleshoot issues:
+- ストレージバケットのアクセス資格情報:
 
-1. Access the connector's activity page to view logs.
+    - （AWS S 3の場合）アクセスキーとシークレットキー
 
-    ![view-connector-logs](/img/view-connector-logs.png)
+    - (Google Cloud Storageの場合)アクセスキーIDとシークレットアクセスキー
 
-1. An `abnormal` status indicates an error. Click the "?" icon next to the status for detailed error messages.
+- 自動スキャンスケジュール。詳細については、[コネクタの作成手順の](./connectors#)ステップ4を参照してください。
 
-### View related connectors in a pipeline{#view-related-connectors-in-a-pipeline}
+![configure-connector](/img/ja-JP/configure-connector.png)
 
-To view all the linked connectors in a pipeline, please [check the pipeline details](./pipelines-text-data#view-pipeline).  
+### コネクタを落とす{#}
+
+必要がなくなった場合は、コネクタを取り外すことができます。
+
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>コネクタはドロップする前に無効にする必要があります。</p>
+
+</Admonition>
+
+![drop-connector](/img/ja-JP/drop-connector.png)
+
+### コネクタログの表示{#}
+
+コネクタのアクティビティを監視し、問題をトラブルシューティングする:
+
+1. コネクタのアクティビティページにアクセスしてログを表示します。
+
+    ![view-connector-logs](/img/ja-JP/view-connector-logs.png)
+
+1. ステータスが`異常`な場合はエラーを示します。詳細なエラーメッセージを表示するには、ステータスの横にある「?」アイコンをクリックしてください。
+
+### パイプライン内の関連コネクタを表示する{#}
+
+パイプライン内のすべてのリンクされたコネクタを表示するには、[パイプラインの詳細を確認](./pipelines-text-data#)してください。

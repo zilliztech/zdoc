@@ -1,12 +1,12 @@
 ---
-title: "Select the Right CU | Cloud"
+title: "適切なCUを選択してください | Cloud"
 slug: /cu-types-explained
-sidebar_label: "CU Types"
+sidebar_label: "適切なCUを選択してください"
 beta: FALSE
 notebook: FALSE
-description: "Selecting the right Compute Unit (CU) is a crucial step when creating a cluster in Zilliz Cloud. A CU is the basic unit of compute resources used for parallel processing of data, and different CU types comprise varying combinations of CPU, memory, and storage. | Cloud"
+description: "Zilliz Cloudでクラスタを作成する際には、適切なコンピューティングユニット（CU）を選択することが重要なステップです。CUは、データの並列処理に使用されるコンピューティングリソースの基本単位であり、異なるCUタイプには、CPU、メモリ、ストレージのさまざまな組み合わせが含まれます。 | Cloud"
 type: origin
-token: UgqvwKh2QiKE1kkYNLJcaHt0nkg
+token: IIFEwvhtViqF2YkQJZrcwREwndb
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -14,143 +14,143 @@ keywords:
   - cloud
   - cu
   - select
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Select the Right CU
+# 適切なCUを選択してください
 
-Selecting the right Compute Unit (CU) is a crucial step when creating a cluster in Zilliz Cloud. A CU is the basic unit of compute resources used for parallel processing of data, and different CU types comprise varying combinations of CPU, memory, and storage.
+Zilliz Cloudでクラスタを作成する際には、適切なコンピューティングユニット（CU）を選択することが重要なステップです。CUは、データの並列処理に使用されるコンピューティングリソースの基本単位であり、異なるCUタイプには、CPU、メモリ、ストレージのさまざまな組み合わせが含まれます。
 
-## Understand CU types{#understand-cu-types}
+## CUタイプを理解する{#cu}
 
-Zilliz Cloud offers these CU types: **Performance-optimized, Capacity-optimized**, and **Extended-capacity.**
+Zilliz Cloudは、次のCUタイプを提供しています:**Performance-optimized、容量最適化**、および**拡張容量。**
 
-The following table offers a quick comparison of the three CU types in different aspects. For a detailed comparison in terms of the capacity and performance among the CU types, please proceed to [Select an optimal CU type](./cu-types-explained#select-an-optimal-cu-type).
+以下の表は、異なる側面で3つのCUタイプを簡単に比較したものです。CUタイプ間の容量と性能の詳細な比較については、「[最適なCUタイプを選択](./cu-types-explained#cu)する」を参照してください。
 
 <table>
    <tr>
-     <th><p>CU Type</p></th>
-     <th><p>Search QPS</p></th>
-     <th><p>Search Latency</p></th>
-     <th><p>Per CU Capacity</p></th>
-     <th><p>Cost per Million Vectors</p></th>
+     <th><p>CUタイプ</p></th>
+     <th><p>QPSを検索する</p></th>
+     <th><p>検索レイテンシ</p></th>
+     <th><p>CU容量ごと</p></th>
+     <th><p>百万ベクトルあたりのコスト</p></th>
    </tr>
    <tr>
      <td><p><strong>Performance-optimized</strong></p></td>
      <td><p>500~1500</p></td>
-     <td><p>sub-10 ms</p></td>
-     <td><p>1.5 million 768-dim vectors</p></td>
-     <td><p>from $65/mo.</p></td>
+     <td><p>サブ10ミリ秒</p></td>
+     <td><p>150万個の768暗ベクトル</p></td>
+     <td><p>$65/月から。</p></td>
    </tr>
    <tr>
-     <td><p><strong>Capacity-optimized</strong></p></td>
+     <td><p><strong>キャパシティ最適化</strong></p></td>
      <td><p>100~300</p></td>
-     <td><p>tens-ms</p></td>
-     <td><p>5 million 768-dim vectors</p></td>
-     <td><p>from $20/mo.</p></td>
+     <td><p>十ミリ秒</p></td>
+     <td><p>500万個の768-dimベクトル</p></td>
+     <td><p>$20/月から。</p></td>
    </tr>
    <tr>
-     <td><p><strong>Extended-capacity</strong></p></td>
+     <td><p><strong>拡張キャパシティ</strong></p></td>
      <td><p>5~20</p></td>
-     <td><p>hundreds-ms</p></td>
-     <td><p>20 million 768-dim vectors</p></td>
-     <td><p>from $10/mo.</p></td>
+     <td><p>百ミリ秒</p></td>
+     <td><p>20百万の768暗いベクトル</p></td>
+     <td><p>$10/月から。</p></td>
    </tr>
 </table>
 
-### Performance-optimized CU{#performance-optimized-cu}
+### Performance-optimizedCU{#performance-optimizedcu}
 
-- Tailored for scenarios emphasizing low latency and high throughput.
+- 低レイテンシーと高スループットを重視したシナリオに合わせて調整されています。
 
-- Ideal for real-time applications like generative AI, recommendation systems, chatbots, and more.
+- 生成AI、推薦システム、チャットボットなどのリアルタイムアプリケーションに最適です。
 
-### Capacity-optimized CU{#capacity-optimized-cu}
+### 容量最適化されたCU{#cu}
 
-- Crafted for handling vast datasets, boasting five times the data capacity of its Performance-optimized counterpart, albeit with subdued search performance.
+- 膨大なデータセットを処理できるように設計されており、検索性能は抑えられていますが、Performance-optimizedの相手の5倍のデータ容量を誇っています。
 
-- Ideal for large-scale unstructured data search, copyright detection, and identity verification.
+- 大規模な非構造化データ検索、著作権検出、身元確認に最適です。
 
-## Extended-capacity CU{#extended-capacity-cu}
+## 拡張キャパシティCU{#cu}
 
-- Best for scenarios with extensive datasets where cost-efficiency is prioritized over latency.
+- レイテンシよりもコスト効率が優先される広範なデータセットのシナリオに最適です。
 
-- Ideal for applications that need to store massive volumes of data at a low cost. The capacity of an extended-capacity CU is 4 times that of a capacity-optimized CU.
+- 低コストで大量のデータを保存する必要があるアプリケーションに最適です。拡張容量CUの容量は、容量最適化CUの4倍です。
 
-If you need to select the extended-capacity CU, please [contact sales](https://zilliz.com/contact-sales).
+拡張容量のCUを選択する必要がある場合は、[営業部までお問い合わせ](https://zilliz.com/contact-sales)ください。
 
-## Select an optimal CU type{#select-an-optimal-cu-type}
+## 最適なCUタイプを選択してください{#cu}
 
-Factor in data volume, performance expectations, and budgets while selecting the CU type. Your vector data's magnitude, both in terms of vector count and dimensions, plays a pivotal role in determining cluster resource allocation.
+CUタイプを選択する際には、データ量、パフォーマンスの期待値、および予算を考慮してください。ベクトルデータの大きさは、ベクトルの数と次元の両方において、クラスタリソースの割り当てを決定する上で重要な役割を果たします。
 
-### Assess capacity{#assess-capacity}
+### 容量を評価する{#}
 
-The number of entities a cluster can accommodate depends on the CU capacity of a cluster.
+クラスタが収容できるエンティティの数は、クラスタのCU容量に依存します。
 
-The reference table below illustrates the capacity of a cluster with 1 performance-optimized CU and 1 capacity-optimized CU, taking into account the vector dimensions and the total vector count. For an estimation of the CU sizes needed for your data volume, please use [our calculator](https://zilliz.com/pricing#calculator).
+以下の参照表は、ベクトルの寸法と総ベクトル数を考慮して、1つのperformance-optimizedCUと1つの容量最適化CUを持つクラスタの容量を示しています。データ量に必要なCUサイズの見積もりについては、[当社の計算機](https://zilliz.com/pricing#calculator)を使用してください。
 
 <table>
    <tr>
-     <th><p>Vector Dimensions</p></th>
-     <th><p>Performance-optimized (Max. Vectors per CU)</p></th>
-     <th><p>Capacity-optimized (Max. Vectors per CU)</p></th>
-     <th><p>Extended-capacity (Max. Vectors per CU)</p></th>
+     <th><p>ベクトルの寸法</p></th>
+     <th><p>Performance-optimized(CUあたりの最大ベクトル数)</p></th>
+     <th><p>容量最適化（CUあたりの最大ベクトル数）</p></th>
+     <th><p>拡張容量（CUあたりの最大ベクトル数）</p></th>
    </tr>
    <tr>
      <td><p>128</p></td>
-     <td><p>7.5 million</p></td>
-     <td><p>25 million</p></td>
-     <td><p>100 million</p></td>
+     <td><p>750万ドル</p></td>
+     <td><p>2500万ドル</p></td>
+     <td><p>1億ドル</p></td>
    </tr>
    <tr>
      <td><p>256</p></td>
-     <td><p>4.5 million</p></td>
-     <td><p>15 million</p></td>
-     <td><p>60 million</p></td>
+     <td><p>450万ドル</p></td>
+     <td><p>1500万ドル</p></td>
+     <td><p>6,000万ドル</p></td>
    </tr>
    <tr>
      <td><p>512</p></td>
-     <td><p>2.25 million</p></td>
-     <td><p>7.5 million</p></td>
-     <td><p>30 million</p></td>
+     <td><p>225万ドル</p></td>
+     <td><p>750万ドル</p></td>
+     <td><p>3000万ドル</p></td>
    </tr>
    <tr>
      <td><p>768</p></td>
-     <td><p>1.5 million</p></td>
-     <td><p>5 million</p></td>
-     <td><p>20 million</p></td>
+     <td><p>150万ドル</p></td>
+     <td><p>500万ドル</p></td>
+     <td><p>2000万ドル</p></td>
    </tr>
    <tr>
      <td><p>1024</p></td>
-     <td><p>1.125 million</p></td>
-     <td><p>3.75 million</p></td>
-     <td><p>15 million</p></td>
+     <td><p>1,125万円</p></td>
+     <td><p>375万ドル</p></td>
+     <td><p>1500万ドル</p></td>
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The above metrics are based on tests considering only primary keys and vectors. If your dataset has extra scalar fields (e.g., id, label, keywords), the actual capacity may deviate. It's prudent to conduct personal tests for a precise evaluation.</p>
+<p>上記のメトリックは、主キーとベクトルのみを考慮したテストに基づいています。データセットに余分なスカラーフィールド（例: id、label、キーワード）がある場合、実際の容量はずれる可能性があります。正確な評価のために個人的なテストを実施することが賢明です。</p>
 
 </Admonition>
 
-### Evaluate performance{#evaluate-performance}
+### パフォーマンスを評価する{#}
 
-Performance metrics, notably latency and queries per second (QPS), are vital. The Performance-optimized CU distinctly outperforms Capacity-optimized CU in latency and throughput, particularly for standard `top-k` values ranging from 10 to 250.
+パフォーマンス指標、特にレイテンシと1秒あたりのクエリ数(QPS)は重要です。Performance-optimizedCUは、特に10から250までの標準的な`top-k`値において、レイテンシとスループットにおいて、容量最適化CUよりも明らかに優れています。
 
-The following table shows the test result of how each CU type performs in terms of QPS.
+以下の表は、各CUタイプのQPSに関するテスト結果を示しています。
 
 <table>
    <tr>
-     <th><p>top_k</p></th>
-     <th><p>QPS for Performance-optimized CU (768-dim 1M vectors)</p></th>
-     <th><p>QPS for Capacity-optimized CU (768-dim 5M vectors)</p></th>
+     <th><p>トップk</p></th>
+     <th><p>QPS forPerformance-optimizedCU(76 8-dim 1 Mベクトル)</p></th>
+     <th><p>容量最適化CUのQPS（76 8-dim 5 Mベクトル）</p></th>
    </tr>
    <tr>
      <td><p>10</p></td>
@@ -174,46 +174,46 @@ The following table shows the test result of how each CU type performs in terms 
    </tr>
 </table>
 
-The following table shows the test result of how each CU type performs in terms of latency.
+次の表は、各CUタイプのレイテンシに関するテスト結果を示しています。
 
 <table>
    <tr>
-     <th><p>top_k</p></th>
-     <th><p>Latency of Performance-optimized CU (768-dim 1M vectors)</p></th>
-     <th><p>Latency of Capacity-optimized CU (768-dim 5M vectors)</p></th>
+     <th><p>トップk</p></th>
+     <th><p>CUPerformance-optimized(76 8-dim 1 Mベクトル)の遅延</p></th>
+     <th><p>容量最適化CU（76 8-dim 5 Mベクトル）のレイテンシ</p></th>
    </tr>
    <tr>
      <td><p>10</p></td>
-     <td><p>&lt; 10 ms</p></td>
-     <td><p>&lt; 50 ms</p></td>
+     <td><p>&lt;10ミリ秒</p></td>
+     <td><p>&lt;50ミリ秒</p></td>
    </tr>
    <tr>
      <td><p>100</p></td>
-     <td><p>&lt; 10 ms</p></td>
-     <td><p>&lt; 50 ms</p></td>
+     <td><p>&lt;10ミリ秒</p></td>
+     <td><p>&lt;50ミリ秒</p></td>
    </tr>
    <tr>
      <td><p>250</p></td>
-     <td><p>&lt; 10 ms</p></td>
-     <td><p>&lt; 50 ms</p></td>
+     <td><p>&lt;10ミリ秒</p></td>
+     <td><p>&lt;50ミリ秒</p></td>
    </tr>
    <tr>
      <td><p>1000</p></td>
-     <td><p>10 - 20 ms</p></td>
-     <td><p>50 - 100 ms</p></td>
+     <td><p>10-20ミリ秒</p></td>
+     <td><p>50-100ミリ秒</p></td>
    </tr>
 </table>
 
-## Scenario breakdown{#scenario-breakdown}
+## シナリオの内訳{#}
 
-Suppose you are building an image recommendation application with a library of 8 million images. Each image in your library is represented by a 768-dimensional embedding vector. Your goal is to swiftly handle a QPS of 1,000 recommendation requests and deliver the top 100 image recommendations in under 30 milliseconds.
+800万枚の画像ライブラリを持つ画像推薦アプリケーションを構築していると仮定します。ライブラリ内の各画像は768次元の埋め込みベクトルで表されます。目標は、1,000件の推薦リクエストのQPSを迅速に処理し、トップ100の画像推薦を30ミリ秒未満で提供することです。
 
-To select the right CU for this requirement, follow these steps:
+この要件に適したCUを選択するには、次の手順に従います。
 
-1. **Evaluate Latency**: The Performance-optimized CU is the only type that meets the 30-millisecond latency requirement.
+1. **レイテンシの評価**:Performance-optimizedCUは、30ミリ秒のレイテンシ要件を満たす唯一のタイプです。
 
-1. **Assess Capacity**: A single Performance-optimized CU accommodates 1.5 million 768-dimensional vectors. To store all 8 million vectors, you would need at least 6 CUs.
+1. **容量を評価**する: 1つのPerformance-optimizedCUには150万個の768次元ベクトルが格納できます。800万個のベクトルをすべて格納するには、少なくとも6つのCUが必要です。
 
-1. **Check Throughput**: With a `top-k` setting of 100, the Performance-optimized CU can achieve a QPS of 440. To sustain a consistent 1,000 QPS, you would need to triple the number of replicas.
+1. **チェックスループット**:`top-k`を100に設定すると、Performance-optimizedCUはQPS 440を達成できます。一貫して1,000 QPSを維持するには、レプリカの数を3倍にする必要があります。
 
-In conclusion, for this scenario, the Performance-optimized CU is your best bet. A configuration of 3 replicas, with each replica consisting of 6 CUs, should serve you perfectly.
+結論として、このシナリオでは、Performance-optimizedCUが最善の選択肢です。各レプリカが6つのCUで構成される3つのレプリカの構成は、完璧に役立つはずです。

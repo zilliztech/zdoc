@@ -1,12 +1,12 @@
 ---
-title: "Export Backup Files | Cloud"
+title: "バックアップファイルのエクスポート | Cloud"
 slug: /export-backup-files
-sidebar_label: "Export Backup Files"
+sidebar_label: "バックアップファイルのエクスポート"
 beta: PRIVATE
 notebook: FALSE
-description: "You can export backup files to object storage using the Zilliz Cloud console. | Cloud"
+description: "Zilliz Cloudコンソールを使用して、バックアップファイルをオブジェクトストレージにエクスポートできます。 | Cloud"
 type: origin
-token: QUTDwkbTTiA2UlkWYDlc796ensf
+token: LEL8wsFaxidFcKkep84c6plnnub
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -27,73 +27,73 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
-# Export Backup Files
+# バックアップファイルのエクスポート
 
-You can export backup files to object storage using the Zilliz Cloud console.
+Zilliz Cloudコンソールを使用して、バックアップファイルをオブジェクトストレージにエクスポートできます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>This feature is in <strong>Private Preview</strong> for clusters on the <strong>Dedicated-Enterprise</strong> plan. To enable this feature or learn about the associated costs, contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+<p>この機能は、<strong>プライベートプレビュー</strong>として<strong>Dedicated-Enterprise</strong>プランのクラスターで提供されています。この機能を有効にするか、関連するコストについては、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
 
 </Admonition>
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-- You have integrated Zilliz Cloud with your object storage. For detailed steps, refer to [Integrate with AWS S3](./integrate-with-aws-s3).
+- Zilliz Cloudをオブジェクトストレージに統合しました。詳細な手順については、[AWS S 3との統合](./integrate-with-aws-s3)するを参照してください。
 
-- You have **Organization Owner** or **Project Admin** access to the project. If you do not have necessary permissions, contact your Zilliz Cloud administrator.
+- プロジェクトには**組織オーナー**また**はプロジェクト管理者**のアクセス権があります。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
 
-## Procedure{#procedure}
+## 手続き{#}
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. In the left-side navigation pane, choose **Backups**.
+1. 左側のナビゲーションウィンドウで、[**バックアップ**]を選択します。
 
-1. On the page that appears, find the target backup file, click **...** in the **Actions** column, and then select **Export**.
+1. 表示されるページで、対象のバックアップファイルを探し、をクリックします**。。。**[**アクション**]列で、[**エクスポート**]を選択します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p>Only backup files in the <strong>Available</strong> status can be exported.</p>
+    <p>エクスポートできるのは、[<strong>利用可能</strong>]ステータスのバックアップファイルのみです。</p>
 
     </Admonition>
 
-1. In the **Export Backup File** dialog box, configure backup settings:
+1. [**バックアップファイルのエクスポート**]ダイアログボックスで、バックアップ設定を構成します。
 
-    - **Cloud Region of Cluster in Backup File**: Displays the cloud region where the backup file was created.
+    - **Cloud Region of Cluster in Backup File**:バックアップファイルが作成されたクラウドリージョンを表示します。
 
-    - **Integration**: Select the object storage provider integrated with Zilliz Cloud. Currently, AWS S3 is supported. For more information, refer to [Integrate with AWS S3](./integrate-with-aws-s3).
+    - **連携**: Zilliz Cloudと連携するオブジェクトストレージプロバイダを選択してください。現在、AWS S 3がサポートされています。詳細については、「[AWS S 3との統合](./integrate-with-aws-s3)する」を参照してください。
 
-    - **Integration Configuration**: Choose the specific bucket you configured for the backup export.
+    - **統合構成**:バックアップエクスポート用に構成した特定のバケットを選択します。
 
-    - **Directory**: Enter the directory path in your object storage bucket where the exported backup file will be stored.
+    - **ディレクトリ**:エクスポートしたバックアップファイルを保存するオブジェクトストレージバケットのディレクトリパスを入力します。
 
-1. Then, click **Export**.
+1. [**エクスポート**]をクリックします。
 
-![export-backup-file](/img/export-backup-file.png)
+![export-backup-file](/img/ja-JP/export-backup-file.png)
 
-## Monitor export progress{#monitor-export-progress}
+## エクスポートの進捗を監視する{#}
 
-Once you click **Export**, an export job is generated automatically:
+[**エクスポート**]をクリックすると、エクスポートジョブが自動的に生成されます。
 
-1. Go to the [Jobs](https://docs.cloud-uat3.zilliz.com/docs/job-center) page in the left-side navigation pane.
+1. 左側のナビゲーションウィンドウの[[ジョブ](./job-center)]ページに移動します。
 
-1. Monitor the job's **Status**:
+1. ジョブの**ステータス**を監視する:
 
-    - **IN PROGRESS**: The file is being exported.
+    - **進行中**:ファイルがエクスポートされています。
 
-    - **SUCCESSFUL**: The backup file has been successfully exported. You can access it in your specified S3 bucket.
+    - **成功**:バックアップファイルが正常にエクスポートされました。指定されたS 3バケットでアクセス可能です。
 
-    - **ERROR**: The job failed. This can occur if a resource used by the export process, such as the Role ARN or the backup file, is deleted during the job execution.
+    - **エラー**:ジョブが失敗しました。これは、ロールARNやバックアップファイルなど、エクスポート過程で使用されるリソースがジョブの実行中に削除された場合に発生します。
 
-![monitor-export-job](/img/monitor-export-job.png)
+![monitor-export-job](/img/ja-JP/monitor-export-job.png)
 
-## Cancel export job{#cancel-export-job}
+## エクスポートジョブをキャンセル{#}
 
-If your job remains in the **IN PROGRESS** status and you decide not to proceed, you can cancel the job by clicking **Cancel** in the **Actions** column.
+ジョブが**IN PROGRESS**ステータスのままで続行しない場合は、[アクション]列の[**キャンセル**]をクリックしてジョブを**キャンセル**できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Canceling midway will not remove data already uploaded to your bucket.</p>
+<p>途中でキャンセルしても、バケットにすでにアップロードされているデータは削除されません。</p>
 
 </Admonition>
 

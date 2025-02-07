@@ -1,12 +1,12 @@
 ---
-title: "Data Import | Cloud"
+title: "データインポート | Cloud"
 slug: /data-import
-sidebar_label: "Data Import"
+sidebar_label: "データインポート"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud supports data import from various storage options, including AWS S3, GCP Storage, and Azure Blob Storage, as well as formats such as Parquet (recommended), JSON, and NumPy files. In this chapter, you will find the procedure for importing data in the supported formats from these storage options. | Cloud"
+description: "Zilliz Cloudは、AWS S 3、GCP Storage、Azure Blob Storageなど、さまざまなストレージオプションからのデータインポートをサポートしています。また、Parquet(推奨)、JSON、NumPyファイルなどの形式もサポートしています。この章では、これらのストレージオプションからサポートされている形式のデータをインポートする手順について説明します。 | Cloud"
 type: origin
-token: T5BnwoXuFiwXyekEJ1ZcfaJGnqd
+token: RcfLwTgtuiphf0kVWpXccLlQnWd
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,19 +14,19 @@ keywords:
   - cloud
   - data import
   - milvus
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Data Import
+# データインポート
 
-Zilliz Cloud supports data import from various storage options, including AWS S3, GCP Storage, and Azure Blob Storage, as well as formats such as Parquet (recommended), JSON, and NumPy files. In this chapter, you will find the procedure for importing data in the supported formats from these storage options.
+Zilliz Cloudは、AWS S 3、GCP Storage、Azure Blob Storageなど、さまざまなストレージオプションからのデータインポートをサポートしています。また、Parquet(推奨)、JSON、NumPyファイルなどの形式もサポートしています。この章では、これらのストレージオプションからサポートされている形式のデータをインポートする手順について説明します。
 
 
 

@@ -1,12 +1,12 @@
 ---
-title: "Dense Vector | Cloud"
+title: "密集ベクトル | Cloud"
 slug: /use-dense-vector
-sidebar_label: "Dense Vector"
+sidebar_label: "密集ベクトル"
 beta: FALSE
 notebook: FALSE
-description: "Dense vectors are numerical data representations widely used in machine learning and data analysis. They consist of arrays with real numbers, where most or all elements are non-zero. Compared to sparse vectors, dense vectors contain more information at the same dimensional level, as each dimension holds meaningful values. This representation can effectively capture complex patterns and relationships, making data easier to analyze and process in high-dimensional spaces. Dense vectors typically have a fixed number of dimensions, ranging from a few dozen to several hundred or even thousands, depending on the specific application and requirements. | Cloud"
+description: "密集ベクトルは、機械学習やデータ分析で広く使用されている数値データ表現です。実数の配列で構成され、ほとんどまたはすべての要素が非ゼロです。疎ベクトルと比較して、密集ベクトルは、各次元が意味のある値を保持するため、同じ次元レベルでより多くの情報を含んでいます。この表現により、複雑なパターンや関係を効果的に捉えることができ、データを高次元空間で分析および過程化することが容易になります。密集ベクトルには通常、特定のアプリケーションや要件に応じて、数十から数百、さらには数千の固定された次元があります。 | Cloud"
 type: origin
-token: ARalwpaVDiCwDZkoSHtcPNgXnRg
+token: Ikz7wS5FtiPuFRkE7pic3azonxg
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 
@@ -26,27 +26,27 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Dense Vector
+# 密集ベクトル
 
-Dense vectors are numerical data representations widely used in machine learning and data analysis. They consist of arrays with real numbers, where most or all elements are non-zero. Compared to sparse vectors, dense vectors contain more information at the same dimensional level, as each dimension holds meaningful values. This representation can effectively capture complex patterns and relationships, making data easier to analyze and process in high-dimensional spaces. Dense vectors typically have a fixed number of dimensions, ranging from a few dozen to several hundred or even thousands, depending on the specific application and requirements.
+密集ベクトルは、機械学習やデータ分析で広く使用されている数値データ表現です。実数の配列で構成され、ほとんどまたはすべての要素が非ゼロです。疎ベクトルと比較して、密集ベクトルは、各次元が意味のある値を保持するため、同じ次元レベルでより多くの情報を含んでいます。この表現により、複雑なパターンや関係を効果的に捉えることができ、データを高次元空間で分析および過程化することが容易になります。密集ベクトルには通常、特定のアプリケーションや要件に応じて、数十から数百、さらには数千の固定された次元があります。
 
-Dense vectors are mainly used in scenarios that require understanding the semantics of data, such as semantic search and recommendation systems. In semantic search, dense vectors help capture the underlying connections between queries and documents, improving the relevance of search results. In recommendation systems, they aid in identifying similarities between users and items, offering more personalized suggestions.
+密集ベクトルは、セマンティック検索や推薦システムなど、データの意味を理解する必要があるシナリオで主に使用されます。セマンティック検索では、密集ベクトルはクエリとドキュメントの根本的なつながりを捉え、検索結果の関連性を向上させるのに役立ちます。推薦システムでは、ユーザーとアイテムの類似点を特定し、よりパーソナライズされた提案を提供するのに役立ちます。
 
-## Overview{#overview}
+## 概要について{#}
 
-Dense vectors are typically represented as arrays of floating-point numbers with a fixed length, such as `[0.2, 0.7, 0.1, 0.8, 0.3, ..., 0.5]`. The dimensionality of these vectors usually ranges from hundreds to thousands, such as 128, 256, 768, or 1024. Each dimension captures specific semantic features of an object, making it applicable to various scenarios through similarity calculations.
+密ベクトルは通常、固定長の浮動小数点数の配列として表されます(例:`[0.2,0.7,0.1,0.8,0.3,...)。。。0.5]`。これらのベクトルの次元数は通常、128、256、768、または1024など、数百から数千に及びます。各次元はオブジェクトの特定の意味的特徴を捉えるため、類似性計算を通じてさまざまなシナリオに適用できます。
 
-![QOgMwbrhLhvvtbbk5TxcarhEn8i](/img/QOgMwbrhLhvvtbbk5TxcarhEn8i.png)
+![UwqzwxzPEhCv3mbkQIacyplJnTe](/img/ja-JP/UwqzwxzPEhCv3mbkQIacyplJnTe.png)
 
-The image above illustrates the representation of dense vectors in a 2D space. Although dense vectors in real-world applications often have much higher dimensions, this 2D illustration effectively conveys several key concepts:
+上の画像は、2 D空間における密集ベクトルの表現を示しています。現実世界のアプリケーションにおける密集ベクトルはしばしばはるかに高次元を持っていますが、この2 Dイラストはいくつかの重要な概念を効果的に伝えています
 
-- **Multidimensional Representation:** Each point represents a conceptual object (like **Milvus**, **vector database**, **retrieval system**, etc.), with its position determined by the values of its dimensions.
+- **多次元表現:**各点は概念オブジェクト(**Milvus**、**ベクトルデータベース**、**検索システム**など)を表し、その位置はその次元の値によって決定されます。
 
-- **Semantic Relationships:** The distances between points reflect the semantic similarity between concepts. Closer points indicate concepts that are more semantically related.
+- **意味関係:**ポイント間の距離は、概念間の意味的類似性を反映しています。より近いポイントは、より意味的に関連する概念を示します。
 
-- **Clustering Effect:** Related concepts (such as **Milvus**, **vector database**, and **retrieval system**) are positioned close to each other in space, forming a semantic cluster.
+- **クラスタリング効果:**関連する概念(**Milvus**、**ベクトルデータベース**、**検索システム**など)は、空間内で互いに近接して配置され、意味的クラスタを形成します。
 
-Below is an example of a real dense vector representing the text `"Milvus is an efficient vector database"`:
+以下は、`「Milvusは効率的なベクトルデータベースである」`というテキストを表す実密ベクトルの例です
 
 ```json
 [
@@ -63,29 +63,29 @@ Below is an example of a real dense vector representing the text `"Milvus is an 
 
 ```
 
-Dense vectors can be generated using various [embedding](https://en.wikipedia.org/wiki/Embedding) models, such as CNN models (like [ResNet](https://pytorch.org/hub/pytorch_vision_resnet/), [VGG](https://pytorch.org/vision/stable/models/vgg.html)) for images and language models (like [BERT](https://en.wikipedia.org/wiki/BERT_(language_model)), [Word2Vec](https://en.wikipedia.org/wiki/Word2vec)) for text. These models transform raw data into points in high-dimensional space, capturing the semantic features of the data. Additionally, Zilliz Cloud offers convenient methods to help users generate and process dense vectors, as detailed in Embeddings.
+密ベクトルは、CNNモデル([ResNet](https://en.wikipedia.org/wiki/Embedding)、[VGG](https://pytorch.org/vision/stable/models/vgg.html)など)や言語モデル([BERT](https://en.wikipedia.org/wiki/BERT_(language_model))、[Word 2Vec](https://en.wikipedia.org/wiki/Word2vec)など)など、さまざまな[埋め込み](https://pytorch.org/hub/pytorch_vision_resnet/)モデルを使用して生成できます。これらのモデルは、生データを高次元空間の点に変換し、データの意味的特徴をキャプチャします。さらに、Zilliz Cloudは、Embeddingsで詳しく説明されているように、過程的で密なベクトルを生成するための便利な方法を提供しています。
 
-Once data is vectorized, it can be stored in Zilliz Cloud clusters for management and vector retrieval. The diagram below shows the basic process.
+データがベクトル化されると、管理とベクトル取得のためにZilliz Cloudクラスターに保存できます。以下の図は基本的な過程を示しています。
 
-![No8KwR6wPhTIP6bKEqGcbBDWngc](/img/No8KwR6wPhTIP6bKEqGcbBDWngc.png)
+![BxnSwYJ4ghxlIkb9vF4c5k1Bny1](/img/ja-JP/BxnSwYJ4ghxlIkb9vF4c5k1Bny1.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Besides dense vectors, Zilliz Cloud also supports sparse vectors and binary vectors. Sparse vectors are suitable for precise matches based on specific terms, such as keyword search and term matching, while binary vectors are commonly used for efficiently handling binarized data, such as image pattern matching and certain hashing applications. For more information, refer to <a href="./use-binary-vector">Binary Vector</a> and <a href="./use-sparse-vector">Sparse Vector</a>.</p>
+<p>密集ベクトル以外にも、Zilliz Cloudはスパースベクトルとバイナリベクトルもサポートしています。スパースベクトルは、キーワード検索や用語マッチングなど、特定の用語に基づく正確なマッチングに適しています。一方、バイナリベクトルは、画像パターンマッチングや特定のハッシュアプリケーションなど、バイナリ化されたデータを効率的に処理するために一般的に使用されます。詳細については、Binary VectorとSparse Vectorを参照してください。</p>
 
 </Admonition>
 
-## Use dense vectors{#use-dense-vectors}
+## 高密度ベクトルを使用する{#}
 
-### Add vector field{#add-vector-field}
+### ベクトルフィールドを追加{#}
 
-To use dense vectors in Zilliz Cloud clusters, first define a vector field for storing dense vectors when creating a collection. This process includes:
+コレクションを作成する際に、Zilliz Cloudクラスターで密集ベクトルを使用するには、まず密集ベクトルを格納するベクトルフィールドを定義します。この過程には以下が含まれます:
 
-1. Setting `datatype` to a supported dense vector data type. For supported dense vector data types, see Data Types.
+1. サポートされている高密度ベクトルデータ型に`データ型`を設定します。サポートされている高密度ベクトルデータ型については、データ型を参照してください。
 
-1. Specifying the dimensions of the dense vector using the `dim` parameter.
+1. 密ベクトルの次元を`dim`パラメータを使用して指定します。
 
-In the example below, we add a vector field named `dense_vector` to store dense vectors. The field's data type is `FLOAT_VECTOR`, with a dimension of `4`.
+以下の例では、高密度ベクトルを格納するために`dence_vector`という名前のベクトルフィールドを追加します。フィールドのデータ型は`FLOAT_VECTOR`で、次元は`4`です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -186,30 +186,30 @@ export schema="{
 </TabItem>
 </Tabs>
 
-**Supported data types for dense vector fields**:
+**高密度ベクトルフィールドでサポートされるデータ型**:
 
 <table>
    <tr>
-     <th><p>Data Type</p></th>
-     <th><p>Description</p></th>
+     <th><p>データ型</p></th>
+     <th><p>説明する</p></th>
    </tr>
    <tr>
-     <td><p><code>FLOAT_VECTOR</code></p></td>
-     <td><p>Stores 32-bit floating-point numbers, commonly used for representing real numbers in scientific computations and machine learning. Ideal for scenarios requiring high precision, such as distinguishing similar vectors.</p></td>
+     <td><p><code>フロートベクトル</code></p></td>
+     <td><p>32ビット浮動小数点数を格納し、科学計算や機械学習で実数を表現するために一般的に使用されます。類似するベクトルを区別するなど、高精度が必要なシナリオに最適です。</p></td>
    </tr>
    <tr>
-     <td><p><code>FLOAT16_VECTOR</code></p></td>
-     <td><p>Stores 16-bit half-precision floating-point numbers, used for deep learning and GPU computations. It saves storage space in scenarios where precision is less critical, such as in the low-precision recall phase of recommendation systems.</p></td>
+     <td><p><code>ベクターデータ</code></p></td>
+     <td><p>16ビットの半精度浮動小数点数を格納し、深層学習やGPU計算に使用されます。精度が重要でないシナリオ、例えばレコメンデーションシステムの低精度リコールフェーズでストレージスペースを節約します。</p></td>
    </tr>
    <tr>
-     <td><p><code>BFLOAT16_VECTOR</code></p></td>
-     <td><p>Stores 16-bit Brain Floating Point (bfloat16) numbers, offering the same range of exponents as Float32 but with reduced precision. Suitable for scenarios that need to process large volumes of vectors quickly, such as large-scale image retrieval.</p></td>
+     <td><p><code>その他のベクトル:</code></p></td>
+     <td><p>16ビットのBrain Floating Point(bfloat16)数値を格納し、Float 32と同じ範囲の指数を提供しますが、精度が低下します。大規模な画像取得など、大量のベクトルを迅速に処理する必要があるシナリオに適しています。</p></td>
    </tr>
 </table>
 
-### Set index params for vector field{#set-index-params-for-vector-field}
+### ベクトル場のインデックスパラメータを設定する{#}
 
-To accelerate semantic searches, an index must be created for the vector field. Indexing can significantly improve the retrieval efficiency of large-scale vector data.
+意味検索を加速するためには、ベクトル場のインデックスを作成する必要があります。インデックス化は、大規模なベクトルデータの検索効率を大幅に向上させることができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -275,13 +275,13 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-In the example above, an index named `dense_vector_index` is created for the `dense_vector` field using the `AUTOINDEX` index type. The `metric_type` is set to `IP`, indicating that inner product will be used as the distance metric.
+上記の例では、`dence_vector_index`という名前のインデックスが、`dence_vector`フィールドに対して`AUTOINDEX`インデックスタイプを使用して作成されます。`メトリックタイプ`は`IP`に設定されており、内積が距離メトリックとして使用されることを示しています。
 
-Zilliz Cloud supports other metric types. For more information, refer to [Metric Types](./search-metrics-explained).
+Zilliz Cloudは他のメトリックタイプをサポートしています。詳細については、Metric Typesを参照してください。
 
-### Create collection{#create-collection}
+### コレクションを作成{#}
 
-Once the dense vector and index param settings are complete, you can create a collection containing dense vectors. The example below uses the `create_collection` method to create a collection named `my_dense_collection`.
+密ベクトルとインデックスパラメータの設定が完了したら、密ベクトルを含むコレクションを作成できます。以下の例では、`create_collection`メソッドを使用して、`my_dence_collection`という名前のコレクションを作成しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -352,9 +352,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Insert data{#insert-data}
+### データの挿入{#}
 
-After creating the collection, use the `insert` method to add data containing dense vectors. Ensure that the dimensionality of the dense vectors being inserted matches the `dim` value defined when adding the dense vector field.
+コレクションを作成した後、`挿入`メソッドを使用して、高密度ベクトルを含むデータを追加します。挿入される高密度ベクトルの次元が、高密度ベクトルフィールドを追加するときに定義された`dim`値と一致することを確認してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -431,9 +431,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Perform similarity search{#perform-similarity-search}
+### 類似検索を行う{#}
 
-Semantic search based on dense vectors is one of the core features of Zilliz Cloud clusters, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search, prepare the query vector and search parameters, then call the `search` method.
+密集ベクトルに基づく意味検索は、Zilliz Cloudクラスターのコア機能の1つであり、ベクトル間の距離に基づいてクエリベクトルに最も類似したデータをすばやく見つけることができます。類似検索を実行するには、クエリベクトルと検索パラメータを準備し、`検索`メソッドを呼び出します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -534,4 +534,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-For more information on similarity search parameters, refer to [Basic ANN Search](./single-vector-search).
+類似検索パラメータの詳細については、Basic ANN Searchを参照してください。

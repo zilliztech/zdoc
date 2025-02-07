@@ -1,12 +1,12 @@
 ---
-title: "Integrate with AWS S3 | Cloud"
+title: "AWS S 3との統合 | Cloud"
 slug: /integrate-with-aws-s3
-sidebar_label: "AWS S3"
+sidebar_label: "AWS S 3との統合"
 beta: PRIVATE
 notebook: FALSE
-description: "Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon S3) to export backup files to designated S3 buckets. | Cloud"
+description: "Zilliz Cloudを使用すると、Amazon Simple Storage Service（Amazon S 3）と統合して、バックアップファイルを指定されたS 3バケットにエクスポートできます。 | Cloud"
 type: origin
-token: PAViwMSb3iVMzuk56z3c1zfRnwh
+token: Ghq7wxbUVic7eekUrfzcthLOnfc
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -17,98 +17,98 @@ keywords:
   - integrate
   - object
   - storage
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Integrate with AWS S3
+# AWS S 3との統合
 
-Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon S3) to export backup files to designated S3 buckets.
+Zilliz Cloudを使用すると、Amazon Simple Storage Service（Amazon S 3）と統合して、バックアップファイルを指定されたS 3バケットにエクスポートできます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>This feature is in <strong>Private Preview</strong> for clusters on the <strong>Dedicated-Enterprise</strong> plan. To enable this feature or learn about the associated costs, contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+<p>この機能は、<strong>プライベートプレビュー</strong>として<strong>Dedicated-Enterprise</strong>プランのクラスターで提供されています。この機能を有効にするか、関連するコストについては、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
 
 </Admonition>
 
-![BUEcwkZiChJrTlbziBMc3V49nFe](/img/BUEcwkZiChJrTlbziBMc3V49nFe.png)
+![F4ERwUKVnh49aSbl4VGcLLJGnyh](/img/ja-JP/F4ERwUKVnh49aSbl4VGcLLJGnyh.png)
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-- To integrate Zilliz Cloud with AWS S3, you must have **Organization Owner** or **Project Admin** access to the project. If you do not have necessary permissions, contact your Zilliz Cloud administrator.
+- Zilliz CloudをAWS S 3に統合するには、**組織オーナー**また**はプロジェクト管理者**がプロジェクトにアクセスできる必要があります。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
 
-- You have administrative access to the AWS Management Console.
+- AWSマネジメントコンソールへの管理アクセスがあります。
 
-## Step 1: Start integration on Zilliz Cloud{#step-1-start-integration-on-zilliz-cloud}
+## ステップ1: Zilliz Cloudでの統合を開始する{#1-zilliz-cloud}
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. Navigate to **Integrations** from the left-side navigation pane.
+1. 左側のナビゲーションペインから[**統合**]に移動します。
 
-1. Under the **Amazon S3** section, click **+ Configuration**.
+1. [**Amazon S 3**]セクションで、[**+Configuration**]をクリックします。
 
-1. In the dialog box that appears, complete **Basic Settings**:
+1. 表示されるダイアログボックスで、**基本設定**を完了します。
 
-    - **Configuration Name**: A unique name for this integration (e.g., `bucket_for_backup`).
+    - **構成名**:この統合の一意の名前(例:`bucket_for_backup`)。
 
-    - **Configuration Description** *(optional)*: A description for this integration (e.g., `for export backupfile`).
+    - **Configuration Description** *(オプション)*:この統合の説明(例:`バックアップファイルのエクスポート`)。
 
-1. Proceed to [step 2](./integrate-with-aws-s3).
+1. 次の[ステップ2](./integrate-with-aws-s3#2-s-3)に進みます。
 
-![integrate-with-aws-1](/img/integrate-with-aws-1.png)
+![integrate-with-aws-1](/img/ja-JP/integrate-with-aws-1.png)
 
-## Step 2: Create S3 bucket{#step-2-create-s3-bucket}
+## ステップ2: S 3バケットを作成する{#2-s-3}
 
-1. Log in to the **AWS Management Console** and open the [Amazon S3 console](https://console.aws.amazon.com/s3/).
+1. まず、**AWSマネジメントコンソール**にログインし、[Amazon S 3コンソール](https://console.aws.amazon.com/s3/)を開きます。
 
-1. At the top of the page, choose the AWS region that matches your Zilliz Cloud cluster’s region.
+1. ページの上部で、Zilliz Cloudクラスターのリージョンに一致するAWSリージョンを選択してください。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <ul>
-    <li><p>The AWS region to create a bucket should be consistent with the region where your Zilliz Cloud cluster resides. For Zilliz Cloud-supported regions, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></li>
-    <li><p>For clusters running in different regions, create separate integrations for each region to ensure backup files can be exported properly.</p></li>
+    <li><p>バケットを作成するAWSリージョンは、Zilliz Cloudクラスターが存在するリージョンと一致する必要があります。Zilliz Cloudがサポートするリージョンについては、「<a href="./cloud-providers-and-regions">クラウドプロバイダー&地域</a>」を参照してください。</p></li>
+    <li><p>異なるリージョンで実行されているクラスターの場合、バックアップファイルを適切にエクスポートできるように、リージョンごとに個別の統合を作成します。</p></li>
     </ul>
 
     </Admonition>
 
-1. In the left navigation pane, choose **General purpose buckets**, and then click **Create bucket**.
+1. 左側のナビゲーションウィンドウで、[**汎用バケット]**を選択し、[**バケットを作成**]をクリックします。
 
-1. Configure bucket settings:
+1. バケットの設定を行う:
 
-    1. Under **Bucket type**, choose **General purpose**.
+    1. [**バケットタイプ**]で[**汎用]**を選択します。
 
-    1. For **Bucket name**, enter a name for your bucket (e.g., `bucket-for-backup`). Be sure to remember this bucket name, as you will need it for future steps.
+    1. [**バケット名**]には、バケットの名前を入力します（例:`bucket-for-backup`）。このバケット名は、今後の手順で必要になるため、必ず覚えておいてください。
 
-    1. Keep other settings as default and click **Create bucket**.
+    1. 他の設定はデフォルトのままにして、**バケットを作成**をクリックしてください。
 
-    For more information, refer to [Creating a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html).
+    詳細については、[バケットを作成するを](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)参照してください。
 
-1. Go back to the [Zilliz Cloud console](https://cloud.zilliz.com/login). Enter the **Bucket Name** and **Bucket Region** in the **Create Amazon S3 Bucket** step. Once completed, proceed to [step 3](./integrate-with-aws-s3).
+1. [[Zilliz Cloudコンソール](https://cloud.zilliz.com/login)]に戻ります。[**バケット名**]と[**バケット地域**]を[**Amazon S 3バケット作成**]のステップで入力します。完了したら、[ステップ3](./integrate-with-aws-s3#3-iam)に進みます。
 
-![integrate-with-aws-2](/img/integrate-with-aws-2.png)
+![integrate-with-aws-2](/img/ja-JP/integrate-with-aws-2.png)
 
-## Step 3: Create IAM policy{#step-3-create-iam-policy}
+## ステップ3: IAMポリシーを作成する{#3-iam}
 
-To give Zilliz Cloud access to AWS S3, create an IAM policy. This policy should include specific actions and resources to facilitate the transfer of backup files between Zilliz Cloud and your S3 bucket.
+Zilliz CloudにAWS S 3へのアクセスを許可するには、IAMポリシーを作成してください。このポリシーには、Zilliz CloudとS 3バケット間でバックアップファイルを転送するための具体的なアクションとリソースが含まれている必要があります。
 
-For simplicity, create a policy using the JSON editor.
+シンプルにするために、JSONエディタを使用してポリシーを作成してください。
 
-1. Log in to the **AWS Management Console** and open the [IAM console](https://console.aws.amazon.com/iam/).
+1. まず、**AWSマネジメントコンソール**にログインし、[IAMコンソール](https://console.aws.amazon.com/iam/)を開きます。
 
-1. In the console, choose **Policies** > **Create policy**.
+1. コンソールで、[**ポリシー**]>[**ポリシーを作成**]を選択します。
 
-1. In the **Policy editor** section, choose the **JSON** option.
+1. [**ポリシーエディター**]セクションで、[**JSON**]オプションを選択します。
 
-1. Copy and paste the JSON policy document provided by Zilliz Cloud to the policy editor. Then, click **Next**.
+1. Zilliz Cloudが提供するJSONポリシードキュメントをポリシーエディターにコピー&ペーストして、**次**へをクリックしてください。
 
-    The following is a sample JSON policy document. For the exact policy tailored to your integration, refer to the **Create IAM Policy** step on the Zilliz Cloud console.
+    以下はサンプルのJSONポリシードキュメントです。統合に合わせた正確なポリシーについては、Zilliz Cloudコンソールの**Create IAM Policy**ステップを参照してください。
 
     ```json
     {
@@ -132,27 +132,27 @@ For simplicity, create a policy using the JSON editor.
     }
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p><code>$bucket</code> should be replaced with the actual name of your S3 bucket.</p>
+    <p><code>$bucket</code>は、S 3バケットの実際の名前に置き換えてください。</p>
 
     </Admonition>
 
-1. On the **Review and create** page, enter a **Policy Name** (e.g. `policy-for-backup`) and a **Description** (optional) for the policy that you are creating, and review **Permissions defined in this policy**. Remember the policy name, as you will need it for future steps.
+1. [**レビューと作成**]ページで、作成するポリシーの**ポリシー名**(例:`policy-for-backup`)と**説明**(オプション)を入力し、**このポリシーで定義された権限**を確認します。今後の手順で必要になるため、ポリシー名を覚えておいてください。
 
-1. Choose **Create policy** to save your new policy. Once completed, proceed to [step 4](./integrate-with-aws-s3).
+1. [**ポリシーを作成**]を選択して、新しいポリシーを保存します。完了したら、[ステップ4](./integrate-with-aws-s3#4-iam)に進みます。
 
-![integrate-with-aws-3](/img/integrate-with-aws-3.png)
+![integrate-with-aws-3](/img/ja-JP/integrate-with-aws-3.png)
 
-## Step 4: Create IAM role{#step-4-create-iam-role}
+## ステップ4: IAMロールを作成する{#4-iam}
 
-1. In the IAM console, choose **Roles** > **Create role**.
+1. IAMコンソールで、[**ロール**]>[**ロールを作成**]を選択します。
 
-1. Choose the **Custom trust policy** role type.
+1. [**カスタム信頼ポリシー**]役割タイプを選択します。
 
-1. In the **Custom trust policy** section, copy and paste the custom trust policy for the role. Then, click **Next**.
+1. [**カスタム信頼ポリシー**]セクションで、ロールのカスタム信頼ポリシーをコピーして貼り付けます。次に、[**次**へ]をクリックします。
 
-    The following is a sample JSON trust policy. For the exact trust policy tailored to your integration, refer to the **Create IAM Role** step on the Zilliz Cloud console.
+    以下はJSONの信頼ポリシーのサンプルです。統合に合わせた正確な信頼ポリシーについては、Zilliz Cloudコンソールの「**Create IAM Role**」ステップを参照してください。
 
     ```json
     {
@@ -174,95 +174,95 @@ For simplicity, create a policy using the JSON editor.
     }
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p><code>965570967084</code> and <code>my-external-id</code> should be replaced with the actual AWS account ID and external ID shown in the <strong>Create IAM Role</strong> step on the Zilliz Cloud console.</p>
+    <p><code>9655 7 0 9670 8 4</code>と<code>my-outside-id</code>は、Zilliz Cloudコンソールの<strong>Create IAM Role</strong>ステップで表示される実際のAWSアカウントIDと外部IDに置き換えてください。</p>
 
     </Admonition>
 
-1. Under **Permissions policies** of the **Add permissions** step, search for and select the policy you created in [step 3](./integrate-with-aws-s3) to add permissions. Then, click **Next**.
+1. 「**アクセス許可ポリシー**」の「**アクセス許可を追加**」ステップで、[ステップ3](./integrate-with-aws-s3#3-iam)で作成したポリシーを検索して選択し、「**次**へ」をクリックします。
 
-1. In the **Name, review, and create** step, enter a role name and review the settings. Then, click **Create role**.
+1. [**名前、レビュー、および作成**]ステップで、役割名を入力して設定を確認します。次に、[**役割を作成**]をクリックします。
 
-    ![integrate-with-aws-4](/img/integrate-with-aws-4.png)
+    ![integrate-with-aws-4](/img/ja-JP/integrate-with-aws-4.png)
 
-1. Go to the details page of the created role, copy the **ARN** corresponding to the role. This will be required on Zilliz Cloud.
+1. 作成したロールの詳細ページに移動し、ロールに対応する**ARN**をコピーします。これはZilliz Cloudで必要となります。
 
-1. Return to the [Zilliz Cloud console](https://cloud.zilliz.com/login). Enter **Role ARN** in the **Create IAM Role** step. Then, proceed to finalizing the configuration.
+1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)に戻ります。**Role ARN**を**Create IAM Role**のステップで入力します。その後、設定を完了します。
 
-    ![integrate-with-aws-5](/img/integrate-with-aws-5.png)
+    ![integrate-with-aws-5](/img/ja-JP/integrate-with-aws-5.png)
 
-## Step 5: Validate and create integration{#step-5-validate-and-create-integration}
+## ステップ5:検証して統合を作成する{#5}
 
-1. In the [Zilliz Cloud console](https://cloud.zilliz.com/login), click **Validate Integration** to confirm the S3 bucket and IAM role settings.
+1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)で、[**連携の検証**]をクリックして、S 3バケットとIAMロールの設定を確認します。
 
-1. Once validation is successful, click **Create Integration**.
+1. 検証が成功したら、**統合を作成**をクリックします。
 
-You can now use this integration to export backup files to your Amazon S3 bucket. For more information, refer to  [Export Backup Files](./export-backup-files).
+この統合を使用して、バックアップファイルをAmazon S 3バケットにエクスポートできるようになりました。詳細については、「[バックアップファイルのエクスポート](./export-backup-files)のエクスポート」を参照してください。
 
-## Manage integrations{#manage-integrations}
+## インテグレーションの管理{#}
 
-Once the integration is added, you can view its details or remove the integration as needed.
+統合が追加されると、その詳細を閲覧可能になり、必要に応じて統合を削除できます。
 
-![integrate-with-aws-6](/img/integrate-with-aws-6.png)
+![integrate-with-aws-6](/img/ja-JP/integrate-with-aws-6.png)
 
-## Troubleshooting{#troubleshooting}
+## トラブルシューティング{#}
 
-If you encounter issues during the integration process, here are some common error messages and their solutions.
+統合の過程で問題が発生した場合は、一般的なエラーメッセージとその解決策を以下に示します。
 
-### Bucket region mismatch{#bucket-region-mismatch}
+### バケット領域の不一致{#}
 
-**Description**: The following example error occurs when the region of the S3 bucket does not match the region of your Zilliz Cloud cluster.
+**説明**:次の例のエラーは、S 3バケットのリージョンがZilliz Cloudクラスタのリージョンと一致しない場合に発生します。
 
 ```plaintext
 "bucket region not match, want[us-west-1] got[us-west-2]"
 ```
 
-**Solution**:
+**ソリューション**:
 
-- Ensure that the AWS region where your S3 bucket is located matches the region of your Zilliz Cloud cluster.
+- S 3バケットが配置されているAWSリージョンが、Zilliz Cloudクラスターのリージョンと一致していることを確認してください。
 
-- If needed, create a new bucket in the correct region or adjust your cluster's region to match the bucket’s region.
+- 必要に応じて、適切なリージョンに新しいバケットを作成するか、バケットのリージョンに合わせてクラスターのリージョンを調整します。
 
-### Bucket not found{#bucket-not-found}
+### バケットが見つかりません{#}
 
-**Description**: This error occurs when the specified S3 bucket does not exist or the bucket name is incorrect.
+**説明**:このエラーは、指定されたS 3バケットが存在しないか、バケット名が正しくない場合に発生します。
 
 ```plaintext
 check bucket failed: get bucket location: operation error S3: GetBucketLocation, https response error StatusCode: 404, RequestID: ..., HostID: ..., api error NoSuchBucket: The specified bucket does not exis
 ```
 
-**Solution**:
+**ソリューション**:
 
-- Double-check the bucket name in both the Zilliz Cloud console and the AWS S3 console.
+- Zilliz CloudコンソールとAWS S 3コンソールの両方でバケット名を再確認してください。
 
-- Confirm that the bucket exists and that the name is correctly entered in your Zilliz Cloud configuration.
+- バケットが存在し、Zilliz Cloudの設定に名前が正しく入力されていることを確認してください。
 
-### Access denied for bucket location{#access-denied-for-bucket-location}
+### バケットの場所へのアクセスが拒否されました{#}
 
-**Description**: This error occurs when the IAM role does not have the required permissions to access the S3 bucket's location.
+**説明**:このエラーは、IAMロールにS 3バケットの場所にアクセスするために必要な権限がない場合に発生します。
 
 ```plaintext
 check bucket failed: get bucket location: operation error S3: GetBucketLocation, https response error StatusCode: 403 ...
 ```
 
-**Solution**:
+**ソリューション**:
 
-- Review the IAM policy attached to the role being used by Zilliz Cloud.
+- Zilliz Cloudで使用されているロールに添付されているIAMポリシーを確認してください。
 
-- Ensure the policy includes the `s3:GetBucketLocation` permission along with other necessary permissions, such as `s3:GetObject`, `s3:PutObject`, and `s3:ListBucket`.
+- ポリシーに`s 3: GetBucketLocation`権限と、s 3:GetObject、`s 3:GetObject`、`s 3:PutObject`、`s 3:ListBucket`などの必要な権限が含まれていることを確認します。
 
-### Role assumption failure{#role-assumption-failure}
+### ロール仮定の失敗{#}
 
-**Description**: This error occurs when there is an issue with assuming the IAM role due to incorrect role ARN, external ID, or trust policy.
+**説明**:このエラーは、誤ったロールARN、外部ID、または信頼ポリシーによりIAMロールの想定に問題がある場合に発生します。
 
 ```sql
 try assume role from[zilliz-role] to [arn:aws:iam::041623484421:role/testoss121703] with externalId[zilliz-external-1umVCIK7q96kzDE] failed
 ```
 
-**Solution**:
+**ソリューション**:
 
-- Verify that the role ARN and external ID on the Zilliz Cloud console match the corresponding values in the IAM trust policy.
+- Zilliz Cloudコンソール上のロールARNと外部IDが、IAM信頼ポリシーの対応する値と一致していることを確認します。
 
-- Ensure that the trust policy in the IAM role allows Zilliz Cloud to assume the role.
+- IAMロールの信頼ポリシーにより、Zilliz Cloudがロールを引き継ぐことができるようにしてください。
 

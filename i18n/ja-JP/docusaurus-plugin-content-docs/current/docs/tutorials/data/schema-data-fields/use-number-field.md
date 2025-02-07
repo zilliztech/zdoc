@@ -1,12 +1,12 @@
 ---
-title: "Number Field | Cloud"
+title: "数字フィールド | Cloud"
 slug: /use-number-field
-sidebar_label: "Number Field"
+sidebar_label: "数字フィールド"
 beta: FALSE
 notebook: FALSE
-description: "Number fields are used to store non-vector numerical data in Zilliz Cloud clusters. These fields are typically employed to describe additional information related to vector data, such as age, price, etc. By using this data, you can better describe vectors and improve the efficiency of data filtering and conditional queries. | Cloud"
+description: "数値フィールドは、ベクトル以外の数値データをZilliz Cloudクラスターに格納するために使用されます。これらのフィールドは通常、年齢、価格などのベクトルデータに関連する追加情報を記述するために使用されます。このデータを使用することで、ベクトルをより正確に記述し、データフィルタリングや条件付きクエリの効率を向上させることができます。 | Cloud"
 type: origin
-token: EwArwXCOPip15hkSvvpciAMJnSe
+token: EJdCwl6J1iOTdIkC3G9cIMRjnjb
 sidebar_position: 7
 keywords: 
   - zilliz
@@ -18,10 +18,10 @@ keywords:
   - int
   - integer
   - float
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -29,56 +29,56 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Number Field
+# 数字フィールド
 
-Number fields are used to store non-vector numerical data in Zilliz Cloud clusters. These fields are typically employed to describe additional information related to vector data, such as age, price, etc. By using this data, you can better describe vectors and improve the efficiency of data filtering and conditional queries.
+数値フィールドは、ベクトル以外の数値データをZilliz Cloudクラスターに格納するために使用されます。これらのフィールドは通常、年齢、価格などのベクトルデータに関連する追加情報を記述するために使用されます。このデータを使用することで、ベクトルをより正確に記述し、データフィルタリングや条件付きクエリの効率を向上させることができます。
 
-Number fields are particularly useful in many scenarios. For example, in e-commerce recommendations, a price field can be used for filtering; in user profile analysis, age ranges can help refine the results. Combined with vector data, number fields can help the system provide similarity searches while meeting personalized user needs more precisely.
+数字フィールドは、多くのシナリオで特に役立ちます。たとえば、電子商取引の推奨事項では、価格フィールドをフィルタリングに使用できます。ユーザープロファイル分析では、年齢層が結果を絞り込むのに役立ちます。ベクトルデータと組み合わせることで、数字フィールドは、システムが類似性検索を提供しながら、より正確にパーソナライズされたユーザーニーズを満たすのに役立ちます。
 
-## Supported number field types{#supported-number-field-types}
+## サポートされている数値フィールドタイプ{#}
 
-Zilliz Cloud supports various number field types to meet different data storage and query needs:
+Zilliz Cloudは、さまざまなデータストレージとクエリニーズに対応するために、さまざまな数値フィールドタイプをサポートしています。
 
 <table>
    <tr>
-     <th><p>Field Type</p></th>
-     <th><p>Description</p></th>
+     <th><p>フィールドタイプ</p></th>
+     <th><p>説明する</p></th>
    </tr>
    <tr>
      <td><p><code>BOOL</code></p></td>
-     <td><p>Boolean type for storing <code>true</code> or <code>false</code>, suitable for describing binary states.</p></td>
+     <td><p>バイナリ状態を記述するために適した、<code>true</code>または<code>false</code>を格納するためのブール型。</p></td>
    </tr>
    <tr>
-     <td><p><code>INT8</code></p></td>
-     <td><p>8-bit integer, suitable for storing small-range integer data.</p></td>
+     <td><p><code>INT 8</code></p></td>
+     <td><p>小さな範囲の整数データを格納するのに適した8ビット整数。</p></td>
    </tr>
    <tr>
-     <td><p><code>INT16</code></p></td>
-     <td><p>16-bit integer, for medium-range integer data.</p></td>
+     <td><p><code>INT 16</code></p></td>
+     <td><p>中程度の整数データ用の16ビット整数。</p></td>
    </tr>
    <tr>
-     <td><p><code>INT32</code></p></td>
-     <td><p>32-bit integer, ideal for general integer data storage like product quantities or user IDs.</p></td>
+     <td><p><code>INT 32</code></p></td>
+     <td><p>32ビット整数は、製品数量やユーザーIDなどの一般的な整数データストレージに最適です。</p></td>
    </tr>
    <tr>
-     <td><p><code>INT64</code></p></td>
-     <td><p>64-bit integer, suitable for storing large-range data like timestamps or identifiers.</p></td>
+     <td><p><code>INT 64</code></p></td>
+     <td><p>タイムスタンプや識別子のような大きな範囲のデータを格納するのに適した64ビット整数。</p></td>
    </tr>
    <tr>
-     <td><p><code>FLOAT</code></p></td>
-     <td><p>32-bit floating-point number, for data requiring general precision, such as ratings or temperature.</p></td>
+     <td><p><code>フロート</code></p></td>
+     <td><p>定格や温度などの一般的な精度が必要なデータ用の32ビット浮動小数点数。</p></td>
    </tr>
    <tr>
-     <td><p><code>DOUBLE</code></p></td>
-     <td><p>64-bit double-precision floating-point number, for high-precision data like financial information or scientific calculations.</p></td>
+     <td><p><code>ダブル</code></p></td>
+     <td><p>財務情報や科学計算などの高精度データ用の64ビット倍精度浮動小数点数。</p></td>
    </tr>
 </table>
 
-## Add number field{#add-number-field}
+## 数値フィールドを追加{#}
 
-To use number fields in Zilliz Cloud clusters, define the relevant fields in the collection schema, setting the `datatype` to a supported type such as `BOOL` or `INT8`. For a complete list of supported number field types, refer to [Supported number field types](./use-number-field).
+Zilliz Cloudクラスターで数値フィールドを使用するには、コレクションスキーマで関連するフィールドを定義し、`データ型`を`BOOL`や`INT 8`などのサポートされているタイプに設定します。サポートされている数値フィールドタイプの完全なリストについては、「[サポートされている数値フィールドタイプ](./use-number-field#)」を参照してください。
 
-The following example shows how to define a schema that includes number fields `age` and `price`:
+次の例は、数値フィールド`age`と`price`を含むスキーマを定義する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -213,17 +213,17 @@ export schema="{
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>The primary field and vector field are mandatory when you create a collection. The primary field uniquely identifies each entity, while the vector field is crucial for similarity search. For more details, refer to <a href="./primary-field-auto-id">Primary Field & AutoId</a>, <a href="./use-dense-vector">Dense Vector</a>, <a href="./use-binary-vector">Binary Vector</a>, or <a href="./use-sparse-vector">Sparse Vector</a>.</p>
+<p>コレクションを作成する際には、プライマリフィールドとベクトルフィールドは必須です。プライマリフィールドは各エンティティを一意に識別し、ベクトルフィールドは類似検索に重要です。詳細については、Primary Field &amp; AutoId、Dense Vector、Binary Vector、またはSparse Vectorを参照してください。</p>
 
 </Admonition>
 
-## Set index params{#set-index-params}
+## インデックスパラメータの設定{#}
 
-Setting index parameters for number fields is optional but can significantly improve retrieval efficiency.
+数値フィールドのインデックスパラメータの設定はオプションですが、検索効率を大幅に向上させることができます。
 
-In the following example, we create an `AUTOINDEX` for the `age` number field, allowing Zilliz Cloud to automatically create an appropriate index based on the data type. For more information, refer to [AUTOINDEX Explained](./autoindex-explained).
+以下の例では、`AUTOINDEX`を`年齢`フィールドに対して作成し、Zilliz Cloudを使用して、データ型に基づいて適切なインデックスを自動的に作成します。詳細については、AUTOINDEX Explainedを参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -283,7 +283,11 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-In this example, we use `AUTOINDEX` to create the index for the number field.
+\<ターゲットを含める="zilliz">
+
+この例では、`AUTOINDEX`を使用して数値フィールドのインデックスを作成します。
+
+\</include>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -352,9 +356,9 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-## Create collection{#create-collection}
+## コレクションを作成{#}
 
-Once the schema and indexes are defined, you can create a collection that includes number fields.
+スキーマとインデックスが定義されたら、数値フィールドを含むコレクションを作成できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -412,9 +416,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Insert data{#insert-data}
+## データの挿入{#}
 
-After creating the collection, you can insert data that includes number fields.
+コレクションを作成した後、数値フィールドを含むデータを挿入できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -495,17 +499,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example, we insert data that includes `age`, `price`, `pk` (primary field), and vector representations (`embedding`). To ensure that the inserted data matches the fields defined in the schema, it's recommended to check data types in advance to avoid errors.
+この例では、`年齢`、`価格`、`pk`(プライマリフィールド)、およびベクトル表現(`埋め込み`)を含むデータを挿入します。挿入されたデータがスキーマで定義されたフィールドと一致することを確認するために、エラーを避けるために事前にデータ型を確認することをお勧めします。
 
-If you set `enable_dynamic_fields=True` when defining the schema, Zilliz Cloud allows you to insert number fields that were not defined in advance. However, keep in mind that this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
+スキーマを定義する際に`enable_dynamic_fields=True`を設定した場合、Zilliz Cloudでは、事前に定義されていない数値フィールドを挿入することができます。ただし、これによりクエリや管理が複雑になり、パフォーマンスに影響を与える可能性があることに注意してください。詳細については、Dynamic Fieldを参照してください。
 
-## Search and query{#search-and-query}
+## 検索とクエリ{#}
 
-After adding number fields, you can use them for filtering in search and query operations to achieve more precise search results.
+数値フィールドを追加した後、それらを使用して検索およびクエリ操作でフィルタリングし、より正確な検索結果を得ることができます。
 
-### Filter queries{#filter-queries}
+### クエリのフィルター{#}
 
-After adding number fields, you can use them for filtering in queries. For example, you can query all entities where `age` is between 30 and 40:
+数値フィールドを追加した後、クエリのフィルタリングに使用できます。例えば、`年齢`が30歳から40歳の間のすべてのエンティティをクエリできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -580,11 +584,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-This query expression returns all matching entities and outputs their `age` and `price` fields. For more information on filter queries, refer to [Filtering](./filtering).
+このクエリ式は、一致するすべてのエンティティを返し、その`年齢`と`価格`フィールドを出力します。フィルタークエリの詳細については、Filteringを参照してください。
 
-### Vector search with number filtering{#vector-search-with-number-filtering}
+### 数値フィルタリングによるベクトル検索{#}
 
-In addition to basic number field filtering, you can combine vector similarity searches with number field filters. For example, the following code shows how to add a number field filter to a vector search:
+基本的な数値フィールドフィルタリングに加えて、ベクトル類似検索と数値フィールドフィルタを組み合わせることができます。例えば、次のコードはベクトル検索に数値フィールドフィルタを追加する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -673,4 +677,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example, we first define a query vector and add a filter condition `25 <= age <= 35` during the search. This ensures that the search results are not only similar to the query vector but also meet the specified age range. For more information, refer to [Filtering](./filtering).
+この例では、まずクエリベクトルを定義し、検索中に`25<=age<=35`というフィルタ条件を追加します。これにより、検索結果がクエリベクトルに似ているだけでなく、指定された年齢範囲を満たすことが保証されます。詳細については、Filteringを参照してください。

@@ -1,12 +1,12 @@
 ---
-title: "Filtering | Cloud"
+title: "フィルタリング | Cloud"
 slug: /filtering
-sidebar_label: "Filtering"
+sidebar_label: "フィルタリング"
 beta: FALSE
 notebook: FALSE
-description: "This chapter explains how to perform filtering on scalar fields and applicable filtering operators. | Cloud"
+description: "この章では、スカラーフィールドと適用可能なフィルタリング演算子でフィルタリングを実行する方法について説明します。 | Cloud"
 type: origin
-token: ObdvwrXi9ia9i0kTLKUcCaYtnhd
+token: VbVFwA9LUiqwN2kBGyPc7XUWnPc
 sidebar_position: 8
 keywords: 
   - zilliz
@@ -17,19 +17,21 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Filtering
+# フィルタリング
 
-This chapter explains how to perform filtering on scalar fields and applicable filtering operators.
+この章では、スカラーフィールドと適用可能なフィルタリング演算子でフィルタリングを実行する方法について説明します。
+
+
 
 import DocCardList from '@theme/DocCardList';
 

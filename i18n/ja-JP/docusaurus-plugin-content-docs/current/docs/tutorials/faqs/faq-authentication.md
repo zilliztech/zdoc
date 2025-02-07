@@ -1,29 +1,29 @@
 ---
-title: "FAQ: Authentication | CLOUD"
+title: "FAQ:認証について | CLOUD"
 slug: /faq-authentication
-sidebar_label: "FAQ: Authentication"
+sidebar_label: "FAQ:認証について"
 beta: FALSE
 notebook: FALSE
-description: "This topic lists the possible issues that you may encounter while authenticating your identity on Zilliz Cloud and the corresponding solution. | CLOUD"
+description: "このトピックでは、Zilliz CloudでIDを認証する際に発生する可能性のある問題と、それに対応する解決策をリストアップしています。 | CLOUD"
 type: origin
-token: EV41wG08BiOWW8kbo9xcTGoPnKd
+token: LKxiwykkhi5VyLkTfAGcE3LinBe
 sidebar_position: 12
 
 ---
 
-# FAQ: Authentication
+# FAQ:認証について
 
-This topic lists the possible issues that you may encounter while authenticating your identity on Zilliz Cloud and the corresponding solution.
+このトピックでは、Zilliz CloudでIDを認証する際に発生する可能性のある問題と、それに対応する解決策をリストアップしています。
 
 ## Contents
 
-- [What can I do if I forget the password used to connect to my Zilliz Cloud cluster?](#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster)
+- [Zilliz Cloudクラスタへの接続に使用したパスワードを忘れた場合、どうすればよいですか?](#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster)
 
 ## FAQs
 
 
 
 
-### What can I do if I forget the password used to connect to my Zilliz Cloud cluster?{#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster}
+### Zilliz Cloudクラスタへの接続に使用したパスワードを忘れた場合、どうすればよいですか?{#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster}
 
-If you forget your password, you can reset the password. However, if you forget the password of the default user, you can create a new user with a new password. Please refer to [Cluster Credentials (Console)](./cluster-credentials-console) and [Cluster Credentials (SDK)](./cluster-credentials-sdk) for more details.
+パスワードを忘れた場合は、パスワードをリセットすることができます。ただし、デフォルトユーザーのパスワードを忘れた場合は、新しいパスワードで新しいユーザーを作成することができます。詳細については、[クラスタの認証情報(コンソール)](./cluster-credentials-sdk)と[クラスタ資格情報(SDK)](./cluster-credentials-console)を参照してください。

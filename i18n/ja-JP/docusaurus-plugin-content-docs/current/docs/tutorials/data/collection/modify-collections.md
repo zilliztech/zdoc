@@ -1,12 +1,12 @@
 ---
-title: "Modify Collection | Cloud"
+title: "コレクションの変更 | Cloud"
 slug: /modify-collections
-sidebar_label: "Modify Collection"
+sidebar_label: "コレクションの変更"
 beta: FALSE
 notebook: FALSE
-description: "You can rename a collection or change its settings. This page focuses on how to modify a collection. | Cloud"
+description: "コレクションの名前を変更したり、設定を変更することができます。このページでは、コレクションの変更方法について説明します。 | Cloud"
 type: origin
-token: WMh8w3tbKiBhukk3ICMc4ctznEg
+token: VNZ3wZORaiaC2Bk9yfEcZEponWb
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
@@ -25,13 +25,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Modify Collection
+# コレクションの変更
 
-You can rename a collection or change its settings. This page focuses on how to modify a collection.
+コレクションの名前を変更したり、設定を変更することができます。このページでは、コレクションの変更方法について説明します。
 
-## Rename Collection{#rename-collection}
+## コレクション名の変更{#}
 
-You can rename a collection as follows.
+コレクションの名前は次のように変更できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -151,9 +151,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Set Collection Properties{#set-collection-properties}
+## コレクションのプロパティを設定{#}
 
-The following code snippet demonstrates how to set collection TTL. 
+次のコードスニペットは、コレクションTTLを設定する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -245,20 +245,20 @@ if err != nil {
 </TabItem>
 </Tabs>
 
-The applicable collection properties are as follows:
+適用可能なコレクションプロパティは次のとおりです。
 
 <table>
    <tr>
-     <th><p>Property</p></th>
-     <th><p>When to Use</p></th>
+     <th><p>プロパティ</p></th>
+     <th><p>いつ使用するか</p></th>
    </tr>
    <tr>
-     <td><p><code>collection.ttl.seconds</code></p></td>
-     <td><p>If a collection needs to be dropped for a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes entities in the collection. </p><p>The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.</p></td>
+     <td><p><code>コレクション. ttl.seconds</code></p></td>
+     <td><p>コレクションを特定の期間削除する必要がある場合は、Time-To-Live(TTL)を秒単位で設定することを検討してください。TTLがタイムアウトすると、Zilliz Cloudはコレクション内のエンティティを削除します。</p><p>削除は非同期であり、削除が完了する前に検索やクエリが可能であることを示しています。</p></td>
    </tr>
    <tr>
-     <td><p><code>mmap.enabled</code></p></td>
-     <td><p>Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance.</p><p></p><p>Zilliz Cloud implements <a href="./use-mmap#global-mmap-strategy">global mmap settings</a> for your clusters. You can change the settings on a specific field or its index.</p><p></p></td>
+     <td><p><code>mmapの設定</code></p></td>
+     <td><p>メモリマッピング(Mmap)により、ディスク上の大きなファイルに直接メモリアクセスできるため、Zilliz Cloudはインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張できます。</p><p>\<ターゲットを含める="zilliz"></p><p>Zilliz Cloudは、クラスタの<a href="null">グローバルmmap設定</a>を実装しています。特定のフィールドまたはインデックスの設定を変更できます。</p><p>\</include></p></td>
    </tr>
 </table>
 

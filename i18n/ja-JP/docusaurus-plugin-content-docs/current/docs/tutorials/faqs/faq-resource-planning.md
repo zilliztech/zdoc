@@ -1,97 +1,95 @@
 ---
-title: "FAQ: Resource Planning | CLOUD"
+title: "FAQ:リソースプランニング | CLOUD"
 slug: /faq-resource-planning
-sidebar_label: "FAQ: Resource Planning"
+sidebar_label: "FAQ:リソースプランニング"
 beta: FALSE
 notebook: FALSE
-description: "This topic lists the possible issues that you may encounter while planning your resources on Zilliz Cloud and the corresponding solution. | CLOUD"
+description: "このトピックでは、Zilliz Cloudでリソースを計画する際に発生する可能性のある問題とそれに対応する解決策をリストアップしています。 | CLOUD"
 type: origin
-token: EV41wG08BiOWW8kbo9xcTGoPnKd
+token: LKxiwykkhi5VyLkTfAGcE3LinBe
 sidebar_position: 7
 
 ---
 
-# FAQ: Resource Planning
+# FAQ:リソースプランニング
 
-This topic lists the possible issues that you may encounter while planning your resources on Zilliz Cloud and the corresponding solution.
+このトピックでは、Zilliz Cloudでリソースを計画する際に発生する可能性のある問題とそれに対応する解決策をリストアップしています。
 
 ## Contents
 
-- [What is a Compute Unit (CU)?](#what-is-a-compute-unit-cu)
-- [What is a vCU? How does it get calculated?](#what-is-a-vcu-how-does-it-get-calculated)
-- [How can I avoid expenses on unused clusters?](#how-can-i-avoid-expenses-on-unused-clusters)
-- [How can I estimate the cost of using Zilliz Cloud?](#how-can-i-estimate-the-cost-of-using-zilliz-cloud)
-- [Does Zilliz Cloud support deployment on Azure?](#does-zilliz-cloud-support-deployment-on-azure)
-- [How can I request a new cloud region?](#how-can-i-request-a-new-cloud-region)
-- [How can I know which plan I am on?](#how-can-i-know-which-plan-i-am-on)
-- [How many CUs do I need for a given collection?](#how-many-cus-do-i-need-for-a-given-collection)
-- [Which type of CU should I pick?](#which-type-of-cu-should-i-pick)
-- [What's the difference between Performance-optimized CU and Capacity-optimized CU?](#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu)
-- [How can I downgrade from Dedicated (Enterprise) plan to Dedicated (Standard) plan?](#how-can-i-downgrade-from-dedicated-enterprise-plan-to-dedicated-standard-plan)
+- [コンピューティングユニット（CU）とは何ですか?](#what-is-a-compute-unit-cu)
+- [vCUとは何ですか?どのように計算されますか?](#what-is-a-vcu-how-does-it-get-calculated)
+- [使用されていないクラスタの費用を回避するにはどうすればよいですか?](#how-can-i-avoid-expenses-on-unused-clusters)
+- [Zilliz Cloudの利用料金はどのように見積もることができますか?](#how-can-i-estimate-the-cost-of-using-zilliz-cloud)
+- [Zilliz CloudはAzureでの展開をサポートしていますか?](#does-zilliz-cloud-support-deployment-on-azure)
+- [新しいクラウドリージョンをリクエストするにはどうすればよいですか?](#how-can-i-request-a-new-cloud-region)
+- [どのプランに参加しているかを知るにはどうすればよいですか?](#how-can-i-know-which-plan-i-am-on)
+- [与えられたコレクションには何個のCUが必要ですか?](#how-many-cus-do-i-need-for-a-given-collection)
+- [どのタイプのCUを選べばいいですか?](#which-type-of-cu-should-i-pick)
+- [「Performance-optimizedCU」と「容量最適化CU」の違いは何ですか?](#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu)
+- [専用（エンタープライズ）プランから専用（スタンダード）プランにダウングレードするにはどうすればよいですか?](#how-can-i-downgrade-from-dedicated-enterprise-plan-to-dedicated-standard-plan)
 
 ## FAQs
 
 
 
 
-### What is a Compute Unit (CU)?{#what-is-a-compute-unit-cu}
+### コンピューティングユニット（CU）とは何ですか?{#what-is-a-compute-unit-cu}
 
-A compute unit (CU) is a group of hardware resources for serving your indexes and search requests. You can simply consider a CU as a fully-managed physical node for deploying search service.
+コンピューティングユニット（CU）は、インデックスや検索リクエストを処理するためのハードウェアリソースのグループです。CUは、検索サービスをデプロイするための完全に管理された物理ノードとして考えることができます。
 
-For more details, see [Select the Right CU](./cu-types-explained).
+詳細については、「[適切なCUを選択](./cu-types-explained)」を参照してください。
 
-### What is a vCU? How does it get calculated?{#what-is-a-vcu-how-does-it-get-calculated}
+### vCUとは何ですか?どのように計算されますか?{#what-is-a-vcu-how-does-it-get-calculated}
 
-A vCU is a virtual compute unit used to measure the resources consumed by read operations (such as search and query) and write operations (such as insert, upsert, bulk insert, and delete). The data volume written or read will be converted from GB to vCUs. For details, refer to [Understand Cost](./understand-cost#serverless-clusters).
+vCUは、読み取り操作(検索やクエリなど)および書き込み操作(挿入、アップロード、一括挿入、削除など)によって消費されるリソースを測定するために使用される仮想コンピュートユニットです。書き込まれたまたは読み取られたデータ量は、GBからvCUに変換されます。
 
-### How can I avoid expenses on unused clusters?{#how-can-i-avoid-expenses-on-unused-clusters}
+### 使用されていないクラスタの費用を回避するにはどうすればよいですか?{#how-can-i-avoid-expenses-on-unused-clusters}
 
-We recommend suspending unused clusters to save computing costs. You can resume them later when necessary.
+コンピューティングコストを節約するために、未使用のクラスタを一時停止することをお勧めします。必要に応じて後で再開できます。
 
-### How can I estimate the cost of using Zilliz Cloud?{#how-can-i-estimate-the-cost-of-using-zilliz-cloud}
+### Zilliz Cloudの利用料金はどのように見積もることができますか?{#how-can-i-estimate-the-cost-of-using-zilliz-cloud}
 
-You can use our [calculator](https://zilliz.com/pricing) to get a cost estimate.
+あなたは私たちの[計算機](https://zilliz.com/pricing)を使ってコスト見積もりを得ることができます。
 
-### Does Zilliz Cloud support deployment on Azure?{#does-zilliz-cloud-support-deployment-on-azure}
+### Zilliz CloudはAzureでの展開をサポートしていますか?{#does-zilliz-cloud-support-deployment-on-azure}
 
-Yes. Zilliz Cloud now supports deployment on Azure. See [Cloud Providers & Regions](./cloud-providers-and-regions)
+はい。Zilliz Cloudは現在、Azure上での展開をサポートしています。「[クラウドプロバイダー&地域](./cloud-providers-and-regions)」を参照してください。
 
-### How can I request a new cloud region?{#how-can-i-request-a-new-cloud-region}
+### 新しいクラウドリージョンをリクエストするにはどうすればよいですか?{#how-can-i-request-a-new-cloud-region}
 
-To request a new cloud service provider region for Zilliz Cloud, please [fill out the form](https://zilliz.com/cloud-region-request).
+Zilliz Cloudの新しいクラウドサービスプロバイダーリージョンをリクエストするには、[フォームに記入し](https://zilliz.com/cloud-region-request)てください。
 
-### How can I know which plan I am on?{#how-can-i-know-which-plan-i-am-on}
+### どのプランに参加しているかを知るにはどうすればよいですか?{#how-can-i-know-which-plan-i-am-on}
 
-To view your plan, choose a specific cluster under a project. Navigate to the **Cluster Details** tab, and you can find the plan detail under the **Summary** section.
+プランを表示するには、プロジェクトの下で特定のクラスタを選択します。[**クラスタ詳細**]タブに移動し、[**概要**]セクションでプランの詳細を確認できます。
 
-![cluster_plan](/img/cluster_plan.png)
+![cluster_plan](/img/ja-JP/cluster_plan.png)
 
-### How many CUs do I need for a given collection?{#how-many-cus-do-i-need-for-a-given-collection}
+### 与えられたコレクションには何個のCUが必要ですか?{#how-many-cus-do-i-need-for-a-given-collection}
 
-- Performance-optimized CU: Supports up to 1.5 million 768-dimensional vectors.
+1つのPerformance-optimizedCUは、750万個の128次元ベクトルまたは150万個の768次元ベクトルを処理できます。
 
-- Capacity-optimized CU: Supports up to 5 million 768-dimensional vectors.
+容量最適化されたCUは、2,500万個の128次元ベクトルまたは5,000,000個の768次元ベクトルを処理できます。
 
-- Extended-capacity CU: Supports up to 20 million 768-dimensional vectors.
+あなたのコレクションのスキーマは上記の簡単なガイドと異なる場合があるため、実際の要件を異なるCUタイプに対してテストすることを強くお勧めします。
 
-These estimates are based on vectors with primary keys only. Additional scalar fields like IDs or labels may reduce capacity. We recommend conducting your own tests for accurate assessment.
+### どのタイプのCUを選べばいいですか?{#which-type-of-cu-should-i-pick}
 
-### Which type of CU should I pick?{#which-type-of-cu-should-i-pick}
+要求の厳しいユースケースに対して高スループットと低レイテンシーが必要な場合は、Performance-optimizedCUを選択してください。また、スループットとレイテンシーに対する懸念が少なく、大量のデータをホストすることが優先事項である場合は、パフォーマンスとコストのバランスがより良いキャパシティ最適化CUを選択してください。
 
-Select the Performance-optimized CU if you instant search results and high concurrent traffic for real-time applications.
-Choose the Capacity-optimized CU if you need to handle large vector datasets while maintaining reliable search speeds.
-Opt for the Extended-capacity CU if you need to manage massive-scale datasets where optimizing total cost is prioritized over latency. Please [contact sales](https://zilliz.com/contact-sales) if you need Extended-capacity CU.
+詳細については、「[適切なCUを選択](./cu-types-explained)」を参照してください。
 
-### What's the difference between Performance-optimized CU and Capacity-optimized CU?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
+### 「Performance-optimizedCU」と「容量最適化CU」の違いは何ですか?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
 
-The "Performance-optimized Compute Unit" suits low latency or high throughput similarity searches. This option works best for high-search performance scenarios.
+「Performance-optimizedCompute Unit」は、低レイテンシーまたは高スループットの類似検索に適しています。このオプションは、高い検索パフォーマンスのシナリオに最適です。
 
-The "Capacity-optimized Compute Unit" suits data volumes that are five times larger than the performance-optimized CU option. This option works best for increased storage capacity scenarios.
+「容量最適化コンピューティングユニット」は、performance-optimizedCUオプションの5倍のデータボリュームに適しています。このオプションは、ストレージ容量の増加シナリオに最適です。
 
-For more details, see [Select the Right CU](./cu-types-explained).
+詳細については、「[適切なCUを選択](./cu-types-explained)」を参照してください。
 
-### How can I downgrade from Dedicated (Enterprise) plan to Dedicated (Standard) plan?{#how-can-i-downgrade-from-dedicated-enterprise-plan-to-dedicated-standard-plan}
+### 専用（エンタープライズ）プランから専用（スタンダード）プランにダウングレードするにはどうすればよいですか?{#how-can-i-downgrade-from-dedicated-enterprise-plan-to-dedicated-standard-plan}
 
-You can downgrade your plan by creating a new cluster in the Dedicated (Standard) plan and migrate the data from the Enterprise cluster to the new Standard cluster.
+Dedicated(Standard)プランで新しいクラスターを作成し、Enterpriseクラスターから新しいStandardクラスターにデータを移行することで、プランをダウングレードできます。
 
-If you want to ensure a smooth transition between plans, you can[ submit a request](https://support.zilliz.com/hc/en-us). We can downgrade the plan for you as well.
+プラン間のスムーズな移行を確保したい場合は、[リクエストを提出](https://support.zilliz.com/hc/en-us)してください。プランのダウングレードも可能です。

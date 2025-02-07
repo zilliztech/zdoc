@@ -1,31 +1,31 @@
 ---
-title: "Projects | Cloud"
+title: "プロジェクト | Cloud"
 slug: /projects
-sidebar_label: "Projects"
+sidebar_label: "プロジェクト"
 beta: FALSE
 notebook: FALSE
-description: "The chapter focuses on project operations and related settings. | Cloud"
+description: "この章では、プロジェクトの操作と関連する設定に焦点を当てています。 | Cloud"
 type: origin
-token: QHzrwVlEOipspAkPiyucWezqneC
+token: AfluwWdKUiSnIgkaR4LcW5XUn1b
 sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - projects
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Projects
+# プロジェクト
 
-The chapter focuses on project operations and related settings.
+この章では、プロジェクトの操作と関連する設定に焦点を当てています。
 
 import DocCardList from '@theme/DocCardList';
 

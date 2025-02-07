@@ -221,8 +221,8 @@ class larkDocWriter {
                     }
                 } else {
                     const meta = await this.__is_to_publish(child.title, child.slug)
-                    switch (child.title) {
-                        case 'FAQs':
+                    switch (child.slug) {
+                        case 'faqs':
                             if (meta['publish']) {
                                 if (!fs.existsSync(`${current_path}/faqs`)) {
                                     fs.mkdirSync(`${current_path}/faqs`)
@@ -230,7 +230,7 @@ class larkDocWriter {
                                 // this.__category_meta(`${current_path}/faqs`, 'FAQs', index+1)
                                 await this.write_faqs(`${current_path}/faqs`)
                             }
-                            break;
+                            break;                           
                         default:
                             if (meta['publish']) {
                                 const token = child.node_token
@@ -361,7 +361,8 @@ class larkDocWriter {
     }
 
     async write_faqs (path) {
-        const source = this.__fetch_doc_source('title', 'FAQs')
+        const source = this.__fetch_doc_source('slug', 'faqs')
+        const title = source.title
         const blocks = source.blocks.items
         const suffix = path.includes('byoc') ? 'BYOC' : 'CLOUD'
 
@@ -394,23 +395,22 @@ class larkDocWriter {
             }
 
             // Write FAQs root page
-            let title = 'FAQs'
             let slug = 'faqs'
-            let front_matter = this.__front_matters('FAQs', suffix, slug, null, null, source.node_type, source.node_token, 999, "", "", this.displayedSidebar, "Frequently asked questions")
+            let front_matter = this.__front_matters(title, suffix, slug, null, null, source.node_type, source.node_token, 999, "", "", this.displayedSidebar, "Frequently asked questions")
             const markdown = `${front_matter}\n\n# ${title}` + "\n\nimport DocCardList from '@theme/DocCardList';\n\n<DocCardList />"
             fs.writeFileSync(`${path}/${slug}.md`, markdown)
 
             sub_pages.forEach((sub_page, index) => {
-                let title = sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
+                let title = sub_page[0].indexOf('{/') > 0 ? sub_page[0].split('{/')[0].split('## ')[1] : sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
                 let short_description = sub_page.filter(line => line.length > 0)[1]
-                let slug = slugify(title, {lower: true, strict: true})
+                let slug = sub_page[0].indexOf('{/') > 0 ? /{\/([\w-]+)}/.exec(sub_page[0])[1] : slugify(title, {lower: true, strict: true})
                 let front_matter = this.__front_matters(title, suffix, slug, null, null, source.node_type, source.node_token, index+1, "", "", this.displayedSidebar, short_description)
                 let links = []
 
                 sub_page = sub_page.map(line => {
                     if (line.startsWith('**')) {
-                        let qtext = line.replace(/\*/g, '').trim()
-                        let qslug = slugify(qtext, {lower: true, strict: true})
+                        let qtext = line.indexOf('{#') > 0 ? line.split('{#')[0].split('**')[1] : line.replace(/\*/g, '').trim()
+                        let qslug = line.indexOf('{#') > 0 ? line.split('{#')[1]?.split('}')[0] : slugify(qtext, {lower: true, strict: true})
                         line = `### ${qtext}{#${qslug}}`
                         links.push(`- [${qtext}](#${qslug})`)
                     }
@@ -1319,12 +1319,7 @@ class larkDocWriter {
                         suffix = ''
                     }
 
-                    if (url) {
-                        content = `${prefix}[${content.replace(prefix, '').replace(suffix, '')}](${url})${suffix}`;
-                    } else {
-                        console.log(`Cannot find ${content}`)
-                    }
-                    
+                    content = `${prefix}[${content.replace(prefix, '').replace(suffix, '')}](${url})${suffix}`;
                 }
             }
         }
@@ -1386,7 +1381,13 @@ class larkDocWriter {
             const token = url.pathname.split('/').pop();
             const header = url.hash.slice(1);
             const key = url.pathname.split('/')[1] === 'wiki' ? 'origin_node_token' : ['token', 'obj_token']; // TODO
-            const page = this.__fetch_doc_source(key, token);
+            var page;
+
+            try {
+                page = this.__fetch_doc_source(key, token);
+            } catch (error) {
+                page = null;
+            }
 
             if (page) {
                 const title = page['title'];
@@ -1414,6 +1415,8 @@ class larkDocWriter {
                 console.log(newUrl)
 
                 url = newUrl.replace(/\/\//g, "/");
+            } else {
+                url = null;
             }
         }
 

@@ -1,12 +1,12 @@
 ---
-title: "Import & Export | Cloud"
+title: "インポートとエクスポート | Cloud"
 slug: /data-import-export
-sidebar_label: "Import & Export"
+sidebar_label: "インポートとエクスポート"
 beta: FALSE
 notebook: FALSE
-description: "This chapter covers the common procedures for you to import data into and export data from Zilliz Cloud clusters. | Cloud"
+description: "この章では、Zilliz Cloudクラスターにデータをインポートしたり、データをエクスポートするための一般的な手順について説明します。 | Cloud"
 type: origin
-token: Oh3VwT15Yi03bRkOtoXcZpurnWe
+token: DTs5w8R6die9xGk9nHncNE2jnlb
 sidebar_position: 6
 keywords: 
   - zilliz
@@ -15,19 +15,19 @@ keywords:
   - data import
   - export
   - milvus
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Import & Export
+# インポートとエクスポート
 
-This chapter covers the common procedures for you to import data into and export data from Zilliz Cloud clusters.
+この章では、Zilliz Cloudクラスターにデータをインポートしたり、データをエクスポートするための一般的な手順について説明します。
 
 import DocCardList from '@theme/DocCardList';
 

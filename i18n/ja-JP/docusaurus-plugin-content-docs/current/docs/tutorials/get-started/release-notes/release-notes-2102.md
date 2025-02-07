@@ -1,78 +1,78 @@
 ---
-title: "Release Notes (Oct 14, 2024) | Cloud"
+title: "リリースノート（2024年10月14日） | Cloud"
 slug: /release-notes-2102
-sidebar_label: "Release Notes (Oct 14, 2024)"
+sidebar_label: "リリースノート（2024年10月14日）"
 beta: FALSE
 notebook: FALSE
-description: "This release of Zilliz Cloud introduces several key updates the Notebook Gallery, which provides examples on advanced features like RAG, embeddings, and multi-modal search; an Improved Capacity of Performance-optimized CU, now increased by 50%, accommodating up to 1.5 million 768-dim vectors per CU and potentially reducing costs by 30% for large data volumes; and Multi-replica Availability, enhancing query performance and reliability by distributing workloads and replicas across Availability Zones (AZs). Additionally, Zilliz Cloud now supports the AWS Tokyo Region for improved performance in the Asia-Pacific area, Prometheus Integration for real-time monitoring and troubleshooting, and a revamped Authentication and Login System with Auth0, offering multiple login methods including SSO. Lastly, users can evaluate Zilliz products through the AWS Marketplace Free Trial, providing risk-free access to core features for performance and scalability testing. | Cloud"
+description: "Zilliz Cloudのこのリリースでは、いくつかの主要なアップデートが導入されています。Notebook Galleryでは、RAG、埋め込み、マルチモーダル検索などの高度な機能の例が提供されます。Improved Capacity ofPerformance-optimizedCUは50%増加し、CUあたり最大150万個の768-dimベクトルを収容し、大量のデータに対してコストを30%削減する可能性があります。そして、マルチレプリカアベイラビリティは、ワークロードとレプリカをアベイラビリティゾーン(AZ)全体に分散することで、クエリのパフォーマンスと信頼性を向上させます。さらに、Zilliz Cloudは現在、アジア太平洋地域でのパフォーマンス向上のためのAWS Tokyo Region、リアルタイムモニタリングとトラブルシューティングのためのPrometheus Integration、およびSSOを含む複数のログイン方法を提供する改良されたAuthentication and Login System with Auth 0をサポートしています。最後に、ユーザーはAWS Marketplace Free Trialを通じてZilliz製品を評価でき、パフォーマンスとスケーラビリティのテストのためのコア機能へのリスクフリーアクセスを提供します。 | Cloud"
 type: origin
-token: PyrrwqrGbirtGTkh4oacaov7nHh
+token: Anm3wgkIeibZapkuZr7cb5lqn9B
 sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (Oct 14, 2024)
+# リリースノート（2024年10月14日）
 
-This release of Zilliz Cloud introduces several key updates: the **Notebook Gallery**, which provides examples on advanced features like RAG, embeddings, and multi-modal search; an **Improved Capacity of Performance-optimized CU**, now increased by 50%, accommodating up to 1.5 million 768-dim vectors per CU and potentially reducing costs by 30% for large data volumes; and **Multi-replica Availability**, enhancing query performance and reliability by distributing workloads and replicas across Availability Zones (AZs). Additionally, Zilliz Cloud now supports the **AWS Tokyo Region** for improved performance in the Asia-Pacific area, **Prometheus Integration** for real-time monitoring and troubleshooting, and a revamped **Authentication and Login System with Auth0**, offering multiple login methods including SSO. Lastly, users can evaluate Zilliz products through the **AWS Marketplace Free Trial**, providing risk-free access to core features for performance and scalability testing.
+Zilliz Cloudのこのリリースでは、いくつかの主要なアップデートが導入されています。**Notebook Gallery**では、RAG、埋め込み、マルチモーダル検索などの高度な機能の例が提供されます。**Improved Capacity ofPerformance-optimizedCU**は50%増加し、CUあたり最大150万個の768-dimベクトルを収容し、大量のデータに対してコストを30%削減する可能性があります。そして、**マルチレプリカアベイラビリティ**は、ワークロードとレプリカをアベイラビリティゾーン(AZ)全体に分散することで、クエリのパフォーマンスと信頼性を向上させます。さらに、Zilliz Cloudは現在、アジア太平洋地域でのパフォーマンス向上のための**AWS Tokyo Region**、リアルタイムモニタリングとトラブルシューティングのための**Prometheus Integration**、およびSSOを含む複数のログイン方法を提供する改良された**Authentication and Login System with Auth 0**をサポートしています。最後に、ユーザーは**AWS Marketplace Free Trial**を通じてZilliz製品を評価でき、パフォーマンスとスケーラビリティのテストのためのコア機能へのリスクフリーアクセスを提供します。
 
-### Milvus Compatibility{#milvus-compatibility}
+### Milvusの互換性{#milvus}
 
-This release is compatible with **Milvus 2.4.x**.
+このリリースは**Milvus 2.4. x**と互換性があります。
 
-### Notebook Gallery{#notebook-gallery}
+### ノートブックギャラリー{#}
 
-In this release, Zilliz Cloud introduces the Notebook Gallery. This gallery provides detailed examples showcasing advanced features of Zilliz Cloud. The notebooks cover a wide range of use cases, including but not limited to RAG (Retrieval-Augmented Generation), agents, embeddings, text search, multi-modal search, data ingestion, migration, performance optimization, and more.
+このリリースでは、Zilliz CloudはNotebook Galleryを紹介しています。このギャラリーでは、Zilliz Cloudの高度な機能を紹介する詳細な例が提供されています。Notebookは、RAG(Retrieval-Augmented Generation)、エージェント、埋め込み、テキスト検索、マルチモーダル検索、データ取り込み、移行、パフォーマンス最適化など、幅広いユースケースをカバーしています。
 
-Explore the [notebooks](https://zilliz.com/learn/milvus-notebooks) now!
+今すぐ[ノートブック](https://zilliz.com/learn/milvus-notebooks)を探検しよう!
 
-### Improved Capacity of Performance-optimized CU{#improved-capacity-of-performance-optimized-cu}
+### CUのPerformance-optimized能力の向上{#cuperformance-optimized}
 
-With this release, the capacity of the performance-optimized CU (Compute Unit) has been increased by 50%. Previously, each performance-optimized CU could hold approximately 1 million vectors when estimated with 768-dimension vectors. Now, the capacity has been enhanced to 1.5 million vectors per CU. For large data volumes, this improvement can reduce CU costs by approximately 30%.
+このリリースにより、performance-optimizedCU(Compute Unit)の容量が50%増加しました。以前は、各performance-optimizedCUには768次元ベクトルで推定される約100万個のベクトルを保持できました。現在、容量はCUあたり150万個のベクトルに強化されています。この改善により、大量のデータに対してCUコストを約30%削減できます。
 
-### Multi-replica Generally Available{#multi-replica-generally-available}
+### 一般的にマルチレプリカが利用可能です{#}
 
-Multi-replica is now generally available in Zilliz Cloud, enabling cluster-level replication to boost both query throughput and availability.
+Zilliz Cloudでは、マルチレプリカが一般的に利用可能になりました。これにより、クラスターレベルのレプリケーションが可能になり、クエリのスループットと可用性の両方が向上します。
 
-- **Improved Query Performance**: For users requiring high query-per-second (QPS), multi-replica allows query workloads to be distributed across replicas. This parallel processing enhances overall throughput, reduces latency, and improves efficiency for query-intensive applications. In most cases, the overall QPS can be improved linearly as replicas are added.
+- **改善されたクエリパフォーマンス**:高いクエリ毎秒(QPS)を必要とするユーザーにとって、マルチレプリカはクエリワークロードをレプリカ全体に分散させることができます。この並列処理により、全体的なスループットが向上し、レイテンシが減少し、クエリ集中型アプリケーションの効率が向上します。ほとんどの場合、レプリカが追加されるにつれて、全体的なQPSは線形に改善されます。
 
-- **Enhanced Availability**: Multi-replica strengthens availability by distributing replicas across multiple Availability Zones (AZs). This setup ensures continuous access to data, even in the event of an AZ outage, offering greater reliability for mission-critical applications.
+- **拡張可用性**:マルチレプリカは、複数の可用性ゾーン(AZ)にレプリカを配布することで可用性を強化します。この設定により、AZの障害が発生してもデータへの継続的なアクセスが確保され、ミッションクリティカルなアプリケーションの信頼性が向上します。
 
-- For details on configuring multi-replica, refer to our [Manage Replica](./manage-replica).
+- マルチレプリカの設定の詳細については、「Manage Replica」を参照してください。
 
-### New Region Available: AWS Tokyo{#new-region-available-aws-tokyo}
+### 新しいリージョンが利用可能になりました: AWS東京{#aws}
 
-Zilliz Cloud is now available in the AWS Tokyo region (ap-northeast-1), providing users in the Asia-Pacific region with improved latency and performance.
+Zilliz Cloudは現在、AWS東京リージョン（ap-北東-1）で利用可能であり、アジア太平洋リージョンのユーザーに改善されたレイテンシーとパフォーマンスを提供しています。
 
-To view pricing details for the AWS Tokyo region, visit the [pricing page](https://zilliz.com/pricing).
+AWS東京リージョンの価格の詳細については、[価格ページ](https://zilliz.com/pricing)をご覧ください。
 
-### Prometheus Integration Support{#prometheus-integration-support}
+### Prometheusの統合サポート{#prometheus}
 
-Zilliz Cloud now supports integration with Prometheus, allowing users to monitor and visualize system metrics in real time. This integration enables users to track performance, resource usage, and system health, ensuring proactive monitoring and efficient troubleshooting. For setup and configuration details, refer to [Integrate with Prometheus](./prometheus-monitoring).
+Zilliz Cloudは現在、Prometheusとの統合をサポートしており、ユーザーはシステムメトリクスを実際立って監視および可視化できます。この統合により、ユーザーはパフォーマンス、リソース使用状況、およびシステムの健康状態を追跡し、プロアクティブな監視と効率的なトラブルシューティングを確保できます。セットアップと構成の詳細については、Integrate with Prometheusするを参照してください。
 
-### Authentication and Login System Refactoring with Auth0{#authentication-and-login-system-refactoring-with-auth0}
+### Auth 0による認証とログインシステムのリファクタリング{#auth-0}
 
-In this release, Zilliz Cloud has revamped its authentication and login system using Auth0. Zilliz Cloud now supports three login methods: 
+このリリースでは、Zilliz CloudはAuth 0を使用した認証とログインシステムを改良しました。Zilliz Cloudは現在、3つのログイン方法をサポートしています。
 
-- Email registration and login.
+- メール登録とログイン
 
-- Quick login via GitHub or Google authentication.
+- GitHubまたはGoogle認証によるクイックログイン。
 
-- SSO login for enterprise customers. For more details, visit [Single Sign-on with Okta](./single-sign-on-with-okta).
+- 企業のお客様向けのSSOログイン。詳細については、Single Sign-on with Oktaをご覧ください。
 
-### AWS Marketplace Free Trial{#aws-marketplace-free-trial}
+### AWS Marketplace無料トライアル{#aws-marketplace}
 
-With this release, Zilliz Cloud users can take advantage of the AWS Marketplace Free Trial option, providing an opportunity to explore and evaluate Zilliz products in a risk-free environment before committing to larger purchase decisions. This trial grants full access to the platform’s core features, allowing users to thoroughly test performance, scalability, and compatibility with their applications.
+このリリースにより、Zilliz CloudのユーザーはAWS Marketplaceの無料トライアルオプションを利用することができ、大きな購入決定をする前にリスクのない環境でZilliz製品を探索し評価する機会を提供します。このトライアルでは、プラットフォームのコア機能にすべりの権限が付与され、ユーザーはアプリケーションとのパフォーマンス、スケーラビリティ、互換性を徹底的にテストすることができます。
 
-Get Zilliz services via [AWS Marketplace: Zilliz](https://aws.amazon.com/marketplace/seller-profile?id=4922a541-e428-480d-8e32-db4ee9a7f46e).
+Zillizのサービスは[AWS Marketplace: Zilliz](https://aws.amazon.com/marketplace/seller-profile?id=4922a541-e428-480d-8e32-db4ee9a7f46e)から入手できます。

@@ -1,66 +1,66 @@
 ---
-title: "Release Notes (Sept 13, 2023) | Cloud"
+title: "リリースノート（2023年9月13日） | Cloud"
 slug: /release-notes-220
-sidebar_label: "Release Notes (Sept 13, 2023)"
+sidebar_label: "リリースノート（2023年9月13日）"
 beta: FALSE
 notebook: FALSE
-description: "We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience, including data migration across Zilliz Cloud clusters and from ElasticSearch, a brand-new ticket system going live, and enhanced data import capabilities. | Cloud"
+description: "Zilliz Cloudのリリースを発表できることを嬉しく思います。Zilliz Cloudクラスター間およびElastic Searchからのデータ移行、新しいチケットシステムの稼働、および強化されたデータインポート機能を含む、ユーザーエクスペリエンスを向上させるために設計された新機能のスイートを誇っています。 | Cloud"
 type: origin
-token: GqyhwKVspiYRwDk8OaucNfgJnhd
+token: UYXeweIQ9iLFsMkyzoecTt87nSe
 sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (Sept 13, 2023)
+# リリースノート（2023年9月13日）
 
-We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience, including data migration across Zilliz Cloud clusters and from ElasticSearch, a brand-new ticket system going live, and enhanced data import capabilities.
+Zilliz Cloudのリリースを発表できることを嬉しく思います。Zilliz Cloudクラスター間およびElastic Searchからのデータ移行、新しいチケットシステムの稼働、および強化されたデータインポート機能を含む、ユーザーエクスペリエンスを向上させるために設計された新機能のスイートを誇っています。
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvusの互換性{#milvus}
 
-This release is compatible with **Milvus 2.2.x**.
+このリリースは**Milvus 2.2. x**と互換性があります。
 
-## Overview{#overview}
+## 概要について{#}
 
-This release introduces our newly launched ticket system, which ensures swift and streamlined support. Additionally, our updated data import and migration tools allow for seamless transitions between your Zilliz Cloud clusters and provide improved support for importing multiple files at once. We invite you to explore these tools and experience their benefits firsthand.
+このリリースでは、新しく導入されたチケットシステムが導入され、迅速かつ効率的なサポートが保証されています。さらに、更新されたデータインポートおよび移行ツールにより、Zilliz Cloudクラスター間のスムーズな移行が可能になり、複数のファイルを一度にインポートするための改善されたサポートが提供されます。これらのツールを探索し、その利点を直接体験してください。
 
-## Data Migration Across Zilliz Cloud Clusters{#data-migration-across-zilliz-cloud-clusters}
+## Zillizクラウドクラスタ間のデータ移行{#zilliz}
 
-In this release, users are empowered with a streamlined ability to migrate data effortlessly within Zilliz Cloud, ensuring efficient data consolidation, configurations, and balancing.
+このリリースでは、ユーザーはZilliz Cloud内でデータを簡単に移行できるようになり、効率的なデータの統合、設定、およびバランスが確保されます。
 
-- Effortless Migration: Seamlessly shift data across multiple Zilliz Cloud clusters.
+- 簡単な移行:複数のZilliz Cloudクラスタ間でデータをシームレスに移行します。
 
-- Enhanced Security: Bolstered data security during migration to safeguard your data's integrity and confidentiality.
+- 強化されたセキュリティ:移行中のデータセキュリティを強化し、データの完全性と機密性を保護します。
 
-- Real-time Monitoring: An intuitive UI for users to monitor migration progress and receive status updates instantaneously.
+- リアルタイムモニタリング:ユーザーが移行の進捗状況を監視し、ステータスの更新を瞬時に受け取るための直感的なUI。
 
-See details at [Migrate Between Clusters](./migrate-between-clusters).
+詳細はMigrate Between Clustersを参照してください。
 
-## Easy Migration from ElasticSearch to Zilliz Cloud{#easy-migration-from-elasticsearch-to-zilliz-cloud}
+## Elastic SearchからZilliz Cloudへの簡単な移行{#elastic-searchzilliz-cloud}
 
-Transitioning from ElasticSearch to Zilliz Cloud has never been easier. We've crafted a pathway, supplemented with comprehensive documentation and built-in tools, ensuring you experience a smooth switch and consistent data post-migration. See details at [Migrate from Elasticsearch](./migrate-from-elasticsearch).
+Elastic SearchからZilliz Cloudへの移行は、これまで以上に簡単になりました。私たちは、包括的なドキュメントと組み込みツールで補完されたパスウェイを作成し、移行後もスムーズな切り替えと一貫したデータを体験できるようにしました。詳細については、Migrate from Elasticsearchするをご覧ください。
 
-## New Ticket System Go-Live{#new-ticket-system-go-live}
+## 新しいチケットシステムGo-Live{#go-live}
 
-Our brand-new ticketing system provides Zilliz Cloud users with a direct channel to our team. Whether you're submitting feedback, reporting issues, or seeking expert support, we've designed the system for efficiency and clarity. [Explore the ticket system today and experience streamlined support.](https://support.zilliz.com/hc/en-us/)
+私たちの新しいチケットシステムは、Zilliz Cloudユーザーに私たちのチームへの直接的なチャネルを提供します。フィードバックを提出したり、問題を報告したり、専門家のサポートを求めたりする場合でも、私たちは効率性と明確さのためにシステムを設計しました。[今すぐチケットシステムを探索して、スムーズなサポートを体験してください。](https://support.zilliz.com/hc/en-us/)
 
-## Enhanced Data Import Capabilities{#enhanced-data-import-capabilities}
+## データインポート機能の強化{#}
 
-We've revolutionized the way you import data into Zilliz Cloud:
+Zilliz Cloudにデータをインポートする方法を革新しました:
 
-- Folder Import: Break free from the constraints of the previous single-file mode. You can now import data using an entire folder of files, streamlining bulk data ingestion.
+- フォルダーインポート:以前の単一ファイルモードの制約から解放されます。ファイルのフォルダー全体を使用してデータをインポートできるようになり、バルクデータの取り込みを効率化できます。
 
-- Import Task Monitoring: Oversee your data import tasks in real-time via the Zilliz Cloud Web Console, ensuring transparency and control over your data uploads.
+- インポートタスクの監視: Zilliz Cloudウェブコンソールを介して、データのインポートタスクをリアルタイムで監視し、データのアップロードに対する透明性と制御を確保します。
 
-Check for the details at [Prepare Data Import](./prepare-data-import).
+詳細はPrepare Data Importをご確認ください。

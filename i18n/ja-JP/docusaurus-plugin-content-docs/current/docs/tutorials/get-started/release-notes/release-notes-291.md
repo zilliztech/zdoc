@@ -1,83 +1,83 @@
 ---
-title: "Release Notes (July 23, 2024) | Cloud"
+title: "リリースノート（2024年7月23日） | Cloud"
 slug: /release-notes-291
-sidebar_label: "Release Notes (July 23, 2024)"
+sidebar_label: "リリースノート（2024年7月23日）"
 beta: FALSE
 notebook: FALSE
-description: "In this update, Zilliz Cloud now supports Milvus' new RESTful API v2, providing a consistent interface and expanded functionalities. A new documentation chatbot enhances user support. The Job Center introduces an intuitive interface for managing and tracking tasks such as backup, restore, migration, import, and clone collection. Auto-scaling for dedicated clusters, available in private preview, dynamically adjusts capacity based on demand, triggered by the Compute Unit (CU) Capacity Threshold. Other enhancements include more cluster monitoring metrics, a revamped cluster management interface, and improved user email templates. | Cloud"
+description: "このアップデートでは、Zilliz CloudはMilvusの新しいRESTful API v 2をサポートし、一貫したインターフェースと拡張された機能を提供しています。新しいドキュメントチャットボットにより、ユーザーサポートが強化されています。ジョブセンターでは、バックアップ、復元、移行、インポート、クローン収集などのタスクを管理および追跡するための直感的なインターフェースが導入されています。プライベートプレビューで利用可能な専用クラスターの自動スケーリングは、Compute Unit(CU)Capacity Thresholdによってトリガーされ、需要に基づいて容量を動的に調整します。その他の改善点には、より多くのクラスターモニタリングメトリック、改良されたクラスター管理インターフェース、および改善されたユーザーメールテンプレートが含まれます。 | Cloud"
 type: origin
-token: RlhDw3Fr9iCpWSkylfAcyes1nLh
+token: OfuSwcK3PiSYAYkVYUEcsq32nib
 sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (July 23, 2024)
+# リリースノート（2024年7月23日）
 
-In this update, Zilliz Cloud now supports Milvus' new RESTful API v2, providing a consistent interface and expanded functionalities. A new documentation chatbot enhances user support. The **Job Center** introduces an intuitive interface for managing and tracking tasks such as backup, restore, migration, import, and clone collection. **Auto-scaling** for dedicated clusters, available in private preview, dynamically adjusts capacity based on demand, triggered by the Compute Unit (CU) Capacity Threshold. Other enhancements include more cluster monitoring metrics, a revamped cluster management interface, and improved user email templates.
+このアップデートでは、Zilliz CloudはMilvusの新しいRESTful API v 2をサポートし、一貫したインターフェースと拡張された機能を提供しています。新しいドキュメントチャットボットにより、ユーザーサポートが強化されています。**ジョブセンター**では、バックアップ、復元、移行、インポート、クローン収集などのタスクを管理および追跡するための直感的なインターフェースが導入されています。プライベートプレビューで利用可能な専用クラスターの**自動スケーリング**は、Compute Unit(CU)Capacity Thresholdによってトリガーされ、需要に基づいて容量を動的に調整します。その他の改善点には、より多くのクラスターモニタリングメトリック、改良されたクラスター管理インターフェース、および改善されたユーザーメールテンプレートが含まれます。
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvusの互換性{#milvus}
 
-This release is compatible with **Milvus 2.3.x**. 
+このリリースは**Milvus 2.3. x**と互換性があります。
 
-If you prefer to upgrade your clusters to BETA, **Milvus 2.4.x** features are available after the upgrade.
+クラスタをBETAにアップグレードしたい場合は、アップグレード後に**Milvus 2.4. x**の機能を利用できます。
 
-### RESTful API v2{#restful-api-v2}
+### RESTful API v 2とは{#restful-api-v-2}
 
-In the recent Milvus 2.4 update, the new RESTful API v2 has been launched. With this release, Zilliz Cloud now fully supports these APIs and offers a set of control plane interfaces. The new v2 APIs are more consistent in interface style and cover a wider range of functions compared to v1. These functions include vector operations, collection management, index management, partition management, role and user management, and alias operations on the data plane. On the control plane, the APIs cover data import and cluster management. See RESTful v2 [control plane API](/reference/restful/control-plane-v2) and [data plane API](/reference/restful/data-plane-v2) for more details.
+最近のMilvus 2.4のアップデートで、新しいRESTful API v 2がリリースされました。このリリースにより、Zilliz CloudはこれらのAPIを完全にサポートし、一連のコントロールプレーンインターフェイスを提供しています。新しいv 2 APIは、インターフェイススタイルがより一貫しており、v 1に比べてより幅広い機能をカバーしています。これらの機能には、ベクトル操作、コレクション管理、インデックス管理、パーティション管理、ロールおよびユーザー管理、およびデータプレーン上のエイリアス操作が含まれます。コントロールプレーンでは、APIはデータインポートとクラスタ管理をカバーしています。詳細については、RESTful v 2[コントロールプレーンAPI](/reference/restful/control-plane-v2)および[データプレーンAPI](/reference/restful/data-plane-v2)を参照してください。
 
-### Chatbot{#chatbot}
+### チャットボット{#}
 
-Zilliz Cloud now features a documentation chatbot, offering a more flexible and powerful support tool compared to the traditional search bar. This chatbot allows users to easily find information and get assistance with their questions. You can access the chatbot by clicking on the icon located in the bottom right corner of the Zilliz Cloud documentation page.
+Zilliz Cloudには、従来の検索バーに比べてより柔軟で強力なサポートツールを提供するドキュメンテーションチャットボットが追加されました。このチャットボットを使用すると、ユーザーは簡単に情報を検索し、質問に対する支援を受けることができます。Zilliz Cloudのドキュメンテーションページの右下にあるアイコンをクリックすることで、チャットボットにアクセス可能です。
 
-### Job Center{#job-center}
+### ジョブセンター{#}
 
-Zilliz Cloud now offers an intuitive Jobs page, integrating all historical and asynchronous data tasks within a single project. This streamlined interface allows you to easily track the progress and manage various types of jobs, including:
+Zilliz Cloudは、1つのプロジェクト内にすべての履歴データと非同期データのタスクを統合した直感的なジョブページを提供しています。このシンプルなインターフェースにより、進捗状況を簡単に追跡し、さまざまな種類のジョブを管理できます。
 
-- Backup
+- バックアップ
 
-- Restore
+- 復元する
 
-- Migration
+- マイグレーション
 
-- Import
+- インポート
 
-- Clone Collection
+- クローンコレクションName
 
-See [Manage Project Jobs](./job-center) for details.
+詳細はManage Project Jobsを参照してください。
 
-### Auto-scaling for Dedicated Clusters [Private Preview]{#auto-scaling-for-dedicated-clusters-private-preview}
+### 専用クラスタの自動スケーリング[プライベートプレビュー]{#}
 
-Zilliz Cloud introduces auto-scaling, a feature that dynamically adjusts the cluster's capacity based on demand. Auto-scaling is primarily triggered by the CU (Compute Unit) Capacity Threshold. Zilliz Cloud monitors the cluster's CU capacity every minute, and if it exceeds 70% (the default threshold) for two consecutive minutes, the system automatically initiates a scaling process. Users can set a maximum CU size for automatic scaling, though downward auto-scaling is currently not supported.
+Zilliz Cloudは、需要に基づいてクラスタの容量を動的に調整する機能であるオートスケーリングを導入しています。オートスケーリングは、主にCU(Compute Unit)容量閾値によってトリガーされます。Zilliz Cloudは、クラスタのCU容量を毎分監視し、2分間連続して70%(デフォルトの閾値)を超える場合、システムは自動的にスケーリング過程を開始します。ユーザーは、自動スケーリングの最大CU体格を設定できますが、下方自動スケーリングは現在サポートされていません。
 
-Auto-scaling is currently in private preview and available only for Dedicated (Enterprise) clusters. To enable this feature, please [contact us](https://zilliz.com/contact-sales?_gl=1*y9u24o*_ga*NDAwNDA1MDY5LjE3MDkxNTcwNzU.*_ga_KKMVYG8YF2*MTcyMTcwNjA5MC4xMjQuMS4xNzIxNzA5OTk3LjAuMC4w*_ga_HT329313WV*MTcyMTcwNjA5MC4zNS4xLjE3MjE3MDk5OTcuMC4wLjA.*_ga_Q1F8R2NWDP*MTcyMTcwNjA5MC4zMy4xLjE3MjE3MDk5OTcuMC4wLjA.*_gcl_au*ODIwMjEwMjY0LjE3MTcwNjEwOTc.). See [Auto-scaling](./manage-cluster) for the usage.
+現在、自動スケーリングはプライベートプレビュー段階であり、Dedicated(Enterprise)クラスターでのみ利用可能です。この機能を有効にするには、[お問い合わせ](https://zilliz.com/contact-sales?_gl=1*y9u24o*_ga*NDAwNDA1MDY5LjE3MDkxNTcwNzU.*_ga_KKMVYG8YF2*MTcyMTcwNjA5MC4xMjQuMS4xNzIxNzA5OTk3LjAuMC4w*_ga_HT329313WV*MTcyMTcwNjA5MC4zNS4xLjE3MjE3MDk5OTcuMC4wLjA.*_ga_Q1F8R2NWDP*MTcyMTcwNjA5MC4zMy4xLjE3MjE3MDk5OTcuMC4wLjA.*_gcl_au*ODIwMjEwMjY0LjE3MTcwNjEwOTc.)ください。使用方法については、[自動スケーリング](null)を参照してください。
 
-### Pipelines{#pipelines}
+### パイプライン{#}
 
-- Pipelines now support searching images by text with the new SEARCH_IMAGE_BY_TEXT function. This feature enables users to retrieve relevant image data from the database by inputting a text query. The search functionality supports multiple languages and utilizes the CLIP vit base patch32 multimodal model for text and image encoding. For details, refer to [Image Data](./pipelines-image-data).
+- パイプラインは、新しいSEARCH_IMAGE_BY_TEXT関数を使用して、テキストによる画像検索をサポートするようになりました。この機能により、ユーザーはテキストクエリを入力してデータベースから関連する画像データを取得できます。検索機能は複数の言語に対応しており、テキストと画像のエンコードにはCLIP vit base patch 32マルチモーダルモデルを使用しています。詳細については、Image Dataを参照してください。
 
-- Users can now obtain pipeline usage information in pipeline details using both the RestFul API and the UI console. This enhancement provides users with a comprehensive view of pipeline usage for better monitoring and analysis. For details, refer to [Estimate Pipeline Usage](./estimate-pipelines-usage).
+- ユーザーは、RestFul APIとUIコンソールの両方を使用して、パイプラインの詳細でパイプラインの使用状況情報を取得できるようになりました。この機能強化により、ユーザーはパイプラインの使用状況を包括的に把握して、より良いモニタリングと分析を行うことができます。詳細については、「Estimate Pipeline Usageの推定」を参照してください。
 
-- The limit on the maximum number of each type of pipelines in each project has been increased. Users can now create up to 100 pipelines of every kind in a single project, compared to the previous limit of 10. This change allows for more flexibility and scalability in managing pipelines within projects. For details on all pipeline limits, refer to [Zilliz Cloud Limits on Pipelines](./estimate-pipelines-usage).
+- 各プロジェクトにおける各種パイプラインの最大数の制限が引き上げられました。ユーザーは、以前の10個の制限に比べて、1つのプロジェクトで最大100個のあらゆる種類のパイプラインを作成できるようになりました。この変更により、プロジェクト内でパイプラインを管理する際の柔軟性とスケーラビリティが向上しました。すべてのパイプライン制限の詳細については、「[Zilliz Cloud Limits on Pipelines](null)」を参照してください。
 
-### Enhancements{#enhancements}
+### エンハンスメント{#}
 
-This release also includes a series of enhancements:
+このリリースには、一連の機能強化も含まれています。
 
-- More [metrics](/docs/metrics-alerts-reference) for monitoring your clusters
+- クラスタを監視するためのより多くの[メトリック](/docs/metrics-alerts-reference)
 
-- Refactor of the cluster management pages, including cluster modification, migration, and backup.
+- クラスタの変更、移行、バックアップを含むクラスタ管理ページのリファクタリング。
 
-- Refinement of user email templates
+- ユーザーのメールテンプレートの改良
 

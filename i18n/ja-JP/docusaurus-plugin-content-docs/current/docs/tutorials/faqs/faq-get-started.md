@@ -1,58 +1,57 @@
 ---
-title: "FAQ: Get Started | CLOUD"
+title: "FAQ:スタート | CLOUD"
 slug: /faq-get-started
-sidebar_label: "FAQ: Get Started"
+sidebar_label: "FAQ:スタート"
 beta: FALSE
 notebook: FALSE
-description: "This topic lists the possible issues that you may encounter while you get started with Zilliz Cloud and the corresponding solution. | CLOUD"
+description: "このトピックでは、 Zilliz Cloud と対応するソリューションの使い始める際に遭遇する可能性のある問題をリストします。 | CLOUD"
 type: origin
-token: EV41wG08BiOWW8kbo9xcTGoPnKd
+token: LKxiwykkhi5VyLkTfAGcE3LinBe
 sidebar_position: 1
 
 ---
 
-# FAQ: Get Started
+# FAQ:スタート
 
-This topic lists the possible issues that you may encounter while you get started with Zilliz Cloud and the corresponding solution.
+このトピックでは、 Zilliz Cloud と対応するソリューションの使い始める際に遭遇する可能性のある問題をリストします。
 
 ## Contents
 
-- [Is there any performance comparison between Zilliz Cloud and other vector search solutions?](#is-there-any-performance-comparison-between-zilliz-cloud-and-other-vector-search-solutions)
-- [Which type of index is supported by Zilliz Cloud?](#which-type-of-index-is-supported-by-zilliz-cloud)
-- [What is the search latency of Zilliz Cloud?](#what-is-the-search-latency-of-zilliz-cloud)
-- [Is pricing the same in every region?](#is-pricing-the-same-in-every-region)
-- [What happens after the free trial?](#what-happens-after-the-free-trial)
-- [What is the pricing of Zilliz Cloud on Marketplaces?](#what-is-the-pricing-of-zilliz-cloud-on-marketplaces)
-- [Can I apply for more credits?](#can-i-apply-for-more-credits)
-- [Can I extend my free trial?](#can-i-extend-my-free-trial)
-- [How can I get further technical support?](#how-can-i-get-further-technical-support)
+- [Zilliz Cloudと他のベクトル検索ソリューションのパフォーマンス比較はありますか?](#is-there-any-performance-comparison-between-zilliz-cloud-and-other-vector-search-solutions)
+- [Zilliz Cloudはどの種類のインデックスをサポートしていますか?](#which-type-of-index-is-supported-by-zilliz-cloud)
+- [Zilliz Cloudの検索レイテンシーは何ですか?](#what-is-the-search-latency-of-zilliz-cloud)
+- [価格はどの地域でも同じですか?](#is-pricing-the-same-in-every-region)
+- [無料トライアルの後はどうなりますか?](#what-happens-after-the-free-trial)
+- [Zilliz Cloud on Marketplaceの価格はいくらですか?](#what-is-the-pricing-of-zilliz-cloud-on-marketplaces)
+- [無料トライアルを延長できますか?](#can-i-extend-my-free-trial)
+- [さらなる技術サポートを受けるにはどうすればよいですか?](#how-can-i-get-further-technical-support)
 
 ## FAQs
 
 
 
 
-### Is there any performance comparison between Zilliz Cloud and other vector search solutions?{#is-there-any-performance-comparison-between-zilliz-cloud-and-other-vector-search-solutions}
+### Zilliz Cloudと他のベクトル検索ソリューションのパフォーマンス比較はありますか?{#is-there-any-performance-comparison-between-zilliz-cloud-and-other-vector-search-solutions}
 
-Yes. You can use [VectorDBBench](https://zilliz.com/vector-database-benchmark-tool), a vector database benchmark tool to compare the performance of Zilliz Cloud and other mainstream vector databases and cloud services.
+はい。ベクトルデータベースのベンチマークツールである[VectorDBBench](https://zilliz.com/vector-database-benchmark-tool)を使用して、Zilliz Cloudと他の主流のベクトルデータベースやクラウドサービスのパフォーマンスを比較することができます。
 
-### Which type of index is supported by Zilliz Cloud?{#which-type-of-index-is-supported-by-zilliz-cloud}
+### Zilliz Cloudはどの種類のインデックスをサポートしていますか?{#which-type-of-index-is-supported-by-zilliz-cloud}
 
-Currently, Zilliz Cloud only supports AUTOINDEX, a proprietary index type that can help you achieve better search performance. 
+現在、Zilliz Cloudは独自のインデックスタイプであるAUTOINDEXのみをサポートしており、より良い検索パフォーマンスを実現するのに役立ちます。 
 
-For a performance-optimized cluster with 1.5 million 768-dimensional vectors, the QPS can reach several hundred and the latency is below 100 milliseconds. For a capacity-optimized cluster with 5 million 768-dimensional vectors, the QPS can reach 50 and the latency is over 200 milliseconds. For more details, see [AUTOINDEX Explained](./autoindex-explained).
+150万個の768次元ベクトルを持つperformance-optimizedクラスタの場合、QPSは数百に達し、レイテンシは100ミリ秒以下になります。500万個の768次元ベクトルを持つ容量最適化クラスタの場合、QPSは50に達し、レイテンシは200ミリ秒以上になります。詳細については、「[AUTOINDEXの説明](./autoindex-explained)」を参照してください。
 
-However, please[ submit a request](https://support.zilliz.com/hc/en-us) if you are familiar with using [any of the indexes](https://milvus.io/docs/index.md) we support. We can help you evaluate your application demand and enable the indexes for you.
+ただし、[リクエストを送信](https://support.zilliz.com/hc/en-us)してください。当社がサポートする[インデックスのいずれかの](https://milvus.io/docs/index.md)使用に精通している場合。アプリケーションの需要を評価し、インデックスを有効にすることができます。
 
-### What is the search latency of Zilliz Cloud?{#what-is-the-search-latency-of-zilliz-cloud}
+### Zilliz Cloudの検索レイテンシーは何ですか?{#what-is-the-search-latency-of-zilliz-cloud}
 
-The search latency depends on the CU type and data volume. 
+検索レイテンシはCUタイプとデータ量に依存します。 
 
 <table>
    <tr>
      <th><p>top_k</p></th>
-     <th><p>Latency of Performance-optimized CU (768-dim 1M vectors)</p></th>
-     <th><p>Latency of Capacity-optimized CU (768-dim 5M vectors)</p></th>
+     <th><p>CUPerformance-optimized(76 8-dim 1 Mベクトル)の遅延</p></th>
+     <th><p>容量最適化CU（76 8-dim 5 Mベクトル）のレイテンシ</p></th>
    </tr>
    <tr>
      <td><p>10</p></td>
@@ -76,28 +75,24 @@ The search latency depends on the CU type and data volume.
    </tr>
 </table>
 
-For more details about the test result, see [Select the Right CU](./cu-types-explained).
+テスト結果の詳細については、「[適切なCUを選択](./cu-types-explained)」を参照してください。
 
-### Is pricing the same in every region?{#is-pricing-the-same-in-every-region}
+### 価格はどの地域でも同じですか?{#is-pricing-the-same-in-every-region}
 
-In short, cloud service prices often vary across providers and regions. Several factors contribute to these differences, such as the costs of the underlying physical resources that cloud database services rely on. For more details, see [Pricing](https://zilliz.com/pricing).
+要するに、クラウドサービスの価格はプロバイダーや地域によって異なることがよくあります。クラウドデータベースサービスが依存する基本的な物理リソースのコストなど、いくつかの要因がこれらの違いに寄与しています。詳細については、「[価格設定](https://zilliz.com/pricing)」を参照してください。
 
-### What happens after the free trial?{#what-happens-after-the-free-trial}
+### 無料トライアルの後はどうなりますか?{#what-happens-after-the-free-trial}
 
-Once the free trial ends, you can still access your free clusters. However, all the data in your serverless and dedicated clusters will be moved to the Recycle Bin and will be retained there for 30 days. To safely recover your cluster data, you can subscribe to the Serverless or Dedicated plan by providing a payment method. For more details, refer to [Try Zilliz Cloud For Free](./free-trials#use-free-trial).
+無料トライアルが終了した後も、無料のクラスターにアクセスできます。ただし、サーバーレスおよび専用クラスター内のすべてのデータはごみ箱に移動され、30日間そこに保持されます。クラスターデータを安全に復元するには、サーバーレスまたは専用プランに加入して、払い戻し方法を提供してください。トライアル期間中にPoCを完了していない場合は、トライアル期間を延長するために[お問い合わせ](https://support.zilliz.com/hc/en-us)ください。
 
-### What is the pricing of Zilliz Cloud on Marketplaces?{#what-is-the-pricing-of-zilliz-cloud-on-marketplaces}
+### Zilliz Cloud on Marketplaceの価格はいくらですか?{#what-is-the-pricing-of-zilliz-cloud-on-marketplaces}
 
-Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more about Marketplace Pricing Terms.
+マーケットプレイスの価格条件の詳細については、「[支払いと請求](./payment-billing)」を参照してください。
 
-### Can I apply for more credits?{#can-i-apply-for-more-credits}
+### 無料トライアルを延長できますか?{#can-i-extend-my-free-trial}
 
-When you register an account on Zilliz Cloud, you’ll receive $100 in free credits. You can earn an extra $100 credits by subscribing to Zilliz Cloud on [Marketplaces](./subscribe-on-aws-marketplace).
+はい、可能です。Zilliz Cloudに登録すると、30日間有効な$100のクレジットを受け取ることができます。支払い方法を追加することで、これらのクレジットの有効期間を1年間延長することができます。
 
-### Can I extend my free trial?{#can-i-extend-my-free-trial}
+### さらなる技術サポートを受けるにはどうすればよいですか?{#how-can-i-get-further-technical-support}
 
-Yes, you can. When you register on Zilliz Cloud, you receive $100 in credits valid for 30 days. By [adding a payment method](./payment-billing), you can extend the validity of these credits to 1 year.
-
-### How can I get further technical support?{#how-can-i-get-further-technical-support}
-
-Please submit at request at the Zilliz cloud [support portal](https://support.zilliz.com/hc/en-us).
+Zillizクラウド[サポートポータル](https://support.zilliz.com/hc/en-us)でリクエストを送信してください。

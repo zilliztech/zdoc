@@ -1,12 +1,12 @@
 ---
-title: "Basic Operators | Cloud"
+title: "基本演算子 | Cloud"
 slug: /basic-filtering-operators
-sidebar_label: "Basic Operators"
+sidebar_label: "基本演算子"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud provides a rich set of basic operators to help you filter and query data efficiently. These operators allow you to refine your search conditions based on scalar fields, numeric calculations, logical conditions, and more. Understanding how to use these operators is crucial for building precise queries and maximizing the efficiency of your searches. | Cloud"
+description: "Zilliz Cloudは、データを効率的にフィルタリングおよびクエリするための豊富な基本演算子セットを提供します。これらの演算子により、スカラーフィールド、数値計算、論理条件などに基づいて検索条件を絞り込むことができます。これらの演算子の使用方法を理解することは、正確なクエリを構築し、検索の効率を最大化するために重要です。 | Cloud"
 type: origin
-token: LBbUwOGcwi1UMak3eE2cM1gvnUe
+token: CGHQwa6bkiXAXnkTh6acH9w9nWb
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -18,258 +18,226 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Basic Operators
+# 基本演算子
 
-Zilliz Cloud provides a rich set of basic operators to help you filter and query data efficiently. These operators allow you to refine your search conditions based on scalar fields, numeric calculations, logical conditions, and more. Understanding how to use these operators is crucial for building precise queries and maximizing the efficiency of your searches.
+Zilliz Cloudは、データを効率的にフィルタリングおよびクエリするための豊富な基本演算子セットを提供します。これらの演算子により、スカラーフィールド、数値計算、論理条件などに基づいて検索条件を絞り込むことができます。これらの演算子の使用方法を理解することは、正確なクエリを構築し、検索の効率を最大化するために重要です。
 
-## Comparison operators{#comparison-operators}
+## 比較演算子{#}
 
-Comparison operators are used to filter data based on equality, inequality, or size. They are applicable to numeric and text fields.
+比較演算子は、等号、不等号、体格に基づいてデータをフィルタリングするために使用されます。数値フィールドとテキストフィールドに適用されます。
 
-### Supported Comparison Operators:{#supported-comparison-operators}
+### サポートされる比較演算子:{#}
 
-- `==` (Equal to)
+- `==`(等しい)
 
-- `!=` (Not equal to)
+- `!=`(等しくない)
 
-- `>` (Greater than)
+- `>`（より大きい）
 
-- `<` (Less than)
+- `<`(より少ない)
 
-- `>=` (Greater than or equal to)
+- `>=`(以上または等しい)
 
-- `<=` (Less than or equal to)
+- `<=`(以下または等しい)
 
-### Example 1: Filtering with Equal To (`==`){#example-1-filtering-with-equal-to}
+### 例1: Equal To(`==`)でフィルタリングする{#1-equal-to}
 
-Assume you have a field named `status` and you want to find all entities where `status` is "active". You can use the equality operator `==`:
+ステータスという名前のフィールドがあり、`ステータス`が「アクティブ」であるすべてのエンティティを検索したいとします。等号演算子`==を使用することができます。`
 
 ```python
 filter = 'status == "active"'
 ```
 
-### Example 2: Filtering with Not Equal To (`!=`){#example-2-filtering-with-not-equal-to}
+### 例2: Not Equal To(`!=`)でフィルタリングする{#2-not-equal-to}
 
-To find entities where `status` is not "inactive":
+「非アクティブ」でない`状態`のエンティティを検索するには:
 
 ```python
 filter = 'status != "inactive"'
 ```
 
-### Example 3: Filtering with Greater Than (`>`){#example-3-filtering-with-greater-than-greater}
+### 例3:より大きい値(`>)`でフィルタリングする{#3greater}
 
-If you want to find all entities with an `age` greater than 30:
+大なり30の`年齢`を持つすべてのエンティティを見つけたい場合:
 
 ```python
 filter = 'age > 30'
 ```
 
-### Example 4: Filtering with Less Than{#example-4-filtering-with-less-than}
+### 例4: Less Thanでのフィルタリング{#4-less-than}
 
-To find entities where `price` is less than 100:
+価格が100未満のエンティティ`を`検索するには:
 
 ```python
 filter = 'price < 100'
 ```
 
-### Example 5: Filtering with Greater Than or Equal To (`>=`){#example-5-filtering-with-greater-than-or-equal-to-greater}
+### 例5:「より大きい」または「等しい」（`>=`）でフィルタリングする{#5greater}
 
-If you want to find all entities with `rating` greater than or equal to 4:
+4以上の`レーティング`を持つすべてのエンティティを見つけたい場合:
 
 ```python
 filter = 'rating >= 4'
 ```
 
-### Example 6: Filtering with Less Than or Equal To{#example-6-filtering-with-less-than-or-equal-to}
+### 例6: Less ThanまたはEqual Toでフィルタリングする{#6-less-thanequal-to}
 
-To find entities with `discount` less than or equal to 10%:
+10%以下の`ディスカウント`を持つエンティティを検索するには:
 
 ```python
 filter = 'discount <= 10'
 ```
 
-## Range operators{#range-operators}
+## レンジ演算子{#}
 
-Range operators help filter data based on specific sets or ranges of values.
+範囲演算子は、特定のセットまたは値の範囲に基づいてデータをフィルタリングするのに役立ちます。
 
-### Supported Range Operators:{#supported-range-operators}
+### 対応する範囲演算子:{#}
 
-- `IN`: Used to match values within a specific set or range.
+- `IN`:特定のセットまたは範囲内の値を一致させるために使用されます。
 
-- `LIKE`: Used to match a pattern (mostly for text fields).
+- `LIKE`:パターンに一致するために使用されます(主にテキストフィールド用)。
 
-### Example 1: Using `IN` to Match Multiple Values{#example-1-using-in-to-match-multiple-values}
+### 例1:`IN`を使用して複数の値を一致させる{#1in}
 
-If you want to find all entities where the `color` is either "red", "green", or "blue":
+「赤」、「緑」、「青」のいずれかの`色`を持つすべての図形を検索したい場合:
 
 ```python
 filter = 'color in ["red", "green", "blue"]'
 ```
 
-This is useful when you want to check for membership in a list of values.
+これは、値のリストのメンバーシップを確認する場合に便利です。
 
-### Example 2: Using `LIKE` for Pattern Matching{#example-2-using-like-for-pattern-matching}
+### 例2:パターンマッチングに`LIKE`を使用する{#2like}
 
-The `LIKE` operator is used for pattern matching in string fields. It can match substrings in different positions within the text: as a **prefix**, **infix**, or **suffix**. The `LIKE` operator uses the `%` symbol as a wildcard, which can match any number of characters (including zero).
+文字列フィールドでのパターンマッチングには、`LIKE`演算子が使用されます。テキスト内の異なる位置にある部分文字列を**接頭辞**、**中置**き、または**接尾辞**として一致させることができます。`LIKE`演算子は、`%`記号をワイルドカードとして使用し、ゼロを含む任意の数の文字に一致させることができます。
 
-### Prefix Match (Starts With){#prefix-match-starts-with}
+### プレフィックスマッチ(始まり){#}
 
-To perform a **prefix** match, where the string starts with a given pattern, you can place the pattern at the beginning and use `%` to match any characters following it. For example, to find all products whose `name` starts with "Prod":
+与えられたパターンで始まる文字列の**プレフィックス**マッチを実行するには、パターンを先頭に置き、`%`を使用してそれに続く任意の文字に一致させることができます。例えば、`名前`が「Prod」で始まるすべての製品を検索するには:
 
 ```python
 filter = 'name LIKE "Prod%"'
 ```
 
-This will match any product whose name starts with "Prod", such as "Product A", "Product B", etc.
+これは、「Product A」、「Product B」など、名前が「Prod」で始まる製品に一致します。
 
-### Suffix Match (Ends With){#suffix-match-ends-with}
+### 接尾辞一致(で終わる){#}
 
-For a **suffix** match, where the string ends with a given pattern, place the `%` symbol at the beginning of the pattern. For example, to find all products whose `name` ends with "XYZ":
+与えられたパターンで終わる文字列の**接尾辞**が一致する場合、パターンの先頭に`%`記号を配置します。例えば、`名前`が「XYZ」で終わるすべての製品を検索するには:
 
 ```python
 filter = 'name LIKE "%XYZ"'
 ```
 
-This will match any product whose name ends with "XYZ", such as "ProductXYZ", "SampleXYZ", etc.
+これは、「ProductXYZ」、「SampleXYZ」など、名前が「XYZ」で終わる製品に一致します。
 
-### Infix Match (Contains){#infix-match-contains}
+### 中置一致（含む）{#}
 
-To perform an **infix** match, where the pattern can appear anywhere in the string, you can place the `%` symbol at both the beginning and the end of the pattern. For example, to find all products whose `name` contains the word "Pro":
+パターンが文字列のどこにでも現れる**中置**一致を行うには、パターンの先頭と末尾の両方に`%`記号を置くことができます。例えば、`名前`に「Pro」という単語が含まれるすべての製品を検索するには:
 
 ```python
 filter = 'name LIKE "%Pro%"'
 ```
 
-This will match any product whose name contains the substring "Pro", such as "Product", "ProLine", or "SuperPro".
+これは、"Product"、"ProLine"、"SuperPro"など、名前に部分文字列"Pro"が含まれる製品に一致します。
 
-## Arithmetic Operators{#arithmetic-operators}
+## 算術演算子{#}
 
-Arithmetic operators allow you to create conditions based on calculations involving numeric fields.
+算術演算子を使用すると、数値フィールドを含む計算に基づいて条件を作成できます。
 
-### Supported Arithmetic Operators:{#supported-arithmetic-operators}
+### サポートされる演算子:{#}
 
-- `+` (Addition)
+- `+`(加算)
 
-- `-` (Subtraction)
+- `-`(引き算)
 
-- `*` (Multiplication)
+- `*`（掛け算）
 
-- `/` (Division)
+- `/`（ディビジョン）
 
-- `%` (Modulus)
+- `%`(モジュラス)
 
-- `**` (Exponentiation)
+- `**`（エキスポンシエーション）
 
-### Example 1: Using Addition (`+`){#example-1-using-addition}
+### 例1:モジュラス（`%`）を使用する{#1percent}
 
-To find entities where the `total` price is the sum of `base_price` and `tax`:
-
-```python
-filter = 'total == base_price + tax'
-```
-
-### Example 2: Using Subtraction (`-`){#example-2-using-subtraction}
-
-To find entities where the difference between `quantity` and `quantity_sold` is greater than 50:
-
-```python
-filter = 'quantity - quantity_sold > 50'
-```
-
-### Example 3: Using Multiplication (`*`){#example-3-using-multiplication}
-
-To find entities where the product of the `price` and `quantity` field values are greater than 1000:
-
-```python
-filter = 'price * quantity > 1000'
-```
-
-### Example 4: Using Division (`/`){#example-4-using-division}
-
-To find products where `total_price` divided by `quantity` is less than 50:
-
-```python
-filter = 'total_price / quantity < 50'
-```
-
-### Example 5: Using Modulus (`%`){#example-5-using-modulus-percent}
-
-To find entities where the `id` is an even number (i.e., divisible by 2):
+2で割り切れる`ID`を持つエンティティを見つけるには:
 
 ```python
 filter = 'id % 2 == 0'
 ```
 
-### Example 6: Using Exponentiation (`**`){#example-6-using-exponentiation}
+### 例2: Exponentiation`(**)`を使用する{#2-exponentiation}
 
-To find entities where `price` raised to the power of 2 is greater than 1000:
+2の累乗の`価格`が大なり1000であるエンティティを見つけるには:
 
 ```python
 filter = 'price ** 2 > 1000'
 ```
 
-## Logical Operators{#logical-operators}
+## 論理演算子{#}
 
-Logical operators are used to combine multiple conditions into a more complex filter expression. These include `AND`, `OR`, and `NOT`.
+論理演算子は、複数の条件をより複雑なフィルター式に結合するために使用されます。これらには、`AND`、`OR`、`NOT`が含まれます。
 
-### Supported Logical Operators:{#supported-logical-operators}
+### サポートされる論理演算子:{#}
 
-- `AND`: Combines multiple conditions that must all be true.
+- `AND`:すべてtrueである必要がある複数の条件を組み合わせます。
 
-- `OR`: Combines conditions where at least one must be true.
+- `OR`:少なくとも1つがtrueでなければならない条件を組み合わせます。
 
-- `NOT`: Negates a condition.
+- `NOT`:条件を否定します。
 
-### Example 1: Using `AND` to Combine Conditions{#example-1-using-and-to-combine-conditions}
+### 例1:`AND`を使用して条件を結合する{#1and}
 
-To find all products where `price` is greater than 100 and `stock` is greater than 50:
+以下のように、`価格`が100で`在庫`が50である商品を検索します。
 
 ```python
 filter = 'price > 100 AND stock > 50'
 ```
 
-### Example 2: Using `OR` to Combine Conditions{#example-2-using-or-to-combine-conditions}
+### 例2:`OR`を使用して条件を結合する{#2or}
 
-To find all products where `color` is either "red" or "blue":
+「赤」または「青」のいずれかの`色`のすべての製品を検索するには:
 
 ```python
 filter = 'color == "red" OR color == "blue"'
 ```
 
-### Example 3: Using `NOT` to Exclude a Condition{#example-3-using-not-to-exclude-a-condition}
+### 例3:`NOT`を使用して条件を除外する{#3not}
 
-To find all products where `color` is not "green":
+「緑」以外の`色`のすべての製品を検索するには:
 
 ```python
 filter = 'NOT color == "green"'
 ```
 
-## Tips on Using Basic Operators with JSON and ARRAY Fields{#tips-on-using-basic-operators-with-json-and-array-fields}
+## JSONとARRAYフィールドで基本演算子を使用するためのヒント{#jsonarray}
 
-While the basic operators in Zilliz Cloud clusters are versatile and can be applied to scalar fields, they can also be effectively used with the keys and indexes in the JSON and ARRAY fields.
+Zilliz Cloudクラスタの基本演算子は汎用性があり、スカラーフィールドに適用できますが、JSONフィールドとARRAYフィールドのキーとインデックスでも効果的に使用できます。
 
-For example, if you have a `product` field that contains multiple keys like `price`, `model`, and `tags`, always reference the key directly:
+たとえば、`product`フィールドに`price`、`model`、`tags`などの複数のキーが含まれている場合は、常にキーを直接参照します。
 
 ```python
 filter = 'product["price"] > 1000'
 ```
 
-To find records where the first temperature in an array of recorded temperatures exceeds a certain value, use:
+記録された温度の配列の最初の温度が特定の値を超えるレコードを検索するには、次のようにします。
 
 ```python
 filter = 'history_temperatures[0] > 30'
 ```
 
-## Conclusion{#conclusion}
+## 結論として{#}
 
-Zilliz Cloud offers a range of basic operators that give you flexibility in filtering and querying your data. By combining comparison, range, arithmetic, and logical operators, you can create powerful filter expressions to narrow down your search results and retrieve the data you need efficiently.
+Zilliz Cloudは、データのフィルタリングとクエリに柔軟性を与える基本演算子の範囲を提供しています。比較、範囲、算術、論理演算子を組み合わせることで、強力なフィルタ式を作成して、検索結果を絞り込み、必要なデータを効率的に取得できます。

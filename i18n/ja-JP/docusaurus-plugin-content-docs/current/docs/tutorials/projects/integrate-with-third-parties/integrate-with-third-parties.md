@@ -1,31 +1,31 @@
 ---
-title: "Integrate with Third Parties | Cloud"
+title: "サードパーティーとの統合 | Cloud"
 slug: /integrate-with-third-parties
-sidebar_label: "Integrate with Third Parties"
+sidebar_label: "サードパーティーとの統合"
 beta: FALSE
 notebook: FALSE
-description: "Learn how to integrate your Zilliz Cloud project with third-party services. | Cloud"
+description: "(placeholder) | Cloud"
 type: origin
-token: LykvwFyJCiloeQk2WmGce2s8nZg
+token: ED3jwUknjiLx4bkn3CrcvWD3nWh
 sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - project third-party
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Integrate with Third Parties
+# サードパーティーとの統合
 
-Learn how to integrate your Zilliz Cloud project with third-party services.
+
 
 import DocCardList from '@theme/DocCardList';
 

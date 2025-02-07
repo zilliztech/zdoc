@@ -1,31 +1,31 @@
 ---
-title: "Release Notes | Cloud"
+title: "リリースノート | Cloud"
 slug: /release-notes
-sidebar_label: "Release Notes"
+sidebar_label: "リリースノート"
 beta: FALSE
 notebook: FALSE
-description: "You can find the history of Zilliz Cloud releases in these docs. | Cloud"
+description: "これらのドキュメントでZilliz Cloudのリリース履歴を見つけることができます。 | Cloud"
 type: origin
-token: NOYvw884PigqIhk1gwLcw1OYnfe
+token: V1CQww1RWig3Xwk6OjccPs7anMb
 sidebar_position: 11
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes
+# リリースノート
 
-You can find the history of Zilliz Cloud releases in these docs.
+これらのドキュメントでZilliz Cloudのリリース履歴を見つけることができます。
 
 import DocCardList from '@theme/DocCardList';
 

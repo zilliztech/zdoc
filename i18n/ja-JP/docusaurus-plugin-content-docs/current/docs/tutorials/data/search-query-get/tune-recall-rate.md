@@ -1,12 +1,12 @@
 ---
-title: "Tune Recall Rate | Cloud"
+title: "リコール率を調整 | Cloud"
 slug: /tune-recall-rate
-sidebar_label: "Tune Recall Rate"
+sidebar_label: "リコール率を調整"
 beta: PUBLIC
 notebook: FALSE
-description: "Zilliz Cloud introduces a search parameter `level` to allow users to balance search recall and performance. It also provides another search parameter, `enablerecallcalculation`, to give users the estimated recall rate of the current search. You can combine these two parameters to tune the recall rate of vector searches. | Cloud"
+description: "Zilliz Cloudは、ユーザーが検索の再現率とパフォーマンスをバランスさせるための検索パラメータ`レベル`を導入しています。また、現在の検索の推定再現率をユーザーに提供するために、別の検索パラメータである`enableリコール計算`も提供しています。これら2つのパラメータを組み合わせて、ベクトル検索の再現率を調整することができます。 | Cloud"
 type: origin
-token: Fz9swr5WwixkH8kKHircWCejnye
+token: AR0KwdZL1iqGPvkZw0acG3JwnHe
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -18,33 +18,33 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Tune Recall Rate
+# リコール率を調整
 
-Zilliz Cloud introduces a search parameter `level` to allow users to balance search recall and performance. It also provides another search parameter, `enable_recall_calculation`, to give users the estimated recall rate of the current search. You can combine these two parameters to tune the recall rate of vector searches.
+Zilliz Cloudは、ユーザーが検索の再現率とパフォーマンスをバランスさせるための検索パラメータ`レベル`を導入しています。また、現在の検索の推定再現率をユーザーに提供するために、別の検索パラメータである`enable_リコール_計算`も提供しています。これら2つのパラメータを組み合わせて、ベクトル検索の再現率を調整することができます。
 
-## Overview{#overview}
+## 概要について{#}
 
-The recall rate in Zilliz Cloud usually refers to the proportion of relevant results successfully retrieved by a search. It measures the system's ability to recover all the relevant items from a collection.
+Zilliz Cloudのリコール率は、通常、検索によって正常に取得された関連する結果の割合を指します。これは、システムがコレクションからすべての関連アイテムを回復する能力を測定します。
 
-![OdMnbeHYOoAEqKxNEEnc9SwNnmf](/img/OdMnbeHYOoAEqKxNEEnc9SwNnmf.png)
+![EcvqbDaXpoQ5BUxRfL0cyzk9ntc](/img/ja-JP/EcvqbDaXpoQ5BUxRfL0cyzk9ntc.png)
 
-To calculate a search's recall rate, you can divide the number of relevant items retrieved by the total number of applicable items that should be retrieved. For example, if a search retrieves 90 of 100 relevant items, the recall rate should be **0.9** or **90%**.
+検索のリコール率を計算するには、取得された関連アイテムの数を取得すべき該当アイテムの総数で割ることができます。たとえば、検索が100件の関連アイテムのうち90件を取得した場合、リコール率は**0.9** または**90%**になります。
 
-A high recall rate usually indicates a more precise search result, which may be time-consuming. You may want to tune the recall rate to balance the precision and efficiency of vector searches.
+リコール率が高いと、通常はより正確な検索結果を示し、時間がかかる場合があります。ベクトル検索の精度と効率のバランスを取るために、リコール率を調整することをお勧めします。
 
-## Set up a search request{#set-up-a-search-request}
+## 検索リクエストを設定する{#}
 
-To set up a search request with tunable recall, you must include the `level` parameter inside the search parameters as follows:
+調整可能な呼び出しを使用して検索要求を設定するには、次のように検索パラメータ内に`level`パラメータを含める必要があります。
 
 ```python
 query_vector = [0.3580376395471989, ..., 0.9029438446296592],
@@ -62,19 +62,19 @@ res = client.search(
 )
 ```
 
-The `level` parameter ranges from `1` to `10` and defaults to `1`. The default value results in a recall rate of 90%, which is typically sufficient for most use cases. 
+パラメータの`レベル`は`1`から`10`の範囲で、デフォルトは`1`です。デフォルト値では、ほとんどのユースケースで十分な90%のリコール率が得られます。
 
-For scenarios that require a high recall rate (**99%** or above), try setting the `level` parameter to an integer between `6` and `10`. If search efficiency is not a concern, you can set this parameter to `10` to get the most precise results.
+高いリコール率(**99%**以上)が必要なシナリオでは、`level`パラメータを`6`から`10`の整数に設定してみてください。検索効率に問題がない場合は、このパラメータを`10`に設定して、最も正確な結果を得ることができます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>If the top-most level settings still do not suffice, contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+<p>最上位レベルの設定でも十分でない場合は、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
 
 </Admonition>
 
-## Tune recall rate{#tune-recall-rate}
+## リコール率を調整する{#}
 
-Zilliz Cloud also introduces another search parameter named `enable_recall_calculation` to facilitate the tuning process. Setting this parameter to `True` indicates that Zilliz Cloud will estimate the recall rate of the current search and includes the estimated recall rate along with the search results.
+Zilliz Cloudは、チューニング過程を容易にするために、`enable_リコール_計算`という別の検索パラメータも導入しています。このパラメータを`True`に設定すると、Zilliz Cloudは現在の検索のリコール率を推定し、推定されたリコール率を検索結果に含めます。
 
 ```python
 query_vector = [0.3580376395471989, ..., 0.9029438446296592],
@@ -93,23 +93,23 @@ res = client.search(
 )
 ```
 
-With the above search request, you can get an estimated recall rate of the current search as follows:
+上記の検索リクエストを使用すると、現在の検索の推定リコール率を以下のように取得できます。
 
 ```python
 # data: [...], recalls: [0.98]
 ```
 
-During the estimation process, Zilliz Cloud:
+見積りの過程で、Zilliz Cloud:
 
-1. Searches with the `level` parameter set to the user-defined value, and
+1. ユーザー定義の値に設定された`レベル`パラメータで検索します
 
-1. Conducts another search with the `level` parameter set to `10`.
+1. レベルパラメータを`レベル`パラメータに`10`を設定して、別の検索を実行します。
 
-1. Use the second search with the `level` parameter set to `10` as the ground truth to estimate the recall rate.
+1. 2回目の検索で、`level`パラメータをグラウンドトゥルースとして`10`に設定して、リコール率を推定します。
 
-While setting `enable_recall_calculation` to `True`, you can adjust the value of the `level` parameter to obtain multiple recall rates. By considering these estimated figures and the duration of each search, you can roughly estimate the appropriate level setting.
+enable`_recol_計算`を`True`に設定すると、`level`パラメータの値を調整して複数のリコール率を得ることができます。これらの推定値と各検索の期間を考慮することで、適切なレベル設定をおおよそ推定することができます。
 
-## Limits{#limits}
+## 限界{#}
 
-Currently, this feature is available only for Zilliz Cloud clusters in basic vector searches, filtered searches, and range searches.
+現在、この機能は基本ベクトル検索、フィルター検索、範囲検索のZilliz Cloudクラスターでのみ利用可能です。
 

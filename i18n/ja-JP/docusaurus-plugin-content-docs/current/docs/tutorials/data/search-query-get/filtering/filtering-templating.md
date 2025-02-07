@@ -1,12 +1,12 @@
 ---
-title: "Filter Templating | Cloud"
+title: "フィルターテンプレート | Cloud"
 slug: /filtering-templating
-sidebar_label: "Filter Templating"
+sidebar_label: "フィルターテンプレート"
 beta: PUBLIC
 notebook: FALSE
-description: "In Zilliz Cloud, complex filter expressions with numerous elements, especially those involving non-ASCII characters like CJK characters, can significantly affect query performance. To address this, Zilliz Cloud introduces a filter expression templating mechanism designed to improve efficiency by reducing the time spent parsing complex expressions. This page explains using filter expression templating in search, query, and delete operations. | Cloud"
+description: "Zilliz Cloudにおいて、特にC JK文字のような非ASCII文字を含む多数の要素を持つ複雑なフィルタ式は、クエリのパフォーマンスに大きな影響を与える可能性があります。これを解決するために、Zilliz Cloudは、複雑な式の解析にかかる時間を短縮するために設計されたフィルタ式テンプレートメカニズムを導入しています。このページでは、検索、クエリ、削除操作でフィルタ式テンプレートを使用する方法について説明します。 | Cloud"
 type: origin
-token: TumJwDYrhiDYcUkKsUIcuSnbnCf
+token: QyrHwOGKQigS1dkBX5fcbRqsnEf
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -18,44 +18,44 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Filter Templating
+# フィルターテンプレート
 
-In Zilliz Cloud, complex filter expressions with numerous elements, especially those involving non-ASCII characters like CJK characters, can significantly affect query performance. To address this, Zilliz Cloud introduces a filter expression templating mechanism designed to improve efficiency by reducing the time spent parsing complex expressions. This page explains using filter expression templating in search, query, and delete operations.
+Zilliz Cloudにおいて、特にC JK文字のような非ASCII文字を含む多数の要素を持つ複雑なフィルタ式は、クエリのパフォーマンスに大きな影響を与える可能性があります。これを解決するために、Zilliz Cloudは、複雑な式の解析にかかる時間を短縮するために設計されたフィルタ式テンプレートメカニズムを導入しています。このページでは、検索、クエリ、削除操作でフィルタ式テンプレートを使用する方法について説明します。
 
-## Overview{#overview}
+## 概要について{#}
 
-Filter expression templating allows you to create filter expressions with placeholders, which can be dynamically substituted with values during query execution. Using templating, you avoid embedding large arrays or complex expressions directly into the filter, reducing parsing time and improving query performance.
+フィルター式のテンプレートを使用すると、プレースホルダーを持つフィルター式を作成し、クエリの実行中に動的に値に置き換えることができます。テンプレートを使用すると、大きな配列や複雑な式をフィルターに直接埋め込む必要がなくなり、解析時間が短縮され、クエリのパフォーマンスが向上します。
 
-Let's say you have a filter expression involving two fields, `age` and `city`, and you want to find all people whose age is greater than 25 and who live in either "北京" (Beijing) or "上海" (Shanghai). Instead of directly embedding the values in the filter expression, you can use a template:
+例えば、`年齢`と`都市`の2つのフィールドを含むフィルター式があり、年齢が大なり25歳で「北京」または「上海」に住んでいるすべての人を見つけたいとします。フィルター式に値を直接埋め込む代わりに、テンプレートを使用することができます
 
 ```python
 filter = "age > {age} AND city IN {city}"
 filter_params = {"age": 25, "city": ["北京", "上海"]}
 ```
 
-Here, `{age}` and `{city}` are placeholders that will be replaced with the actual values in `filter_params` when the query is executed.
+ここで、`{age}`と`{city}`はプレースホルダーであり、クエリが実行されると`filter_params`内の実際の値に置き換えられます。
 
-Using filter expression templating in Zilliz Cloud has several key advantages:
+Zilliz Cloudでフィルター式テンプレートを使用すると、いくつかの重要な利点があります。
 
-- **Reduced Parsing Time**: By replacing large or complex filter expressions with placeholders, the system spends less time parsing and processing the filter.
+- **解析時間の短縮**:大きなまたは複雑なフィルター式をプレースホルダーで置き換えることで、システムはフィルターの解析と処理にかかる時間を短縮できます。
 
-- **Improved Query Performance**: With reduced parsing overhead, query performance improves, leading to higher QPS and faster response times.
+- **クエリパフォーマンスの向上**:解析のオーバーヘッドを削減することで、クエリパフォーマンスが向上し、QPSが向上し、応答時間が短縮されます。
 
-- **Scalability**: As your datasets grow and filter expressions become more complex, templating ensures that performance remains efficient and scalable.
+- **スケーラビリティ**:データセットが増え、フィルター式が複雑になっても、テンプレートによってパフォーマンスが効率的かつスケーラブルに保たれます。
 
-## Search Operations{#search-operations}
+## 検索オペレーション{#}
 
-For search operations in Zilliz Cloud, the `filter` expression is used to define the filtering condition, and the `filter_params` parameter is used to specify the values for the placeholders. The `filter_params` dictionary contains the dynamic values that Zilliz Cloud will use to substitute into the filter expression.
+Zilliz Cloudでの検索操作では、`フィルタ`条件を定義するためにフィルタ式が使用され、`filter_params`パラメータはプレースホルダの値を指定するために使用されます。`filter_params`ディクショナリには、Zilliz Cloudがフィルタ式に置き換えるために使用する動的な値が含まれています。
 
 ```python
 expr = "age > {age} AND city IN {city}"
@@ -71,11 +71,11 @@ res = client.search(
 )
 ```
 
-In this example, Zilliz Cloud will dynamically replace `{age}` with `25` and `{city}` with `["北京", "上海"]` when executing the search.
+この例では、Zilliz Cloudは、検索を実行する際に`{age}`を`25`に、`{city}`を`["北京","上海"]`に動的に置き換えます。
 
-## Query Operations{#query-operations}
+## クエリ操作{#}
 
-The same templating mechanism can be applied to query operations in Zilliz Cloud. In the `query` function, you define the filter expression and use the `filter_params` to specify the values to substitute.
+Zilliz Cloudでは、同じテンプレートメカニズムをクエリ操作に適用できます。`クエリ`関数では、フィルタ式を定義し、`filter_params`を使用して置換する値を指定します。
 
 ```python
 expr = "age > {age} AND city IN {city}"
@@ -88,11 +88,11 @@ res = client.query(
 )
 ```
 
-By using `filter_params`, Zilliz Cloud efficiently handles the dynamic insertion of values, improving the speed of query execution.
+Zilliz Cloudは、`filter_params`を使用することで、動的な値の挿入を効率的に処理し、クエリの実行速度を向上させます。
 
-## Delete Operations{#delete-operations}
+## 操作の削除{#}
 
-You can also use filter expression templating in delete operations. Similar to search and query, the `filter` expression defines the conditions, and the `filter_params` provides the dynamic values for the placeholders.
+削除操作でもフィルター式のテンプレートを使用できます。検索やクエリと同様に、`フィルター`式は条件を定義し、`filter_params`はプレースホルダーの動的な値を提供します。
 
 ```python
 expr = "age > {age} AND city IN {city}"
@@ -104,8 +104,8 @@ res = client.delete(
 )
 ```
 
-This approach improves the performance of delete operations, especially when dealing with complex filter conditions.
+このアプローチは、特に複雑なフィルター条件を扱う場合に、削除操作のパフォーマンスを向上させます。
 
-## Conclusion{#conclusion}
+## 結論として{#}
 
-Filter expression templating is an essential tool for optimizing query performance in Zilliz Cloud. By using placeholders and the `filter_params` dictionary, you can significantly reduce the time spent parsing complex filter expressions. This leads to faster query execution and better overall performance.
+フィルタ式のテンプレートは、Zilliz Cloudでクエリのパフォーマンスを最適化するための必須ツールです。プレースホルダーと`filter_params`辞書を使用することで、複雑なフィルタ式の解析にかかる時間を大幅に短縮できます。これにより、クエリの実行が高速化し、全体的なパフォーマンスが向上します。

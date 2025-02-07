@@ -1,12 +1,12 @@
 ---
-title: "Migrate from Pinecone to Zilliz Cloud | Cloud"
+title: "PineconeからZilliz Cloudへの移行 | Cloud"
 slug: /migrate-from-pinecone
-sidebar_label: "Migrate from Pinecone"
+sidebar_label: "PineconeからZilliz Cloudへの移行"
 beta: FALSE
 notebook: FALSE
-description: "Pinecone is a vector database that allows for similarity searches. Migrating data from Pinecone to Zilliz Cloud can enhance capabilities for managing both dense and sparse vectors while taking advantage of Zilliz Cloud’s high-performance search and analytics. | Cloud"
+description: "Pineconeは類似検索を可能にするベクトルデータベースです。PineconeからZilliz Cloudにデータを移行することで、Zilliz Cloudの高性能な検索と分析を活用しながら、密なベクトルと疎なベクトルの両方を管理する機能を強化することができます。 | Cloud"
 type: origin
-token: R33EwQchxiO3HKk4vPnce6vkntc
+token: VQytwi51diZPF9kmcW7chhpqn0d
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -14,109 +14,109 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Migrate from Pinecone to Zilliz Cloud
+# PineconeからZilliz Cloudへの移行
 
-[Pinecone](https://www.pinecone.io/) is a vector database that allows for similarity searches. Migrating data from Pinecone to Zilliz Cloud can enhance capabilities for managing both dense and sparse vectors while taking advantage of Zilliz Cloud’s high-performance search and analytics.
+[Pinecone](https://www.pinecone.io/)は類似検索を可能にするベクトルデータベースです。PineconeからZilliz Cloudにデータを移行することで、Zilliz Cloudの高性能な検索と分析を活用しながら、密なベクトルと疎なベクトルの両方を管理する機能を強化することができます。
 
-This guide walks you through the process of migrating your data from Pinecone to Zilliz Cloud, including connecting to Pinecone, configuring data mappings, and troubleshooting potential issues.
+このガイドでは、Pineconeへの接続、データマッピングの設定、潜在的な問題のトラブルシューティングなど、PineconeからZilliz Cloudへのデータ移行の過程を説明します。
 
-## Considerations{#considerations}
+## 考慮事項{#}
 
-- When you migrate data from Pinecone to Zilliz Cloud, vector fields are transferred directly, while metadata fields from Pinecone are stored as JSON in a dynamic field on Zilliz Cloud. For details on the dynamic field feature, refer to [Dynamic Field](./enable-dynamic-field).
+- PineconeからZilliz Cloudにデータを移行すると、ベクトルフィールドが直接転送され、PineconeのメタデータフィールドはZilliz Cloud上の動的フィールドにJSON形式で保存されます。動的フィールド機能の詳細については、「Dynamic Field」を参照してください。
 
-- To ensure compatibility, Auto ID will be disabled and cannot be modified for each target collection on Zilliz Cloud.
+- 互換性を確保するため、Auto IDは無効になり、Zilliz Cloud上の各ターゲットコレクションに対して変更することはできません。
 
-- This migration only supports Pinecone serverless indexes.
+- この移行はPineconeサーバーレスインデックスのみをサポートします。
 
-- Each migration task is limited to a single source Pinecone index. If you have data in multiple source indexes, you can set up separate migration jobs for each one.
+- 各移行タスクは単一のソースPineconeインデックスに制限されます。複数のソースインデックスにデータがある場合は、それぞれに別々の移行ジョブを設定できます。
 
-## Before you start{#before-you-start}
+## 始める前に{#}
 
-- The source Pinecone index is accessible from the public internet.
+- ソースのPineconeインデックスは一般のインターネットからアクセスできます。
 
-- If you have an allowlist configured in your network environment, ensure that Zilliz Cloud IP addresses are added to it. For more information, refer to [Zilliz Cloud IPs](./zilliz-cloud-ips).
+- ネットワーク環境で許可リストが設定されている場合は、Zilliz CloudのIPアドレスが追加されていることを確認してください。詳細については、Zilliz Cloud IPsを参照してください。
 
-- You have obtained the API key to access the target Pinecone project.
+- ターゲットPineconeプロジェクトにアクセスするためのAPIキーを取得しました。
 
-- You have been granted the Organization Owner or Project Admin role on Zilliz Cloud. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
+- Zilliz Cloudでは、組織オーナーまたはプロジェクト管理者の役割が付与されています。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
 
-## Migrate from Pinecone to Zilliz Cloud{#migrate-from-pinecone-to-zilliz-cloud}
+## PineconeからZilliz Cloudへの移行{#pineconezilliz-cloud}
 
-![migrate_from_pinecone](/img/migrate_from_pinecone.png)
+![migrate_from_pinecone](/img/ja-JP/migrate_from_pinecone.png)
 
-You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided its CU size can accommodate the source data.
+ソースデータを任意のプランレベルのZilliz Cloudクラスタに移行できます(CU体格がソースデータに対応している場合)。
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. Go to the target project page and select **Migrations** > **Pinecone**.
+1. ターゲットプロジェクトページに移動し、**移行**>**松ぼっくり**を選択してください。
 
-1. In the **Connect to Data Source** step, enter the API key that can be used to access the target Pinecone project. Then, click **Next**.
+1. 「**データソースに接続**」ステップで、ターゲットのPineconeプロジェクトにアクセスするために使用できるAPIキーを入力します。次に、「**次**へ」をクリックします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p><a href="https://docs.pinecone.io/reference/api/authentication">Authentication</a> can guide you in obtaining the required connection information.</p>
-
-    </Admonition>
-
-1. In the **Select Source and Target** step, configure settings for the source Pinecone index and target Zilliz Cloud cluster. Then, click **Next**.
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p>Each source index you choose to migrate from Pinecone must include a vector field.</p>
+    <p><a href="https://docs.pinecone.io/reference/api/authentication">認証</a>により、必要な接続情報を取得することができます。</p>
 
     </Admonition>
 
-1. In the **Configure Schema** step,
+1. 「**ソースとターゲットを選択**」ステップで、ソースのPineconeインデックスとターゲットのZilliz Cloudクラスタの設定を行います。次に、「**次**へ」をクリックしてください。
 
-    1. In **Schema Preview**, verify the field mapping between your Pinecone index and the corresponding Zilliz Cloud collection.
+    <Admonition type="info" icon="📘" title="ノート">
 
-        <Admonition type="info" icon="📘" title="Notes">
+    <p>Pineconeから移行する各ソースインデックスには、ベクトルフィールドが含まれている必要があります。</p>
+
+    </Admonition>
+
+1. 「**スキーマ構成**」ステップでは、
+
+    1. [**スキーマプレビュー**]で、Pineconeインデックスと対応するZilliz Cloudコレクションのフィールドマッピングを確認します。
+
+        <Admonition type="info" icon="📘" title="ノート">
 
         <ul>
-        <li><p>The Auto ID is disbaled and cannot be modified.</p></li>
-        <li><p>The record ID from Pinecone will be mapped to a <code>VARCHAR</code> field on Zilliz Cloud as the primary field, with a <code>max_length</code> range of 1 to 65,535 bytes. When inserting or upserting entities, ensure that <code>VARCHAR</code> field values stay within this limit.</p></li>
-        <li><p>You may rename fields, but the data types are fixed and cannot be changed.</p></li>
+        <li><p>Auto IDは解除され、変更できません。</p></li>
+        <li><p>PineconeのレコードIDは、Zilliz Cloud上の<code>VARCHAR</code>フィールドにプライマリフィールドとしてマップされ、<code>max_length</code>の範囲は1〜65,535バイトです。エンティティを挿入または挿入する場合は、<code>VARCHAR</code>フィールドの値がこの制限内に収まるようにしてください。</p></li>
+        <li><p>フィールドの名前を変更することはできますが、データ型は固定されており、変更できません。</p></li>
         </ul>
 
         </Admonition>
 
-    1. In **Advanced Settings**, verify the settings of **Dynamic Field** and **Partition Key**.
+    1. 「**詳細設定**」で、**ダイナミックフィールド**と**パーティションキー**の設定を確認してください。
 
-        1. **Dynamic Field**: Enabled by default and cannot be modified. It stores metadata from the source index, ensuring consistency and maintaining flexibility.
+        1. **ダイナミックフィールド**:デフォルトで有効になっており、変更できません。ソースインデックスからメタデータを保存し、一貫性を確保し、柔軟性を維持します。
 
-        1. **Partition Key**: Disabled by default and cannot be modified. This is because metadata from Pinecone is stored as JSON in a dynamic field, which cannot serve as a partition key. In Zilliz Cloud, only scalar fields that are explicitly defined in the schema can be used as partition keys.
+        1. **パーティションキー**:デフォルトで無効になっており、変更できません。これは、Pineconeのメタデータが動的フィールドにJSONとして保存され、パーティションキーとして機能しないためです。Zilliz Cloudでは、スキーマで明示的に定義されたスカラーフィールドのみがパーティションキーとして使用できます。
 
-    1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
+    1. [**ターゲットコレクション名**と**説明**]で、ターゲットコレクション名と説明をカスタマイズします。コレクション名は、各クラスターで一意である必要があります。名前が既存の名前と重複する場合は、コレクション名を変更します。
 
-1. Click **Migrate**.
+1. [**移行**]をクリックします。
 
-## Monitor the migration process{#monitor-the-migration-process}
+## 移行過程を監視する{#}
 
-Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the migration is complete.
+「**移行**」をクリックすると、移行ジョブが生成されます。[ジョブ](null)ページで移行の進捗状況を確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、移行が完了します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>After migration, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.</p>
+<p>移行後、ターゲットクラスタ内のコレクションとエンティティの数がデータソースと一致していることを確認してください。不一致が見つかった場合は、エンティティが欠落しているコレクションを削除して再移行してください。</p>
 
 </Admonition>
 
-![verify_collection](/img/verify_collection.png)
+![verify_collection](/img/ja-JP/verify_collection.png)
 
-## Cancel migration job{#cancel-migration-job}
+## 移行ジョブをキャンセル{#}
 
-If the migration process encounters any issues, you can take the following steps to troubleshoot and resume the migration:
+移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
 
-1. On the [Jobs](./job-center) page, identify the failed migration job and cancel it.
+1. [[ジョブ](null)]ページで、失敗した移行ジョブを特定してキャンセルします。
 
-1. Click **View Details** in the **Actions** column to access the error log.
+1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
 

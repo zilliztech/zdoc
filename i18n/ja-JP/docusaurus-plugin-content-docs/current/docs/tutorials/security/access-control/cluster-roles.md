@@ -1,12 +1,12 @@
 ---
-title: "Manage Cluster Roles (Console) | Cloud"
+title: "クラスタロールの管理(コンソール) | Cloud"
 slug: /cluster-roles
-sidebar_label: "Manage Cluster Roles (Console)"
+sidebar_label: "クラスタロールの管理(コンソール)"
 beta: FALSE
 notebook: FALSE
-description: "A cluster role defines the privileges that a user has within the cluster. More specifically, the cluster role controls a cluster user's privileges on the cluster, database, and collection level. | Cloud"
+description: "クラスターロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスターロールは、クラスター、データベース、およびコレクションレベルでクラスターユーザーの権限を制御します。 | Cloud"
 type: origin
-token: YHG0wCYxfiZILvkZ2VLclmvsn7g
+token: O5fiwpkz9imD7WkyCdYcwuKbnjc
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -16,141 +16,141 @@ keywords:
   - access control
   - rbac
   - roles
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Manage Cluster Roles (Console)
+# クラスタロールの管理(コンソール)
 
-A cluster role defines the privileges that a user has within the cluster. More specifically, the cluster role controls a cluster user's privileges on the cluster, database, and collection level.
+クラスターロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスターロールは、クラスター、データベース、およびコレクションレベルでクラスターユーザーの権限を制御します。
 
-Zilliz Cloud provides two types of cluster roles: built-in roles and customs roles. 
+Zilliz Cloudには、組み込みロールとカスタムロールの2種類のクラスターロールがあります。
 
-To manage cluster roles, you must be an **Organization Owner** or a **Project Admin** or have a role with **Cluster_Admin** privileges.
+クラスターロールを管理するには、**組織所有者**または**プロジェクト管理者**であるか、**Cluster_Admin**権限を持つロールである必要があります。
 
-## Built-in cluster roles{#built-in-cluster-roles}
+## 組み込みのクラスターロール{#}
 
-Zilliz Cloud provides three built-in cluster roles with different privileges commonly needed in a vector database system. The built-in roles cannot be edited or dropped.
+Zilliz Cloudは、ベクトルデータベースシステムで一般的に必要とされる異なる権限を持つ3つの組み込みクラスターロールを提供します。組み込みロールは編集や削除ができません。
 
-- **Admin**: A Cluster Admin role has full privileges to manage a cluster and all its resources (databases, collections).
+- **管理者**:クラスター管理者の役割には、クラスターとそのすべてのリソース(データベース、コレクション)を管理するための完全な権限があります。
 
-    The following table lists the corresponding UI and API privileges of this role.
-
-    <table>
-       <tr>
-         <th><p><strong>UI Privileges</strong></p></th>
-         <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
-       </tr>
-       <tr>
-         <td><ul><li><p>Manage the cluster properties (CU size, Replica count, auto-scale)</p></li><li><p>Manage collections and indexes</p></li><li><p>View cluster metrics</p></li><li><p>Manage cluster users and roles</p></li><li><p>Manage cluster backups</p></li></ul></td>
-         <td><ul><li><p><a href="/reference/restful/collection-operations-v2">All collection operations</a></p></li><li><p><a href="/reference/restful/index-operations-v2">All index operations</a></p></li><li><p><a href="/reference/restful/partition-operations-v2">All partition operations</a></p></li><li><p><a href="/reference/restful/vector-operations-v2">All vector operations</a></p></li><li><p><a href="/reference/restful/alias-operations-v2">All alias operations</a></p></li><li><p><a href="/reference/restful/role-operations-v2">All role operations</a></p></li><li><p><a href="/reference/restful/user-operations-v2">All user operations</a></p></li></ul></td>
-       </tr>
-    </table>
-
-- **Read-Write**: A Cluster Read-Write role has the privileges to view a cluster and manage all its resources (databases, collections).
-
-    The following table lists the corresponding UI and API privileges of this role.
+    次の表に、このロールの対応するUIおよびAPI権限を示します。
 
     <table>
        <tr>
-         <th><p><strong>UI Privileges</strong></p></th>
-         <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
+         <th><p><strong>UIの権限</strong></p></th>
+         <th><p><strong>データプレーンのRESTful API(V 2)権限</strong></p></th>
        </tr>
        <tr>
-         <td><ul><li><p>Manage collections and indexes</p></li><li><p>View cluster metrics</p></li><li><p>View cluster users and roles</p></li><li><p>View cluster backups</p></li></ul></td>
-         <td><ul><li><p><a href="/reference/restful/collection-operations-v2">All collection operations</a></p></li><li><p><a href="/reference/restful/index-operations-v2">All index operations</a></p></li><li><p><a href="/reference/restful/partition-operations-v2">All partition operations</a></p></li><li><p><a href="/reference/restful/vector-operations-v2">All vector operations</a></p></li><li><p><a href="/reference/restful/alias-operations-v2">All alias operations</a></p></li></ul></td>
+         <td><ul><li><p>クラスタのプロパティを管理する（CU体格、レプリカ数、自動スケール）</p></li><li><p>コレクションとインデックスを管理する</p></li><li><p>クラスタメトリクスの表示</p></li><li><p>クラスターのユーザーとロールを管理する</p></li><li><p>クラスタバックアップを管理する</p></li></ul></td>
+         <td><ul><li><p><a href="/ja-JP/reference/restful/collection-operations-v2">すべての収集操作</a></p></li><li><p><a href="/ja-JP/reference/restful/index-operations-v2">すべてのインデックス操作</a></p></li><li><p><a href="/ja-JP/reference/restful/partition-operations-v2">すべてのパーティション操作</a></p></li><li><p><a href="/ja-JP/reference/restful/vector-operations-v2">すべてのベクトル演算</a></p></li><li><p><a href="/ja-JP/reference/restful/alias-operations-v2">すべてのエイリアス操作</a></p></li><li><p><a href="/ja-JP/reference/restful/role-operations-v2">すべてのロール操作</a></p></li><li><p><a href="/ja-JP/reference/restful/user-operations-v2">すべてのユーザー操作</a></p></li></ul></td>
        </tr>
     </table>
 
-- **Read-Only**: A Cluster Read-Only role has the privileges to view a cluster and its resources (databases, collections).
+- **読み書き**:クラスターの読み書きロールには、クラスターを表示し、そのすべてのリソース(データベース、コレクション)を管理する権限があります。
 
-    The following table lists the corresponding UI and API privileges of this role.
+    次の表に、このロールの対応するUIおよびAPI権限を示します。
 
     <table>
        <tr>
-         <th><p><strong>UI Privileges</strong></p></th>
-         <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
+         <th><p><strong>UIの権限</strong></p></th>
+         <th><p><strong>データプレーンのRESTful API(V 2)権限</strong></p></th>
        </tr>
        <tr>
-         <td><ul><li><p>View collections and indexes</p></li><li><p>View cluster metrics</p></li><li><p>View cluster users and roles</p></li><li><p>View cluster backups</p></li></ul></td>
-         <td><ul><li><p>Part of collection operations</p><ul><li><p><a href="/reference/restful/describe-collection-v2">Describe Collection</a></p></li><li><p><a href="/reference/restful/get-collection-load-state-v2">Get Collection Load State</a></p></li><li><p><a href="/reference/restful/get-collection-stats-v2">Get Collection Stats</a></p></li><li><p><a href="/reference/restful/has-collection-v2">Has Collection</a></p></li><li><p><a href="/reference/restful/list-collections-v2">List Collections</a></p></li></ul></li><li><p>Part of index operations</p><ul><li><p><a href="/reference/restful/describe-index-v2">Describe Index</a></p></li><li><p><a href="/reference/restful/list-indexes-v2">List Indexes</a></p></li></ul></li><li><p>Part of partition operations</p><ul><li><p><a href="/reference/restful/get-partition-statistics-v2">Get Partition Statistics</a></p></li><li><p><a href="/reference/restful/has-partition-v2">Has Partition</a></p></li><li><p><a href="/reference/restful/list-partitions-v2">List Partitions</a></p></li></ul></li><li><p>Part of alias operations</p><ul><li><p><a href="/reference/restful/describe-alias-v2">Describe Alias</a></p></li><li><p><a href="/reference/restful/list-aliases-v2">List Aliases</a></p></li></ul></li></ul></td>
+         <td><ul><li><p>コレクションとインデックスを管理する</p></li><li><p>クラスタメトリクスの表示</p></li><li><p>クラスタのユーザーとロールを表示する</p></li><li><p>クラスタバックアップを表示する</p></li></ul></td>
+         <td><ul><li><p><a href="/ja-JP/reference/restful/collection-operations-v2">すべての収集操作</a></p></li><li><p><a href="/ja-JP/reference/restful/index-operations-v2">すべてのインデックス操作</a></p></li><li><p><a href="/ja-JP/reference/restful/partition-operations-v2">すべてのパーティション操作</a></p></li><li><p><a href="/ja-JP/reference/restful/vector-operations-v2">すべてのベクトル演算</a></p></li><li><p><a href="/ja-JP/reference/restful/alias-operations-v2">すべてのエイリアス操作</a></p></li></ul></td>
        </tr>
     </table>
 
-## Custom cluster roles{#custom-cluster-roles}
+- **読み取り専用**:クラスター読み取り専用ロールには、クラスターとそのリソース(データベース、コレクション)を表示する権限があります。
 
-Custom roles provide the flexibility to grant tailored privileges at the cluster, database, and collection levels, unlike built-in roles which offer predefined access. 
+    次の表に、このロールの対応するUIおよびAPI権限を示します。
 
-For collection-level access control, it is recommended to create custom roles.
+    <table>
+       <tr>
+         <th><p><strong>UIの権限</strong></p></th>
+         <th><p><strong>データプレーンのRESTful API(V 2)権限</strong></p></th>
+       </tr>
+       <tr>
+         <td><ul><li><p>コレクションとインデックスを表示する</p></li><li><p>クラスタメトリクスの表示</p></li><li><p>クラスタのユーザーとロールを表示する</p></li><li><p>クラスタバックアップを表示する</p></li></ul></td>
+         <td><ul><li><p>一部の収集業務</p><ul><li><p><a href="/ja-JP/reference/restful/describe-collection-v2">コレクションを説明する</a></p></li><li><p><a href="/ja-JP/reference/restful/get-collection-load-state-v2">コレクションの負荷状態を取得する</a></p></li><li><p><a href="/ja-JP/reference/restful/get-collection-stats-v2">コレクションの統計を取得する</a></p></li><li><p><a href="/ja-JP/reference/restful/has-collection-v2">HASコレクション</a></p></li><li><p><a href="/ja-JP/reference/restful/list-collections-v2">リストコレクション</a></p></li></ul></li><li><p>インデックス操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/describe-index-v2">インデックスの説明</a></p></li><li><p><a href="/ja-JP/reference/restful/list-indexes-v2">リストインデックス</a></p></li></ul></li><li><p>パーティション操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/get-partition-statistics-v2">パーティションの統計情報を取得する</a></p></li><li><p><a href="/ja-JP/reference/restful/has-partition-v2">パーティションがあります</a></p></li><li><p><a href="/ja-JP/reference/restful/list-partitions-v2">リストパーティション</a></p></li></ul></li><li><p>エイリアス操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/describe-alias-v2">エイリアスの説明</a></p></li><li><p><a href="/ja-JP/reference/restful/list-aliases-v2">リストエイリアス</a></p></li></ul></li></ul></td>
+       </tr>
+    </table>
 
-<Admonition type="info" icon="📘" title="Notes">
+## カスタムクラスターロール{#}
 
-<p>This feature is exclusively available to Dedicated clusters.</p>
-<p>Currently, Zilliz Cloud only supports creating custom roles with built-in privilege groups. If you need to create custom roles with user-defined privileges and privilege groups, please <a href="http://support.zilliz.com">contact us</a>.</p>
+カスタムロールは、事前に定義されたアクセスを提供する組み込みロールとは異なり、クラスター、データベース、およびコレクションレベルでカスタマイズされた権限を付与する柔軟性を提供します。
+
+コレクションレベルのアクセス制御については、カスタムロールを作成することをお勧めします。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>この機能は専用クラスターでのみ利用可能です。</p>
+<p>現在、Zilliz Cloudは権限グループが組み込まれたカスタムロールの作成のみをサポートしています。ユーザー定義の権限と権限グループを持つカスタムロールを作成する必要がある場合は、お<a href="http://support.zilliz.com">問い合わせ</a>ください。</p>
 
 </Admonition>
 
-## Create a custom cluster role{#create-a-custom-cluster-role}
+## カスタムクラスターロールを作成する{#}
 
-1. Navigate to the **Roles** tab of the target cluster. Click **+ Cluster Role**.
+1. ターゲットクラスタの[**ロール**]タブに移動します。[**+クラスタロール**]をクリックします。
 
-    ![add-cluster-role](/img/add-cluster-role.png)
+    ![add-cluster-role](/img/ja-JP/add-cluster-role.png)
 
-1. Enter the role name.
+1. 役割名を入力します。
 
-1. Configure the privileges on the collection, database, and cluster level.  Select a privilege group and then select the target resource. 
+1. コレクション、データベース、クラスターレベルで権限を設定します。権限グループを選択し、ターゲットリソースを選択します。
 
-    Zilliz Cloud provides 9 privilege groups in total: 
+    Zilliz Cloudは合計9つの特権グループを提供しています。
 
-    - Collection Privilege Group: Admin (`COLL_ADMIN`), Read-Write (`COLL_RW`), Read-Only (`COLL_RO`)
+    - コレクション権限グループ: Admin(`COLL_ADMIN`)、Read-Write(`COLL_RW`)、Read-Only(`COLL_RO`)
 
-    - Database Privilege Group: Admin (`DB_Admin`), Read-Write (`DB_RW`), Read-Only (`DB_RO`)
+    - データベース権限グループ:管理者(`DB_Admin`)、読み書き可能(`DB_RW`)、読み取り専用(`DB_RO`)
 
-    - Cluster Privilege Group: Admin (`Cluster_Admin`), Read-Write (`Cluster_RW`), Read-Only (`Cluster_RO`)
+    - クラスタ特権グループ: Admin(`Cluster_Admin`)、読み書き可能(`Cluster_RW`)、読み取り専用(`Cluster_RO`)
 
-    For details about the specific privileges in each privilege group, refer to [Privileges Explained](./cluster-privileges).
+    各特権グループの特定の特権の詳細については、「[特権について](./cluster-privileges)」を参照してください。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p>The three levels of built-in privilege groups do not have a cascading relationship. Setting a privilege group at the instance level does not automatically set permissions for all databases and collections under that instance. Privileges at the database and collection levels need to be set manually.</p>
+    <p>組み込み特権グループの3つのレベルには、カスケード関係はありません。インスタンスレベルで特権グループを設定しても、そのインスタンスのすべてのデータベースとコレクションの権限が自動的に設定されるわけではありません。データベースレベルとコレクションレベルの特権は手動で設定する必要があります。</p>
 
     </Admonition>
 
-    If you need to create your own privilege group, please [contact us](http://support.zilliz.com).
+    独自の特権グループを作成する必要がある場合は、[お問い合わせ](http://support.zilliz.com)ください。
 
-    ![add-cluster-role-form](/img/add-cluster-role-form.png)
+    ![add-cluster-role-form](/img/ja-JP/add-cluster-role-form.png)
 
-1. Click **Create**. Each cluster can have up to 20 custom cluster roles.
+1. [**作成**]をクリックします。各クラスターには、最大20個のカスタムクラスターロールを設定できます。
 
-## Grant a role to a user{#grant-a-role-to-a-user}
+## ユーザーに役割を付与する{#}
 
-Once a cluster role is created, you can grant it to users. Navigate to the Users tab, grant the role either when you [create a new cluster user](./cluster-users#create-a-cluster-user) or when you [edit the role of an existing cluster user](./cluster-users#edit-the-role-of-a-cluster-user).
+クラスターロールが作成されたら、ユーザーにそのロールを付与できます。[ユーザー]タブに移動し、[新しいクラスターユーザーを作成](./cluster-users#)するとき、または[既存のクラスターユーザーのロールを編集する](./cluster-users#)ときにロールを付与します。
 
-![grant-role-to-user](/img/grant-role-to-user.png)
+![grant-role-to-user](/img/ja-JP/grant-role-to-user.png)
 
-## Revoke a role from a user{#revoke-a-role-from-a-user}
+## ユーザーから役割を取り消す{#}
 
-When a cluster role is no longer fit for a user, you can revoke the role. Navigate to the Users tab, find the target user, and click [edit role](./cluster-users#edit-the-role-of-a-cluster-user). Select a different role in the dialog box. 
+クラスターロールがユーザーに適合しなくなった場合、ロールを取り消すことができます。[ユーザー]タブに移動し、対象のユーザーを見つけて、[[ロール編集](./cluster-users#)]をクリックします。ダイアログボックスで別のロールを選択します。
 
-![revoke-role-from-user](/img/revoke-role-from-user.png)
+![revoke-role-from-user](/img/ja-JP/revoke-role-from-user.png)
 
-## Edit a custom cluster role{#edit-a-custom-cluster-role}
+## カスタムクラスターロールを編集する{#}
 
-You can adjust the privileges of a custom cluster role. The adjustment will be applied to all users who are granted this role.
+カスタムクラスターロールの権限を調整できます。この調整は、このロールを付与されたすべてのユーザーに適用されます。
 
-![edit-custom-role](/img/edit-custom-role.png)
+![edit-custom-role](/img/ja-JP/edit-custom-role.png)
 
-## Delete a custom cluster role{#delete-a-custom-cluster-role}
+## カスタムクラスターロールを削除する{#}
 
-When a role is no longer necessary, you can delete a custom cluster role.
+役割が不要になったら、カスタムクラスターの役割を削除できます。
 
-Roles that have been granted to users cannot be delete. You need to first identify the users who are granted the target role, and then assign them a different role. 
+ユーザーに付与されたロールは削除できません。まず、対象のロールを付与されたユーザーを特定し、別のロールを割り当てる必要があります。
 
-![delete-cluster-role](/img/delete-cluster-role.png)
+![delete-cluster-role](/img/ja-JP/delete-cluster-role.png)
 

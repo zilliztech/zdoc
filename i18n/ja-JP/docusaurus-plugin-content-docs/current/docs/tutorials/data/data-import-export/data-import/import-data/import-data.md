@@ -1,31 +1,33 @@
 ---
-title: "Import Data | Cloud"
+title: "データのインポート | Cloud"
 slug: /import-data
-sidebar_label: "Import Data"
+sidebar_label: "データのインポート"
 beta: FALSE
 notebook: FALSE
-description: "Once you have prepared your data by following the procedures in Prepare Data Import, you can start the data import on the Zilliz Cloud console, via RESTful API, or via SDKs. | Cloud"
+description: "「Convert Your Data」の手順に従ってデータを準備したら、Zilliz Cloudコンソール、RESTful API、またはSDKからデータのインポートを開始できます。 | Cloud"
 type: origin
-token: VTZZwCkkCi7FwnklLDhcMJwvnQb
+token: M6jjw1qxNifOwIkgreMcyrdInPh
 sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - data import
+  - hybrid search
   - lexical search
   - nearest neighbor search
   - Agentic RAG
-  - rag llm architecture
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Import Data
+# データのインポート
 
-Once you have prepared your data by following the procedures in [Prepare Data Import](./prepare-data-import), you can start the data import on the Zilliz Cloud console, via RESTful API, or via SDKs.
+「Convert Your Data」の手順に従ってデータを準備したら、Zilliz Cloudコンソール、RESTful API、またはSDKからデータのインポートを開始できます。
+
+
 
 import DocCardList from '@theme/DocCardList';
 

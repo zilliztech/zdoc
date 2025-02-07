@@ -1,31 +1,33 @@
 ---
-title: "Organizations | Cloud"
+title: "組織について | Cloud"
 slug: /organizations
-sidebar_label: "Organizations"
+sidebar_label: "組織について"
 beta: FALSE
 notebook: FALSE
-description: "The chapter focuses on organization operations and related settings. | Cloud"
+description: "この章では、組織の運営と関連する設定に焦点を当てています。 | Cloud"
 type: origin
-token: Dh6vwCrzYimC7skvDRUcvPi4n2c
+token: TPElwgyTyi3QgWkGsQncXqaonKf
 sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - organizations
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Organizations
+# 組織について
 
-The chapter focuses on organization operations and related settings.
+この章では、組織の運営と関連する設定に焦点を当てています。
+
+
 
 import DocCardList from '@theme/DocCardList';
 

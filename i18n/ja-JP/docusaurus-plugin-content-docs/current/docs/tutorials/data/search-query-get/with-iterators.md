@@ -1,12 +1,12 @@
 ---
-title: "Search Iterator | Cloud"
+title: "検索イテレータ | Cloud"
 slug: /with-iterators
-sidebar_label: "Search Iterator"
+sidebar_label: "検索イテレータ"
 beta: FALSE
 notebook: FALSE
-description: "The ANN Search has a maximum limit on the number of entities that can be recalled in a single query, and simply using basic ANN Search may not meet the demands of large-scale retrieval. For ANN Search requests where topK exceeds 16,384, it is advisable to consider using the SearchIterator. This section will introduce how to use the SearchIterator and related considerations. | Cloud"
+description: "ANN検索には、1つのクエリで呼び出すことができるエンティティの最大数に制限があり、基本的なANN検索だけでは大規模な検索の要求を満たすことができない場合があります。topKが16,384を超えるANN検索リクエストの場合は、SearchIteratorの使用を検討することをお勧めします。このセクションでは、SearchIteratorの使用方法と関連する考慮事項を紹介します。 | Cloud"
 type: origin
-token: QVTnwVz2aifvSAkgomAc9KWRnHb
+token: RDm8w6cS4ixDOzkP9V8cgIeNnwb
 sidebar_position: 12
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 
@@ -26,25 +26,25 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Search Iterator
+# 検索イテレータ
 
-The ANN Search has a maximum limit on the number of entities that can be recalled in a single query, and simply using basic ANN Search may not meet the demands of large-scale retrieval. For ANN Search requests where topK exceeds 16,384, it is advisable to consider using the SearchIterator. This section will introduce how to use the SearchIterator and related considerations.
+ANN検索には、1つのクエリで呼び出すことができるエンティティの最大数に制限があり、基本的なANN検索だけでは大規模な検索の要求を満たすことができない場合があります。topKが16,384を超えるANN検索リクエストの場合は、SearchIteratorの使用を検討することをお勧めします。このセクションでは、SearchIteratorの使用方法と関連する考慮事項を紹介します。
 
-## Overview{#overview}
+## 概要について{#}
 
-A Search request returns search results, while a SearchIterator returns an iterator. You can call the **next()** method of this iterator to get the search results.
+Searchリクエストは検索結果を返し、SearchIteratorはイテレータを返します。このイテレータの**next()**メソッドを呼び出すことで、検索結果を取得できます。
 
-Specifically, you can use the SearchIterators as follows:
+具体的には、以下のようにSearchIteratorsを使用できます。
 
-1. Create a SearchIterator and set **the number of entities to return per search request** and **the total number of entities to return**.
+1. SearchIteratorを作成し、**検索要求ごとに返すエンティティの数**と**返すエンティティの総数を**設定します。
 
-1. Call the **next()** method of the SearchIterator in a loop to get the search result in a paginated manner.
+1. SearchIteratorの**next()**メソッドをループで呼び出して、ページ分割された検索結果を取得します。
 
-1. Call the **close()** method of the iterator to end the loop if the **next()** method returns an empty result.
+1. イテレータの**close()**メソッドが空の結果を返した場合、**next()**メソッドを呼び出してループを終了します。
 
-## Create SearchIterator{#create-searchiterator}
+## SearchIteratorの作成{#searchiterator}
 
-The following code snippet demonstrates how to create a SearchIterator.
+次のコードスニペットは、SearchIteratorを作成する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -108,11 +108,11 @@ SearchIterator searchIterator = client.searchIterator(SearchIteratorReq.builder(
 </TabItem>
 </Tabs>
 
-In the above examples, you have set the number of entities to return per search (**batch_size**/**batchSize**) to 50, and the total number of entities to return (**topK**) to 20,000.
+上記の例では、検索ごとに返すエンティティの数(**batch_size/batchSize**)**を**50に設定し、返すエンティティの総数(**topK**)を20,000に設定しています。
 
-## Use SearchIterator{#use-searchiterator}
+## SearchIteratorを使う{#searchiterator}
 
-Once the SearchIterator is ready, you can call its next() method to get the search results in a paginated manner.
+SearchIteratorの準備ができたら、そのnext()メソッドを呼び出して、ページ分割された検索結果を取得できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -155,4 +155,4 @@ while (true) {
 </TabItem>
 </Tabs>
 
-In the above code examples, you have created an infinite loop and called the **next()** method in the loop to store the search results in a variable and closed the iterator when the **next()** returns nothing.
+上記のコード例では、無限ループを作成し、ループ内で**next()**メソッドを呼び出して検索結果を変数に格納し、**next()**が何も返さない場合にイテレータを閉じました。

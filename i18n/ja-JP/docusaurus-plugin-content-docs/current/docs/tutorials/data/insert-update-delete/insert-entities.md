@@ -1,12 +1,12 @@
 ---
-title: "Insert Entities | Cloud"
+title: "エンティティの挿入 | Cloud"
 slug: /insert-entities
-sidebar_label: "Insert Entities"
+sidebar_label: "エンティティの挿入"
 beta: FALSE
 notebook: FALSE
-description: "Entities in a collection are data records that share the same set of fields. Field values in every data record form an entity. This page introduces how to insert entities into a collection. | Cloud"
+description: "コレクション内のエンティティは、同じフィールドセットを共有するデータレコードです。すべてのデータレコードのフィールド値がエンティティを形成します。このページでは、エンティティをコレクションに挿入する方法を紹介します。 | Cloud"
 type: origin
-token: L5jawEj7FiBXWZkGhLgcQCWQnDd
+token: NLxGwVt2piuodrkakgNcov5HnKf
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 
@@ -27,23 +27,23 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Insert Entities
+# エンティティの挿入
 
-Entities in a collection are data records that share the same set of fields. Field values in every data record form an entity. This page introduces how to insert entities into a collection.
+コレクション内のエンティティは、同じフィールドセットを共有するデータレコードです。すべてのデータレコードのフィールド値がエンティティを形成します。このページでは、エンティティをコレクションに挿入する方法を紹介します。
 
-## Overview{#overview}
+## 概要について{#}
 
-In Zilliz Cloud clusters, an **Entity** refers to data records in a **Collection** that share the same **Schema**, with the data in each field of a row constituting an Entity. Therefore, the Entities within the same Collection have the same attributes (such as field names, data types, and other constraints).
+Zilliz Cloudクラスターでは、**エンティティ**は同じ**スキーマを共有するコレクション内のデータレコードを参照し、行の各フィールドのデータがエンティティを構成します。したがって、同じコレクション内のエンティティは同じ属性(フィールド名、データ型、その他の制約など)を持ちます。**
 
-When inserting an Entity into a Collection, the Entity to be inserted can only be successfully added if it contains all the fields defined in the Schema. The inserted Entity will enter a Partition named **_default** in the order of insertion. Provided that a certain Partition exists, you can also insert Entities into that Partition by specifying the Partition name in the insertion request.
+コレクションにエンティティを挿入する場合、スキーマで定義されたすべてのフィールドが含まれている場合にのみ、挿入するエンティティを正常に追加できます。挿入されたエンティティは、挿入順に**_default**という名前のパーティションに入ります。特定のパーティションが存在する場合、挿入リクエストでパーティション名を指定することで、そのパーティションにエンティティを挿入することもできます。
 
-Zilliz Cloud also supports dynamic fields to maintain the scalability of the Collection. When the dynamic field is enabled, you can insert fields that are not defined in the Schema into the Collection. These fields and values will be stored as key-value pairs in a reserved field named **$meta**. For more information about dynamic fields, please refer to Dynamic Field.
+Zilliz Cloudは、コレクションのスケーラビリティを維持するために動的フィールドもサポートしています。動的フィールドが有効になっている場合、スキーマで定義されていないフィールドをコレクションに挿入できます。これらのフィールドと値は、**$meta**という予約フィールドにキーと値のペアとして保存されます。動的フィールドの詳細については、「動的フィールド」を参照してください。
 
-## Insert Entities into a Collection{#insert-entities-into-a-collection}
+## コレクションへのエンティティの挿入{#}
 
-Before inserting data, you need to organize your data into a list of dictionaries according to the Schema, with each dictionary representing an Entity and containing all the fields defined in the Schema. If the Collection has the dynamic field enabled, each dictionary can also include fields that are not defined in the Schema.
+データを挿入する前に、スキーマに従ってデータを辞書のリストに整理する必要があります。各辞書はエンティティを表し、スキーマで定義されたすべてのフィールドを含んでいます。コレクションに動的フィールドが有効になっている場合、各辞書にはスキーマで定義されていないフィールドも含めることができます。
 
-In this section, you will insert Entities into a Collection created [in the quick-setup manner](./quick-setup-collections). A Collection created in this manner has only two fields, named **id** and **vector**. Additionally, this Collection has the dynamic field enabled, so the Entities in the example code include a field called **color** that is not defined in the Schema.
+このセクションでは、[クイックセットアップの方法で](null)作成されたコレクションにエンティティを挿入します。この方法で作成されたコレクションには、**id**と**vector**という2つのフィールドしかありません。さらに、このコレクションには動的フィールドが有効になっているため、サンプルコードのエンティティには、スキーマで定義されていない**color**というフィールドが含まれています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -216,9 +216,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Insert Entities into a Partition{#insert-entities-into-a-partition}
+## パーティションにエンティティを挿入する{#}
 
-You can also insert entities into a specified partition. The following code snippets assume that you have a partition named **PartitionA** in your collection.
+指定したパーティションにエンティティを挿入することもできます。次のコードスニペットは、コレクションにPartitionAという名前のパーティションがあること**を**前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

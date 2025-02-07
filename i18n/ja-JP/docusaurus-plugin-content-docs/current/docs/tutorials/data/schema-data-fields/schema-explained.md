@@ -1,12 +1,12 @@
 ---
-title: "Schema Explained | Cloud"
+title: "スキーマの説明 | Cloud"
 slug: /schema-explained
-sidebar_label: "Schema Explained"
+sidebar_label: "スキーマの説明"
 beta: FALSE
 notebook: FALSE
-description: "A schema defines the data structure of a collection. Before creating a collection, you need to work out a design of its schema. This page helps you understand the collection schema and design an example schema on your own. | Cloud"
+description: "スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、スキーマの設計を行う必要があります。このページでは、コレクションのスキーマを理解し、独自のスキーマの例を設計するのに役立ちます。 | Cloud"
 type: origin
-token: Vs4YwNnvzitoQ8kunlGcWMJInbf
+token: SVrnwFgVEihptQks0BHcthjJnjd
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 
@@ -25,27 +25,27 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Schema Explained
+# スキーマの説明
 
-A schema defines the data structure of a collection. Before creating a collection, you need to work out a design of its schema. This page helps you understand the collection schema and design an example schema on your own.
+スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、スキーマの設計を行う必要があります。このページでは、コレクションのスキーマを理解し、独自のスキーマの例を設計するのに役立ちます。
 
-## Overview{#overview}
+## 概要について{#}
 
-On Zilliz Cloud, a collection schema assembles a table in a relational database, which defines how Zilliz Cloud organizes data in the collection. 
+Zilliz Cloudでは、コレクションスキーマがリレーショナルデータベース内のテーブルを組み立て、Zilliz Cloudがコレクション内のデータをどのように整理するかを定義します。
 
-A well-designed schema is essential as it abstracts the data model and decides if you can achieve the business objectives through a search. Furthermore, since every row of data inserted into the collection must follow the schema, it helps maintain data consistency and long-term quality. From a technical perspective, a well-defined schema leads to well-organized column data storage and a cleaner index structure, boosting search performance.
+よく設計されたスキーマは、データモデルを抽象化し、検索を通じてビジネス目標を達成できるかどうかを決定するために不可欠です。さらに、コレクションに挿入されるすべてのデータ行がスキーマに従う必要があるため、データの一貫性と長期的な品質を維持するのに役立ちます。技術的な観点からは、よく定義されたスキーマは、整理された列データストレージとクリーンなインデックス構造につながり、検索パフォーマンスを向上させます。
 
-A collection schema has a primary key, a maximum of four vector fields, and several scalar fields. The following diagram illustrates how to map an article to a list of schema fields.
+コレクションスキーマには、主キー、最大4つのベクトルフィールド、およびいくつかのスカラーフィールドがあります。次の図は、記事をスキーマフィールドのリストにマップする方法を示しています。
 
-![RoJFbyTsuoY8mHxoBBicgBH9nTc](/img/RoJFbyTsuoY8mHxoBBicgBH9nTc.png)
+![K9uAbRdLmoiAHqxR0abcZQTcnGc](/img/ja-JP/K9uAbRdLmoiAHqxR0abcZQTcnGc.png)
 
-The data model design of a search system involves analyzing business needs and abstracting information into a schema-expressed data model. For instance, searching a piece of text must be "indexed" by converting the literal string into a vector through "embedding" and enabling vector search. Beyond this essential requirement, storing other properties such as publication timestamp and author may be necessary. This metadata allows for semantic searches to be refined through filtering, returning only texts published after a specific date or by a particular author. You can also retrieve these scalars with the main text to render the search result in the application. Each should be assigned a unique identifier to organize these text pieces, expressed as an integer or string. These elements are essential for achieving sophisticated search logic.
+検索システムのデータモデル設計には、ビジネスニーズを分析し、情報をスキーマ表現されたデータモデルに抽象化することが含まれます。例えば、テキストの検索は、リテラル文字列を「埋め込む」ことによってベクトルに変換し、ベクトル検索を有効にすることで「インデックス化」する必要があります。この必須要件を超えて、出版タイムスタンプや著者などの他のプロパティを格納する必要がある場合があります。このメタデータにより、特定の日付以降または特定の著者によって公開されたテキストのみを返すフィルタリングを通じて意味検索を洗練することができます。また、これらのスカラーをメインテキストとともに取得して、アプリケーションで検索結果をレンダリングすることもできます。それぞれに、整数または文字列として表されるこれらのテキストピースを整理するための一意の識別子が割り当てられる必要があります。これらの要素は、洗練された検索ロジックを実現するために不可欠です。
 
-Refer to [Schema Design Hands-On](./schema-design-hands-on) to figure out how to make a well-designed schema.
+よく設計されたスキーマを作成する方法については、「Schema Design Hands-On」を参照してください。
 
-## Create Schema{#create-schema}
+## スキーマの作成{#}
 
-The following code snippet demonstrates how to create a schema.
+次のコードスニペットは、スキーマを作成する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -89,9 +89,9 @@ export schema='{
 </TabItem>
 </Tabs>
 
-## Add Primary Field{#add-primary-field}
+## プライマリフィールドを追加{#}
 
-The primary field in a collection uniquely identifies an entity. It only accepts **Int64** or **VarChar** values. The following code snippets demonstrate how to add the primary field.
+コレクション内のプライマリフィールドは、エンティティを一意に識別します。**Int 64**または**VarChar**の値のみを受け入れます。次のコードスニペットは、プライマリフィールドを追加する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -162,15 +162,15 @@ export schema='{
 </TabItem>
 </Tabs>
 
-When adding a field, you can explicitly clarify the field as the primary field by setting its `is_primary` property to `True`. A primary field accepts **Int64** values by default. In this case, the primary field value should be integers similar to `12345`. If you choose to use **VarChar** values in the primary field, the value should be strings similar to `my_entity_1234`.
+フィールドを追加する場合、`is_mary`プロパティを`True`に設定することで、フィールドを明示的にプライマリフィールドとして明確にすることができます。プライマリフィールドはデフォルトで**Int 64**値を受け入れます。この場合、プライマリフィールドの値は`12345`に似た整数である必要があります。プライマリフィールドで**VarChar**値を使用する場合、値は`my_entity_1234`に似た文字列である必要があります。
 
-You can also set the `autoId` properties to `True` to make Zilliz Cloud automatically allocate primary field values upon data insertions.
+また、`autoId`プロパティを`True`に設定すると、Zilliz Cloudがデータ挿入時にプライマリフィールドの値を自動的に割り当てるようになります。
 
-For details, refer to [Primary Field & AutoId](./primary-field-auto-id).
+詳細は、Primary Field & AutoIdを参照してください。
 
-## Add Vector Fields{#add-vector-fields}
+## ベクトルフィールドを追加{#}
 
-Vector fields accept various sparse and dense vector embeddings. On Zilliz Cloud, you can add four vector fields to a collection. The following code snippets demonstrate how to add a vector field.
+ベクトル場は、疎なベクトル埋め込みと密なベクトル埋め込みを受け入れます。Zilliz Cloudでは、4つのベクトル場をコレクションに追加できます。以下のコードスニペットは、ベクトル場を追加する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -235,31 +235,31 @@ export schema="{
 </TabItem>
 </Tabs>
 
-The `dim` paramter in the above code snippets indicates the dimensionality of the vector embeddings to be held in the vector field. The `FLOAT_VECTOR` value indicates that the vector field holds a list of 32-bit floating numbers, which are usually used to represent antilogarithms.In addition to that, Zilliz Cloud also supports the following types of vector embeddings:
+上記のコードスニペットの`dim`パラメータは、ベクトルフィールドに保持されるベクトル埋め込みの次元を示します。`FLOAT_VECTOR`値は、ベクトルフィールドが32ビット浮動小数点数のリストを保持していることを示します。これらは通常、表すために使用されますantilogarithms.Inさらに、Zilliz Cloudは以下の種類のベクトル埋め込みもサポートしています
 
-- `FLOAT16_VECTOR`
+- `ベクターデータ`
 
-    A vector field of this type holds a list of 16-bit half-precision floating numbers and usually applies to memory- or bandwidth-restricted deep learning or GPU-based computing scenarios.
+    このタイプのベクトル場は、16ビットの半精度浮動小数点数のリストを保持し、通常はメモリまたはbandwidth-restrictedのディープラーニングまたはGPUベースのコンピューティングシナリオに適用されます。
 
-- `BFLOAT16_VECTOR`
+- `その他のベクトル:`
 
-    A vector field of this type holds a list of 16-bit floating-point numbers that have reduced precision but the same exponent range as Float32. This type of data is commonly used in deep learning scenarios, as it reduces memory usage without significantly impacting accuracy.
+    このタイプのベクトル場は、精度が低下しているがFloat 32と同じ指数範囲を持つ16ビット浮動小数点数のリストを保持します。このタイプのデータは、精度に大きな影響を与えることなくメモリ使用量を減らすため、深層学習シナリオで一般的に使用されます。
 
-- `BINARY_VECTOR`
+- `バイナリベクトル`
 
-    A vector field of this type holds a list of 0s and 1s. They serve as compact features for representing data in image processing and information retrieval scenarios.
+    このタイプのベクトル場は、0と1のリストを保持します。これらは、画像処理や情報検索シナリオでデータを表現するためのコンパクトな特徴として機能します。
 
-- `SPARSE_FLOAT_VECTOR`
+- `浮動小数点ベクトル`
 
-    A vector field of this type holds a list of non-zero numbers and their sequence numbers to represent sparse vector embeddings.
+    このタイプのベクトル場は、疎なベクトル埋め込みを表す非ゼロの数とそのシーケンス番号のリストを保持します。
 
-## Add Scalar Fields{#add-scalar-fields}
+## スカラーフィールドを追加{#}
 
-In common cases, you can use scalar fields to store the metadata of the vector embeddings stored in Zilliz Cloud clusters, and conduct ANN searches with metadata filtering to improve the correctness of the search results. Zilliz Cloud supports multiple scalar field types, including **VarChar**, **Boolean**, **Int**, **Float**, **Double**, **Array**, and **JSON**.
+一般的な場合、スカラーフィールドを使用して、Zilliz Cloudクラスターに格納されたベクトル埋め込みのメタデータを格納し、メタデータフィルタリングを使用してANN検索を実行して検索結果の正確性を向上させることができます。Zilliz Cloudは、**VarChar**、**Boolean**、**Int**、**Float**、**Double**、**Array**、**JSON**など、複数のスカラーフィールドタイプをサポートしています。
 
-### Add String Fields{#add-string-fields}
+### 文字列フィールドを追加{#}
 
-In Zilliz Cloud clusters, you can use VarChar fields to store strings. For more on the VarChar field, refer to [String Field](./use-string-field).
+Zilliz Cloudクラスタでは、VarCharフィールドを使用して文字列を保存できます。VarCharフィールドの詳細については、String Fieldを参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -325,9 +325,9 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### Add Number Fields{#add-number-fields}
+### 数値フィールドを追加{#}
 
-The types of numbers that Zilliz Cloud supports are `Int8`, `Int16`, `Int32`, `Int64`, `Float`, and `Double`. For more on the number fields, refer to [Number Field](./use-number-field).
+Zilliz Cloudがサポートする数値の種類は、`Int 8`、`Int 16`、`Int 32`、`Int 64`、`Float`、`Double`です。数値フィールドの詳細については、Number Fieldを参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -385,9 +385,9 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### Add Boolean Fields{#add-boolean-fields}
+### ブールフィールドを追加{#}
 
-Zilliz Cloud supports boolean fields. The following code snippets demonstrate how to add a boolean field.
+Zilliz Cloudはブール値フィールドをサポートしています。以下のコードスニペットはブール値フィールドを追加する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -446,9 +446,9 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### Add JSON fields{#add-json-fields}
+### JSONフィールドを追加してください。{#json}
 
-A JSON field usually stores half-structured JSON data. For more on the JSON fields, refer to [JSON Field](./use-json-fields).
+JSONフィールドは通常、半構造化されたJSONデータを格納します。JSONフィールドの詳細については、JSON Fieldを参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -508,9 +508,9 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### Add Array Fields{#add-array-fields}
+### 配列フィールドを追加{#}
 
-An array field stores a list of elements. The data types of all elements in an array field should be the same. For more on the array fields, refer to [Array Field](./use-array-fields).
+配列フィールドは要素のリストを格納します。配列フィールド内のすべての要素のデータ型は同じでなければなりません。配列フィールドの詳細については、Array Fieldを参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

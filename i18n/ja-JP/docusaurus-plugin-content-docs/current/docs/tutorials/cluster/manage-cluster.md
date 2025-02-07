@@ -1,12 +1,12 @@
 ---
-title: "Manage Cluster | Cloud"
+title: "クラスタ管理 | Cloud"
 slug: /manage-cluster
-sidebar_label: "Manage Cluster"
+sidebar_label: "クラスタ管理"
 beta: FALSE
 notebook: FALSE
-description: "This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals. | Cloud"
+description: "このガイドでは、Zilliz Cloudコンソールを最大限に活用して目標を達成するためのクラスタのライフサイクルについて説明します。 | Cloud"
 type: origin
-token: PharwAysCiBzvgkuqqecmNzunQf
+token: Py5VwaHKnirdQQkJBxXcmfrunfg
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,259 +14,259 @@ keywords:
   - cloud
   - cluster
   - manage
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Manage Cluster
+# クラスタ管理
 
-This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
+このガイドでは、Zilliz Cloudコンソールを最大限に活用して目標を達成するためのクラスタのライフサイクルについて説明します。
 
-## Free cluster{#free-cluster}
+## フリークラスタ{#}
 
-After creating a free cluster, you will see the following in the console.
+フリークラスタを作成した後、コンソールに以下が表示されます。
 
-![free-cluster-lifecycle](/img/free-cluster-lifecycle.png)
+![free-cluster-lifecycle](/img/ja-JP/free-cluster-lifecycle.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>You have the option to create one free cluster without charge. In addition, you can create up to five collections within the cluster.</p>
+<p>無料で1つのクラスターを作成するオプションがあります。さらに、クラスター内に最大5つのコレクションを作成できます。</p>
 
 </Admonition>
 
-### Connect to cluster{#connect-to-cluster}
+### クラスタに接続{#}
 
-In the **Connect** section, you can find the **Public Endpoint** and **Token** used to connect to the cluster.
+[**接続**]セクションには、クラスターへの接続に使用された**パブリックエンドポイント**と**トークン**があります。
 
-For details, refer to [Connect to Cluster](./connect-to-cluster).
+詳細については、「Connect to Cluster」を参照してください。
 
-### Upgrade plan{#upgrade-plan}
+### アップグレードプラン{#}
 
-By upgrading your cluster, you can unlock a wide range of enterprise features, manage larger datasets, and enjoy enhanced performance. You can switch to a paid cluster plan when any of these conditions are met:
+クラスタをアップグレードすることで、幅広いエンタープライズ機能のロックを解除し、より大きなデータセットを管理し、パフォーマンスを向上させることができます。以下の条件のいずれかが満たされた場合、有料クラスタプランに切り替えることができます。
 
-- Your account has sufficient credits;
+- アカウントに十分なクレジットがあります。
 
-- You have added a valid payment method;
+- 有効な支払い方法を追加しました。
 
-- Your account has a positive balance
+- あなたの口座には正の残高があります
 
-To upgrade your plan, follow these steps:
+プランをアップグレードするには、次の手順に従ってください。
 
-1. On the Cluster Details page, click the **Upgrade** button next to **Cluster Plan**.
+1. クラスタの詳細ページで、クラスタ計画の横にある**アップグレード**ボタンをクリックして**ください**。
 
-1. Select **Upgrade to Serverless Cluster** or **Upgrade to New Dedicated Cluster**.
+1. [**サーバーレスクラスターにアップグレード**]または[**新しい専用クラスターにアップグレード**]を選択します。
 
-    - **Upgrade to Severless cluster:**
+    - **Severlessクラスタへのアップグレード:**
 
-        In the dialog box that opens, review the plan information and pricing. Click **Upgrade**. When the upgrade is completed, your Free cluster will be replaced with the Serverless cluster. 
+        表示されるダイアログボックスで、プラン情報と価格を確認します。[**アップグレード**]をクリックします。アップグレードが完了すると、FreeクラスタはServerlessクラスタに置き換えられます。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="Notes" title="undefined">
 
         <ul>
-        <li><p>During the upgrade, read and write operations to this cluster is not supported.</p></li>
-        <li><p>The upgrade will result in a change to the cluster endpoint. Thus, please ensure to update the cluster endpoint information in your application code. </p></li>
+        <li><p>アップグレード中は、このクラスターへの読み取りおよび書き込み操作はサポートされていません。</p></li>
+        <li><p>アップグレードにより、クラスターエンドポイントが変更されます。そのため、アプリケーションコード内のクラスターエンドポイント情報を必ず更新してください。</p></li>
         </ul>
 
         </Admonition>
 
-        ![upgrade-to-serverless](/img/upgrade-to-serverless.png)
+        ![upgrade-to-serverless](/img/ja-JP/upgrade-to-serverless.png)
 
-    - **Upgrade to New Dedicated cluster:**
+    - **新しい専用クラスタへのアップグレード:**
 
-        On the page that opens, complete the following:
+        開いたページで、次の手順を実行します。
 
-        During the upgrade, the original Free cluster will still be retained and keep running. When the upgrade is completed, a new Dedicated cluster will be created and data from the original Free cluster will be automatically migrated to the new Dedicated cluster. 
+        アップグレード中、元のFreeクラスタは引き続き保持され、実行されます。アップグレードが完了すると、新しい専用クラスタが作成され、元のFreeクラスタからのデータが新しい専用クラスタに自動的に移行されます。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="Notes" title="undefined">
 
-        <p>To connect to the new Dedicated cluster, please modify your application code and use the appropriate endpoint and token of the new cluster.</p>
+        <p>新しい専用クラスターに接続するには、アプリケーションコードを変更し、新しいクラスターの適切なエンドポイントとトークンを使用してください。</p>
 
         </Admonition>
 
-        ![upgrade-to-dedicated](/img/upgrade-to-dedicated.png)
+        ![upgrade-to-dedicated](/img/ja-JP/upgrade-to-dedicated.png)
 
-### Drop cluster{#drop-cluster}
+### クラスタを削除{#}
 
-In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
+[**Actions**]ドロップダウンボタンで、[**Drop**]を選択してクラスタをドロップします。[**Drop Cluster**]ダイアログボックスでこの操作を確認した後、Zilliz Cloudはクラスタをドロップします。
 
-In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
+ウェブUIに加えて、クラスタをドロップするためのAPIリクエストを行うこともできます。詳細については、[クラスタドロップ](/reference/restful/drop-cluster-v2)を参照してください。
 
-## Serverless cluster{#serverless-cluster}
+## サーバーレスクラスタ{#}
 
-After creating a Serverless cluster, you will see the following in the console.
+サーバーレスクラスターを作成した後、コンソールに以下が表示されます。
 
-![serverless-cluster-lifecycle](/img/serverless-cluster-lifecycle.png)
+![serverless-cluster-lifecycle](/img/ja-JP/serverless-cluster-lifecycle.png)
 
-- **Connect**: This section provides the necessary details to begin interacting with your cluster, including the cluster ID, cluster cloud region, public endpoint for connections, and a token for secure access.
+- **接続**:このセクションでは、クラスターID、クラスタークラウドリージョン、接続用のパブリックエンドポイント、セキュアアクセス用のトークンなど、クラスターとのやり取りを開始するために必要な詳細を説明します。
 
-- **Summary**: This offers a snapshot of your cluster's essentials. You can find the cluster plan and compatible Milvus version. Details on the creator, as well as the creation date and time, are also presented.
+- **概要**:クラスタの基本情報のスナップショットを提供します。クラスタプランと互換性のあるMilvusバージョンを見つけることができます。作成者の詳細、作成日時も表示されます。
 
-### Connect to cluster{#connect-to-cluster}
+### クラスタに接続{#}
 
-In the **Connect** section, you can find the **Public Endpoint** and **Token** used to connect to the cluster.
+[**接続**]セクションには、クラスターへの接続に使用された**パブリックエンドポイント**と**トークン**があります。
 
-For details, refer to [Connect to Cluster](./connect-to-cluster).
+詳細については、「Connect to Cluster」を参照してください。
 
-### Manage collections and data{#manage-collections-and-data}
+### コレクションとデータを管理する{#}
 
-- **Collections**
+- **コレクション**
 
-    On the **Collections** tab, you can manage the collections in the cluster. You can create collections, import data into them, load or release them, rename them, and drop them.
+    [**コレクション**]タブでは、クラスタ内のコレクションを管理できます。コレクションを作成したり、データをインポートしたり、ロードまたはリリースしたり、名前を変更したり、削除したりできます。
 
-    For details on data import, refer to [Data Import](/docs/data-import).
+    データインポートの詳細については、[データインポート](/docs/data-import)を参照してください。
 
-    ![manage-collections](/img/manage-collections.png)
+    ![manage-collections](/img/ja-JP/manage-collections.png)
 
-- **Backups**
+- **バックアップ**
 
-    In the **Backups** tab, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
+    [**バックアップ**]タブで、[スナップショットの作成]を選択してクラスタのバックアップを作成できます。すべての**スナップショット**は[**バックアップ**]タブにあります。バックアップとリストアの詳細については、「[バックアップ&リストア](/docs/backup-and-restore)」を参照してください。
 
-- **Data migrations**
+- **データ移行**
 
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters).
+    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「[クラスタ間移行](null)」を参照してください。
 
-### Migrate to Dedicated cluster{#migrate-to-dedicated-cluster}
+### 専用クラスタへの移行{#}
 
-For more enterprise-grade features and custom configurations, you are recommended to migrate your Serverless cluster to a Dedicated cluster. For more information, refer to [Cross-Cluster Migrations](./migrate-between-clusters).
+エンタープライズグレードの機能やカスタム構成をより多く使用するには、サーバーレスクラスターを専用クラスターに移行することをお勧めします。詳細については、「Cross-Cluster Migrations」を参照してください。
 
-### Users and access control{#users-and-access-control}
+### ユーザーとアクセス制御{#}
 
-Each serverless cluster comes with a single default user. You can't add or drop users, but you can reset the default user's password.
+各サーバーレスクラスターには、1つのデフォルトユーザーが付属しています。ユーザーを追加または削除することはできませんが、デフォルトユーザーのパスワードをリセットすることはできます。
 
-![manage-users](/img/manage-users.png)
+![manage-users](/img/ja-JP/manage-users.png)
 
-### Drop cluster{#drop-cluster}
+### クラスタを削除{#}
 
-In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
+[**Actions**]ドロップダウンボタンで、[**Drop**]を選択してクラスタをドロップします。[**Drop Cluster**]ダイアログボックスでこの操作を確認した後、Zilliz Cloudはクラスタをドロップします。
 
-In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
+ウェブUIに加えて、クラスタをドロップするためのAPIリクエストを行うこともできます。詳細については、[クラスタドロップ](/reference/restful/drop-cluster-v2)を参照してください。
 
-## Dedicated cluster{#dedicated-cluster}
+## 専用クラスタ{#}
 
-### View cluster details{#view-cluster-details}
+### クラスタの詳細を表示する{#}
 
-After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll find in each section for cluster details:
+Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細については、各セクションに以下の内容が記載されています。
 
-![dedicated-cluster-lifecycle](/img/dedicated-cluster-lifecycle.png)
+![dedicated-cluster-lifecycle](/img/ja-JP/dedicated-cluster-lifecycle.png)
 
-- **Connect**: This section provides the necessary details to begin interacting with your cluster, including the cluster ID, cluster cloud region, public endpoint for connections, a private link,, IP address whitelist, and a token for secure access.
+- **Connect**:このセクションでは、クラスターID、クラスタークラウドリージョン、接続用のパブリックエンドポイント、プライベートリンク、IPアドレスホワイトリスト、セキュアアクセス用のトークンなど、クラスターとのやり取りを開始するために必要な詳細情報を提供します。、。
 
-- **Summary**: This offers a snapshot of your cluster's essentials. You can find the cluster plan, CU type, and CU size, compatible Milvus version. Details on the creator, as well as the creation date and time, are also presented.
+- **概要**:クラスタの基本情報のスナップショットを提供します。クラスタプラン、CUタイプ、CU体格、互換性のあるMilvusバージョンを見つけることができます。作成者の詳細、作成日時も表示されます。
 
-### Establish connection{#establish-connection}
+### 接続を確立する{#}
 
-- **Connect to cluster**
+- **クラスタに接続**
 
-    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can be an [API key](./manage-api-keys) or a [cluster credential](./cluster-credentials) that consists of a username and password pair.
+    「**接続**」セクションでは、クラスターに接続するために使用される**パブリックエンドポイント**と**トークン**を見つけることができます。トークンは、ユーザー名とパスワードのペアで構成される[APIキー](null)または[クラスター資格情報](null)であることができます。
 
-    For more information, refer to [Connect to Cluster](./connect-to-cluster).
+    詳細については、「Connect to Cluster」を参照してください。
 
-- **Set up private link**
+- **プライベートリンクを設定する**
 
-    To establish a more secure connection to your cluster, you can create a private link instead of using the public endpoint provided. Refer to [Set up a Private Link](./setup-a-private-link) for further details.
+    クラスターへのより安全な接続を確立するには、提供されたパブリックエンドポイントを使用する代わりにプライベートリンクを作成できます。Set up a Private Link」を参照してください。
 
-### Manage collections and data{#manage-collections-and-data}
+### コレクションとデータを管理する{#}
 
-- **Collections**
+- **コレクション**
 
-    On the **Collections** tab, you can manage the collections in the cluster. You can create collections, import data into them, load or release them, rename them, and drop them.
+    [**コレクション**]タブでは、クラスタ内のコレクションを管理できます。コレクションを作成したり、データをインポートしたり、ロードまたはリリースしたり、名前を変更したり、削除したりできます。
 
-    For details on data import, refer to [Data Import](/docs/data-import).
+    データインポートの詳細については、[データインポート](/docs/data-import)を参照してください。
 
-    ![manage-collections](/img/manage-collections.png)
+    ![manage-collections](/img/ja-JP/manage-collections.png)
 
-- **Backups**
+- **バックアップ**
 
-    In the **Backups** tab, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
+    [**バックアップ**]タブで、[スナップショットの作成]を選択してクラスタのバックアップを作成できます。すべての**スナップショット**は[**バックアップ**]タブにあります。バックアップとリストアの詳細については、「[バックアップ&リストア](/docs/backup-and-restore)」を参照してください。
 
-- **Migrations**
+- **マイグレーション**
 
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters).
+    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「Cross-Cluster Migrations」を参照してください。
 
-### Users and access control{#users-and-access-control}
+### ユーザーとアクセス制御{#}
 
-- **Users**
+- **ユーザー**
 
-    On the **Users** tab, you can add users, reset their passwords, and drop them.
+    [**ユーザー**]タブでは、ユーザーを追加したり、パスワードをリセットしたり、削除したりできます。
 
-    For details, refer to [Cluster Credentials (Console)](./cluster-credentials-console).
+    詳細については、Cluster Credentials (Console)を参照してください。
 
-    ![manage-users](/img/manage-users.png)
+    ![manage-users](/img/ja-JP/manage-users.png)
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>You cannot drop <b>db_admin</b>. Zilliz Cloud grants access permissions to all collections in the cluster to any added users.</p>
+    <p><b>db_admin</b>を削除することはできません。Zilliz Cloudは、追加されたユーザーに対してクラスタ内のすべてのコレクションへのアクセス権限を付与します。</p>
 
     </Admonition>
 
-- **Whitelist**
+- **ホワイトリスト**
 
-    In the **Summary** section, click on the IP address in **Network Address** to add IP address segments to the whitelist. Once an IP address segment, other than a full-zero one (**0.0.0.0/0**), is added to the whitelist, Zilliz Cloud only permits access from IP addresses within the listed IP address segments.
+    [**概要**]セクションで、[**ネットワークアドレス**]のIPアドレスをクリックして、IPアドレスセグメントをホワイトリストに追加します。IPアドレスセグメント（フルゼロ（**0.0.0.0/0**）以外）がホワイトリストに追加されると、Zilliz CloudはリストされたIPアドレスセグメント内のIPアドレスからのみアクセスを許可します。
 
-    By default, a full-zero IP address segment is added, indicating that your cluster can be accessed from anywhere.
+    デフォルトでは、フルゼロのIPアドレスセグメントが追加され、どこからでもクラスターにアクセスできることを示します。
 
-    For details on how to set up the whitelist, refer to [Set up Whitelist](./setup-whitelist).
+    ホワイトリストの設定方法については、「ホワイトリストのSet up Whitelist参照してください。
 
-### Upgrade cluster plan{#upgrade-cluster-plan}
+### クラスタプランのアップグレード{#}
 
-For Dedicated (Standard) cluster, click **Upgrade** right to the service **Plan** in the **Summary** section to upgrade your plan to **Dedicated (Enterprise)**. Zilliz Cloud upgrades your service plan only after you confirm this operation in the **Upgrade Cluster Plan** dialog box.
+Dedicated(Standard)クラスタの場合、**Summary**セクションのサービス**プラン**の右にあるUpgradeをクリックして、**Dedicated(Enterprise)にプランをアップグレードします。Zilliz Cloudは、Upgrade Cluster Plan**ダイアログボックスでこの操作を確認した後に、サービスプランをアップグレードします。
 
-For the differences between all the available subscription plans, refer to [Select Service Tiers](./select-zilliz-cloud-service-plans).
+利用可能なすべてのサブスクリプションプランの違いについては、「Select Service Tiers」を参照してください。
 
-### Suspend & resume cluster{#suspend-and-resume-cluster}
+### クラスタの一時停止と再開{#}
 
-In the **Actions** drop-down button, select **Suspend** to stop the cluster. Once you confirm this operation in the **Suspend Cluster** dialog box, the cluster status changes from **RUNNING** to **SUSPENDING**, during which you cannot perform other actions to the cluster.
+「**Actions**」ドロップダウンボタンで、「**Suspend**」を選択してクラスタを停止します。「**Suspend Cluster**」ダイアログボックスでこの操作を確認すると、クラスタの状態が「**RUNNING**」から「**SUSPENDING**」に変わり、その間はクラスタに対して他のアクションを実行できません。
 
-Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
+ステータスが**SUSPENDED**に変更されると、ストレージに対してのみ課金されます。クラスタの一部を賢明に一時停止すると、お金を節約できます。
 
 <table>
    <tr>
-     <th><p><strong>Cloud Provider</strong></p></th>
-     <th><p><strong>Storage Pricing</strong></p></th>
+     <th><p><strong>クラウドプロバイダー</strong></p></th>
+     <th><p><strong>ストレージ価格</strong></p></th>
    </tr>
    <tr>
-     <td><p>AWS storage</p></td>
-     <td><p>$0.025 / GB per month</p></td>
+     <td><p>AWSストレージ</p></td>
+     <td><p>月額$0.0 25/GBあたり</p></td>
    </tr>
    <tr>
-     <td><p>GCP storage</p></td>
-     <td><p>$0.020 / GB per month</p></td>
+     <td><p>GCPストレージ</p></td>
+     <td><p>月額$0.0 20/GBあたり</p></td>
    </tr>
    <tr>
-     <td><p>Azure storage</p></td>
-     <td><p>$0.025 / GB per month</p></td>
+     <td><p>Azureストレージ</p></td>
+     <td><p>月額$0.0 25/GBあたり</p></td>
    </tr>
 </table>
 
-To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully based on your CU settings and service plan.
+サスペンドされたクラスタを再開するには、**アクション**をクリックし、ドロップダウンメニューから**再開**を選択します。**再開クラスタ**ダイアログボックスでこのアクションを確認すると、クラスタの状態が**SUSPENDED**から**RESUMING**、そして**RUNNING**に変わります。この時点で、CU設定とサービスプランに基づいて完全に請求されます。
 
-You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster) and [Resume Cluster](/reference/restful/resume-cluster).
+これらのアクションを実行するために、RESTful APIを使用することもできます。詳細については、「[クラスタ停止](/reference/restful/suspend-cluster)」と「[クラスタ再開](/reference/restful/resume-cluster)」を参照してください。
 
-### **Drop cluster**{#drop-cluster}
+### **クラスタを削除**{#}
 
-In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
+[**Actions**]ドロップダウンボタンで、[**Drop**]を選択してクラスタをドロップします。[**Drop Cluster**]ダイアログボックスでこの操作を確認した後、Zilliz Cloudはクラスタをドロップします。
 
-In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
+ウェブUIに加えて、クラスタを削除するためのAPIリクエストを行うこともできます。詳細については、[Drop Cluster](/reference/restful/drop-cluster-v2)を参照してください。
 
-## Related topics{#related-topics}
+## 関連するトピック{#}
 
-- [Connect to Cluster](./connect-to-cluster)
+- Connect to Cluster
 
-- [Set up a Private Link](./setup-a-private-link)
+- Set up a Private Link
 
-- [Migrate Between Clusters](./migrate-between-clusters)
+- Migrate Between Clusters
 
-- [Detailed Plan Comparison](./select-zilliz-cloud-service-plans)
+- Detailed Plan Comparison
 
-- [Set up Whitelist](./setup-whitelist)
+- Set up Whitelist
 
-- [Backup & Restore](./backup-and-restore)
+- Backup & Restore
 
-- [Select the Right CU](./cu-types-explained)
+- Select the Right CU
 

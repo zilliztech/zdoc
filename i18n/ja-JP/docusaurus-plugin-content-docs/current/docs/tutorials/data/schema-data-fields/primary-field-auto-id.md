@@ -1,12 +1,12 @@
 ---
-title: "Primary Field & AutoID | Cloud"
+title: "プライマリフィールドとAutoID | Cloud"
 slug: /primary-field-auto-id
-sidebar_label: "Primary Field & AutoID"
+sidebar_label: "プライマリフィールドとAutoID"
 beta: FALSE
 notebook: FALSE
-description: "The primary field uniquely identifies an entity. This page introduces how to add the primary field of two different data types and how to enable Zilliz Cloud to automatically allocate primary field values. | Cloud"
+description: "プライマリフィールドはエンティティを一意に識別します。このページでは、2つの異なるデータ型のプライマリフィールドを追加する方法と、Zilliz Cloudを有効にしてプライマリフィールドの値を自動的に割り当てる方法を紹介します。 | Cloud"
 type: origin
-token: D2ctwKZhNilLY0ke1vpcHL62n5G
+token: Fk0iwPAsGipnxxkFM6TcS1F1nQe
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -17,10 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
@@ -28,21 +28,21 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Primary Field & AutoID
+# プライマリフィールドとAutoID
 
-The primary field uniquely identifies an entity. This page introduces how to add the primary field of two different data types and how to enable Zilliz Cloud to automatically allocate primary field values.
+プライマリフィールドはエンティティを一意に識別します。このページでは、2つの異なるデータ型のプライマリフィールドを追加する方法と、Zilliz Cloudを有効にしてプライマリフィールドの値を自動的に割り当てる方法を紹介します。
 
-## Overview{#overview}
+## 概要について{#}
 
-In a collection, the primary key of each entity should be globally unique. When adding the primary field, you need to explicitly set its data type to **VARCHAR** or **INT64**. Setting its data type to **INT64** indicates that the primary keys should be an integer similar to `12345`; Setting its data type to **VARCHAR** indicates that the primary keys should be a string similar to `my_entity_1234`.
+コレクションでは、各エンティティの主キーはグローバルに一意である必要があります。主フィールドを追加する場合は、明示的にデータ型を**VARCHAR**または**INT64**に設定する必要があります。データ型を**INT64**に設定すると、主キーは`12345`に似た整数である必要があります。データ型を**VARCHAR**に設定すると、主キーは`my_entity_1234`に似た文字列である必要があります。
 
-You can also enable **AutoID** to make Zilliz Cloud automatically allocate primary keys for incoming entities. Once you have enabled **AutoID** in your collection, do not include primary keys when inserting entities.
+また、**AutoID**を有効にして、Zilliz Cloudが受信するエンティティのプライマリキーを自動的に割り当てるようにすることもできます。コレクションで**AutoID**を有効にしたら、エンティティを挿入する際にプライマリキーを含めないようにしてください。
 
-The primary field in a collection does not have a default value and cannot be null.
+コレクション内のプライマリフィールドにはデフォルト値がなく、nullにすることはできません。
 
-## Use Int64 Primary Keys{#use-int64-primary-keys}
+## Int 64プライマリキーを使用{#int-64}
 
-To use primary keys of the Int64 type, you need to set `datatype` to `DataType.INT64` and set `is_primary` to `true`. If you also need Zilliz Cloud to allocate the primary keys for the incoming entities, also set `auto_id` to `true`.
+Int 64型のプライマリキーを使用するには、`datatype`を`DataType. INT64`に設定し、`is_mary`を`true`に設定する必要があります。受信するエンティティのプライマリキーを割り当てるためにZilliz Cloudも必要な場合は、`auto_id`を`true`に設定してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -132,9 +132,9 @@ export schema="{
 </TabItem>
 </Tabs>
 
-## Use VarChar Primary Keys{#use-varchar-primary-keys}
+## VarCharプライマリキーを使用する{#varchar}
 
-To use VarChar primary keys, in addition to changing the value of the `data_type` parameter to `DataType.VARCHAR`, you also need to set the `max_length` parameter for the field. 
+VarCharプライマリキーを使用するには、`data_type`パラメータの値をDataType.`VARCHAR`に変更するだけでなく、フィールドの`max_length`パラメータも設定する必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

@@ -1,31 +1,31 @@
 ---
-title: "Concepts | Cloud"
+title: "コンセプト | Cloud"
 slug: /pipelines-concepts
-sidebar_label: "Concepts"
+sidebar_label: "コンセプト"
 beta: FALSE
 notebook: FALSE
-description: "Explanations about the relevant concepts we use when discussing how to use Zilliz Cloud Pipelines. | Cloud"
+description: "Zilliz Cloud Pipelinesの使用方法について議論する際に使用する関連概念についての説明。 | Cloud"
 type: origin
-token: V5DNwjhUmimGnuksnkAcmch3n0c
+token: USCXwUCmQiNseVkFlRPcDmFCnVh
 sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - concepts
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Concepts
+# コンセプト
 
-Explanations about the relevant concepts we use when discussing how to use Zilliz Cloud Pipelines.
+Zilliz Cloud Pipelinesの使用方法について議論する際に使用する関連概念についての説明。
 
 
 

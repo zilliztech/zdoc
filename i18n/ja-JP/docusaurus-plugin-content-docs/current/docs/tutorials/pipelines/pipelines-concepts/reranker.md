@@ -4,9 +4,9 @@ slug: /reranker
 sidebar_label: "Reranker"
 beta: FALSE
 notebook: FALSE
-description: "In information retrieval, a reranker rearranges results from intial retrieval. Compared to using only vector Approximate Nearest Neighbor (ANN) search for retrieval, adding reranker can improve search quality as it can better judge the semantic relevancy between docs and the query. Using a reranker can also enhance accuracy of generated answer in RAG applications, as fewer but higher quality docs are put in the context. Note that rerankers can be computationally heavy, leading to higher costs and longer query latency. | Cloud"
+description: "情報検索において、リランカーは初期検索の結果を再配置します。ベクトル近似最近傍探索(ANN)検索のみを使用する場合と比較して、リランカーを追加することで、ドキュメントとクエリの意味的関連性をよりよく判断できるため、検索品質を向上させることができます。リランカーを使用することで、RAGアプリケーションで生成された回答の精度を向上させることもできます。これは、より少ないが高品質のドキュメントが文脈に置かれるためです。リランカーは計算量が多く、コストが高く、クエリのレイテンシが長くなる可能性があることに注意してください。 | Cloud"
 type: origin
-token: DOcRwUYLPi1C5bkiTq8c5dEQnP9
+token: PsOfwdAviiMmC1kUcFMcz652npe
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - concepts
   - rerankers
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 
@@ -26,27 +26,27 @@ import Admonition from '@theme/Admonition';
 
 # Reranker
 
-In information retrieval, a reranker rearranges results from intial retrieval. Compared to using only vector Approximate Nearest Neighbor (ANN) search for retrieval, adding reranker can improve search quality as it can better judge the semantic relevancy between docs and the query. Using a reranker can also enhance accuracy of generated answer in RAG applications, as fewer but higher quality docs are put in the context. Note that rerankers can be computationally heavy, leading to higher costs and longer query latency.
+情報検索において、リランカーは初期検索の結果を再配置します。ベクトル近似最近傍探索(ANN)検索のみを使用する場合と比較して、リランカーを追加することで、ドキュメントとクエリの意味的関連性をよりよく判断できるため、検索品質を向上させることができます。リランカーを使用することで、RAGアプリケーションで生成された回答の精度を向上させることもできます。これは、より少ないが高品質のドキュメントが文脈に置かれるためです。リランカーは計算量が多く、コストが高く、クエリのレイテンシが長くなる可能性があることに注意してください。
 
-## What is reranker?{#what-is-reranker}
+## リランカーとは何ですか?{#}
 
-![what-is-a-reranker](/img/what-is-a-reranker.png)
+![what-is-a-reranker](/img/ja-JP/what-is-a-reranker.png)
 
-Reranker is typically a machine learning model trained to score the semantic relevance between query text and a specific document. Production-level information retrieval systems such as web search and recommender system usually consists of two stages: the initial retrieval and reranking. The initial retrieval phase, often utilizing vector Approximate Nearest Neighbor (ANN) search, efficiently sifts through vast datasets to identify relevant information, such as retrieving the top 20 items from millions of candidates. Once this initial set is obtained, the reranker steps in to further refine the ranking based on relevance to the query text. A smaller set, say top 5 from the reranked list, is used to provide better quality than if selecting the first 5 based on the original order.
+Rerankerは通常、クエリテキストと特定のドキュメントの意味的関連性をスコアリングするためにトレーニングされた機械学習モデルです。Web検索やレコメンデーションシステムなどのプロダクションレベルの情報検索システムは、通常、初期検索と再ランキングの2つの段階で構成されています。初期検索フェーズでは、しばしばベクトル近似最近傍探索(ANN)検索を利用して、膨大なデータセットを効率的に選別し、何百万もの候補者からトップ20アイテムを取得するなど、関連情報を特定します。この初期セットが取得されると、Rerankerはクエリテキストへの関連性に基づいてランキングをさらに洗練させます。再ランク付けされたリストのトップ5など、より小さなセットを使用して、元の順序に基づいて最初の5つを選択するよりも、より良い品質を提供します。
 
-## Using reranker in RAG application{#using-reranker-in-rag-application}
+## RAGアプリケーションでrerankerを使用する{#ragreranker}
 
-The RAG application consists of two phases: the retrieval phase, which is responsible for retrieving relevant information from knowledge base, and the generation phase, which uses LLM to summarize and reason about the retrieved knowledge. The relevancy of the context provided to the LLM in the retrieval phase is crucial to final answer quality. Reranker is an effective tool to improve retrieval thus enhancing the answer quality of the RAG application.  
+RAGアプリケーションは2つのフェーズで構成されています。検索フェーズは知識ベースから関連情報を取得する責任があり、生成フェーズはLLMを使用して取得された知識を要約し、推論します。検索フェーズでLLMに提供される文脈の関連性は、最終的な回答品質にとって重要です。Rerankerは、RAGアプリケーションの回答品質を向上させるための効果的なツールです。
 
-The diagram below illustrates the position of a reranker in an RAG pipeline:  
+以下の図は、RAGパイプライン内のリランカの位置を示しています。
 
-![reranker-in-rag-application](/img/reranker-in-rag-application.png)
+![reranker-in-rag-application](/img/ja-JP/reranker-in-rag-application.png)
 
-## When to use reranker{#when-to-use-reranker}
+## いつrerankerを使うべきか{#reranker}
 
-The initial retrieval with Approximate Nearest Neighbor (ANN) vector search alone is very efficient and often yields satisfactory results. In many scenarios, the secondary stage of reranking may not be deemed essential. For applications with high quality standards, employing a reranker can enhance accuracy, albeit with increased computational demands and longer search times. Typically, integrating a reranker model can add 100ms to a few seconds of latency to the search query, depending on factors like topK selection and reranker model size. When the initial retrieval yields incorrect or irrelevant documents, using a reranker effectively filters them out, thus improving the quality of the final generated response.
+近似最近傍法(ANN)ベクトル検索だけでの初期検索は非常に効率的で、しばしば満足のいく結果をもたらします。多くのシナリオでは、再ランキングの二次段階が必須とは見なされない場合があります。高品質基準を持つアプリケーションでは、再ランク付けを使用することで精度を向上させることができますが、計算量が増加し、検索時間が長くなります。通常、再ランク付けモデルを統合すると、topK選択や再ランク付けモデル体格などの要因に応じて、検索クエリに100 msから数秒のレイテンシが追加されます。初期検索で不正確または関係のないドキュメントが得られた場合、再ランク付けを使用して効果的にフィルタリングし、最終的に生成される応答の品質を向上させます。
 
-If a reranker is deemed necessary for your use case, you can choose to enable it in your Search pipeline:
+ユースケースでリランカーが必要と判断された場合は、検索パイプラインで有効にできます。
 
-![add-search-doc-function](/img/add-search-doc-function.png)
+![add-search-doc-function](/img/ja-JP/add-search-doc-function.png)
 

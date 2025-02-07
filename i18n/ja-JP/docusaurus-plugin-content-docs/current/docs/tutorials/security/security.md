@@ -1,31 +1,33 @@
 ---
-title: "Security | Cloud"
+title: "セキュリティ | Cloud"
 slug: /security
-sidebar_label: "Security"
+sidebar_label: "セキュリティ"
 beta: FALSE
 notebook: FALSE
-description: "The chapter focuses on security-related measures, including authentication, role-based access control (RBAC), private endpoints, and whitelist. | Cloud"
+description: "この章では、認証、役割ベースのアクセス制御（RBAC）、プライベートエンドポイント、ホワイトリストなどのセキュリティ関連の対策に焦点を当てています。 | Cloud"
 type: origin
-token: HAF7wZny2ip5BRky4zmcK446nOe
+token: HQimwM1w9isGimkbHaWcqotan1f
 sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - security
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Security
+# セキュリティ
 
-The chapter focuses on security-related measures, including authentication, role-based access control (RBAC), private endpoints, and whitelist.
+この章では、認証、役割ベースのアクセス制御（RBAC）、プライベートエンドポイント、ホワイトリストなどのセキュリティ関連の対策に焦点を当てています。
+
+
 
 import DocCardList from '@theme/DocCardList';
 

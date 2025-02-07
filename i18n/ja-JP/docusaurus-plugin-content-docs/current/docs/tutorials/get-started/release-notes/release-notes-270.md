@@ -1,70 +1,70 @@
 ---
-title: "Release Notes (April 3, 2024) | Cloud"
+title: "リリースノート（2024年4月3日） | Cloud"
 slug: /release-notes-270
-sidebar_label: "Release Notes (April 3, 2024)"
+sidebar_label: "リリースノート（2024年4月3日）"
 beta: FALSE
 notebook: FALSE
-description: "This update introduces powerful tools and enhancements to Zilliz Cloud new Connectors for easy data ingestion from sources like Object Storage, Rerankers to improve search relevance, a Metrics Monitoring API for in-depth system state analytics, and a Cross Cloud Data Import feature allowing direct import from AWS S3, Google Cloud Storage, and Azure Blob Storage to vector database instances. These features combine to elevate data ingestion, search precision, and operational insight, streamlining the management of vector databases in the cloud. | Cloud"
+description: "このアップデートにより、Zilliz Cloudに強力なツールと強化が導入されました。Object Storageなどのソースから簡単にデータを取り込むための新しいコネクタ、検索の関連性を向上させるためのRerankers、詳細なシステム状態分析のためのMetrics Monitoring API、AWS S 3、Google Cloud Storage、Azure Blob Storageからベクトルデータベースインスタンスに直接インポートすることができるCross Cloud Data Import機能が追加されました。これらの機能は、データの取り込み、検索精度、運用洞察を向上させ、クラウド上のベクトルデータベースの管理を効率化します。 | Cloud"
 type: origin
-token: S7PMwgqGOiURCpkTFT4cTnTjnAc
+token: K2piwxZFZiL00xkf2TtctY80nSe
 sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (April 3, 2024)
+# リリースノート（2024年4月3日）
 
-This update introduces powerful tools and enhancements to Zilliz Cloud: new Connectors for easy data ingestion from sources like Object Storage, Rerankers to improve search relevance, a Metrics Monitoring API for in-depth system state analytics, and a Cross Cloud Data Import feature allowing direct import from AWS S3, Google Cloud Storage, and Azure Blob Storage to vector database instances. These features combine to elevate data ingestion, search precision, and operational insight, streamlining the management of vector databases in the cloud.
+このアップデートにより、Zilliz Cloudに強力なツールと強化が導入されました。Object Storageなどのソースから簡単にデータを取り込むための新しいコネクタ、検索の関連性を向上させるためのRerankers、詳細なシステム状態分析のためのMetrics Monitoring API、AWS S 3、Google Cloud Storage、Azure Blob Storageからベクトルデータベースインスタンスに直接インポートすることができるCross Cloud Data Import機能が追加されました。これらの機能は、データの取り込み、検索精度、運用洞察を向上させ、クラウド上のベクトルデータベースの管理を効率化します。
 
-### Milvus Compatibility{#milvus-compatibility}
+### Milvusの互換性{#milvus}
 
-This release is compatible with **Milvus 2.3.x**.
+このリリースは**Milvus 2.3. x**と互換性があります。
 
-### Azure Marketplace{#azure-marketplace}
+### Azure Marketplace Azureブログ{#azure-marketplace-azure}
 
-Zilliz Cloud is now available on the Azure Marketplace, making it simpler than ever for users to access our advanced, fully-managed vector database services on Azure. This new integration arrives at a crucial time as the need for scalable AI applications continues to rise. With Zilliz Cloud now on Azure Marketplace, users have the ability to swiftly build and expand their AI applications with ease. Embrace the power of Zilliz Cloud on Azure to accelerate your AI projects today. See [Zilliz Cloud on Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=PlansAndPrice).
+Zilliz CloudがAzure Marketplaceで利用可能になりました。これにより、ユーザーはAzure上で高度で完全に管理されたベクトルデータベースサービスにアクセスすることがこれまで以上に簡単になりました。この新しい統合は、スケーラブルなAIアプリケーションの必要性がますます高まる中で、重要な時期に到着しました。Zilliz CloudがAzure Marketplaceに登場したことで、ユーザーは簡単にAIアプリケーションを構築および拡張することができます。Zilliz Cloud on Azureのパワーを活用して、AIプロジェクトを加速しましょう。[Zilliz Cloud on Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=PlansAndPrice)をご覧ください。
 
-### Connectors{#connectors}
+### コネクタ{#}
 
-Connectors are built-in tools designed for streaming data into Zilliz Cloud from multiple data sources, encompassing Object Storage, Kafka (with support arriving shortly), and beyond. For instance, the Object Storage connector has the capability to monitor a given object storage bucket, and automatically synchronize files like PDFs and HTMLs to Zilliz Cloud Ingestion Pipelines. This process facilitates the conversion of these files into vector representations, allowing them to be efficiently loaded in our vector database for enhanced search capabilities. For details, see [Connect to Your Data](./connectors).
+コネクタは、Object Storage、Kafka(近日中にサポートが提供されます)など、複数のデータソースからZilliz Cloudにデータをストリーミングするために設計された組み込みツールです。たとえば、Object Storageコネクタには、特定のオブジェクトストレージバケットを監視し、PDFやHTMLなどのファイルをZilliz Cloud Ingestion Pipelinesに自動的に同期する機能があります。この過程により、これらのファイルをベクトル表現に変換し、検索機能を強化するために効率的にベクトルデータベースにロードできます。詳細については、「Connect to Your Data」を参照してください。
 
-### Rerankers{#rerankers}
+### リランカーズ{#}
 
-Rerankers have now been integrated into the Search Pipeline, offering an optional enhancement for those seeking to refine their search results by relevance, thereby elevating search quality. In this release, we're introducing the following reranker option:
+リランカーは現在、検索パイプラインに統合されており、関連性によって検索結果を絞り込み、検索品質を向上させるためのオプションの強化を提供しています。このリリースでは、以下のリランカーオプションを導入しています。
 
-- zilliz/bge-reranker-base
+- zilliz/bge-reranker-base-ダウンロード
 
-[Discover more about the capabilities and advantages of rerankers](./reranker).
+[リランカーの機能と利点の詳細をご覧ください](null)。
 
-### API for Metrics Monitoring{#api-for-metrics-monitoring}
+### メトリクスモニタリング用API{#api}
 
-From this release, Zilliz Cloud provides an API dedicated to metrics monitoring. This newly introduced API grants access to a comprehensive suite of over 30 metrics, offering a holistic view of various aspects critical to your system's performance and efficiency.
+今回のリリースから、Zilliz Cloudはメトリクスモニタリング専用のAPIを提供します。この新しく導入されたAPIにより、30以上のメトリクスの包括的なスイートへのアクセスが可能となり、システムのパフォーマンスと効率に重要なさまざまな側面を包括的に把握できます。
 
-Key Metrics Cover:
+主な指標のカバー:
 
-- Resource Utilization Tracking: Gain deep insights into Compute Unit (CU) resource utilization, allowing you to track compute utilization and storage capacity.
+- リソース使用率の追跡:コンピューティングユニット（CU）のリソース使用率に関する深い洞察を得て、コンピューティングの使用率とストレージ容量を追跡できます。
 
-- Search and Data Insert Performance Metrics: Evaluate the performance of search queries and data insertion processes, with a special focus on latency and throughput.
+- 検索とデータ挿入のパフォーマンスメトリック:検索クエリとデータ挿入プロセスのパフォーマンスを評価し、特にレイテンシとスループットに焦点を当てます。
 
-- Request Failure Rate: Monitor the failure rates of requests to quickly identify and troubleshoot potential issues, ensuring reliable application performance.
+- リクエストの失敗率:リクエストの失敗率を監視して、潜在的な問題を迅速に特定してトラブルシューティングし、信頼性の高いアプリケーションパフォーマンスを確保します。
 
-- Collection and Entity Statistics: Access detailed statistics on collections and entities, facilitating improved data management.
+- コレクションとエンティティの統計:コレクションとエンティティの詳細な統計にアクセスし、データ管理を改善します。
 
-[Discover more about the API details](/reference/restful/query-metrics).
+[APIの詳細についてはこちらをご覧ください](/reference/restful/query-metrics)。
 
-### Cross Cloud Data Import and Migration Enhancement{#cross-cloud-data-import-and-migration-enhancement}
+### クロスクラウドデータのインポートと移行の強化{#}
 
-Now, Zilliz Cloud users can effortlessly import or migrate their data from AWS S3, Google Cloud Storage, and Azure Blob Storage into any vector database instance on Zilliz Cloud, regardless of where it resides.
+今や、Zilliz Cloudのユーザーは、AWS S 3、Google Cloud Storage、Azure Blob Storageからデータを簡単にインポートまたはZilliz Cloud上の任意のベクトルデータベースインスタンスに移行できます。
 
-For more details, see [Data Import](./data-import) and [Migrations](./migrations) in Zilliz Cloud docs.
+詳細については、Zilliz CloudドキュメントのData ImportとMigrationsを参照してください。
