@@ -37,7 +37,7 @@ This page demonstrates how to use Terraform to bootstrap the infrastructure for 
 
 <li>To run the Terraform script, you need to have <a href="https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli">Terraform</a> and <a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html">AWS CLI</a> installed on your computer and an AWS account with associated credentials that allow you to create VPCs. </li>
 
-<ul>
+</ul>
 
 </Admonition>
 
