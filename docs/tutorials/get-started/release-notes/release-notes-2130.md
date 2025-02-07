@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloud now supports Milvus 2.5 in Public Preview, introducing full-text search to complement its semantic search. Using the BM25 metric and sparse vectors for efficient storage and retrieval, this feature allows users to query text directly without conversion. The update also enhances BYOC deployments with Private Link for improved security, easier compliance, and simplified network configuration. Additionally, auto-deployment via AWS CloudFormation is now supported, and the handling of large-scale small-file imports is optimized for faster data ingestion. | Cloud"
 type: origin
 token: LRRVwYzxKioMiMk7cf6czQuhn7d
-sidebar_position: 1
+sidebar_position: 0
 keywords: 
   - zilliz
   - vector database
