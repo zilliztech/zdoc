@@ -2,7 +2,7 @@
 title: "SAML 2.0 | BYOC"
 slug: /saml-2-0
 sidebar_label: "Configure SAML SSO with Okta"
-beta: PUBLIC
+beta: CONTACT SALES
 notebook: FALSE
 description: "This topic describes how to configure single sign-on (SSO) with Okta using the SAML 2.0 protocol. | BYOC"
 type: origin

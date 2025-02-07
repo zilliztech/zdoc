@@ -2,7 +2,7 @@
 title: "Bootstrap Infrastructure (Terraform) | BYOC"
 slug: /bootstrap-infrastructure-terraform
 sidebar_label: "Bootstrap Infrastructure (Terraform)"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page demonstrates how to use Terraform to bootstrap the infrastructure for a Zilliz Cloud BYOC project, including creating an S3 bucket, all related roles, and a qualified VPC. | BYOC"
 type: origin

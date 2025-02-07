@@ -2,7 +2,7 @@
 title: "Permissions in Roles | BYOC"
 slug: /permissions-in-roles
 sidebar_label: "Permissions in Roles"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page lists all IAM permissions that Zilliz Cloud requires to perform operations on your behalf. | BYOC"
 type: origin

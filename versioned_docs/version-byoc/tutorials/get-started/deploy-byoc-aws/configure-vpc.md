@@ -2,7 +2,7 @@
 title: "Configure a Customer-Managed VPC | BYOC"
 slug: /configure-vpc
 sidebar_label: "Configure a Customer-Managed VPC"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a project within your own Virtual Private Cloud (VPC). With a Zilliz Cloud project running in a customer-managed VPC, you gain greater control over your network configurations, allowing you to meet specific cloud security and governance standards required by your organization. | BYOC"
 type: origin

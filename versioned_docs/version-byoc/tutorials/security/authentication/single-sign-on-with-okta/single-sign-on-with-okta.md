@@ -2,7 +2,7 @@
 title: "Single Sign-on with Okta | BYOC"
 slug: /single-sign-on-with-okta
 sidebar_label: "SSO with Okta"
-beta: PUBLIC
+beta: CONTACT SALES
 notebook: FALSE
 description: "Single sign-on (SSO) is a feature that allows users to log in to multiple applications or services with a single set of credentials, rather than requiring separate logins for each. | BYOC"
 type: origin

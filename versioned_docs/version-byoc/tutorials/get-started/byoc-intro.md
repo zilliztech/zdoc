@@ -2,7 +2,7 @@
 title: "BYOC Overview | BYOC"
 slug: /byoc-intro
 sidebar_label: "BYOC Overview"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "Bring Your Own Cloud (BYOC) is a deployment option for organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. This solution is ideal for organizations with specific security requirements or regulatory compliance needs that require maintaining full data control sovereignty. | BYOC"
 type: origin
@@ -13,10 +13,10 @@ keywords:
   - byoc
   - milvus
   - vector database
+  - k nearest neighbor algorithm
   - ANNS
   - Vector search
   - knn algorithm
-  - HNSW
 
 ---
 

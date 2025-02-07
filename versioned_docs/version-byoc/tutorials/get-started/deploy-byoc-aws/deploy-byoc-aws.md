@@ -2,7 +2,7 @@
 title: "Deploy BYOC on AWS | BYOC"
 slug: /deploy-byoc-aws
 sidebar_label: "Deploy BYOC on AWS"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page describes how to manually create a project in your Zilliz Cloud Bring-Your-Own-Cloud (BYOC) organization using the Zilliz Cloud console and custom AWS configurations. | BYOC"
 type: origin

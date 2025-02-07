@@ -2,7 +2,7 @@
 title: "Create Cross-Account IAM Role | BYOC"
 slug: /create-cross-account-role
 sidebar_label: "Create Cross-Account IAM Role"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page describes how to create and configure a cross-account role for Zilliz Cloud to bootstrap your project. This role gives Zilliz Cloud restricted permissions to manage VPC resources on your behalf. | BYOC"
 type: origin

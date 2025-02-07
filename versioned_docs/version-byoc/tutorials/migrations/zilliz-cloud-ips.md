@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 
@@ -39,7 +39,7 @@ These IP addresses are used by Zilliz Cloud to provide services. Ensure that the
 <table>
    <tr>
      <th><p>Region</p></th>
-     <th><p>Geography</p></th>
+     <th><p>Location</p></th>
      <th><p>IP Addresses (CIDR)</p></th>
    </tr>
    <tr>
@@ -58,7 +58,7 @@ Safelist the IP addresses corresponding to the cloud service provider and region
 <table>
    <tr>
      <th><p>Region</p></th>
-     <th><p>Geography</p></th>
+     <th><p>Location</p></th>
      <th><p>IP Addresses (CIDR)</p></th>
    </tr>
    <tr>
@@ -98,7 +98,7 @@ Safelist the IP addresses corresponding to the cloud service provider and region
 <table>
    <tr>
      <th><p>Region</p></th>
-     <th><p>Geography</p></th>
+     <th><p>Location</p></th>
      <th><p>IP Addresses (CIDR)</p></th>
    </tr>
    <tr>
@@ -128,13 +128,18 @@ Safelist the IP addresses corresponding to the cloud service provider and region
 <table>
    <tr>
      <th><p>Region</p></th>
-     <th><p>Geography</p></th>
+     <th><p>Location</p></th>
      <th><p>IP Addresses (CIDR)</p></th>
    </tr>
    <tr>
      <td><p>East US</p></td>
      <td><p>Virginia, USA</p></td>
      <td><p><code>52.152.137.114</code></p></td>
+   </tr>
+   <tr>
+     <td><p>Central US</p></td>
+     <td><p>Lowa, USA</p></td>
+     <td><p><code>52.173.197.113</code></p></td>
    </tr>
    <tr>
      <td><p>Germany West Central</p></td>

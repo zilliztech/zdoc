@@ -2,7 +2,7 @@
 title: "Create EKS IAM Role | BYOC"
 slug: /create-eks-role
 sidebar_label: "Create EKS IAM Role"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page describes how to create and configure an IAM role for Zilliz Cloud to deploy an EKS cluster for your Zilliz Cloud project. | BYOC"
 type: origin
