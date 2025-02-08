@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 
@@ -170,39 +170,7 @@ Arithmetic operators allow you to create conditions based on calculations involv
 
 - `**` (Exponentiation)
 
-### Example 1: Using Addition (`+`){#example-1-using-addition}
-
-To find entities where the `total` price is the sum of `base_price` and `tax`:
-
-```python
-filter = 'total == base_price + tax'
-```
-
-### Example 2: Using Subtraction (`-`){#example-2-using-subtraction}
-
-To find entities where the difference between `quantity` and `quantity_sold` is greater than 50:
-
-```python
-filter = 'quantity - quantity_sold > 50'
-```
-
-### Example 3: Using Multiplication (`*`){#example-3-using-multiplication}
-
-To find entities where the product of the `price` and `quantity` field values are greater than 1000:
-
-```python
-filter = 'price * quantity > 1000'
-```
-
-### Example 4: Using Division (`/`){#example-4-using-division}
-
-To find products where `total_price` divided by `quantity` is less than 50:
-
-```python
-filter = 'total_price / quantity < 50'
-```
-
-### Example 5: Using Modulus (`%`){#example-5-using-modulus-percent}
+### Example 1: Using Modulus (`%`){#example-1-using-modulus-percent}
 
 To find entities where the `id` is an even number (i.e., divisible by 2):
 
@@ -210,7 +178,7 @@ To find entities where the `id` is an even number (i.e., divisible by 2):
 filter = 'id % 2 == 0'
 ```
 
-### Example 6: Using Exponentiation (`**`){#example-6-using-exponentiation}
+### Example 2: Using Exponentiation (`**`){#example-2-using-exponentiation}
 
 To find entities where `price` raised to the power of 2 is greater than 1000:
 

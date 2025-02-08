@@ -10806,6 +10806,15 @@
 												}
 											},
 											"properties": {
+												"index_type": {
+													"type": "string",
+													"description": "The type of the index to create",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "要创建的索引类型。"
+														}
+													}
+												},
 												"metricType": {
 													"type": "string",
 													"description": "The similarity metric type used to build the index. For more information, refer to [Similarity Metrics Explained](/docs/search-metrics-explained).",
@@ -10848,15 +10857,6 @@
 													},
 													"type": "object",
 													"properties": {
-														"index_type": {
-															"type": "string",
-															"description": "The type of the index to create",
-															"x-i18n": {
-																"zh-CN": {
-																	"description": "要创建的索引类型。"
-																}
-															}
-														},
 														"M": {
 															"type": "integer",
 															"description": "The maximum degree of the node. This applies only when **index_type** is set to **HNSW**.",
@@ -10922,12 +10922,10 @@
 								"collectionName": "custom_setup_not_indexed",
 								"indexParams": [
 									{
+										"index_type": "AUTOINDEX",
 										"metricType": "L2",
 										"fieldName": "my_vector",
-										"indexName": "my_vector",
-										"indexConfig": {
-											"index_type": "AUTOINDEX"
-										}
+										"indexName": "my_vector"
 									}
 								]
 							}

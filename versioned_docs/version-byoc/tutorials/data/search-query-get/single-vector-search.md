@@ -16,10 +16,10 @@ keywords:
   - data
   - vector search
   - ann
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 
@@ -54,6 +54,8 @@ For details on AUTOINDEX and applicable metric types, refer to [AUTOINDEX Explai
 - [Use limit and offset](./single-vector-search#use-limit-and-offset)
 
 - [Use level](./single-vector-search#use-level)
+
+- [Get Recall Rate](./single-vector-search#get-recall-rate)
 
 - [Enhancing ANN search](./single-vector-search#enhancing-ann-search)
 
