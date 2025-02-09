@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

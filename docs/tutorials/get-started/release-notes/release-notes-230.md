@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

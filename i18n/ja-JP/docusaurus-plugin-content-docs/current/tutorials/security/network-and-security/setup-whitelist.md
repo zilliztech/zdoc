@@ -14,10 +14,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 
@@ -67,7 +67,7 @@ Zilliz Cloudのホワイトリストは、プロジェクトレベルで堅牢�
 
 1. [**追加**]をクリックします。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <ul>
 <li><p>ホワイトリストにエントリがない場合、Zilliz Cloudは任意のIPアドレスからアクセスを許可します。</p></li>

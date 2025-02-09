@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
 
 ---
 
@@ -119,7 +119,7 @@ import TabItem from '@theme/TabItem';
 
 バックアップジョブが生成されます。[ジョブ](./job-center)ページでバックアップの進捗状況を確認できます。ジョブのステータスが**IN PROGRESS**から**SUCCESS FUL**に切り替わると、バックアップは正常に作成されます。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>同じクラスター内では、手動で作成されたバックアップジョブは1つしか実行中または保留中にできません。以前に要求されたジョブが完了したら、手動で別のバックアップファイルを作成できます。</p>
 

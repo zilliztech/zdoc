@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - quick-setup
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

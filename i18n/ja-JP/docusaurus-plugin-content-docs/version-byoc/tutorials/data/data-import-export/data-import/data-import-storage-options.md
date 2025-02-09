@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

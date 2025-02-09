@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - range search
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

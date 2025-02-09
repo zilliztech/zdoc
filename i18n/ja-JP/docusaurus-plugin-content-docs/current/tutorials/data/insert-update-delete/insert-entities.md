@@ -16,10 +16,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

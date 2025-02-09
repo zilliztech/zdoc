@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

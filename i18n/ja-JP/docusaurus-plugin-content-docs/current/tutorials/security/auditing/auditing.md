@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

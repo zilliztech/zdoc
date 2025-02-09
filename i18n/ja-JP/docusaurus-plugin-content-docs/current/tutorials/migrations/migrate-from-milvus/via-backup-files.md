@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -78,7 +78,7 @@ Milvus 2. xの移行データを準備するには、
 
     - `ルートパス`
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <ul>
     <li><p>Docker Composeを使用してインストールされたMilvusインスタンスの場合、minio<code>.</code>bucketNameはデフォルトで<code>a-bucket</code>、<code>rootPath</code>はデフォルトで<code>ファイル</code>になります。</p></li>

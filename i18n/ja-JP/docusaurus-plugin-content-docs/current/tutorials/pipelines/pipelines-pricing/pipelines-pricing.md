@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

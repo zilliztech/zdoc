@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
@@ -43,7 +43,7 @@ Zilliz Cloudに[アカウントを登録](./register-with-zilliz-cloud)すると
 
 ## アカウントのメールアドレスを更新{#update-account-email-address}
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>メールアドレスを更新しても、請求書やアラートの受信者には影響しません。必要に応じて、これらの情報を手動で更新してください。</p>
 
@@ -113,7 +113,7 @@ Zilliz Cloudアカウントを既にサードパーティのアカウントに�
 
 ## アカウントを閉じてください{#close-your-account}
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <p>アカウントが閉鎖されると、Zilliz Cloudにログインすることはできません。アカウントを再開する必要がある場合は、<a href="https://support.zilliz.com/hc/en-us">Zilliz Cloudサポートポータル</a>でサポートチケットを作成してください。30日後、このアカウントのすべてのデータが消去されます。</p>
 

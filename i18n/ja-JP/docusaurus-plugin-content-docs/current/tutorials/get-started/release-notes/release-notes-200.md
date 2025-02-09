@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

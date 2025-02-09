@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

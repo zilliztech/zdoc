@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

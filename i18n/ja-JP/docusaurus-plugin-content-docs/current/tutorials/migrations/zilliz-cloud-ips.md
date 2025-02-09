@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

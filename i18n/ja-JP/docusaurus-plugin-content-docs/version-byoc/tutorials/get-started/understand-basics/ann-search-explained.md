@@ -14,10 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
@@ -95,7 +95,7 @@ Zilliz Cloudには3つの組織ロールがあります。これらのロール�
 
 招待された人たちは、組織に参加するために48時間以内に受け入れる必要がある招待状をメールで受け取ります。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>毎回、同じ役割を持つ1人以上のユーザーを組織に招待することができます。各組織は最大100人のユーザーを持つことができます。</p>
 
@@ -133,7 +133,7 @@ Organizationユーザーを削除するには、**Organizationオーナー**で�
 
 各組織には少なくとも1人の組織オーナーが必要です。組織の唯一のオーナーである場合、その組織を離れることはできません。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <p>組織を退会すると、組織と関連するリソースにアクセスできなくなります。</p>
 

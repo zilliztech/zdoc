@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

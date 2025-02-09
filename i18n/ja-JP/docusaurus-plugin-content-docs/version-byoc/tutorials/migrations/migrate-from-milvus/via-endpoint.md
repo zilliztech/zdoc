@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

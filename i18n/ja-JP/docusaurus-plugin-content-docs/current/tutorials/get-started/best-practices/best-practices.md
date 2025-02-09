@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

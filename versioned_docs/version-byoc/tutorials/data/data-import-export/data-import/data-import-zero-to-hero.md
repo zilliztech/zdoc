@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

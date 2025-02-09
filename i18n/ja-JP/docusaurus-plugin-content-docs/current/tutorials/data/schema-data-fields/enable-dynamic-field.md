@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

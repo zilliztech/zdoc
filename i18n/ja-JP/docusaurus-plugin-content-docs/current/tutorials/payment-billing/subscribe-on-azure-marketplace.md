@@ -14,10 +14,10 @@ keywords:
   - cloud
   - marketplace
   - azure
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 
@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 このガイドでは、サブスクリプションの過程を順を追って説明し、Azure Marketplace上のZilliz Cloudの価格条件について概説します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>一度購読すると、Azure Marketplaceを介してAzureクラスターの使用料を支払うことができます。他のクラウドプロバイダーにクラスターをデプロイしている場合は、Azure Marketplaceを使用して支払うこともできます。</p>
 
@@ -66,7 +66,7 @@ import Admonition from '@theme/Admonition';
 
     1. [**SaaS詳細**]を設定します。後で簡単に識別できるようにサブスクリプションに名前を付けます。[**オン**]を選択して**定期請求**を行います。
 
-        <Admonition type="info" icon="Notes" title="undefined">
+        <Admonition type="info" icon="📘" title="ノート">
 
         <p>定期請求がオンの場合、毎月末にAzure上のZilliz Cloudに自動的にサブスクリプションされます。定期請求がオフの場合、月末にサブスクリプションが終了し、Zilliz Cloudの組織とアカウントは自動的にこのAzure Marketplaceサブスクリプションから解除されます。</p>
 
@@ -112,7 +112,7 @@ Azure Marketplaceから正常にサブスクライブした後は、必要に応
 
 1. Zilliz Cloudのサブスクリプションをキャンセルまたは削除します。詳細については、[サブスクリプションキャンセル](https://learn.microsoft.com/ja-jp/marketplace/saas-subscription-lifecycle-management#cancel-subscription)および[サブスクリプション削除](https://learn.microsoft.com/ja-jp/marketplace/saas-subscription-lifecycle-management#delete-subscription)を参照してください。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>Azure Marketplaceでキャンセルの過程が完了するまで数分かかります。</p>
 

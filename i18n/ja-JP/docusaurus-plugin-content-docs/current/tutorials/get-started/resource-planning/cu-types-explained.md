@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 
@@ -134,7 +134,7 @@ CUタイプを選択する際には、データ量、パフォーマンスの期
    </tr>
 </table>
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>上記のメトリックは、主キーとベクトルのみを考慮したテストに基づいています。データセットに余分なスカラーフィールド（例: id、label、キーワード）がある場合、実際の容量はずれる可能性があります。正確な評価のために個人的なテストを実施することが賢明です。</p>
 

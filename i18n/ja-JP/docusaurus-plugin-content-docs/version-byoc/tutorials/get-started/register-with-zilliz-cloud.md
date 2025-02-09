@@ -14,10 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
+  - Question answering system
   - llm-as-a-judge
   - hybrid vector search
   - Video deduplication
-  - Video similarity search
 
 ---
 
@@ -64,7 +64,7 @@ Zilliz Cloudにアクセスして[サインアップし](https://cloud.zilliz.co
 
     確認コードが届かない場合は、**Resend Code**をクリックして再試行してください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>最初のログイン時に、私たちはあなたのニーズに合わせたサービスを提供するために、より詳しい情報を求めます。</p>
 
@@ -82,7 +82,7 @@ GoogleアカウントとZilliz Cloudを連携するには、以下の手順に�
 
 1. 認証に成功すると、Zilliz Cloudにリダイレクトされ、成功通知が表示されます。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p><a href="https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">Google管理のMFAを無効</a>にしてからリンクして、スムーズな登録を確保してください。</p>
 
@@ -116,7 +116,7 @@ GitHubアカウントをリンクするには、以下の手順に従ってく�
 
 1. 認証に成功すると、Zilliz Cloudにリダイレクトされ、成功通知が表示されます。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p><a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account">GitHub管理MFAを無効</a>にしてからリンクして、スムーズな登録を確保してください。</p>
 

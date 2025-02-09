@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
@@ -86,7 +86,7 @@ Zilliz Cloudは、同じプロジェクト内のすべての履歴および非�
 
 「**保留中**」または「**進行中**」のジョブをキャンセルできます**。。。**[**アクション**]列で[**キャンセル**]を選択します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>現在、キャンセルできるのは移行ジョブとバックアップジョブのみです。</p>
 <p>ジョブをキャンセルするには、<strong>組織オーナー</strong>または<strong>プロジェクト管理者</strong>である必要があります。</p>
@@ -97,7 +97,7 @@ Zilliz Cloudは、同じプロジェクト内のすべての履歴および非�
 
 ## 失敗したジョブを再試行{#retry-failed-job}
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>現在、失敗したインポートジョブのみを再試行できます。</p>
 <p>失敗したジョブを再試行するには、<strong>組織オーナー</strong>または<strong>プロジェクト管理者</strong>である必要があります。</p>

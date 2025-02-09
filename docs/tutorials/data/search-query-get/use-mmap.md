@@ -14,10 +14,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

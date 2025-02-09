@@ -10,19 +10,19 @@ type: docx
 token: EVKhdy0vwoSLSux2RW2c660unjh
 sidebar_position: 2
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
   - python
+  - Vectorization
   - k nearest neighbor algorithm
   - ANNS
   - Vector search
-  - knn algorithm
 displayed_sidebar: pythonSidebar
 
 ---

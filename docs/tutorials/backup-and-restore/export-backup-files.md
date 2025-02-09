@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

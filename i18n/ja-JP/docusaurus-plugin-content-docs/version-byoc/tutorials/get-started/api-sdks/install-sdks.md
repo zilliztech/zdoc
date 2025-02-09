@@ -14,10 +14,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
@@ -32,7 +32,7 @@ Milvus SDKをシームレスにインストールする方法を発見し、Zill
 
 Zilliz Cloudは、管理されたMilvusベクトルデータベースをサービスとして提供しています。クラスター接続を容易にするために、4つのSDKオプションが存在します:[Python](./install-sdks#pymilvus-python-sdkinstall-pymilvus-python-sdk)、[Java](./install-sdks#javasdkinstall-java-sdk)、[Go](./install-sdks#gosdkinstall-go-sdk)、または[Node. js](./install-sdks#node-jssdkinstall-nodejs-sdk)。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <ul>
 <li><p>Zilliz Cloudは、バージョンの互換性を確保するためにクラスターを一貫してアップグレードしています。詳細については、<a href="./organization-settings">組織の設定を管理する</a>の管理ページをご覧ください。SDKバージョンの不一致により接続に問題が発生した場合は、提供されたプロンプトに従って、互換性のあるSDKバージョンに戻してください。メンテナンス後、問題なくSDKをアップグレードできることをお知らせします。</p></li>
@@ -45,7 +45,7 @@ Zilliz Cloudは、管理されたMilvusベクトルデータベースをサー�
 
 PyMilvusはMilvusのPython SDKです。[GitHubでソースコードに](https://github.com/milvus-io/pymilvus)アクセスしてください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>インストールする前に、<strong>Python</strong>のバージョンが<strong>3.8</strong>を超えていることを確認してください。</p>
 
@@ -66,7 +66,7 @@ python -m pip list | grep pymilvus
 
 MilvusのNode. js SDKでは、**npm**または**yarn**を使用してください。[GitHubでソースコード](https://github.com/milvus-io/milvus-sdk-node)にアクセスしてください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>インストールする前に、<strong>Node. js</strong>のバージョンが<strong>14</strong>以上であることを確認してください。</p>
 

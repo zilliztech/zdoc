@@ -15,10 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -156,7 +156,7 @@ $ init_bench
 
 オプションで、左ナビゲーションウィンドウで**DBフィルター**と**ケースフィルター**を設定して、定義済みのベクトルデータベースとケースのベンチマーク結果を比較することができます。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>データベースは、[database<em>name]-[db</em>label]の形式で命名されます。 </p>
 

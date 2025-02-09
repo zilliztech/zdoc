@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

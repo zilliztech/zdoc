@@ -14,10 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

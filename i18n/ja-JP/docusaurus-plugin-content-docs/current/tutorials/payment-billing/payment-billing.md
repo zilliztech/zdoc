@@ -15,10 +15,10 @@ keywords:
   - private link
   - payment
   - billing
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 ## 概要について{#overview}
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>支払いと請求を管理するには、<strong>組織オーナー</strong>である必要があります。</p>
 
@@ -72,7 +72,7 @@ import Admonition from '@theme/Admonition';
 
 クレジットと前払いは、クレジットカードまたはMarketplaceサブスクリプション（AWS/GCP/Azure）のいずれかと組み合わせることができます。ただし、クレジットカードとMarketplaceサブスクリプションの両方を同時に設定することはできません。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>Marketplaceのサブスクリプションは、クラスターを作成する際にクラウドサービスプロバイダーに影響を与えることはなく、支払いの方法としてのみ利用できます。例えば、AWS Marketplaceを通じてサブスクリプションした後でも、GCP、Azure、またはAWS上でクラスターを<a href="./create-cluster">作成</a>することができます。</p>
 

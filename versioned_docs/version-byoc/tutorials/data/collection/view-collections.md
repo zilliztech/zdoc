@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

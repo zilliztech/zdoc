@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

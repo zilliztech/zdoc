@@ -14,10 +14,10 @@ keywords:
   - cloud
   - connect
   - data
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
@@ -68,7 +68,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 - 作成されたコレクションには、文書の取り込みパイプラインと削除パイプラインがあることを確認してください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>現在、Zilliz Cloud Connectorは文書データの処理のみをサポートしています。</p>
 
@@ -122,7 +122,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
         次のステップに進むには**、リンクと続行**をクリックしてください。
 
-        <Admonition type="info" icon="Notes" title="undefined">
+        <Admonition type="info" icon="📘" title="ノート">
 
         <p>次のステップに進む前に、Zilliz Cloudはデータソースへの接続を確認します。</p>
 
@@ -134,7 +134,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
     まず、ターゲットクラスタを選択し、次に1つのインジェストパイプラインと削除パイプラインを持つコレクションを選択します。ターゲットインジェストパイプラインにはINDEX_DOC関数**のみ**が必要です。複数の削除パイプラインが利用可能な場合は、適切なものを手動で選択してください。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>スキャンを開始する前に、このステップをスキップして後で完了することができます。</p>
 
@@ -179,7 +179,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 1. [**有効**]または[**無効**]を選択します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>コネクタをアクティブにするには、ターゲットパイプラインが構成されていることを確認します。</p>
 
@@ -193,7 +193,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 をクリック**。。。**"ターゲットコネクタの横にある**アクション**の下で、**スキャン**をクリックします。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>手動スキャンを開始する前に、コネクタが有効になっていることを確認してください。</p>
 
@@ -217,7 +217,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 必要がなくなった場合は、コネクタを取り外すことができます。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>コネクタはドロップする前に無効にする必要があります。</p>
 

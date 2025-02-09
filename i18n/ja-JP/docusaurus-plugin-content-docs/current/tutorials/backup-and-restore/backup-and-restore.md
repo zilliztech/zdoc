@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

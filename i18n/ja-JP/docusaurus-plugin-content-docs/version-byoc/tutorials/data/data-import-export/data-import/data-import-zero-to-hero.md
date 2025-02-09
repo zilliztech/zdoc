@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - postgresql
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

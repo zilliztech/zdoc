@@ -14,10 +14,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

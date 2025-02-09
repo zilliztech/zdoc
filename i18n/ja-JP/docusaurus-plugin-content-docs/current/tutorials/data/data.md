@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

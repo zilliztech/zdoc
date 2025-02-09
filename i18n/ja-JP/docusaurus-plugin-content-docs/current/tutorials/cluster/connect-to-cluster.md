@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

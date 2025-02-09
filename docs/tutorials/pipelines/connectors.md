@@ -14,10 +14,10 @@ keywords:
   - cloud
   - connect
   - data
-  - Neural Network
   - Deep Learning
   - Knowledge base
   - natural language processing
+  - AI chatbots
 
 ---
 

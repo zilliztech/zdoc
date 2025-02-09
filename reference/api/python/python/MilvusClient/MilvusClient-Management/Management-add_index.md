@@ -10,19 +10,19 @@ type: docx
 token: ZplAdphtooqHJkxo8GCcOFecngd
 sidebar_position: 1
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - add_index()
   - python
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: pythonSidebar
 
 ---

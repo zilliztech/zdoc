@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - datadog
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

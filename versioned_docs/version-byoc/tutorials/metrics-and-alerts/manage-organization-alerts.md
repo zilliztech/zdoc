@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

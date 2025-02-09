@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

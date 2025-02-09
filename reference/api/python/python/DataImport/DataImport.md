@@ -9,10 +9,10 @@ token: KdfofBXCwlWnxOdG5cLcbbLgnLf
 sidebar_position: 1
 sidebar_label: "DataImport"
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud

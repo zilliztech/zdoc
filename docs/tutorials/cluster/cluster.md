@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

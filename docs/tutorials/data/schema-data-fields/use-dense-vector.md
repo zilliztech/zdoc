@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

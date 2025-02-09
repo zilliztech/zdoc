@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - range search
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

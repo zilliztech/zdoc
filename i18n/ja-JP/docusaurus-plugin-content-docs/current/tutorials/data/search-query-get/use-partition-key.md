@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

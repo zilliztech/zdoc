@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

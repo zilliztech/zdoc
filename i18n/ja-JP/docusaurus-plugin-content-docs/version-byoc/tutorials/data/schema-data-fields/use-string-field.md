@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

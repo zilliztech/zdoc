@@ -9,10 +9,10 @@ token: WLCxfLtfylemvudOJa7cDBXdnsh
 sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud

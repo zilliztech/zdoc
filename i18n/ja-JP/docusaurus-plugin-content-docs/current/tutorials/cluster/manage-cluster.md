@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 
 ![free-cluster-lifecycle](/img/ja-JP/free-cluster-lifecycle.png)
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>無料で1つのクラスターを作成するオプションがあります。さらに、クラスター内に最大5つのコレクションを作成できます。</p>
 
@@ -66,7 +66,7 @@ import Admonition from '@theme/Admonition';
 
         表示されるダイアログボックスで、プラン情報と価格を確認します。[**アップグレード**]をクリックします。アップグレードが完了すると、FreeクラスタはServerlessクラスタに置き換えられます。
 
-        <Admonition type="info" icon="Notes" title="undefined">
+        <Admonition type="info" icon="📘" title="ノート">
 
         <ul>
         <li><p>アップグレード中は、このクラスターへの読み取りおよび書き込み操作はサポートされていません。</p></li>
@@ -83,7 +83,7 @@ import Admonition from '@theme/Admonition';
 
         アップグレード中、元のFreeクラスタは引き続き保持され、実行されます。アップグレードが完了すると、新しい専用クラスタが作成され、元のFreeクラスタからのデータが新しい専用クラスタに自動的に移行されます。
 
-        <Admonition type="info" icon="Notes" title="undefined">
+        <Admonition type="info" icon="📘" title="ノート">
 
         <p>新しい専用クラスターに接続するには、アプリケーションコードを変更し、新しいクラスターの適切なエンドポイントとトークンを使用してください。</p>
 
@@ -199,7 +199,7 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
     ![manage-users](/img/ja-JP/manage-users.png)
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p><b>db_admin</b>を削除することはできません。Zilliz Cloudは、追加されたユーザーに対してクラスタ内のすべてのコレクションへのアクセス権限を付与します。</p>
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
@@ -253,7 +253,7 @@ console.log(res.error_code)
 
 提供されたコードスニペットでは、インデックスタイプが`AUTOINDEX`に設定され、メトリックタイプが`COSINE`に設定されたベクトルフィールド上のインデックスが確立されています。さらに、スカラーフィールド上のインデックスがインデックスタイプ`AUTOINDEX`で作成されています。インデックスタイプとメトリックタイプの詳細については、「[メトリックの種類](./search-metrics-explained)」と「[スキーマの説明](./schema-explained)」を参照してください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>現在、コレクション内の各フィールドに対して1つのインデックスファイルしか作成できません。</p>
 

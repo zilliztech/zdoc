@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 
@@ -29,7 +29,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloudは、クラスタ固有のメトリクスを観察するためのダッシュボードを提供しています。この機能にアクセスするには、クラスタ内の**メトリクス**タブに移動してください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>無料クラスタの場合、CU容量のメトリックチャートのみが利用可能です。高度なメトリックの範囲をアンロックするには、<a href="./manage-cluster">プランレベルをアップグレード</a>してください。</p>
 
@@ -43,7 +43,7 @@ Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)でターゲット�
 
 Zilliz Cloudのメトリックチャートは、リソース使用量、1秒あたりのクエリ数(QPS)、リクエスト結果、データ操作に関するパフォーマンスデータを提供し、特定の時間範囲内で詳細な分析を提供します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>右側の[<strong>アラート設定</strong>の表示]をクリックすると、<strong>アラート設定</strong>ページにリダイレクトされ、アラートを管理するためのショートカットが表示されます。</p>
 

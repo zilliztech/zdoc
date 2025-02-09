@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

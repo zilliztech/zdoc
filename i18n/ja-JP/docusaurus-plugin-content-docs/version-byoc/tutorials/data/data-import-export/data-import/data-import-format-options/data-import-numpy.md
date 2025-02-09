@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

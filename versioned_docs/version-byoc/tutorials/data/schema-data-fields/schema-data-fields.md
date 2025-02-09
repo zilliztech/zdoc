@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
+  - k nearest neighbor algorithm
+  - ANNS
   - Vector search
   - knn algorithm
-  - HNSW
-  - What is unstructured data
 
 ---
 

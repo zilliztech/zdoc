@@ -14,10 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

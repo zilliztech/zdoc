@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

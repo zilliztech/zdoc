@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cost
   - understand
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
@@ -265,7 +265,7 @@ Backup Cost = Backup Unit Price x Backup File Size x Backup Rentention Period
 
 - **バックアップ保持期間(月):**バックアップファイルが保持される期間を示します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>バックアップは毎日課金されます。1日分の小なりがあるファイルは切り上げられ、1日分として課金されます。</p>
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

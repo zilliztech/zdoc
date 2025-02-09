@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

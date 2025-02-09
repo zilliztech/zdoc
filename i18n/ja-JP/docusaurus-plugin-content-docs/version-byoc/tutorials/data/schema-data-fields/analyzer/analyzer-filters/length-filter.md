@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

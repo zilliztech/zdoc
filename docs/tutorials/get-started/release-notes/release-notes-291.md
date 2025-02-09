@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

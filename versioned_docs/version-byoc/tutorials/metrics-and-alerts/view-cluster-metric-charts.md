@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

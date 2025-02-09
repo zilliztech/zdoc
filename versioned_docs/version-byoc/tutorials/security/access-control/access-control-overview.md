@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
   - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 
@@ -30,7 +30,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 このトピックでは、組織のアラートを表示および管理する方法について説明します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>この機能は、StandardおよびEnterpriseプランのクラスターでのみ利用できます。詳細については、「<a href="./select-zilliz-cloud-service-plans">詳細なプラン比較</a>」を参照してください。</p>
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
+  - Context Window
   - Natural language search
   - Similarity Search
   - multimodal RAG
-  - llm hallucinations
 
 ---
 

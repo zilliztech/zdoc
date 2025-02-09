@@ -15,10 +15,10 @@ keywords:
   - collection
   - manage
   - console
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

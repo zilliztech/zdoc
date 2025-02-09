@@ -17,10 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

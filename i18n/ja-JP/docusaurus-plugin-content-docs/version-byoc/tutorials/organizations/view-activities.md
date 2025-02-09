@@ -14,10 +14,10 @@ keywords:
   - cloud
   - activities
   - view
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 
@@ -42,7 +42,7 @@ Zilliz Cloudの**アクティビティ**機能は、のアクセスイベント�
 
     特定の期間内に発生したアクティビティを表示するには、開始時間と終了時間を選択します。希望の時間範囲を設定したら、[**適用**]をクリックして、この期間内のすべてのアクティビティを表示します。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>選択した開始時間から終了時間までの期間が30日を超えないようにしてください。</p>
 

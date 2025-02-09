@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

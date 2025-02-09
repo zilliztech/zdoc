@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 
@@ -39,7 +39,7 @@ import Admonition from '@theme/Admonition';
 
 1. ログインページにリダイレクトされます。MFAが正常に有効になったことを通知するプロンプトが表示されます。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>Googleにリンクされたアカウントを持つユーザーは、Google独自のMFA設定の対象となります。詳細については、「<a href="https://support.google.com/accounts/answer/185839?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">2段階認証をオン</a>にする」を参照してください。</p>
 <p>同様に、GitHubにリンクされたアカウントのMFA設定はGitHubによって管理されます。詳細については、<a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication">2要素認証の構成</a>を参照してください。</p>
@@ -60,7 +60,7 @@ import Admonition from '@theme/Admonition';
 
 1. MFAが正常に無効になったことを通知するプロンプトが表示されます。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>Googleにリンクされたアカウントを持つユーザーは、Google独自のMFA設定の対象となります。詳細については、「<a href="https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">2段階認証をオフ</a>にする」を参照してください。</p>
 <p>同様に、GitHubにリンクされたアカウントのMFA設定はGitHubによって管理されます。詳細については、「<a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account">個人アカウントの2要素認証を無効</a>にする」を参照してください。</p>

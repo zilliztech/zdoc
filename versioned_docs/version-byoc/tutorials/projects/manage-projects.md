@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

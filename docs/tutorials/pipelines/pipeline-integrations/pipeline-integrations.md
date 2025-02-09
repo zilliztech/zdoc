@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - integration
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

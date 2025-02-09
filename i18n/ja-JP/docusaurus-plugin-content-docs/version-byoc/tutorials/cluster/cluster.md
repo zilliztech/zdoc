@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

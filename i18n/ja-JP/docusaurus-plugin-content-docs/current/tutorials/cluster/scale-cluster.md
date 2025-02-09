@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 
@@ -36,7 +36,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz CloudのWebコンソールを使用するか、APIリクエストを行ってクラスターを手動でスケーリングするオプションがあります。このガイドでは、Webコンソールを使用してクラスターを手動でスケーリングする方法に焦点を当てています。RESTful APIの使用方法の詳細については、[クラスター変更](/reference/restful/modify-cluster-v2)を参照してください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <p>スケーリングにより、わずかなサービスジッターが発生する可能性があります。注意してください。</p>
 
@@ -54,7 +54,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 より大きなCU体格が必要な場合は、[サポートチケットを作成](http://support.zilliz.com/)してください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>クラスターのCUサイズx<a href="./manage-replica">レプリカ</a>数は256を超えてはいけません。そうしないと、クラスターのスケーリングに失敗する可能性があります。</p>
 
@@ -72,7 +72,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 この過程を完了するのに必要な時間は、クラスタ内のデータ量によって異なります。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>クラスターのCU体格を8 CU未満に縮小するには、クラスターにレプリカがないことを確認してください。</p>
 
@@ -80,7 +80,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 ## オートスケーリング{#auto-scaling}
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <ul>
 <li><p>この機能は専用クラスターでのみ利用可能です。サーバーレスクラスターの場合、ワークロードに基づいて自動的にスケーリングされるため、CUリソースの手動設定は不要です。</p></li>
@@ -99,7 +99,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 - **最大CUサイズ:**クラスタが自動的にスケールアップできる最大CUサイズです。CUサイズが8未満の場合、増分は2 CUとなり、1、2、4、6、8 CUとなります。8以上の場合、増分は4 CUとなり、8、12、16、20、24、28、32などとなります。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>下方自動スケーリングは現在サポートされていません。</p>
 
@@ -107,7 +107,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 - **CU容量閾値:**Zilliz CloudはクラスタのCU容量を毎分チェックします。過去2分間にすべてのサンプリングポイントで指定された閾値（デフォルトで70%）を超えた場合、スケーリング過程が自動的に開始されます。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>しきい値をあまり高く設定することはお勧めできません(90%以上)。これは、データ挿入率が高い場合、クラスタが時間内に自動スケーリングを完了しない可能性があり、書き込み禁止につながるためです。</p>
 
@@ -115,7 +115,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 2つの自動スケーリングイベントの間には10分間のクールダウン期間があります。自動スケーリング過程を完了するのにかかる時間は、クラスタ内のデータ量によって異なります。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <p>スケーリング過程で、わずかなサービスジッターが発生する可能性がありますが、読み取りおよび書き込み操作には影響しません。高い書き込みレートは、CU容量が100%に達することがあり、書き込み禁止につながることがあります。</p>
 

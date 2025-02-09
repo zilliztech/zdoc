@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data
   - security
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

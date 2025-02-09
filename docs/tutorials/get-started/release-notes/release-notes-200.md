@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

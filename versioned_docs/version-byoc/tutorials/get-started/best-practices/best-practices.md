@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

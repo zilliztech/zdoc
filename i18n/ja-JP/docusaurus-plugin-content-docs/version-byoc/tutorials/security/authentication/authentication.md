@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

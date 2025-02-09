@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

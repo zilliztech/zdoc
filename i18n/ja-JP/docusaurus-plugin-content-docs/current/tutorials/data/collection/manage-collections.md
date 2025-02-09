@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

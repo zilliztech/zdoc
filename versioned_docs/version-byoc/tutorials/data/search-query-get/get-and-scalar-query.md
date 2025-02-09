@@ -17,10 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

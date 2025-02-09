@@ -14,10 +14,10 @@ keywords:
   - cloud
   - activities
   - view
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
@@ -42,7 +42,7 @@ Zilliz Cloudの**アクティビティ**機能は、の課金イベントやの�
 
     特定の期間内に発生したアクティビティを表示するには、開始時間と終了時間を選択します。希望の時間範囲を設定したら、[**適用**]をクリックして、この期間内のすべてのアクティビティを表示します。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>選択した開始時間から終了時間までの期間が30日を超えないようにしてください。</p>
 

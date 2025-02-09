@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

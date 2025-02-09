@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
@@ -34,7 +34,7 @@ Zilliz Cloudコンソールの**メトリクス**タブには、さまざまな�
 
 表には、各メトリックの説明と、クラスターリソースの使用量がしきい値を超えた場合に実行することをお勧めするアクションが示されています。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>現在、無料クラスタではCU容量という1つのメトリックしか提供されていません。高度なメトリックの範囲を解除するには、<a href="./manage-cluster">プランレベルをアップグレード</a>してください。</p>
 

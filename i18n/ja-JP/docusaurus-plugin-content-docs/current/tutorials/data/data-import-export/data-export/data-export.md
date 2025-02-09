@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

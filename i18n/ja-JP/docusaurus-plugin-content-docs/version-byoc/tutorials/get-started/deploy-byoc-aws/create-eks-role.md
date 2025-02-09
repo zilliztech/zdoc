@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

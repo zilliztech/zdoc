@@ -14,10 +14,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 
@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 このガイドでは、サブスクリプションの過程をステップバイステップで説明し、GCP Marketplace上のZilliz Cloudの価格条件について概説します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>一度購読すると、Google Cloud Marketplaceを介してGoogle Cloudクラスターの使用料を支払うことができます。他のクラウドプロバイダーにクラスターをデプロイしている場合は、Google Cloud Marketplaceを使用して支払うこともできます。</p>
 
@@ -102,7 +102,7 @@ GCP Marketplaceから正常にサブスクリプションを申し込んだ後�
 
 1. Zilliz Cloudのサブスクリプションをキャンセルしてください。詳細については、[プランをキャンセル](https://cloud.google.com/marketplace/docs/manage-billing#saas-products)するを参照してください。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>サブスクリプションをキャンセルしても、Zilliz Cloudのデータは削除されませんのでご安心ください。</p>
 
@@ -116,7 +116,7 @@ GCP Marketplaceから正常にサブスクリプションを申し込んだ後�
 
 1. 新しいアカウントでZilliz Cloudのサブスクリプションを完了するには、[GCP Marketplaceで購読](./subscribe-on-gcp-marketplace#gcp-marketplacesubscribe-on-gcp-marketplace)するセクションの手順1から4に従ってください。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>GCP Marketplaceのサブスクリプションを更新する場合、新しいサブスクリプションをZilliz Cloud組織にリンクするには、[プロバイダーで管理]ボタンをクリックする必要があります。</p>
 
@@ -126,7 +126,7 @@ GCP Marketplaceから正常にサブスクリプションを申し込んだ後�
 
     ![view-gcp-subscription-id](/img/ja-JP/view-gcp-subscription-id.png)
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>サービスの中断を避けるために、1時間以内に操作を完了することをお勧めします。</p>
 
@@ -138,7 +138,7 @@ GCP Marketplaceから正常にサブスクリプションを申し込んだ後�
 
 1. Zilliz Cloudのサブスクリプションをキャンセルしてください。詳細については、[プランをキャンセル](https://cloud.google.com/marketplace/docs/manage-billing#saas-products)するを参照してください。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>サブスクリプションをキャンセルしても、Zilliz Cloudのデータは削除されませんのでご安心ください。</p>
 

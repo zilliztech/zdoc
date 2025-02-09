@@ -16,10 +16,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Faiss
-  - Video search
-  - AI Hallucination
   - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

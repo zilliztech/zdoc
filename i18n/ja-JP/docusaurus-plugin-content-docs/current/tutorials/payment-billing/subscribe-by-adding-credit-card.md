@@ -14,10 +14,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 
@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 このガイドでは、Zilliz Cloudに組織の支払いクレジットカードを追加する方法について包括的な手順を提供します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <ul>
 <li><strong>課税:</strong>請求書の税金は、提供された請求先住所に基づいて計算されます。VATまたはGST IDを入力する必要がある企業の場合は、<a href="http://support.zilliz.com">お問い合わせ</a>ください。</li>
@@ -138,7 +138,7 @@ import Admonition from '@theme/Admonition';
 
 サブスクリプションがAWSMarketplaceで成功すると、既存のクレジットカード情報が自動的に置き換えられます。更新内容は、**支払方法**セクションの**請求概要**ページで確認できます。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>変更が反映されるまで、請求概要に数分間お時間をいただきますようお願いいたします。</p>
 

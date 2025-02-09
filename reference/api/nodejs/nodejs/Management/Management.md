@@ -9,10 +9,10 @@ token: GNR6fiDGqlnQ9BdWimJc9pnSnyl
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud

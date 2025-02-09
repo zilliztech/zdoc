@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - DML
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

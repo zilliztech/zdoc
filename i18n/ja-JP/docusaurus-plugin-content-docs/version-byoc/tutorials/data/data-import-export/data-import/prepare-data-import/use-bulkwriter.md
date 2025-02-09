@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

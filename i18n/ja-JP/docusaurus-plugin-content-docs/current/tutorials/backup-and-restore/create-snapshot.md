@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

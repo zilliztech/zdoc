@@ -14,10 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 
@@ -118,7 +118,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 - **制限事項**:アラートの対象タイプと重大度レベルは固定されており、変更できません。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>アラートをすばやく有効または無効にするには、[アクション]列から[<strong>有効</strong>]または[<strong>無効</strong>]を選択し<strong>ま</strong>す。</p>
 
@@ -128,7 +128,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 プロジェクトのアラートをすばやく有効または無効にするには、[アクション]列から[**有効**]または[**無効**]を選択し**ま**す。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>アラートを無効にすると、アラート条件が満たされた場合にアラート通知を受け取ることができなくなります。</p>
 
@@ -138,7 +138,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 プロジェクトアラートが不要になったら、削除できます。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <p>アラートが削除されると、アラートターゲットの通知は受け取れなくなります。</p>
 

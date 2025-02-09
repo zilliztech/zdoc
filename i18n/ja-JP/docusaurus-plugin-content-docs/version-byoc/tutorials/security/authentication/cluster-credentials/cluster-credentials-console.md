@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - console
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

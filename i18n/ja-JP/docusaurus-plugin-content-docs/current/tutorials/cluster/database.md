@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

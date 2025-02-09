@@ -10,19 +10,19 @@ type: docx
 token: WRYFdoDe8ofrlDxxTxQcdoJjnAh
 sidebar_position: 8
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - python
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - vector database
-  - IVF
-  - knn
-  - Image Search
 displayed_sidebar: pythonSidebar
 
 ---

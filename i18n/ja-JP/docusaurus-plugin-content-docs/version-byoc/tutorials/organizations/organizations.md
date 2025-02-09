@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

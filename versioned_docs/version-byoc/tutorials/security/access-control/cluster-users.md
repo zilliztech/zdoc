@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

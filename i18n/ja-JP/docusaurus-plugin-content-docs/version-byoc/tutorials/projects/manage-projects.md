@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
@@ -41,7 +41,7 @@ Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナ�
 
 プロジェクトを作成すると、自動的にそのプロジェクトの[プロジェクト管理者](./project-users)になります。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>各組織で最大100件のプロジェクトを作成できます。</p>
 
@@ -53,7 +53,7 @@ Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナ�
 
 プロジェクトの名前を変更するには、[組織オーナー](./organization-users)である必要があります。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>各組織にはデフォルトプロジェクトが含まれています。デフォルトプロジェクトの名前は変更できません。</p>
 
@@ -65,7 +65,7 @@ Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナ�
 
 プロジェクトを削除するには、[組織オーナー](./organization-users)である必要があります。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>各組織にはデフォルトプロジェクトが含まれています。デフォルトプロジェクトは削除できません。</p>
 

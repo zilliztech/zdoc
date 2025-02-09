@@ -15,10 +15,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

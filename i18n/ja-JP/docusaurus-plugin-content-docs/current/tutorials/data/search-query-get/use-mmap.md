@@ -14,10 +14,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

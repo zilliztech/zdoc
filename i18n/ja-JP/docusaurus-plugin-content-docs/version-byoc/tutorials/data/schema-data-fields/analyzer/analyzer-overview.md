@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

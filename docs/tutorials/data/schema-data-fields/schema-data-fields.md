@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

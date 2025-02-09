@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

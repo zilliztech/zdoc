@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
+  - vector database
+  - IVF
+  - knn
   - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
 
 ---
 

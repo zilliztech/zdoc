@@ -10,19 +10,19 @@ type: docx
 token: JLFIdAyIsoSYc8xQWo0cpmisnDW
 sidebar_position: 12
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection_properties()
   - python
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: pythonSidebar
 
 ---

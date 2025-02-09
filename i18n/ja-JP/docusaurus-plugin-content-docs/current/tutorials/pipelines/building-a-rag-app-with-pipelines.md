@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - RAG
   - application
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -51,7 +51,7 @@ Zilliz Cloudには3種類のPiplineがあります。
 
 Ingestionパイプラインには、いくつかの関数が含まれており、それぞれが非構造化データ(画像、テキスト、ドキュメントなど)のベクトル埋め込みを生成し、ベクトル検索中に取得できる追加情報として入力値を保存するなど、入力フィールドの変換を記述しています。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>1つのインジェスチョンパイプラインは、Zilliz Cloud上の正確に1つの<strong>ベクトルデータベースコレクション</strong>にマップされます。</p>
 

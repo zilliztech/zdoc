@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - pricing
   - usage
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
@@ -29,7 +29,7 @@ import Admonition from '@theme/Admonition';
 
 パイプラインの実行コストはトークンによって測定されます。トークンを基本単位として使用する大規模言語モデル(LLM)と同様に、パイプラインはテキストを解析して一連のトークンとして埋め込むことによって、ドキュメントや検索クエリを過程化します。パイプラインの実行コストを理解するには、ファイルまたはテキスト文字列のトークンをカウントするために、当社の推定パイプライン使用量ツールを使用できます。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <ul>
 <li><p>Zilliz Cloud Pipelinesは、2025年第2四半期の終わりまでに廃止され、「Data In, Data Out」という新しい機能に置き換えられます。これにより、MilvusとZilliz Cloudの両方で埋め込み生成が効率化されます。2024年12月24日現在、新規ユーザー登録は受け付けられていません。現在のユーザーは、日没日まで月額20ドルの無料手当内でサービスを継続して利用できますが、SLAは提供されていません。モデルプロバイダーまたはオープンソースモデルの埋め込みAPIを使用してベクトル埋め込みを生成することを検討してください。</p></li>
@@ -76,7 +76,7 @@ Ingestion Pipelineは、ファイルをトークンに解析し、トークン�
 
         - 入力ボックスにトークン化するテキストを直接入力してください。
 
-        <Admonition type="info" icon="Notes" title="undefined">
+        <Admonition type="info" icon="📘" title="ノート">
 
         <p>最大10万文字まで入力できます。</p>
 

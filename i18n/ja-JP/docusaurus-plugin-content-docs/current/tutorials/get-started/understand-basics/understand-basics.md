@@ -14,10 +14,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - manage
   - console
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

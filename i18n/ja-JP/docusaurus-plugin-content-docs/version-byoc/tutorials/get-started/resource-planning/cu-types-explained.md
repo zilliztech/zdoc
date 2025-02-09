@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 
@@ -134,7 +134,7 @@ CUタイプを選択する際には、データ量、パフォーマンスの期
    </tr>
 </table>
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>上記のメトリックは、主キーとベクトルのみを考慮したテストに基づいています。データセットに余分なスカラーフィールド（例: id、label、キーワード）がある場合、実際の容量はずれる可能性があります。正確な評価のために個人的なテストを実施することが賢明です。</p>
 

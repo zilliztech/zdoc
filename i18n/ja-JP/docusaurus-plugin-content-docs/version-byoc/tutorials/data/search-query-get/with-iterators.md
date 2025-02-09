@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

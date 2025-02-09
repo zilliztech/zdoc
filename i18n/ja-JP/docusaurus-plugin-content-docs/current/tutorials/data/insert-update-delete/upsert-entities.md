@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

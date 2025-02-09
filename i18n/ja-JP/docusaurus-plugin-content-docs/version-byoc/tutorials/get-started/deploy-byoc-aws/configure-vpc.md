@@ -18,10 +18,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

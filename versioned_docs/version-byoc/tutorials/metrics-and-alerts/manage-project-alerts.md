@@ -14,10 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

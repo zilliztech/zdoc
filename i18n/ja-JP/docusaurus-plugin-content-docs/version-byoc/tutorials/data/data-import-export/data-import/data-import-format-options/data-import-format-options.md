@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

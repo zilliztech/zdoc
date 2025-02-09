@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

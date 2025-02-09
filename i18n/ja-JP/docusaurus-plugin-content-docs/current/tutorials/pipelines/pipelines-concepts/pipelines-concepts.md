@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - concepts
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

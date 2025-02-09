@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

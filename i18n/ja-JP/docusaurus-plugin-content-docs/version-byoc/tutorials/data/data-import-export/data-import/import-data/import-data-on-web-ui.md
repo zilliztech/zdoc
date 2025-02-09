@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
@@ -44,7 +44,7 @@ import Admonition from '@theme/Admonition';
 
 データファイルが準備できたら、オブジェクトストレージバケットにアップロードしてくださいなどがあります。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <ul>
 <li><p>コレクションには、最大10,000件の実行中または保留中のインポートジョブを含めることができます。</p></li>
@@ -71,7 +71,7 @@ import Admonition from '@theme/Admonition';
 
 セッショントークンの使用方法については、[FAQを](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)参照してください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>Zilliz Cloudは、クラスタをホストするクラウドプロバイダに関係なく、任意のオブジェクトストレージサービスから任意のZilliz Cloudクラスタにデータをインポートできるようになりました。例えば、AWS S 3バケットからGCPにデプロイされたZilliz Cloudクラスタにデータをインポートすることができます。</p>
 

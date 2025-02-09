@@ -14,10 +14,10 @@ keywords:
   - cloud
   - index
   - manage
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

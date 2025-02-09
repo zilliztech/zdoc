@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

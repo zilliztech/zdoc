@@ -9,10 +9,10 @@ token: AzdefBpvklrrFOdFnA1cicgonLf
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud

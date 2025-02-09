@@ -15,10 +15,10 @@ keywords:
   - collection
   - manage
   - console
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

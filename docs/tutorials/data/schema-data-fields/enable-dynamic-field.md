@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

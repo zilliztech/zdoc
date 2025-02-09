@@ -14,10 +14,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
@@ -44,7 +44,7 @@ Zilliz Cloudでコストを分析する方法は2つあります。
 
 [**請求**]ページで、[**使用状況**]タブに切り替えます。さまざまな次元で使用状況とコストの傾向を監視できます。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>使用データは1時間ごとに更新されます。</p>
 

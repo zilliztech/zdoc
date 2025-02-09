@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - advance pay
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -31,7 +31,7 @@ Zilliz Cloudは、クレジットカードの追加やAWSMarketplaceでのサブ
 
 現在、Advance Payの残高に資金を追加するには、[当社までご連絡](https://zilliz.com/jp/contact-sales)ください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>支払い方法の優先順位は、クレジット&gt;Advance Pay&gt;クレジットカード/AWSマーケットプレイスサブスクリプションです。</p>
 <p>これは、まだクレジットが残っていて、資金を追加し、クレジットカードを追加した場合、またはAWSMarketplaceで購読した場合、使用料をカバーするために最初にクレジットが差し引かれることを意味します。クレジットが十分でない場合は、Advance Payの資金を差し引きます。資金とクレジットがまだ料金をカバーするのに十分でない場合は、クレジットカードまたはAWS Marketplaceアカウントに請求することになります。</p>

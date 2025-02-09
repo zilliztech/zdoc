@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
@@ -37,7 +37,7 @@ import TabItem from '@theme/TabItem';
 
 - ユースケースに適したMilvusSDKがインストールされています。詳細については、[SDKのインストール](./install-sdks)を参照してください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>SDKよりもRESTful APIを利用する傾向にある人にとって、継続的な接続は確立できないことを理解することが重要です。これは、HTTPプロトコルの単方向通信モードに起因しています。</p>
 

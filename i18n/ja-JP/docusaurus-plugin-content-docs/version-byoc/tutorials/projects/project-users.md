@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -96,7 +96,7 @@ Zilliz Cloudには3つのプロジェクトロールがあります。これら�
 
 ユーザーがプロジェクトに参加すると、そのユーザーはプロジェクトが所属する組織のメンバーに自動的になります。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>毎回、同じ役割を持つ1人以上のユーザーをプロジェクトに招待できます。</p>
 
@@ -110,7 +110,7 @@ Zilliz Cloudには3つのプロジェクトロールがあります。これら�
 
 招待を取り消すまたは再送信するには、**Organizationオーナー**または**プロジェクト管理者**である必要があります。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>ユーザーが承諾する前に招待を取り消したり、再送信したりすることができます。</p>
 
@@ -132,7 +132,7 @@ Zilliz Cloudには3つのプロジェクトロールがあります。これら�
 
 プロジェクトの唯一の管理者である場合、各プロジェクトには常に少なくとも1人のプロジェクト管理者が必要であるため、そのプロジェクトを離れることはできません。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <p>プロジェクトを終了すると、プロジェクトと関連リソースへのアクセスが取り消されます。</p>
 

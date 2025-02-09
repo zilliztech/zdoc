@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - ingest
   - search
   - delete
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

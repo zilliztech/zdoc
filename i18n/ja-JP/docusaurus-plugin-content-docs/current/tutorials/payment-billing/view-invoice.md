@@ -14,10 +14,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 
@@ -30,7 +30,7 @@ Zilliz Cloudは組織レベルで請求を行います。請求書にアクセ�
 
 このガイドでは、請求書の表示、支払い、ダウンロード方法、および請求書の詳細の解釈方法について説明します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>マーケットプレイスに登録すると、マーケットプレイスを通じてZilliz Cloudの使用に関する請求書が届きます。</p>
 

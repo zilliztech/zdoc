@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

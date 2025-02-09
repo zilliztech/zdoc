@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

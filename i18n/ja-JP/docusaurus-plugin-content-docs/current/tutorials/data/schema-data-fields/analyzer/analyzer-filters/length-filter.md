@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

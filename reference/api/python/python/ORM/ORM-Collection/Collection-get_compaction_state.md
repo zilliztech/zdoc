@@ -10,19 +10,19 @@ type: docx
 token: AXcMd0xiOovIX6xR4ZrcKA15nwh
 sidebar_position: 13
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - get_compaction_state()
   - python
+  - Video similarity search
   - Vector retrieval
   - Audio similarity search
   - Elastic vector database
-  - Pinecone vs Milvus
 displayed_sidebar: pythonSidebar
 
 ---

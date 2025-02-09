@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - image data
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

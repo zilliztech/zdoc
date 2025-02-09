@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

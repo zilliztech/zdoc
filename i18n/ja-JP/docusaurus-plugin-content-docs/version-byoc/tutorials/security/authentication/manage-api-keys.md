@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - api key
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -36,7 +36,7 @@ Zilliz Cloudでは、すべての組織にAPIキーのセットが付属して�
 
 - **カスタマイズキー**:個々のユーザーではなく、アプリケーションやプログラムに関連付けられています。[所有者](./organization-users#organization-roles)または[管理者](./project-users#project-roles)ステータスを持つユーザーは、組織ごとに最大100個のカスタムAPIキーを使用して、このタイプのキーを作成および監視できます。カスタマイズキーは開発目的に適しており、安定した長期的なAPI統合および自動化機能を提供します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>2024年1月16日以前にリリースされたバージョンでは、APIキータイプは分類されていませんでした。この日以前にリリースされたバージョンからZilliz Cloudサービスをアップグレードする場合、以前に生成されたAPIキーはカスタマイズされたAPIキーとして指定されます。これらのキーは、元のAPIキーのプロジェクトレベルの権限を継承します。</p>
 
@@ -160,7 +160,7 @@ Zilliz Cloudが組織のユーザーごとに自動的に生成する個人キ�
 
 プロジェクトは**API Key Access**で追加できます。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>カスタマイズされたAPIキーを作成する<a href="./project-users#project-roles">プロジェクト管理者</a>の場合、付与できる権限は自分の権限範囲に限定されます。これにより、各APIキーの機能が作成者の責任と役割に合わせて調整され、安全で制御された環境が維持されます。</p>
 
@@ -188,7 +188,7 @@ Organization[オーナー](./organization-users#organization-roles)または[プ
 
 - **アクセス権限の変更**:[Organization Owner](./organization-users#organization-roles)として、APIキーの権限を任意の容量で更新する権限があります。[プロジェクト管理者](./project-users#project-roles)の場合、APIキーの権限を変更する権限は、すでに保持している権限の範囲に制限されます。つまり、[プロジェクト管理者](./project-users#project-roles)として、現在のアクセス権限よりも高いレベルに権限を拡張することはできず、権限の昇格が発生しないようにします。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>カスタマイズされたAPIキーのみが編集できます。</p>
 
@@ -204,7 +204,7 @@ Organization[オーナー](./organization-users#organization-roles)または[プ
 
 - **カスタマイズされたキー**:カスタマイズされたAPIキーのリセットは、[組織所有者](./organization-users#organization-roles)専用です。このレベルの制御は、より広範な組織全体のアクセスとセキュリティを管理する上で重要です。[組織所有者](./organization-users#organization-roles)は、これらのキーをリセットしてセキュリティ問題に対処したり、アクセスプロトコルを更新したりして、アプリケーションレベルのアクセスの整合性が損なわれないようにすることができます。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <p>この操作により、現在のAPIキーがリセットおよび無効化されます。このキーを使用するカスタムコードは、関連するコードを新しいキーで更新するまで機能しなくなります。</p>
 
@@ -218,7 +218,7 @@ Organization[オーナー](./organization-users#organization-roles)または[プ
 
 カスタマイズされたAPIキーのみ削除できます。個人キーは自分のユーザーによってリセットできますが、削除することはできません。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <p>APIキーを削除する場合は注意してください。削除すると、そのキーを使用していたリソースへのアクセスがすぐに取り消されます。</p>
 

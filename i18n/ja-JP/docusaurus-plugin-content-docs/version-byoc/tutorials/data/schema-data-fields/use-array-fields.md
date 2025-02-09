@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - array field
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

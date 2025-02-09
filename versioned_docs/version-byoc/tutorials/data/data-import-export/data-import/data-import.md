@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
@@ -36,7 +36,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz CloudのWebコンソールを使用するか、APIリクエストを行ってクラスターを手動でスケーリングするオプションがあります。このガイドでは、Webコンソールを使用してクラスターを手動でスケーリングする方法に焦点を当てています。RESTful APIの使用方法の詳細については、[クラスター変更](/reference/restful/modify-cluster-v2)を参照してください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <p>スケーリングにより、わずかなサービスジッターが発生する可能性があります。注意してください。</p>
 
@@ -54,7 +54,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 より大きなCU体格が必要な場合は、[サポートチケットを作成](http://support.zilliz.com/)してください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>クラスターのCUサイズx<a href="./manage-replica">レプリカ</a>数は256を超えてはいけません。そうしないと、クラスターのスケーリングに失敗する可能性があります。</p>
 
@@ -72,7 +72,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 この過程を完了するのに必要な時間は、クラスタ内のデータ量によって異なります。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>クラスターのCU体格を8 CU未満に縮小するには、クラスターにレプリカがないことを確認してください。</p>
 

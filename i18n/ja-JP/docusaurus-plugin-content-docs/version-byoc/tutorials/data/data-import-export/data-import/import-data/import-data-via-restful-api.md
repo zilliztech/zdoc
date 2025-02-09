@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 
@@ -56,7 +56,7 @@ RESTfulAPIを使用してファイルからデータをインポートするに�
 
 セッショントークンの使用方法については、[FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)を参照してください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>データのインポートを成功させるには、ターゲットコレクションに10,000件小なりの実行中または保留中のインポートジョブがあることを確認します。</p>
 

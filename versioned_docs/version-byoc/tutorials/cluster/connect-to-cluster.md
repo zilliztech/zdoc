@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 
@@ -39,7 +39,7 @@ Ensure the following prerequisites are met before proceeding:
 
 - You have installed a Milvus SDK applicable to your use case. For details, see [Install SDKs](./install-sdks).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="Note">
 
 <p>For those leaning towards the utilization of RESTful APIs over SDKs, it's important to understand that a continuous connection cannot be established. This is attributed to the HTTP protocol's unidirectional communication mode.</p>
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

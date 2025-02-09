@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
@@ -108,7 +108,7 @@ Zilliz Cloudがホストされたクラスターのメンテナンスをスケ�
 
 1. ポップアップウィンドウの指示に従い、ボタンをクリックして組織の削除を完了します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <p>組織を削除する操作は元に戻すことができません。この操作には特に注意してください。</p>
 

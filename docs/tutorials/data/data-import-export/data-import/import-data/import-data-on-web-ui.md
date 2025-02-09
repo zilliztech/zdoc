@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

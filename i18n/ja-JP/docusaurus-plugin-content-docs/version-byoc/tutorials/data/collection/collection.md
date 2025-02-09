@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

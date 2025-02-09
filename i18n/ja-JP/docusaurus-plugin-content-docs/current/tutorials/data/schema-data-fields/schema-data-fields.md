@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

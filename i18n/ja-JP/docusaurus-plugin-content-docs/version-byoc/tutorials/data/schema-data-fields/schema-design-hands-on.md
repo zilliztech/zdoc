@@ -16,10 +16,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

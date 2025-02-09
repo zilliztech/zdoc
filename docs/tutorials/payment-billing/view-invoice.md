@@ -14,10 +14,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 
@@ -182,39 +182,6 @@ To download an invoice, click the download icon next to the target invoice.
     On the web UI, displayed amounts are rounded to 2 decimal places (for example: $60.00). 
 
     ![precision_invoice_cn](/img/precision_invoice_cn.png)
-
-    <include target = "indev">
-
-    The amounts in the invoices retrieved from List Invoice and Get Invoice APIs are also rounded to 2 decimal places. Below is an example output of the Get Invoice API.
-
-    ```bash
-    {
-      "code": 0,
-      "data": {
-            "id": "invo-xxxxxx",
-            "orgId": "org-xxxxxx",
-            "periodStart": "2024-01-01T00:00:00Z",
-            "periodEnd": "2024-02-01T00:00:00Z",
-            "invoiceDate": "2024-02-01T00:00:00Z",,
-            "dueDate": "2024-02-01T00:00:00Z",
-            
-            "currency": "RMB",
-            "status": "unpaid",
-            
-            "usageAmount": 708.94,
-            "creditsApplied": 30.00,
-            "subtotal": 678.94,
-            "tax": 0.00,
-            "total": 678.94,
-            "advancePayAmount": 0.00,
-            "amountDue": 678.94
-        }
-    }
-    ```
-
-    For reconciliation, we recommend using the Query Org Daily Usage API to retrieve daily usage details with a precision of eight decimal places. The daily usage stats begin at 00:00:00 each day and run until 23:59:59 the same day. For example, the daily usage period for August 1, 2024, starts at 00:00:00 on August 1, 2024, and ends at 23:59:59 on August 1, 2024. After summing the daily amounts, you will get a total usage amount with an eight-decimal precision. Rounding this amount from the third decimal place will provide you with a two-decimal monthly usage total, which should match the total usage amount displayed on the invoices on the web UI.
-
-    </include>
 
 - **Example:** Suppose during reconciliation, you first retrieve three days of daily usage data via the Query Org Daily Usage API for August 1 to August 3, 2024. Each day's amount has an eight-decimal precision.
 

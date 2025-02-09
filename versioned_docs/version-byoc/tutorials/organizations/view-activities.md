@@ -14,10 +14,10 @@ keywords:
   - cloud
   - activities
   - view
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

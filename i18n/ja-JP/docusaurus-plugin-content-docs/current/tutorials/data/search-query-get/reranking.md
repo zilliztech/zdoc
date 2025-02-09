@@ -16,10 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

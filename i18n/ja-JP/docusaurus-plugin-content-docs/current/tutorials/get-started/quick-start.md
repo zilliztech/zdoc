@@ -14,10 +14,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

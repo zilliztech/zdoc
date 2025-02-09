@@ -15,10 +15,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

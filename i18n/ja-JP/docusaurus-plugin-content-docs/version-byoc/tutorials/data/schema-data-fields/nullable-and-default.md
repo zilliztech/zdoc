@@ -16,10 +16,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

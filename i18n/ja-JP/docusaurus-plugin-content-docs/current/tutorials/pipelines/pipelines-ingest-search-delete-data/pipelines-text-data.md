@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - text data
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -139,7 +139,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
 1. （オプション）テキストのメタデータを保持する必要がある場合は、別の**PRE**SERVE関数を追加してください。**PRESERVE**関数は、データ取り込みとともにコレクションにスカラーフィールドを追加します。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>各Ingestionパイプラインについて、最大50個の<strong>PRESERVE</strong>関数を追加できます。</p>
 
@@ -151,7 +151,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
     1. 入力フィールドの名前と種類を設定します。サポートされている入力フィールドの種類は、**Bool**、**Int 8**、**Int 16**、**Int 32**、**Int 64**、**Float**、**Double**、**VarChar**です。
 
-        <Admonition type="info" icon="Notes" title="undefined">
+        <Admonition type="info" icon="📘" title="ノート">
 
         <ul>
         <li><p>現在、出力フィールド名は入力フィールド名と同じでなければなりません。入力フィールド名は、Ingestionパイプラインを実行する際に使用されるフィールド名を定義します。出力フィールド名は、保存された値が保持されるベクトルコレクションスキーマ内のフィールド名を定義します。</p></li>
@@ -171,7 +171,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
     ![ingestion-pipeline-created-successfully](/img/ja-JP/ingestion-pipeline-created-successfully.png)
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>デフォルトでは、自動設定された検索パイプラインでreranker機能は無効になっています。rerankerを有効にする必要がある場合は、手動で<a href="./pipelines-text-data#search-text-data">新しい検索パイプラインを作成</a>してください。</p>
 
@@ -282,7 +282,7 @@ curl --request POST \
 
 - `fieldType`:入力フィールドと出力フィールドのデータ型です。使用可能な値は、`Bool`、`Int 8`、`Int 16`、`Int 32`、`Int 64`、`Float`、`Double`、および`VarCharです`。*(このパラメータは`PRESERVE`関数でのみ使用されます。)*
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>スカラーフィールドに日時を格納する場合は、年データには<strong>Int 16</strong>データ型、タイムスタンプには<strong>Int 32</strong>データ型を使用することをお勧めします。</p>
     <p>VarCharフィールド<code>型</code>の場合、このフィールドのデータの<code>max_length</code>は4,000を超えることはできません。</p>
@@ -326,7 +326,7 @@ curl --request POST \
 }
 ```
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
@@ -573,7 +573,7 @@ curl --request POST \
 }
 ```
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
@@ -868,7 +868,7 @@ curl --request POST \
 
 ![view-pipeline-details](/img/ja-JP/view-pipeline-details.png)
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
@@ -972,7 +972,7 @@ APIを呼び出して、既存のすべてのパイプラインを一覧表示�
     }
     ```
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
@@ -1026,7 +1026,7 @@ APIを呼び出して、既存のすべてのパイプラインを一覧表示�
     }
     ```
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 
@@ -1040,7 +1040,7 @@ APIを呼び出して、既存のすべてのパイプラインを一覧表示�
 
 パイプラインが不要になった場合は、削除できます。パイプラインを削除しても、データを取り込んだ自動作成コレクションは削除されません。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <ul>
 <li><p>ドロップしたパイプラインは回復できません。行動には注意してください。</p></li>
@@ -1107,7 +1107,7 @@ curl --request GET \
 }
 ```
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>技術的な制限により、総使用データが数時間遅れる可能性があります。</p>
 

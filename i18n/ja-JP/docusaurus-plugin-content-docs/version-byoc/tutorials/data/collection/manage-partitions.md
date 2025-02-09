@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - Machine Learning
-  - RAG
   - NLP
   - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

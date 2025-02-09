@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

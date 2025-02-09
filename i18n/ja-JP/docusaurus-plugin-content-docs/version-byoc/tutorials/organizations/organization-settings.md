@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
@@ -96,7 +96,7 @@ Zilliz Cloudがホストされたクラスターのメンテナンスをスケ�
 
 1. ポップアップウィンドウの指示に従い、ボタンをクリックして組織の削除を完了します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <p>組織を削除する操作は元に戻すことができません。この操作には特に注意してください。</p>
 

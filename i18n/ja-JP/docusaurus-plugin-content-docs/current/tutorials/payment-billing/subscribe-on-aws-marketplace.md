@@ -14,10 +14,10 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 
@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 このガイドでは、サブスクリプションの過程をステップバイステップで説明し、AWS Marketplace上のZilliz Cloudの価格条件を概説します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>一度購読すると、AWS Marketplaceを介してAWSクラスターの使用料を支払うことができます。他のクラウドプロバイダーにクラスターをデプロイしている場合は、AWS Marketplaceを使用して支払うこともできます。</p>
 
@@ -116,7 +116,7 @@ AWS Marketplaceから正常にサブスクライブした後は、必要に応�
 
 1. Zilliz Cloudのサブスクリプションをキャンセルしてください。詳細については、[製品サブスクリプションをキャンセル](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription)するを参照してください。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>サブスクリプションをキャンセルしても、Zilliz Cloudのデータは削除されませんのでご安心ください。</p>
 
@@ -130,7 +130,7 @@ AWS Marketplaceから正常にサブスクライブした後は、必要に応�
 
 1. 新しいアカウントでZilliz Cloudのサブスクリプションを完了するには、[AWS Marketplaceで購読](./subscribe-on-aws-marketplace#awsmarketplacesubscribe-on-aws-marketplace)するセクションの手順1から4に従ってください。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>AWS Marketplaceのサブスクリプションを更新する場合は、[<strong>アカウントを設定</strong>]ボタンをクリックして、新しいサブスクリプションをZilliz Cloud組織にリンクする必要があります。</p>
 
@@ -140,7 +140,7 @@ AWS Marketplaceから正常にサブスクライブした後は、必要に応�
 
     ![view-aws-subscription-id](/img/ja-JP/view-aws-subscription-id.png)
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>サービスの中断を避けるために、1時間以内に操作を完了することをお勧めします。</p>
 
@@ -152,7 +152,7 @@ AWS Marketplaceから正常にサブスクライブした後は、必要に応�
 
 1. Zilliz Cloudのサブスクリプションをキャンセルしてください。詳細については、[製品サブスクリプションをキャンセル](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription)するを参照してください。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>サブスクリプションをキャンセルしても、Zilliz Cloudのデータは削除されませんのでご安心ください。</p>
 

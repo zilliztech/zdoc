@@ -16,10 +16,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - vector database example
-  - rag vector database
-  - what is vector db
   - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 
@@ -103,7 +103,7 @@ Zilliz Cloudは、異なるニーズに対応する3つのコレクション作�
 
 [**Load Sample Data**]を選択し、プリセットコレクションを確認して作成を確認します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>サンプルコレクションを作成すると、Zilliz Cloudがすべての詳細を処理しますが、設定の調整は許可されません。</p>
 
@@ -125,7 +125,7 @@ Zilliz Cloudは、異なるニーズに対応する3つのコレクション作�
 
 1. [[ジョブ](./job-center)]ページでクローンの進行状況を確認できます。ジョブのステータスが**IN PROGRESS**から**SUCCESS FUL**に切り替わると、指定された属性を持つ新しいコレクションが現在のクラスタに作成されます。
 
-    <Admonition type="info" icon="Notes" title="undefined">
+    <Admonition type="info" icon="📘" title="ノート">
 
     <p>データとスキーマの両方を使用してコレクションを複製する場合にのみ、ジョブレコードが生成されます。スキーマのみを使用してコレクションを複製しても、ジョブレコードはトリガーされません。</p>
 
@@ -153,7 +153,7 @@ Zilliz Cloudでは、すべての検索およびクエリ操作はメモリ内�
 
 コレクションを削除することは、コレクションが必要なくなったときに使用される永続的なアクションです。リソースを節約するのに役立ちますが、慎重に行う必要があります。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <p>コレクションを削除すると、その中のすべてのデータが不可逆的に削除されます。</p>
 

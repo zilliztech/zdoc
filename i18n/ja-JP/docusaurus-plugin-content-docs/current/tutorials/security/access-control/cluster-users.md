@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -65,7 +65,7 @@ Zilliz Cloudでは、クラスターユーザーを作成し、クラスター�
 
 ## クラスタユーザを削除する{#drop-a-cluster-user}
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>デフォルトのユーザ<strong>db_admin</strong>は削除できません。</p>
 

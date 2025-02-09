@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

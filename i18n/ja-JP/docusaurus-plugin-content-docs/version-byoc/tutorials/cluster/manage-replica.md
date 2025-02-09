@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 
@@ -34,7 +34,7 @@ QPSボトルネックが発生しているデータセットが少ないユー�
 
 このガイドでは、Zilliz Cloudでクラスタのレプリカを構成する手順について説明します。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="info" icon="📘" title="ノート">
 
 <p>この機能は現在、専用(エンタープライズ)クラスターでのみ利用可能です。</p>
 
@@ -50,7 +50,7 @@ QPSボトルネックが発生しているデータセットが少ないユー�
 
 レプリカを追加する場合は、クラスターCU体格xレプリカ数が256を超えないように注意してください。
 
-<Admonition type="info" icon="Notes" title="undefined">
+<Admonition type="caution" icon="🚧" title="警告">
 
 <p>レプリカの設定を更新すると、わずかなサービスジッターが発生する可能性があります。注意してください。</p>
 

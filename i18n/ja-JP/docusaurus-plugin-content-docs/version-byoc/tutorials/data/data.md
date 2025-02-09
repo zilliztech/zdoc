@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

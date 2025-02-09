@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

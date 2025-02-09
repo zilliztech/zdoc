@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

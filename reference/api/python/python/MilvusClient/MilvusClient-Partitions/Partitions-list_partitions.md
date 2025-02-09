@@ -10,19 +10,19 @@ type: docx
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
 sidebar_position: 5
 keywords: 
+  - llm hallucinations
   - hybrid search
   - lexical search
   - nearest neighbor search
-  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - list_partitions()
   - python
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: pythonSidebar
 
 ---

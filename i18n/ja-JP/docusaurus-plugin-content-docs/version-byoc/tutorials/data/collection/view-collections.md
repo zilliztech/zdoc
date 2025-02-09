@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

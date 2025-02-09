@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
