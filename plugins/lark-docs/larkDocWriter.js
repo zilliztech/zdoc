@@ -783,8 +783,12 @@ class larkDocWriter {
         
         if (content.length > 0) {
             content = this.__filter_content(content, this.targets)
-            let slug = slugify(content, {lower: true, strict: true})
-            return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
+            if (content.indexOf('{#') < 0) {
+                let slug = slugify(content, {lower: true, strict: true})
+                return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
+            } else {
+                return '#'.repeat(level) + ' ' + content;
+            }
         } else {
             return '';
         }

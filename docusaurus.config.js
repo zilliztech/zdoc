@@ -203,11 +203,11 @@ const config = {
           },
           zilliz: {
             saas: {
-              outputDir: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/docs/tutorials',
+              outputDir: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
               imageDir: 'static/img/ja-JP',
             },
             paas: {
-              outputDir: 'i18n/ja-JP/docusaurus-plugin-content-docs/versioned_docs/version-byoc/tutorials',
+              outputDir: 'i18n/ja-JP/docusaurus-plugin-content-docs/version-byoc/tutorials',
               imageDir: 'static/byoc/ja-JP'
             } 
           }
