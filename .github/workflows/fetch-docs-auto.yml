@@ -23,14 +23,16 @@ jobs:
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -skipS
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -post
-        npx docusaurus fetch-lark-docs -man python -tar zilliz
-        npx docusaurus fetch-lark-docs -man python -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man python -src-only
+        npx docusaurus fetch-lark-docs -man pymilvus25 -tar zilliz
+        npx docusaurus fetch-lark-docs -man pymilvus25 -tar zilliz -post
         npx docusaurus fetch-lark-docs -man javaV1 -tar zilliz
         npx docusaurus fetch-lark-docs -man javaV1 -tar zilliz -post
         npx docusaurus fetch-lark-docs -man javaV2 -tar zilliz
         npx docusaurus fetch-lark-docs -man javaV2 -tar zilliz -post
-        npx docusaurus fetch-lark-docs -man node -tar zilliz
-        npx docusaurus fetch-lark-docs -man node -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man node -src-only
+        npx docusaurus fetch-lark-docs -man nodejs25 -tar zilliz
+        npx docusaurus fetch-lark-docs -man nodejs25 -tar zilliz -post
         npx docusaurus fetch-apifox-docs -s plugins/apifox-docs/meta/openapi.json
       env:
         APP_ID: ${{ secrets.APP_ID }}

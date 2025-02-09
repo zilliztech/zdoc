@@ -51,24 +51,31 @@ body {
 }
 
 h1 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 32px !important;
   font-weight: 700 !important;
   line-height: 40px !important;
 }
 
 h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 24px !important;
   font-weight: 700 !important;
   line-height: 34px !important;
 }
 
-/* h3 {
-  font-size: 24px !important;
+h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px !important;
   font-weight: 700 !important;
   margin-top: 30px !important;
   margin-bottom: 20px !important;
   font-style: normal;
-} */
+}
+
+.navbar__inner {
+  font-size: 14px;
+}
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
@@ -270,7 +277,7 @@ div.footer__bottom.text--center {
   color: #fff;
   background-color: var(--ifm-color-primary);
   border-radius: 20px;
-  font-size: 1rem;
+  font-size: 14px;
   margin-left: 0.5rem;
 }
 
@@ -300,7 +307,7 @@ div.footer__bottom.text--center {
   display: inline-block;
   font-weight: 700;
   margin: 0.25rem 0;
-  font-size: 14px;
+  font-size: 15px;
   text-transform: uppercase;
 }
 

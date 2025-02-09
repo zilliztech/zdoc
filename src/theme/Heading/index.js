@@ -5,7 +5,40 @@ import {useDoc} from '@docusaurus/plugin-content-docs/client';
 import styles from './styles.module.css';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-const BetaTagComponent = (children, tag) => (
+const BetaTag = (tag) => {
+  var tag_caption = "";
+  var tag_color = "";
+
+  switch (tag) {
+    case 'PUBLIC':
+      tag_caption = "Public Preview";
+      tag_color = "#175fff";
+      break;
+    case 'PRIVATE':
+      tag_caption = "Private Preview";
+      tag_color = "#7F47FF";
+      break;
+    case 'CONTACT SALES':
+      tag_caption = "Contact Sales";
+      tag_color = "#FF7F47";
+      break;
+    default:
+      tag_caption = "";
+      tag_color = "";
+      break;
+  }
+
+  return {
+    tag_caption,
+    tag_color
+  }
+}
+
+const BetaTagComponent = (children, tag) => {
+
+  const { tag_caption, tag_color } = BetaTag(tag);
+
+  return (
     <span style={{ 
         display: "inline-block",
         verticalAlign: 'center',
@@ -26,16 +59,15 @@ const BetaTagComponent = (children, tag) => (
                 marginBottom: '0.5rem',
                 padding: '2px 12px 2px 12px',
                 borderRadius: '100px',
-                backgroundColor: tag === 'PUBLIC' ? '#175fff' : '#7F47FF',
+                backgroundColor: tag_color,
               }}>
-              { `${tag.toUpperCase().slice(0,1)}${tag.toUpperCase().slice(1).toLowerCase()} Preview` }
+              { tag_caption }
           </span>        
         </div>    
 
     </span>
-
-
-);
+  );
+}
 
 const OpenInButtonComponent = ({
   caption,

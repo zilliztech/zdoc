@@ -46,7 +46,7 @@ module.exports = function (context, options) {
                         strings,
                     })
 
-                    const folders = fs.readdirSync(target_path).filter(f => fs.statSync(target_path + '/' + f).isDirectory())
+                    const folders = fs.readdirSync(target_path, { recursive: true }).filter(f => fs.statSync(target_path + '/' + f).isDirectory())
                     for (let folder of folders.filter(f => !f.endsWith('v1') && !f.endsWith('v2'))) {
                         fs.rmSync(target_path + '/' + folder, { recursive: true, force: true })
                     }
