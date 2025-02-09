@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

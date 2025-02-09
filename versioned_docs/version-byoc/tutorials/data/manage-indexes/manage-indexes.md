@@ -14,10 +14,10 @@ keywords:
   - cloud
   - index
   - manage
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

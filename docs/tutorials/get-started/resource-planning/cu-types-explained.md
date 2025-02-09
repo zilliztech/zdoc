@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
+  - nearest neighbor search
+  - Agentic RAG
   - rag llm architecture
   - private llms
-  - nn search
-  - llm eval
 
 ---
 

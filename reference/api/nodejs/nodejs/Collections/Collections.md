@@ -9,10 +9,10 @@ token: WKkof79XQltPmgdgU18c2tLUnOd
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

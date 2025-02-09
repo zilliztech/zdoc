@@ -10,19 +10,19 @@ type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 5
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index()
   - python
+  - vector database tutorial
+  - how do vector databases work
   - vector db comparison
   - openai vector db
-  - natural language processing database
-  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 ---

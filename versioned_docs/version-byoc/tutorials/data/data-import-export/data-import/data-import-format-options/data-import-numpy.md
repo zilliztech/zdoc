@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

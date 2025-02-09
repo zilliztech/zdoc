@@ -10,19 +10,19 @@ type: docx
 token: Tn2jd8OH1oMukFxJDsgcOSxCnrg
 sidebar_position: 3
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - LocalBulkWriter
   - python
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: pythonSidebar
 
 ---

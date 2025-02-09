@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

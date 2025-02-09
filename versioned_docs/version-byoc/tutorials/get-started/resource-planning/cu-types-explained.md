@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

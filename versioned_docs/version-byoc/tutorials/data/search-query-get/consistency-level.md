@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

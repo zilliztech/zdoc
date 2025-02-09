@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

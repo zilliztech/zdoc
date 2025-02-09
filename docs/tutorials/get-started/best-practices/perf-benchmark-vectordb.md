@@ -15,10 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

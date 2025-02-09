@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

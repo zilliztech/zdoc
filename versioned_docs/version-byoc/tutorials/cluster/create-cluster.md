@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

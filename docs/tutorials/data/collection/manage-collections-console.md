@@ -15,10 +15,10 @@ keywords:
   - collection
   - manage
   - console
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

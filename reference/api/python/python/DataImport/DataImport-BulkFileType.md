@@ -10,19 +10,19 @@ type: docx
 token: CROadSmHNoV2CuxREnccTkaen0e
 sidebar_position: 1
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - BulkFileType
   - python
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

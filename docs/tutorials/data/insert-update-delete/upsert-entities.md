@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

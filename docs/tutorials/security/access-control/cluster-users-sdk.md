@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

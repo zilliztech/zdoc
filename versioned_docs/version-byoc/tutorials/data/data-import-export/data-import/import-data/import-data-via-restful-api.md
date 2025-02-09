@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

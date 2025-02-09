@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

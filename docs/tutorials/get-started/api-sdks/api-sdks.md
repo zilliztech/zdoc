@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

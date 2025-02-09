@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Neural Network
   - Deep Learning
   - Knowledge base
   - natural language processing
+  - AI chatbots
 
 ---
 

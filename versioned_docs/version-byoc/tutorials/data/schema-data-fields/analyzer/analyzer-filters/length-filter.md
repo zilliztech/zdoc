@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

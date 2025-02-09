@@ -14,10 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

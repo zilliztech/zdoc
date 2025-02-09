@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

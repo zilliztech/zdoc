@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - lowercase
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

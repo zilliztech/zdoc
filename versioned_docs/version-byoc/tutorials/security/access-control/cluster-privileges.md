@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

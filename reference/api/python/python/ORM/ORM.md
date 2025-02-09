@@ -9,10 +9,10 @@ token: NZa5fZusilxYZ5d3Q1Dc1l8BnOd
 sidebar_position: 4
 sidebar_label: "ORM"
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud

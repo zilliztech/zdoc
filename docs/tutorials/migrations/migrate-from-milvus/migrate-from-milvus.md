@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

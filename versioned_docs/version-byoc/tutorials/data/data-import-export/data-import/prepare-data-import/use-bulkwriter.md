@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

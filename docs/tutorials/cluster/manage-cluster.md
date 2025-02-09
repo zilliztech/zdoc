@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

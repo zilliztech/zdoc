@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

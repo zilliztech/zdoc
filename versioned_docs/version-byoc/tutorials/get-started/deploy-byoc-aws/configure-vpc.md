@@ -18,10 +18,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

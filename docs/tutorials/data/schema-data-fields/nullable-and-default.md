@@ -16,10 +16,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

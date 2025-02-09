@@ -10,19 +10,19 @@ type: docx
 token: ClLXdDs64oixJBxlIrCcEB2dngb
 sidebar_position: 27
 keywords: 
+  - vector similarity search
+  - approximate nearest neighbor search
   - DiskANN
   - Sparse vector
-  - Vector Dimension
-  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - list_roles()
   - python
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 ---

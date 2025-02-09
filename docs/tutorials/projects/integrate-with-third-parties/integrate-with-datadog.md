@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - datadog
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

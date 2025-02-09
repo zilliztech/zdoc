@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

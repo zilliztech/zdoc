@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

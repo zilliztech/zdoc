@@ -14,10 +14,10 @@ keywords:
   - cloud
   - marketplace
   - aws
+  - multimodal RAG
+  - llm hallucinations
   - hybrid search
   - lexical search
-  - nearest neighbor search
-  - Agentic RAG
 
 ---
 
@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on AWS Marketplace. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="Note">
 
 <p>Once subscribed, you can pay for the usage of AWS clusters via AWS Marketplace. If you have clusters deployed on other cloud providers, you can also use AWS Marketplace to pay.</p>
 
@@ -116,7 +116,7 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
 1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your product subscription](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription) for more details.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="Note">
 
     <p>Please rest assured that canceling the subscription will not delete your Zilliz Cloud data.</p>
 
@@ -130,7 +130,7 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
 1. Follow steps 1 to 4 in the [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace#subscribe-on-aws-marketplace) section to complete your subscription to Zilliz Cloud with the new account.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="Note">
 
     <p>When updating AWS Marketplace subscription, you must click the <strong>Set up your account</strong> button to link your new subscription with Zilliz Cloud organization.</p>
 
@@ -140,7 +140,7 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
     ![view-aws-subscription-id](/img/view-aws-subscription-id.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="Note">
 
 <p>We recommend completing the operations within 1 hour to avoid service interruption.</p>
 
@@ -152,7 +152,7 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
 1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your product subscription](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription) for more details.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="Note">
 
     <p>Please rest assured that canceling the subscription will not delete your Zilliz Cloud data.</p>
 

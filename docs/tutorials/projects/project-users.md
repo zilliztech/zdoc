@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

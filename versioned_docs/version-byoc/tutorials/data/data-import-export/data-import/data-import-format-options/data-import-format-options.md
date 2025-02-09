@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

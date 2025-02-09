@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

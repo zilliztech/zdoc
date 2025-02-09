@@ -9,10 +9,10 @@ token: ZA7LfYxQHltI94dGs2Fc62AvnSh
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud

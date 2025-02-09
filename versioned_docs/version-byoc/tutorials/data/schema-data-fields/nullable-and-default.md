@@ -16,10 +16,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

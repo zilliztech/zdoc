@@ -14,10 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

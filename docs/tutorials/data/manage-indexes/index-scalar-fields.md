@@ -14,10 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

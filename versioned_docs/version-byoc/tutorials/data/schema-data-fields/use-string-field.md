@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

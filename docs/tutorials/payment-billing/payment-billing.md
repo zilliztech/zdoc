@@ -15,10 +15,10 @@ keywords:
   - private link
   - payment
   - billing
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
@@ -31,7 +31,7 @@ This guide details the available ways for you to subscribe to our services on Zi
 
 ## Overview{#overview}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="Note">
 
 <p>In order to manage payment and billing, you need to be an <strong>Organization Owner</strong>.</p>
 
@@ -72,7 +72,7 @@ This guide details the available ways for you to subscribe to our services on Zi
 
 Credits and Advance Pay can be combined with either a credit card or a Marketplace subscription (AWS/GCP/Azure). However, it is not possible to set both a credit card and a Marketplace subscription simultaneously.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="Note">
 
 <p>The Marketplace subscription is only a payment method and does not affect the cloud service provider when creating a cluster. For example, even after subscribing through AWS Marketplace, you can still <a href="./create-cluster">create</a> clusters on GCP, Azure, or AWS.</p>
 

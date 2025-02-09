@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - text data
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - concepts
   - rerankers
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

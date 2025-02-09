@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

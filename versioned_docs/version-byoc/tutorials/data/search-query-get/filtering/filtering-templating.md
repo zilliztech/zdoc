@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

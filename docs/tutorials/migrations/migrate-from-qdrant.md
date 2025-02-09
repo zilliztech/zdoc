@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

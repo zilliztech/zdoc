@@ -10,19 +10,19 @@ type: docx
 token: TziHdCu4VoURrfxAMsUcsRhQnub
 sidebar_position: 5
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - create_collection()
   - python
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: pythonSidebar
 
 ---

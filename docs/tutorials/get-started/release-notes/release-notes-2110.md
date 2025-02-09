@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

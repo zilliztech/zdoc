@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - Retrieval Augmented Generation
   - Large language model
   - Vectorization
   - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

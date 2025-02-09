@@ -1020,10 +1020,14 @@ class larkDocWriter {
         let res = (await this.__markdown(quotes, indent)).split('\n');
 
         let type = 'info Notes';
-        if (res[0].includes('Notes') || res[0].includes('Note')) {
-            type = 'info 📘 Notes';
-        } else if (res[0].includes('Warning')) {
-            type = 'caution 🚧 Warning';
+        let possible_titles = ['Notes', 'Note', '说明', 'ノート', 'Warning', 'Warn', '警告']
+        let title = possible_titles.find((x, i) => res[0].includes(x));
+
+
+        if (title && ['Warning', 'Warn', '警告'].indexOf(title) == -1) {
+            type = `info 📘 ${title}`;
+        } else {
+            type = `caution 🚧 ${title}`;
         }
 
         type = `<Admonition type="${type.split(' ')[0]}" icon="${type.split(' ')[1]}" title="${type.split(' ')[2]}">`;

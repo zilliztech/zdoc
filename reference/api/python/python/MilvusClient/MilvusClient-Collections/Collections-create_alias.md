@@ -10,19 +10,19 @@ type: docx
 token: Kqlodu0AWoefKvxczcxc1c36nlf
 sidebar_position: 4
 keywords: 
+  - hybrid vector search
   - Video deduplication
   - Video similarity search
   - Vector retrieval
-  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - create_alias()
   - python
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 ---

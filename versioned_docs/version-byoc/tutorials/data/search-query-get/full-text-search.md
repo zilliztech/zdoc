@@ -19,10 +19,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
+  - Chroma vector database
+  - nlp search
   - hallucinations llm
   - Multimodal search
-  - vector search algorithms
-  - Question answering system
 
 ---
 

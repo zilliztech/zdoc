@@ -14,10 +14,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

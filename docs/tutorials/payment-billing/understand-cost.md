@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cost
   - understand
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
@@ -265,7 +265,7 @@ Backup Cost = Backup Unit Price x Backup File Size x Backup Rentention Period
 
 - **Backup Retention Period (month):** Indicates for how long a backup file is retained.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="Note">
 
 <p>Backups are charged daily. Files retained for less than one day are rounded up and charged as one day.</p>
 

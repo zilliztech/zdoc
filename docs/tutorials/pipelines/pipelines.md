@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - pipelines
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

@@ -9,10 +9,10 @@ token: G3Qvfzptcl9gcFdHholcBmgQnib
 sidebar_position: 2
 sidebar_label: "EmbeddingModels"
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud

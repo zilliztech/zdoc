@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

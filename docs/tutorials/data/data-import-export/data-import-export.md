@@ -15,10 +15,10 @@ keywords:
   - data import
   - export
   - milvus
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

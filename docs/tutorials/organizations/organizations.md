@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

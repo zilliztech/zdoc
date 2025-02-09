@@ -10,19 +10,19 @@ type: docx
 token: WToudUwm4oVXeKxLg3jcj3IAnjh
 sidebar_position: 2
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
   - python
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 ---
