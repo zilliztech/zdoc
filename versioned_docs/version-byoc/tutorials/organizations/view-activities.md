@@ -14,10 +14,10 @@ keywords:
   - cloud
   - activities
   - view
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

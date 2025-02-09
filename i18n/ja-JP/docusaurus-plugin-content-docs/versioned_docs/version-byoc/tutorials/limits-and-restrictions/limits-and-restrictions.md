@@ -1,12 +1,12 @@
 ---
-title: "Limits & Restrictions | BYOC"
+title: "制限と制約 | BYOC"
 slug: /limits-and-restrictions
-sidebar_label: "Limits & Restrictions"
+sidebar_label: "制限と制約"
 beta: FALSE
 notebook: FALSE
-description: "Learn about the limits and restrictions you should know about your operations on Zilliz Cloud. | BYOC"
+description: "Zilliz Cloudでの操作について知っておくべき制限と制限について学びましょう。 | BYOC"
 type: origin
-token: Tve5wxmTHio0LPk50jgcKHe1nWg
+token: Ox3gw1j54ipZpUkHMzMculQsndD
 sidebar_position: 12
 keywords: 
   - zilliz
@@ -14,19 +14,19 @@ keywords:
   - cloud
   - milvus
   - limits
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Limits & Restrictions
+# 制限と制約
 
-Learn about the limits and restrictions you should know about your operations on Zilliz Cloud.
+Zilliz Cloudでの操作について知っておくべき制限と制限について学びましょう。
 
 import DocCardList from '@theme/DocCardList';
 

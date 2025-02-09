@@ -10,19 +10,19 @@ type: docx
 token: QcaFdMJE9oHX1Axe11rcqfiynEd
 sidebar_position: 4
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
   - javaV2
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: HbMMdqtQGoQqwixsyrjcTTh0nu5
 sidebar_position: 20
 keywords: 
-  - Video similarity search
   - Vector retrieval
   - Audio similarity search
   - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - hybridts_to_unixtime()
   - python
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: pythonSidebar
 
 ---

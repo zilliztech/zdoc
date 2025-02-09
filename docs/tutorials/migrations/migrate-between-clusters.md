@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

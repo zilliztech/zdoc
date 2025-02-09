@@ -14,10 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

@@ -1,12 +1,12 @@
 ---
-title: "Filter Reference | BYOC"
+title: "フィルタリファレンス | BYOC"
 slug: /analyzer-filters
-sidebar_label: "Filter"
+sidebar_label: "フィルタリファレンス"
 beta: PUBLIC
 notebook: FALSE
-description: "This section provides a detailed reference for filters in analyzers. | BYOC"
+description: "このセクションでは、アナライザのフィルタの詳細なリファレンスを提供します。 | BYOC"
 type: origin
-token: ZIakwn5V8i1msRk7EDscPNqsnUf
+token: J221wV4l2i1lYykdMYwcVJkXnmp
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -16,19 +16,19 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Filter Reference
+# フィルタリファレンス
 
-This section provides a detailed reference for filters in analyzers.
+このセクションでは、アナライザのフィルタの詳細なリファレンスを提供します。
 
 import DocCardList from '@theme/DocCardList';
 

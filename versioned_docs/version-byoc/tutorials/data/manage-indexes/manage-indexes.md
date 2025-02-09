@@ -14,10 +14,10 @@ keywords:
   - cloud
   - index
   - manage
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

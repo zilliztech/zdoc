@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

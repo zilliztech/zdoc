@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

@@ -1,57 +1,57 @@
 ---
-title: "Use Recycle Bin | BYOC"
+title: "使用ごみ箱 | BYOC"
 slug: /use-recycle-bin
-sidebar_label: "Use Recycle Bin"
+sidebar_label: "使用ごみ箱"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all Serverless and Dedicated clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration. | BYOC"
+description: "Zilliz Cloudのごみ箱機能は、意図的にまたはトライアルの期限切れやサービスの停止の結果として削除されたすべてのサーバーレスおよび専用クラスターの記録を保持することにより、データを保護します。気が変わった場合や誤ってクラスターを削除した場合、ごみ箱はクラスターの復元のための30日間の猶予期間を提供します。 | BYOC"
 type: origin
-token: JQvjwCDxhiMcj0kpaWicqXsTn1e
+token: OLUIwGNEji5N13kKr5zcI1djncb
 sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - recycle bin
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Use Recycle Bin
+# 使用ごみ箱
 
-Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all Serverless and Dedicated clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration.
+Zilliz Cloudのごみ箱機能は、意図的にまたはトライアルの期限切れやサービスの停止の結果として削除されたすべてのサーバーレスおよび専用クラスターの記録を保持することにより、データを保護します。気が変わった場合や誤ってクラスターを削除した場合、ごみ箱はクラスターの復元のための30日間の猶予期間を提供します。
 
-To use recycle bin, you must be an **Organization Owner**.
+ごみ箱を使用するには、**組織オーナー**である必要があります。
 
-## Restore a dropped cluster in the recycle bin{#restore-a-dropped-cluster-in-the-recycle-bin}
+## ごみ箱に落ちたクラスタを復元する{#restore-a-dropped-cluster-in-the-recycle-bin}{#yuanrestore-a-dropped-cluster-in-the-recycle-bin}
 
-1. Navigate to the organization the dropped cluster belongs to.
+1. 削除されたクラスタが属する組織に移動します。
 
-1. Access the **Recycle Bin** via the left navigation menu or the top navigation icon.
+1. 左側のナビゲーションメニューまたは上部のナビゲーションアイコンから**ごみ箱**にアクセスします。
 
-1. Locate the cluster to restore. From the **Actions** dropdown, select **Restore Cluster**.
+1. [**アクション**]ドロップダウンから[**クラスタの復元**]を選択します。
 
-1. Configure the restored cluster.
+1. 復元されたクラスタを構成します。
 
-    1. You can restore the cluster to a different project under this organization, but not in a different cloud region.
+    1. この組織の別のプロジェクトにクラスターを復元できますが、別のクラウドリージョンには復元できません。
 
-    1. You can rename the cluster and reset its size and password for connection.
+    1. クラスターの名前を変更し、接続の体格とパスワードをリセットできます。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p>The load status of the collections in the cluster will be retained.</p>
+    <p>クラスタ内のコレクションの負荷状態は保持されます。</p>
 
     </Admonition>
 
-1. Click **Restore**. Zilliz Cloud will start creating the cluster with the specified attributes and restore your data to the created cluster.
+1. [**リストア**]をクリックします。Zilliz Cloudは、指定された属性を持つクラスタの作成を開始し、作成したクラスタにデータをリストアします。
 
-1. A new restoration job will be generated. You can check the cluster restoration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the restoration is complete.
+1. 新しいリストアジョブが生成されます。[ジョブ](./job-center)ページでクラスタのリストアの進捗状況を確認できます。ジョブのステータスが**IN PROGRESS**から**SUCCESS FUL**に切り替わると、リストアが完了します。
 
-![byoc-use-recycle-bin](/byoc/byoc-use-recycle-bin.png)
+![byoc-use-recycle-bin](/byoc/ja-JP/byoc-use-recycle-bin.png)
 

@@ -1,12 +1,12 @@
 ---
-title: "Array Field | BYOC"
+title: "配列フィールド | BYOC"
 slug: /use-array-fields
-sidebar_label: "Array Field"
+sidebar_label: "配列フィールド"
 beta: FALSE
 notebook: FALSE
-description: "The Array type is used to store fields containing multiple values of the same data type. It provides a flexible way to store attributes with multiple elements, making it especially useful in scenarios where a set of related data needs to be saved. In Zilliz Cloud clusters, you can store Array fields alongside vector data, enabling more complex query and filtering requirements. | BYOC"
+description: "Array型は、同じデータ型の複数の値を含むフィールドを格納するために使用されます。複数の要素を持つ属性を格納する柔軟な方法を提供し、関連するデータのセットを保存する必要があるシナリオで特に役立ちます。Zilliz Cloudクラスターでは、Arrayフィールドをベクトルデータと一緒に格納でき、より複雑なクエリやフィルタリング要件を可能にします。 | BYOC"
 type: origin
-token: N0RmwUtmqinQvokWdYLc3yV5nJh
+token: H0cIwNvgTiIIYykQqRycBbNSnEU
 sidebar_position: 9
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - array field
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 
@@ -26,11 +26,11 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Array Field
+# 配列フィールド
 
-The Array type is used to store fields containing multiple values of the same data type. It provides a flexible way to store attributes with multiple elements, making it especially useful in scenarios where a set of related data needs to be saved. In Zilliz Cloud clusters, you can store Array fields alongside vector data, enabling more complex query and filtering requirements.
+Array型は、同じデータ型の複数の値を含むフィールドを格納するために使用されます。複数の要素を持つ属性を格納する柔軟な方法を提供し、関連するデータのセットを保存する必要があるシナリオで特に役立ちます。Zilliz Cloudクラスターでは、Arrayフィールドをベクトルデータと一緒に格納でき、より複雑なクエリやフィルタリング要件を可能にします。
 
-For example, in a music recommendation system, an Array field can store a list of tags for a song; in user behavior analysis, it can store user ratings for songs. Below is an example of a typical Array field:
+例えば、音楽推薦システムでは、Arrayフィールドは曲のタグのリストを保存できます。ユーザー行動分析では、曲のユーザー評価を保存できます。以下は典型的なArrayフィールドの例です
 
 ```json
 {
@@ -39,19 +39,19 @@ For example, in a music recommendation system, an Array field can store a list o
 }
 ```
 
-In this example, `tags` and `ratings` are both Array fields. The `tags` field is a string array representing song genres like pop, rock, and classic, while the `ratings` field is an integer array representing user ratings for the song, ranging from 1 to 5. These Array fields provide a flexible way to store multi-value data, making it easier to perform detailed analysis during queries and filtering.
+この例では、`tags`と`ratings`は両方ともArrayフィールドです。`tags`フィールドは、ポップ、ロック、クラシックなどの曲のジャンルを表す文字列配列であり、評価フィールドは、1から5までのユーザーの`ratings`を表す整数配列です。これらのArrayフィールドは、マルチバリューデータを柔軟に格納する方法を提供し、クエリやフィルタリング中に詳細な分析を行いやすくします。
 
-## Add Array field{#add-array-field}
+## 配列フィールドを追加{#add-array-field}{#add-array-field}
 
-To use Array fields Zilliz Cloud clusters, define the relevant field type when creating the collection schema. This process includes:
+Array fieldsを使用するにはZilliz Cloudクラスター、コレクションスキーマを作成する際に関連するフィールドタイプを定義します。この過程には以下が含まれます:
 
-1. Setting `datatype` to the supported Array data type, `ARRAY`.
+1. サポートされるArrayデータ型である`ARRAY`にデータ型を設定します。
 
-1. Using the `element_type` parameter to specify the data type of elements in the array. This can be any scalar data type supported by Zilliz Cloud clusters, such as `VARCHAR` or `INT64`. All elements in the same Array must be of the same data type.
+1. 配列内の要素のデータ型を指定するには、`element_type`パラメータを使用します。これは、Zilliz Cloudクラスターでサポートされている任意のスカラーデータ型である必要があります。例えば、`VARCHAR`や`INT64`などです。同じ配列内のすべての要素は同じデータ型でなければなりません。
 
-1. Using the `max_capacity` parameter to define the maximum capacity of the array, i.e., the maximum number of elements it can contain.
+1. 配列の最大容量、つまり含むことができる要素の最大数を定義するために、`max_capacity`パラメータを使用します。
 
-Here’s how to define a collection schema that includes Array fields:
+配列フィールドを含むコレクションスキーマを定義する方法は次のとおりです:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -208,25 +208,25 @@ export schema="{
 </TabItem>
 </Tabs>
 
-In this example:
+この例では:
 
-- `tags` is a string array with `element_type` set to `VARCHAR`, indicating that elements in the array must be strings. `max_capacity` is set to 10, meaning the array can contain up to 10 elements.
+- `tags`は`element_type`が`VARCHAR`に設定された文字列配列であり、配列内の要素は文字列でなければならないことを示しています。`max_Capacity`は10に設定されており、配列には最大10個の要素を含めることができます。
 
-- `ratings` is an integer array with `element_type` set to `INT64`, indicating that elements must be integers. `max_capacity` is set to 5, allowing up to 5 ratings.
+- `rating`は`element_type`が`INT64`に設定された整数配列であり、要素は整数でなければならないことを示しています。`max_Capacity`は5に設定されており、最大5つの評価が可能です。
 
-- We also add a primary key field `pk` and a vector field `embedding`.
+- また、主キーフィールド`pk`とベクトルフィールドの`埋め込み`を追加します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>The primary field and vector field are mandatory when you create a collection. The primary field uniquely identifies each entity, while the vector field is crucial for similarity search. For more details, refer to <a href="./primary-field-auto-id">Primary Field & AutoId</a>, <a href="./use-dense-vector">Dense Vector</a>, <a href="./use-binary-vector">Binary Vector</a>, or <a href="./use-sparse-vector">Sparse Vector</a>.</p>
+<p>コレクションを作成する際には、プライマリフィールドとベクトルフィールドは必須です。プライマリフィールドは各エンティティを一意に識別し、ベクトルフィールドは類似検索に重要です。詳細については、「<a href="./primary-field-auto-id">プライマリフィールドとAutoID</a>」、「<a href="./use-dense-vector">密集ベクトル</a>」、「<a href="./use-binary-vector">バイナリベクトル</a>」、または「<a href="./use-sparse-vector">疎ベクトル</a>」を参照してください。</p>
 
 </Admonition>
 
-## Set index params{#set-index-params}
+## インデックスパラメータの設定{#set-index-params}{#set-index-params}
 
-Setting index parameters for Array fields is optional but can significantly improve retrieval efficiency.
+配列フィールドのインデックスパラメータの設定はオプションですが、検索効率を大幅に向上させることができます。
 
-In the following example, we create an `AUTOINDEX` for the `tags` field, which means Zilliz Cloud clusters will automatically create an appropriate scalar index based on the data type. For more information, refer to [AUTOINDEX Explained](./autoindex-explained).
+次の例では、`AUTOINDEX`を`タグ`フィールドに作成します。つまり、Zilliz Cloudクラスターは、データ型に基づいて適切なスカラーインデックスを自動的に作成します。詳細については、「[AUTOINDEXの説明](./autoindex-explained)」を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -287,7 +287,7 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-Moreover, you must create an index for the vector field before creating the collection. In this example, we use `AUTOINDEX` to simplify vector index setup.
+さらに、コレクションを作成する前にベクトルフィールドのインデックスを作成する必要があります。この例では、ベクトルインデックスの設定を簡素化するために`AUTOINDEX`を使用しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -347,9 +347,9 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-## Create collection{#create-collection}
+## コレクションを作成{#create-collection}{#create-collection}
 
-Use the defined schema and index parameters to create a collection:
+定義されたスキーマとインデックスパラメータを使用して、コレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -406,9 +406,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Insert data{#insert-data}
+## データの挿入{#insert-data}{#insert-data}
 
-After creating the collection, you can insert data that includes Array fields.
+コレクションを作成した後、配列フィールドを含むデータを挿入できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -533,19 +533,19 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example:
+この例では:
 
-- Each data entry includes a primary field (`pk`), while `tags` and `ratings` are Array fields used to store tags and ratings.
+- 各データエントリにはプライマリフィールド(`pk`)が含まれ、`tags`と`ratings`はタグと評価を格納するために使用される配列フィールドです。
 
-- `embedding` is a 3-dimensional vector field used for vector similarity searches.
+- `embedding`は、ベクトル類似性検索に使用される3次元ベクトル場です。
 
-## Search and query{#search-and-query}
+## 検索とクエリ{#search-and-query}{#search-and-query}
 
-Array fields enable scalar filtering during searches, enhancing Milvus's vector search capabilities. You can query based on the properties of Array fields alongside vector similarity searches.
+配列フィールドを使用すると、検索中にスカラーフィルタリングが可能になり、Milvusのベクトル検索機能が強化されます。ベクトル類似検索とともに、配列フィールドのプロパティに基づいてクエリを実行できます。
 
-### Filter queries{#filter-queries}
+### クエリのフィルター{#filter-queries}{#filter-queries}
 
-You can filter data based on properties of Array fields, such as accessing a specific element or checking if an array element meets a certain condition.
+特定の要素へのアクセスや、配列要素が特定の条件を満たすかどうかのチェックなど、Arrayフィールドのプロパティに基づいてデータをフィルタリングできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -619,11 +619,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this query, Zilliz Cloud clusters filters out entities where the first element of the `ratings` array is less than 4, returning entities that match the condition.
+このクエリでは、Zilliz Cloudクラスターは、`ratings`配列の最初の要素が小なり4であるエンティティをフィルタリングし、条件に一致するエンティティを返します。
 
-### Vector search with Array filtering{#vector-search-with-array-filtering}
+### 配列フィルタリングによるベクトル検索{#vector-search-with-array-filtering}{#vector-search-with-array-filtering}
 
-By combining vector similarity with Array filtering, you can ensure that the retrieved data is not only similar in semantics but also meets specific conditions, making the search results more accurate and aligned with business needs.
+ベクトル類似性と配列フィルタリングを組み合わせることで、検索されたデータが意味的に類似しているだけでなく、特定の条件を満たしていることを確認でき、検索結果をより正確にし、ビジネスニーズに合わせることができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -711,15 +711,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example, Zilliz Cloud returns the top 5 entities most similar to the query vector, with the `tags` array's first element being `"pop"`.
+この例では、Zilliz Cloudは、`タグ`配列の最初の要素が`"pop"`であるクエリベクトルに最も似た上位5つのエンティティを返します。
 
-Additionally, Zilliz Cloud supports advanced Array filtering operators like `ARRAY_CONTAINS`, `ARRAY_CONTAINS_ALL`, `ARRAY_CONTAINS_ANY`, and `ARRAY_LENGTH` to further enhance query capabilities. For more details, refer to [ARRAY Operators](./array-filtering-operators).
+さらに、Zilliz Cloudは、`ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH`などの高度な配列フィルタリング演算子をサポートしています。詳細については、「[アレイ演算子](./array-filtering-operators)」を参照してください。
 
-## Limits{#limits}
+## 限界{#limits}{#limits}
 
-- **Data Type**: All elements in an Array field must have the same data type, as specified by the `element_type`.
+- **データ型**:配列フィールド内のすべての要素は、`element_type`で指定された同じデータ型でなければなりません。
 
-- **Array Capacity**: The number of elements in an Array field must be less than or equal to the maximum capacity defined when the Array was created, as specified by `max_capacity`.
+- **Array Capacity**: Arrayフィールドの要素数は、Arrayが作成されたときに定義された最大容量に小なりまたは等しくなければなりません。`max_Capacity`で指定されています。
 
-- **String Handling**: String values in Array fields are stored as-is, without semantic escaping or conversion. For example, `'a"b'`, `"a'b"`, `'a\'b'`, and `"a\"b"` are stored as entered, while `'a'b'` and `"a"b"` are considered invalid values.
+- **文字列処理**:配列フィールド内の文字列値は、意味的なエスケープや変換なしにそのまま保存されます。例えば、`'a"b'`、`"a'b"`、`'a\'b'`、および`"a\"b"`は入力されたまま保存されますが、`'a'b'`と`"a"b"`は無効な値と見なされます。
 

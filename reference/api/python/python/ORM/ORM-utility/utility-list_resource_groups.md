@@ -10,19 +10,19 @@ type: docx
 token: FXTZd5FgNo9ta0xvjaIclEM1nPf
 sidebar_position: 26
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - list_resource_groups()
   - python
+  - ANN Search
+  - What are vector embeddings
   - vector database tutorial
   - how do vector databases work
-  - vector db comparison
-  - openai vector db
 displayed_sidebar: pythonSidebar
 
 ---

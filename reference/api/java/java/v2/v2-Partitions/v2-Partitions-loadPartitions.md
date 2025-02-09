@@ -10,19 +10,19 @@ type: docx
 token: Jei2dpJMuoyOF5xTIuccfzcinOh
 sidebar_position: 5
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
   - javaV2
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: javaSidebar
 
 ---

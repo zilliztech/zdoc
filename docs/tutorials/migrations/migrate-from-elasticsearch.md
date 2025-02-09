@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

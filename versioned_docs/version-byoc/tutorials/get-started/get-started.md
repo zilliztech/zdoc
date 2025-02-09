@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

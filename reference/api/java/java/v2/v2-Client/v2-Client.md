@@ -9,10 +9,10 @@ token: YEBjfrOXWl8s00dDTvdcMiYDn0d
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud

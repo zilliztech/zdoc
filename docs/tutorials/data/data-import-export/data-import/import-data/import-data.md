@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

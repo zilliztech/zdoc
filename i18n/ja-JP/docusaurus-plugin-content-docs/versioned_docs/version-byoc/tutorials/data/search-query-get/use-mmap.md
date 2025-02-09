@@ -1,12 +1,12 @@
 ---
-title: "Use mmap | BYOC"
+title: "mmapを使う | BYOC"
 slug: /use-mmap
-sidebar_label: "Use mmap"
+sidebar_label: "mmapを使う"
 beta: PUBLIC
 notebook: FALSE
-description: "Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance. This page helps you understand how Zilliz Cloud uses mmap to enable fast and efficient data storage and retrieval. | BYOC"
+description: "メモリマッピング(Mmap)により、ディスク上の大きなファイルに直接メモリアクセスできるため、Zilliz Cloudはインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張できます。このページでは、Zilliz Cloudがmmapを使用して高速かつ効率的なデータストレージと取得を可能にする方法を理解するのに役立ちます。 | BYOC"
 type: origin
-token: P3wrwSMNNihy8Vkf9p6cTsWYnTb
+token: QD4lwWwBeiECoJks7tecJg7dnVc
 sidebar_position: 14
 keywords: 
   - zilliz
@@ -14,106 +14,106 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Use mmap
+# mmapを使う
 
-Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance. This page helps you understand how Zilliz Cloud uses mmap to enable fast and efficient data storage and retrieval.
+メモリマッピング(Mmap)により、ディスク上の大きなファイルに直接メモリアクセスできるため、Zilliz Cloudはインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張できます。このページでは、Zilliz Cloudがmmapを使用して高速かつ効率的なデータストレージと取得を可能にする方法を理解するのに役立ちます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
 <ul>
-<li><p>This feature is still in <strong>Public Preview</strong>. If you have encountered any issues regarding this feature, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p></li>
-<li><p>When migrating or restoring data between source and target clusters that have different plans, the Mmap settings of the source collection will not be migrated to the target cluster. Please manually reconfigure the MMAP settings on the target cluster.</p></li>
+<li><p>この機能はまだ<strong>パブリックプレビュー</strong>中です。この機能に関する問題が発生した場合は、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p></li>
+<li><p>異なるプランを持つソースクラスタとターゲットクラスタ間でデータを移行または復元する場合、ソースコレクションのMmap設定はターゲットクラスタに移行されません。ターゲットクラスタのMMAP設定を手動で再構成してください。</p></li>
 </ul>
 
 </Admonition>
 
-## Overview{#overview}
+## 概要について{#overview}{#overview}
 
-Zilliz Cloud uses collections to organize vector embeddings and their metadata, and each row in the collection represents an entity. As shown in the left figure below, the vector field stores vector embeddings, and the scalar fields store their metadata. When you have created indexes on certain fields and loaded the collection, Zilliz Cloud loads the created indexes and raw data from all fields into memory.
+Zilliz Cloudは、ベクトル埋め込みとそのメタデータを整理するためにコレクションを使用し、コレクション内の各行はエンティティを表します。下の左図に示すように、ベクトルフィールドにはベクトル埋め込みが格納され、スカラーフィールドにはメタデータが格納されます。特定のフィールドにインデックスを作成し、コレクションをロードすると、Zilliz Cloudは作成されたインデックスとすべてのフィールドからの生データをメモリにロードします。
 
-![EPNvwAI7hhCppbbKmuxcW5VRnUh](/byoc/EPNvwAI7hhCppbbKmuxcW5VRnUh.png)
+![BHV4wSDV0hAYCeb8aOkcuz0Enof](/byoc/ja-JP/BHV4wSDV0hAYCeb8aOkcuz0Enof.png)
 
-Zilliz Cloud clusters are memory-intensive database systems, and the memory size available determines the capacity of a collection. Loading fields containing a large volume of data into memory is impossible if the data size exceeds the memory capacity, which is the usual case for AI-driven applications. 
+Zilliz Cloudクラスターはメモリを大量に消費するデータベースシステムであり、利用可能なメモリ体格がコレクションの容量を決定します。データ体格がメモリ容量を超える場合、大量のデータを含むフィールドをメモリにロードすることは不可能であり、これはAI駆動型アプリケーションの通常の場合です。
 
-To resolve such issues, Zilliz Cloud introduces mmap to balance the loading of hot and cold data in collections. As shown in the right figure above, Zilliz Cloud loads only the vector indexes into memory and memory-maps the raw data of all fields and scalar indexes when you load a collection if you are using a Zilliz Cloud cluster with capacity-optimized CUs.
+このような問題を解決するために、Zilliz Cloudはmmapを導入して、コレクション内のホットデータとコールドデータのロードをバランスさせます。上の右図に示すように、Zilliz Cloudはベクトルインデックスのみをメモリにロードし、容量最適化されたCUを使用しているZilliz Cloudクラスターを使用している場合は、コレクションをロードするときにすべてのフィールドとスカラーインデックスの生データをメモリマップします。
 
-By comparing the data placement procedures in the left and right figures, you can figure out that the memory usage is much higher in the left figure than in the right one. With mmap enabled, the data that should have been loaded into memory is offloaded into the hard drive and cached in the page cache of the operating system, reducing memory footprint. However, cache hit failures may result in performance degradation. For details, refer to [this article](https://en.wikipedia.org/wiki/Mmap).
+左の図と右の図のデータ配置手順を比較することで、左の図のメモリ使用量が右の図よりもはるかに高いことがわかります。mmapが有効になっている場合、メモリにロードされるはずのデータはハードドライブにオフロードされ、オペレーティングシステムのページキャッシュにキャッシュされ、メモリフットプリントが減少します。ただし、キャッシュヒットの失敗はパフォーマンスの低下につながる可能性があります。詳細については、[この記事](https://en.wikipedia.org/wiki/Mmap)を参照してください。
 
-## Global mmap strategy{#global-mmap-strategy}
+## グローバルmmap戦略{#global-mmap-strategy}{#mmapglobal-mmap-strategy}
 
-The following table lists the global mmap strategy for clusters from different tiers.
+次の表は、さまざまな階層のクラスターに対するグローバルmmap戦略を示しています。
 
 <table>
    <tr>
-     <th rowspan="2"><p>Mmap Target</p></th>
-     <th colspan="2"><p>Dedicated Clusters</p></th>
-     <th rowspan="2"><p>Free &amp; Serverless Clusters</p></th>
+     <th rowspan="2"><p>Mmapターゲット</p></th>
+     <th colspan="2"><p>専用クラスター</p></th>
+     <th rowspan="2"><p>フリー&amp;サーバーレスクラスタ</p></th>
    </tr>
    <tr>
      <td><p>Performance-optimized</p></td>
-     <td><p>Capacity-optimized</p></td>
+     <td><p>キャパシティ最適化</p></td>
    </tr>
    <tr>
-     <td><p>Scalar field raw data</p></td>
-     <td><p>Disabled &amp; Changeable</p></td>
-     <td><p>Enabled &amp; Changeable</p></td>
-     <td><p>Enabled &amp; Unchangeable</p></td>
+     <td><p>スカラー場の生データ</p></td>
+     <td><p>無効と変更可能</p></td>
+     <td><p>有効および変更可能</p></td>
+     <td><p>有効および変更不可</p></td>
    </tr>
    <tr>
-     <td><p>Scalar field index</p></td>
-     <td><p>Disabled &amp; Changeable</p></td>
-     <td><p>Enabled &amp; Changeable</p></td>
-     <td><p>Enabled &amp; Unchangeable</p></td>
+     <td><p>スカラー場指数</p></td>
+     <td><p>無効と変更可能</p></td>
+     <td><p>有効および変更可能</p></td>
+     <td><p>有効および変更不可</p></td>
    </tr>
    <tr>
-     <td><p>Vector field raw data</p></td>
-     <td><p>Enabled &amp; Changeable</p></td>
-     <td><p>Enabled &amp; Changeable</p></td>
-     <td><p>Enabled &amp; Unchangeable</p></td>
+     <td><p>ベクトルデータ</p></td>
+     <td><p>有効および変更可能</p></td>
+     <td><p>有効および変更可能</p></td>
+     <td><p>有効および変更不可</p></td>
    </tr>
    <tr>
-     <td><p>Vector field index</p></td>
-     <td><p>Disabled &amp; Unchangeable</p></td>
-     <td><p>Disabled &amp; Unchangeable</p></td>
-     <td><p>Enabled &amp; Unchangeable</p></td>
+     <td><p>ベクトル場インデックス</p></td>
+     <td><p>無効および変更不可</p></td>
+     <td><p>無効および変更不可</p></td>
+     <td><p>有効および変更不可</p></td>
    </tr>
 </table>
 
-In dedicated clusters using the **Performance-optimized** CUs, Zilliz Cloud enables mmap only for the raw data in vector fields and loads the raw data in scalar fields and all field indexes into memory. You are advised to keep the global settings to ensure the performance of metadata filtering and retrieval during searches and queries. However, you can still enable mmap for those fields that are not involved in metadata filtering or used as output fields.
+専用 クラスターで**Performance-optimized**CUを使用する場合、Zilliz Cloudはベクトルフィールドの生データに対してのみmmapを有効にし、スカラーフィールドの生データとすべてのフィールドインデックスをメモリにロードします。検索やクエリ中のメタデータフィルタリングと取得のパフォーマンスを確保するために、グローバル設定を保持することをお勧めします。ただし、メタデータフィルタリングに関与しないフィールドや出力フィールドとして使用されないフィールドに対しては、引き続きmmapを有効にすることができます。
 
-In dedicated clusters using the **Capacity-optimized** CUs, Zilliz Cloud disables mmap for the vector field indexes for the sake of auto-indexing and memory-maps the indexes of scalar fields and all field raw data, ensuring the maximum storage capacity. If the raw data of some fields used in metadata filtering conditions or listed in the output fields is too large and leaving them on the hard drive causes slow response or network jitters, you can consider disabling mmap for these fields to improve search performance. 
+専用クラスターで**Capacity-Optimized**CUを使用する場合、Zilliz Cloudは自動インデックスのためにベクトルフィールドインデックスのmmapを無効にし、スカラーフィールドとすべてのフィールド生データのインデックスをメモリマップして、最大ストレージ容量を確保します。メタデータフィルタリング条件で使用される一部のフィールドの生データまたは出力フィールドにリストされている生データが大きすぎてハードドライブに残されると、応答が遅くなったりネットワークジッターが発生する場合は、これらのフィールドのmmapを無効にして検索パフォーマンスを向上させることを検討できます。
 
-In **Free** and **Serverless** clusters, Zilliz Cloud enables mmap for the raw data and indexes of all fields to fully utilize the system cache, improve the performance of hot data, and reduce the cost of cold data.
+Zilliz Cloudは、**Free**クラスタと**Serverless**クラスタで、すべてのフィールドの生データとインデックスのmmapを有効にし、システムキャッシュを最大限に活用し、ホットデータのパフォーマンスを向上させ、コールドデータのコストを削減します。
 
-## Collection-specific mmap settings{#collection-specific-mmap-settings}
+## コレクション固有のmmap設定{#collection-specific-mmap-settings}{#mmapcollection-specific-mmap-settings}
 
-You need to release a collection to make changes to the mmap settings and load it again to make the changes to the mmap settings take effect. You can configure mmap for a specific field, a field index, or a collection.
+You need to release a collection to make changes to the mmap settings and load it again to make the changes tothe mmap settings take effect.特定のフィールド、フィールドインデックス、またはコレクションに対してmmapを設定できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Exercise with caution when changing mmap settings. Improper mmap settings may cause the following issues:</p>
+<p>mmap設定を変更する際は注意してください。不適切なmmap設定は以下の問題を引き起こす可能性があります:</p>
 <ul>
-<li><p>For performance-optimized dedicated clusters, the raw data of all scalar fields and the vector indexes are loaded into memory by default to ensure fast retrieval of scalar fields during searches and queries. Changing the default mmap settings may cause performance degradation.</p></li>
-<li><p>For capacity-optimized dedicated clusters, only the vector indexes are loaded into memory by default to ensure maximum storage capacity. Changing the default mmap settings may cause load failures due to out-of-memory (OOM) issues.</p></li>
+<li><p>専用クラスターperformance-optimized場合、検索やクエリ中にスカラーフィールドを高速に取得するために、すべてのスカラーフィールドの生データとベクトルインデックスがデフォルトでメモリにロードされます。デフォルトのmmap設定を変更すると、パフォーマンスが低下する可能性があります。</p></li>
+<li><p>容量最適化された専用クラスターでは、最大ストレージ容量を確保するために、ベクトルインデックスのみがデフォルトでメモリにロードされます。デフォルトのmmap設定を変更すると、メモリ不足(OOM)の問題によりロードエラーが発生する場合があります。</p></li>
 </ul>
 
 </Admonition>
 
-### Configure mmap for specific fields{#configure-mmap-for-specific-fields}
+### 特定のフィールド用にmmapを設定する{#configure-mmap-for-specific-fields}{#mmapconfigure-mmap-for-specific-fields}
 
-If you are using a dedicated cluster with small performance-optimized CUs and the raw data of a field in your dataset is large, consider adding the field to a collection with mmap enabled.
+小さなperformance-optimizedCUを持つ専用クラスターを使用していて、データセット内のフィールドの生データが大きい場合は、mmapを有効にしてコレクションにフィールドを追加することを検討してください。
 
-The following example assumes connecting to a performance-optimized dedicated cluster and demonstrates how to enable mmap on a VarChar field named **doc_chunk** while adding the field.
+次の例では、performance-optimized専用クラスターに接続することを前提としており、フィールドを追加しながら**doc_chunk**という名前のVarCharフィールドでmmapを有効にする方法を示します。
 
 ```python
 from pymilvus import MilvusClient
@@ -146,13 +146,13 @@ client.alter_collection_field(
 )
 ```
 
-When loading the collection created using the above schema, Zilliz Cloud memory-maps the raw data of the **doc_chunk** field. Note that you need to release the collection to make changes to the mmap settings of a field and load the collection again after the change.
+上記のスキーマを使用して作成されたコレクションをロードすると、Zilliz Cloudは**doc_chunk**フィールドの生データをメモリマップします。フィールドのmmap設定を変更するには、コレクションを解放し、変更後に再度コレクションをロードする必要があることに注意してください。
 
-### Configure mmap for scalar indexes{#configure-mmap-for-scalar-indexes}
+### スカラーインデックス用にmmapを設定する{#configure-mmap-for-scalar-indexes}{#mmapconfigure-mmap-for-scalar-indexes}
 
-For scalar fields involved in metadata filtering or used as output fields, consider loading them into memory while keeping other scalar fields on the hard drive. 
+メタデータフィルタリングに関与するスカラーフィールド、または出力フィールドとして使用されるスカラーフィールドについては、他のスカラーフィールドをハードドライブに保持しながらメモリにロードすることを検討してください。
 
-The following example assumes connecting to a capacity-optimized dedicated cluster and demonstrates how to disable mmap on the index of a VarChar field named **title** for quick retrieval. 
+次の例では、容量が最適化された専用クラスターへの接続を前提としており、**title**という名前のVarCharフィールドのインデックスでmmapを無効にしてすばやく取得する方法を示します。
 
 ```python
 # Add a varchar field
@@ -181,5 +181,5 @@ client.alter_index_properties(
 )
 ```
 
-When loading the collection created using the above index parameters, Zilliz Cloud loads the index of the **title** field into memory. Note that you need to release the collection to make changes to the mmap settings of a field and load the collection again after the change.
+上記のインデックスパラメータを使用して作成されたコレクションをロードすると、Zilliz Cloudは**タイトル**フィールドのインデックスをメモリにロードします。フィールドのmmap設定を変更するには、コレクションをリリースし、変更後に再度コレクションをロードする必要があることに注意してください。
 

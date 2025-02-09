@@ -1,12 +1,12 @@
 ---
-title: "Best Practices | BYOC"
+title: "ベストプラクティス | BYOC"
 slug: /best-practices
-sidebar_label: "Best Practices"
+sidebar_label: "ベストプラクティス"
 beta: FALSE
 notebook: FALSE
-description: "You can find articles on the best practices when using Zilliz Cloud. | BYOC"
+description: "Zilliz Cloudを使用する際のベストプラクティスに関する記事を見つけることができます。 | BYOC"
 type: origin
-token: HWzCwbjfci51HHk4BvTcfbiHn1d
+token: HBtcws2w1iKqApkhziCcAyXknQb
 sidebar_position: 8
 keywords: 
   - zilliz
@@ -14,19 +14,19 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Best Practices
+# ベストプラクティス
 
-You can find articles on the best practices when using Zilliz Cloud.
+Zilliz Cloudを使用する際のベストプラクティスに関する記事を見つけることができます。
 
 import DocCardList from '@theme/DocCardList';
 

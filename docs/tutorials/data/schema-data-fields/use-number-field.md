@@ -18,10 +18,10 @@ keywords:
   - int
   - integer
   - float
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

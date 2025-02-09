@@ -10,19 +10,19 @@ type: docx
 token: CROadSmHNoV2CuxREnccTkaen0e
 sidebar_position: 1
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - BulkFileType
   - python
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: pythonSidebar
 
 ---

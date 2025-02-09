@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

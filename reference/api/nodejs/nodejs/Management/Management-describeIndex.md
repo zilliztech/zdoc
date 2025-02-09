@@ -10,19 +10,19 @@ type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 2
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - node
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: nodeSidebar
 
 ---

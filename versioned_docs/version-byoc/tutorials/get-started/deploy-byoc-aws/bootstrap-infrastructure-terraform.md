@@ -2,7 +2,7 @@
 title: "Bootstrap Infrastructure (Terraform) | BYOC"
 slug: /bootstrap-infrastructure-terraform
 sidebar_label: "Bootstrap Infrastructure (Terraform)"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page demonstrates how to use Terraform to bootstrap the infrastructure for a Zilliz Cloud BYOC project, including creating an S3 bucket, all related roles, and a qualified VPC. | BYOC"
 type: origin
@@ -15,10 +15,10 @@ keywords:
   - terraform
   - milvus
   - vector database
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -31,7 +31,10 @@ This page demonstrates how to use Terraform to bootstrap the infrastructure for 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>To run the Terraform script, you need to have <a href="https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli">Terraform</a> and <a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html">AWS CLI</a> installed on your computer and an AWS account with associated credentials that allow you to create VPCs. </p>
+<ul>
+<li><p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p></li>
+<li><p>To run the Terraform script, you need to have <a href="https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli">Terraform</a> and <a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html">AWS CLI</a> installed on your computer and an AWS account with associated credentials that allow you to create VPCs. </p></li>
+</ul>
 
 </Admonition>
 

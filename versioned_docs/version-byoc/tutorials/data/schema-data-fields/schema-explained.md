@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

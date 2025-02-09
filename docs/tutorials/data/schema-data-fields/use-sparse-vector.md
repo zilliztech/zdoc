@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
@@ -239,10 +239,11 @@ index_params = client.prepare_index_params()
 
 index_params.add_index(
     field_name="sparse_vector",
-    index_name="sparse_inverted_index",
-    index_type="SPARSE_INVERTED_INDEX",
-    metric_type="IP",
-    params={"inverted_index_algo": "DAAT_MAXSCORE"},
+
+    index_name="sparse_auto_index",
+    index_type="AUTOINDEX",
+    metric_type="IP"
+
 )
 ```
 
@@ -255,14 +256,15 @@ import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 List<IndexParam> indexes = new ArrayList<>();
-Map<String,Object> extraParams = new HashMap<>();
-extraParams.put("inverted_index_algo": "DAAT_MAXSCORE");
+
 indexes.add(IndexParam.builder()
         .fieldName("sparse_vector")
-        .indexName("sparse_inverted_index")
-        .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
+
+        .indexName("sparse_auto_index")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+
         .metricType(IndexParam.MetricType.IP)
-        .extraParams(extraParams)
+
         .build());
 ```
 
@@ -272,13 +274,12 @@ indexes.add(IndexParam.builder()
 
 ```javascript
 const indexParams = await client.createIndex({
-    index_name: 'sparse_inverted_index',
     field_name: 'sparse_vector',
     metric_type: MetricType.IP,
-    index_type: IndexType.SPARSE_WAND,
-    params: {
-      inverted_index_algo: 'DAAT_MAXSCORE',
-    },
+
+    index_name: 'sparse_auto_index',
+    index_type: IndexType.AUTOINDEX,
+
 });
 ```
 
@@ -291,9 +292,10 @@ export indexParams='[
         {
             "fieldName": "sparse_vector",
             "metricType": "IP",
-            "indexName": "sparse_inverted_index",
-            "indexType": "SPARSE_INVERTED_INDEX",
-            "params":{"inverted_index_algo": "DAAT_MAXSCORE"}
+
+            "indexName": "sparse_auto_index",
+            "indexType": "AUTOINDEX"
+
         }
     ]'
 ```
@@ -307,13 +309,11 @@ In the example above:
 
     - `SPARSE_INVERTED_INDEX`: A general-purpose inverted index for sparse vectors.
 
-    - `SPARSE_WAND`: A specialized index type supported in Milvus v2.5.3 and earlier.
+    <Admonition type="info" icon="📘" title="Notes">
 
-        <Admonition type="info" icon="📘" title="Notes">
+    <p>From Milvus 2.5.4 onward, <code>SPARSE_WAND</code> is being deprecated. Instead, it is recommended to use <code>"inverted_index_algo": "DAAT_WAND"</code> for equivalency while maintaining compatibility.</p>
 
-        <p>From Milvus 2.5.4 onward, <code>SPARSE_WAND</code> is being deprecated. Instead, it is recommended to use <code>"inverted_index_algo": "DAAT_WAND"</code> for equivalency while maintaining compatibility.</p>
-
-        </Admonition>
+    </Admonition>
 
 - `metric_type`: The metric used to calculate similarity between sparse vectors. Valid Values:
 

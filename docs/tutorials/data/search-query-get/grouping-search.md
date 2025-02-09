@@ -16,10 +16,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

@@ -1,12 +1,12 @@
 ---
-title: "Import from a Parquet file | BYOC"
+title: "Parquetファイルからインポート | BYOC"
 slug: /data-import-parquet
-sidebar_label: "Parquet (Recommended)"
+sidebar_label: "Parquetファイルからインポート"
 beta: FALSE
 notebook: FALSE
-description: "Apache Parquet is an open-source, column-oriented data file format designed for efficient data storage and retrieval. It offers high-performance compression and encoding schemes to manage complex data in bulk and is supported in various programming languages and analytics tools tools. | BYOC"
+description: "Apache Parquetは、効率的なデータストレージと検索のために設計されたオープンソースの列指向データファイル形式です。複雑なデータを大量に管理するための高性能な圧縮およびエンコーディングスキームを提供し、さまざまなプログラミング言語や分析ツールでサポートされています。 | BYOC"
 type: origin
-token: WtkSwXgDdiB0eTkEkorcDCFlnme
+token: TVgYwqTGHivSODk5AbhcfLFjntc
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -16,44 +16,44 @@ keywords:
   - milvus
   - format options
   - parquet
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Import from a Parquet file
+# Parquetファイルからインポート
 
-[Apache Parquet](https://parquet.apache.org/docs/overview/) is an open-source, column-oriented data file format designed for efficient data storage and retrieval. It offers high-performance compression and encoding schemes to manage complex data in bulk and is supported in various programming languages and analytics tools tools.
+[Apache Parquet](https://parquet.apache.org/docs/overview/)は、効率的なデータストレージと検索のために設計されたオープンソースの列指向データファイル形式です。複雑なデータを大量に管理するための高性能な圧縮およびエンコーディングスキームを提供し、さまざまなプログラミング言語や分析ツールでサポートされています。
 
-You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a Parquet file.
+生データをParquetファイルに準備するには、[BulkWriterツール](./use-bulkwriter)を使用することをお勧めします。次の図は、生データをParquetファイルにマッピングする方法を示しています。
 
-![data_import-preparetion_en](/byoc/data_import-preparetion_en.png)
+![data_import-preparetion_en](/byoc/ja-JP/data_import-preparetion_en.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
 <ul>
-<li><strong>Whether to enable AutoID</strong></li>
+<li><strong>AutoIDを有効にするかどうか</strong></li>
 </ul>
-<p>The <strong>id</strong> field serves as the primary field of the collection. To make the primary field automatically increment, you can enable <strong>AutoID</strong> in the schema. In this case, you should exclude the <strong>id</strong> field from each row in the source data.</p>
+<p>「<strong>id</strong>」フィールドは、コレクションのプライマリフィールドとして機能します。プライマリフィールドを自動的にインクリメントするには、スキーマで「<strong>AutoID</strong>」を有効にします。この場合、ソースデータの各行から「<strong>id</strong>」フィールドを除外する必要があります。</p>
 <ul>
-<li><strong>Whether to enable dynamic fields</strong></li>
+<li><strong>動的フィールドを有効にするかどうか</strong></li>
 </ul>
-<p>When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the <strong>$meta</strong> column during the write operation and provide the corresponding key-value data.</p>
+<p>ターゲットコレクションで動的フィールドが有効になっている場合、定義済みスキーマに含まれていないフィールドを格納する必要がある場合は、書き込み操作中に<strong>$meta</strong>列を指定し、対応するキー値データを指定できます。</p>
 <ul>
-<li><strong>Case-sensitive</strong></li>
+<li><strong>大文字と小文字を区別する</strong></li>
 </ul>
-<p>Dictionary keys and collection field names are case-sensitive. Ensure that the dictionary keys in your data exactly match the field names in the target collection. If there is a field named <strong>id</strong> in the target collection, each entity dictionary should have a key named <strong>id.</strong> Using <strong>ID</strong> or <strong>Id</strong> results in errors. </p>
+<p>ディクショナリのキーとコレクションのフィールド名は大文字と小文字を区別します。データ内のディクショナリのキーがターゲットコレクションのフィールド名と完全に一致するようにしてください。ターゲットコレクションに<strong>id</strong>という名前のフィールドがある場合、各エンティティディクショナリにはidという名前のキーが必要です<strong>。ID</strong>または<strong>Idを使用するとエラーが発生します。</strong></p>
 
 </Admonition>
 
-## Directory structure{#directory-structure}
+## ディレクトリ構造{#directory-structure}{#directory-structure}
 
-If you prefer to prepare your data into Parquet files, place all Parquet files directly into the source data folder as shown in the tree diagram below.
+Parquetファイルにデータを準備する場合は、以下のツリー図に示すように、すべてのParquetファイルをソースデータフォルダに直接置くことができます。
 
 ```plaintext
 ├── parquet-folder
@@ -61,27 +61,27 @@ If you prefer to prepare your data into Parquet files, place all Parquet files d
 │       └── 2.parquet 
 ```
 
-## Import data{#import-data}
+## データのインポート{#import-data}{#import-data}
 
-Once your data is ready, you can use either of the following methods to import them into your Zilliz Cloud collection.
+データの準備ができたら、次のいずれかの方法を使用して、Zilliz Cloudコレクションにデータをインポートできます。
 
-- [Import files from multiple paths (recommended)](./data-import-parquet#import-files-from-multiple-paths-recommended)
+- [複数のパスからファイルをインポートする（推奨）](./data-import-parquet#import-files-from-multiple-paths-recommended)
 
-- [Import files from the source folder ](./data-import-parquet#import-files-from-a-folder)
+- [ソースフォルダからファイルをインポートする](./data-import-parquet#import-files-from-a-folder)
 
-- [Import a single file](./data-import-parquet#import-a-single-file)
+- [単一のファイルをインポート](./data-import-parquet#import-a-single-file)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>If your files are relatively small, it is recommended to use the folder or multiple-path method to import them all at once. This approach allows for internal optimizations during the import process, which helps reduce resource consumption later.</p>
+<p>ファイルが比較的小さい場合は、フォルダまたは複数パスの方法を使用して一度にすべてをインポートすることをお勧めします。このアプローチにより、インポート過程で内部最適化が可能になり、後でリソースの消費を減らすことができます。</p>
 
 </Admonition>
 
-You can also import your data on the Zilliz Cloud console using Milvus SDKs. For details, refer to [Import Data (Console)](./import-data-on-web-ui) and [Import Data (SDK)](./import-data-via-sdks).
+Milvus SDKを使用して、Zilliz Cloudコンソールからデータをインポートすることもできます。詳細については、「[データのインポート(コンソール)](./import-data-on-web-ui)」および「[データのインポート(RESTful API)](./import-data-via-restful-api)」を参照してください。
 
-### Import files from multiple paths (Recommended){#import-files-from-multiple-paths-recommended}
+### 複数のパスからファイルをインポートする（推奨）{#import-files-from-multiple-paths-recommended}{#import-files-from-multiple-paths-recommended}
 
-When importing files from multiple paths, include each Parquet file path in a separate list, then group all the lists into a higher-level list as in the following code example.
+複数のパスからファイルをインポートする場合は、各Parquetファイルパスを個別のリストに含め、次のコード例のようにすべてのリストを上位レベルのリストにグループ化します。
 
 ```python
 curl --request POST \
@@ -103,9 +103,9 @@ curl --request POST \
     }'
 ```
 
-### Import files from a folder{#import-files-from-a-folder}
+### フォルダからファイルをインポートする{#import-files-from-a-folder}{#import-files-from-a-folder}
 
-If the source folder contains only the Parquet files to import, you can simply include the source folder in the request as follows:
+ソースフォルダにインポートするParquetファイルのみが含まれている場合は、次のようにソースフォルダをリクエストに含めることができます。
 
 ```python
 curl --request POST \
@@ -125,9 +125,9 @@ curl --request POST \
     }'
 ```
 
-### Import a single file{#import-a-single-file}
+### 単一のファイルをインポート{#import-a-single-file}{#import-a-single-file}
 
-If your prepared data file is a single Parquet file, import it as demonstrated in the following code example.
+準備したデータファイルが1つのParquetファイルである場合は、次のコード例に示すようにインポートします。
 
 ```python
 curl --request POST \
@@ -147,14 +147,14 @@ curl --request POST \
     }'
 ```
 
-## Storage paths{#storage-paths}
+## ストレージパス{#storage-paths}{#storage-paths}
 
-Zilliz Cloud supports data import from your cloud storage. The table below lists the possible storage paths for your data files.
+Zilliz Cloudは、クラウドストレージからのデータインポートをサポートしています。以下の表は、データファイルの可能なストレージパスを示しています。
 
 <table>
    <tr>
-     <th><p><strong>Cloud</strong></p></th>
-     <th><p><strong>Quick Examples</strong></p></th>
+     <th><p><strong>クラウド</strong></p></th>
+     <th><p><strong>クイックな例</strong></p></th>
    </tr>
    <tr>
      <td><p><strong>AWS S3</strong></p></td>
@@ -170,27 +170,27 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
    </tr>
 </table>
 
-## Limits{#limits}
+## 限界{#limits}{#limits}
 
-There are some limits you need to observe when you import data in the Parquet format from your cloud storage.
+クラウドストレージからParquet形式のデータをインポートする際には、いくつかの制限を守る必要があります。
 
 <table>
    <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>アイテム</strong></p></th>
+     <th><p><strong>説明する</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>Multiple files per import</strong></p></td>
-     <td><p>Yes</p></td>
+     <td><p><strong>一度に複数のファイルをインポートする</strong></p></td>
+     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total</p><p>Serverless &amp; Dedicated cluster</p><ul><li><p>Individual file size: 10 GB</p></li><li><p>Total file size: 100 GB</p></li></ul></td>
+     <td><p><strong>インポートごとの最大ファイル体格</strong></p></td>
+     <td><p>クラスタの空き容量:合計512 MB</p><p>サーバーレス&amp;専用クラスター</p><ul><li><p>ファイルの体格: 10 GB</p></li><li><p>ファイルの体格: 100 GB</p></li></ul></td>
    </tr>
    <tr>
-     <td><p><strong>Applicable data file locations</strong></p></td>
-     <td><p>Remote files only</p></td>
+     <td><p><strong>使用可能なデータファイルの場所</strong></p></td>
+     <td><p>リモートファイルのみ</p></td>
    </tr>
 </table>
 
-You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into parquet files. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_parquet_data.parquet).
+生データをパルケファイルに準備するは[BulkWriterツール](./use-bulkwriter)を使用することをお勧めします。[上の図のスキーマに基づいて準備されたサンプルデータをダウンロードするにはここをクリック](https://assets.zilliz.com/prepared_parquet_data.parquet)してください。

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - jieba-tokenizer
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 
@@ -57,7 +57,7 @@ analyzerParams.put("tokenizer", "jieba");
 </TabItem>
 </Tabs>
 
-After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview).
+After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview#example-use).
 
 ## Example output{#example-output}
 

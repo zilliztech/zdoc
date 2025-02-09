@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

@@ -1,12 +1,12 @@
 ---
-title: "Access Control | BYOC"
+title: "アクセス制御 | BYOC"
 slug: /access-control
-sidebar_label: "Access Control"
+sidebar_label: "アクセス制御"
 beta: FALSE
 notebook: FALSE
-description: "Learn more about how Zilliz Cloud implements RBAC for more efficient access control and how to manage cluster users and roles, privileges. | BYOC"
+description: "Zilliz Cloudがより効率的なアクセス制御のためにRBACを実装する方法や、クラスターのユーザーやロール、特権を管理する方法について詳しく学びましょう。 | BYOC"
 type: origin
-token: UEFXwAUL4icMjMkUej9cqncJncd
+token: KVrtwkOo8i9B0wk50UUcno8vnjc
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -15,19 +15,19 @@ keywords:
   - cluster
   - access control
   - rbac
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Access Control
+# アクセス制御
 
-Learn more about how Zilliz Cloud implements RBAC for more efficient access control and how to manage cluster users and roles, privileges.
+Zilliz Cloudがより効率的なアクセス制御のためにRBACを実装する方法や、クラスターのユーザーやロール、特権を管理する方法について詳しく学びましょう。
 
 
 

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation renames an existing collection. | Python | MilvusClient"
 type: docx
 token: IeiIdJ71Pox2OjxMiOzczUTenud
-sidebar_position: 15
+sidebar_position: 18
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - rename_collection()
   - python
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: pythonSidebar
 
 ---

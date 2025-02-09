@@ -10,19 +10,19 @@ type: docx
 token: Mp7CdNfJnoBF2DxscRNc6RO0n7d
 sidebar_position: 1
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - python
+  - what is semantic search
+  - Embedding model
   - image similarity search
   - Context Window
-  - Natural language search
-  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 ---

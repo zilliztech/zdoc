@@ -1,12 +1,12 @@
 ---
-title: "Manage Aliases | BYOC"
+title: "エイリアスの管理 | BYOC"
 slug: /manage-aliases
-sidebar_label: "Manage Aliases"
+sidebar_label: "エイリアスの管理"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud provides alias management capabilities. This page demonstrates the procedures to create, list, alter, and drop aliases. | BYOC"
+description: "Zilliz Cloudはエイリアス管理機能を提供します。このページでは、エイリアスの作成、一覧表示、変更、削除の手順を示します。 | BYOC"
 type: origin
-token: OLn1wMgW0iceBlkuey2cBD91neb
+token: U2Dow4jx5iPUuZkVH9ucj2wOnuc
 sidebar_position: 8
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -26,19 +26,19 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Manage Aliases
+# エイリアスの管理
 
-Zilliz Cloud provides alias management capabilities. This page demonstrates the procedures to create, list, alter, and drop aliases.
+Zilliz Cloudはエイリアス管理機能を提供します。このページでは、エイリアスの作成、一覧表示、変更、削除の手順を示します。
 
-## Overview{#overview}
+## 概要について{#overview}{#overview}
 
-You can create aliases for your collections. A collection can have several aliases, but collections cannot share an alias. 
+コレクションにエイリアスを作成できます。コレクションには複数のエイリアスを含めることができますが、コレクションはエイリアスを共有することはできません。
 
-Upon receiving a request against a collection, Zilliz Cloud locates the collection based on the provided name. If the collection by the provided name does not exist, Zilliz Cloud continues locating the provided name as an alias. You can use collection aliases to adapt your code to different scenarios.
+コレクションに対するリクエストを受け取ると、Zilliz Cloudは指定された名前に基づいてコレクションを検索します。指定された名前のコレクションが存在しない場合、Zilliz Cloudは指定された名前をエイリアスとして検索し続けます。コレクションのエイリアスを使用して、コードをさまざまなシナリオに適応させることができます。
 
-## Create Alias{#create-alias}
+## エイリアスを作成{#create-alias}{#create-alias}
 
-The following code snippet demonstrates how to create an alias for a collection.
+次のコードスニペットは、コレクションのエイリアスを作成する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -202,9 +202,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## List Aliases{#list-aliases}
+## リストエイリアス{#list-aliases}{#list-aliases}
 
-The following code snippet demonstrates the procedure to list the aliases allocated to a specific collection.
+次のコードスニペットは、特定のコレクションに割り当てられたエイリアスを一覧表示する手順を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -313,9 +313,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Describe Alias{#describe-alias}
+## エイリアスの説明{#describe-alias}{#describe-alias}
 
-The following code snippet describes a specific alias in detail, including the name of the collection to which it has been allocated.
+次のコードスニペットは、割り当て先のコレクションの名前など、特定のエイリアスについて詳しく説明しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -437,9 +437,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Alter Alias{#alter-alias}
+## Alterエイリアス{#alter-alias}{#alteralter-alias}
 
-You can reallocate the alias already allocated to a specific collection to another.
+特定のコレクションにすでに割り当てられているエイリアスを別のコレクションに再割り当てできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -651,9 +651,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Drop Alias{#drop-alias}
+## ドロップエイリアス{#drop-alias}{#drop-alias}
 
-The following code snippet demonstrates the procedure to drop an alias.
+次のコードスニペットは、エイリアスを削除する手順を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

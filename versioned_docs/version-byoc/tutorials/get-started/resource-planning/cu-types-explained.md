@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - range search
+  - hnsw algorithm
   - vector similarity search
   - approximate nearest neighbor search
   - DiskANN
-  - Sparse vector
 
 ---
 

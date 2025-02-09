@@ -7,16 +7,16 @@ notebook: FALSE
 description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release raises the standard of vector database services for usability, security, performance, and capability to a new stage, bringing you a state-of-the-art vector database experience built for everyone. | Cloud"
 type: origin
 token: XmUYwRgNDitesQkl9QDc3IslnOh
-sidebar_position: 18
+sidebar_position: 19
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

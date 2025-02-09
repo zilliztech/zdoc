@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

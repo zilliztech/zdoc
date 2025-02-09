@@ -10,19 +10,19 @@ type: docx
 token: BIlNdgI2foFEaoxmn12cLO6Jndb
 sidebar_position: 5
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - node
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: nodeSidebar
 
 ---
@@ -123,7 +123,7 @@ milvusClient.search({
 
         Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
 
-        The value defaults to **1**, and ranges from **1** to **5**. Increasing the value results in a higher recall rate with degraded search performance.
+        The value defaults to **1**, and ranges from **1** to **10**. Increasing the value results in a higher recall rate with degraded search performance. For details, refer to [Tune Recall Rate](/docs/tune-recall-rate).
 
     - **page_retain_order** (*bool*) -
 

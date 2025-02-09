@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - sdk
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

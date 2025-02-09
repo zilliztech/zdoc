@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

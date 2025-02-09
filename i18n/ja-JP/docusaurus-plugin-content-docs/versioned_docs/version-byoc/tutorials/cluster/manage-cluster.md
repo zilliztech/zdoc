@@ -1,12 +1,12 @@
 ---
-title: "Manage Cluster | BYOC"
+title: "クラスタ管理 | BYOC"
 slug: /manage-cluster
-sidebar_label: "Manage Cluster"
+sidebar_label: "クラスタ管理"
 beta: FALSE
 notebook: FALSE
-description: "This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals. | BYOC"
+description: "このガイドでは、Zilliz Cloudコンソールを最大限に活用して目標を達成するためのクラスタのライフサイクルについて説明します。 | BYOC"
 type: origin
-token: PharwAysCiBzvgkuqqecmNzunQf
+token: Py5VwaHKnirdQQkJBxXcmfrunfg
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,109 +14,111 @@ keywords:
   - cloud
   - cluster
   - manage
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Manage Cluster
+# クラスタ管理
 
-This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
+このガイドでは、Zilliz Cloudコンソールを最大限に活用して目標を達成するためのクラスタのライフサイクルについて説明します。
 
-### View cluster details{#view-cluster-details}
+### クラスタの詳細を表示する{#view-cluster-details}{#view-cluster-details}
 
-After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll find in each section for cluster details:
+Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細については、各セクションに以下の内容が記載されています。
 
-![byoc-cluster-lifecycle](/byoc/byoc-cluster-lifecycle.png)
+![byoc-cluster-lifecycle](/byoc/ja-JP/byoc-cluster-lifecycle.png)
 
-- **Connect**: This section provides the necessary details to begin interacting with your cluster, including the cluster ID, cluster cloud region, public endpoint for connections,, IP address whitelist, and a token for secure access.
+- **Connect**:このセクションでは、クラスターID、クラスタークラウドリージョン、接続用のパブリックエンドポイント、プライベートリンク、IPアドレスホワイトリスト、セキュアアクセス用のトークンなど、クラスターとのやり取りを開始するために必要な詳細情報を提供します。。
 
-- **Summary**: This offers a snapshot of your cluster's essentials. You can find the cluster plan, CU type, and CU size, compatible Milvus version. Details on the creator, as well as the creation date and time, are also presented.
+- **概要**:クラスタの基本情報のスナップショットを提供します。クラスタプラン、CUタイプ、CU体格、互換性のあるMilvusバージョンを見つけることができます。作成者の詳細、作成日時も表示されます。
 
-- **Topology**: A graphical representation showing the structure of your cluster. This includes the designation of roles and compute resources for various nodes:
+- **トポロジ**:クラスターの構造を示すグラフィカルな表現です。これには、さまざまなノードの役割とコンピューティングリソースの指定が含まれます。
 
-    - **Proxy**: Stateless nodes that manage user connections and streamline service addresses with load balancers.
+    - **プロキシ**:ユーザー接続を管理し、ロードバランサーでサービスアドレスを効率化するステートレスノード。
 
-    - **Query Node**: Responsible for hybrid vector and scalar searches and incremental data updates.
+    - **クエリノード**:ハイブリッドベクトルおよびスカラー検索、および増分データ更新を担当します。
 
-    - **Coordinator**: The orchestration center, distributing tasks across worker nodes.
+    - **コーディネーター**:オーケストレーションセンターで、ワーカーノード間でタスクを分散します。
 
-    - **Data Node**: Handles data mutations and log-to-snapshot conversions for persistence.
+    - **データノード**:永続性のためにデータの変異とログからスナップショットへの変換を処理します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>Clusters with <strong>1-8 CUs</strong> typically use a single-node setup suitable for smaller datasets. Clusters with more than <strong>8 CUs</strong> adopt a distributed multi-server node architecture to improve performance and scalability.</p>
-
-    </Admonition>
-
-### Establish connection{#establish-connection}
-
-- **Connect to cluster**
-
-    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can bea [cluster credential](./cluster-credentials) that consists of a username and password pair.
-
-    For more information, refer to [Connect to Cluster](./connect-to-cluster).
-
-### Manage collections and data{#manage-collections-and-data}
-
-- **Collections**
-
-    On the **Collections** tab, you can manage the collections in the cluster. You can create collections, import data into them, load or release them, rename them, and drop them.
-
-    For details on data import, refer to [Data Import](/docs/data-import).
-
-    ![manage-collections](/byoc/manage-collections.png)
-
-- **Backups**
-
-    In the **Backups** tab, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
-
-- **Migrations**
-
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**.
-
-### Users and access control{#users-and-access-control}
-
-- **Users**
-
-    On the **Users** tab, you can add users, reset their passwords, and drop them.
-
-    For details, refer to [Cluster Credentials (Console)](./cluster-credentials-console).
-
-    ![manage-users](/byoc/manage-users.png)
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p>You cannot drop <b>db_admin</b>. Zilliz Cloud grants access permissions to all collections in the cluster to any added users.</p>
+    <p>通常、<strong>1-8 CU</strong>を持つクラスターは、小規模なデータセットに適したシングルノードセットアップを使用します。<strong>8 CU</strong>以上のクラスターは、パフォーマンスとスケーラビリティを向上させるために分散型マルチサーバーノードアーキテクチャを採用しています。</p>
 
     </Admonition>
 
-### Suspend & resume cluster{#suspend-and-resume-cluster}
+### 接続を確立する{#establish-connection}{#establish-connection}
 
-In the **Actions** drop-down button, select **Suspend** to stop the cluster. Once you confirm this operation in the **Suspend Cluster** dialog box, the cluster status changes from **RUNNING** to **SUSPENDING**, during which you cannot perform other actions to the cluster.
+- **クラスタに接続**
 
-Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
+    「**接続**」セクションでは、クラスターに接続するために使用される**パブリックエンドポイント**と**トークン**を見つけることができます。トークンは、ユーザー名とパスワードのペアで構成される[APIキー](./manage-api-keys)または[クラスター資格情報](./cluster-credentials)であることができます。
 
-To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully based on your CU settings and service plan.
+    詳細については、「[クラスタに接続](./connect-to-cluster)」を参照してください。
 
-You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster) and [Resume Cluster](/reference/restful/resume-cluster).
+### コレクションとデータを管理する{#manage-collections-and-data}{#manage-collections-and-data}
 
-### **Drop cluster**{#drop-cluster}
+- **コレクション**
 
-In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
+    [**コレクション**]タブでは、クラスタ内のコレクションを管理できます。コレクションを作成したり、データをインポートしたり、ロードまたはリリースしたり、名前を変更したり、削除したりできます。
 
-In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
+    データインポートの詳細については、[データインポート](/docs/data-import)を参照してください。
 
-## Related topics{#related-topics}
+    ![manage-collections](/byoc/ja-JP/manage-collections.png)
 
-- [Connect to Cluster](./connect-to-cluster)
+- **バックアップ**
 
-- [Backup & Restore](./backup-and-restore)
+    [**バックアップ**]タブで、[スナップショットの作成]を選択してクラスタのバックアップを作成できます。すべての**スナップショット**は[**バックアップ**]タブにあります。バックアップとリストアの詳細については、「[バックアップ&リストア](/docs/backup-and-restore)」を参照してください。
 
-- [Select the Right CU](./cu-types-explained)
+- **マイグレーション**
+
+    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。
+
+### ユーザーとアクセス制御{#users-and-access-control}{#users-and-access-control}
+
+- **ユーザー**
+
+    [**ユーザー**]タブでは、ユーザーを追加したり、パスワードをリセットしたり、削除したりできます。
+
+    詳細については、[クラスタ資格情報](./cluster-credentials)を参照してください。
+
+    ![manage-users](/byoc/ja-JP/manage-users.png)
+
+    <Admonition type="info" icon="Notes" title="undefined">
+
+    <p><b>db_admin</b>を削除することはできません。Zilliz Cloudは、追加されたユーザーに対してクラスタ内のすべてのコレクションへのアクセス権限を付与します。</p>
+
+    </Admonition>
+
+### クラスタの一時停止と再開{#}
+
+「**Actions**」ドロップダウンボタンで、「**Suspend**」を選択してクラスタを停止します。「**Suspend Cluster**」ダイアログボックスでこの操作を確認すると、クラスタの状態が「**RUNNING**」から「**SUSPENDING**」に変わり、その間はクラスタに対して他のアクションを実行できません。
+
+ステータスが**SUSPENDED**に変更されると、ストレージに対してのみ課金されます。クラスタの一部を賢明に一時停止すると、お金を節約できます。
+
+サスペンドされたクラスタを再開するには、**アクション**をクリックし、ドロップダウンメニューから**再開**を選択します。**再開クラスタ**ダイアログボックスでこのアクションを確認すると、クラスタの状態が**SUSPENDED**から**RESUMING**、そして**RUNNING**に変わります。この時点で、CU設定とサービスプランに基づいて完全に請求されます。
+
+これらのアクションを実行するために、RESTful APIを使用することもできます。詳細については、「[クラスタ停止](/reference/restful/suspend-cluster)」と「[クラスタ再開](/reference/restful/resume-cluster)」を参照してください。
+
+### クラスタを削除{#drop-cluster}{#drop-cluster}
+
+[**Actions**]ドロップダウンボタンで、[**Drop**]を選択してクラスタをドロップします。[**Drop Cluster**]ダイアログボックスでこの操作を確認した後、Zilliz Cloudはクラスタをドロップします。
+
+ウェブUIに加えて、クラスタを削除するためのAPIリクエストを行うこともできます。詳細については、[Drop Cluster](/reference/restful/drop-cluster-v2)を参照してください。
+
+## 関連するトピック{#related-topics}{#related-topics}
+
+- [クラスタに接続](./connect-to-cluster)
+
+- [プライベートエンドポイントを設定する](./setup-a-private-link)
+
+- [バックアップと復元](./backup-and-restore)
+
+- [適切なCUを選択](./cu-types-explained)
 

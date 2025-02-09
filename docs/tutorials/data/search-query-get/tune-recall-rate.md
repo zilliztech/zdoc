@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -31,6 +31,19 @@ import Admonition from '@theme/Admonition';
 # Tune Recall Rate
 
 Zilliz Cloud introduces a search parameter `level` to allow users to balance search recall and performance. It also provides another search parameter, `enable_recall_calculation`, to give users the estimated recall rate of the current search. You can combine these two parameters to tune the recall rate of vector searches.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>This feature is in Public Preview and you have to use a cluster compatible with Milvus v2.5.4 and later or with Milvus v2.4.14 and later.</p>
+<p>This feature is compatible with the API and SDKs of the following versions:</p>
+<ul>
+<li><p>Python: v2.5.4 and v2.4.14</p></li>
+<li><p>Java: v2.5.3 and v2.4.10</p></li>
+<li><p>Node.js: v2.5.2 and v2.4.10</p></li>
+<li><p>RESTful: v2.5.4</p></li>
+</ul>
+
+</Admonition>
 
 ## Overview{#overview}
 
@@ -85,8 +98,8 @@ res = client.search(
     limit=3, # The number of results to return
     search_params={
         "params": {
-            # highlight-next-line
             "level": 6 # The precision control
+            # highlight-next-line
             "enable_recall_calculation": True # Ask for recall rate calculation
         }
     }
@@ -103,9 +116,9 @@ During the estimation process, Zilliz Cloud:
 
 1. Searches with the `level` parameter set to the user-defined value, and
 
-1. Conducts another search with the `level` parameter set to `10`.
+1. Conducts another search in an internal high-precision mode.
 
-1. Use the second search with the `level` parameter set to `10` as the ground truth to estimate the recall rate.
+1. Use the second search as the ground truth to estimate the recall rate.
 
 While setting `enable_recall_calculation` to `True`, you can adjust the value of the `level` parameter to obtain multiple recall rates. By considering these estimated figures and the duration of each search, you can roughly estimate the appropriate level setting.
 

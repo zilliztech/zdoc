@@ -1,12 +1,12 @@
 ---
-title: "Jieba | BYOC"
+title: "ジエバ | BYOC"
 slug: /jieba-tokenizer
-sidebar_label: "Jieba"
+sidebar_label: "ジエバ"
 beta: PUBLIC
 notebook: FALSE
-description: "The `jieba` tokenizer processes Chinese text by breaking it down into its component words. | BYOC"
+description: "ジエバトークナイザ（`jieba`）は、中国語のテキストを構成語に分解して処理します。 | BYOC"
 type: origin
-token: JGURwBQNOijp2DkspFFctbAGnLh
+token: YSwBw3hHiiLCFlkkl1pchXK5nHg
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - jieba-tokenizer
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
@@ -28,13 +28,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Jieba
+# ジエバ
 
-The `jieba` tokenizer processes Chinese text by breaking it down into its component words.
+ジエバトークナイザ（`jieba`）は、中国語のテキストを構成語に分解して処理します。
 
-## Configuration{#configuration}
+## コンフィギュレーション{#configuration}{#configuration}
 
-To configure an analyzer using the `jieba` tokenizer, set `tokenizer` to `jieba` in `analyzer_params`.
+ジエバトークナイザを使用してアナライザを設定するには、`analyzer_params`で`tokenizer`を`jieba`に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -57,19 +57,19 @@ analyzerParams.put("tokenizer", "jieba");
 </TabItem>
 </Tabs>
 
-After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview).
+検`光子_params`を定義した後、コレクションスキーマを定義する際に`VARCHAR`フィールドに適用することができます。これにより、Zilliz Cloudは、指定されたアナライザを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行うことができます。詳細は、[使用例](./analyzer-overview#example-use)を参照してください。
 
-## Example output{#example-output}
+## 出力の例{#example-output}{#example-output}
 
-Here’s an example of how the `jieba` tokenizer processes text:
+以下は`jieba`トークナイザーがテキストを処理する方法の例です:
 
-**Original text**:
+**オリジナルテキスト**:
 
 ```python
 "Milvus 是一个高性能、可扩展的向量数据库！"
 ```
 
-**Expected output**:
+**予想される出力**:
 
 ```python
 ["Milvus", " ", "是", "一个", "高性", "性能", "高性能", "、", "可", "扩展", "的", "向量", "数据", "据库", "数据库", "！"]

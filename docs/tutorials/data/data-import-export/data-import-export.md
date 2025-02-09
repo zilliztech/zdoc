@@ -15,10 +15,10 @@ keywords:
   - data import
   - export
   - milvus
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

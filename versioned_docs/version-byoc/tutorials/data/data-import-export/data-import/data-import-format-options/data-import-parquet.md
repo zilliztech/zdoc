@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

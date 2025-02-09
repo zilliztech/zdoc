@@ -1,12 +1,12 @@
 ---
-title: "Delete Backup File | BYOC"
+title: "バックアップファイルを削除 | BYOC"
 slug: /delete-snapshot
-sidebar_label: "Delete Backup File"
+sidebar_label: "バックアップファイルを削除"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud supports creating backups either manually or automatically. | BYOC"
+description: "Zilliz Cloudは、手動または自動でバックアップを作成することができます。 | BYOC"
 type: origin
-token: SPTewoNSwiQe6MkBLjMcilNynOg
+token: Mvj6wH6V8iAx0ukUu6zccHKSnvc
 sidebar_position: 6
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
@@ -25,34 +25,34 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Delete Backup File
+# バックアップファイルを削除
 
-Zilliz Cloud supports creating backups either manually or automatically. 
+Zilliz Cloudは、手動または自動でバックアップを作成することができます。
 
-For manually created backup files, Zilliz Cloud permanently retains them. Dropping a cluster will not remove the manually created backup files. Therefore, you can only manually delete them when they are no longer needed.
+手動で作成されたバックアップファイルについては、Zilliz Cloudはそれらを永久に保持します。クラスタを削除しても、手動で作成されたバックアップファイルは削除されません。したがって、必要がなくなったときにのみ手動で削除できます。
 
-For automatically created backup files, Zilliz Cloud automatically removes them when they reach the end of their retention period or the corresponding cluster is dropped . However, you have the option to manually delete each auto-created backup file before then.
+自動的に作成されたバックアップファイルについて、Zilliz Cloudはリテンション期間の終了時または対応するクラスタが削除されたときに自動的に削除します。ただし、その前に自動的に作成されたバックアップファイルを手動で削除するオプションがあります。
 
-## Before you start{#before-you-start}
+## 始める前に{#before-you-start}{#before-you-start}
 
-Make sure the following conditions are met:
+以下の条件が満たされていることを確認してください。
 
-- You are granted the [Organization Owner](./organization-users) or [Project Admin](./project-users) role in the target organization.
+- ターゲット組織で[組織所有者](./organization-users)または[プロジェクト管理者](./project-users)の役割が付与されていること。
 
-## Procedures{#procedures}
+## 手続き{#procedures}{#procedures}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-![delete_backups](/byoc/delete_backups.png)
+![delete_backups](/byoc/ja-JP/delete_backups.png)
 
-You will be prompted to verify your request to delete a backup file before Zilliz Cloud actually performs the deletion.
+Zilliz Cloudが実際に削除を実行する前に、バックアップファイルを削除する要求を確認するように求められます。
 
 </TabItem>
 <TabItem value="Bash">
 
-Delete a backup file. For details on parameters, refer to [Delete Backup](/reference/restful/delete-backup-v2).
+バックアップファイルを削除します。パラメータの詳細については、[バックアップ削除](/reference/restful/delete-backup-v2)を参照してください。
 
 ```bash
 curl --request DELETE \
@@ -62,7 +62,7 @@ curl --request DELETE \
      --header "Content-type: application/json"
 ```
 
-Expected output:
+予想される出力:
 
 ```bash
 {
@@ -77,13 +77,13 @@ Expected output:
 </TabItem>
 </Tabs>
 
-## Related topics{#related-topics}
+## 関連するトピック{#related-topics}{#related-topics}
 
-- [Create Snapshot](./create-snapshot)
+- [バックアップを作成](./create-snapshot)
 
-- [Schedule Automatic Backups](./schedule-automatic-backups)
+- [自動バックアップをスケジュールする](./schedule-automatic-backups)
 
-- [View Snapshot Details](./view-snapshot-details)
+- [バックアップファイルを表示する](./view-snapshot-details)
 
-- [Restore from Snapshot](./restore-from-snapshot) 
+- [バックアップファイルからの復元](./restore-from-snapshot)
 

@@ -19,10 +19,10 @@ keywords:
   - filtering
   - elasticsearch queries
   - query mapping
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

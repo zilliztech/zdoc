@@ -1,12 +1,12 @@
 ---
-title: "Data Security | BYOC"
+title: "データセキュリティ | BYOC"
 slug: /data-security
-sidebar_label: "Data Security"
+sidebar_label: "データセキュリティ"
 beta: FALSE
 notebook: FALSE
-description: "Data security is a crucial aspect of any cloud platform, and Zilliz Cloud is no exception. To safeguard data, Zilliz Cloud provides robust measures in various aspects, including authorization and authentication, network isolation, encryption, and backup and restoration. | BYOC"
+description: "クラウドプラットフォームにおいて、データセキュリティは重要な要素であり、Zilliz Cloudも例外ではありません。Zilliz Cloudは、データを保護するために、承認と認証、ネットワークの分離、暗号化、バックアップと復元など、様々な側面で堅牢な対策を提供しています。 | BYOC"
 type: origin
-token: SIhBwKFJri4u2CkyD3ucnO7an3g
+token: Qc9BwoPsSipgRukNcpUcvWUMnlV
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,66 +14,82 @@ keywords:
   - cloud
   - data
   - security
-  - llm eval
   - Sparse vs Dense
   - Dense vector
   - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Data Security
+# データセキュリティ
 
-Data security is a crucial aspect of any cloud platform, and Zilliz Cloud is no exception. To safeguard data, Zilliz Cloud provides robust measures in various aspects, including authorization and authentication, network isolation, encryption, and backup and restoration.
+クラウドプラットフォームにおいて、データセキュリティは重要な要素であり、Zilliz Cloudも例外ではありません。Zilliz Cloudは、データを保護するために、承認と認証、ネットワークの分離、暗号化、バックアップと復元など、様々な側面で堅牢な対策を提供しています。
 
-This topic provides an overview of how Zilliz Cloud secures data at every stage.
+このトピックでは、Zilliz Cloudが各段階でデータを保護する方法の概要を説明します。
 
-## Registering an account with privacy protection{#registering-an-account-with-privacy-protection}
+## プライバシー保護付きのアカウントを登録する{#registering-an-account-with-privacy-protection}{#registering-an-account-with-privacy-protection}
 
-Zilliz Cloud prioritizes data security from the moment of account registration.
+Zilliz Cloudは、アカウント登録の瞬間からデータセキュリティを優先します。
 
-When you register an account in the web console, Zilliz Cloud employs a combination of encryption techniques to protect user data. Robust cryptographic algorithms such as [SHA-256](https://en.wikipedia.org/wiki/SHA-2) and [bcrypt](https://en.wikipedia.org/wiki/Bcrypt) are utilized to encrypt your account information.
+ウェブコンソールでアカウントを登録する際、Zilliz Cloudはユーザーデータを保護するために暗号化技術を組み合わせて使用します。[SHA-256](https://en.wikipedia.org/wiki/SHA-2)や[bcrypt](https://en.wikipedia.org/wiki/Bcrypt)などの堅牢な暗号化アルゴリズムを使用してアカウント情報を暗号化します。
 
-In addition, Zilliz Cloud adheres to a stringent policy of not storing usernames and passwords within its systems. This approach ensures that, even in the unlikely event of a security breach, the confidential account information remains secure.
+さらに、Zilliz Cloudは、システム内にユーザー名とパスワードを保存しないという厳格なポリシーに従っています。このアプローチにより、万が一セキュリティ侵害が発生した場合でも、機密アカウント情報は安全に保たれます。
 
-## Starting a cluster with security{#starting-a-cluster-with-security}
+## セキュリティを使用したクラスタの起動{#starting-a-cluster-with-security}{#starting-a-cluster-with-security}
 
-Once an account is ready, you can log into the Zilliz Cloud console to create and run a cluster with security enabled.
+アカウントが準備できたら、Zilliz Cloudコンソールにログインして、セキュリティを有効にしたクラスタを作成して実行できます。
 
-By design, the Zilliz Cloud platform comprises two planes: the control plane and the kernel plane. These planes reside in separate security groups with isolated networks. Such a design reinforces data security.
+Zilliz Cloudプラットフォームは、コントロールプレーンとカーネルプレーンの2つのプレーンで構成されています。これらのプレーンは、分離されたネットワークを持つ別々のセキュリティグループに存在しています。このような設計により、データセキュリティが強化されます。
 
-As a supplement, Zilliz Cloud supports security settings, such as access control, securing internal and external communication with your cluster.
+補足として、Zilliz Cloudは、ホワイトリスト、プライベートリンク、アクセス制御、クラスタとの内部および外部通信の保護などのセキュリティ設定をサポートしています。
 
-### Authentication{#authentication}
+### 認証プロセス{#authentication}{#authentication}
 
-Zilliz Cloud implements authentication using the OAuth2 protocol, which requires users to prove their identity by providing a cluster credential (a token), before they can access or execute on any cluster resources. Cluster credentials usually consist of username and password pairs.
+Zilliz CloudはOAuth 2プロトコルを使用して認証を実装しており、ユーザーがクラスターリソースにアクセスまたは実行する前に、クラスター資格情報(トークン)を提供して身元を証明する必要があります。クラスター資格情報は通常、ユーザー名とパスワードのペアで構成されています。
 
-For details, see [Cluster Credentials (Console)](./cluster-credentials-console).
+詳細については、[クラスタの認証情報(コンソール)](./cluster-credentials-sdk)を参照してください。
 
-### Access control{#access-control}
+### アクセス制御{#access-control}{#access-control}
 
-In many cases, authenticating users is far from enough. You also need a way to control what users can access and which scope of operations they can perform.
+多くの場合、ユーザーの認証だけでは十分ではありません。また、どのユーザーがアクセス可能で、どの範囲の操作を実行できるかを制御する方法も必要です。
 
-To meet these needs, Zilliz Cloud enables access control, which allows you to restrict user permissions and authorize them to access only specific resources. With this mechanism, users can be granted one or more roles that determine the scope of their permissions on cluster resources and operations. This helps prevent unauthorized access beyond the defined permission scope.
+これらのニーズを満たすために、Zilliz Cloudはアクセス制御を可能にし、ユーザーの権限を制限し、特定のリソースにのみアクセスを許可することができます。このメカニズムにより、ユーザーはクラスターリソースと操作の権限範囲を決定する1つ以上の役割を付与されることができます。これにより、定義された権限範囲を超えた不正アクセスを防止できます。
 
-For details, see [Access Control](./access-control).
+詳しくは[アクセス制御](./access-control)をご覧ください。
 
-## Storing and transmitting data with encryption{#storing-and-transmitting-data-with-encryption}
+### ホワイトリスト{#whitelists}{#whitelists}
 
-Once a cluster is up and security settings are applied, Zilliz Cloud implements various measures to secure data storage and transmission.
+インターネット接続の場合、Zilliz CloudはHTTPSプロトコルを使用し、IPフィルタリングを有効にするホワイトリスト機能を提供します。
 
-In Zilliz Cloud, vector data is stored in object storage (AWS S3 or GCS) with server-side encryption enabled. Data belonging to different users is isolated in buckets. Additionally, Zilliz Cloud uses [JumpServer](https://en.wikipedia.org/wiki/Jump_server) to keep records and perform audits on all cluster access operations, such as logins, queries, and modifications. These audit logs can be used to track and investigate potential security incidents or data leakage risks.
+クラスタのホワイトリストに特定のCIDRブロックを追加すると、指定された範囲のIPアドレスのみがクラスタにアクセスできます。インターネットへのアクセスを完全に防止するには、クラスタのホワイトリストに**127.0.0.1/32**を追加します。
 
-## Backup and restoration{#backup-and-restoration}
+詳しくは、[ホワイトリストの設定](./setup-whitelist)参照してください。
 
-To safeguard data integrity, Zilliz Cloud offers reliable backup and restoration mechanisms.
+### プライベートリンク{#private-links}{#private-links}
 
-The platform features a recycle bin functionality with a maximum retention period of 30 days, allowing you to recover accidentally deleted data. Furthermore, you can schedule automatic backups to ensure regular and secure data backups.
+インターネットを介したクラスタトラフィックを望まない場合、Zilliz Cloudはクラスタにプライベートリンクを追加することもサポートしています。このプライベートリンクは、信頼できる仮想プライベートクラウド（VPC）内のリソースのみがクラスタと通信を確立できるようにすることで、追加の保護レイヤーとして機能します。
 
-For details, see [Backup & Restore](/docs/backup-and-restore).
+詳細については、[プライベートエンドポイントを設定する](./setup-a-private-link)参照してください。
 
-## Summary{#summary}
+\</exclude>
 
-In summary, Zilliz Cloud prioritizes data security at every stage, employing encryption techniques, authentication protocols, access control, server-side encryption, audit logs, and backup and restoration mechanisms to ensure the confidentiality, integrity, and availability of your data.
+## 暗号化によるデータの保存と送信{#storing-and-transmitting-data-with-encryption}{#storing-and-transmitting-data-with-encryption}
+
+クラスタが起動し、セキュリティ設定が適用されると、Zilliz Cloudはデータの保存と送信を安全にするためのさまざまな対策を実施します。
+
+Zilliz Cloudでは、ベクトルデータがオブジェクトストレージ(AWSS 3またはGCS)に保存され、サーバーサイドの暗号化が有効になっています。異なるユーザーに属するデータはバケットに分離されています。さらに、Zilliz Cloudは[JumpServer](https://en.wikipedia.org/wiki/Jump_server)を使用して、ログイン、クエリ、変更などのすべてのクラスターアクセス操作に対して記録を保持し、監査を実行します。これらの監査ログは、潜在的なセキュリティインシデントやデータ漏洩リスクを追跡および調査するために使用できます。
+
+## バックアップと復元{#backup-and-restoration}{#yuanbackup-and-restoration}
+
+データの整合性を保護するために、Zilliz Cloudは信頼性の高いバックアップおよび復元メカニズムを提供しています。
+
+プラットフォームは、最大保持期間が30日のごみ箱機能を備えており、誤って削除したデータを回復することができます。さらに、定期的かつ安全なデータバックアップを確保するために、自動バックアップをスケジュールすることができます。
+
+詳細については、「[バックアップと復元](./backup-and-restore)」を参照してください。
+
+## 要約する{#summary}{#summary}
+
+要約すると、Zilliz Cloudは、暗号化技術、認証プロトコル、アクセス制御、ホワイトリスト、プライベートリンク、サーバーサイド暗号化、監査ログ、バックアップおよび復元メカニズムを使用して、データの機密性、完全性、可用性を確保するために、すべての段階でデータセキ。

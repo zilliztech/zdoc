@@ -1,12 +1,12 @@
 ---
-title: "Quickstart | BYOC"
+title: "クイックスタート | BYOC"
 slug: /quick-start
-sidebar_label: "Quickstart"
+sidebar_label: "クイックスタート"
 beta: FALSE
 notebook: FALSE
-description: "This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes. | BYOC"
+description: "このガイドでは、Zilliz Cloudクラスタを設定し、CRUD操作を数分で実行する方法について説明します。 | BYOC"
 type: origin
-token: GQN0wDCrni4n36kyeVQcF41Lned
+token: LZxQwT4n7ikeackupqEchFhanub
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
@@ -25,57 +25,57 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Quickstart
+# クイックスタート
 
-This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes.
+このガイドでは、Zilliz Cloudクラスタを設定し、CRUD操作を数分で実行する方法について説明します。
 
-## Before you start{#before-you-start}
+## 始める前に{#before-you-start}{#before-you-start}
 
-Zilliz Cloud provides a Bring-Your-Own-Cloud (BYOC) solution, allowing organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. For details about our BYOC solution, read [BYOC Overview](./byoc-intro).
+Zilliz Cloudは、Bring-Your-Own-Cloud（BYOC）ソリューションを提供しています。これにより、組織はZilliz Cloudのインフラストラクチャを使用せずに、独自のクラウドアカウントでアプリケーションやデータをホストできます。BYOCソリューションの詳細については、[BYOCの概要](./byoc-intro)をご覧ください。
 
-The following figure illustrates the procedures to start using our BYOC solution.
+次の図は、BYOCソリューションの使用を開始する手順を示しています。
 
-![ChT3woJqYhkzj1bipPxcXNZrnbc](/byoc/ChT3woJqYhkzj1bipPxcXNZrnbc.png)
+![TelDwEfighKqWLbgCHlcXWOvnvb](/byoc/ja-JP/TelDwEfighKqWLbgCHlcXWOvnvb.png)
 
-Before going through this quick start, ensure that:
+このクイックスタートを行う前に、次のことを確認してください:
 
-- You have registered an account with Zilliz Cloud. 
+- Zilliz Cloudにアカウントを登録しました。
 
-    For instructions, refer to [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+    手順については、「[Zilliz Cloudに登録する](./register-with-zilliz-cloud)する」を参照してください。
 
-- You have contacted Zilliz Cloud sales and provided your account to us.
+- Zilliz Cloudの営業部に連絡し、アカウントを提供していただきました。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p>Currently, Zilliz BYOC is in <strong>Private Preview</strong>. To participate in the trial, contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+    <p>現在、Zilliz BYOCは<strong>プライベートプレビュー</strong>中です。トライアルに参加するには、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
 
     </Admonition>
 
-- You have created a project in the BYOC organization and deployed the data plane infrastructure for the project.
+- BYOC組織でプロジェクトを作成し、そのプロジェクトのデータプレーンインフラストラクチャをデプロイしていること。
 
-    Zilliz BYOC operates within your Virtual Private Cloud (VPC), requiring you to initiate the deployment of data plane components. You can deploy the data plane in your VPCs hosted on the following cloud providers:
+    Zilliz BYOCは、Virtual Private Cloud（VPC）内で動作し、データプレーンコンポーネントのデプロイを開始する必要があります。以下のクラウドプロバイダーでホストされているVPCにデータプレーンをデプロイできます。
 
-    - [Deploy BYOC on AWS](./deploy-byoc-aws)
+    - [AWSでBYOCをデプロイする](./deploy-byoc-aws)
 
-    If your cloud provider is not available above, contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
+    上記のクラウドプロバイダーが利用できない場合は、[Zilliz Cloudサポート](https://zilliz.com/contact-sales)にお問い合わせください。
 
-## Install an SDK{#install-an-sdk}
+## SDKをインストールする{#install-an-sdk}{#sdkinstall-an-sdk}
 
-Zilliz Cloud supports the Milvus SDKs and all [RESTful API endpoints](/reference/restful). You can use the RESTful API directly, or choose one of the following SDKs to start with:
+Zilliz CloudはMilvus SDKとすべての[RESTful APIエンドポイント](/reference/restful)をサポートしています。RESTful APIを直接使用するか、以下のSDKのいずれかを選択して開始することができます。
 
-- [Install the Python SDK.](./install-sdks#install-pymilvus-python-sdk)
+- [Python SDKをインストールします。](./install-sdks#pymilvus-python-sdkinstall-pymilvus-python-sdk)
 
-- [Install the Java SDK.](./install-sdks#install-java-sdk)
+- [Java SDKをインストールします。](./install-sdks#javasdkinstall-java-sdk)
 
-- [Install the Go SDK.](./install-sdks#install-go-sdk)
+- [Go SDKをインストールします。](./install-sdks#gosdkinstall-go-sdk)
 
-- [Install the Node.js SDK.](./install-sdks#install-nodejs-sdk)
+- [Node. js SDKをインストールします。](./install-sdks#node-jssdkinstall-nodejs-sdk)
 
-## Create a Cluster{#create-a-cluster}
+## クラスタの作成{#create-a-cluster}{#create-a-cluster}
 
-You can create a cluster with the subscription plan of your choice using either the RESTful API endpoints or on the Zilliz Cloud console.
+RESTful APIエンドポイントまたはZilliz Cloudコンソールを使用して、任意のサブスクリプションプランでクラスタを作成できます。
 
-The following demonstrates how to create a dedicated cluster using the RESTful API.
+以下は、RESTful APIを使用して専用クラスターを作成する方法を示しています。
 
 ```bash
 curl --request POST \
@@ -103,13 +103,13 @@ curl --request POST \
 # }
 ```
 
-You can find the cloud region and project ID on Zilliz Cloud console. If you prefer to create a free cluster on the Zilliz Cloud console, refer to [Create Cluster](./create-cluster).
+Zilliz Cloudコンソールで、クラウドリージョン、プロジェクトIDを確認できます。Zilliz Cloudコンソールで無料クラスタを作成する場合は、[クラスタ作成](./create-cluster)を参照してください。
 
-Once your cluster is running, you will be prompted with the [cluster credentials](./cluster-credentials) for once. Download and save it in a safe place. You will need it to connect to your cluster later.
+クラスタが実行されると、一度だけ[クラスタ資格情報](./cluster-credentials)を求められます。安全な場所にダウンロードして保存してください。後でクラスタに接続するために必要になります。
 
-## Connect to Zilliz Cloud clusterMilvus{#connect-to-zilliz-cloud-clustermilvus}
+## 接続先Zilliz CloudクラスタMilvus{#connect-to-zilliz-cloud-cluster}{#zilliz-cloudmilvusconnect-to-zilliz-cloud-cluster}
 
-Once you have obtained the cluster credentials, you can use it to connect to your cluster now.
+クラスタの資格情報を取得したら、それを使用してクラスタに接続できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
@@ -164,19 +164,19 @@ const client = new MilvusClient({address, token})
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Due to language differences, you should <strong>include your code in the main function</strong> if you prefer to code in <strong>Java</strong> or <strong>Node.js</strong>.</p>
+<p>言語の違いにより、<strong>main関数にコードを含め</strong>る必要があります。<strong>Java</strong>または<strong>Node. js</strong>でコーディングする場合は。</p>
 
 </Admonition>
 
-## Create a Collection{#create-a-collection}
+## コレクションを作成{#create-a-collection}{#create-a-collection}
 
-On Zilliz Cloud, you need to store your vector embeddings in collections. All vector embeddings stored in a collection share the same dimensionality and distance metric for measuring similarity. You can create a collection in either of the following manners.
+Zilliz Cloud上では、ベクトル埋め込みをコレクションに保存する必要があります。コレクションに保存されたすべてのベクトル埋め込みは、類似性を測定するための同じ次元と距離メトリックを共有します。コレクションを作成する方法は、以下のいずれかです。
 
-### Quick setup{#quick-setup}
+### クイックセットアップ{#quick-setup}{#quick-setup}
 
-To set up a collection in quick setup mode, you only need to set the collection name and the dimension of the vector field of the collection.
+クイックセットアップモードでコレクションを設定するには、コレクション名とコレクションのベクトル場の次元を設定するだけです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -240,25 +240,25 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In the above setup, 
+上記の設定では、
 
-- The primary and vector fields use their default names (**id** and **vector**).
+- プライマリフィールドとベクトルフィールドは、デフォルトの名前(**id**と**vector**)を使用します。
 
-- The metric type is also set to its default value (**COSINE**).
+- メトリックタイプもデフォルト値(**COSINE**)に設定されます。
 
-- The primary field accepts integers and does not automatically increments.
+- プライマリフィールドは整数を受け入れ、自動的に増加しません。
 
-- A reserved JSON field named **$meta** is used to store non-schema-defined fields and their values.
+- スキーマ定義されていないフィールドとその値を格納するために、**$meta**という名前の予約済みJSONフィールドが使用されます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Collections created using the RESTful API supports a minimum of 32-dimensional vector field.</p>
+<p>RESTful APIを使用して作成されたコレクションは、最低32次元のベクトルフィールドをサポートしています。</p>
 
 </Admonition>
 
-### Customized setup{#customized-setup}
+### カスタマイズされたセットアップ{#customized-setup}{#customized-setup}
 
-To define the collection schema by yourself, use the customized setup. In this manner, you can define the attributes of each field in the collection, including its name, data type, and extra attributes of a specific field.
+コレクションスキーマを自分で定義するには、カスタマイズされたセットアップを使用します。この方法で、コレクション内の各フィールドの属性を定義できます。これには、名前、データ型、および特定のフィールドの追加属性が含まれます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -432,42 +432,42 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In the above setup, you have the flexibility to define various aspects of the collection during its creation, including its schema and index parameters.
+上記のセットアップでは、スキーマやインデックスパラメーターなど、コレクションの作成時にさまざまな側面を定義する柔軟性があります。
 
-- **Schema**
+- **スキーマ**
 
-    The schema defines the structure of a collection. Except for adding pre-defined fields and setting their attributes as demonstrated above, you have the option of enabling and disabling
+    スキーマはコレクションの構造を定義します。上記で示したように、事前に定義されたフィールドを追加して属性を設定する以外は、有効化と無効化のオプションがあります。
 
-    - **Auto ID**
+    - **オートID**
 
-        Whether to enable the collection to automatically increment the primary field.
+        コレクションがプライマリフィールドを自動的にインクリメントするかどうか。
 
-    - **Dynamic Field**
+    - **ダイナミックフィールド**
 
-        Whether to use the reserved JSON field **$meta** to store non-schema-defined fields and their values. 
+        予約済みのJSONフィールド**$meta**を使用して、スキーマ定義されていないフィールドとその値を保存するかどうか。
 
-     For a detailed explanation of the schema, refer to [Schema Explained](./schema-explained).
+    スキーマの詳細については、[スキーマの説明](./schema-explained)を参照してください。
 
-- **Index parameters**
+- **インデックスパラメータ**
 
-    Index parameters dictate how Zilliz Cloud organizes your data within a collection. You can assign specific indexes to fields by configuring their **metric types** and **index types**. 
+    インデックスパラメータは、Zilliz Cloudがコレクション内のデータをどのように整理するかを決定します。**メトリックタイプ**と**インデックスタイプ**を設定することで、フィールドに特定のインデックスを割り当てることができます。
 
-    - For the vector field, you can use **AUTOINDEX** as the index type and use **COSINE**, **L2**, or **IP** as the `metric_type`.
+    - ベクトル場では、インデックスタイプとして**AUTOINDEX**を使用し、メトリックタイプとして**COSINE**、**L 2**、または**IP**を使用でき`ます`。
 
-    - For scalar fields, including the primary field, Zilliz Cloud uses **TRIE** for integers and **STL_SORT** for strings.
+    - プライマリフィールドを含むスカラーフィールドの場合、Zilliz Cloudは整数に**TRIE**、文字列に**STL_SORT**を使用します。
 
-    For additional insights into index types, refer to[AUTOINDEX Explained](./autoindex-explained).
+    インデックスタイプの詳細については、AUTOINDEXの[AUTOINDEXの説明](./autoindex-explained)参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>The collection created in the preceding code snippets are automatically loaded. If you prefer not to create an automatically loaded collection, refer to <a href="./manage-collections-sdks">Create Collection</a>.</p>
-<p>Collections created using the RESTful API are always automatically loaded.</p>
+<p>前のコードスニペットで作成されたコレクションは自動的にロードされます。自動的にロードされるコレクションを作成したくない場合は、<a href="./manage-collections-sdks">コレクションを作成</a>するを参照してください。</p>
+<p>RESTful APIを使用して作成されたコレクションは常に自動的にロードされます。</p>
 
 </Admonition>
 
-## Insert Data{#insert-data}
+## データの挿入{#insert-data}{#insert-data}
 
-Collections created in either of the preceding ways have been indexed and loaded. Once you are ready, insert some example data.
+上記のいずれかの方法で作成されたコレクションはインデックス化され、ロードされました。準備ができたら、サンプルデータを挿入してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -632,23 +632,23 @@ curl -s --request POST \
 </TabItem>
 </Tabs>
 
-The provided code assumes that you have created a collection in the **Quick Setup** manner. As shown in the above code, 
+提供されたコードは、**クイックセットアップ**の方法でコレクションを作成したことを前提としています。上記のコードに示すように、
 
-- The data to insert is organized into a list of dictionaries, where each dictionary represents a data record, termed as an entity.
+- 挿入するデータは辞書のリストに整理され、各辞書はエンティティと呼ばれるデータレコードを表します。
 
-- Each dictionary contains a non-schema-defined field named **color**.
+- 各ディクショナリには、**color**という名前のスキーマ定義されていないフィールドが含まれています。
 
-- Each dictionary contains the keys corresponding to both pre-defined and dynamic fields.
+- 各辞書には、事前定義されたフィールドと動的フィールドの両方に対応するキーが含まれています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Collections created using RESTful API enabled AutoID, and therefore you need to skip the primary field in the data to insert.</p>
+<p>RESTful API対応のAutoIDを使用して作成されたコレクションは、挿入するデータのプライマリフィールドをスキップする必要があります。</p>
 
 </Admonition>
 
-### Insert more data{#insert-more-data}
+### より多くのデータを挿入{#insert-more-data}{#insert-more-data}
 
-You can safely skip this section if you prefer to search with the inserted 10 entities later. To learn more about the search performance of Zilliz Cloud clusters, you are advised use the following code snippet to add more randomly generated entities into the collection.
+後で挿入された10個のエンティティで検索したい場合は、このセクションを安全にスキップできます。Zilliz Cloudクラスターの検索パフォーマンスについて詳しく知るには、以下のコードスニペットを使用して、ランダムに生成されたエンティティをコレクションに追加することをお勧めします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -827,25 +827,25 @@ if __name__ == '__main__':
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>You can insert a maximum of 100 entities in a batch upon each call to the Insert RESTful API.</p>
-
-</Admonition>
-
-## Similarity Search{#similarity-search}
-
-You can conduct similarity searches based on one or more vector embeddings.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>The insert operations are asynchronous, and conducting a search immediately after data insertions may result in empty result set. To avoid this, you are advised to wait for a few seconds.</p>
+<p>Insert RESTful APIを呼び出すたびに、最大100個のエンティティをバッチに挿入できます。</p>
 
 </Admonition>
 
-### Single-vector search{#single-vector-search}
+## 類似性検索{#similarity-search}{#similarity-search}
 
-The value of the **query_vectors** variable is a list containing a sub-list of floats. The sub-list represents a vector embedding of 5 dimensions. 
+1つ以上のベクトル埋め込みに基づいて類似検索を実行できます。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>挿入操作は非同期であり、データ挿入の直後に検索を実行すると、結果セットが空になる可能性があります。これを回避するには、数秒間待つことをお勧めします。</p>
+
+</Admonition>
+
+### 単一ベクトル探索{#single-vector-search}{#single-vector-search}
+
+変数**query_vector**の値は、浮動小数点数のサブリストを含むリストです。このサブリストは、5次元のベクトル埋め込みを表します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1000,11 +1000,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-The output is a list containing a sub-list of three dictionaries, representing the returned entities with their IDs and distances.
+出力は、IDと距離を持つ返されたエンティティを表す3つの辞書のサブリストを含むリストです。
 
-### Bulk-vector search{#bulk-vector-search}
+### 一括ベクトル探索{#bulk-vector-search}{#bulk-vector-search}
 
-You can also include multiple vector embeddings in the **query_vectors** variable to conduct a batch similarity search.
+複数のベクトル埋め込みを**query_vector**変数に含めて、バッチ類似検索を実行することもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1209,13 +1209,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-The output should be a list of two sub-lists, each of which contains three dictionaries, representing the returned entities with their IDs and distances. 
+出力は2つのサブリストのリストであり、それぞれに3つの辞書が含まれ、返されたエンティティをIDと距離で表します。
 
-### Filtered searches{#filtered-searches}
+### フィルターされた検索{#filtered-searches}{#filtered-searches}
 
-- **With schema-defined fields**
+- **スキーマ定義フィールド**
 
-    You can also enhance the search result by including a filter and specifying certain output fields in the search request.
+    検索要求にフィルターを含め、特定の出力フィールドを指定することで、検索結果を強化することもできます。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -1371,11 +1371,11 @@ The output should be a list of two sub-lists, each of which contains three dicti
     </TabItem>
     </Tabs>
 
-    The output should be a list containing a sub-list of three dictionaries, each representing a searched entity with its ID, distance, and the specified output fields.
+    出力は、ID、距離、指定された出力フィールドを持つ検索されたエンティティを表す3つの辞書のサブリストを含むリストである必要があります。
 
-- **With non-schema-defined fields**
+- **スキーマ定義されていないフィールド**
 
-    You can also include dynamic fields in a filter expression. In the following code snippet, `color` is a non-schema-defined field. You can include them either as keys in the magic `$meta` field, such as `$meta["color"]`, or directly use it like a schema-defined field, such as `color`.
+    フィルター式に動的フィールドを含めることもできます。次のコードスニペットでは、`color`はスキーマ定義されていないフィールドです。これらをマジック`$meta`フィールドのキーとして含めることができます(例:`$meta["color"]`)、またはスキーマ定義フィールドのように直接使用することができます(例:`color`)。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -1542,11 +1542,11 @@ The output should be a list of two sub-lists, each of which contains three dicti
     </TabItem>
     </Tabs>
 
-## Scalar Query{#scalar-query}
+## スカラークエリ{#scalar-query}{#scalar-query}
 
-Unlike a vector similarity search, a query retrieves vectors via scalar filtering based on [filter expressions](https://milvus.io/docs/boolean.md).
+ベクトル類似検索とは異なり、クエリは[フィルタ式](https://milvus.io/docs/ja/boolean.md)に基づくスカラーフィルタリングによってベクトルを取得します。
 
-- **With filter using schema-defined fields**
+- **スキーマ定義フィールドを使用したフィルター**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -1698,7 +1698,7 @@ Unlike a vector similarity search, a query retrieves vectors via scalar filterin
     </TabItem>
     </Tabs>
 
-- **With filter using non-schema-defined fields.**
+- **スキーマ定義されていないフィールドを使用したフィルター。**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -1850,9 +1850,9 @@ Unlike a vector similarity search, a query retrieves vectors via scalar filterin
     </TabItem>
     </Tabs>
 
-## Get Entities{#get-entities}
+## エンティティを取得{#get-entities}{#get-entities}
 
-If you know the IDs of the entities to retrieve, you can get entities by their IDs as follows:
+取得するエンティティのIDがわかっている場合は、次のようにIDからエンティティを取得できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -2070,17 +2070,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Currently, the RESTful API does not provide a get endpoint.</p>
+<p>現在、RESTful APIはgetエンドポイントを提供していません。</p>
 
 </Admonition>
 
-## Delete Entities{#delete-entities}
+## エンティティの削除{#delete-entities}{#delete-entities}
 
-Zilliz Cloud allows deleting entities by IDs and by filters.
+Zilliz Cloudでは、IDやフィルターによるエンティティの削除が可能です。
 
-- **Delete entities by IDs.**
+- **IDでエンティティを削除します。**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -2165,7 +2165,7 @@ Zilliz Cloud allows deleting entities by IDs and by filters.
     </TabItem>
     </Tabs>
 
-- **Delete entities by filter**
+- **フィルタでエンティティを削除**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -2247,15 +2247,15 @@ Zilliz Cloud allows deleting entities by IDs and by filters.
     </TabItem>
     </Tabs>
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p>Currently, the delete endpoint of the RESTful API does not support filters.</p>
+    <p>現在、RESTful APIのdeleteエンドポイントはフィルターをサポートしていません。</p>
 
     </Admonition>
 
-## Drop the collection{#drop-the-collection}
+## コレクションを削除する{#drop-the-collection}{#drop-the-collection}
 
-The Free plan allows up to two collections in a cluster. Once you have done this guide, you can drop the collection as follows:
+無料プランでは、クラスタ内で最大2つのコレクションを使用できます。このガイドを完了したら、次のようにコレクションを削除できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -2352,11 +2352,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Recaps{#recaps}
+## まとめ{#recaps}{#recaps}
 
-- There are two ways to create a collection. The first is the quick setup, which only requires you to provide a name and the dimension of the vector field. The second is the customized setup, which allows you to customize almost every aspect of the collection.
+- コレクションを作成するには2つの方法があります。1つ目はクイックセットアップで、ベクトル場の名前と次元を提供するだけで済みます。2つ目はカスタマイズされたセットアップで、コレクションのほぼすべての側面をカスタマイズできます。
 
-- The data insertion process may take some time to complete. It is recommended to wait a few seconds after inserting data and before conducting similarity searches.
+- データの挿入過程は完了するまでに時間がかかる場合があります。データを挿入した後、類似検索を行う前に数秒間待つことをお勧めします。
 
-- Filter expressions can be used in both search and query requests. However, they are mandatory for query requests.
+- フィルター式は、検索リクエストとクエリリクエストの両方で使用できます。ただし、クエリリクエストには必須です。
 

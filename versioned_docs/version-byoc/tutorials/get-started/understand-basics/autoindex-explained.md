@@ -14,10 +14,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: CadTdZ5YGocDymxaIOvcr08pnxd
 sidebar_position: 1
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
   - javaV2
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: javaSidebar
 
 ---

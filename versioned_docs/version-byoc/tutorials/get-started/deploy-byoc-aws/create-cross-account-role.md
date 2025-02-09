@@ -2,7 +2,7 @@
 title: "Create Cross-Account IAM Role | BYOC"
 slug: /create-cross-account-role
 sidebar_label: "Create Cross-Account IAM Role"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page describes how to create and configure a cross-account role for Zilliz Cloud to bootstrap your project. This role gives Zilliz Cloud restricted permissions to manage VPC resources on your behalf. | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 
@@ -29,6 +29,12 @@ import Admonition from '@theme/Admonition';
 # Create Cross-Account IAM Role
 
 This page describes how to create and configure a cross-account role for Zilliz Cloud to bootstrap your project. This role gives Zilliz Cloud restricted permissions to manage VPC resources on your behalf.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
 
 ## Procedure{#procedure}
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

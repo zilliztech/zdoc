@@ -1,12 +1,12 @@
 ---
-title: "Deploy BYOC on AWS | BYOC"
+title: "AWSでBYOCをデプロイする | BYOC"
 slug: /deploy-byoc-aws
-sidebar_label: "Deploy BYOC on AWS"
+sidebar_label: "AWSでBYOCをデプロイする"
 beta: PRIVATE
 notebook: FALSE
-description: "This page describes how to manually create a project in your Zilliz Cloud Bring-Your-Own-Cloud (BYOC) organization using the Zilliz Cloud console and custom AWS configurations. | BYOC"
+description: "このページでは、Zilliz CloudコンソールとカスタムAWS設定を使用して、Zilliz Cloud Bring-Your-Own-Cloud (BYOC)組織内でプロジェクトを手動で作成する方法について説明します。 | BYOC"
 type: origin
-token: DsqzwjegpiYSdtk1k75c1zXsnZc
+token: Etl1wNppoi5f7BkA0cKcULxvnGg
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,166 +14,172 @@ keywords:
   - aws
   - milvus
   - vector database
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Deploy BYOC on AWS
+# AWSでBYOCをデプロイする
 
-This page describes how to manually create a project in your Zilliz Cloud Bring-Your-Own-Cloud (BYOC) organization using the Zilliz Cloud console and custom AWS configurations.
+このページでは、Zilliz CloudコンソールとカスタムAWS設定を使用して、Zilliz Cloud Bring-Your-Own-Cloud (BYOC)組織内でプロジェクトを手動で作成する方法について説明します。
 
-## Prerequisites{#prerequisites}
+<Admonition type="info" icon="📘" title="ノート">
 
-- You must be a BYOC organization owner.
+<p>Zilliz BYOCは現在<strong>一般提供</strong>中です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
 
-## Procedure{#procedure}
+</Admonition>
 
-To deploy BYOC on AWS, Zilliz Cloud needs to assume specific roles to access the S3 bucket and the EKS cluster within a customer-managed VPC on your behalf. Consequently, Zilliz Cloud needs to gather information about your S3 bucket, EKS cluster, and VPC, along with the roles necessary for accessing these infrastructure resources.
+## 前提条件{#prerequisites}{#prerequisites}
 
-Click the **Create Project and Deploy Data Plane** button to start the deployment.
+- あなたはBYOC組織のオーナーでなければなりません。
 
-### General Settings{#general-settings}
+## 手続き{#procedure}{#procedure}
 
-In **General Settings**, you need to set the project name, determine the cloud providers and regions, and choose the way for Zilliz Cloud to create the project and deploy the data plane.
+AWSにBYOCを展開するには、Zilliz Cloudは、お客様が管理するVPC内のS3バケットとEKSクラスターにアクセスするための特定の役割を担う必要があります。そのため、Zilliz Cloudは、S3バケット、EKSクラスター、VPCに関する情報と、これらのインフラストラクチャリソースにアクセスするために必要な役割を収集する必要があります。
 
-![Qc2UbbhE7oE7DQxtPvZca6t5ngb](/byoc/Qc2UbbhE7oE7DQxtPvZca6t5ngb.png)
+[**Create Project and Deploy Data Plane**]ボタンをクリックして、デプロイを開始します。
 
-1. Set **Project Name**.
+### 一般の設定{#general-settings}{#general-settings}
 
-1. Select **Cloud Provider** and **Region**.
+「**一般設定**」では、プロジェクト名を設定し、クラウドプロバイダーとリージョンを決定し、Zilliz Cloudがプロジェクトを作成し、データプレーンを展開する方法を選択する必要があります。
 
-1. (Optional) Configure **Instance Settings**. 
+![H44BbcnpZoL5m3xqVV8chqqonyb](/byoc/ja-JP/H44BbcnpZoL5m3xqVV8chqqonyb.png)
 
-    In a BYOC project, the search service, fundamental database components, and core support services use different instances. You can set instance types for these services and components. 
+1. [**プロジェクト名**]を設定します。
 
-    For details, see [Instance Settings](./deploy-byoc-aws#instance-settings).
+1. [**クラウドプロバイダー**]と[**リージョン**]を選択します。
 
-1. Choose the way for Zilliz Cloud to carry on the task in **Deploy Method**.
+1. (オプション)**インスタンス設定**を構成します。
 
-    There are three options for you to provision the infrastructure for your BYOC project on AWS. You can either
+    BYOCプロジェクトでは、検索サービス、基本的なデータベースコンポーネント、およびコアサポートサービスが異なるインスタンスを使用します。これらのサービスとコンポーネントのインスタンスタイプを設定できます。
 
-    - **Use AWS CloudFormation to provision the infrastructure.**
+    詳細は、[インスタンス設定](./deploy-byoc-aws#instance-settings)を参照してください。
 
-        If you prefer to use AWS CloudFormation to provision the data plane infrastructure for the project, select the **Quickstart** tile in the **Deploy Method** section. This is also the recommended method to start a BYOC project.
+1. Zilliz Cloudが**デプロイ方法**でタスクを実行する方法を選択してください。
 
-    - **Use a Terraform script to provision the infrastructure.**
+    AWS上でBYOCプロジェクトのインフラストラクチャをプロビジョニングするには、3つのオプションがあります。
 
-        If you prefer to use a Terraform script to provision the infrastructure, you need to copy and paste the script output back to Zilliz Cloud. For details, see [Bootstrap Project Infrastructure (Terraform)](./bootstrap-infrastructure-terraform). 
+    - **AWS CloudFormationを使用してインフラストラクチャをプロビジョニングします。**
 
-    - **Use the AWS console to create necessary resources and roles.**
+        AWS CloudFormationを使用してプロジェクトのデータプレーンインフラストラクチャをプロビジョニングする場合は、[**クイックスタート**]タイルを[**デプロイ方法**]セクションで選択します。これは、BYOCプロジェクトを開始するためにも推奨される方法です。
 
-        You need to create necessary resources, such as a storage bucket and several IAM roles, on the AWS console. Then, copy and paste their names and IDs back to Zilliz Cloud console. If you prefer to create the project this way, select the **Manually** tile in the **Deploy Method** section. 
+    - **Terraformスクリプトを使用してインフラストラクチャをプロビジョニングします。**
 
-        To facilitate your configurations, Zilliz Cloud splits the process into the following steps:
+        インフラストラクチャのプロビジョニングにTerraformスクリプトを使用する場合は、スクリプトの出力をZilliz Cloudにコピー&ペーストする必要があります。詳細については、[Bootstrapインフラストラクチャ（Terraform）](./bootstrap-infrastructure-terraform)を参照してください。
 
-        - [Credential Settings](./deploy-byoc-aws#credential-settings), and
+    - **AWSコンソールを使用して、必要なリソースとロールを作成します。**
 
-        - [Network Settings](./deploy-byoc-aws#network-settings).
+        必要なリソース(ストレージバケットや複数のIAMロールなど)をAWSコンソールで作成する必要があります。その後、名前とIDをコピーしてZilliz Cloudコンソールに貼り付けます。この方法でプロジェクトを作成する場合は、**手動**タイルを**デプロイ方法**セクションで選択してください。
 
-### Credential Settings{#credential-settings}
+        設定を容易にするために、Zilliz Cloudは以下の過程に分けています:
 
-In **Credential Settings**, you must set up the storage and several IAM roles for storage access, EKS cluster management, and data-plane deployment.
+        - [クレデンシャル設定](./deploy-byoc-aws#credential-settings)、および
 
-![LEGhbUbZwoPdwSx1PjxcHBjQnab](/byoc/LEGhbUbZwoPdwSx1PjxcHBjQnab.png)
+        - [ネットワーク設定](./deploy-byoc-aws#credential-settings)。
 
-1. Follow the steps listed below to configure storage, EKS, and cross-account settings.
+### クレデンシャル設定{#credential-settings}{#credential-settings}
 
-    1. In **Storage settings**, set **Bucket Name** and **IAM Role ARN** obtained from AWS. 
+[**資格情報設定**]では、ストレージアクセス、EKSクラスター管理、およびデータプレーンデプロイのために、ストレージと複数のIAMロールを設定する必要があります。
 
-        Zilliz Cloud will use the specified bucket as the data-plane storage and access it on your behalf using the specified IAM role.
+![SqYDbdYcropfGnxMsOhcSeACnag](/byoc/ja-JP/SqYDbdYcropfGnxMsOhcSeACnag.png)
 
-         For more on the procedure for creating an S3 bucket, read [Create S3 Bucket and IAM Role](./create-bucket-and-role). 
+1. 以下の手順に従って、ストレージ、EKS、およびクロスアカウント設定を構成します。
 
-    1. In **EKS Settings**, set **IAM Role ARN** for EKS management. 
+    1. [**ストレージ設定**]で、AWSから取得した**バケット名**と**IAMロールARN**を設定します。
 
-        Zilliz Cloud will use the specified role to deploy an EKS cluster on your behalf and deploy the data plane in the EKS cluster.
+        Zilliz Cloudは、指定されたバケットをデータプレーンストレージとして使用し、指定されたIAMロールを使用してあなたの代わりにアクセスします。
 
-        For more on the procedure for creating an EKS role, read [Create EKS IAM Role](./create-eks-role).
+        S 3バケットを作成する手順の詳細については、[S3バケットとIAMロールの作成](./create-bucket-and-role)するを参照してください。
 
-    1. In **Cross-Account Settings**, set **IAM Role ARN** for data-plane deployment.
+    1. [**EKS設定**]で、EKS管理の**IAMロールARN**を設定します。
 
-        Zilliz Cloud will use the specified role to deploy the data plane of the Zilliz Cloud BYOC project. 
+        Zilliz Cloudは、指定されたロールを使用してEKSクラスターをデプロイし、EKSクラスターにデータプレーンをデプロイします。
 
-        For more on the procedure for creating the cross-account role, read [Create Cross-Account IAM Role](./create-cross-account-role).
+        EKSロールを作成する手順の詳細については、「[EKS IAMロールの作成](./create-eks-role)」を参照してください。
 
-1. Click **Next** to configure network settings.
+    1. [**クロスアカウント設定**]で、データプレーンデプロイの**IAMロールARN**を設定します。
 
-### Network Settings{#network-settings}
+        Zilliz Cloudは、指定された役割を使用して、Zilliz Cloud BYOCプロジェクトのデータプレーンを展開します。
 
-In Network Settings, you need to create a VPC and several types of resources, such as subnets, security group, and optional VPC endpoint in the VPC.
+        クロス勘定ロールを作成する手順の詳細については、「[クロスアカウントIAMロールの作成](./create-cross-account-role)」を参照してください。
 
-![PEGUbAKxvoOydNxxgr8cwuZgnBh](/byoc/PEGUbAKxvoOydNxxgr8cwuZgnBh.png)
+1. [**次**へ]をクリックしてネットワーク設定を構成します。
 
-1. In **Network Settings**, set the **VPC ID**, **Subnet IDs**, the **Security Group ID**, and the optional **VPC endpoint ID**.
+### ネットワーク設定{#network-settings}{#network-settings}
 
-    In the specified VPC, Zilliz Cloud requires 
+ネットワーク設定では、VPCと、サブネット、セキュリティグループ、VPC内のオプションのVPCエンドポイントなど、複数の種類のリソースを作成する必要があります。
 
-    - A public subnet and three private subnets.
+![G9iEbGNd2oMhbSxWmAccCAnkn0g](/byoc/ja-JP/G9iEbGNd2oMhbSxWmAccCAnkn0g.png)
 
-    - A security group, and
+1. [**ネットワーク設定**]で、**VPC ID**、**サブネットID**、**セキュリティグループID**、およびオプションの**VPCエンドポイントID**を設定します。
 
-    - An optional VPC endpoint.
+    指定されたVPCでは、Zilliz Cloudが必要です。
 
-    For more on the procedure for creating a VPC and the resources within, refer to [Configure a Customer-Managed VPC](./configure-vpc).
+    - パブリックサブネットと3つのプライベートサブネット。
 
-1. Click **Next** to view the summary.
+    - セキュリティグループ、そして
 
-1. In **Deployment Summary**, review the configurations.
+    - オプションのVPCエンドポイント。
 
-1. Click **Create** if everything is as expected.
+    VPCの作成手順とリソースの詳細については、「[顧客管理型VPCの設定](./configure-vpc)」を参照してください。
 
-## Instance Settings{#instance-settings}
+1. [**次**へ]をクリックして概要を表示します。
 
-During the project deployment, Zilliz Cloud creates the fundamental database components and core support services. When the project is ready, you can create clusters in the project. At this point, Zilliz Cloud creates instances for search services on your behalf. 
+1. [**Deployment Summary**]で構成を確認します。
 
-![ZDOjbRWDboqYxSxrfujcjw9tn7f](/byoc/ZDOjbRWDboqYxSxrfujcjw9tn7f.png)
+1. すべてが期待どおりであれば、[**作成**]をクリックします。
 
-You need to determine the types of instances to create for each component listed below during the deployment. 
+## インスタンス設定{#instance-settings}{#instance-settings}
+
+プロジェクトのデプロイ中、Zilliz Cloudは基本的なデータベースコンポーネントとコアサポートサービスを作成します。プロジェクトの準備ができたら、プロジェクト内にクラスターを作成できます。この時点で、Zilliz Cloudはあなたの代わりに検索サービスのインスタンスを作成します。
+
+![C7RmbHtWjoFrczxFOAnctnNYnDc](/byoc/ja-JP/C7RmbHtWjoFrczxFOAnctnNYnDc.png)
+
+デプロイ中に、以下に示す各コンポーネントに対して作成するインスタンスの種類を決定する必要があります。
 
 <table>
    <tr>
-     <th><p>Components</p></th>
-     <th><p>Licenses consumed per instance</p></th>
-     <th><p>Instance type</p></th>
-     <th><p>Instances required for initial deployment</p></th>
-     <th><p>Description</p></th>
+     <th><p>コンポーネント</p></th>
+     <th><p>インスタンスごとに消費されるライセンス</p></th>
+     <th><p>インスタンスタイプ</p></th>
+     <th><p>初期デプロイに必要なインスタンス</p></th>
+     <th><p>説明する</p></th>
    </tr>
    <tr>
-     <td><p>Search service</p></td>
+     <td><p>検索サービス</p></td>
      <td><p>16</p></td>
-     <td><p>m6id.4xlarge</p></td>
+     <td><p>m 6 id.4 xlargeファイル</p></td>
      <td><p>0</p></td>
-     <td><p>Instances solely used for query services</p></td>
+     <td><p>クエリサービス専用のインスタンス</p></td>
    </tr>
    <tr>
-     <td><p>Fundamental database components</p></td>
+     <td><p>基本的なデータベースコンポーネント</p></td>
      <td><p>8</p></td>
-     <td><p>m6i.2xlarge</p></td>
+     <td><p>m 6 i.2 xlarge</p></td>
      <td><p>1</p></td>
-     <td><p>Instances used for fundamental database components, which are mainly used as the index pool</p></td>
+     <td><p>インデックスプールとして主に使用される基本的なデータベースコンポーネントに使用されるインスタンス</p></td>
    </tr>
    <tr>
-     <td><p>Core support services</p></td>
+     <td><p>コアサポートサービス</p></td>
      <td><p>0</p></td>
-     <td><p>m6i.2xlarge</p></td>
+     <td><p>m 6 i.2 xlarge</p></td>
      <td><p>3</p></td>
-     <td><p>Instances used for peripheral support services, including Milvus Operator, Zilliz Cloud Agent, and Milvus dependencies for logging, monitoring, and alerting</p></td>
+     <td><p>Milvus Operator、Zilliz Cloud Agent、およびMilvusの依存関係を含む周辺サポートサービスに使用されるインスタンスは、ログ、モニタリング、アラートに使用されます。</p></td>
    </tr>
 </table>
 
-If the instance settings are left unconfigured, the default settings listed above will apply.
+インスタンス設定が構成されていない場合、上記のデフォルト設定が適用されます。
 
-## View deployment details{#view-deployment-details}
+## デプロイの詳細を表示する{#view-deployment-details}{#view-deployment-details}
 
-After you create a project, you can view its status on the project page.
+プロジェクトを作成したら、プロジェクトページでステータスを閲覧可能です。
 
-![XowAbD3Ggob6cMxgZtsckUv0nmh](/byoc/XowAbD3Ggob6cMxgZtsckUv0nmh.png)
+![QJ57bgqmjoIP0Qx5niSc4SJHnab](/byoc/ja-JP/QJ57bgqmjoIP0Qx5niSc4SJHnab.png)
 
 
 

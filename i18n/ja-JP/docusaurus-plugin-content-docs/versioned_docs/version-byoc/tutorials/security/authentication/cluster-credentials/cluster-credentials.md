@@ -1,33 +1,33 @@
 ---
-title: "Cluster Credentials | BYOC"
+title: "クラスタ資格情報 | BYOC"
 slug: /cluster-credentials
-sidebar_label: "Cluster Credentials"
+sidebar_label: "クラスタ資格情報"
 beta: FALSE
 notebook: FALSE
-description: "There are two possible ways for you to manage your cluster credentials, namely on the Zilliz Cloud console or via SDKs. | BYOC"
+description: "クラスタの認証情報を管理するには、Zilliz CloudコンソールまたはSDKを使用する2つの方法があります。 | BYOC"
 type: origin
-token: B10Owir21iSfZfkjsvgcnU6nnFc
+token: YnJ0wk9e2iK0ROkcesocX0Bwn6f
 sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
   - cloud
   - cluster credentials
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Cluster Credentials
+# クラスタ資格情報
 
-There are two possible ways for you to manage your cluster credentials, namely on the Zilliz Cloud console or via SDKs.
+クラスタの認証情報を管理するには、Zilliz CloudコンソールまたはSDKを使用する2つの方法があります。
 
-## Contents{#contents}
+
 
 import DocCardList from '@theme/DocCardList';
 

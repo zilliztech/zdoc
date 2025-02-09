@@ -10,19 +10,19 @@ type: docx
 token: LtCFdAg8FoxWmBxOInfcUSagnHb
 sidebar_position: 5
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - javaV2
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: javaSidebar
 
 ---

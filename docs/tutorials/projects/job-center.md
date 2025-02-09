@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

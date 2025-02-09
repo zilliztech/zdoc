@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

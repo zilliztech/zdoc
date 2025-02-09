@@ -1,31 +1,31 @@
 ---
-title: "Authentication | BYOC"
+title: "認証プロセス | BYOC"
 slug: /authentication
-sidebar_label: "Authentication"
+sidebar_label: "認証プロセス"
 beta: FALSE
 notebook: FALSE
-description: "Learn more about the management of email accounts, cluster credentials, and multi-factor authentication (MFA) measures. | BYOC"
+description: "メールアカウント、クラスター資格情報、および多要素認証(MFA)対策の管理について詳しく学びましょう。 | BYOC"
 type: origin
-token: XiOsw8A3eibZInk1aJNceBqznLb
+token: SrspwB2DfiaSkTkkocHcHSAunGW
 sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - authentication
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Authentication
+# 認証プロセス
 
-Learn more about the management of email accounts, cluster credentials, and multi-factor authentication (MFA) measures.
+メールアカウント、クラスター資格情報、および多要素認証(MFA)対策の管理について詳しく学びましょう。
 
 import DocCardList from '@theme/DocCardList';
 

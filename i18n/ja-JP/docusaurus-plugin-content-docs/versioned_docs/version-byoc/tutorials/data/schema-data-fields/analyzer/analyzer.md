@@ -1,12 +1,12 @@
 ---
-title: "Analyzer | BYOC"
+title: "アナライザ | BYOC"
 slug: /analyzer
-sidebar_label: "Analyzer"
+sidebar_label: "アナライザ"
 beta: PUBLIC
 notebook: FALSE
-description: "In text processing, an analyzer is a crucial component that converts raw text into a structured, searchable format. Each analyzer typically consists of two core elements tokenizer and filter. Together, they transform input text into tokens, refine these tokens, and prepare them for efficient indexing and retrieval. This chapter provides thorough information about using analyzers in Zilliz Cloud. | BYOC"
+description: "テキスト処理において、アナライザーは生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各アナライザーは通常、トークナイザーとフィルターの2つのコア要素で構成されています。これらを組み合わせることで、入力テキストをトークンに変換し、これらのトークンを改良し、効率的なインデックス作成と取得のために準備します。この章では、Zilliz Cloudでアナライザーを使用する方法について、詳しく説明します。 | BYOC"
 type: origin
-token: Cou4wUDwti8G0FkibG4cFNRNnre
+token: KpFlwUmbfi20WmkVADZcCKmbnie
 sidebar_position: 12
 keywords: 
   - zilliz
@@ -15,19 +15,19 @@ keywords:
   - collection
   - schema
   - analyzer
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Analyzer
+# アナライザ
 
-In text processing, an **analyzer** is a crucial component that converts raw text into a structured, searchable format. Each analyzer typically consists of two core elements: **tokenizer** and **filter**. Together, they transform input text into tokens, refine these tokens, and prepare them for efficient indexing and retrieval. This chapter provides thorough information about using analyzers in Zilliz Cloud.
+テキスト処理において、**アナライザー**は生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各アナライザーは通常、トーク**ナイザー**と**フィルター**の2つのコア要素で構成されています。これらを組み合わせることで、入力テキストをトークンに変換し、これらのトークンを改良し、効率的なインデックス作成と取得のために準備します。この章では、Zilliz Cloudでアナライザーを使用する方法について、詳しく説明します。
 
 import DocCardList from '@theme/DocCardList';
 

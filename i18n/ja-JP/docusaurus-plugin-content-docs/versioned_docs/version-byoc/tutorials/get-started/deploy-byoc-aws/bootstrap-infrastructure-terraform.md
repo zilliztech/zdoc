@@ -1,12 +1,12 @@
 ---
-title: "Bootstrap Infrastructure (Terraform) | BYOC"
+title: "Bootstrapインフラストラクチャ（Terraform） | BYOC"
 slug: /bootstrap-infrastructure-terraform
-sidebar_label: "Bootstrap Infrastructure (Terraform)"
+sidebar_label: "Bootstrapインフラストラクチャ（Terraform）"
 beta: PRIVATE
 notebook: FALSE
-description: "This page demonstrates how to use Terraform to bootstrap the infrastructure for a Zilliz Cloud BYOC project, including creating an S3 bucket, all related roles, and a qualified VPC. | BYOC"
+description: "このページでは、Terraformを使用してZilliz Cloud BYOCプロジェクトのインフラストラクチャをブートストラップする方法を示しています。これには、S 3バケット、関連するすべての役割、および資格のあるVPCの作成が含まれます。 | BYOC"
 type: origin
-token: NrnnwjhY4iiIiWkEvUccplKCnwh
+token: QaZWwHvOdiuHKvkxxKwcbn29nHb
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -15,44 +15,47 @@ keywords:
   - terraform
   - milvus
   - vector database
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Bootstrap Infrastructure (Terraform)
+# Bootstrapインフラストラクチャ（Terraform）
 
-This page demonstrates how to use Terraform to bootstrap the infrastructure for a Zilliz Cloud BYOC project, including creating an S3 bucket, all related roles, and a qualified VPC.
+このページでは、Terraformを使用してZilliz Cloud BYOCプロジェクトのインフラストラクチャをブートストラップする方法を示しています。これには、S 3バケット、関連するすべての役割、および資格のあるVPCの作成が含まれます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>To run the Terraform script, you need to have <a href="https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli">Terraform</a> and <a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html">AWS CLI</a> installed on your computer and an AWS account with associated credentials that allow you to create VPCs. </p>
+<ul>
+<li><p>Zilliz BYOCは現在<strong>一般提供</strong>中です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p></li>
+<li><p>Terraformスクリプトを実行するには、コンピューターに<a href="https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli">Terraform</a>と<a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html">AWS CLI</a>をインストールし、VPCを作成するための関連する資格情報を持つAWSアカウントが必要です。</p></li>
+</ul>
 
 </Admonition>
 
-## Clone the script repository{#clone-the-script-repository}
+## スクリプトリポジトリをクローンする{#clone-the-script-repository}{#clone-the-script-repository}
 
-In this step, you will use the following command to clone and pull the script repository.
+このステップでは、次のコマンドを使用してスクリプトリポジトリをクローンしてプルします。
 
 ```shell
 $ git clone https://github.com/zilliztech/zilliz-byoc-prepare.git
 ```
 
-## Prepare the credentials{#prepare-the-credentials}
+## 資格情報を準備する{#prepare-the-credentials}{#prepare-the-credentials}
 
-In this step, you are going to edit the `terraform.tfvars.json` file located within `client_init` folder.
+このステップでは、client_initフォルダー内のterraform. tfvars`.`jsonファイルを編集`しま`す。
 
 ```shell
 $ cd byoc-prepare
 $ vi terraform.tfvars.json
 ```
 
-The file is similar to the following:
+このファイルは次のようなものです。
 
 ```json
 {
@@ -65,38 +68,38 @@ The file is similar to the following:
 
 <table>
    <tr>
-     <th><p>Variable</p></th>
-     <th><p>Description</p></th>
+     <th><p>バリアブル</p></th>
+     <th><p>説明する</p></th>
    </tr>
    <tr>
-     <td><p><code>aws_region</code></p></td>
-     <td><p>The cloud region in which you will deploy Zilliz BYOC.</p><p>Currently, you can deploy your BYOC project in <code>us-west-2</code>. If you need to deploy your BYOC project in other cloud regions, please contact us by sending email to support@zilliz.com.</p></td>
+     <td><p><code>AWSリージョン</code></p></td>
+     <td><p>Zilliz BYOCを展開するクラウドリージョン。</p><p>現在、<code>us-west-2</code>にBYOCプロジェクトをデプロイすることができます。他のクラウドリージョンにBYOCプロジェクトをデプロイする必要がある場合は、support@zilliz.comにメールでお問い合わせください。</p></td>
    </tr>
    <tr>
-     <td><p><code>vpc_cidr</code></p></td>
-     <td><p>The CIDR blocks to be allocated within the customer-managed VPC. For example, <strong>10.0.0.0/16</strong>.</p></td>
+     <td><p><code>vpc_cidrとは</code></p></td>
+     <td><p>顧客が管理するVPC内で割り当てるCIDRブロック。例えば、<strong>10.0.0.0/16</strong>。</p></td>
    </tr>
    <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>The name of the BYOC project to create. </p><p>Please align the value with the one you have entered in the form below.</p><p><img src="/byoc/VQ3NbcrKDoC6faxIOGRc6RvGn4e.png" alt="VQ3NbcrKDoC6faxIOGRc6RvGn4e" /></p></td>
+     <td><p><code>お名前</code></p></td>
+     <td><p>作成するBYOCプロジェクトの名前。</p><p>以下のフォームに入力した値に合わせてください。</p><p><img src="/byoc/ja-JP/AYsNb67nEow59LxVqwEcCtt3ndh.png" alt="AYsNb67nEow59LxVqwEcCtt3ndh" /></p></td>
    </tr>
    <tr>
-     <td><p><code>ExternalId</code></p></td>
-     <td><p>The <strong>External ID</strong> of the BYOC project to create. You can get this value from Zilliz Cloud console.</p><p><img src="/byoc/USjXbCTLBoMsfDxiMNDc0okbnIe.png" alt="USjXbCTLBoMsfDxiMNDc0okbnIe" /></p></td>
+     <td><p><code>ExternalIdの外部ID</code></p></td>
+     <td><p>作成するBYOCプロジェクトの<strong>外部ID</strong>です。この値はZilliz Cloudコンソールから取得できます。</p><p><img src="/byoc/ja-JP/JRRTbSoFkoarIGxp9ShcURDcngd.png" alt="JRRTbSoFkoarIGxp9ShcURDcngd" /></p></td>
    </tr>
 </table>
 
-## Bootstrap infrastructure{#bootstrap-infrastructure}
+## Bootstrapインフラストラクチャ{#bootstrap-infrastructure}{#bootstrapbootstrap-infrastructure}
 
-Once you have prepared the credentials described above, bootstrap the infrastructure for the project as follows:
+上記の資格情報を準備したら、次のようにプロジェクトのインフラストラクチャをブートストラップします。
 
-1. Run `terraform init` to prepare the env.
+1. envを準備するために`terraform init`を実行します。
 
-1. Run `terraform plan` if there are any errors, fix them, and then run the command again.
+1. エラーがある場合は`terraform plan`を実行し、修正してから再度コマンドを実行してください。
 
-1. Run `terraform apply` to create the VPC.
+1. VPCを作成するには、`terraform apply`を実行してください。
 
-    The result might be similar to the following:
+    結果は次のようになる可能性があります:
 
     ```bash
     bootstrap_role_arn = "arn:aws:iam::xxxxxxxxxxxx:role/zilliz-byoc-boostrap-role"
@@ -113,47 +116,47 @@ Once you have prepared the credentials described above, bootstrap the infrastruc
     vpc_id = "vpc-xxxxxxxxxxxxxxxxx"
     ```
 
-1. Collect the following information and fill it in the form on the Zilliz Cloud console.
+1. 以下の情報を収集し、Zilliz Cloudコンソールのフォームに記入してください。
 
     <table>
        <tr>
-         <th><p>Parameter</p></th>
-         <th><p>Value from</p></th>
+         <th><p>パラメータ</p></th>
+         <th><p>価値から</p></th>
        </tr>
        <tr>
-         <td colspan="2"><p><strong>Storage settings</strong></p></td>
+         <td colspan="2"><p><strong>ストレージの設定</strong></p></td>
        </tr>
        <tr>
-         <td><p>Bucket name</p></td>
-         <td><p>Use the value of the <code>bucket_name</code> variable in the command output.</p><p>Zilliz Cloud uses the bucket as data plane storage.</p></td>
+         <td><p>バケット名</p></td>
+         <td><p>コマンド出力で<code>bucket_name</code>変数の値を使用してください。</p><p>Zilliz Cloudはバケットをデータプレーンストレージとして使用しています。</p></td>
        </tr>
        <tr>
-         <td><p>IAM role ARN</p></td>
-         <td><p>Use the value of the <code>storage_role_arn</code> variable in the command output.</p><p>By assuming the role, Zilliz Cloud can access the above bucket on your behalf.</p></td>
+         <td><p>IAMロールARN</p></td>
+         <td><p>コマンド出力で<code>storage_role_arn変数</code>の値を使用します。</p><p>この役割を担うことで、Zilliz Cloudはあなたの代わりに上記のバケットをアクセス可能にします。</p></td>
        </tr>
        <tr>
-         <td colspan="2"><p><strong>EKS settings</strong></p></td>
+         <td colspan="2"><p><strong>EKSの設定</strong></p></td>
        </tr>
        <tr>
-         <td><p>IAM role ARN</p></td>
-         <td><p>Use the value of the <code>eks_role_arn</code> variable in the command output.</p><p>By assuming the role, Zilliz Cloud can create and manage the EKS cluster on your behalf.</p></td>
+         <td><p>IAMロールARN</p></td>
+         <td><p>コマンド出力で<code>eks_role_arn変数</code>の値を使用します。</p><p>役割を引き受けることで、Zilliz Cloudはあなたの代わりにEKSクラスターを作成および管理できます。</p></td>
        </tr>
        <tr>
-         <td colspan="2"><p><strong>Cross-account settings</strong></p></td>
+         <td colspan="2"><p><strong>クロスアカウント設定</strong></p></td>
        </tr>
        <tr>
-         <td><p>IAM role ARN</p></td>
-         <td><p>Use the value of the <code>cross_account_role_arn</code> variable in the command output.</p><p>By assuming the role, Zilliz Cloud can provision the data plane on your behalf.</p></td>
+         <td><p>IAMロールARN</p></td>
+         <td><p>コマンド出力で<code>cross_account_role_arn変数</code>の値を使用します。</p><p>役割を引き受けることで、Zilliz Cloudはあなたの代わりにデータプレーンをプロビジョニングできます。</p></td>
        </tr>
        <tr>
-         <td colspan="2"><p><strong>Network settings</strong></p></td>
+         <td colspan="2"><p><strong>ネットワーク設定</strong></p></td>
        </tr>
        <tr>
          <td><p>VPC ID</p></td>
-         <td><p>Use the value in the <code>vpc_id</code> in the command output.</p><p>Zilliz Cloud provisions the data plane and clusters of the BYOC project in this VPC.</p></td>
+         <td><p>コマンド出力の<code>vpc_id</code>の値を使用してください。</p><p>Zilliz Cloudは、このVPCでBYOCプロジェクトのデータプレーンとクラスタをプロビジョニングします。</p></td>
        </tr>
        <tr>
-         <td><p>Subnets</p></td>
-         <td><p>Use the values of the <code>subnet_id</code> variable in the command output.</p><p>Zilliz Cloud requires a public subnet and three private subnets and deploys the NAT gateway in the public subnet to route the network traffic of the private subnets in each availability zone.</p><p>You need to concatenate the three subnet IDs with commas as in <code>subnet_xxxxxxxxxxxxxxxxx,subnet_xxxxxxxxxxxxxxxxx,subnet_xxxxxxxxxxxxxxxxx</code>.</p></td>
+         <td><p>サブネット</p></td>
+         <td><p>コマンド出力で<code>subnet_id</code>変数の値を使用します。</p><p>Zilliz Cloudは、パブリックサブネットと3つのプライベートサブネットを必要とし、パブリックサブネットにNATゲートウェイをデプロイして、各アベイラビリティゾーンのプライベートサブネットのネットワークトラフィックをルーティングします。</p><p>subnet_xxxxxxxxxxxxxxx、subnet_xxxxxxxxxxxxxxx、subnet_<code>xxxxxxxxxxxxxxx、subnet_xxxxxxxxxxxxxxxのように、3つのサブネットIDをカンマで連結する必要があります</code>。</p></td>
        </tr>
     </table>

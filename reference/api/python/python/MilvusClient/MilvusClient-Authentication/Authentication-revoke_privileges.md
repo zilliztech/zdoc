@@ -8,21 +8,21 @@ notebook: false
 description: "This operation revokes a privilege already assigned to a role. | Python | MilvusClient"
 type: docx
 token: UP2GdfHHzoIQ56x2JvScs0sAnzh
-sidebar_position: 11
+sidebar_position: 17
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_privileges()
   - python
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
 ---

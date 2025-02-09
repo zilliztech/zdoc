@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - english analyzer
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

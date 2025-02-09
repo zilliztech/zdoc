@@ -1,12 +1,12 @@
 ---
-title: "Scale Cluster | BYOC"
+title: "スケールクラスタ | BYOC"
 slug: /scale-cluster
-sidebar_label: "Scale Cluster"
+sidebar_label: "スケールクラスタ"
 beta: FALSE
 notebook: FALSE
-description: "As data grows, you may face constraints that impact data writing. For example, read operations remain functional, but inserting or upserting new data might fail when the cluster reaches its maximum capacity. | BYOC"
+description: "データが増えるにつれて、データの書き込みに影響を与える制約に直面する可能性があります。たとえば、読み取り操作は機能し続けますが、クラスタが最大容量に達すると、新しいデータの挿入または挿入が失敗する可能性があります。 | BYOC"
 type: origin
-token: ExUFwDY1siCa2Bkp4incCvxFnlh
+token: XGrbwNm3OiDxstkfMMTcf1Tenkc
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -14,71 +14,71 @@ keywords:
   - cloud
   - cluster
   - manage
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Scale Cluster
+# スケールクラスタ
 
-As data grows, you may face constraints that impact data writing. For example, read operations remain functional, but inserting or upserting new data might fail when the cluster reaches its maximum capacity.  
+データが増えるにつれて、データの書き込みに影響を与える制約に直面する可能性があります。たとえば、読み取り操作は機能し続けますが、クラスタが最大容量に達すると、新しいデータの挿入または挿入が失敗する可能性があります。
 
-To address such issues, you can adjust the number of CUs to match fluctuations in workload or storage requirements. You can enhance your cluster's performance by scaling up CUs in response to increased CPU or memory usage, and scale down to reduce costs during periods of low demand.
+このような問題に対処するために、ワークロードやストレージ要件の変動に合わせてCUの数を調整することができます。CPUまたはメモリ使用量の増加に応じてCUをスケーリングアップすることでクラスタのパフォーマンスを向上させ、需要が低い期間にコストを削減するためにスケールダウンすることができます。
 
-This guide outlines the procedures of scaling a cluster.
+このガイドでは、クラスタのスケーリング手順について説明します。
 
-## Manual scaling{#manual-scaling}
+## 手動スケーリング{#manual-scaling}{#manual-scaling}
 
-You have the option to scale cluster manually by using the Zilliz Cloud web console or making an API request to scale your cluster. This guide focuses on how to manually scale a cluster using the web console. For more information about using the RESTful API, please refer to [Modify Cluster](/reference/restful/modify-cluster-v2).
+Zilliz CloudのWebコンソールを使用するか、APIリクエストを行ってクラスターを手動でスケーリングするオプションがあります。このガイドでは、Webコンソールを使用してクラスターを手動でスケーリングする方法に焦点を当てています。RESTful APIの使用方法の詳細については、[クラスター変更](/reference/restful/modify-cluster-v2)を参照してください。
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>The scaling may lead to slight service jitter. Please exercise caution.</p>
-
-</Admonition>
-
-### Scale up a cluster{#scale-up-a-cluster}
-
-![manual-scale-entry](/byoc/manual-scale-entry.png)
-
-In the Scale Cluster dialog box, you can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. 
-
-- For Dedicated (Standard) clusters, you can scale the size up to a maximum of 32 CUs.
-
-- For Dedicated (Enterprise) clusters, you can scale up to a maximum of 256 CUs.
-
-If you require a larger CU size, please [create a support ticket](http://support.zilliz.com/).
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>The cluster CU size x <a href="./manage-replica">replica</a> count should not exceed 256. Otherwise, cluster scaling may fail. </p>
+<p>スケーリングにより、わずかなサービスジッターが発生する可能性があります。注意してください。</p>
 
 </Admonition>
 
-### Scale down a cluster{#scale-down-a-cluster}
+### クラスタをスケールアップする{#scale-up-a-cluster}{#scale-up-a-cluster}
 
-![manual-scale-entry](/byoc/manual-scale-entry.png)
+![manual-scale-entry](/byoc/ja-JP/manual-scale-entry.png)
 
-In the **Scale Cluster** dialog box, select the desired CU size in the dialog window. Once you click **Scale**, Zilliz Cloud will check the cluster's data volume and collection numbers. Scaling down will be successfully triggered only when both of the following two conditions are met:
+[クラスタのスケール]ダイアログボックスでは、元のクラスタと同じクラウドリージョン内の同じタイプのクラスタに割り当てられた体格をスケールアップできます。
 
-- Current data volume < 80% of the CU capacity of the new CU size.
+- Dedicated(Standard)クラスターの場合、体格を最大32 CUまで拡張できます。
 
-- Current number of collections < the [maximum number of collections](./limits#collections) allowed in the new CU size.
+- 専用(エンタープライズ)クラスターの場合、最大256 CUまでスケールアップできます。
 
-The time required to complete the process depends on the data volume in your cluster.
+より大きなCU体格が必要な場合は、[サポートチケットを作成](http://support.zilliz.com/)してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>To scale down the cluster CU size to fewer than 8 CUs, ensure that there are no replicas in the cluster.</p>
+<p>クラスターのCUサイズx<a href="./manage-replica">レプリカ</a>数は256を超えてはいけません。そうしないと、クラスターのスケーリングに失敗する可能性があります。</p>
 
 </Admonition>
 
-## Increase QPS{#increase-qps}
+### クラスタを縮小する{#scale-down-a-cluster}{#scale-down-a-cluster}
 
-To boost QPS and query throughput, please consider adding replicas. For more information, refer to [Manage Replica](./manage-replica)
+![manual-scale-entry](/byoc/ja-JP/manual-scale-entry.png)
+
+「**スケールクラスタ**」ダイアログボックスで、ダイアログウィンドウで希望のCU体格を選択します。「**スケール**」をクリックすると、Zilliz Cloudはクラスタのデータ量とコレクション番号を確認します。スケールダウンは、以下の2つの条件の両方が満たされた場合にのみ正常にトリガーされます
+
+- 現在のデータ量は、新しいCU体格のCU容量の80%未満です。
+
+- 現在のコレクション数<新しいCUスタイルで許可される[コレクションの最大数](./limits#collections)。
+
+この過程を完了するのに必要な時間は、クラスタ内のデータ量によって異なります。
+
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>クラスターのCU体格を8 CU未満に縮小するには、クラスターにレプリカがないことを確認してください。</p>
+
+</Admonition>
+
+## QPSを増やす{#increase-qps}{#qpsincrease-qps}
+
+QPSとクエリのスループットを向上させるには、レプリカの追加を検討してください。詳細については、「[レプリカの管理](./manage-replica)」を参照してください。
 

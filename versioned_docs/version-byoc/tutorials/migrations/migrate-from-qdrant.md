@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

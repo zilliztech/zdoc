@@ -1,12 +1,12 @@
 ---
-title: "Manage Indexes | BYOC"
+title: "インデックスの管理 | BYOC"
 slug: /manage-indexes
-sidebar_label: "Manage Indexes"
+sidebar_label: "インデックスの管理"
 beta: FALSE
 notebook: FALSE
-description: "Learn how to manipulate indexes on vector and scalar fields via SDKs. | BYOC"
+description: "SDKを使用してベクトルおよびスカラーフィールドのインデックスを操作する方法を学びます。 | BYOC"
 type: origin
-token: NDLBwtFIuihc5wkq37KchzqLnrc
+token: BOGFwbkUfiJeACkG6nec4MnPn7d
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -14,36 +14,40 @@ keywords:
   - cloud
   - index
   - manage
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Manage Indexes
+# インデックスの管理
 
-Learn how to manipulate indexes on vector and scalar fields via SDKs.
+SDKを使用してベクトルおよびスカラーフィールドのインデックスを操作する方法を学びます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Whether a collection is automatically indexed and loaded depends on how you create the collection. A collection is automatically loaded upon creation in the following scenarios:</p>
+<p>コレクションが自動的にインデックス化されて読み込まれるかどうかは、コレクションの作成方法によって異なります。次のシナリオでは、コレクションは作成時に自動的に読み込まれます。</p>
+<p><include targte="zilliz"></p>
 <ul>
-<li><p>On the console.</p></li>
-<li><p><a href="/reference/create-collection">Using RESTful API</a>.</p></li>
-<li><p><a href="./quick-setup-collections">Quick setup mode via applicable SDKs</a>.</p></li>
-<li><p><a href="./manage-collections-sdks">Customized setup mode via applicable SDKs with index parameters specified.</a></p></li>
+<li>コンソールで。</li>
 </ul>
-<p>You can also create a collection that is not loaded automatically and start managing indexes on your own.</p>
+<p></include></p>
+<ul>
+<li><p><a href="/reference/create-collection">RESTful APIを使用する</a>。</p></li>
+<li><p><a href="null">SDKを使用してコレクションを即座に作成する</a>。</p></li>
+<li><p><a href="null">SDKを使用してコレクションを作成するとインデックスをセットする</a>。</p></li>
+</ul>
+<p>自動的にロードされないコレクションを作成して、独自にインデックスの管理を開始することもできます。</p>
 
 </Admonition>
 
-## Contents{#contents}
+## コンテンツ{#contents}{#contents}
 
-In this chapter, you will find out how to manage your collection indexes on vector and scalar fields.
+この章では、ベクトルフィールドとスカラーフィールドのコレクションインデックスを管理する方法について説明します。
 
 import DocCardList from '@theme/DocCardList';
 

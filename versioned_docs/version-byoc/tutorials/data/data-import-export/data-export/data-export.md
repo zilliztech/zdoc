@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - chinese analyzer
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

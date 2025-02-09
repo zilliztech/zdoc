@@ -8,21 +8,21 @@ notebook: false
 description: "This operation assigns a privilege to a role. | Python | MilvusClient"
 type: docx
 token: W39Wdr7S6ohrtfxI8r7cyTeInlb
-sidebar_position: 7
+sidebar_position: 10
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - grant_privilege()
   - python
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: pythonSidebar
 
 ---

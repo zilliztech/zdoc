@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

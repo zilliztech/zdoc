@@ -1,31 +1,33 @@
 ---
-title: "Organizations | BYOC"
+title: "組織 | BYOC"
 slug: /organizations
-sidebar_label: "Organizations"
+sidebar_label: "組織"
 beta: FALSE
 notebook: FALSE
-description: "The chapter focuses on organization operations and related settings. | BYOC"
+description: "この章では、組織の運営と関連する設定に焦点を当てています。 | BYOC"
 type: origin
-token: Dh6vwCrzYimC7skvDRUcvPi4n2c
+token: TPElwgyTyi3QgWkGsQncXqaonKf
 sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - organizations
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Organizations
+# 組織
 
-The chapter focuses on organization operations and related settings.
+この章では、組織の運営と関連する設定に焦点を当てています。
+
+
 
 import DocCardList from '@theme/DocCardList';
 

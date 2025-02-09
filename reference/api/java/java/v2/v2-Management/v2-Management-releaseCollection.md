@@ -10,19 +10,19 @@ type: docx
 token: BA9edMrWMosYWFxwTBAcl2WOnff
 sidebar_position: 9
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
   - javaV2
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: javaSidebar
 
 ---

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - chinese analyzer
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

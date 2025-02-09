@@ -1,12 +1,12 @@
 ---
-title: "Access Control Explained | BYOC"
+title: "アクセス制御の説明 | BYOC"
 slug: /access-control-overview
-sidebar_label: "Access Control Explained"
+sidebar_label: "アクセス制御の説明"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud implements Role-Based Access Control (RBAC) to finely control access to resources in Zilliz Cloud. RBAC (Role-Based Access Control) is a security measure that grants privileges to roles rather than directly to users. These roles, which contains specific privileges to resources, are then granted to users, enabling efficient management of user access control. | BYOC"
+description: "Zilliz Cloudは、Zilliz Cloud内のリソースへのアクセスを細かく制御するために、Role-Based Access Control（RBAC）を実装しています。RBAC（Role-Based Access Control）は、ユーザーに直接ではなく、ロールに権限を付与するセキュリティ対策です。これらのロールには、リソースに対する特定の権限が含まれており、ユーザーのアクセス制御を効率的に管理することができます。 | BYOC"
 type: origin
-token: UDjcwWISuixYjqkQy3GcmBpsnmV
+token: WFmRwd6Abi2tdUkEJs8cVPounGf
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -15,65 +15,65 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Access Control Explained
+# アクセス制御の説明
 
-Zilliz Cloud implements Role-Based Access Control (RBAC) to finely control access to resources in Zilliz Cloud. RBAC (Role-Based Access Control) is a security measure that grants privileges to roles rather than directly to users. These roles, which contains specific privileges to resources, are then granted to users, enabling efficient management of user access control.
+Zilliz Cloudは、Zilliz Cloud内のリソースへのアクセスを細かく制御するために、Role-Based Access Control（RBAC）を実装しています。RBAC（Role-Based Access Control）は、ユーザーに直接ではなく、ロールに権限を付与するセキュリティ対策です。これらのロールには、リソースに対する特定の権限が含まれており、ユーザーのアクセス制御を効率的に管理することができます。
 
-![L1WGwjF2NhxLRXbcyl6cSroNnoc](/byoc/L1WGwjF2NhxLRXbcyl6cSroNnoc.png)
+![LZPEwzB9XhRIFebkvVic1dTInWh](/byoc/ja-JP/LZPEwzB9XhRIFebkvVic1dTInWh.png)
 
-## Zilliz Cloud RBAC architecture{#zilliz-cloud-rbac-architecture}
+## Zilliz Cloud RBACアーキテクチャ{#zilliz-cloud-rbac-architecture}{#zilliz-cloud-rbaczilliz-cloud-rbac-architecture}
 
-![WVIgwWtMYhhTBIbgAdAcegDRnle](/byoc/WVIgwWtMYhhTBIbgAdAcegDRnle.png)
+![XXLqwF2z7hdImMblotsc40vinKb](/byoc/ja-JP/XXLqwF2z7hdImMblotsc40vinKb.png)
 
-Zilliz Cloud organizes its resources within two planes, implementing RBAC across both:
+Zilliz Cloudは、2つのプレーン内でリソースを整理し、両方にRBACを実装しています。
 
-- **Control plane:** This plane encompasses organizations, projects, and cluster management. [Account users](./email-accounts) are granted specific organization and project roles and authenticate via [API keys](./manage-api-keys) when interacting with resources on the control plane.
+- **コントロールプレーン:**このプレーンには、組織、プロジェクト、クラスター管理が含まれます。[アカウントユーザー](./email-accounts)には、特定の組織とプロジェクトの役割が付与され、コントロールプレーン上のリソースとやり取りする際に[APIキー](./manage-api-keys)を使用して認証されます。
 
-- **Data plane:** This plane includes clusters, databases, and collections, focusing on data access management. [Cluster users](./cluster-users) are granted appropriate cluster roles and authenticate using [API keys](./manage-api-keys) or [username-password pairs](./cluster-credentials) when interacting with data plane resources.
+- **データプレーン:**このプレーンには、データアクセス管理に焦点を当てたクラスター、データベース、コレクションが含まれます。[クラスターユーザー](./cluster-users)には適切なクラスターロールが付与され、データプレーンリソースとやり取りする際に[APIキー](./manage-api-keys)または[ユーザー名-パスワードペア](./cluster-credentials)を使用して認証されます。
 
-Normally, each account user corresponds to a cluster user. However, not all users require access for both planes. In some cases, a control plane account user like a Billing Admin might only need access to the control plane for billing management purposes and do not require data plane access. Conversely, temporary cluster users can be created and granted access to data plane resources through customized API keys, allowing data access without a registered account. For details about managing customized API keys, refer to [API Keys](./manage-api-keys#create-an-api-key).
+通常、各アカウントユーザーはクラスターユーザーに対応します。ただし、すべてのユーザーが両方のプレーンにアクセスする必要はありません。Billing Adminのようなコントロールプレーンアカウントユーザーは、請求管理の目的でコントロールプレーンにアクセスするだけで、データプレーンにアクセスする必要がない場合があります。逆に、一時的なクラスターユーザーを作成し、カスタマイズされたAPIキーを介してデータプレーンリソースにアクセスできるようにすることができます。カスタマイズされたAPIキーの管理の詳細については、[APIキー](./manage-api-keys)を参照してください。
 
-## Roles and privileges{#roles-and-privileges}
+## 役割と特権{#roles-and-privileges}{#roles-and-privileges}
 
-Account users are granted organization roles and project roles while cluster users are granted cluster roles that control access to cluster, databases, and collections. The following diagram illustrates the hierarchy for roles in Zilliz Cloud. 
+アカウントユーザーには組織ロールとプロジェクトロールが付与され、クラスターユーザーにはクラスター、データベース、コレクションへのアクセスを制御するクラスターロールが付与されます。次の図は、Zilliz Cloudのロールの階層を示しています。
 
-![TnkCwHx6jhk7UmbvYT7cVGlIn7b](/byoc/TnkCwHx6jhk7UmbvYT7cVGlIn7b.png)
+![H5TewEwdhhNCwNbcTYkcM2ganbg](/byoc/ja-JP/H5TewEwdhhNCwNbcTYkcM2ganbg.png)
 
-- **On the organization level**
+- **組織レベルで**
 
-    - The Organization Owner role encompasses comprehensive privileges across all projects and clusters.
+    - 組織オーナーの役割には、すべてのプロジェクトとクラスターにわたる包括的な権限が含まれます。
 
-    For details about all organization roles, refer to [Organization roles](./organization-users#organization-roles).
+    すべての組織の役割の詳細については、[組織の役割](./organization-users#organization-roles)を参照してください。
 
-- **On the project level**
+- **プロジェクトレベルで**
 
-    - The Project Admin role includes all privileges of a specific project and privileges across all cluster.
+    - プロジェクト管理者の役割には、特定のプロジェクトのすべての権限と、すべてのクラスター全体の権限が含まれます。
 
-    - The Project Read-Write role has the privileges to view a project and manage its resources.
+    - プロジェクトの読み書きの役割には、プロジェクトを表示し、そのリソースを管理する権限があります。
 
-    - The Project Read-Only role has the privileges to view a project and its resources.
+    - プロジェクト読み取り専用の役割には、プロジェクトとそのリソースを表示する権限があります。
 
-    For details about project roles, refer to [Project roles](./project-users#project-roles).
+    プロジェクトの役割の詳細については、「[プロジェクトの役割](./project-users#project-roles)」を参照してください。
 
-- **On the cluster level**
+- **クラスタレベルで**
 
-    - The Cluster Admin role includes all privileges of a specific cluster.
+    - クラスター管理者の役割には、特定のクラスターのすべての特権が含まれます。
 
-    - The Cluster Read-Write role has the privileges to view a cluster and manage all its resources.
+    - クラスターの読み書きロールには、クラスターを表示し、そのすべてのリソースを管理する権限があります。
 
-    - The Cluster Read-Only role has the privileges to view a cluster and its resources.
+    - クラスター読み取り専用ロールには、クラスターとそのリソースを表示する権限があります。
 
-    - Additionally, [custom roles](./cluster-roles#custom-cluster-roles) can be created at this level to precisely manage [privileges](./cluster-privileges) to cluster resources, such as databases and collections.
+    - さらに、このレベルで[カスタムロール](./cluster-roles)を作成して、データベースやコレクションなどのクラスターリソースへの[特権](./cluster-privileges)を正確に管理できます。
 
-    For details about cluster roles, refer to [Manage Cluster Roles (Console)](./cluster-roles).
+    クラスターロールの詳細については、「[クラスタロールの管理(コンソール)](./cluster-roles)」を参照してください。
 

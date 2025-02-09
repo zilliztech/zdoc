@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

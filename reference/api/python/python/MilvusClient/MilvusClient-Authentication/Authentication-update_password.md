@@ -8,21 +8,21 @@ notebook: false
 description: "This operation updates the password of a specific user. | Python | MilvusClient"
 type: docx
 token: WGDod7Qehou4GWx4Co2cJ34VnKb
-sidebar_position: 13
+sidebar_position: 20
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - update_password()
   - python
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 ---

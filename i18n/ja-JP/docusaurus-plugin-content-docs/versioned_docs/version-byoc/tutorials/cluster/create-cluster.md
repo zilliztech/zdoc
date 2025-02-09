@@ -1,12 +1,12 @@
 ---
-title: "Create Cluster | BYOC"
+title: "クラスタ作成 | BYOC"
 slug: /create-cluster
-sidebar_label: "Create Cluster"
+sidebar_label: "クラスタ作成"
 beta: FALSE
 notebook: FALSE
-description: "This topic describes how to create a cluster. | BYOC"
+description: "Zilliz Cloudは、ユーザーのビジネスニーズに対応するために、さまざまなクラスタープランレベルを提供しています。適切なクラスタータイプの選択に関するガイダンスについては、クイックスタート](./quick-start)と[詳細なプラン比較を参照してください。 | BYOC"
 type: origin
-token: KrbjwFhy3iojF3k97XmcvvXMnW7
+token: AmPbw2DdSig3YPkCKDucnG3Rn7g
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 
@@ -25,120 +25,200 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create Cluster
+# クラスタ作成
 
-This topic describes how to create a cluster.
+Zilliz Cloudは、ユーザーのビジネスニーズに対応するために、さまざまなクラスタープランレベルを提供しています。適切なクラスタータイプの選択に関するガイダンスについては、[クイックスタート](./quick-start)と[詳細なプラン比較](./select-zilliz-cloud-service-plans)を参照してください。
 
-## Prerequisites{#prerequisites}
+このトピックでは、クラスターを作成する方法について説明します。
 
-Ensure:
+## 前提条件{#prerequisites}{#prerequisites}
 
-- A BYOC project. Refer to [Deploy BYOC on AWS](./deploy-byoc-aws) for instructions.
+確認する:
 
-- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [Access Control](./access-control).
+- Zilliz Cloudへの登録手順については、[Zilliz Cloudに登録する](./register-with-zilliz-cloud)を参照してください。
 
-## Create a dedicated cluster{#create-a-dedicated-cluster}
+\</exclude>
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
+- BYOCプロジェクト。手順については、「[AWSでBYOCをデプロイする](./deploy-byoc-aws)」を参照してください。
+
+- クラスターを設立する組織またはプロジェクトの所有権。役割と権限の詳細については、「[アクセス制御](./access-control)」を参照してください。
+
+## 無料クラスタを設定する{#set-up-a-free-cluster}{#set-up-a-free-cluster}
+
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"c URL","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)に移動してログインします。
 
-1. Enter the desired organization and project.
+1. 適切な組織とプロジェクトを選択します。
 
-1. Click **Create Cluster**.
+1. [**無料クラスタを作成**]をクリックします。
 
-    ![create-cluster-byoc](/byoc/create-cluster-byoc.png)
+    ![create_cluster_01](/byoc/ja-JP/create_cluster_01.png)
 
-1. On the **Create New Cluster** page, fill out the relevant parameters.
+1. [**新しいクラスタを作成**]セクションで、[**無料**プラン]を選択し、必要なパラメータを入力します。
 
-    ![cluster-cluster-byoc](/byoc/cluster-cluster-byoc.png)
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    - **Cluster Name**: Assign a unique identifier for your cluster.
+    <p>各ユーザーには1つの無料クラスターが許可されています。追加のクラスターについては、サーバーレスまたは専用プランを選択してください。</p>
 
-    - **Cloud Provider Settings**: Choose the cloud service provider and the specific region where your cluster will be deployed. With the BYOC license, only the AWS **us-west-2** region is currently supported. To request more cloud regions, [contact us](https://zilliz.com/cloud-region-request?firstname=Li&lastname=Yun&company=zilliz&name=zilliz&email=leryn.li@zilliz.com&fullname=Li%20Yun&phone=--&country=China&requested_csp_provider=AWS).
+    </Admonition>
 
-    - **CU Settings**:
+    <table>
+       <tr>
+         <th><p><strong>パラメータ</strong></p></th>
+         <th><p><strong>説明する</strong></p></th>
+       </tr>
+       <tr>
+         <td><p><strong>クラスタ名</strong></p></td>
+         <td><p>クラスターの名前。</p></td>
+       </tr>
+       <tr>
+         <td><p><strong>クラウドプロバイダーと地域</strong></p></td>
+         <td><p>クラスターの場所とホストされているクラウドプロバイダー。現在、無料のクラスターはGoogle Cloud Platform（GCP）で利用可能です。詳細については、<a href="./cloud-providers-and-regions">クラウドプロバイダー&地域</a>を参照してください。</p></td>
+       </tr>
+    </table>
 
-        - **CU Type**: Select a CU Type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right CU](./cu-types-explained).
+    ![create_cluster_02](/byoc/ja-JP/create_cluster_02.png)
 
-        - **CU Size**: Select the total size of the cluster in terms of CUs.
-
-        - **Topology**: A graphical representation showing the structure of your cluster. This includes the designation of roles and compute resources for various nodes:
-
-            - **Proxy**: Stateless nodes that manage user connections and streamline service addresses with load balancers.
-
-            - **Query Node**: Responsible for hybrid vector and scalar searches and incremental data updates.
-
-            - **Coordinator**: The orchestration center, distributing tasks across worker nodes.
-
-            - **Data Node**: Handles data mutations and log-to-snapshot conversions for persistence.
-
-            <Admonition type="info" icon="📘" title="Notes">
-
-            <p>Clusters with <strong>1-8 CUs</strong> typically use a single-node setup suitable for smaller datasets. Clusters with more than <strong>8 CUs</strong> adopt a distributed multi-server node architecture to improve performance and scalability.</p>
-
-            </Admonition>
-
-    - **Cloud Backup**: Decide whether to enable automatic cloud backup for safeguarding the data stored within your cluster, ensuring data persistence and recovery capabilities in case of failures.
-
-1. Click **Create Cluster**. You'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
+1. [**作成**]をクリックします。**クラスター詳細**ページにリダイレクトされ、クラスターのパブリックエンドポイントとAPIキーが表示されます。これらの詳細を記録して、今後のアクセスに備えます。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication.
+リクエストは次の例のようになります。`{API_KEY}`は認証に使用するAPIキーです。
 
-The following `POST` request takes a request body and creates a cluster named `cluster-02` with one Performance-optimized [CU](./cu-types-explained).
+次の`POST`要求は、リクエストボディを受け取り、IDが`cluster-free`のプロジェクトに空きクラスタを作成しま`proj-xxxxxxxxxxxxxxxxxxxxx`。
 
 ```bash
 curl --request POST \
-     --url "https://api.cloud.zilliz.com/v2/clusters/createDedicated" \
+     --url "https://api.cloud.zilliz.com/v2/clusters/createFree" \
      --header "Authorization: Bearer ${API_KEY}" \
      --header "Accept: application/json" \
      --header "Content-Type: application/json" \
      --data-raw '{
-        "clusterName": "Cluster-02",
+        "clusterName": "cluster-free",
         "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-2",
-        "plan": "Standard",
-        "cuType": "Performance-optimized",
-        "cuSize": 1
+        "regionId": "gcp-us-west1"
     }'
      
 # {
 #     "code": 0,
 #     "data": {
 #         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-#         "username": "db_admin",
-#         "password": "****************",
+#         "username": "db_xxxxxxxx",
+#         "password": "*************",
 #         "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
 #     }
 # }
 ```
 
-In the command above,
+上記のコマンドで、
 
-- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
+- `{API_KEY}`: APIリクエストを認証するために使用される資格情報。値を自分のものに置き換えてください。
 
-- `clusterName`: The name of the cluster to create.
+- `cluster terName`:作成するクラスタの名前。
 
-- `projectId`: The ID of the project in which you want to create a cluster. To list project IDs, call the [List Projects](/reference/restful/list-projects-v2) operation.
+- `projectId`:クラスタを作成するプロジェクトのID。プロジェクトIDを一覧表示するには、[List Projects](/reference/restful/list-projects-v2)操作を呼び出します。
 
-- `regionId`: The ID of the cloud region where you want to create a cluster. To obtain available cloud region IDs, call the [List Cloud Regions](/reference/restful/list-cloud-regions-v2) operation.
-
-- `plan`: The plan tier of the Zilliz Cloud service you subscribe to. Valid values: **Standard** and **Enterprise**.
-
-- `cuType`: The type of the CU used for the cluster. Valid values: **Performance-optimized and **Capacity-optimized**.
-
-- `cuSize`: The size of the CU used for the cluster. Value range: 1 to 256. By calling `Create Cluster`, you can create a cluster with up to 32 CUs. To create a cluster with more than 32 CUs, [contact us](https://zilliz.com/contact-sales).
+- `regionId`:クラスタを作成するクラウドリージョンのIDです。現在、空きクラスタはGCP上でのみ作成できます。利用可能なクラウドリージョンIDを取得するには、[List Cloud Regions](/reference/restful/list-cloud-regions-v2)操作を呼び出してください。
 
 </TabItem>
 
 </Tabs>
 
-## Verification{#verification}
+## サーバーレスクラスタを設定する{#set-up-a-serverless-cluster}{#set-up-a-serverless-cluster}
 
-After you create the cluster, you can check its status on the cluster list page. A cluster in the **Running** state indicates successful creation.
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"c URL","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
+
+1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)に移動してログインします。
+
+1. 適切な組織とプロジェクトを選択します。
+
+1. [**+クラスタ**]をクリックします。
+
+    ![create_serverless_dedicated_cluster_01](/byoc/ja-JP/create_serverless_dedicated_cluster_01.png)
+
+1. [**新しいクラスタを作成**]セクションで、[**サーバーレス**]プランを選択し、必要なパラメータを入力します。
+
+    <table>
+       <tr>
+         <th><p><strong>パラメータ</strong></p></th>
+         <th><p><strong>説明する</strong></p></th>
+       </tr>
+       <tr>
+         <td><p><strong>クラスタ名</strong></p></td>
+         <td><p>クラスターの名前。</p></td>
+       </tr>
+       <tr>
+         <td><p><strong>クラウドプロバイダーと地域</strong></p></td>
+         <td><p>クラスタの場所とそれがホストされているクラウドプロバイダ。現在、サーバーレスクラスタはGoogle Cloud Platform（GCP）で利用可能です。詳細については、<a href="./cloud-providers-and-regions">クラウドプロバイダー&地域</a>を参照してください。</p></td>
+       </tr>
+    </table>
+
+    ![create_serverless_cluster_form](/byoc/ja-JP/create_serverless_cluster_form.png)
+
+1. [**作成**]をクリックします。**クラスター詳細**ページにリダイレクトされ、クラスターのパブリックエンドポイントとAPIキーが表示されます。これらの詳細を記録して、今後のアクセスに備えます。
+
+</TabItem>
+
+<TabItem value="Bash">
+
+リクエストは次の例のようになります。`{API_KEY}`は認証に使用するAPIキーです。
+
+次の`POST`要求は、リクエストボディを受け取り、ID`cluster-everless`という名前のサーバーレスクラスターをプロジェクトに作成しま`proj-xxxxxxxxxxxxxxxxxxxxx`。
+
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/clusters/createServerless" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     --data-raw '{
+        "clusterName": "cluster-serverless",
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "gcp-us-west1"
+    }'
+     
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "username": "db_xxxxxxxx",
+#         "password": "***********",
+#         "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
+#     }
+# }
+```
+
+上記のコマンドで、
+
+- `{API_KEY}`: APIリクエストを認証するために使用される資格情報。値を自分のものに置き換えてください。
+
+- `cluster terName`:作成するクラスタの名前。
+
+- `projectId`:クラスタを作成するプロジェクトのID。プロジェクトIDを一覧表示するには、[List Projects](/reference/restful/list-projects-v2)操作を呼び出します。
+
+- `regionId`:クラスタを作成するクラウドリージョンのIDです。現在、空きクラスタはGCP上でのみ作成できます。利用可能なクラウドリージョンIDを取得するには、[List Cloud Regions](/reference/restful/list-cloud-regions-v2)操作を呼び出してください。
+
+</TabItem>
+
+</Tabs>
+
+\</exclude>
+
+## 専用のクラスタを作成{#create-a-dedicated-cluster}{#create-a-dedicated-cluster}
+
+\<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"c URL","value":"Bash"}]}>
+
+\<TabItem value="Cloud Console">
+
+1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
+
+1. 希望の組織とプロジェクトを入力します。
+
+。

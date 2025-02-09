@@ -1,12 +1,12 @@
 ---
-title: "Create EKS IAM Role | BYOC"
+title: "EKS IAMロールの作成 | BYOC"
 slug: /create-eks-role
-sidebar_label: "Create EKS IAM Role"
+sidebar_label: "EKS IAMロールの作成"
 beta: PRIVATE
 notebook: FALSE
-description: "This page describes how to create and configure an IAM role for Zilliz Cloud to deploy an EKS cluster for your Zilliz Cloud project. | BYOC"
+description: "このページでは、Zilliz CloudプロジェクトにEKSクラスターをデプロイするために、Zilliz CloudのIAMロールを作成および構成する方法について説明します。 | BYOC"
 type: origin
-token: IJBcwPCeGirLRGkVt1Vc580ynff
+token: N2cQwIdMZiCTX1k6bVEcbQTDn2g
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -16,45 +16,51 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Create EKS IAM Role
+# EKS IAMロールの作成
 
-This page describes how to create and configure an IAM role for Zilliz Cloud to deploy an EKS cluster for your Zilliz Cloud project.
+このページでは、Zilliz CloudプロジェクトにEKSクラスターをデプロイするために、Zilliz CloudのIAMロールを作成および構成する方法について説明します。
 
-## Procedure{#procedure}
+<Admonition type="info" icon="📘" title="ノート">
 
-You can use the AWS console to create the EKS role. As an alternative, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on AWS. For details, refer to [Bootstrap Project Infrastructure (Terraform)](./bootstrap-infrastructure-terraform).
-
-### Step 1: Create an IAM role{#step-1-create-an-iam-role}
-
-In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS clusters on your behalf and paste the ARN of the role back to Zilliz Cloud console.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Upon the creation of an EKS cluster, two <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-service-linked-role">service-linked roles</a> will also be automatically created along with the cluster, and they are <a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html">AmazonEKSServiceRolePolicy</a> and <a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html">AWSServiceRoleForAmazonEKSNodegroup</a>. These two roles are required for Amazon EKS to call other AWS services on your behalf.</p>
+<p>Zilliz BYOCは現在<strong>一般提供</strong>中です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
 
 </Admonition>
 
-1. Log into your AWS Console as a user with administrator privileges and go to the IAM dashboard.
+## 手続き{#procedure}{#procedure}
 
-1. Expand your account information, and click the copy button at the start of your AWS Account ID.
+AWSコンソールを使用してEKSロールを作成できます。代わりに、Zilliz Cloudが提供するTerraformスクリプトを使用して、Zilliz CloudプロジェクトのインフラストラクチャをAWS上でブートストラップすることもできます。詳細については、[Bootstrapインフラストラクチャ（Terraform）](./bootstrap-infrastructure-terraform)を参照してください。
 
-    ![RJFObn104o2f1fx2kgIcZi78n6g](/byoc/RJFObn104o2f1fx2kgIcZi78n6g.png)
+### ステップ1: IAMロールを作成する{#step-1-create-an-iam-role}{#1-iamstep-1-create-an-iam-role}
 
-1. Click the **Roles** tab in the left sidebar, and then click **Create Role**.
+このステップでは、AWS上でZilliz CloudのIAMロールを作成し、代わりにEKSクラスターを管理し、ロールのARNをZilliz Cloudコンソールに貼り付けます。
 
-    ![UQUbbRI7IoSJdBxx1uqcF6RInbb](/byoc/UQUbbRI7IoSJdBxx1uqcF6RInbb.png)
+<Admonition type="info" icon="📘" title="ノート">
 
-1. In **Select trusted entity**, click the **Custom trust policy** tile. In **Common trust policy**, paste the trust JSON from below into the editor in the **Custom trust policy** section and replace `{accountId}` with your **AWS Account ID**.
+<p>EKSクラスターを作成すると、クラスターとともに2つの<a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-service-linked-role">サービスリンクロール</a>が自動的に作成され、<a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html">AmazonEKSServiceRolePolicy</a>と<a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html">AWSServiceRoleForAmazonEKSNodegroup</a>です。これら2つのロールは、Amazon EKSがあなたの代わりに他のAWSサービスを呼び出すために必要です。</p>
+
+</Admonition>
+
+1. 管理者権限を持つユーザーとしてAWSコンソールにログインし、IAMダッシュボードに移動してください。
+
+1. アカウント情報を展開し、AWSアカウントIDの先頭にあるコピーボタンをクリックしてください。
+
+    ![EMi6b2DQJonwOZx8yksclm2hntc](/byoc/ja-JP/EMi6b2DQJonwOZx8yksclm2hntc.png)
+
+1. 左サイドバーの[**役割**]タブをクリックし、[**役割を作成**]をクリックします。
+
+    ![IESTbOXD4o9lfJx34fCcUkF9nSd](/byoc/ja-JP/IESTbOXD4o9lfJx34fCcUkF9nSd.png)
+
+1. [**信頼できるエンティティ**の選択]で、[**カスタム信頼ポリシー**]タイルをクリックします。[**共通信頼ポリシー**]で、下の信頼JSONを[**カスタム信頼ポリシー**]セクションのエディタに貼り付け、`{account tId}`を**AWSアカウントID**に置き換えます。
 
     ```json
     {
@@ -126,123 +132,123 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
       }
     ```
 
-    ![XB4CbBWlFoO3QLxhJAqca6FrnJc](/byoc/XB4CbBWlFoO3QLxhJAqca6FrnJc.png)
+    ![IJh1b5jTSos08MxhMMKcXcKAnRg](/byoc/ja-JP/IJh1b5jTSos08MxhMMKcXcKAnRg.png)
 
-1. Click **Next** and skip adding permissions.
+1. 「**次**へ」をクリックして、アクセス権の追加をスキップします。
 
-1. In the **Name, review, and create** step, name the role, review the trusted entities, and click **Create role**.
+1. 「**名前、レビュー、および作成**」ステップで、役割に名前を付け、信頼されたエンティティを確認し、「**役割を作成**」をクリックします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p>When naming the role, use the prefix <code>zilliz-byoc</code>.</p>
+    <p>ロールに名前を付けるときは、プレフィックス<code>zilliz-byoc</code>を使用します。</p>
 
     </Admonition>
 
-1. Once the role has been created, click **View role** in the green bar to go to the role details. 
+1. ロールが作成されたら、緑色のバーの[**View role**]をクリックしてロールの詳細に移動します。
 
-    ![JWndbA1JAoa9EJxGxI2c7JOBnRf](/byoc/JWndbA1JAoa9EJxGxI2c7JOBnRf.png)
+    ![RsJhbMJnMogl3AxcBc7cVamNngc](/byoc/ja-JP/RsJhbMJnMogl3AxcBc7cVamNngc.png)
 
-1. Click the copy icon in front of the role's **ARN**.
+1. ロールの**ARN**の前にあるコピーアイコンをクリックします。
 
-    ![TaYsbFd3VoJ3CXxxrr2ctXvSndP](/byoc/TaYsbFd3VoJ3CXxxrr2ctXvSndP.png)
+    ![L7rSbBI7donnqSxNZ03cjoEEn9f](/byoc/ja-JP/L7rSbBI7donnqSxNZ03cjoEEn9f.png)
 
-1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **EKS settings**. 
+1. Zilliz Cloudコンソールに戻り、**IAM Role ARN**の**EKS設定**にARNロールを貼り付けます。
 
-    ![GUusbTpq1oJpFFx9mjycBcXsndf](/byoc/GUusbTpq1oJpFFx9mjycBcXsndf.png)
+    ![HoLTbTV52ogMGsxl0WfcFEHmnSc](/byoc/ja-JP/HoLTbTV52ogMGsxl0WfcFEHmnSc.png)
 
-### Step 2: Add permissions{#step-2-add-permissions}
+### ステップ2:権限を追加する{#step-2-add-permissions}{#2step-2-add-permissions}
 
-In this step, you are going to add several permissions to the EKS role. On the role's details page, click the **Permissions** tab.  In the **Permissions policies** section, click **Add permissions**. In this step, you need to select **Attach policies** and then **Create inline policy** to add multiple policies from different sources .
+このステップでは、EKSロールに複数の権限を追加します。ロールの詳細ページで、「**権限**」タブをクリックします。「**権限ポリシー**」セクションで、「**権限追加**」をクリックします。このステップでは、「**ポリシー添付**」を選択し、「**インラインポリシー作成**」を選択して、異なるソースから複数のポリシーを追加する必要があります。
 
-![W1aCbP9zyojMylxG18Scpcfwnxd](/byoc/W1aCbP9zyojMylxG18Scpcfwnxd.png)
+![PypqbYKgeolL9FxEVsxcDnPJnBf](/byoc/ja-JP/PypqbYKgeolL9FxEVsxcDnPJnBf.png)
 
-#### Attach AWS-managed policies{#attach-aws-managed-policies}
+#### AWSが管理するポリシーを添付{#attach-aws-managed-policies}{#awsattach-aws-managed-policies}
 
-The following table lists the permissions to add as attached policies. Click the item in the **Permissions** column of the table to view the required permissions.
+次の表に、添付ポリシーとして追加する権限を示します。表の[**権限**]列の項目をクリックして、必要な権限を表示します。
 
 <table>
    <tr>
-     <th><p>Permissions</p></th>
-     <th><p>Managed by</p></th>
-     <th><p>Description</p></th>
+     <th><p>アクセス許可</p></th>
+     <th><p>管理する</p></th>
+     <th><p>説明する</p></th>
    </tr>
    <tr>
      <td><p><a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEC2ContainerRegistryReadOnly.html">AmazonEC2ContainerRegistryReadOnly</a></p></td>
      <td><p>AWS</p></td>
-     <td><p>Provides read-only access to Amazon EC2 Container Registry repositories.</p></td>
+     <td><p>Amazon EC 2 Container Registryリポジトリへの読み取り専用アクセスを提供します。</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html">AmazonEKS_CNI_Policy</a></p></td>
+     <td><p><a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html">AmazonEKS_CNI_ポリシー</a></p></td>
      <td><p>AWS</p></td>
-     <td><p>Provides the Amazon VPC CNI Plugin (amazon-vpc-cni-k8s) the permissions it requires to modify the IP address configuration on your EKS worker nodes.</p></td>
+     <td><p>Amazon VPC CNIプラグイン（amazon-vpc-cni-k 8 s）に、EKSワーカーノードのIPアドレス設定を変更するために必要な権限を提供します。</p></td>
    </tr>
    <tr>
      <td><p><a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html">AmazonEKSWorkerNodePolicy</a></p></td>
      <td><p>AWS</p></td>
-     <td><p>Allows Amazon EKS worker nodes to connect to Amazon EKS Clusters.</p></td>
+     <td><p>Amazon EKSワーカーノードがAmazon EKSクラスターに接続できるようにします。</p></td>
    </tr>
    <tr>
      <td><p><a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html">AmazonEKSClusterPolicy</a></p></td>
      <td><p>AWS</p></td>
-     <td><p>Provides Kubernetes the permissions it requires to manage resources on your behalf.</p></td>
+     <td><p>あなたの代わりにリソースを管理するために必要な権限をKubernetesに提供します。</p></td>
    </tr>
    <tr>
      <td><p><a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html">AmazonEKSVPCResourceController</a></p></td>
      <td><p>AWS</p></td>
-     <td><p>Allows VPC Resource Controller to manage ENI and IPs for worker nodes.</p></td>
+     <td><p>VPCリソースコントローラーがワーカーノードのENIとIPを管理できるようにします。</p></td>
    </tr>
 </table>
 
-After you choose **Attach policies**, in the **Other permissions policies** section on the page that opens, fill in the name of each AWS-managed policy listed above in the search box and select the radio box in front of it. Once you have selected all the required policies, click **Add permissions**. 
+「**ポリシーを添付**」を選択した後、開いたページの「**その他の権限ポリシー**」セクションで、上記にリストされた各AWS管理ポリシーの名前を検索ボックスに入力し、その前にあるラジオボックスを選択してください。必要なすべてのポリシーを選択したら、「**権限を追加**」をクリックしてください。
 
-![V0IobWDQ3oktBLxq6NCcfYuwnSc](/byoc/V0IobWDQ3oktBLxq6NCcfYuwnSc.png)
+![MK1AblIjSo5hxaxtfMDcN55AnJc](/byoc/ja-JP/MK1AblIjSo5hxaxtfMDcN55AnJc.png)
 
-You will find that these policies are listed in the **Permissions** policies list.
+これらのポリシーは、[**アクセス許可**ポリシー]リストに表示されます。
 
-![TcGBbwgzKoEAIBxKiQ9cJfPQnue](/byoc/TcGBbwgzKoEAIBxKiQ9cJfPQnue.png)
+![T29CbqmABoF5AmxYZ4xcY1RJn9e](/byoc/ja-JP/T29CbqmABoF5AmxYZ4xcY1RJn9e.png)
 
-#### Create inline policies{#create-inline-policies}
+#### インラインポリシーの作成{#create-inline-policies}{#create-inline-policies}
 
-The following table lists the policies that need to be added as customer inline policies. Click the item in the **Permissions** column of the table to view the required permissions.
+次の表に、顧客のインラインポリシーとして追加する必要があるポリシーを示します。テーブルの[**権限**]列の項目をクリックして、必要な権限を表示します。
 
 <table>
    <tr>
-     <th><p>Permissions</p></th>
-     <th><p>Managed by</p></th>
-     <th><p>Description</p></th>
+     <th><p>アクセス許可</p></th>
+     <th><p>管理する</p></th>
+     <th><p>説明する</p></th>
    </tr>
    <tr>
      <td><p><a href="https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/install/iam_policy.json">AWS Load Balancer Controller</a></p></td>
-     <td><p>Kubernetes SIGs</p></td>
-     <td><p>AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster.</p><p>For details on the AWS Load Balancer Controller repository, refer to the <a href="https://github.com/kubernetes-sigs/aws-load-balancer-controller/tree/main">README</a> file.</p></td>
+     <td><p>KubernetesのSIGs</p></td>
+     <td><p>AWSロードバランサーコントローラーは、KubernetesクラスターのElastic Load Balancerを管理するためのコントローラーです。</p><p>AWSロードバランサーコントローラーリポジトリの詳細については、<a href="https://github.com/kubernetes-sigs/aws-load-balancer-controller/tree/main">README</a>ファイルを参照してください。</p></td>
    </tr>
    <tr>
      <td><p><a href="https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/example-iam-policy.json">Amazon EBS CSI driver</a></p></td>
-     <td><p>Kubernetes SIGs</p></td>
-     <td><p>The Amazon Elastic Block Store Container Storage Interface (CSI) Driver provides a CSI interface used by Container Orchestrators to manage the lifecycle of Amazon EBS volumes.</p><p>For details on the Amazon EBS CSI driver, refer to the <a href="https://github.com/kubernetes-sigs/aws-ebs-csi-driver">README</a> file.</p></td>
+     <td><p>KubernetesのSIGs</p></td>
+     <td><p>Amazon Elastic Block Store Container Storage Interface（CSI）ドライバーは、コンテナオーケストレーターがAmazon EBSボリュームのライフサイクルを管理するために使用するCSIインターフェースを提供します。</p><p>Amazon EBS CSIドライバーの詳細については、<a href="https://github.com/kubernetes-sigs/aws-ebs-csi-driver">README</a>ファイルを参照してください。</p></td>
    </tr>
    <tr>
      <td><p><a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#full-cluster-autoscaler-features-policy-recommended">Cluster AutoScaler</a></p></td>
-     <td><p>Kubernetes SIGs</p></td>
-     <td><p>The Cluster AutoScaler is a component that automatically adjusts the size of a Kubernetes Cluster so that all pods have a place to run and there are no unneeded nodes.</p><p>For details on the Cluster AutoScaler on AWS, refer to the <a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md">README</a> file.</p></td>
+     <td><p>KubernetesのSIGs</p></td>
+     <td><p>Cluster AutoScalerは、Kubernetes Clusterの体格を自動的に調整するコンポーネントで、すべてのポッドが実行可能になり、不要なノードがなくなるように置く。</p><p>AWS上のCluster AutoScalerの詳細については、<a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md">README</a>ファイルを参照してください。</p></td>
    </tr>
 </table>
 
-After you choose **Create inline policy**, on the **Specify permissions** page, click **JSON** in the **Policy editor** section to open the policy editor. Then copy one of the above permissions and paste it into the policy editor.
+「**Create inline policy**」を選択した後、「**Specify permis**sions」ページで、「**JSON**」をクリックして**ポリシーエディタ**を開きます。次に、上記の権限のいずれかをコピーしてポリシーエディタに貼り付けます。
 
-![EzxybNlqXoABrmxAOWDc4nzinwe](/byoc/EzxybNlqXoABrmxAOWDc4nzinwe.png)
+![ZmF0bkhWOoWYZMxoZHccP1iMnah](/byoc/ja-JP/ZmF0bkhWOoWYZMxoZHccP1iMnah.png)
 
-Click **Next**, and set **Policy name** in **Policy details**.
+[**次**へ]をクリックし、[ポリシーの詳細]で**ポリシー名**を**設定します**。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>As shown in the following figure, when naming the policy, use the prefix <code>zilliz-byoc</code>.</p>
+<p>次の図に示すように、ポリシーの命名にはプレフィックス<code>zilliz-byoc</code>を使用します。</p>
 
 </Admonition>
 
-![QMu4bLEoEo4lrAxDurIcgpINnnb](/byoc/QMu4bLEoEo4lrAxDurIcgpINnnb.png)
+![DaaUbPxOPowcAgxZprNceEBMndh](/byoc/ja-JP/DaaUbPxOPowcAgxZprNceEBMndh.png)
 
-Once you have added all the listed inline policies, click **Create policy**. You will find that these policies are listed in the **Permissions** policies list.
+リストされたすべてのインラインポリシーを追加したら、[**ポリシーを作成**]をクリックします。これらのポリシーが[**権限**ポリシー]リストに表示されます。
 
-![FD9rbE25YofQJDxafNLc0IUInWg](/byoc/FD9rbE25YofQJDxafNLc0IUInWg.png)
+![Q0TkbkN04oqWYIx3777cObDIndd](/byoc/ja-JP/Q0TkbkN04oqWYIx3777cObDIndd.png)
 

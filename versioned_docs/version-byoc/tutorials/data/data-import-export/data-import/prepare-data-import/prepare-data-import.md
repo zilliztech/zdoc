@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

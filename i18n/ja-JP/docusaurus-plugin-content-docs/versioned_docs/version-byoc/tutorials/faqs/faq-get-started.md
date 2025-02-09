@@ -1,53 +1,53 @@
 ---
-title: "FAQ: Get Started | BYOC"
+title: "FAQ:スタート | BYOC"
 slug: /faq-get-started
-sidebar_label: "FAQ: Get Started"
+sidebar_label: "FAQ:スタート"
 beta: FALSE
 notebook: FALSE
-description: "This topic lists the possible issues that you may encounter while you get started with Zilliz Cloud and the corresponding solution. | BYOC"
+description: "このトピックでは、 Zilliz Cloud と対応するソリューションの使い始める際に遭遇する可能性のある問題をリストします。 | BYOC"
 type: origin
-token: EV41wG08BiOWW8kbo9xcTGoPnKd
+token: LKxiwykkhi5VyLkTfAGcE3LinBe
 sidebar_position: 1
 
 ---
 
-# FAQ: Get Started
+# FAQ:スタート
 
-This topic lists the possible issues that you may encounter while you get started with Zilliz Cloud and the corresponding solution.
+このトピックでは、 Zilliz Cloud と対応するソリューションの使い始める際に遭遇する可能性のある問題をリストします。
 
 ## Contents
 
-- [Is there any performance comparison between Zilliz Cloud and other vector search solutions?](#is-there-any-performance-comparison-between-zilliz-cloud-and-other-vector-search-solutions)
-- [Which type of index is supported by Zilliz Cloud?](#which-type-of-index-is-supported-by-zilliz-cloud)
-- [What is the search latency of Zilliz Cloud?](#what-is-the-search-latency-of-zilliz-cloud)
-- [How can I get further technical support?](#how-can-i-get-further-technical-support)
+- [Zilliz Cloudと他のベクトル検索ソリューションのパフォーマンス比較はありますか?](#is-there-any-performance-comparison-between-zilliz-cloud-and-other-vector-search-solutions)
+- [Zilliz Cloudはどの種類のインデックスをサポートしていますか?](#which-type-of-index-is-supported-by-zilliz-cloud)
+- [Zilliz Cloudの検索レイテンシーは何ですか?](#what-is-the-search-latency-of-zilliz-cloud)
+- [さらなる技術サポートを受けるにはどうすればよいですか?](#how-can-i-get-further-technical-support)
 
 ## FAQs
 
 
 
 
-### Is there any performance comparison between Zilliz Cloud and other vector search solutions?{#is-there-any-performance-comparison-between-zilliz-cloud-and-other-vector-search-solutions}
+### Zilliz Cloudと他のベクトル検索ソリューションのパフォーマンス比較はありますか?{#is-there-any-performance-comparison-between-zilliz-cloud-and-other-vector-search-solutions}
 
-Yes. You can use [VectorDBBench](https://zilliz.com/vector-database-benchmark-tool), a vector database benchmark tool to compare the performance of Zilliz Cloud and other mainstream vector databases and cloud services.
+はい。ベクトルデータベースのベンチマークツールである[VectorDBBench](https://zilliz.com/vector-database-benchmark-tool)を使用して、Zilliz Cloudと他の主流のベクトルデータベースやクラウドサービスのパフォーマンスを比較することができます。
 
-### Which type of index is supported by Zilliz Cloud?{#which-type-of-index-is-supported-by-zilliz-cloud}
+### Zilliz Cloudはどの種類のインデックスをサポートしていますか?{#which-type-of-index-is-supported-by-zilliz-cloud}
 
-Currently, Zilliz Cloud only supports AUTOINDEX, a proprietary index type that can help you achieve better search performance. 
+現在、Zilliz Cloudは独自のインデックスタイプであるAUTOINDEXのみをサポートしており、より良い検索パフォーマンスを実現するのに役立ちます。 
 
-For a performance-optimized cluster with 1.5 million 768-dimensional vectors, the QPS can reach several hundred and the latency is below 100 milliseconds. For a capacity-optimized cluster with 5 million 768-dimensional vectors, the QPS can reach 50 and the latency is over 200 milliseconds. For more details, see [AUTOINDEX Explained](./autoindex-explained).
+150万個の768次元ベクトルを持つperformance-optimizedクラスタの場合、QPSは数百に達し、レイテンシは100ミリ秒以下になります。500万個の768次元ベクトルを持つ容量最適化クラスタの場合、QPSは50に達し、レイテンシは200ミリ秒以上になります。詳細については、「[AUTOINDEXの説明](./autoindex-explained)」を参照してください。
 
-However, please[ submit a request](https://support.zilliz.com/hc/en-us) if you are familiar with using [any of the indexes](https://milvus.io/docs/index.md) we support. We can help you evaluate your application demand and enable the indexes for you.
+ただし、[リクエストを送信](https://support.zilliz.com/hc/en-us)してください。当社がサポートする[インデックスのいずれかの](https://milvus.io/docs/index.md)使用に精通している場合。アプリケーションの需要を評価し、インデックスを有効にすることができます。
 
-### What is the search latency of Zilliz Cloud?{#what-is-the-search-latency-of-zilliz-cloud}
+### Zilliz Cloudの検索レイテンシーは何ですか?{#what-is-the-search-latency-of-zilliz-cloud}
 
-The search latency depends on the CU type and data volume. 
+検索レイテンシはCUタイプとデータ量に依存します。 
 
 <table>
    <tr>
      <th><p>top_k</p></th>
-     <th><p>Latency of Performance-optimized CU (768-dim 1M vectors)</p></th>
-     <th><p>Latency of Capacity-optimized CU (768-dim 5M vectors)</p></th>
+     <th><p>CUPerformance-optimized(76 8-dim 1 Mベクトル)の遅延</p></th>
+     <th><p>容量最適化CU（76 8-dim 5 Mベクトル）のレイテンシ</p></th>
    </tr>
    <tr>
      <td><p>10</p></td>
@@ -71,8 +71,8 @@ The search latency depends on the CU type and data volume.
    </tr>
 </table>
 
-For more details about the test result, see [Select the Right CU](./cu-types-explained).
+テスト結果の詳細については、「[適切なCUを選択](./cu-types-explained)」を参照してください。
 
-### How can I get further technical support?{#how-can-i-get-further-technical-support}
+### さらなる技術サポートを受けるにはどうすればよいですか?{#how-can-i-get-further-technical-support}
 
-Please submit at request at the Zilliz cloud [support portal](https://support.zilliz.com/hc/en-us).
+Zillizクラウド[サポートポータル](https://support.zilliz.com/hc/en-us)でリクエストを送信してください。

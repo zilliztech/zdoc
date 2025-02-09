@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

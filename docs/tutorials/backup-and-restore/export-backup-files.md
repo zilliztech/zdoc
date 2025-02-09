@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

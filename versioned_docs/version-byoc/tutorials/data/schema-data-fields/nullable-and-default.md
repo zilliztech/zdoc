@@ -16,10 +16,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
@@ -481,7 +481,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-To query entities with `null` values, use an empty expression `""`:
+To return entities with `null` values, query without any scalar filtering condition as follows:
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The <code>query</code> method, when used without any filtering conditions, retrieves all entities in the collection, including those with null values. To restrict the number of returned entities, the <code>limit</code> parameter must be specified.</p>
+
+</Admonition>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -489,8 +495,9 @@ To query entities with `null` values, use an empty expression `""`:
 ```python
 null_results = client.query(
     collection_name="user_profiles_null",
-    filter="",
-    output_fields=["id", "age"]
+    filter="",     # Query without any filtering condition
+    output_fields=["id", "age"],
+    limit=10
 )
 
 # Example output:
@@ -520,7 +527,8 @@ System.out.println(resp.getQueryResults());
 const results = await client.query(
     collection_name: "user_profiles_null",
     filter: "",
-    output_fields: ["id", "age"]
+    output_fields: ["id", "age"],
+    limit: 10
 );
 ```
 
@@ -536,7 +544,8 @@ curl --request POST \
 -d '{
     "collectionName": "user_profiles_null",
     "expr": "",
-    "outputFields": ["id", "age"]
+    "outputFields": ["id", "age"],
+    "limit": 10
 }'
 
 # {"code":0,"cost":0,"data":[{"age":30,"id":1},{"age":null,"id":2},{"age":null,"id":3}]}

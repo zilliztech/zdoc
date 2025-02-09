@@ -14,10 +14,10 @@ keywords:
   - cloud
   - network
   - security
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

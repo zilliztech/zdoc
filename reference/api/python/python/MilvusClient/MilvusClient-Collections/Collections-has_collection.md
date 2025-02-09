@@ -8,21 +8,21 @@ notebook: false
 description: "This operation checks whether a specific collection exists. | Python | MilvusClient"
 type: docx
 token: SSQ6dFGdxouy7hxRwCOcatnEn0e
-sidebar_position: 11
+sidebar_position: 14
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
   - python
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

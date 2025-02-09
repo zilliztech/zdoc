@@ -1,12 +1,12 @@
 ---
-title: "Privileges | BYOC"
+title: "特権について | BYOC"
 slug: /cluster-privileges
-sidebar_label: "Privileges"
+sidebar_label: "特権について"
 beta: FALSE
 notebook: FALSE
-description: "A privilege refers to the permission of specific operations on certain Zilliz Cloud resources such as clusters, databases, and collections. Privileges are assigned to roles, which are then granted to users, defining the operations users can perform on the resources. An example of a privilege could be the permission to insert data into a collection named `collection01`. | BYOC"
+description: "特権とは、クラスター、データベース、コレクションなどの特定のZilliz Cloudリソースに対する特定の操作の許可を指します。特権は役割に割り当てられ、ユーザーに付与され、ユーザーがリソースで実行できる操作を定義します。特権の例としては、`collection01`という名前のコレクションにデータを挿入する許可があります。 | BYOC"
 type: origin
-token: NitBwKVzzi0hXBkjdDFcfwRsngb
+token: FVfVwmh72ieEF5kAPBzcZdj9nUe
 sidebar_position: 6
 keywords: 
   - zilliz
@@ -16,47 +16,47 @@ keywords:
   - access control
   - rbac
   - privileges
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Privileges
+# 特権について
 
-A privilege refers to the permission of specific operations on certain Zilliz Cloud resources such as clusters, databases, and collections. Privileges are assigned to roles, which are then granted to users, defining the operations users can perform on the resources. An example of a privilege could be the permission to insert data into a collection named `collection_01`. 
+特権とは、クラスター、データベース、コレクションなどの特定のZilliz Cloudリソースに対する特定の操作の許可を指します。特権は役割に割り当てられ、ユーザーに付与され、ユーザーがリソースで実行できる操作を定義します。特権の例としては、`collection_01`という名前のコレクションにデータを挿入する許可があります。
 
-A **privilege group** is a combination of individual privileges. You can create a privilege group of commonly used privileges to simplify the role granting process. For ease-of-use, Zilliz Cloud provides a total of 9 built-in privilege groups on the collection, database, and cluster level.
+特権**グループ**は、個々の特権の組み合わせです。一般的に使用される特権の特権グループを作成して、役割の付与過程を簡素化できます。使いやすさのために、Zilliz Cloudはコレクション、データベース、クラスターレベルで合計9つの組み込み特権グループを提供しています。
 
-The following figure illustrates the different granting process of privileges and a privilege group.
+次の図は、特権と特権グループのさまざまな付与過程を示しています。
 
-![SsW6w8kaNhz4iQbEMYmcbUzsnOc](/byoc/SsW6w8kaNhz4iQbEMYmcbUzsnOc.png)
+![DZJ3wap77hAp4CbpIqBcFyRVnLd](/byoc/ja-JP/DZJ3wap77hAp4CbpIqBcFyRVnLd.png)
 
-This topic details the built-in privilege groups and privileges that are available in Zilliz Cloud. 
+このトピックでは、Zilliz Cloudで利用可能な組み込みの特権グループと特権について詳しく説明します。
 
-## Built-in privilege groups{#built-in-privilege-groups}
+## 組み込みの特権グループ{#built-in-privilege-groups}{#built-in-privilege-groups}
 
-Zilliz Cloud offers a total of 9 built-in privilege groups on the collection, database, and cluster level that you can directly select when [creating roles](./cluster-roles). 
+Zilliz Cloudには、コレクション、データベース、クラスターレベルで合計9つの権限グループが組み込まれており、[ロール作成](./cluster-roles)時に直接選択できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>The three levels of built-in privilege groups do not have a cascading relationship. Setting a privilege group at the cluster level does not automatically set permissions for all databases and collections under that instance. Privileges at the database and collection levels need to be set manually.</p>
+<p>組み込み特権グループの3つのレベルには、カスケード関係はありません。クラスターレベルで特権グループを設定しても、そのインスタンスのすべてのデータベースとコレクションの権限が自動的に設定されるわけではありません。データベースレベルとコレクションレベルの特権は手動で設定する必要があります。</p>
 
 </Admonition>
 
-### Collection level privilege groups{#collection-level-privilege-groups}
+### コレクションレベルの権限グループ{#collection-level-privilege-groups}{#collection-level-privilege-groups}
 
-- **CollectionReadOnly (COLL_RO)**: includes privileges to read collection data
+- **CollectionReadOnly(COLL_RO)**:コレクションデータを読み取る権限を含む
 
-- **CollectionReadWrite (COLL_RW)**: includes privileges to read and write collection data
+- **CollectionReadWrite(COLL_RW)**:コレクションデータを読み書きする権限を含みます
 
-- **CollectionAdmin (COLL_ADMIN)**: includes privileges to read and write collection data and manage collections.
+- **CollectionAdmin(COLL_ADMIN)**:コレクションデータを読み書きし、コレクションを管理する権限が含まれます。
 
-The table below lists the specific privileges included in the three built-in privilege groups at the collection level:
+次の表に、コレクションレベルの3つの組み込み特権グループに含まれる特定の特権を示します。
 
 <table>
    <tr>
@@ -229,15 +229,15 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
 </table>
 
-### Database level privilege groups{#database-level-privilege-groups}
+### データベースレベルの権限グループ{#database-level-privilege-groups}{#database-level-privilege-groups}
 
-- **DatabaseReadOnly (DB_RO)**: includes privileges to read database data
+- **DatabaseReadOnly(DB_RO)**:データベースデータを読み取る権限を含みます
 
-- **DatabaseReadWrite (DB_RW)**: includes privileges to read and write database data
+- **DatabaseReadWrite(DB_RW)**:データベースデータを読み書きする権限を含みます
 
-- **DatabaseAdmin (DB_Admin)**: includes privileges to read and write database data and manage databases.
+- **DatabaseAdmin(DB_Admin)**:データベースデータを読み書きし、データベースを管理する権限が含まれています。
 
-The table below lists the specific privileges included in the three built-in privilege groups at the database level:
+以下の表は、データベースレベルの3つの組み込み特権グループに含まれる特定の特権を示しています。
 
 <table>
    <tr>
@@ -278,15 +278,15 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
 </table>
 
-### Cluster level privilege groups{#cluster-level-privilege-groups}
+### クラスターレベルの特権グループ{#cluster-level-privilege-groups}{#cluster-level-privilege-groups}
 
-- **ClusterReadOnly (Cluster_RO)**: includes privileges to read instnace data
+- **Cluster ReadOnly(Cluster_RO)**:インスタンスデータを読み取る権限を含みます
 
-- **ClusterReadWrite (Cluster_RW)**: includes privileges to read and write instance data
+- **Cluster ReadWrite(Cluster_RW)**:インスタンスデータを読み書きする権限が含まれています
 
-- **ClusterAdmin (Cluster_Admin)**: includes privileges to read and write instance data and manage instances.
+- **ClusterAdmin(Cluster_Admin)**:インスタンスデータを読み書きし、インスタンスを管理する権限が含まれます。
 
-The table below lists the specific privileges included in the three built-in privilege groups at the cluster level:
+次の表に、クラスターレベルの3つの組み込み特権グループに含まれる特定の特権を示します。
 
 <table>
    <tr>
@@ -441,296 +441,296 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
 </table>
 
-## All privileges{#all-privileges}
+## すべての特権{#all-privileges}{#all-privileges}
 
-The followings are all the privileges available on Zilliz Cloud. 
+以下は、Zilliz Cloudで利用可能なすべての権限です。
 
-If you need to create your own privilege group with the privileges listed below or create custom roles with privileges, please [contact us](http://support.zilliz.com).
+以下の権限を持つ独自の権限グループを作成する必要がある場合、または権限を持つカスタムロールを作成する必要がある場合は、[お問い合わせ](http://support.zilliz.com)ください。
 
-### Database privileges{#database-privileges}
+### データベースの権限{#database-privileges}{#database-privileges}
 
 <table>
    <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>特権プログラム</strong></p></th>
+     <th><p><strong>説明する</strong></p></th>
    </tr>
    <tr>
      <td><p>ListDatabases</p></td>
-     <td><p>View all databases in the current instance</p></td>
+     <td><p>現在のインスタンスのすべてのデータベースを表示する</p></td>
    </tr>
    <tr>
      <td><p>DescribeDatabase</p></td>
-     <td><p>View the details of a database</p></td>
+     <td><p>データベースの詳細を表示する</p></td>
    </tr>
    <tr>
      <td><p>CreateDatabase</p></td>
-     <td><p>Create a database</p></td>
+     <td><p>データベースを作成する</p></td>
    </tr>
    <tr>
      <td><p>DropDatabase</p></td>
-     <td><p>Drop a database</p></td>
+     <td><p>データベースを削除</p></td>
    </tr>
    <tr>
      <td><p>AlterDatabase</p></td>
-     <td><p>Modify the properties of a database</p></td>
+     <td><p>データベースのプロパティを変更する</p></td>
    </tr>
 </table>
 
-### Collection privileges{#collection-privileges}
+### コレクション権限{#collection-privileges}{#collection-privileges}
 
 <table>
    <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>特権プログラム</strong></p></th>
+     <th><p><strong>説明する</strong></p></th>
    </tr>
    <tr>
      <td><p>GetFlushState</p></td>
-     <td><p>Check the status of the collection flush operation</p></td>
+     <td><p>コレクションフラッシュ操作の状態を確認する</p></td>
    </tr>
    <tr>
      <td><p>GetLoadState</p></td>
-     <td><p>Check the load status of a collection</p></td>
+     <td><p>コレクションのロード状態を確認する</p></td>
    </tr>
    <tr>
      <td><p>GetLoadingProgress</p></td>
-     <td><p>Check the loading progress of a collection</p></td>
+     <td><p>コレクションの読み込み状況を確認する</p></td>
    </tr>
    <tr>
      <td><p>ShowCollections</p></td>
-     <td><p>View all collections with collection privileges</p></td>
+     <td><p>コレクション権限を持つすべてのコレクションを表示する</p></td>
    </tr>
    <tr>
      <td><p>ListAliases</p></td>
-     <td><p>View all aliases of a collection</p></td>
+     <td><p>コレクションのすべてのエイリアスを表示する</p></td>
    </tr>
    <tr>
      <td><p>DescribeCollection</p></td>
-     <td><p>View the details of a collection</p></td>
+     <td><p>コレクションの詳細を見る</p></td>
    </tr>
    <tr>
      <td><p>DescribeAlias</p></td>
-     <td><p>View the details of an alias</p></td>
+     <td><p>エイリアスの詳細を表示する</p></td>
    </tr>
    <tr>
      <td><p>GetStatistics</p></td>
-     <td><p>Obtain the statistics of a collection (eg. The number of entities in a collection)</p></td>
+     <td><p>コレクションの統計情報を取得する（例:コレクション内のエンティティの数）</p></td>
    </tr>
    <tr>
      <td><p>CreateCollection</p></td>
-     <td><p>Create a collection</p></td>
+     <td><p>コレクションを作成する</p></td>
    </tr>
    <tr>
      <td><p>DropCollection</p></td>
-     <td><p>Drop a collection</p></td>
+     <td><p>コレクションを削除する</p></td>
    </tr>
    <tr>
      <td><p>Load</p></td>
-     <td><p>Load a collection</p></td>
+     <td><p>コレクションをロードする</p></td>
    </tr>
    <tr>
      <td><p>Release</p></td>
-     <td><p>Release a collection</p></td>
+     <td><p>コレクションをリリースする</p></td>
    </tr>
    <tr>
      <td><p>Flush</p></td>
-     <td><p>Persist all entities in a collection to a sealed segment. Any entity inserted after the flush operation will be stored in a new segment.</p></td>
+     <td><p>コレクション内のすべてのエンティティをシールされたセグメントに保持します。フラッシュ操作の後に挿入されたエンティティは、新しいセグメントに保存されます。</p></td>
    </tr>
    <tr>
      <td><p>Compaction</p></td>
-     <td><p>Manually trigger compaction</p></td>
+     <td><p>手動で圧縮をトリガーする</p></td>
    </tr>
    <tr>
      <td><p>RenameCollection</p></td>
-     <td><p>Rename a collection</p></td>
+     <td><p>コレクションの名前を変更する</p></td>
    </tr>
    <tr>
      <td><p>CreateAlias</p></td>
-     <td><p>Create an alias for a collection</p></td>
+     <td><p>コレクションのエイリアスを作成する</p></td>
    </tr>
    <tr>
      <td><p>DropAlias</p></td>
-     <td><p>Drop the alias of a collection</p></td>
+     <td><p>コレクションのエイリアスを削除する</p></td>
    </tr>
    <tr>
      <td><p>FlushAll</p></td>
-     <td><p>Flush all collections in a database</p></td>
+     <td><p>データベース内のすべてのコレクションをフラッシュする</p></td>
    </tr>
 </table>
 
-### Partition privileges{#partition-privileges}
+### パーティションの権限{#partition-privileges}{#partition-privileges}
 
 <table>
    <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>特権プログラム</strong></p></th>
+     <th><p><strong>説明する</strong></p></th>
    </tr>
    <tr>
      <td><p>HasPartition</p></td>
-     <td><p>Check whether a partition exists</p></td>
+     <td><p>パーティションが存在するかどうかを確認する</p></td>
    </tr>
    <tr>
      <td><p>ShowPartitions</p></td>
-     <td><p>View all partitions in a collection</p></td>
+     <td><p>コレクション内のすべてのパーティションを表示する</p></td>
    </tr>
    <tr>
      <td><p>CreatePartition</p></td>
-     <td><p>Create a partition</p></td>
+     <td><p>パーティションを作成する</p></td>
    </tr>
    <tr>
      <td><p>DropPartition</p></td>
-     <td><p>Drop a partition</p></td>
+     <td><p>パーティションを削除する</p></td>
    </tr>
 </table>
 
-### Index privileges{#index-privileges}
+### インデックス権限{#index-privileges}{#index-privileges}
 
 <table>
    <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>特権プログラム</strong></p></th>
+     <th><p><strong>説明する</strong></p></th>
    </tr>
    <tr>
      <td><p>IndexDetail</p></td>
-     <td><p>View the details of an index</p></td>
+     <td><p>インデックスの詳細を表示する</p></td>
    </tr>
    <tr>
      <td><p>CreateIndex</p></td>
-     <td><p>Create an index</p></td>
+     <td><p>インデックスを作成する</p></td>
    </tr>
    <tr>
      <td><p>DropIndex</p></td>
-     <td><p>Drop an index</p></td>
+     <td><p>インデックスを削除</p></td>
    </tr>
 </table>
 
-### Resource management privileges{#resource-management-privileges}
+### リソース管理の権限{#resource-management-privileges}{#resource-management-privileges}
 
 <table>
    <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>特権プログラム</strong></p></th>
+     <th><p><strong>説明する</strong></p></th>
    </tr>
    <tr>
      <td><p>LoadBalance</p></td>
-     <td><p>Achieve load balance</p></td>
+     <td><p>ロードバランスを実現する</p></td>
    </tr>
    <tr>
      <td><p>CreateResourceGroup</p></td>
-     <td><p>Create a resource group</p></td>
+     <td><p>リソースグループを作成する</p></td>
    </tr>
    <tr>
      <td><p>DropResourceGroup</p></td>
-     <td><p>Drop a resource group</p></td>
+     <td><p>リソースグループを削除する</p></td>
    </tr>
    <tr>
      <td><p>UpdateResourceGroups</p></td>
-     <td><p>Update a resource group</p></td>
+     <td><p>リソースグループを更新する</p></td>
    </tr>
    <tr>
      <td><p>DescribeResourceGroup</p></td>
-     <td><p>View the details of a resource group</p></td>
+     <td><p>リソースグループの詳細を表示する</p></td>
    </tr>
    <tr>
      <td><p>ListResourceGroups</p></td>
-     <td><p>View all resource groups of the current instance</p></td>
+     <td><p>現在のインスタンスのすべてのリソースグループを表示する</p></td>
    </tr>
    <tr>
      <td><p>TransferNode</p></td>
-     <td><p>Transfer nodes between resource groups</p></td>
+     <td><p>リソースグループ間でノードを転送する</p></td>
    </tr>
    <tr>
      <td><p>TransferReplica</p></td>
-     <td><p>Transfer replicas between resource groups</p></td>
+     <td><p>リソースグループ間でレプリカを転送する</p></td>
    </tr>
    <tr>
      <td><p>BackupRBAC</p></td>
-     <td><p>Create a backup for all RBAC related operations in the current instance</p></td>
+     <td><p>現在のインスタンス内のすべてのRBAC関連操作のバックアップを作成してください</p></td>
    </tr>
    <tr>
      <td><p>RestoreRBAC</p></td>
-     <td><p>Restore a backup of all RBAC related operations in the current instance</p></td>
+     <td><p>現在のインスタンス内のすべてのRBAC関連操作のバックアップを復元します</p></td>
    </tr>
 </table>
 
-### Entity privileges{#entity-privileges}
+### エンティティの権限{#entity-privileges}{#entity-privileges}
 
 <table>
    <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>特権プログラム</strong></p></th>
+     <th><p><strong>説明する</strong></p></th>
    </tr>
    <tr>
      <td><p>Query</p></td>
-     <td><p>Conduct a query</p></td>
+     <td><p>クエリを実行する</p></td>
    </tr>
    <tr>
      <td><p>Search</p></td>
-     <td><p>Conduct a search</p></td>
+     <td><p>検索を行う</p></td>
    </tr>
    <tr>
      <td><p>Insert</p></td>
-     <td><p>Insert entities</p></td>
+     <td><p>図形を挿入</p></td>
    </tr>
    <tr>
      <td><p>Delete</p></td>
-     <td><p>Delete entities</p></td>
+     <td><p>エンティティを削除</p></td>
    </tr>
    <tr>
      <td><p>Upsert</p></td>
-     <td><p>Upsert entities</p></td>
+     <td><p>図形をUpsert</p></td>
    </tr>
    <tr>
      <td><p>Import</p></td>
-     <td><p>Bulk insert or import entities</p></td>
+     <td><p>一括挿入または図形のインポート</p></td>
    </tr>
 </table>
 
-### RBAC privileges{#rbac-privileges}
+### RBACの権限{#rbac-privileges}{#rbacrbac-privileges}
 
 <table>
    <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>特権プログラム</strong></p></th>
+     <th><p><strong>説明する</strong></p></th>
    </tr>
    <tr>
      <td><p>CreateOwnership</p></td>
-     <td><p>Create a user or a role</p></td>
+     <td><p>ユーザーまたはロールを作成する</p></td>
    </tr>
    <tr>
      <td><p>UpdateUser</p></td>
-     <td><p>Update the password of a user</p></td>
+     <td><p>ユーザーのパスワードを更新する</p></td>
    </tr>
    <tr>
      <td><p>DropOwnership</p></td>
-     <td><p>Drop a user password or a role</p></td>
+     <td><p>ユーザーパスワードまたはロールを削除する</p></td>
    </tr>
    <tr>
      <td><p>SelectOwnership</p></td>
-     <td><p>View all users that are granted a specific role</p></td>
+     <td><p>特定の役割が付与されたすべてのユーザーを表示する</p></td>
    </tr>
    <tr>
      <td><p>ManageOwnership</p></td>
-     <td><p>Manage a user or a role or grant a role to a user</p></td>
+     <td><p>ユーザーまたは役割を管理するか、ユーザーに役割を付与する</p></td>
    </tr>
    <tr>
      <td><p>SelectUser</p></td>
-     <td><p>View all roles granted to a user</p></td>
+     <td><p>ユーザーに付与されたすべてのロールを表示する</p></td>
    </tr>
    <tr>
      <td><p>CreatePrivilegeGroup</p></td>
-     <td><p>Create a privilege group</p></td>
+     <td><p>特権グループを作成する</p></td>
    </tr>
    <tr>
      <td><p>DropPrivilegeGroup</p></td>
-     <td><p>Drop a privilege group</p></td>
+     <td><p>特権グループを削除する</p></td>
    </tr>
    <tr>
      <td><p>ListPrivilegeGroups</p></td>
-     <td><p>View all privilege groups in the current instance</p></td>
+     <td><p>現在のインスタンスのすべての特権グループを表示する</p></td>
    </tr>
    <tr>
      <td><p>OperatePrivilegeGroup</p></td>
-     <td><p>Add privileges to or remove privileges from a privilege group</p></td>
+     <td><p>特権グループに特権を追加または削除する</p></td>
    </tr>
 </table>
 

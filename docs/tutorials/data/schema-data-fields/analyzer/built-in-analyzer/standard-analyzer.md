@@ -1,7 +1,7 @@
 ---
-title: "Standard | Cloud"
+title: "Standard Analyzer | Cloud"
 slug: /standard-analyzer
-sidebar_label: "Standard"
+sidebar_label: "Standard Analyzer"
 beta: PUBLIC
 notebook: FALSE
 description: "The `standard` analyzer is the default analyzer in Zilliz Cloud, which is automatically applied to text fields if no analyzer is specified. It uses grammar-based tokenization, making it effective for most languages. | Cloud"
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - standard-analyzer
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 
@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Standard
+# Standard Analyzer
 
 The `standard` analyzer is the default analyzer in Zilliz Cloud, which is automatically applied to text fields if no analyzer is specified. It uses grammar-based tokenization, making it effective for most languages.
 

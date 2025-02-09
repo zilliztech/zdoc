@@ -17,10 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

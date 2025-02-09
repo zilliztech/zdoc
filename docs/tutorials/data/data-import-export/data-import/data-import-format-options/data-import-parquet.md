@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

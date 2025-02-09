@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

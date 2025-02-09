@@ -14,10 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

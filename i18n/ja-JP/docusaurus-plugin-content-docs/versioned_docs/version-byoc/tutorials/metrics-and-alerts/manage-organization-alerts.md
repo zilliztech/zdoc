@@ -1,12 +1,12 @@
 ---
-title: "Manage Organization Alerts | BYOC"
+title: "組織のアラートを管理する | BYOC"
 slug: /manage-organization-alerts
-sidebar_label: "Manage Organization Alerts"
+sidebar_label: "組織のアラートを管理する"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers two types of alerts for resource monitoring Organization Alerts for license-related matters and Project Alerts for operational performance of clusters in specific projects. For a quick reference, refer to Metrics & Alerts Reference. | BYOC"
+description: "Zilliz Cloudは、リソースモニタリングのための2種類のアラートを提供しています。組織アラートは、請求関連ライセンス関連の問題に対応し、プロジェクトアラートは特定のプロジェクトのクラスターの運用パフォーマンスに対応しています。クイックリファレンスについては、メトリクスとアラートのリファレンスを参照してください。 | BYOC"
 type: origin
-token: UPg7wiU71ioeELk8I8KcLDYqncb
+token: Q0VrwfTIeiSkfxk90cqcuyJpnEb
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,109 +14,155 @@ keywords:
   - cloud
   - organization
   - alerts
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Manage Organization Alerts
+# 組織のアラートを管理する
 
-Zilliz Cloud offers two types of alerts for resource monitoring: **Organization Alerts** for license-related matters and **Project Alerts** for operational performance of clusters in specific projects. For a quick reference, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
+Zilliz Cloudは、リソースモニタリングのための2種類のアラートを提供しています。**組織アラート**は、請求関連ライセンス関連の問題に対応し、**プロジェクトアラート**は特定のプロジェクトのクラスターの運用パフォーマンスに対応しています。クイックリファレンスについては、[メトリクスとアラートのリファレンス](./metrics-alerts-reference)を参照してください。
 
-This topic describes how to view and manage organization alerts.
+このトピックでは、組織のアラートを表示および管理する方法について説明します。
 
-## Overview{#overview}
+## 概要について{#overview}{#overview}
 
- Below is a table outlining the default configuration for each organization alert.
+以下は、各組織のアラートのデフォルト設定の概要を示す表です。
 
-When an alert in an **ON** status, the specified recipients will receive notifications once the conditions are met. You can [edit an alert](./manage-organization-alerts#edit-organization-alerts) to change its status.
+アラートが**ON**状態の場合、条件が満たされると指定された受信者に通知が届きます。[アラートを編集](./manage-organization-alerts#edit-organization-alerts)してステータスを変更できます。
 
 <table>
    <tr>
-     <th><p>Alert Target</p></th>
-     <th><p>Unit</p></th>
-     <th><p>Description</p></th>
-     <th><p>Recommended Action</p></th>
-     <th><p>Default Trigger Condition</p></th>
+     <th><p>アラートターゲット</p></th>
+     <th><p>ユニット</p></th>
+     <th><p>説明する</p></th>
+     <th><p>推奨アクション</p></th>
+     <th><p>デフォルトのトリガー条件</p></th>
    </tr>
    <tr>
-     <td><p>License (Core Usage)</p></td>
-     <td><p>%</p></td>
-     <td><p>Monitor the percentage of used CPU cores against the total licensed cores.</p></td>
-     <td><p><strong>Below 70%</strong>: Continue monitoring to ensure core usage stays within this range. </p><p><strong>70-99%</strong>: Assess future needs and prepare to renew or upgrade the license.</p><p><strong>100% or above</strong>: Renew or upgrade the license immediately to avoid operational disruptions.</p></td>
-     <td><p><strong>WARNING</strong>: Triggered when the count of used CPU cores reaches or exceeds 70% of the total.</p><p><strong>CRITICAL</strong>: Triggered when the count of used CPU cores reaches or exceeds 100% of the total.</p></td>
+     <td><p>クレジットカードの有効期限</p></td>
+     <td><p>デイ</p></td>
+     <td><p>クレジットカードの有効期限までの残り日数を監視して、中断のないサービスを確保してください。</p></td>
+     <td><p>有効期限前にクレジットカード情報を更新または更新してください。</p></td>
+     <td><p><strong>警告</strong>:カードの有効期限から3 0日以内にアラートをトリガーします。</p><p><strong>クリティカル</strong>:カードの有効期限から7日以内にアラートをトリガーします。</p></td>
    </tr>
    <tr>
-     <td><p>License (Validity Period)</p></td>
-     <td><p>Day</p></td>
-     <td><p>Track the remaining days of license validity.</p></td>
-     <td><p><strong>Above 60 days</strong>: Continue monitoring to ensure more than 60 days of validity remain. </p><p><strong>60 days or below</strong>: Start preparing to renew or upgrade the license. </p><p><strong>Expired</strong>: Renew or upgrade the license immediately to avoid restrictions like the inability to create new clusters or scale up.</p></td>
-     <td><p><strong>WARNING</strong>: Triggered when the license validity is 60 days or less.</p><p><strong>CRITICAL</strong>: Triggered when the license expires.</p></td>
+     <td><p>残りのクレジット</p></td>
+     <td><p>$</p></td>
+     <td><p>無料クレジットの残高を追跡し、低くなったときにユーザーに警告してトップアップを促します。</p></td>
+     <td><p>アカウントの機能を維持するためにクレジットをチャージしてください。</p></td>
+     <td><p>無料クレジットの残高が$10を下回ると、トリガー<strong>警告</strong>が表示されます。</p></td>
+   </tr>
+   <tr>
+     <td><p>クレジットの有効期間</p></td>
+     <td><p>デイ</p></td>
+     <td><p>無料クレジットの残りの有効期間を監視し、ユーザーに使用または延長を促すよう警告します。</p></td>
+     <td><p>有効期間を延長するか、期限が切れる前にクレジットを使用してください。</p></td>
+     <td><p>無料クレジットの有効期間が0日に達すると、トリガー<strong>警告</strong>が表示されます。</p></td>
+   </tr>
+   <tr>
+     <td><p>事前支払い残高</p></td>
+     <td><p>$</p></td>
+     <td><p>事前支払い残高を監視し、サービスの中断を防ぐために低くなったときにユーザーに警告します。</p></td>
+     <td><p>サービスの中断を避けるために、前払い残高に資金を追加してください。</p></td>
+     <td><p>残高が$100を下回ったときに<strong>CRITICAL</strong>アラートをトリガーします。</p></td>
+   </tr>
+   <tr>
+     <td><p>ご利用量</p></td>
+     <td><p>$</p></td>
+     <td><p>使用量を追跡し、設定された閾値を超えた場合にユーザーに通知して、監視と管理を提案します。</p></td>
+     <td><p>予算制限内に収まるように使用状況を監視および管理します。</p></td>
+     <td><p>使用量が$100を超えると、トリガー<strong>警告</strong>アラートが表示されます。</p></td>
    </tr>
 </table>
 
-**Permissions**:
+\</exclude>
 
-- **View and configuration**: Available to organization owners only.
+<table>
+   <tr>
+     <th><p>アラートターゲット</p></th>
+     <th><p>ユニット</p></th>
+     <th><p>説明する</p></th>
+     <th><p>推奨アクション</p></th>
+     <th><p>デフォルトのトリガー条件</p></th>
+   </tr>
+   <tr>
+     <td><p>ライセンス（コアの使用）</p></td>
+     <td><p>%</p></td>
+     <td><p>使用済みCPUコアの割合をライセンス済みコアの合計に対して監視します。</p></td>
+     <td><p><strong>70%未満</strong>:コア使用率がこの範囲内に収まるように監視を継続します。</p><p><strong>70-99%</strong>:将来のニーズを評価し、ライセンスの更新またはアップグレードの準備をします。</p><p><strong>100%以上</strong>:運用上の混乱を避けるために、すぐにライセンスを更新またはアップグレードしてください。</p></td>
+     <td><p><strong>警告</strong>:使用されたCPUコアの数が合計の70%以上に達した場合に発生します。</p><p><strong>クリティカル</strong>:使用されたCPUコア数が合計の100%以上に達した場合に発生します。</p></td>
+   </tr>
+   <tr>
+     <td><p>ライセンス（有効期間）</p></td>
+     <td><p>デイ</p></td>
+     <td><p>ライセンスの有効期間の残り日数を追跡します。</p></td>
+     <td><p><strong>6 0日以上</strong>:有効期間が6 0日以上残っていることを確認するために、モニタリングを継続してください。</p><p><strong>6 0日以下</strong>:ライセンスの更新またはアップグレードの準備を開始します。</p><p><strong>期限切れ</strong>:新しいクラスタを作成したりスケールアップしたりできないなどの制限を回避するために、ライセンスをすぐに更新またはアップグレードします。</p></td>
+     <td><p><strong>警告</strong>:ライセンスの有効期限が6 0日以下の場合に発生します。</p><p><strong>クリティカル</strong>:ライセンスの有効期限が切れたときに発生します。</p></td>
+   </tr>
+</table>
 
-- **Receiving notifications**: Available to any organization member if designated by the owner.
+**パーミッション**:
 
-For a detailed explanation of user roles, refer to [Manage Organization Users](./organization-users).
+- **表示と構成**:組織の所有者のみが使用できます。
 
-## View organization alerts{#view-organization-alerts}
+- **通知の受信**:所有者によって指定された場合、すべてのOrganizationメンバーが利用できます。
 
-Navigate to the **Organization Alert** page to view various license-related alerts.
+ユーザーの役割の詳細については、[組織のユーザーを管理する](./organization-users)を参照してください。
 
-**Components of an alert**:
+## 組織のアラートを表示する{#view-organization-alerts}{#view-organization-alerts}
 
-- **Alert Target**: Preconfigured by Zilliz Cloud with trigger conditions and severity.
+[**Organization Alert**]ページに移動して、請求関連のさまざまなアラートを表示します。
 
-- **Status**: Indicates if the alert is active (**ON**) or not. When an alert in an **ON** status, the specified recipients will receive notifications once the conditions are met.
+**アラートの構成要素**:
 
-- **Condition**: Trigger conditions for the alert.
+- **アラートターゲット**: Zilliz Cloudによって事前にトリガー条件と重大度が設定されています。
 
-- **Severity Level**: Categorized as **WARNING** or **CRITICAL**.
+- **ステータス**:アラートがアクティブ（**ON**）かどうかを示します。アラートが**ON**の場合、条件が満たされると指定された受信者に通知が届きます。
 
-- **Receiver**: Designated roles or email addresses for receiving notifications. You can also set up custom notification channels using webhooks. For more information, refer to [Manage Notification Channels](./manage-notification-channels).
+- **条件**:アラートのトリガー条件。
 
-![byoc-view-organization-alerts](/byoc/byoc-view-organization-alerts.png)
+- **深刻度レベル**:**WARNING**または**CRITICAL**に分類されます。
 
-## Edit organization alerts{#edit-organization-alerts}
+- **受信者**:通知を受け取るための役割またはメールアドレスを指定します。Webhookを使用してカスタム通知チャンネルを設定することもできます。詳細については、「[通知チャンネルの管理](./manage-notification-channels)」を参照してください。
 
-- **Customizations**: Modify alert conditions, update notification recipients, and change the active status.
+![byoc-view-organization-alerts](/byoc/ja-JP/byoc-view-organization-alerts.png)
 
-- **Restrictions**: Alert targets and severity level are fixed and cannot be changed.
+## 組織のアラートを編集する{#edit-organization-alerts}{#edit-organization-alerts}
 
-<Admonition type="info" icon="📘" title="Notes">
+- **カスタマイズ**:アラート条件の変更、通知受信者の更新、アクティブステータスの変更を行います。
 
-<p>To quickly enable or disable an alert, you can select <strong>Enable</strong> or <strong>Disable</strong> from the <strong>Actions</strong> column.</p>
+- **制限事項**:アラートのターゲットと重大度レベルは固定されており、変更することはできません。
+
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>アラートをすばやく有効または無効にするには、[アクション]列から[<strong>有効</strong>]または[<strong>無効</strong>]を選択し<strong>ま</strong>す。</p>
 
 </Admonition>
 
-## Enable or disable an organization alert{#enable-or-disable-an-organization-alert}
+## 組織のアラートを有効または無効にする{#enable-or-disable-an-organization-alert}{#enable-or-disable-an-organization-alert}
 
-To quickly enable or disable an organization alert, select **Enable** or **Disable** from the **Actions** column. 
+組織のアラートをすばやく有効または無効にするには、[アクション]列から[**有効**]または[**無効**]を選択し**ま**す。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Once an alert is disabled, you'll no longer receive alert notifications if alert conditions are met.</p>
+<p>アラートを無効にすると、アラート条件が満たされた場合にアラート通知を受け取ることができなくなります。</p>
 
 </Admonition>
 
-## View alert history{#view-alert-history}
+## アラート履歴を表示する{#view-alert-history}{#view-alert-history}
 
-View triggered alerts on the **Alert History** tab, with filters for alert target, severity level, and time range.
+[**Alert History**]タブでトリガーされたアラートを表示します。アラートの対象、重要度レベル、時間範囲のフィルターがあります。
 
-## Related topics{#related-topics}
+## 関連するトピック{#related-topics}{#related-topics}
 
-- [View Cluster Metric Charts](./view-cluster-metric-charts)
+- [クラスタのメトリックチャートを表示する](./view-cluster-metric-charts)
 
-- [Manage Project Alerts](./manage-project-alerts)
+- [プロジェクトのアラートを管理する](./manage-project-alerts)
 
-- [Metrics & Alerts Reference](./metrics-alerts-reference)
-
+- [メトリクスとアラートのリファレンス](./metric

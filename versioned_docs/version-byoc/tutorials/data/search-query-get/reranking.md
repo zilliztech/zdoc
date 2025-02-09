@@ -16,10 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

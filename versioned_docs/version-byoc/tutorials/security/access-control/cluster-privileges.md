@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

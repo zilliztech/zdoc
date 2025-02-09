@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 
@@ -248,7 +248,9 @@ curl --request POST \
 
 ### Create Filtering Condition{#create-filtering-condition}
 
-When conducting ANN searches in a collection with the Partition Key feature enabled, you need to include a filtering expression involving the Partition Key in the search request. In the filtering expression, you can restrict the Partition Key value within a specific range so that Zilliz Cloud restricts the search scope within the corresponding partitions.
+When conducting ANN searches in a collection with the Partition Key feature enabled, you need to include a filtering expression involving the Partition Key in the search request. In the filtering expression, you can restrict the Partition Key value within a specific range so that Zilliz Cloud restricts the search scope within the corresponding partitions. 
+
+When performing delete operations, It is advisable to include a filter expression that specifies a single partition key to achieve more efficient deletion. This approach limits the delete operation to a particular partition, reducing write amplification during compaction and conserving resources for compaction and indexing.
 
 The following examples demonstrate Partition-Key-based filtering based on a specific Partition Key value and a set of Partition Key values.
 
@@ -301,6 +303,12 @@ export filter='partition_key in ["x", "y", "z"] && <other conditions>'
 
 </TabItem>
 </Tabs>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>You have to replace <code>partition_key</code> with the name of the field that is designated as the partition key.</p>
+
+</Admonition>
 
 ## Use Partition Key Isolation{#use-partition-key-isolation}
 
@@ -392,5 +400,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Once you have enabled Partition Key Isolation, you can still set the Partition Key and number of partitions as described in [Use Partition Key](./use-partition-key#use-partition-key). Note that the Partition-Key-based filter should include only a specific Partition Key value.
-
+Once you have enabled Partition Key Isolation, you can still set the Partition Key and number of partitions as described in [Set Partition Numbers](./use-partition-key#set-partition-numbers). Note that the Partition-Key-based filter should include only a specific Partition Key value.

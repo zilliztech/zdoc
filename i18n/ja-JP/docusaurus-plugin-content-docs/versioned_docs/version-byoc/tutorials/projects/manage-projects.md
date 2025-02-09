@@ -1,75 +1,75 @@
 ---
-title: "Manage Projects | BYOC"
+title: "プロジェクトの管理 | BYOC"
 slug: /manage-projects
-sidebar_label: "Projects"
+sidebar_label: "プロジェクトの管理"
 beta: FALSE
 notebook: FALSE
-description: "In Zilliz Cloud, a project serves as a logical container within an organization, grouping clusters and related resources. You can create multiple projects tailored to different aspects of your business. For example, if your company offers multimedia recommendation services, you can create one project for video recommendations and another for music recommendations. | BYOC"
+description: "Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナとして機能し、クラスターや関連リソースをグループ化します。ビジネスのさまざまな側面に合わせた複数のプロジェクトを作成できます。たとえば、会社がマルチメディア推薦サービスを提供している場合、ビデオ推薦用の1つのプロジェクトと音楽推薦用の別のプロジェクトを作成できます。 | BYOC"
 type: origin
-token: NXypwJ2ySiv7RAkyKb5cZ9SKnvf
+token: T8EbweuboiV1TRkLxVCcuduhn5b
 sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - projects
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Manage Projects
+# プロジェクトの管理
 
-In Zilliz Cloud, a project serves as a logical container within an organization, grouping clusters and related resources. You can create multiple projects tailored to different aspects of your business. For example, if your company offers multimedia recommendation services, you can create one project for video recommendations and another for music recommendations.
+Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナとして機能し、クラスターや関連リソースをグループ化します。ビジネスのさまざまな側面に合わせた複数のプロジェクトを作成できます。たとえば、会社がマルチメディア推薦サービスを提供している場合、ビデオ推薦用の1つのプロジェクトと音楽推薦用の別のプロジェクトを作成できます。
 
-This guide will walk you through the steps of managing projects.
+このガイドでは、プロジェクトを管理する手順を説明します。
 
-## View projects{#view-projects}
+## プロジェクトを見る{#view-projects}{#view-projects}
 
-Once you join an organization, you can view the list of all projects in the organization.
+組織に参加すると、組織内のすべてのプロジェクトのリストを閲覧可能になります。
 
-![view-projects-byoc](/byoc/view-projects-byoc.png)
+![view-projects-byoc](/byoc/ja-JP/view-projects-byoc.png)
 
-## Create a project{#create-a-project}
+## プロジェクトを作成する{#create-a-project}{#create-a-project}
 
-To create a project, you must be an [Organization Owner](./organization-users).
+プロジェクトを作成するには、[組織オーナー](./organization-users)である必要があります。
 
-When you create a project, you automatically become the [Project Admin](./project-users) of the project.
+プロジェクトを作成すると、自動的にそのプロジェクトの[プロジェクト管理者](./project-users)になります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>You can create a maximum of 100 projects in each organization.</p>
-
-</Admonition>
-
-![create-project-byoc](/byoc/create-project-byoc.png)
-
-## Rename a project{#rename-a-project}
-
-To rename a project, you must be an [Organization Owner](./organization-users).
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Each organization contains a default project. The name of the default project cannot be modified.</p>
+<p>各組織で最大100件のプロジェクトを作成できます。</p>
 
 </Admonition>
 
-![rename-project-byoc](/byoc/rename-project-byoc.png)
+![create-project-byoc](/byoc/ja-JP/create-project-byoc.png)
 
-## Delete a project{#delete-a-project}
+## プロジェクトの名前を変更する{#rename-a-project}{#rename-a-project}
 
-To delete a project, you must be an [Organization Owner](./organization-users).
+プロジェクトの名前を変更するには、[組織オーナー](./organization-users)である必要があります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Each organization contains a default project. The default project cannot be deleted.</p>
+<p>各組織にはデフォルトプロジェクトが含まれています。デフォルトプロジェクトの名前は変更できません。</p>
 
 </Admonition>
 
-![delete-project-byoc](/byoc/delete-project-byoc.png)
+![rename-project-byoc](/byoc/ja-JP/rename-project-byoc.png)
+
+## プロジェクトを削除{#delete-a-project}{#delete-a-project}
+
+プロジェクトを削除するには、[組織オーナー](./organization-users)である必要があります。
+
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>各組織にはデフォルトプロジェクトが含まれています。デフォルトプロジェクトは削除できません。</p>
+
+</Admonition>
+
+![delete-project-byoc](/byoc/ja-JP/delete-project-byoc.png)
 

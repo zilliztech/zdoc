@@ -16,10 +16,10 @@ keywords:
   - data
   - grouping search
   - group
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

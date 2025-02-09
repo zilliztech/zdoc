@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

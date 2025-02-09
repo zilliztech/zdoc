@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

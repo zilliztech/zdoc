@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

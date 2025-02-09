@@ -1,12 +1,12 @@
 ---
-title: "Load & Release | BYOC"
+title: "ロード&リリース | BYOC"
 slug: /load-release-collections
-sidebar_label: "Load & Release"
+sidebar_label: "ロード&リリース"
 beta: FALSE
 notebook: FALSE
-description: "Loading a collection is the prerequisite to conducting similarity searches and queries in collections. This page focuses on the procedures for loading and releasing a collection. | BYOC"
+description: "コレクションのロードは、コレクション内の類似検索やクエリを実行するための前提条件です。このページでは、コレクションのロードとリリースの手順に焦点を当てています。 | BYOC"
 type: origin
-token: CemEwKryciMUepkgYWZcOw6wncb
+token: RHtIwOn0yimJfQkOqsxcRiXqnhe
 sidebar_position: 6
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - load
   - release
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 
@@ -26,15 +26,15 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Load & Release
+# ロード&リリース
 
-Loading a collection is the prerequisite to conducting similarity searches and queries in collections. This page focuses on the procedures for loading and releasing a collection.
+コレクションのロードは、コレクション内の類似検索やクエリを実行するための前提条件です。このページでは、コレクションのロードとリリースの手順に焦点を当てています。
 
-## Load Collection{#load-collection}
+## ロードコレクション{#load-collection}{#load-collection}
 
-When you load a collection, Zilliz Cloud loads the index files and the raw data of all fields into memory for rapid response to searches and queries. Entities inserted after a collection load are automatically indexed and loaded.
+コレクションをロードすると、Zilliz Cloudはインデックスファイルとすべてのフィールドの生データをメモリにロードし、検索やクエリに迅速に応答します。コレクションのロード後に挿入されたエンティティは自動的にインデックス化され、ロードされます。
 
-The following code snippets demonstrate how to load a collection.
+次のコードスニペットは、コレクションを読み込む方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -207,17 +207,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Load Specific Fields{#load-specific-fields}
+## 特定のフィールドをロード{#load-specific-fields}{#load-specific-fields}
 
-Zilliz Cloud can load only the fields involved in searches and queries, reducing memory usage and improving search performance.
+Zilliz Cloudは、検索やクエリに関係するフィールドのみを読み込むことができ、メモリ使用量を減らし、検索パフォーマンスを向上させることができます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Partial collection loading is currently in beta and not recommended for production use.</p>
+<p>部分コレクションの読み込みは現在ベータ版であり、本番環境での使用は推奨されていません。</p>
 
 </Admonition>
 
-The following code snippet assumes that you have created a collection named **customized_setup_2**, and there are two fields named **my_id** and **my_vector** in the collection.
+次のコードスニペットは、**customised_setup_2**という名前のコレクションを作成し、コレクションにmy_**id**と**my_vector**という2つのフィールドがあることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -323,17 +323,17 @@ if err != nil {
 </TabItem>
 </Tabs>
 
-If you choose to load specific fields, it is worth noting that only the fields included in `load_fields` can be used as filters and output fields in searches and queries. You should always include the names of the primary field and at least one vector field in `load_fields`.
+特定のフィールドをロードすることを選択した場合、`load_fields`に含まれるフィールドのみが検索やクエリのフィルタや出力フィールドとして使用できることに注意してください。`load_fields`には常にプライマリフィールドと少なくとも1つのベクトルフィールドの名前を含める必要があります。
 
-You can also use `skip_load_dynamic_field` to determine whether to load the dynamic field. The dynamic field is a reserved JSON field named **$meta** and saves all non-schema-defined fields and their values in key-value pairs. When loading the dynamic field, all keys in the fields are loaded and available for filtering and output. If all keys in the dynamic field are not involved in metadata filtering and output, set `skip_load_dynamic_field` to `True`.
+また、`skip_load_dynamic_field`を使用して、動的フィールドをロードするかどうかを決定することもできます。動的フィールドは**$meta**という名前の予約済みJSONフィールドで、スキーマ定義されていないすべてのフィールドとその値をキーと値のペアで保存します。動的フィールドをロードすると、フィールド内のすべてのキーがロードされ、フィルタリングと出力に使用できます。動的フィールド内のすべてのキーがメタデータのフィルタリングと出力に関与していない場合は、`skip_load_dynamic_field`を`True`に設定します。
 
-To load more fields after the collection load, you need to release the collection first to avoid possible errors prompted because of index changes.
+コレクションの読み込み後にさらに多くのフィールドを読み込むには、インデックスの変更によってエラーが発生する可能性があるため、最初にコレクションを解放する必要があります。
 
-## Release Collection{#release-collection}
+## リリースコレクション{#release-collection}{#release-collection}
 
-Searches and queries are memory-intensive operations. To save the cost, you are advised to release the collections that are currently not in use.
+検索とクエリはメモリを大量に消費する操作です。コストを節約するために、現在使用されていないコレクションを解放することをお勧めします。
 
-The following code snippet demonstrates how to release a collection.
+次のコードスニペットは、コレクションをリリースする方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

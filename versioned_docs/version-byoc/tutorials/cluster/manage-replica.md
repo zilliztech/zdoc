@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

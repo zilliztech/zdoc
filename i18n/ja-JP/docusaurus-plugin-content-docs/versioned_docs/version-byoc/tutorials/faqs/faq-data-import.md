@@ -1,62 +1,62 @@
 ---
-title: "FAQ: Data Import | BYOC"
+title: "FAQ:データインポート | BYOC"
 slug: /faq-data-import
-sidebar_label: "FAQ: Data Import"
+sidebar_label: "FAQ:データインポート"
 beta: FALSE
 notebook: FALSE
-description: "This topic lists the possible issues that you may encounter while you import data on Zilliz Cloud and the corresponding solution. | BYOC"
+description: "このトピックでは、Zilliz Cloudでデータをインポートする際に発生する可能性のある問題と、それに対応する解決策について説明します。 | BYOC"
 type: origin
-token: EV41wG08BiOWW8kbo9xcTGoPnKd
+token: LKxiwykkhi5VyLkTfAGcE3LinBe
 sidebar_position: 4
 
 ---
 
-# FAQ: Data Import
+# FAQ:データインポート
 
-This topic lists the possible issues that you may encounter while you import data on Zilliz Cloud and the corresponding solution.
+このトピックでは、Zilliz Cloudでデータをインポートする際に発生する可能性のある問題と、それに対応する解決策について説明します。
 
 ## Contents
 
-- [Can I use session tokens when importing data from an object storage service?](#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)
-- [Can I bulk insert data into the Zilliz Cloud vector databases?](#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases)
-- [What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
+- [オブジェクトストレージサービスからデータをインポートする際にセッショントークンを使用できますか?](#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)
+- [Zilliz Cloudベクトルデータベースにデータを一括挿入できますか?](#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases)
+- [Node. js SDKを使用してZilliz Cloudクラスタにデータをインポートまたはクエリする際に`ECONNRESET`エラーが発生した場合、どうすればよいですか?](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
 
 ## FAQs
 
 
 
 
-### Can I use session tokens when importing data from an object storage service?{#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service}
+### オブジェクトストレージサービスからデータをインポートする際にセッショントークンを使用できますか?{#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service}
 
-Yes. Based on your data security requirements, you can use session tokens when importing data from an object storage service. 
+はい。データセキュリティ要件に基づいて、オブジェクトストレージサービスからデータをインポートするときにセッショントークンを使用できます。
 
-1. Generate a session token.
+1. セッショントークンを生成します。
 
-    - Amazon S3: [Using temporary credentials with AWS resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html).
+    - Amazon S 3:[AWSリソースで一時的な資格情報を使用する](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html)。
 
-    - Google Cloud Storage: [Create short-lived credentials for a service account](https://cloud.google.com/iam/docs/create-short-lived-credentials-direct)
+    - Google Cloud Storage:[サービスアカウントの短期間の認証情報を作成する](https://cloud.google.com/iam/docs/create-short-lived-credentials-direct)
 
-    - Azure Blog Storage: [Create SAS tokens for storage containers](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/create-sas-tokens?view=doc-intel-4.0.0)
+    - Azure Blog Storage:[ストレージコンテナ用のSASトークンを作成する](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/create-sas-tokens?view=doc-intel-4.0.0)
 
-1. Input the following session token information during data import.
+1. データのインポート時に、以下のセッショントークン情報を入力してください。
 
-    - Amazon S3: `accessKeyId`, `secretAccessKey`, `sessionToken`
+    - Amazon S 3:`accessKeyId`、`secret`AccessKey、`sessionToken`
 
-    - Google Cloud Storage: `accessToken`
+    - タグ: Google Cloud`Storage`
 
-    - Azure Blog Storage: `sasToken`
+    - Azure Blog Storage:`Azureブログまとめ`
 
-### Can I bulk insert data into the Zilliz Cloud vector databases?{#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases}
+### Zilliz Cloudベクトルデータベースにデータを一括挿入できますか?{#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases}
 
-Yes. Please refer to [Data Import](./data-import) for more information.
+はい。詳細については、「[データインポート](./data-import)」を参照してください。
 
-### What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
+### Node. js SDKを使用してZilliz Cloudクラスタにデータをインポートまたはクエリする際に`ECONNRESET`エラーが発生した場合、どうすればよいですか?{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
 
-To solve this problem, please follow the steps below.
+この問題を解決するには、以下の手順に従ってください。
 
-1. Upgrade to the latest version of Milvus NodeJS SDK which supports **channelOptions**.
+1. channelOptionsをサポートするMilvus NodeJS SDKの最新バージョンにアップグレードしてくださ**い**。
 
-1. Add channelOptions manually.
+1. channelOptionsを手動で追加してください。
 
     ```javascript
     const channelOptions: ChannelOptions = {
@@ -76,7 +76,7 @@ To solve this problem, please follow the steps below.
     };
     ```
 
-1. Initialize the client with the channelOptions.
+1. channelOptionsでクライアントを初期化します。
 
     ```javascript
     import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';

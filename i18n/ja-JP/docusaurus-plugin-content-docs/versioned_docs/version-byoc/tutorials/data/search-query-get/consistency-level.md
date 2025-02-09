@@ -1,13 +1,13 @@
 ---
-title: "Consistency Level | BYOC"
+title: "一貫性レベル | BYOC"
 slug: /consistency-level
-sidebar_label: "Consistency Level"
+sidebar_label: "一貫性レベル"
 beta: FALSE
 notebook: FALSE
-description: "As a distributed vector database, Zilliz Cloud offers multiple levels of consistency to ensure that each node or replica can access the same data during read and write operations. Currently, the supported levels of consistency include Strong, Bounded, Eventually, and Session, with Bounded being the default level of consistency used. | BYOC"
+description: "分散ベクトルデータベースとして、Zilliz Cloudは、各ノードまたはレプリカが読み取りおよび書き込み操作中に同じデータにアクセスできるように、複数の一貫性レベルを提供しています。現在、サポートされている一貫性レベルには、Strong、Bounded、Eventally、Sessionがあり、Boundedがデフォルトの一貫性レベルとして使用されています。 | BYOC"
 type: origin
-token: Xx9EwWtekinLZfkWKqic37dDnFb
-sidebar_position: 16
+token: L0kBwLwG5iNXSBkUpYKcSixknqe
+sidebar_position: 15
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -26,57 +26,57 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Consistency Level
+# 一貫性レベル
 
-As a distributed vector database, Zilliz Cloud offers multiple levels of consistency to ensure that each node or replica can access the same data during read and write operations. Currently, the supported levels of consistency include **Strong**, **Bounded**, **Eventually**, and **Session**, with **Bounded** being the default level of consistency used.
+分散ベクトルデータベースとして、Zilliz Cloudは、各ノードまたはレプリカが読み取りおよび書き込み操作中に同じデータにアクセスできるように、複数の一貫性レベルを提供しています。現在、サポートされている一貫性レベルには、**Strong**、**Bounded**、**Eventally**、**Session**があり、**Bounded**がデフォルトの一貫性レベルとして使用されています。
 
-## Overview{#overview}
+## 概要について{#overview}{#overview}
 
-Zilliz Cloud is a system that separates storage and computation. In this system, **DataNodes** are responsible for the persistence of data and ultimately store it in distributed object storage such as MinIO/S3. **QueryNodes** handle computational tasks like Search. These tasks involve processing both **batch data** and **streaming data**. Simply put, batch data can be understood as data that has already been stored in object storage while streaming data refers to data that has not yet been stored in object storage. Due to network latency, QueryNodes often do not hold the most recent streaming data. Without additional safeguards, performing Search directly on streaming data may result in the loss of many uncommitted data points, affecting the accuracy of search results.
+Zilliz Cloudは、ストレージと計算を分離するシステムです。このシステムでは、**DataNodes**がデータの永続性に責任を持ち、最終的にMinIO/S 3などの分散オブジェクトストレージに保存します。**Query Nodes**は、Searchのような計算タスクを処理します。これらのタスクには、**バッチデータ**と**ストリーミングデータ**の両方を処理する必要があります。単純に言えば、バッチデータはすでにオブジェクトストレージに保存されているデータとして理解でき、ストリーミングデータはまだオブジェクトストレージに保存されていないデータを指します。ネットワークレイテンシのため、Query Nodesは最新のストリーミングデータを保持しないことがよくあります。追加の保護措置がない場合、ストリーミングデータに直接Searchを実行すると、多くの未確定データポイントが失わ
 
-Zilliz Cloud Commercial Edition is a system that separates storage and computation. In this system, DataNodes are responsible for the persistence of data and ultimately store it in distributed object storage such as MinIO/S3. QueryNodes handle computational tasks like Search. These tasks involve processing both batch data and streaming data. Simply put, batch data can be understood as data that has already been stored in object storage, while streaming data refers to data that has not yet been stored in object storage. Due to network latency, QueryNodes often do not hold the most recent streaming data. Without additional safeguards, performing Search directly on streaming data may result in the loss of many uncommitted data points, affecting the accuracy of search results.
+Zilliz CloudCommercial Editionは、ストレージと計算を分離するシステムです。このシステムでは、DataNodesがデータの永続性に責任を持ち、最終的にMinIO/S 3などの分散オブジェクトストレージに保存します。QueryNodesは、Searchのような計算タスクを処理します。これらのタスクには、バッチデータとストリーミングデータの両方の処理が含まれます。単純に言えば、バッチデータはすでにオブジェクトストレージに保存されているデータとして理解でき、ストリーミングデータはまだオブジェクトストレージに保存されていないデータを指します。ネットワークレイテンシのため、QueryNodesは最新のストリーミングデータを保持しないことがよくあります。追加の保護措置がない場合、ストリーミングデータに直接Searchを実行すると、多くの未確定データポイントが失われ、検索結果の精度に影響を与える
 
-![UlOJwpWuKhj5LAbGSp9cwMFznEb](/byoc/UlOJwpWuKhj5LAbGSp9cwMFznEb.png)
+![Owpww720QhpW3UbnDaLcXNcJnQd](/byoc/ja-JP/Owpww720QhpW3UbnDaLcXNcJnQd.png)
 
-As shown in the figure above, QueryNodes can receive both streaming data and batch data simultaneously after receiving a Search request. However, due to network latency, the streaming data obtained by QueryNodes may be incomplete.
+上の図に示すように、Query NodesはSearchリクエストを受信した後、ストリーミングデータとバッチデータの両方を同時に受信することができます。ただし、ネットワークの遅延により、Query Nodesが取得するストリーミングデータが不完全になる可能性があります。
 
-To address this issue, Zilliz Cloud timestamps each record in the data queue and continuously inserts synchronization timestamps into the data queue. Whenever a synchronization timestamp (syncTs) is received, QueryNodes sets it as the ServiceTime, meaning that QueryNodes can see all data prior to that Service Time. Based on the ServiceTime, Zilliz Cloud can provide guarantee timestamps (GuaranteeTs) to meet different user requirements for consistency and availability. Users can inform QueryNodes of the need to include data prior to a specified point in time in the search scope by specifying GuaranteeTs in their Search requests.
+この問題に対処するために、Zilliz Cloudは、データキュー内の各レコードにタイムスタンプを付け、データキューに同期タイムスタンプを継続的に挿入します。同期タイムスタンプ(syncTs)が受信されるたびに、Query NodesはそれをService Timeとして設定します。つまり、Query NodesはそのService Timeより前のすべてのデータを見ることができます。Service Timeに基づいて、Zilliz Cloudは、一貫性と可用性の異なるユーザー要件を満たすための保証タイムスタンプ(GuaranteeTs)を提供できます。ユーザーは、SearchリクエストでGuaranteeTsを指定することで、指定された時点よりも前にデータを含める必要があることを
 
-![Owddb7D3Fo8zyFxJgWWcZCxanIf](/byoc/Owddb7D3Fo8zyFxJgWWcZCxanIf.png)
+![PW6pbkoQtoKVQTxE4mlcIfOen5g](/byoc/ja-JP/PW6pbkoQtoKVQTxE4mlcIfOen5g.png)
 
-As shown in the figure above, if GuaranteeTs is less than ServiceTime, it means that all data before the specified time point has been fully written to disk, allowing QueryNodes to immediately perform the Search operation. When GuaranteeTs is greater than ServiceTime, QueryNodes must wait until ServiceTime exceeds GuaranteeTs before they can execute the Search operation.
+上の図に示されているように、GuaranteeTsが小なりServiceTimeである場合、指定された時点より前のすべてのデータがディスクに完全に書き込まれたことを意味し、Query NodesがすぐにSearch操作を実行できるようになります。GuaranteeTsが大なりServiceTimeである場合、Query NodesはServiceTimeがGuaranteeTsを超えるまで待たなければなりません。
 
-Users need to make a trade-off between query accuracy and query latency. If users have high consistency requirements and are not sensitive to query latency, they can set GuaranteeTs to a value as large as possible; if users wish to receive search results quickly and are more tolerant of query accuracy, then GuaranteeTs can be set to a smaller value.
+ユーザーは、クエリの正確性とクエリの遅延のトレードオフを行う必要があります。ユーザーが高い一貫性要件を持ち、クエリの遅延に敏感でない場合、GuaranteeTsをできるだけ大きな値に設定できます。ユーザーが検索結果を迅速に受け取り、クエリの正確性により寛容である場合、GuaranteeTsをより小さな値に設定できます。
 
-![Y9YabwvmjoWMXhxt9kRc8Atmnid](/byoc/Y9YabwvmjoWMXhxt9kRc8Atmnid.png)
+![OhjXbpye0oktzExy7MaccTCunrg](/byoc/ja-JP/OhjXbpye0oktzExy7MaccTCunrg.png)
 
-Zilliz Cloud provides four types of consistency levels with different GuaranteeTs.
+Zilliz Cloudは、異なる保証Tを持つ4種類の一貫性レベルを提供します。
 
-- **Strong**
+- **強い**
 
-    The latest timestamp is used as the GuaranteeTs, and QueryNodes have to wait until the ServiceTime meets the GuaranteeTs before executing Search requests.
+    最新のタイムスタンプがGuaranteeTとして使用され、Query NodeはServiceTimeがGuaranteeTに達するまで待ってからSearchリクエストを実行する必要があります。
 
 - **Eventual**
 
-    The GuaranteeTs is set to an extremely small value, such as 1, to avoid consistency checks so that QueryNodes can immediately execute Search requests upon all batch data.
+    GuaranteeTsは、整合性チェックを回避するために1などの非常に小さな値に設定されています。これにより、Query Nodesはすべてのバッチデータに対してすぐにSearch要求を実行できます。
 
-- **Bounded Staleness**
+- **不美しさの限界**
 
-    The GuranteeTs is set to a time point earlier than the latest timestamp to make QueryNodes to perform searches with a tolerance of certain data loss.
+    GuranteeTsは、最新のタイムスタンプよりも前の時点に設定され、Query Nodesが特定のデータ損失の許容範囲で検索を実行するようになっています。
 
-- **Session**
+- **セッション**
 
-    The latest time point at which the client inserts data is used as the GuaranteeTs so that QueryNodes can perform searches upon all the data inserted by the client.
+    クライアントがデータを挿入した最新の時点が保証Tとして使用されるため、Query Nodesはクライアントによって挿入されたすべてのデータに対して検索を実行できます。
 
-Zilliz Cloud uses Bounded Staleness as the default consistency level. If the GuaranteeTs is left unspecified, the latest ServiceTime is used as the GuaranteeTs.
+Zilliz Cloudは、デフォルトの一貫性レベルとしてBounded Stalenessを使用します。GuaranteeTが指定されていない場合、最新のService TimeがGuaranteeTとして使用されます。
 
-## Set Consistency Level{#set-consistency-level}
+## 一貫性レベルを設定{#set-consistency-level}{#set-consistency-level}
 
-You can set different consistency levels when you create a collection as well as perform searches and queries.
+コレクションを作成したり、検索やクエリを実行したりするときに、さまざまな一貫性レベルを設定できます。
 
-### Set Consistency Level upon Creating Collection{#set-consistency-level-upon-creating-collection}
+### コレクション作成時に一貫性レベルを設定する{#set-consistency-level-upon-creating-collection}{#set-consistency-level-upon-creating-collection}
 
-When creating a collection, you can set the consistency level for the searches and queries within the collection. The following code example sets the consistency level to **Strong**.
+コレクションを作成するときに、コレクション内の検索とクエリの一貫性レベルを設定できます。次のコード例では、一貫性レベルを**Strong**に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -154,11 +154,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Possible values for the `consistency_level` parameter are `Strong`, `Bounded`, `Eventually`, and `Session`.
+使用可能な値、`整合性_レベル`パラメーターは`強い`、`境界`、`最終的`に、および`セッション`。
 
-### Set Consistency Level in Search{#set-consistency-level-in-search}
+### 検索の一貫性レベルを設定する{#set-consistency-level-in-search}{#set-consistency-level-in-search}
 
-You can always change the consistency level for a specific search. The following code example sets the consistency level back to the **Bounded**. The change applies only to the current search request.
+特定の検索の一貫性レベルはいつでも変更できます。次のコード例では、一貫性レベルを**Bounded**に戻します。この変更は、現在の検索要求にのみ適用されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -213,11 +213,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-This parameter is also available in hybrid searches and the search iterator. Possible values for the `consistency_level` parameter are `Strong`, `Bounded`, `Eventually`, and `Session`.
+このパラメータは、ハイブリッド検索や検索イテレータでも使用できます。`Consistence_level`パラメータの可能な値は、`Strong`、`Bounded`、`Eventally`、`Session`です。
 
-### Set Consistency Level in Query{#set-consistency-level-in-query}
+### クエリで一貫性レベルを設定する{#set-consistency-level-in-query}{#set-consistency-level-in-query}
 
-You can always change the consistency level for a specific search. The following code example sets the consistency level to the **Eventually**. The setting applies only to the current query request.
+特定の検索の一貫性レベルはいつでも変更できます。次のコード例では、一貫性レベルを**Eventally**に設定します。この設定は、現在のクエリ要求にのみ適用されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -253,4 +253,4 @@ QueryReq queryReq = QueryReq.builder()
 </TabItem>
 </Tabs>
 
-This parameter is also available in the query iterator. Possible values for the `consistency_level` parameter are `Strong`, `Bounded`, `Eventually`, and `Session`.
+クエリイテレータでもこのパラメータを使用できます。`Consistence_level`パラメータの可能な値は、`Strong`、`Bounded`、`Eventally`、`Session`です。

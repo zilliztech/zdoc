@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

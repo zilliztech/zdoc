@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

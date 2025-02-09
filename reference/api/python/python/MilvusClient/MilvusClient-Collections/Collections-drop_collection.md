@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops a collection. | Python | MilvusClient"
 type: docx
 token: QNB4d2q2ZorIApxpnzqczW2HnL7
-sidebar_position: 9
+sidebar_position: 11
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection()
   - python
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: pythonSidebar
 
 ---

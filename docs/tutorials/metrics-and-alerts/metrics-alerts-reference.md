@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

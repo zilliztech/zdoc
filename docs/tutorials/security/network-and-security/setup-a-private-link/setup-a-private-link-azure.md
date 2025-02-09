@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

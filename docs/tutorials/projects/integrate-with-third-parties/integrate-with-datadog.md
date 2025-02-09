@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - datadog
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
@@ -228,7 +228,7 @@ To manage your Datadog integration, use the **Actions** column:
 
 ## Tags available to Datadog{#tags-available-to-datadog}
 
-Datadog sends the following tags on certain metrics to help you better understand, organize, and identify resources. For more information, refer to [Resource Tags](https://www.mongodb.com/docs/atlas/tags/#std-label-configure-resource-tags).
+Datadog sends the following tags on certain metrics to help you better understand, organize, and identify resources.
 
 <table>
    <tr>

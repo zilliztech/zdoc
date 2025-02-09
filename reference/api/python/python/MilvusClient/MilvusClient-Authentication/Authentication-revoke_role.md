@@ -8,21 +8,21 @@ notebook: false
 description: "This operation revokes the role assigned to a user. | Python | MilvusClient"
 type: docx
 token: JJOId59ePoMLefxz1ChcBZ6inOh
-sidebar_position: 12
+sidebar_position: 19
 keywords: 
-  - vector database
   - IVF
   - knn
   - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_role()
   - python
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: pythonSidebar
 
 ---

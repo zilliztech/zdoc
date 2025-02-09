@@ -10,19 +10,19 @@ type: docx
 token: Y4qvdMEeioKXShxxNmncvnJ2nJf
 sidebar_position: 1
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2
   - javaV2
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: javaSidebar
 
 ---

@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 
@@ -229,7 +229,7 @@ index_params = client.prepare_index_params()
 # 3.4. Add indexes
 index_params.add_index(
     field_name="my_id",
-    index_type="STL_SORT"
+    index_type="AUTOINDEX"
 )
 
 index_params.add_index(
@@ -250,7 +250,7 @@ import java.util.*;
 // 3.3 Prepare index parameters
 IndexParam indexParamForIdField = IndexParam.builder()
         .fieldName("my_id")
-        .indexType(IndexParam.IndexType.STL_SORT)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .build();
 
 IndexParam indexParamForVectorField = IndexParam.builder()
@@ -272,7 +272,7 @@ indexParams.add(indexParamForVectorField);
 // 3.2 Prepare index parameters
 const index_params = [{
     field_name: "my_id",
-    index_type: "STL_SORT"
+    index_type: "AUTOINDEX"
 },{
     field_name: "my_vector",
     index_type: "AUTOINDEX",
@@ -293,7 +293,7 @@ import (
 
 indexOptions := []milvusclient.CreateIndexOption{
     client.NewCreateIndexOption(collectionName, "my_vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("my_vector"),
-    client.NewCreateIndexOption(collectionName, "my_id", index.NewSortedIndex()).WithIndexName("my_id"),
+    client.NewCreateIndexOption(collectionName, "my_id", index.NewAutoIndex()).WithIndexName("my_id"),
 }
 ```
 
@@ -312,7 +312,7 @@ export indexParams='[
         {
             "fieldName": "my_id",
             "indexName": "my_id",
-            "indexType": "STL_SORT"
+            "indexType": "AUTOINDEX"
         }
     ]'
 ```

@@ -10,19 +10,19 @@ type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 10
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listGrants()
   - node
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: nodeSidebar
 
 ---

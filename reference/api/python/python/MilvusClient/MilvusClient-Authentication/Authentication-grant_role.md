@@ -8,21 +8,21 @@ notebook: false
 description: "This operation grants a role to a user. | Python | MilvusClient"
 type: docx
 token: DsnpdZuDGo77TYxFuYvcDpOgnIf
-sidebar_position: 8
+sidebar_position: 12
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - grant_role()
   - python
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: pythonSidebar
 
 ---

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation displays whether a specified collection or partition is loaded or not. | Python | MilvusClient"
 type: docx
 token: KEPYdKup1o3nHdxKbjvcQUzwnnd
-sidebar_position: 5
+sidebar_position: 8
 keywords: 
-  - Serverless vector database
-  - milvus open source
   - how does milvus work
   - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - get_load_state()
   - python
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: pythonSidebar
 
 ---

@@ -1,31 +1,31 @@
 ---
-title: "Projects | BYOC"
+title: "プロジェクト | BYOC"
 slug: /projects
-sidebar_label: "Projects"
+sidebar_label: "プロジェクト"
 beta: FALSE
 notebook: FALSE
-description: "The chapter focuses on project operations and related settings. | BYOC"
+description: "この章では、プロジェクトの操作と関連する設定に焦点を当てています。 | BYOC"
 type: origin
-token: QHzrwVlEOipspAkPiyucWezqneC
+token: AfluwWdKUiSnIgkaR4LcW5XUn1b
 sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - projects
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Projects
+# プロジェクト
 
-The chapter focuses on project operations and related settings.
+この章では、プロジェクトの操作と関連する設定に焦点を当てています。
 
 import DocCardList from '@theme/DocCardList';
 

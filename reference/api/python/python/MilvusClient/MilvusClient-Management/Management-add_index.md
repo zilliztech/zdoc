@@ -10,19 +10,19 @@ type: docx
 token: ZplAdphtooqHJkxo8GCcOFecngd
 sidebar_position: 1
 keywords: 
+  - semantic search
+  - Anomaly Detection
   - sentence transformers
   - Recommender systems
-  - information retrieval
-  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - add_index()
   - python
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
 ---

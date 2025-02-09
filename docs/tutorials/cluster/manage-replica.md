@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

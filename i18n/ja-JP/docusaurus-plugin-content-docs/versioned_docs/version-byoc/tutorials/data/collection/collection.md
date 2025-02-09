@@ -1,31 +1,33 @@
 ---
-title: "Collection | BYOC"
+title: "コレクション | BYOC"
 slug: /collection
-sidebar_label: "Collection"
+sidebar_label: "コレクション"
 beta: FALSE
 notebook: FALSE
-description: "On Zilliz Cloud, a collection is a table used to hold vector embeddings and their metadata. In this chapter, you will learn the definition and related concepts of the collection with relevant demonstrations. | BYOC"
+description: "Zilliz Cloudでは、コレクションとはベクトルの埋め込みとそのメタデータを保持するために使用されるテーブルです。この章では、関連するデモンストレーションとともに、コレクションの定義と関連する概念を学びます。 | BYOC"
 type: origin
-token: XpEzwyxaJi181OkIKwqcQDWrnIh
+token: HIHlwyXbFi9SVhkFrq1cYMEHnqc
 sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - collection
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Collection
+# コレクション
 
-On Zilliz Cloud, a collection is a table used to hold vector embeddings and their metadata. In this chapter, you will learn the definition and related concepts of the collection with relevant demonstrations.
+Zilliz Cloudでは、コレクションとはベクトルの埋め込みとそのメタデータを保持するために使用されるテーブルです。この章では、関連するデモンストレーションとともに、コレクションの定義と関連する概念を学びます。
+
+
 
 import DocCardList from '@theme/DocCardList';
 

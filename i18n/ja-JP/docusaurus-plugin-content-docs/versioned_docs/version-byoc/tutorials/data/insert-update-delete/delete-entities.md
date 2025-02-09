@@ -1,12 +1,12 @@
 ---
-title: "Delete Entities | BYOC"
+title: "エンティティの削除 | BYOC"
 slug: /delete-entities
-sidebar_label: "Delete Entities"
+sidebar_label: "エンティティの削除"
 beta: FALSE
 notebook: FALSE
-description: "You can delete the entities that are no longer needed by filtering conditions or their primary keys. | BYOC"
+description: "不要になったエンティティは、条件またはプライマリキーをフィルタリングして削除できます。 | BYOC"
 type: origin
-token: RhKcwNACpi3WihkTzo8cr4BCnee
+token: MfVew9hnPiNq3gkyjdFcYjF0ndc
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 
@@ -27,13 +27,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Delete Entities
+# エンティティの削除
 
-You can delete the entities that are no longer needed by filtering conditions or their primary keys.
+不要になったエンティティは、条件またはプライマリキーをフィルタリングして削除できます。
 
-## Delete Entities by Filtering Conditions{#delete-entities-by-filtering-conditions}
+## 条件をフィルタリングしてエンティティを削除する{#delete-entities-by-filtering-conditions}{#delete-entities-by-filtering-conditions}
 
-When deleting multiple entities that share some attributes in a batch, you can use filter expressions. The example code below uses the **in** operator to bulk delete all Entities with thier **color** field set to the values of **red** and **green**. You can also use other operators to construct filter expressions that meet your requirements. For more information about filter expressions, please refer to [Filtering](./filtering).
+一括で属性を共有する複数のエンティティを削除する場合、フィルタ式を使用できます。以下のサンプルコードは、**in**演算子を使用して、**color**フィールドの値が**red**と**green**に設定されたすべてのエンティティを一括削除します。他の演算子を使用して、要件を満たすフィルタ式を作成することもできます。フィルタ式の詳細については、「[フィルタリング](./filtering)」を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -127,9 +127,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Delete Entities by Primary Keys{#delete-entities-by-primary-keys}
+## 主キーによるエンティティの削除{#delete-entities-by-primary-keys}{#delete-entities-by-primary-keys}
 
-In most cases, a primary key uniquely identifies an Entity. You can delete Entities by setting their primary keys in the delete request. The example code below demonstrates how to delete two entities with primary keys **18** and **19**.
+ほとんどの場合、プライマリキーはエンティティを一意に識別します。削除リクエストでプライマリキーを設定することで、エンティティを削除できます。以下のサンプルコードは、プライマリキー**18**と**19**を持つ2つのエンティティを削除する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -205,9 +205,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Delete Entities from Partitions{#delete-entities-from-partitions}
+## パーティションからエンティティを削除{#delete-entities-from-partitions}{#delete-entities-from-partitions}
 
-You can also delete entities stored in specific partitions. The following code snippets assume that you have a partition named **PartitionA** in your collection. 
+特定のパーティションに保存されているエンティティを削除することもできます。次のコードスニペットは、コレクションにPartitionAという名前のパーティションがあること**を**前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

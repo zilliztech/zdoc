@@ -9,10 +9,10 @@ token: BvYKfbpMUlczBxdyBvEc5Gb3nfb
 sidebar_position: 8
 sidebar_label: "utility"
 keywords: 
+  - natural language processing
+  - AI chatbots
   - cosine distance
   - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud

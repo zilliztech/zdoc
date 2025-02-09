@@ -10,19 +10,19 @@ type: docx
 token: EfM3drSXlo4Yzyxq2GpcmvoHnTm
 sidebar_position: 10
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
   - javaV2
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: javaSidebar
 
 ---

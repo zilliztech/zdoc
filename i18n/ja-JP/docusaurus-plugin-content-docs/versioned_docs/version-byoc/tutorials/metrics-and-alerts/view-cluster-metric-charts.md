@@ -1,12 +1,12 @@
 ---
-title: "View Cluster Metric Charts | BYOC"
+title: "クラスタのメトリックチャートを表示する | BYOC"
 slug: /view-cluster-metric-charts
-sidebar_label: "View Cluster Metric Charts"
+sidebar_label: "クラスタのメトリックチャートを表示する"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To access this feature, navigate to the Metrics tab within one of your clusters. | BYOC"
+description: "Zilliz Cloudは、クラスタ固有のメトリクスを観察するためのダッシュボードを提供しています。この機能にアクセスするには、クラスタ内のメトリクスタブに移動してください。 | BYOC"
 type: origin
-token: DbPIw4jLOiEabCk5uptc6EZ1nbf
+token: QvFswrMqhiWBwjkI58NcY5X1nTd
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -15,85 +15,85 @@ keywords:
   - metrics
   - alerts
   - view
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# View Cluster Metric Charts
+# クラスタのメトリックチャートを表示する
 
-Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To access this feature, navigate to the **Metrics** tab within one of your clusters.
+Zilliz Cloudは、クラスタ固有のメトリクスを観察するためのダッシュボードを提供しています。この機能にアクセスするには、クラスタ内の**メトリクス**タブに移動してください。
 
-![view_metric_charts](/byoc/view_metric_charts.png)
+![view_metric_charts](/byoc/ja-JP/view_metric_charts.png)
 
-## Access cluster metric charts{#access-cluster-metric-charts}
+## クラスタメトリックチャートへのアクセス{#access-cluster-metric-charts}{#access-cluster-metric-charts}
 
-In the [Zilliz Cloud console](https://cloud.zilliz.com/login), locate the target cluster and select the **Metrics** tab.
+Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)でターゲットクラスタを探し、**メトリクス**タブを選択します。
 
-Zilliz Cloud's metric charts provide performance data on resource usage, queries per second (QPS), request results, and data operations, offering granular analysis within a specific time range.
+Zilliz Cloudのメトリックチャートは、リソース使用量、1秒あたりのクエリ数(QPS)、リクエスト結果、データ操作に関するパフォーマンスデータを提供し、特定の時間範囲内で詳細な分析を提供します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Clicking <strong>View Alerts Settings</strong> on the right will redirect you to the <strong>Alert Settings</strong> page, offering a shortcut to manage your alerts.</p>
+<p>右側の[<strong>アラート設定</strong>の表示]をクリックすると、<strong>アラート設定</strong>ページにリダイレクトされ、アラートを管理するためのショートカットが表示されます。</p>
 
 </Admonition>
 
-For details on each metric chart, refer to [View metric charts](./view-cluster-metric-charts#view-metric-charts).
+各メトリックチャートの詳細については、「[メトリックチャートの表示](./view-cluster-metric-charts#view-metric-charts)」を参照してください。
 
-## Modify curve window size{#modify-curve-window-size}
+## カーブウィンドウの体格を変更{#modify-curve-window-size}{#modify-curve-window-size}
 
-The **Metrics** tab allows for two types of window sizes.
+[**メトリック**]タブでは、2種類のウィンドウサイズを使用できます。
 
-- **Relative Range**: Choose from a set of pre-defined time periods relative to your current time. Using relative time ranges allows you to check metrics in a periodical and convenient way, without needing to enter the specific start and end time. Your choices include:
+- **相対範囲**:現在時刻に対して事前に定義された時間帯のセットから選択してください。相対時間範囲を使用すると、特定の開始時間と終了時間を入力する必要なく、定期的かつ便利な方法でメトリックをチェックできます。選択肢には以下が含まれます:
 
-    - Last 10 minutes
+    - ラスト10分
 
-    - Last hour
+    - 最後の1時間
 
-    - Last 6 hours
+    - 最後の6時間
 
-    - Last 12 hours
+    - 最後の12時間
 
-    - Last day
+    - 最後の日
 
-    - Last week
+    - 先週
 
-    - Last month
+    - 先月
 
-- **Absolute Range**: Enter the exact start time and end time. Using absolute range allows you to control the metrics you see in a more fine-tuned way.
+- **絶対範囲**:正確な開始時刻と終了時刻を入力します。絶対範囲を使用すると、表示されるメトリックをより細かく制御できます。
 
-    - The time difference between the start and the end time should be greater than 10 minutes.
+    - 開始時間と終了時間の時間差は大なり10分です。
 
-## View metric charts{#view-metric-charts}
+## メトリックチャートを表示する{#view-metric-charts}{#view-metric-charts}
 
-Zilliz Cloud offers metric charts for monitoring cluster performance from various aspects.
+Zilliz Cloudは、さまざまな側面からクラスターのパフォーマンスを監視するためのメトリックチャートを提供しています。
 
-### Pod resources{#pod-resources}
+### ポッドのリソース{#pod-resources}{#pod-resources}
 
-To effectively track pod resource consumption, select the **Metrics** tab and refer to the **Pod Resources** area. Here, you'll find succinct graphs that display CPU, storage, and network usage for each pod. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#cluster-metrics).
+ポッドリソースの消費を効果的に追跡するには、**メトリクス**タブを選択し、**ポッドリソース**エリアを参照してください。ここでは、各ポッドのCPU、ストレージ、およびネットワーク使用状況を示す簡潔なグラフが表示されます。利用可能なメトリクスの概要については、[メトリクスとアラートのリファレンス](./metrics-alerts-reference)を参照してください。
 
-### Resources{#resources}
+### リソース{#resources}{#resources}
 
-To view metric charts for resource usage, select the **Metrics** tab and refer to the **Resources** area. These charts provide a snapshot of the cluster's resource usage, including computation, capacity, and storage. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#cluster-metrics).
+リソース使用量のメトリックチャートを表示するには、「**メトリック**」タブを選択し、「**リソース**」エリアを参照してください。これらのチャートは、計算、容量、ストレージを含むクラスタのリソース使用量のスナップショットを提供します。利用可能なメトリックの概要については、「[メトリクスとアラートのリファレンス](./metrics-alerts-reference)」を参照してください。
 
-### Performance{#performance}
+### パフォーマンス{#performance}{#performance}
 
-To view metric charts for performance, select the **Metrics** tab and refer to the **Performance** area. These charts provide a snapshot of cluster performance, including QPS, VPS, latency, and request. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#cluster-metrics).
+パフォーマンスのメトリックチャートを表示するには、[**メトリック**]タブを選択し、[**パフォーマンス**]領域を参照してください。これらのチャートには、QPS、VPS、レイテンシ、リクエストなどのクラスターパフォーマンスのスナップショットが表示されます。利用可能なメトリックの概要については、「[メトリクスとアラートのリファレンス](./metrics-alerts-reference)」を参照してください。
 
-### Data{#data}
+### データ{#data}{#data}
 
-To view metric charts for business data, select the **Metrics** tab and refer to the **Data** area. These charts provide a snapshot of the cluster's entity data by indicating the number of collections, entities, and loaded entities in the cluster. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#cluster-metrics).
+ビジネスデータのメトリックチャートを表示するには、「**メトリック**」タブを選択し、「**データ**」エリアを参照してください。これらのチャートは、クラスタ内のコレクション、エンティティ、ロードされたエンティティの数を示すことで、クラスタのエンティティデータのスナップショットを提供します。利用可能なメトリックの概要については、「[メトリクスとアラートのリファレンス](./metrics-alerts-reference)」を参照してください。
 
-## Related topics{#related-topics}
+## 関連するトピック{#related-topics}{#related-topics}
 
-- [Manage Organization Alerts](./manage-organization-alerts)
+- [組織のアラートを管理する](./manage-organization-alerts)
 
-- [Manage Project Alerts](./manage-project-alerts)
+- [プロジェクトのアラートを管理する](./manage-project-alerts)
 
-- [Metrics & Alerts Reference](./metrics-alerts-reference)
+- [メトリクスとアラートのリファレンス](./metrics-alerts-reference)
 

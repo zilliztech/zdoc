@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

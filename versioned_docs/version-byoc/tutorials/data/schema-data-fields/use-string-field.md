@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

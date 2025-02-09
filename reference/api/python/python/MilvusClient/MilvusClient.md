@@ -9,10 +9,10 @@ token: ICGwfi8ZClVQLHdLn9Hc3oeFn1d
 sidebar_position: 3
 sidebar_label: "MilvusClient"
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud

@@ -2,7 +2,7 @@
 title: "OpenID Connect | BYOC"
 slug: /openid-connect
 sidebar_label: "Configure OIDC SSO with Okta"
-beta: PUBLIC
+beta: CONTACT SALES
 notebook: FALSE
 description: "This topic describes how to configure single sign-on (SSO) with Okta using the OpenID Connect protocol. | BYOC"
 type: origin
@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
@@ -30,6 +30,12 @@ This topic describes how to configure single sign-on (SSO) with Okta using the [
 OIDC is an authentication protocol built on top of OAuth 2.0. It allows for seamless and secure authentication between Zilliz Cloud and Okta. Choose this option if you're using Okta as your identity provider and want to take advantage of Okta-specific features and potentially simpler setup processes. For details, refer to [Okta official documentation](https://help.okta.com/en-us/Content/Topics/Apps/apps-about-oidc.htm).
 
 ![EfRWwnbKNhcXEwbL7EBcB66inrd](/byoc/EfRWwnbKNhcXEwbL7EBcB66inrd.png)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud SSO is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
 
 ## Before you start{#before-you-start}
 

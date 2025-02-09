@@ -10,19 +10,19 @@ type: docx
 token: WeXmdv8bioJ7AEx9sEtct6kgnUd
 sidebar_position: 12
 keywords: 
-  - IVF
-  - knn
   - Image Search
   - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
   - javaV2
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
   - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: javaSidebar
 
 ---

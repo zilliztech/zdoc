@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

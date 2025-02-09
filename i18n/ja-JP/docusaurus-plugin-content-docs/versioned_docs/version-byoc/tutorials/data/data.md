@@ -1,12 +1,12 @@
 ---
-title: "Data | BYOC"
+title: "データ | BYOC"
 slug: /data
-sidebar_label: "Data"
+sidebar_label: "データ"
 beta: FALSE
 notebook: FALSE
-description: "This chapter focuses on data operations. | BYOC"
+description: "この章では、データ操作に焦点を当てる。 | BYOC"
 type: origin
-token: KyTFwqmCJiIJsuk9d6Ncg2eDnDd
+token: W9XywM68GiqcrokcwmDcIsDxnQe
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,19 +14,19 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Data
+# データ
 
-This chapter focuses on data operations.
+この章では、データ操作に焦点を当てる。
 
 import DocCardList from '@theme/DocCardList';
 

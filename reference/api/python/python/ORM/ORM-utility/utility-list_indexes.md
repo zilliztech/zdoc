@@ -10,19 +10,19 @@ type: docx
 token: XLepdUCcTow6rpx5vxxcbLXZnyb
 sidebar_position: 25
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - list_indexes()
   - python
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
 ---

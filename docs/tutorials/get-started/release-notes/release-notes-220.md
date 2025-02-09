@@ -7,16 +7,16 @@ notebook: FALSE
 description: "We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience, including data migration across Zilliz Cloud clusters and from ElasticSearch, a brand-new ticket system going live, and enhanced data import capabilities. | Cloud"
 type: origin
 token: GqyhwKVspiYRwDk8OaucNfgJnhd
-sidebar_position: 14
+sidebar_position: 15
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

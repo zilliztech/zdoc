@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

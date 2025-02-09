@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: XgfcdpBWCof3pfxhUudcRZajnPc
 sidebar_position: 13
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStats()
   - javaV2
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: javaSidebar
 
 ---

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 
@@ -168,6 +168,14 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
    <tr>
      <td><p>East US</p></td>
      <td><p>Virginia, USA</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+   </tr>
+   <tr>
+     <td><p>Central US</p></td>
+     <td><p>Lowa, USA</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>

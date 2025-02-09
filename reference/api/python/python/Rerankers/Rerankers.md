@@ -9,10 +9,10 @@ token: Ph7xfldrplFoihdiSAkciCuenyh
 sidebar_position: 5
 sidebar_label: "Rerankers"
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
