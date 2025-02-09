@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

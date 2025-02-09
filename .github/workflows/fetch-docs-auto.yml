@@ -19,19 +19,8 @@ jobs:
       run: |
         yarn
         npx docusaurus report-to-lark -m "🔥 Start building global docs..."
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -skipS
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -post
-        npx docusaurus fetch-lark-docs -man python -tar zilliz
-        npx docusaurus fetch-lark-docs -man python -tar zilliz -post
-        npx docusaurus fetch-lark-docs -man javaV1 -tar zilliz
-        npx docusaurus fetch-lark-docs -man javaV1 -tar zilliz -post
-        npx docusaurus fetch-lark-docs -man javaV2 -tar zilliz
-        npx docusaurus fetch-lark-docs -man javaV2 -tar zilliz -post
-        npx docusaurus fetch-lark-docs -man node -tar zilliz
-        npx docusaurus fetch-lark-docs -man node -tar zilliz -post
-        npx docusaurus fetch-apifox-docs -s plugins/apifox-docs/meta/openapi.json
+        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas
+        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas -post
       env:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -58,7 +47,7 @@ jobs:
     - name: commit to dev
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        branch: dev
+        branch: dev-multi-lingua
         create_branch: true
         push_options: --force
   failure:
